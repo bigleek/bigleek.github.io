@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="补充eureka闭源的消息添加dubbo与springcloud对比 关于之前关于SpringBoot的介绍是关于SpringBoot的概述  Spring boot专注于快速、方便集成的单个个体，Spring Cloud是关注全局的服务治理框架；spring boot使用了默认大于配置的理念，很多集成方案已经帮你选择好了，能不配置就不配置，Spring Cloud很大的一部分是基于Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud">
+<meta property="og:url" content="http://imlike.cc/2527336709.html">
+<meta property="og:site_name" content="自留地">
+<meta property="og:description" content="补充eureka闭源的消息添加dubbo与springcloud对比 关于之前关于SpringBoot的介绍是关于SpringBoot的概述  Spring boot专注于快速、方便集成的单个个体，Spring Cloud是关注全局的服务治理框架；spring boot使用了默认大于配置的理念，很多集成方案已经帮你选择好了，能不配置就不配置，Spring Cloud很大的一部分是基于Spring">
+<meta property="og:image" content="https://i.loli.net/2018/10/17/5bc6a508557d1.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/17/5bc6a57753f6b.png">
+<meta property="article:published_time" content="2019-03-24T00:53:16.000Z">
+<meta property="article:modified_time" content="2020-04-15T12:35:21.298Z">
+<meta property="article:author" content="leek">
+<meta property="article:tag" content="springcloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2018/10/17/5bc6a508557d1.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>SpringCloud | 自留地</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-a11y-dark.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">leek</a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/bigleek" target="_blank" rel="noopener" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" href="https://plus.google.com/bigleekcode" target="_blank" rel="noopener" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lastpass/" rel="tag">lastpass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imcyc.cn/" target="_blank" rel="noopener">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">leek</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">leek</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-SpringCloud" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2527336709.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SpringCloud
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li></ul>
+    </div>
+ -->
+
+
+ <div class="article-tag tagcloud" >
+     <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li></ul>
+
+ </div>
+ <div class="article-tag tagcloud" >
+    
+     <span class="post-count">总字数1k</span>
+     <span class="post-count">预计阅读4分钟</span>
+     </div>
+    
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+              
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#配置spring微服务"><span class="toc-number">1.</span> <span class="toc-text">配置spring微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringCould认识"><span class="toc-number">2.</span> <span class="toc-text">SpringCould认识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud-Zookeeper"><span class="toc-number">2.1.</span> <span class="toc-text">Spring Cloud Zookeeper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Netflix-Eureka"><span class="toc-number">2.2.</span> <span class="toc-text">Netflix Eureka</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+              <p><a href="https://i.loli.net/2018/10/17/5bc6a508557d1.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/10/17/5bc6a508557d1.png" alt="eureka"></a><br>补充eureka闭源的消息<br><a href="https://i.loli.net/2018/10/17/5bc6a57753f6b.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/10/17/5bc6a57753f6b.png" alt="dubbo与springcloud对比"></a><br>添加dubbo与springcloud对比</p>
+<p>关于<a href="https://bigleek.github.io/#/user/blog/details/da5fd6d8f37943864ac1cc817a90db72" target="_blank" rel="noopener">之前关于SpringBoot的介绍</a>是关于SpringBoot的概述</p>
+<blockquote>
+<p>Spring boot专注于快速、方便集成的单个个体，Spring Cloud是关注全局的服务治理框架；spring boot使用了默认大于配置的理念，很多集成方案已经帮你选择好了，能不配置就不配置，Spring Cloud很大的一部分是基于Spring boot来实现。<a href="https://www.zhihu.com/question/47304987/answer/169239519" target="_blank" rel="noopener">来自纯洁的微笑</a></p>
+</blockquote>
+<p>##SpringCloud<br>官网介绍<br>Spring Cloud为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理，服务发现，断路器，智能路由，微代理，控制总线，一次性令牌，全局锁定，领导选举，分布式会话，集群状态）用于微服务时各个系统的同步和相互通信确保一致性.</p>
+<p>目前的版本情况<br>| Component | Edgware.SR5 | Finchley.SR1 | Finchley.BUILD-SNAPSHOT |<br>| ————————- | ————– | ————- | ———————– |<br>| spring-cloud-aws | 1.2.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-bus | 1.3.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-cli | 1.4.1.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-commons | 1.3.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-contract | 1.2.6.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-config | 1.4.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-netflix | 1.4.6.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-security | 1.2.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-cloudfoundry | 1.1.2.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-consul | 1.3.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-sleuth | 1.3.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-stream | Ditmars.SR4 | Elmhurst.SR1 | Elmhurst.BUILD-SNAPSHOT |<br>| spring-cloud-zookeeper | 1.2.2.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-boot | 1.5.16.RELEASE | 2.0.4.RELEASE | 2.0.4.BUILD-SNAPSHOT |<br>| spring-cloud-task | 1.2.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-vault | 1.1.2.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-gateway | 1.0.2.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-openfeign | | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-function | 1.0.1.RELEASE | 1.0.0.RELEASE | 1.0.1.BUILD-SNAPSHOT |</p>
+<h2 id="配置spring微服务"><a href="#配置spring微服务" class="headerlink" title="配置spring微服务"></a>配置spring微服务</h2><p>springcloud是spring提供的一台服务<br>而spring boot是简化配置文件统一版本提高开发效率能快速开启<br>配置信息可以在application.yml中配置类似脚手架<br>也能</p>
+<pre><code>1.@ConfigurationProperties(locations=“classpath:config/user.properties”, prefix=“XXX”)将配置文件导入,
+2.选择@PropertySource导入外部文件
+3.@EnableConfigurationProperties这个注解注释调，不让springboot自动配置，使用我们的手动配置</code></pre><p>@ComponentScan(“com.lee.sh.mapper”)添加组件扫描<br>component service controller</p>
+<h2 id="SpringCould认识"><a href="#SpringCould认识" class="headerlink" title="SpringCould认识"></a>SpringCould认识</h2><p>SpringCould中涉及到涉及的组件来自于netflix的eureka ribbon hystrix zuul<br>都是在application.yml上面可以完成,然后在启动器上面要开启,<br>就可以完成 可以实现集群解决访问量大的问题实现master 还是要<strong>辨析eureka和zookeeper的用途差异</strong></p>
+<h3 id="Spring-Cloud-Zookeeper"><a href="#Spring-Cloud-Zookeeper" class="headerlink" title="Spring Cloud Zookeeper"></a>Spring Cloud Zookeeper</h3><p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、域名服务、分布式同步、组服务等。ZooKeeper的目标就是封装好复杂易出错的关键服务，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
+<h3 id="Netflix-Eureka"><a href="#Netflix-Eureka" class="headerlink" title="Netflix Eureka"></a>Netflix Eureka</h3><p>服务中心，云端服务发现，一个基于 REST 的服务，用于定位服务，以实现云端中间层服务发现和故障转移。这个可是springcloud最牛鼻的小弟，服务中心，任何小弟需要其它小弟支持什么都需要从这里来拿，同样的你有什么独门武功的都赶紧过报道，方便以后其它小弟来调用；它的好处是你不需要直接找各种什么小弟支持，只需要到服务中心来领取，也不需要知道提供支持的其它小弟在哪里，还是几个小弟来支持的，反正拿来用就行，服务中心来保证稳定性和质量。</p>
+<p>情况来说目</p>
+
+              
+        </div>
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <div id="vcomment" class="comment"></div>
+<!--载入js，在 body之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src='//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+<script>
+    var notify = 'false' == true ? true : false;
+    var verify = 'false' == true ? true : false;
+    new Valine({
+        // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+        av: AV,
+        el: '#vcomment',
+        emoticon_url: 'https://cloud.panjunwen.com/alu',
+        emoticon_list: ["狂汗.png", "不说话.png", "汗.png", "坐等.png", "献花.png", "不高兴.png", "中刀.png", "害羞.png",
+            "皱眉.png", "小眼睛.png", "暗地观察.png"
+        ],
+        app_id: 'zX05shmFIyJjEy92SXX564Us-gzGzoHsz',
+        app_key: 'XharbRd4arJ4g2hUA9eQIszu',
+        placeholder: '老铁 ，留下言呗'
+    });
+    if (window.location.hash) {
+        var checkExist = setInterval(function () {
+            if (document.getElementById(window.location.hash.replace("#", ""))) {
+                location.href = window.location.hash;
+                clearInterval(checkExist);
+            }
+        }, 250);
+    }
+</script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2527336709.html">SpringCloud</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">leek</a></p>
+        <p><span>发布时间:</span>2019-03-24, 08:53:16</p>
+        <p><span>最后更新:</span>2020-04-15, 20:35:21</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2527336709.html" title="SpringCloud">http://imlike.cc/2527336709.html</a>
+            <span class="copy-path" data-clipboard-text="原文: http://imlike.cc/2527336709.html　　作者: leek" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/4288700677.html">
+                    S6新特性 和VUE的个人理解
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2878480242.html">
+                    Ubuntu优化-输入中文和deepin-Win
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#配置spring微服务"><span class="toc-number">1.</span> <span class="toc-text">配置spring微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringCould认识"><span class="toc-number">2.</span> <span class="toc-text">SpringCould认识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud-Zookeeper"><span class="toc-number">2.1.</span> <span class="toc-text">Spring Cloud Zookeeper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Netflix-Eureka"><span class="toc-number">2.2.</span> <span class="toc-text">Netflix Eureka</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: 'SpringCloud',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/4288700677.html" title="上一篇: S6新特性 和VUE的个人理解">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2878480242.html" title="下一篇: Ubuntu优化-输入中文和deepin-Win">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/3997187638.html">SpringBoot 读取jar包文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2031496132.html">使用lastpass同步密码</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2020 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.busuanzi.ibruce.info/cdn/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
