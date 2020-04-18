@@ -317,29 +317,6 @@
         <div class="article-entry" itemprop="articleBody">
           
               
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
               <p> 系统安装完后后面肯定就是安装软件，开始是在谷歌中国上安装chrome，之后是安装最新的Firefox，安装是搜狗了，这种跟着晚上的步骤就可以了，同时可以添加host你懂的加速，然后是撤换国内的镜像源提升下载速度，完成后可以安装markdownd的软件，下载uget添加aira的插件，在chrome 和Firefox上安装配套的插件就可以调用uget下载速度反正比浏览器的速度要快的，这里主要如果没配置好的的话浏览器是不能调用uget的<br>1，） 出现 unable connect 这个是uget的解决方案</p>
 <pre><code>原因：缺少uget-integrator，出错在设置uGet为chrome的默认下载插件1 sudo add-apt-repository ppa:slgobinath/uget-chrome-wrapper2 sudo apt update3 sudo apt install uget-chrome-wrapper楼主也遇见了这个问题，经过多方查找发现：2018/5/10更新2018年uGet团队已将uget-chrome-wrapper采用官方插件并重新命名为uget-integrator 因此新的uget-extension插件不再支持uget-chrome-wrapper 解决方案：Ubuntu和Linux Mint1 sudo add-apt-repository ppa:uget-team/ppa2 sudo apt update3 sudo apt install uget-integrator其他Linux1 wget https://raw.githubusercontent.com/ugetdm/ugetintegrator/master/install/linux/install_uget_integrator.sh2 chmod +x install_uget_integrator.sh3 ./install_uget_integrator.sh</code></pre><p>2，）如果是搜狗看不到图标可以使用 在终端收入fcitx 查看启动情况，工开始出现有事搜狗启动异常的情况，要切换我就直接卸载了很多次然后又是安装了一大堆，都是一大堆问题，如果你是和我一样的话可以试试我的方法，先将下载fcitx 然后安装搜狗，必要的话按住Ctrl+h键将有sogou和fcitx的删掉，如果又不显示<br>3，）对于网易云音乐安装是比较简单的 就是会出现不能自动登录的情况，每次都要启动都要登录我是参考这个<a href="https://www.zhihu.com/question/277330447/answer/478510195" target="_blank" rel="noopener">链接</a></p>
 <pre><code>有些用户有登录不能保持的情况（打开需要重新登录），这种情况多半是sudo方法后的后遗症：使得配置文件的权限属于root。网易云音乐配置文件存在于两个地方，正常情况下的权限如下图：~/.config/netease-cloud-music   (~ 代表当前用户的家目录)~/.cache/netease-cloud-music  （这是缓存目录，是可以直接删的）友情提示，如果你没有 ll 命令，可以 ls -al 代替其中fancy是我的用户名，如果你的文件权限是root，那么就需要修改为你可以访问的状态，执行下面的命令就行啦：# 修改文件的所属用户和组，以及权限find ~/.config/netease-cloud-music -exec sudo chown $USER:$USER {} +find ~/.config/netease-cloud-music -exec sudo chmod 755 {} + find ~/.cache/netease-cloud-music  -exec sudo chown $USER:$USER {} +find ~/.cache/netease-cloud-music  -exec sudo chmod 755 {} +</code></pre><p>时候就可以保持登录状态了<br>4，）就是安装deepin-wine了参考了<a href="https://github.com/wszqkzqk/deepin-wine-ubuntu" target="_blank" rel="noopener">这位兄弟</a> 这里<strong>有个地方要主要</strong><br>提供上面的下载链接是有问题的安装时会出现安装包损坏，用下面那个链接我出现安装后点图标没有后面是在 /opt/deepinwine/apps/Deepin-WeChat 这个路径下运行的</p>
@@ -467,29 +444,6 @@
 
   
 </article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
 
 
 

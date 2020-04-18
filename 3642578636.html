@@ -316,29 +316,6 @@
         <div class="article-entry" itemprop="articleBody">
           
               
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
               <p>上周到了一台戴尔的xps13，考虑win10喜欢频繁升级和对高分辨的显示不算好的支持，所以觉得折腾一下Ubuntu，其实很久之前就折腾过也尝试过将它设为主力系统，其实当时陆陆续续已经出现时网易云音乐和WPS已经类似于IDM的uget 当时还是不算好用，同时当时没怎么涉及到开发，现在算是比较合适与我开发。<br>先说一下安装的情况，刚开始由于没有课BIOS硬盘的acid的设置导致，启动盘不能识别硬盘不能继续安装，后面是一安装重启就出现,在grub引导后都没有出现登录见面，当时就很慌 ，以为是安装过程中BIOS到处出现安装出的问题吧BIOS全部折腾几遍，又安装又TMD的是黑屏–晚上看了看都是登录时后面出现黑屏，是NVIDIA和Intel的集成显卡的问题，我照着网上先是尝试在grub前面编辑一下</p>
 <pre><code>启动黑屏
 在启动Ubuntu的时候出现黑屏的情况，是因为升级了内核导致显卡不兼容，启动的时候应该告诉内核不要加载显卡：
@@ -485,29 +462,6 @@ sudo update-grub
 
   
 </article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
 
 
 

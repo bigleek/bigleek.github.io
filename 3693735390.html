@@ -317,29 +317,6 @@
         <div class="article-entry" itemprop="articleBody">
           
               
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建nodejs环境"><span class="toc-number">1.</span> <span class="toc-text">搭建nodejs环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载vuejs"><span class="toc-number">2.</span> <span class="toc-text">下载vuejs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#出现-No-command-‘vue’found"><span class="toc-number">3.</span> <span class="toc-text">出现 No command ‘vue’found</span></a></li></ol>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
               <h3 id="搭建nodejs环境"><a href="#搭建nodejs环境" class="headerlink" title="搭建nodejs环境"></a>搭建nodejs环境</h3><pre><code>1. 下载node的Linux版2. 解压后放在/user/local/ 下或者其他位置3. 设置国内的淘宝源  npm config set registry=https://registry.npm.taobao.org    或者使用npm install -g cnpm --registry=https://registry.npm.taobao.org安装完成后同样要建软链接，否则在使用                cnpm时会报No command &#39;cnpm&#39; found的错误。sudo ln -s /home/formularoom/env/node-v8.1.2-linux-x64/bin/cnpm /usr/local/bin/cnpm</code></pre><p>常见npm设置命令 npm config get/set xxxx ,其中xxx代指prefix ,registry等,其对于的配置文件地址 ~/.npmrc</p>
 <h3 id="下载vuejs"><a href="#下载vuejs" class="headerlink" title="下载vuejs"></a>下载vuejs</h3><pre><code>npm install -g vue-cli</code></pre><h3 id="出现-No-command-‘vue’found"><a href="#出现-No-command-‘vue’found" class="headerlink" title="出现 No command ‘vue’found"></a>出现 No command ‘vue’found</h3><p>由于 /usr/local/bin下面没有对于命令所以显示找不到这个命令,需要建立软链接</p>
 <p>sudo ln -s /usr/local/node-v8.9.3-linux-x64/bin/vue /usr/local/bin/vue</p>
@@ -468,29 +445,6 @@
 
   
 </article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建nodejs环境"><span class="toc-number">1.</span> <span class="toc-text">搭建nodejs环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载vuejs"><span class="toc-number">2.</span> <span class="toc-text">下载vuejs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#出现-No-command-‘vue’found"><span class="toc-number">3.</span> <span class="toc-text">出现 No command ‘vue’found</span></a></li></ol>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
 
 
 

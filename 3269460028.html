@@ -316,29 +316,6 @@
         <div class="article-entry" itemprop="articleBody">
           
               
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件提交后台"><span class="toc-number">1.</span> <span class="toc-text">文件提交后台</span></a></li></ol>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
               <p>先看一下代码</p>
 <pre><code>public static void importModels(MultipartFile file) throws IOException, InvalidFormatException {        ZipInputStream zipInputStream = new ZipInputStream(file.getInputStream(), Charset.defaultCharset());        BufferedInputStream bs = new BufferedInputStream(zipInputStream);        Map&lt;String, Map&gt; stringMapMap;        Map&lt;String,String&gt; modelJsons=new HashMap&lt;&gt;();        ZipEntry zipEntry;        String zipFileName;        while((zipEntry = zipInputStream.getNextEntry()) != null){            if (zipEntry.isDirectory()) {                // do nothing            } else if(zipEntry.getName().endsWith(&quot;json&quot;)){                String name = zipEntry.getName();                long size = zipEntry.getSize();                if (size == -1) {                    ByteArrayOutputStream baos = new ByteArrayOutputStream();                    while (true) {                        int bytes = zipInputStream.read();                        if (bytes == -1) {break;}                        baos.write(bytes);                    }                    baos.close();                    System.out.println(String.format(&quot;Name:%s,Content:%s&quot;,name,new String(baos.toByteArray())));                } else { // ZipEntry的size正常                    byte[] bytes = new byte[(int) zipEntry.getSize()];                    zipInputStream.read(bytes, 0, (int) zipEntry.getSize());                    System.out.println(String.format(&quot;Name:%s,Content:%s&quot;,name,new String(bytes)));                }            }else if (zipEntry.getName().endsWith(&quot;xlxs&quot;)){               //do other things            }else{                return;            }        }        return;    }</code></pre><h2 id="文件提交后台"><a href="#文件提交后台" class="headerlink" title="文件提交后台"></a>文件提交后台</h2><p>是提交后天后文件并不是在本地,网上之前有提供zipfile后读取在我这边是不可能实现</p>
 <pre><code>  while((ze = zin.getNextEntry()) != null){BufferedReader bufferedReader = new BufferedReader(  new InputStreamReader(zin));                BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));                String str;                while ((str = reader.readLine()) != null){                    System.out.println(str);                }  }</code></pre><p>上面的读取的是整个Zip文件,和要求不符</p>
@@ -467,29 +444,6 @@
 
   
 </article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件提交后台"><span class="toc-number">1.</span> <span class="toc-text">文件提交后台</span></a></li></ol>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
 
 
 

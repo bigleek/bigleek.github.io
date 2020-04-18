@@ -318,29 +318,6 @@
         <div class="article-entry" itemprop="articleBody">
           
               
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用sitemap-提交网站"><span class="toc-number">1.</span> <span class="toc-text">使用sitemap 提交网站</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-百度提交"><span class="toc-number">1.1.</span> <span class="toc-text">1 百度提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Google提交"><span class="toc-number">1.2.</span> <span class="toc-text">2 Google提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-hexo-baidu-url-submit-自动提交"><span class="toc-number">2.</span> <span class="toc-text">使用 hexo-baidu-url-submit 自动提交</span></a></li></ol>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
               <h2 id="使用sitemap-提交网站"><a href="#使用sitemap-提交网站" class="headerlink" title="使用sitemap 提交网站"></a>使用sitemap 提交网站</h2><pre><code>安装插件npm install hexo-generator-baidu-sitemap --savenpm install hexo-generator-sitemap --save_config.yml# 自动生成sitemapsitemap:  path: sitemap.xmlbaidusitemap:  path: baidusitemap.xml</code></pre><h3 id="1-百度提交"><a href="#1-百度提交" class="headerlink" title="1 百度提交"></a>1 百度提交</h3><pre><code>https://ziyuan.baidu.com/linksubmit/index浏览器打开   your-url/baidusitemap.xml   看下有没有文件</code></pre><p><a href="../img/1565098183259.png"><img src="../img/1565098183259.png" alt="1565098183259"></a></p>
 <h3 id="2-Google提交"><a href="#2-Google提交" class="headerlink" title="2 Google提交"></a>2 Google提交</h3><pre><code>https://search.google.com/search-console/sitemaps浏览器打开   your-url/sitemap.xml  看下有没有文件提交站点地图</code></pre><h2 id="使用-hexo-baidu-url-submit-自动提交"><a href="#使用-hexo-baidu-url-submit-自动提交" class="headerlink" title="使用 hexo-baidu-url-submit 自动提交"></a>使用 hexo-baidu-url-submit 自动提交</h2><p> <a href="https://github.com/huiwang/hexo-baidu-url-submit" target="_blank" rel="noopener">github地址</a></p>
 <pre><code>npm install hexo-baidu-url-submit --savebaidu_url_submit:  count: 1000 ## 提交最新的一个链接  host: alili.tech ## 在百度站长平台中注册的域名  token: xxxxx ## 请注意这是您的秘钥， 所以请不要把博客源代码发布在公众仓库里!  path: baidu_urls.txt ## 文本文档的地址， 新链接会保存在此文本文档里deploy 配置deploy:- type: baidu_url_submitter # 百度在上面的图片点击自动提交 接口调用地址： http://data.zz.baidu.com/urls?site=XXX &amp;token=XXX前面XXX是你的网站 后面XXX是token的值</code></pre>
@@ -467,29 +444,6 @@
 
   
 </article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用sitemap-提交网站"><span class="toc-number">1.</span> <span class="toc-text">使用sitemap 提交网站</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-百度提交"><span class="toc-number">1.1.</span> <span class="toc-text">1 百度提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Google提交"><span class="toc-number">1.2.</span> <span class="toc-text">2 Google提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-hexo-baidu-url-submit-自动提交"><span class="toc-number">2.</span> <span class="toc-text">使用 hexo-baidu-url-submit 自动提交</span></a></li></ol>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
 
 
 

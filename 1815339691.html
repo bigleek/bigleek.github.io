@@ -319,29 +319,6 @@
         <div class="article-entry" itemprop="articleBody">
           
               
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#LAYOUT-PARTIAL-ARTICLE-EJS"><span class="toc-number">1.</span> <span class="toc-text">LAYOUT&#x2F;_PARTIAL&#x2F;ARTICLE.EJS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LAYOUT-PARTIAL-POST-VALINE-EJS"><span class="toc-number">2.</span> <span class="toc-text">LAYOUT&#x2F;_PARTIAL&#x2F;POST&#x2F;VALINE.EJS</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动生成摘要"><span class="toc-number"></span> <span class="toc-text">自动生成摘要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一-lt-more-gt"><span class="toc-number"></span> <span class="toc-text">方法一: &lt;!-- more --&gt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二-description-in-Front-matter"><span class="toc-number"></span> <span class="toc-text">方法二: description in Front-matter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Yelee-Yilia-打赏和调节版本署名的样式"><span class="toc-number"></span> <span class="toc-text">Yelee(Yilia)打赏和调节版本署名的样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码区前后有很多空行"><span class="toc-number"></span> <span class="toc-text">代码区前后有很多空行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加统计字数"><span class="toc-number"></span> <span class="toc-text">添加统计字数</span></a>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
               <p>原有的主题是已经配过valine的 <a href="https://valine.js.org/configuration" target="_blank" rel="noopener">配置valine</a>,</p>
 <h4 id="LAYOUT-PARTIAL-ARTICLE-EJS"><a href="#LAYOUT-PARTIAL-ARTICLE-EJS" class="headerlink" title="LAYOUT/_PARTIAL/ARTICLE.EJS"></a>LAYOUT/_PARTIAL/ARTICLE.EJS</h4><p>重写了一下 style，应该可以做到响应式布局了</p>
 <pre class="line-numbers language-ejs"><code class="language-ejs"><% if (theme.valine && theme.valine.appid && theme.valine.appkey){ %>    <section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff}">      <style>        @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}      </style>      <%- partial('../POST/valine', {        key: post.slug,        title: post.title,        url: config.url+url_for(post.path)        }) %>  </section><% } %><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
@@ -512,29 +489,6 @@
 
   
 </article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#LAYOUT-PARTIAL-ARTICLE-EJS"><span class="toc-number">1.</span> <span class="toc-text">LAYOUT&#x2F;_PARTIAL&#x2F;ARTICLE.EJS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LAYOUT-PARTIAL-POST-VALINE-EJS"><span class="toc-number">2.</span> <span class="toc-text">LAYOUT&#x2F;_PARTIAL&#x2F;POST&#x2F;VALINE.EJS</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动生成摘要"><span class="toc-number"></span> <span class="toc-text">自动生成摘要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一-lt-more-gt"><span class="toc-number"></span> <span class="toc-text">方法一: &lt;!-- more --&gt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二-description-in-Front-matter"><span class="toc-number"></span> <span class="toc-text">方法二: description in Front-matter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Yelee-Yilia-打赏和调节版本署名的样式"><span class="toc-number"></span> <span class="toc-text">Yelee(Yilia)打赏和调节版本署名的样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码区前后有很多空行"><span class="toc-number"></span> <span class="toc-text">代码区前后有很多空行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加统计字数"><span class="toc-number"></span> <span class="toc-text">添加统计字数</span></a>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
 
 
 

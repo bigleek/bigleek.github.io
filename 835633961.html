@@ -319,29 +319,6 @@
         <div class="article-entry" itemprop="articleBody">
           
               
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#方法二"><span class="toc-number">1.</span> <span class="toc-text">方法二</span></a></li></ol>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
               <p> 之前一直是有deepin-wine 下微信黑窗口问题 一直拖着没解决　比较不知道怎么去解决当时是有写过一个临时优化的<a href="https://bigleek.ml/2019/03/27/ubuntu优化3/" target="_blank" rel="noopener">点击链接</a> <a href="https://yundantianchang.github.io/blogs/2018/1015-1.html" target="_blank" rel="noopener">参考的的链接</a>当实现的效果是可以但是有反复 后面就没怎么弄 一直是在输入666 这可以可以消除 但是每次弹出来好烦 看到留言区的</p>
 <pre><code>vim  /opt/deepinwine/apps/Deepin-WeChat/run.sh向下面追加wmctrl -l -G -p -x | grep wechat.exe.Wine | grep -v 微信| awk &#39;{print $1}&#39; | xargs -r -i xdotool windowunmap {}</code></pre><p><a href="../img/1563888126000.png"><img src="../img/1563888126000.png" alt="1563888126000"></a></p>
 <p>我修改后是可以跑通的</p>
@@ -472,29 +449,6 @@
 
   
 </article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#方法二"><span class="toc-number">1.</span> <span class="toc-text">方法二</span></a></li></ol>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
 
 
 

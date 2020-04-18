@@ -317,29 +317,6 @@
         <div class="article-entry" itemprop="articleBody">
           
               
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
               <p>创建索引,然后才能对索引进行映射配置包括映射配置的映射字段,查看映射关系,字段属性的详解<br>PUT demo/_mapping/log<br>{<br>“properties”: {<br> “name”:{<br> “type”:”text”,<br> “index”: true,<br> “store”: true,<br> “analyzer”: “standard”<br> },<br> “images”: {<br> “type”: “keyword”,<br> “index”: “false”<br> },<br> “price”: {<br> “type”: “float”<br> }<br>}<br>}<br>PUT demo<br>{<br>“settings”: {<br> “number_of_replicas”: 1,<br> “number_of_shards”: 5<br>}<br>}<br>POST demo/log<br>{<br>“name”:”王大海”,<br>“images”:”<a href="http://image.leyou.com/12479122.jpg&quot;" target="_blank" rel="noopener">http://image.leyou.com/12479122.jpg&quot;</a>,<br> “price”:2699.00,<br> “hobby”:” 大 桌球 “<br>}<br>GET _search<br>{<br>“query”: {<br> “match_all”: {}<br>}<br>}<br>GET demo/_mapping</p>
 
               
@@ -465,29 +442,6 @@
 
   
 </article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
 
 
 

@@ -316,29 +316,6 @@
         <div class="article-entry" itemprop="articleBody">
           
               
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#支持的事件类型"><span class="toc-number">1.</span> <span class="toc-text">支持的事件类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单元测试"><span class="toc-number"></span> <span class="toc-text">单元测试</span></a>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
               <p>rocessengineConfiguration -&gt;processEngine-&gt;respositoryService</p>
 <pre><code>taskSerivice 对于任务的查询                           identityService 用户先关的查询                           formService                           runtimeService                           ManagementService                           HistoryService                           对于上面的接口</code></pre><p>ProcessEngines.getDefaultProcessEngine()会在第一次调用时 初始化并创建一个流程引擎，以后再调用就会返回相同的流程引擎。 使用对应的方法可以创建和关闭所有流程引擎：ProcessEngines.init() 和 ProcessEngines.destroy()。</p>
 <p>RepositoryService可能是使用Activiti引擎时最先接触的服务。 它提供了管理和控制发布包和流程定义的操作。 这里不涉及太多细节，流程定义是BPMN 2.0流程的java实现。 它包含了一个流程每个环节的结构和行为。 发布包是Activiti引擎的打包单位。一个发布包可以包含多个BPMN 2.0 xml文件和其他资源。 开发者可以自由选择把任意资源包含到发布包中。 既可以把一个单独的BPMN 2.0 xml文件放到发布包里，也可以把整个流程和相关资源都放在一起。 （比如，’hr-processes’实例可以包含hr流程相关的任何资源）。 可以通过RepositoryService来部署这种发布包。 发布一个发布包，意味着把它上传到引擎中，所有流程都会在保存进数据库之前分析解析好。 从这点来说，系统知道这个发布包的存在，发布包中包含的流程就已经可以启动了。</p>
@@ -645,29 +622,6 @@
 
   
 </article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#支持的事件类型"><span class="toc-number">1.</span> <span class="toc-text">支持的事件类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单元测试"><span class="toc-number"></span> <span class="toc-text">单元测试</span></a>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
 
 
 
