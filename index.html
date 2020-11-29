@@ -269,6 +269,100 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-编写Linux启动文件并设置为自启动使用systemctl" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3e75944c.html" class="article-date">
+      <time datetime="2020-11-29T08:54:38.000Z" itemprop="datePublished">2020-11-29</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="编写Linux启动文件并设置为自启动使用systemctl"><a href="#编写Linux启动文件并设置为自启动使用systemctl" class="headerlink" title="编写Linux启动文件并设置为自启动使用systemctl"></a>编写Linux启动文件并设置为自启动使用systemctl</h2><p>常见使用的格式模板</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Sakura Frp Client Service</span><br><span class="line">After&#x3D;network.target syslog.target</span><br><span class="line">Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">ExecStart&#x3D; 执行步骤</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="编写Linux启动文件并设置为自启动使用systemctl"><a href="#编写Linux启动文件并设置为自启动使用systemctl" class="headerlink" title="编写Linux启动文件并设置为自启动使用systemctl"></a>编写Linux启动文件并设置为自启动使用systemctl</h2><p>常见使用的格式模板</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Sakura Frp Client Service</span><br><span class="line">After&#x3D;network.target syslog.target</span><br><span class="line">Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">ExecStart&#x3D; 执行步骤</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>可以使用 下面的步骤的</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[Unit]</span></span><br><span class="line"><span class="string">    Description=Sakura Frp Client Service</span></span><br><span class="line"><span class="string">    After=network.target syslog.target</span></span><br><span class="line"><span class="string">    Wants=network.target</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    [Service]</span></span><br><span class="line"><span class="string">    Type=simple</span></span><br><span class="line"><span class="string">    Restart=on-failure</span></span><br><span class="line"><span class="string">    RestartSec=5s</span></span><br><span class="line"><span class="string">    ExecStart=<span class="variable">$&#123;FRP_EXEC_DIR&#125;</span><span class="variable">$&#123;FRP_EXEC&#125;</span> -f <span class="variable">$&#123;FRP_KEY&#125;</span>:<span class="variable">$&#123;FRP_TID&#125;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    [Install]</span></span><br><span class="line"><span class="string">    WantedBy=multi-user.target</span></span><br><span class="line"><span class="string">    &quot;</span> &gt; /lib/systemd/system/frpc.service</span><br></pre></td></tr></table></figure>
+
+<p>后面可以使用</p>
+<p>systemctl daemon-reload</p>
+<h3 id="启动-frpc-服务"><a href="#启动-frpc-服务" class="headerlink" title="启动 frpc 服务"></a>启动 frpc 服务</h3><p>systemctl enable frpc<br>systemctl start  frpc</p>
+<p>还有一些其他的systemctl 的 命令 像 status 类似</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-pgsql重要视图转载" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1322,100 +1416,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ubuntu输出的分辨率" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3468817301.html" class="article-date">
-      <time datetime="2020-05-26T05:38:11.000Z" itemprop="datePublished">2020-05-26</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3468817301.html">ubuntu输出的分辨率</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>xrandr</p>
-<p><img src="../img/1590471579954.png" alt="1590471579954"></p>
-<p>之前会默认的1080p,我这个显示器是2k的分辨率,使用thunderbolt转接槽接的HDMI接口</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>xrandr</p>
-<p><img src="../img/1590471579954.png" alt="1590471579954"></p>
-<p>之前会默认的1080p,我这个显示器是2k的分辨率,使用thunderbolt转接槽接的HDMI接口</p>
-<p>但是有时候(长时间不工作息屏,先关机后关显示器电源)时会出现显示不出来2k的选项,</p>
-<p>2560x1440     59.95 +  74.97*</p>
-<ol>
-<li>sudo xrandr –newmode “1920x1080_60.00” 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync</li>
-<li>sudo xrandr –addmode VGA1 “1920x1080_60.00”</li>
-<li>sudo xrandr –output VGA1 –mode “1920x1080_60.00”</li>
-</ol>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
     </div>
  -->
 

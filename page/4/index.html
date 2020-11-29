@@ -269,6 +269,110 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-VUE初级教程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1664911364.html" class="article-date">
+      <time datetime="2020-03-30T18:08:13.000Z" itemprop="datePublished">2020-03-31</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1664911364.html">VUE初级教程</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="http://caibaojian.com/fetching-data-with-vue-js.html">使用Vue.js和Axios从第三方API获取请求数据</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jianxian/p/11938752.html">axios之Vue请求初始化数据放在Created还是Mounted？</a></p>
+<h2 id="axios介绍"><a href="#axios介绍" class="headerlink" title="axios介绍"></a>axios介绍</h2><p>基于Promise的HTTP客户端，用于浏览器和node.js <a target="_blank" rel="noopener" href="https://github.com/axios/axios">axios-github</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="http://caibaojian.com/fetching-data-with-vue-js.html">使用Vue.js和Axios从第三方API获取请求数据</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jianxian/p/11938752.html">axios之Vue请求初始化数据放在Created还是Mounted？</a></p>
+<h2 id="axios介绍"><a href="#axios介绍" class="headerlink" title="axios介绍"></a>axios介绍</h2><p>基于Promise的HTTP客户端，用于浏览器和node.js <a target="_blank" rel="noopener" href="https://github.com/axios/axios">axios-github</a></p>
+<ul>
+<li>制作<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">的XMLHttpRequest</a>从浏览器</li>
+<li>让<a target="_blank" rel="noopener" href="http://nodejs.org/api/http.html">HTTP</a>从node.js的请求</li>
+<li>支持<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a> API</li>
+<li>拦截请求和响应</li>
+<li>转换请求和响应数据</li>
+<li>取消请求</li>
+<li>JSON数据的自动转换</li>
+<li>客户端支持以防止<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">XSRF</a></li>
+</ul>
+<h3 id="vue的初始化过程"><a href="#vue的初始化过程" class="headerlink" title="vue的初始化过程"></a>vue的初始化过程</h3><p><a href="../img/lifecycle.png"><img src="../img/lifecycle.png" alt="lifecycle"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; new Vue(&#123;        el: &quot;#app&quot;,        data: &#123;            num: 0        &#125;,        beforeCreate() &#123;                console.log(&quot;创建前&quot;)        &#125;,        created() &#123;            console.log(&quot;创建&quot;)        &#125;,        beforeMount() &#123;            console.log(&quot;计数前&quot;)        &#125;,        mounted() &#123;            console.log(&quot;计数了&quot;)        &#125;,    &#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="之前赋值不到vue的data里"><a href="#之前赋值不到vue的data里" class="headerlink" title="之前赋值不到vue的data里"></a>之前赋值不到vue的data里</h2><p>最开始放在 created(),mounted()都可以赋值过去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var mydata&#x3D;&quot;&quot; ;var app &#x3D; new Vue(&#123;        el: &quot;#app&quot;,        data: &#123;            num: 0,            tableDataA:mydata        &#125;,        beforeCreate() &#123;                console.log(&quot;创建前&quot;)        &#125;,        created() &#123;            console.log(&quot;创建&quot;)        &#125;,        beforeMount() &#123;            console.log(&quot;计数前&quot;)        &#125;,        mounted() &#123;            console.log(&quot;计数了&quot;)        &#125;,    &#125;)</span><br><span class="line">axios.get(&#39;http:&#x2F;&#x2F;localhost:8081&#x2F;BackSpace&#x2F;test&#39;)    .then(function (response) &#123;    &#x2F;&#x2F; mydata&#x3D;response.data 刚开始使用的这个 但是一直赋值不过去        &#x2F;&#x2F;这个方法也不行,this不能指代当前这个app对象    this.tableDataA&#x3D;response.data&#125;)    .catch(function (error) &#123;    console.log(error);&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>成功的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">axios.get(&#39;http:&#x2F;&#x2F;localhost:8081&#x2F;BackSpace&#x2F;test&#39;).then(response &#x3D;&gt; &#123;this.tableDataA&#x3D;response.data&#125;).catch(function (error) &#123;console.log(error);&#125;);</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-VScode优化和插件推荐" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1369,95 +1473,6 @@
 
 <p>栈信息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Thread.State: RUNNABLE	  at org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter.getRequestBody(RibbonRoutingFilter.java:199)	  at org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter.buildCommandContext(RibbonRoutingFilter.java:126)	  at org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter.run(RibbonRoutingFilter.java:105)	  at com.netflix.zuul.ZuulFilter.runFilter(ZuulFilter.java:112)	  at com.netflix.zuul.FilterProcessor.processZuulFilter(FilterProcessor.java:193)	  at com.netflix.zuul.FilterProcessor.runFilters(FilterProcessor.java:157)	  at com.netflix.zuul.FilterProcessor.route(FilterProcessor.java:118)	  at com.netflix.zuul.ZuulRunner.route(ZuulRunner.java:96)	  at com.netflix.zuul.http.ZuulServlet.route(ZuulServlet.java:116)	  at com.netflix.zuul.http.ZuulServlet.service(ZuulServlet.java:81)	  at org.springframework.web.servlet.mvc.ServletWrappingController.handleRequestInternal(ServletWrappingController.java:157)	  at org.springframework.cloud.netflix.zuul.web.ZuulController.handleRequest(ZuulController.java:44)	  at org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:50)	  at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)	  at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:897)	  at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970)	  at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:872)	  at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)	  at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)	  at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:230)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.boot.web.filter.ApplicationContextHeaderFilter.doFilterInternal(ApplicationContextHeaderFilter.java:55)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.boot.actuate.trace.WebRequestTraceFilter.doFilterInternal(WebRequestTraceFilter.java:108)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at cn.com.betasoft.dxm.sso.ext.client.filter.SessionValidationFilter.doFilter(SessionValidationFilter.java:98)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.util.AssertionThreadLocalFilter.doFilter(AssertionThreadLocalFilter.java:54)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.util.HttpServletRequestWrapperFilter.doFilter(HttpServletRequestWrapperFilter.java:75)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.authentication.AuthenticationFilter.doFilter(AuthenticationFilter.java:107)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.validation.AbstractTicketValidationFilter.doFilter(AbstractTicketValidationFilter.java:201)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.session.SingleSignOutFilter.doFilter(SingleSignOutFilter.java:76)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at cn.com.betasoft.btrm.common.serviceconfig.ServiceAssertionConfig$1.doFilter(ServiceAssertionConfig.java:53)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:105)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:81)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.boot.actuate.autoconfigure.MetricsFilter.doFilterInternal(MetricsFilter.java:106)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:96)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)	  at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)	  at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:474)	  at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)	  at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)	  at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)	  at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:349)	  at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:783)	  at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)	  at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:798)	  at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1434)	  at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)	  - locked &lt;0x2a0d&gt; (a org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper)	  at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)	  at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)	  at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)	  at java.lang.Thread.run(Thread.java:748)</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-springboot 读取外部文件" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1470057129.html" class="article-date">
-      <time datetime="2020-01-01T04:09:50.000Z" itemprop="datePublished">2020-01-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1470057129.html">springboot 读取外部文件</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51883955/how-to-specify-external-location-for-image-store-in-spring-boot-2-0-web-app">external location for image store in Spring Boot 2.0 web app?</a></p>
-<p>之前有个需求是需要有个urlpatren像 staticFiles/xxx.pdf 请求的url 对应服务器端的某个文件夹可以直接访问,</p>
-<p>WebMvcConfigurer 需要实现或者继承WebMvcConfigurerAdapter</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51883955/how-to-specify-external-location-for-image-store-in-spring-boot-2-0-web-app">external location for image store in Spring Boot 2.0 web app?</a></p>
-<p>之前有个需求是需要有个urlpatren像 staticFiles/xxx.pdf 请求的url 对应服务器端的某个文件夹可以直接访问,</p>
-<p>WebMvcConfigurer 需要实现或者继承WebMvcConfigurerAdapter</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Configurationpublic class MvcConfig extends WebMvcConfigurerAdapter  &#123;    @Override    public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;       registry               .addResourceHandler(&quot;&#x2F;btrm&#x2F;framework&#x2F;item&#x2F;static&#x2F;**&quot;)               .addResourceLocations(&quot;file:D:\\SVNCODE\\btrm\\&quot;)               .setCachePeriod(200);        super.addResourceHandlers(registry);    &#125;&#125;</span><br></pre></td></tr></table></figure>
-
-
                -->
         </div>
         

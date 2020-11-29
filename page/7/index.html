@@ -269,6 +269,259 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-PHP学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1439793898.html" class="article-date">
+      <time datetime="2019-07-08T05:45:12.000Z" itemprop="datePublished">2019-07-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1439793898.html">PHP学习笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="PHP学习笔记"><a href="#PHP学习笔记" class="headerlink" title="PHP学习笔记"></a>PHP学习笔记</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHP（全称：PHP：Hypertext Preprocessor，即“PHP：超文本预处理器”）是一种开源的通用计算机脚本语言，尤其适用于网络开发并可嵌入HTML中使用。PHP的语法借鉴吸收C语言、Java和Perl等流行计算机语言的特点，易于一般程序员学习。PHP的主要目标是允许网络开发人员快速编写动态页面，但PHP也被用于其他很多领域。[1]PHP最初是由勒多夫在1995年开始开发的；现在PHP的标准由the PHP Group[2]维护。PHP以PHP License作为许可协议，不过因为这个协议限制了PHP名称的使用，所以和开放源代码许可协议GPL不兼容。[3]PHP的应用范围相当广泛，尤其是在网页程序的开发上。一般来说PHP大多运行在网页服务器上，透过运行PHP代码来产生用户浏览的网页。PHP可以在多数的服务器和操作系统上运行，而且使用PHP完全是免费的。根据2013年4月的统计数据，PHP已经被安装在超过2亿4400万个网站和210万台服务器上[4]。PHP在Windows上有专门的官方移植编译项目，并且分多个VC编译器版本和线程安全特性来提供不同的版本支持。----维基百科</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.kancloud.cn/yangweijie/yang_book/30731">引用链接</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="PHP学习笔记"><a href="#PHP学习笔记" class="headerlink" title="PHP学习笔记"></a>PHP学习笔记</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHP（全称：PHP：Hypertext Preprocessor，即“PHP：超文本预处理器”）是一种开源的通用计算机脚本语言，尤其适用于网络开发并可嵌入HTML中使用。PHP的语法借鉴吸收C语言、Java和Perl等流行计算机语言的特点，易于一般程序员学习。PHP的主要目标是允许网络开发人员快速编写动态页面，但PHP也被用于其他很多领域。[1]PHP最初是由勒多夫在1995年开始开发的；现在PHP的标准由the PHP Group[2]维护。PHP以PHP License作为许可协议，不过因为这个协议限制了PHP名称的使用，所以和开放源代码许可协议GPL不兼容。[3]PHP的应用范围相当广泛，尤其是在网页程序的开发上。一般来说PHP大多运行在网页服务器上，透过运行PHP代码来产生用户浏览的网页。PHP可以在多数的服务器和操作系统上运行，而且使用PHP完全是免费的。根据2013年4月的统计数据，PHP已经被安装在超过2亿4400万个网站和210万台服务器上[4]。PHP在Windows上有专门的官方移植编译项目，并且分多个VC编译器版本和线程安全特性来提供不同的版本支持。----维基百科</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.kancloud.cn/yangweijie/yang_book/30731">引用链接</a></p>
+<p>PHP常见错误，我认为主要分为3块：</p>
+<h2 id="1、语法错误"><a href="#1、语法错误" class="headerlink" title="1、语法错误"></a>1、语法错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Parse error: syntax error, unexpected T_VARIABLE in E:\gstbook\user.php on line 268</span><br></pre></td></tr></table></figure>
+
+<p>一般是少分号，在上一行或者下一行都有可能<br><code>Parse error: syntax error, unexpected &#39;.&#39; in F:\www\blog\article.php on line 100</code></p>
+<p>多个“.”，类似的还有多个“;”等等</p>
+<p><code>Notice: Undefined variable: a in ...</code><br>使用了一个没有被定义的变量a</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Parse error: syntax error, unexpected T_ELSE in</span><br></pre></td></tr></table></figure>
+
+<p>if else if else 句式逻辑错误</p>
+<p><code>Parse error: syntax error, unexpected $end in</code><br>一般是大括号不匹配</p>
+<p><code>Parse error: syntax error, unexpected T_STRING in</code><br>一般是忘了写句末分号</p>
+<p><code>Parse error: syntax error, unexpected T_PRIVATE in</code><br>一般是private函数位置写到了调用自己函数的内部</p>
+<p><code>Warning: Invalid argument supplied for foreach() in</code><br>foreach 的第一个参数必须是一个数组</p>
+<p><code>Warning: Wrong parameter count for a in</code><br>函数参数个数不对</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: session_start() [function.session-start]: Cannot send session cache limiter - headers already sent (output started at F:\www\blog\index.php:10) in F:\www\blog\incl?s\config.inc.php on line 10Warning: annot modify header information - headers already sent by (output started at F:\www\blog\index.php:10) in F:\www\blog\incl?s\config.inc.php on line 12</span><br></pre></td></tr></table></figure>
+
+<p>session前面不能有输出，同意的cookie也是这样的</p>
+<p><code>Fatal error: Cannot redeclare</code><br>函数已经定义过，不能重新再定义；类也不能同名</p>
+<h2 id="2、SQL语句错误"><a href="#2、SQL语句错误" class="headerlink" title="2、SQL语句错误"></a>2、SQL语句错误</h2><p><code>Warning: mysql_fetch_assoc(): supplied argument is not a valid MySQL result resource in</code><br>说明前面执行SQL 返回失败，一般可能是SQL语句错误 ，如分析不出来，可以Mysql_error () 看具体是哪个地方错了</p>
+<p><code>No database selected</code><br>一般是没有连接数据库</p>
+<p><code>Warning: mysql_connect() [function.mysql-connect]: Access denied for user ‘root’@&#39;localhost’ (using password: YES) in ….. on line 3Access denied for user ‘root’@&#39;localhost’ (using password: YES)</code><br>数据库用户名的密码错误</p>
+<p><code>Unknown database ‘cms07261′</code><br>数据库不存在</p>
+<p><code>Table ‘cms0726.test’ doesn’t exist</code><br>表不存在</p>
+<p><code>Unknown column ‘abc’ in ‘field list’</code><br>字段不存在</p>
+<p><code>Column count doesn’t match val count at row 1</code><br>sql语句中 字段值的个数比字段名个数不一样</p>
+<h2 id="3、模板错误"><a href="#3、模板错误" class="headerlink" title="3、模板错误"></a>3、模板错误</h2><p><code>Fatal error: Smarty error: [in message_list.html line 22]: syntax error: ‘foreach: item’ must be a variable name (literal string)</code><br>foreach 后面的item 后面必须跟一个变量名，不加$，是一个字符串</p>
+<p><code>Fatal error: Smarty error: [in admin/tpl/class_detail.html line 14]: syntax error: unrecognized tag: cs.st?nt_id (Smarty_Compiler.class.php, line 436) in D:\www\web\xmphp\inc\smarty\Smarty.class.php on line 1088</code><br>smarty语法错误：循环数组的时候，少$</p>
+<p><code>Warning: Smarty error: unable to read resource: “message_list1.html” in</code><br>模板文件找不到，看是否是文件名写错或文件存放到别的目录中去了。</p>
+<p><code>Fatal error: Smarty error: [in order_detail.html line 171]: syntax error: unclosed tag \&#123;elseif&#125; (opened line 157). (Smarty_Compiler.class.php, line 317) in F:\www\gstbook\xmphp\inc\smarty\Smarty.class.php on line 1088</code><br>html页面语法错误，少结束标签&lt;%/if%&gt;<br>以后遇到问题，我会及时更新！</p>
+<p>附上PHP错误报表:</p>
+<p>序号代码错误报告</p>
+<table>
+<thead>
+<tr>
+<th align="center">1</th>
+<th align="center">error_reporting(Integer)</th>
+<th align="center">此设置是每个脚本默认错误报告设置。它的参数可以是这里列出的任意常量，表示所有错误的E_ALL或者类似E_ALL&amp;E_NOTICE的一个逻辑表达式。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">2</td>
+<td align="center">display_error(Boolean)</td>
+<td align="center">此设置控制错误是否作为PHP输出的一部分显示出来，默认设置是on。</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">display_startup_errors(Boolean)</td>
+<td align="center">此设置控制在PHP启动时是否显示错误，默认设置是off，而且是用来调试C扩展。</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">error_prepend_string(String)</td>
+<td align="center">这个字符串在浏览器中显示错误信息之前直接显示出来。</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">track_errors(Boolean)</td>
+<td align="center">当这个设置开启时，一旦一个错误出现，变量$php_errormsg在PHP作用域中被定义。这个变量包含错误信息。</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">html_errors(Boolean)</td>
+<td align="center">此设置控制是否在错误信息中采用HTML格式。默认情况下显示的是HTML错误，CLI版本的PHP除外。</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">xmlrpc_erroes(Boolean)</td>
+<td align="center">此设置控制错误信息是否启用作为XML－RPC故障显示。</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">xmlrpc_error_number(Integer)</td>
+<td align="center">这个XML-RPC故障代码是启用xmlrpc_errors时使用的。</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">log_errors(Boolean)</td>
+<td align="center">此设置控制错误是否记录。日志的地址是通过error_log设置决定的。默认情况下，错误被记录到Web服务器的错误日志中。</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">log_error_max_len(Integer)</td>
+<td align="center">此设置是当启用log_errors时控制记录的错误信息的最大长度。超过这个长度的信息也会被记录下来，但是会被截断。</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">error_log(String)</td>
+<td align="center">此设置决定错误记录的地方。在默认情况下，它们被传送到Web服务器的错误记录机制中，但必须指定一个文件名，或者指定Syslog让系统日志来记录。</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">ignore_report_errors(Boolean)</td>
+<td align="center">当启用它时，这个设置让PHP不在同一行中重复显示一样的错误信息。</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="center">ignore_repeated_source(Boolean)</td>
+<td align="center">当启用时，PHP将不显示与前一个显示的错误来自同一个文件同一行错误。如果它没有被启用，它就不起作用。</td>
+</tr>
+</tbody></table>
+<p>2 、PHP错误是通过错误级别进行划分的，范围从通告到严重错误，这个错误级别报告错误的严重性。大部分错误可以用常用的错误处理器来获取，但其中一些则不可恢复。</p>
+<p>PHP错误级别表</p>
+<table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="center">错误代码</th>
+<th align="center">错误级别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">E_ERROR</td>
+<td align="center">严重错误，不可恢复。例如内存不足、位置异常或类重复声明错误</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">E_WARNING</td>
+<td align="center">一个经常发生的错误类型。表示一些操作错误。例如丢失函数参数，连接数据库失败，除数为0等错误。</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">E_PARSE</td>
+<td align="center">编译时发生的解析错误，会导致在PHP执行前退出。意味着如果一个文件因为解析错误运行失败，程序将停止运行。</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">E_STRICT</td>
+<td align="center">错误级别是唯一不包含在E_ALL常量中。这是为了让PHP4到PHP5的迁移更加容易；你可以在PHP5软件系统中运行PHP4代码。</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">E_NOTICE</td>
+<td align="center">运行代码在操作一些未知的动作，例如读取为定义的变量。</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">E_CORE_ERROR</td>
+<td align="center">内部错误，扩展启动失败导致的，会导致PHP运行退出。</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">E_COMPILE_ERROR</td>
+<td align="center">编译错误，与E_PARSE不同，这个错误会导致PHP运行退出。</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">E_WARNING_ERROR</td>
+<td align="center">编译时的警告，可能是使用者发生语法错误。</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">E_USER_ERROR</td>
+<td align="center">用户定义错误导致PHP退出执行。用户定义错误(E_USER_*)不是来自PHP本身，而是包含在脚本中。</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">E_USER_WARNING</td>
+<td align="center">用户定义错误不会导致PHP退出执行。脚本可以使用它来通知一个执行失败，执行失败PHP也会用E_WARNING来通知。</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">E_USER_NOTICE</td>
+<td align="center">用户定义的通告可以用来在脚本中可能存在错误。</td>
+</tr>
+</tbody></table>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-我目前的Ubuntu软件" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1284,125 +1537,6 @@
       
 
       <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-S6新特性 和VUE的个人理解" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/4288700677.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/4288700677.html">S6新特性 和VUE的个人理解</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>es6新特性<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b3f3afcae230/">ES6新特性介绍</a><br><a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/?search=reduce&x=0&y=0#README">阮一峰的翻译的ECMAScript 6 入门-图书</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">增加了 const let修饰</span><br><span class="line">还有map reduce  indexof的替换者includes</span><br><span class="line">包括template(模板字符串（template string）是增强版的字符串，)在模    </span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>es6新特性<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b3f3afcae230/">ES6新特性介绍</a><br><a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/?search=reduce&x=0&y=0#README">阮一峰的翻译的ECMAScript 6 入门-图书</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">增加了 const let修饰</span><br><span class="line">还有map reduce  indexof的替换者includes</span><br><span class="line">包括template(模板字符串（template string）是增强版的字符串，)在模    </span><br></pre></td></tr></table></figure>
-
-<p>板字符串中嵌入变量，需要将变量名写在${}之中<br>​ 结构{temp.feid}<br>​ array.forEach(v = &gt; console.log(v));箭头表达式<br>​ 反引号 ` 来创建字符串反问号创建字符串<br>​ 美元符号加花括号包裹的变量${vraible}<br>​<br>​ 遍历器（Iterator）遍历的是一种规则数据的部署</p>
-<p>使用for…of循环，遍历某种数据结构时，该循环会自动去寻找Iterator接口。在ES6中，有三类数据结构原生具备Iterator接口：数组、某些类似数组的对象、Set和Map结构。</p>
-<p>S6模块通过export命令显式指定输出的代码，输入时也采用静态命令的形式。<br>​ export xxx from xxx<br>​ import xxxx from xxxx<br>如果只是需要key:value的数据结构，记得使用Map，因为Map有内建的遍历机制。<br>使用import取代require，使用export取代module.exports。这样可以在编译时就完成模块编译，效率要比CommonJS模块高。</p>
-<hr>
-<ul>
-<li><p>// CommonJS模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; stat, exists, readFile &#125;&#x2F;&#x2F; 等同于let _fs &#x3D; require(&#39;fs&#39;);let stat &#x3D; _fs.stat;let exists &#x3D; _fs.exists;let readfile &#x3D; _fs.readfile;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>无序列表// ES6模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; stat, exists, readFile &#125; from &#39;fs&#39;;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>vue子模块</p>
-<p>vue是基于MVVM设计的js框架.需要注意子模块和父模块的使用<br>而点vue文件需要在webpack是<br>Data 是将将原本的值以变成了方法一return来实现值处理和返回值 还有<br>保证在其他引用的方法的部分不会随着变化独立性更高</p>
-<p>vue包括vue vue-cli vuex</p>
-<p>而vue是可以<br>首先是是它的生命周期包括create,mount<br>注意<br>在html里面可以用v-if foreach</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">el	data	compute	methods	watch包括组件元素vue.componet(&quot;name&quot;,&#123;    template &#125;)var a&#x3D;	(&#123;template:return &#123;&#123; xx:kkkk &#125;&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>将你输入的值遍历你的值是&lt;里面 :name=”值”&gt;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;ol&gt;</span><br><span class="line">    &lt;!--</span><br><span class="line">      现在我们为每个 todo-item 提供 todo 对象</span><br><span class="line">      todo 对象是变量，即其内容可以是动态的。</span><br><span class="line">      我们也需要为每个组件提供一个“key”，稍后再</span><br><span class="line">      作详细解释。</span><br><span class="line">    --&gt;</span><br><span class="line">    &lt;todo-item</span><br><span class="line">      v-for&#x3D;&quot;item in groceryList&quot;</span><br><span class="line">      v-bind:todo&#x3D;&quot;item&quot;</span><br><span class="line">      v-bind:key&#x3D;&quot;item.id&quot;&gt;</span><br><span class="line">    &lt;&#x2F;todo-item&gt;</span><br><span class="line">  &lt;&#x2F;ol&gt;</span><br><span class="line"></span><br><span class="line">Vue.component(&#39;todo-item&#39;, &#123;</span><br><span class="line">  props: [&#39;todo&#39;],</span><br><span class="line">  template: &#39;&lt;li&gt;&#123;&#123; todo.text &#125;&#125;&lt;&#x2F;li&gt;&#39;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">var app7 &#x3D; new Vue(&#123;</span><br><span class="line">  el: &#39;#app-7&#39;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    groceryList: [</span><br><span class="line">      &#123; id: 0, text: &#39;蔬菜&#39; &#125;,</span><br><span class="line">      &#123; id: 1, text: &#39;奶酪&#39; &#125;,</span><br><span class="line">      &#123; id: 2, text: &#39;随便其它什么人吃的东西&#39; &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>还包括后面是变量或者表达式没加冒号,后米娜是字符串<br>v-bind 绑定了vue数据不是普通字符串 :xxx 比如class<br>v-on:xxx 绑定事件 @click=””<br>_ dirname 是绝对路径绑定时<br>v-model<br>_直接取值使用(或$是在vue实例中因为vue内部与API冲突<br>./ 可以解释为组件能导入<br>@/是webpack设置的路径别名<br>在外界使用组件时需要注册组件 vueload</p>
-<p>1、父组件可以使用 props 把数据传给子组件。<br>2、子组件可以使用 $emit 触发父组件的自定义事件。</p>
-<p>vm.$emit( event, arg ) //触发当前实例上的事件</p>
-<p>vm.$on( event, fn );//监听event事件后运行 fn；<br><a target="_blank" rel="noopener" href="https://www.tangshuang.net/3507.html">https://www.tangshuang.net/3507.html</a><br>v-bind用于绑定html元素上的attribution 不是双向绑定<br>v-model主要是用在表单元素中，它实现了双向绑定。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-    </div>
- -->
 
 
       

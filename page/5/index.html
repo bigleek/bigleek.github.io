@@ -269,6 +269,95 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-springboot 读取外部文件" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1470057129.html" class="article-date">
+      <time datetime="2020-01-01T04:09:50.000Z" itemprop="datePublished">2020-01-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1470057129.html">springboot 读取外部文件</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51883955/how-to-specify-external-location-for-image-store-in-spring-boot-2-0-web-app">external location for image store in Spring Boot 2.0 web app?</a></p>
+<p>之前有个需求是需要有个urlpatren像 staticFiles/xxx.pdf 请求的url 对应服务器端的某个文件夹可以直接访问,</p>
+<p>WebMvcConfigurer 需要实现或者继承WebMvcConfigurerAdapter</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51883955/how-to-specify-external-location-for-image-store-in-spring-boot-2-0-web-app">external location for image store in Spring Boot 2.0 web app?</a></p>
+<p>之前有个需求是需要有个urlpatren像 staticFiles/xxx.pdf 请求的url 对应服务器端的某个文件夹可以直接访问,</p>
+<p>WebMvcConfigurer 需要实现或者继承WebMvcConfigurerAdapter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Configurationpublic class MvcConfig extends WebMvcConfigurerAdapter  &#123;    @Override    public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;       registry               .addResourceHandler(&quot;&#x2F;btrm&#x2F;framework&#x2F;item&#x2F;static&#x2F;**&quot;)               .addResourceLocations(&quot;file:D:\\SVNCODE\\btrm\\&quot;)               .setCachePeriod(200);        super.addResourceHandlers(registry);    &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-SpringBoot 读取jar包文件" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1403,98 +1492,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Hexo提交百度和Google收录站点" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3423376587.html" class="article-date">
-      <time datetime="2019-08-06T05:27:50.000Z" itemprop="datePublished">2019-08-06</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3423376587.html">Hexo提交百度和Google收录站点</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="使用sitemap-提交网站"><a href="#使用sitemap-提交网站" class="headerlink" title="使用sitemap 提交网站"></a>使用sitemap 提交网站</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">安装插件</span><br><span class="line">npm install hexo-generator-baidu-sitemap --save</span><br><span class="line">npm install hexo-generator-sitemap --save</span><br><span class="line">l# 自动生成_config.ym</span><br><span class="line">sitemapsitemap:  path: sitemap.xml</span><br><span class="line">baidusitemap:  path: baidusitemap.xml</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-百度提交"><a href="#1-百度提交" class="headerlink" title="1 百度提交"></a>1 百度提交</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;ziyuan.baidu.com&#x2F;linksubmit&#x2F;index浏览器打开   your-url&#x2F;baidusitemap.xml   看下有没有文件</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="使用sitemap-提交网站"><a href="#使用sitemap-提交网站" class="headerlink" title="使用sitemap 提交网站"></a>使用sitemap 提交网站</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">安装插件</span><br><span class="line">npm install hexo-generator-baidu-sitemap --save</span><br><span class="line">npm install hexo-generator-sitemap --save</span><br><span class="line">l# 自动生成_config.ym</span><br><span class="line">sitemapsitemap:  path: sitemap.xml</span><br><span class="line">baidusitemap:  path: baidusitemap.xml</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-百度提交"><a href="#1-百度提交" class="headerlink" title="1 百度提交"></a>1 百度提交</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;ziyuan.baidu.com&#x2F;linksubmit&#x2F;index浏览器打开   your-url&#x2F;baidusitemap.xml   看下有没有文件</span><br></pre></td></tr></table></figure>
-
-<p><a href="../img/1565098183259.png"><img src="../img/1565098183259.png" alt="1565098183259"></a></p>
-<h3 id="2-Google提交"><a href="#2-Google提交" class="headerlink" title="2 Google提交"></a>2 Google提交</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;search.google.com&#x2F;search-console&#x2F;sitemaps浏览器打开</span><br><span class="line">your-url&#x2F;sitemap.xml  看下有没有文件提交站点地图</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用-hexo-baidu-url-submit-自动提交"><a href="#使用-hexo-baidu-url-submit-自动提交" class="headerlink" title="使用 hexo-baidu-url-submit 自动提交"></a>使用 hexo-baidu-url-submit 自动提交</h2><p> <a target="_blank" rel="noopener" href="https://github.com/huiwang/hexo-baidu-url-submit">github地址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-baidu-url-submit --save</span><br><span class="line">baidu_url_submit:  count: 1000 </span><br><span class="line">## 提交最新的一个链接  </span><br><span class="line">host: alili.tech</span><br><span class="line">## 在百度站长平台中注册的域名  </span><br><span class="line">token: xxxxx </span><br><span class="line">## 请注意这是您的秘钥， 所以请不要把博客源代码发布在公众仓库里! </span><br><span class="line">path: baidu_urls.txt </span><br><span class="line">## 文本文档的地址， 新链接会保存在此文本文档里deploy 配置</span><br><span class="line">deploy:- type: baidu_url_submitter </span><br><span class="line"># 百度在上面的图片点击自动提交 接口调用地址： http:&#x2F;&#x2F;data.zz.baidu.com&#x2F;urls?site&#x3D;XXX &amp;token&#x3D;XXX前面XXX是你的网站 后面XXX是token的值</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
     </div>
  -->
 
