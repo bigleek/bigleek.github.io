@@ -269,6 +269,96 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-docker 简单使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/4262021452.html" class="article-date">
+      <time datetime="2019-07-17T04:15:32.000Z" itemprop="datePublished">2019-07-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/4262021452.html">docker 简单使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉："><a href="#如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉：" class="headerlink" title="如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉："></a>如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉：</h3><p>sudo yum -y remove docker docker-common docker-selinux docker-engine docker-engine-selinux container-selinux docker-ce</p>
+<p>#删除所有的镜像、容器、数据卷、配置文件等<br>sudo rm -rf /var/lib/docker</p>
+<h2 id="如果已安装不想要docker、docker-engine、docker-ce相关的软件包"><a href="#如果已安装不想要docker、docker-engine、docker-ce相关的软件包" class="headerlink" title="如果已安装不想要docker、docker-engine、docker-ce相关的软件包"></a>如果已安装不想要docker、docker-engine、docker-ce相关的软件包</h2><p>则卸载掉：<br>sudo yum -y remove docker docker-common docker-selinux docker-engine docker-engine-selinux container-selinux docker-ce</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉："><a href="#如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉：" class="headerlink" title="如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉："></a>如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉：</h3><p>sudo yum -y remove docker docker-common docker-selinux docker-engine docker-engine-selinux container-selinux docker-ce</p>
+<p>#删除所有的镜像、容器、数据卷、配置文件等<br>sudo rm -rf /var/lib/docker</p>
+<h2 id="如果已安装不想要docker、docker-engine、docker-ce相关的软件包"><a href="#如果已安装不想要docker、docker-engine、docker-ce相关的软件包" class="headerlink" title="如果已安装不想要docker、docker-engine、docker-ce相关的软件包"></a>如果已安装不想要docker、docker-engine、docker-ce相关的软件包</h2><p>则卸载掉：<br>sudo yum -y remove docker docker-common docker-selinux docker-engine docker-engine-selinux container-selinux docker-ce</p>
+<p>#删除所有的镜像、容器、数据卷、配置文件等<br>sudo rm -rf /var/lib/docker</p>
+<p>rpm -qa|grep docker</p>
+<p>yum list installed|grep docker</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-PHP学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1454,111 +1544,9 @@
 
 
   
-    <article id="post-Ajax运用的归纳整理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/6f432c85.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/6f432c85.html">Ajax运用的归纳整理</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>Ajax请求包括常见三种 本人日常使用是完整版,但是最近发现ajax中发post请求也是很快的而且很方便,将多种方法都试一遍线顺便整理一下</p>
-<ol>
-<li>| GET请求 | <code>$.get(url,[data],[callback],[type])</code> |</li>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>Ajax请求包括常见三种 本人日常使用是完整版,但是最近发现ajax中发post请求也是很快的而且很方便,将多种方法都试一遍线顺便整理一下</p>
-<ol>
-<li>| GET请求 | <code>$.get(url,[data],[callback],[type])</code> |</li>
-<li>| POST请求 | <code>$.post(url,[data],[callback],[type])</code> |</li>
-<li>| AJAX请求 | `$.ajax([settings])</li>
-</ol>
-<h1 id="POST请求语法格式"><a href="#POST请求语法格式" class="headerlink" title="POST请求语法格式"></a>POST请求语法格式</h1><p>$.post(url, [data], [callback], [type])<br>其中，参数说明如下：<br>| 参数| 说明 |<br>| url| 请求的服务器端url地址 |<br>|data|发送给服务器端的请求参数，格式可以是key=value也可以是js对象|<br>|callback| 当请求成功后的回掉函数，可以在函数体中编写我们的逻辑代码|<br>|type| 预期的返回数据的类型，取值可以是 xml, html, script, json, text, _defaul等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&quot;user&#x2F;login&quot;,&#x2F;&#x2F;请求地址</span><br><span class="line">   $(&quot;#loginForm&quot;).serialize(),&#x2F;&#x2F;表单所有数据</span><br><span class="line">   function (resultInfo) &#123;</span><br><span class="line">      if(resultInfo.flag)&#123;</span><br><span class="line">          &#x2F;&#x2F;登录成功，跳转到首页</span><br><span class="line">         location.href&#x3D;&quot;index.html&quot;;</span><br><span class="line">      &#125;else&#123;</span><br><span class="line">          &#x2F;&#x2F;失败，显示消息</span><br><span class="line">                           $(&quot;#errorMsg&quot;).text(resultInfo.errorMsg);</span><br><span class="line">      &#125; &#125;,</span><br><span class="line">   &quot;json&quot;</span><br><span class="line">);$(&quot;#errorMsg&quot;).text(&quot;请输入用户名或密码&quot;);</span><br></pre></td></tr></table></figure>
-
-<p>现在感觉发post请求,同这个会更简单且更加清晰,只需要url,[data],[callback],[type]),清晰明了,各个部分以’,’分开,</p>
-<h1 id="AJAX请求"><a href="#AJAX请求" class="headerlink" title="AJAX请求"></a>AJAX请求</h1><p>我之前是完全的ajax请求格式太多但是功能也更加全面</p>
-<p><a target="_blank" rel="noopener" href="http://www.w3school.com.cn/jquery/ajax_ajax.asp">引用自w3school jQuery ajax</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"> 类型：Object</span><br><span class="line"></span><br><span class="line">    可选。AJAX 请求设置。所有选项都是可选的。</span><br><span class="line">async</span><br><span class="line"></span><br><span class="line">    类型：Boolean</span><br><span class="line"></span><br><span class="line">    默认值: true。默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false。</span><br><span class="line"></span><br><span class="line">    注意，同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。</span><br><span class="line">beforeSend(XHR)</span><br><span class="line"></span><br><span class="line">    类型：Function</span><br><span class="line"></span><br><span class="line">    发送请求前可修改 XMLHttpRequest 对象的函数，如添加自定义 HTTP 头。</span><br><span class="line"></span><br><span class="line">    XMLHttpRequest 对象是唯一的参数。</span><br><span class="line"></span><br><span class="line">    这是一个 Ajax 事件。如果返回 false 可以取消本次 ajax 请求。</span><br><span class="line">cache</span><br><span class="line"></span><br><span class="line">    类型：Boolean</span><br><span class="line"></span><br><span class="line">    默认值: true，dataType 为 script 和 jsonp 时默认为 false。设置为 false 将不缓存此页面。</span><br><span class="line"></span><br><span class="line">    jQuery 1.2 新功能。</span><br><span class="line">complete(XHR, TS)</span><br><span class="line"></span><br><span class="line">    类型：Function</span><br><span class="line"></span><br><span class="line">    请求完成后回调函数 (请求成功或失败之后均调用)。</span><br><span class="line"></span><br><span class="line">    参数： XMLHttpRequest 对象和一个描述请求类型的字符串。</span><br><span class="line"></span><br><span class="line">    这是一个 Ajax 事件。</span><br><span class="line">contentType</span><br><span class="line"></span><br><span class="line">    类型：String</span><br><span class="line"></span><br><span class="line">    默认值: &quot;application&#x2F;x-www-form-urlencoded&quot;。发送信息至服务器时内容编码类型。</span><br><span class="line"></span><br><span class="line">    默认值适合大多数情况。如果你明确地传递了一个 content-type 给 $.ajax() 那么它必定会发送给服务器（即使没有数据要发送）。</span><br><span class="line">context</span><br><span class="line"></span><br><span class="line">    类型：Object</span><br><span class="line"></span><br><span class="line">    这个对象用于设置 Ajax 相关回调函数的上下文。也就是说，让回调函数内 this 指向这个对象（如果不设定这个参数，那么 this 就指向调用本次 AJAX 请求时传递的 options 参数）。比如指定一个 DOM 元素作为 context 参数，这样就设置了 success 回调函数的上下文为这个 DOM 元素。</span><br><span class="line"></span><br><span class="line">$.ajax(&#123; url: &quot;test.html&quot;, context: document.body, success: function()&#123;</span><br><span class="line">        $(this).addClass(&quot;done&quot;);</span><br><span class="line">      &#125;&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>route</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">  var cid&#x3D;getParameter(&quot;cid&quot;)</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        url:&quot;&#x2F;route&#x2F;showPage&quot;,&#x2F;&#x2F;请求路径</span><br><span class="line">        data:&#123;&quot;currentPage&quot;:currentPage,</span><br><span class="line">              &quot;cid&quot;:cid&#125;,&#x2F;&#x2F;发送参数</span><br><span class="line">        dataType:&quot;json&quot;, &#x2F;&#x2F;接收类型确认</span><br><span class="line">        success:function (res) &#123;</span><br><span class="line">            toShowRouteDetail(res)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">ShowRoute(1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;显示旅游线路</span><br><span class="line">function toShowRouteDetail(res)  &#123;</span><br><span class="line">    $(&quot;#show2Route&quot;).empty()</span><br><span class="line">    for(var i&#x3D;0;i&lt;res.listRoute.length;i++)&#123;</span><br><span class="line">        var temp&#x3D;$(&quot;&lt;li&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;div class&#x3D;\&quot;img\&quot;&gt;&lt;img width&#x3D;&#39;290px&#39; src&#x3D;\&quot;&quot;+res.listRoute[i].rimage+&quot;\&quot; alt&#x3D;\&quot;\&quot;&gt;&lt;&#x2F;div&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;div class&#x3D;\&quot;text1\&quot;&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p&gt;&quot;+res.listRoute[i].rname+&quot;&lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;br&#x2F;&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p&gt;&quot;+res.listRoute[i].routeIntroduce+&quot;&lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;&#x2F;div&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;div class&#x3D;\&quot;price\&quot;&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p class&#x3D;\&quot;price_num\&quot;&gt;\n&quot; +</span><br><span class="line">            &quot;                                    &lt;span&gt;&amp;yen;&lt;&#x2F;span&gt;\n&quot; +</span><br><span class="line">            &quot;                                    &lt;span&gt;&quot;+res.listRoute[i].price+&quot;&lt;&#x2F;span&gt;\n&quot; +</span><br><span class="line">            &quot;                                    &lt;span&gt;起&lt;&#x2F;span&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p&gt;&lt;a href&#x3D;\&quot;&#x2F;route_detail.html?rid&#x3D;&quot;+res.listRoute[i].rid+&quot;\&quot;&gt;查看详情&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;&#x2F;div&gt;\n&quot; +</span><br><span class="line">            &quot;                        &lt;&#x2F;li&gt;&quot;);</span><br><span class="line">        $(&quot;#show2Route&quot;).append(temp)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h1 id="GET请求"><a href="#GET请求" class="headerlink" title="GET请求"></a>GET请求</h1><p>$.get(url,[data],[callback],[type data<br>方式一：key=value&amp;key=value<br>方式二：{key:value,key:value…}<br>| callback | 回调函数：当请求成功后触发的函数 |<br>|type|返回参数类型：取值可以是xml,html,script, json,text,_defaul等 |</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ajaxGetFn() &#123;&#x2F;&#x2F;Ajax的GET请求：</span><br><span class="line">    &#x2F;&#x2F;方式一：key&#x3D;value&amp;key&#x3D;value形式传值</span><br><span class="line">    &#x2F;&#x2F; $.get(&quot;&#x2F;getDemo&quot;,&quot;name&#x3D;&#39;张三&#39;&amp;age&#x3D;18&quot;,function (res) &#123;</span><br><span class="line">    &#x2F;&#x2F;     &#x2F;&#x2F;处理响应数据,并在浏览器上显示</span><br><span class="line">    &#x2F;&#x2F;     alert(res);</span><br><span class="line">    &#x2F;&#x2F; &#125;,&quot;text&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;方式二：&#123;key:value,key:value&#125;形式传值</span><br><span class="line">    $.get(&quot;&#x2F;getDemo&quot;,&#123;&quot;name&quot;:&quot;张三&quot;,&quot;age&quot;:18&#125;,function   (res) &#123;</span><br><span class="line">        &#x2F;&#x2F;处理响应数据</span><br><span class="line">        alert(res);</span><br><span class="line">    &#125;,&quot;text&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/6/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/8/">下一页 </a>
     </nav>
   
 </div>
@@ -1567,7 +1555,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2020 leek
+                2016-2021 leek
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
