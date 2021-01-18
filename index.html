@@ -269,6 +269,252 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-docker容器导入导出和配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/aba1fef8.html" class="article-date">
+      <time datetime="2021-01-18T02:19:41.000Z" itemprop="datePublished">2021-01-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/aba1fef8.html">docker容器导入导出和配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="镜像导入导出"><a href="#镜像导入导出" class="headerlink" title="镜像导入导出"></a><strong>镜像导入导出</strong></h1><p>目前的导入导出是 sava/load,export/import ,前者有完整的数据,后者类似于容器的快照,开始搭建时,想直接复制我们服务器中运行的容器,导出后在docker中运行后 一直报</p>
+<p>No command specified” from re-imported docker image/container</p>
+<p>后面有了解 sava/load 会有完整的数据 但是 export的tar包这个命令将导入镜像文件和参数</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="镜像导入导出"><a href="#镜像导入导出" class="headerlink" title="镜像导入导出"></a><strong>镜像导入导出</strong></h1><p>目前的导入导出是 sava/load,export/import ,前者有完整的数据,后者类似于容器的快照,开始搭建时,想直接复制我们服务器中运行的容器,导出后在docker中运行后 一直报</p>
+<p>No command specified” from re-imported docker image/container</p>
+<p>后面有了解 sava/load 会有完整的数据 但是 export的tar包这个命令将导入镜像文件和参数</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="关于-gdal容器"><a href="#关于-gdal容器" class="headerlink" title="关于 gdal容器"></a>关于 gdal容器</h2><p>目前使用的gdal的容器是  osgeo/gdal:ubuntu-small-3.2.1</p>
+<blockquote>
+<p>docker run -itd –privileged -v /usr/local/gdal/data/:/home    <br>–name gdal_python osgeo/gdal:ubuntu-small-3.2.1</p>
+</blockquote>
+<ul>
+<li>容器的名称需要和上面 application-boot.yml的关联上,需要通过容器的主机 ssh 控制 docker 下的容器</li>
+<li>需要复制 shp2pg.py 到  /usr/local/gdal/data/</li>
+</ul>
+<p>后面的版本是有添加 gdal的环境</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> osgeo/gdal:ubuntu-small-<span class="number">3.2</span>.<span class="number">1</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> gdallikedemo</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> add-apt-repository ppa:openjdk-r/ppa &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get clean;</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> NAME.jar /home/NAME.jar</span></span><br><span class="line"><span class="comment"># RUN nohup java -jar /home/NAME.jar &gt;/dev/null 2&gt;&amp;1 &amp;</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/home/NAME.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="搭建pgsql集群"><a href="#搭建pgsql集群" class="headerlink" title="搭建pgsql集群"></a><strong>搭建pgsql集群</strong></h1><p>搭建集群 可以参考之前的文档 我这边只是列出清单</p>
+<table>
+<thead>
+<tr>
+<th align="left">集群名称</th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">pg_master</td>
+<td align="left">pg_hba.conf( 配置网络和集群的IP,注意配置 所有从服务器的IP),postgresql.conf(配置数据库自己的服务和资源使用)</td>
+</tr>
+<tr>
+<td align="left">pg_slaver1</td>
+<td align="left">同上,recovery.conf(设置恢复和通信)</td>
+</tr>
+<tr>
+<td align="left">pg_slaver2</td>
+<td align="left">同上,recovery.conf(设置恢复和通信)</td>
+</tr>
+</tbody></table>
+<p>tips:</p>
+<ul>
+<li>建议在postgresql.conf 中的日志打开,日志的配置</li>
+</ul>
+<p>logging_collector =on        # Enable capturing of stderr and csvlog</p>
+<p>日志会在本地的/data/postgresql/data 启动时挂载的点,会有log目录可以找到异常信息</p>
+<ul>
+<li>尽量选择复制配置文件,像postgresql.conf这种<strong>标准配置文件主从有区别要注意</strong></li>
+</ul>
+<h1 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a><strong>nginx</strong></h1><p>拉取 nginx镜像后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx -p 80:80 --restart&#x3D;always -v \</span><br><span class="line"></span><br><span class="line">&#x2F;data&#x2F;nginx&#x2F;html:&#x2F;etc&#x2F;nginx&#x2F;html&#x2F;   \</span><br><span class="line"></span><br><span class="line">-v &#x2F;data&#x2F;nginx&#x2F;conf&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf \</span><br><span class="line"></span><br><span class="line">-v &#x2F;data&#x2F;nginx&#x2F;conf.d&#x2F;default.conf:&#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;default.conf \</span><br><span class="line"></span><br><span class="line">nginx:1.19.6</span><br></pre></td></tr></table></figure>
+
+
+
+<p>一个要注意的是 网上都是nginx默认的挂载是/usr/share/nginx/html ,使用依照了 官方docker版本我挂载了数据,一直都有是404 ,后面看日志是</p>
+<blockquote>
+<p>2021/01/13 21:56:42 [error] 21#21: *1 “/etc/nginx/html/index.html” is not found (2: No such file or directory), client: 172.17.0.1, server: localhost, request: “GET / HTTP/1.1”, host: “127.0.0.1”</p>
+<p>172.17.0.1 - - [13/Jan/2021:21:56:42 +0000] “GET / HTTP/1.1” 404 153 “-“ “curl/7.29.0”</p>
+</blockquote>
+<p>这边关联到/etc/nginx/html/ 后正常可以看到 welcome nginx的页面</p>
+<h1 id="geoserver"><a href="#geoserver" class="headerlink" title="geoserver"></a>geoserver</h1><p>目前使用的是官方的 geoserver的集群 主要 是要导出 yaml 的文件</p>
+<p>将本地的geoserver 镜像导入 harber的私服中然后再 配置 k8s挂载卷然后编辑</p>
+<ol>
+<li>挂载卷</li>
+<li>harber的远程地址</li>
+</ol>
+<h2 id="推送镜像到harber"><a href="#推送镜像到harber" class="headerlink" title="推送镜像到harber"></a>推送镜像到harber</h2><p>首先 使用命令  docker tag  IMAGE_ID NAME:TAG</p>
+<p>将load 的镜像设置对应的标签方便后面使用k8s导入的配置文件好找到</p>
+<p>push_im.sh文件中的 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 发布最终版本</span><br><span class="line"># 版本号</span><br><span class="line">version&#x3D;latest</span><br><span class="line"># 打包镜像</span><br><span class="line">docker build -t NAME:$version .</span><br><span class="line"># 配置标签</span><br><span class="line">docker tag NAME:$version 192.168.7.120&#x2F;public&#x2F;NAME:$version</span><br><span class="line"># 推送镜像</span><br><span class="line">docker push 192.168.7.120&#x2F;public&#x2F;NAME:$version</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>version 对应的字段要有 ,同时 harber 地址要改的</p>
+<p>上面的这个 <strong>docker build -t NAME:$version .</strong>   是有个点的, 需要dockerfile文件的</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-gis初入门" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/6a9c1835.html" class="article-date">
+      <time datetime="2021-01-08T06:24:30.000Z" itemprop="datePublished">2021-01-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/6a9c1835.html">gis初入门</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>参考链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015674238">https://segmentfault.com/a/1190000015674238</a></p>
+<p>GIS是一个设计用来捕获、存储、操作（manipulate）、分析、管理和展示空间或图像数据的系统。</p>
+<p><strong>GIS 应用</strong> = <strong>基础底图</strong> + <strong>操作图层</strong> + <strong>任务</strong></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>参考链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015674238">https://segmentfault.com/a/1190000015674238</a></p>
+<p>GIS是一个设计用来捕获、存储、操作（manipulate）、分析、管理和展示空间或图像数据的系统。</p>
+<p><strong>GIS 应用</strong> = <strong>基础底图</strong> + <strong>操作图层</strong> + <strong>任务</strong></p>
+<ul>
+<li><strong>基础底图</strong>：可以简单地理解为就是地图，并且要求是一个不会频繁改变的地图。</li>
+<li><strong>操作图层</strong>：用户使用的主要图层，承载主要的待<strong>编辑、展示和分析</strong>的信息数据。</li>
+<li><strong>任务</strong>：如导航、地址编码等计算量比较大的分析任务。</li>
+</ul>
+<h2 id="GIS-数据和协议"><a href="#GIS-数据和协议" class="headerlink" title="GIS 数据和协议"></a>GIS 数据和协议</h2><p>由于 ArcGIS 在行业内的龙头地位，其指定的一系列数据格式和交换协议，成为 GIS 业界的标准协议。目前制定 GIS 协议的标准化组织为<a target="_blank" rel="noopener" href="http://www.opengeospatial.org/">开放地理空间协会（OGC）</a>，其制定的规范称为 <strong>OpenGIS</strong>（Open Geodata Interoperation Specification）。</p>
+<p>相关的接口和协议非常多，以后再一一补齐。目前大部分 demo 系统，导入的数据格式为 shp 文件，往往是由甲方直接提供、或者是网上的公开 GIS 服务提供商可提供下载的，不需要我们自行转换数据格式。ArcGIS 可以直接识别并导入，入库后也使用标准接口协议开放服务，比如 WMS（网络地图服务）和 WFS（网络要素服务）。</p>
+<h2 id="免费开源-GIS-软件"><a href="#免费开源-GIS-软件" class="headerlink" title="免费开源 GIS 软件"></a>免费开源 GIS 软件</h2><p>开源 GIS 软件，从大类来分，包含服务器版和桌面版（即桌面版）。显然我们最关注的是服务器版的 GIS 软件 / 组件。</p>
+<p>服务器版的部署架构和 ArcGIS 基本类似，也是分 web、GIS Server、database 三大模块，并且可以分开部署。</p>
+<p>参考链接<a target="_blank" rel="noopener" href="https://blog.csdn.net/sxausgyy/article/details/8151019">https://blog.csdn.net/sxausgyy/article/details/8151019</a></p>
+<p><strong>要素模型(Feature)</strong><br>要素是GeoTools中的核心术语，它是描述地理空间数据对<br>象的基本单位，它描述了一个现实世界中的客观地理实体，如:一条河流、一座桥梁都<br>可以理解为要素。</p>
+<p><strong>栅格数据</strong><br>栅格数据是从上向下拍摄的地球照片，使用离散单元存储其值，图片的每个像素点都有一个指定值<br>服务器本身存储，传输速度快，服务器压力小，多为png,jpg,gif<br>数据量大，更新慢</p>
+<p><strong>矢量数据</strong><br>矢量数据是仅仅存储节点，比如箭头，线条，点等。存储的是对象的轮廓，而栅格数据适合表达对象的内容。<br>矢量数据类型有点，线和多边形。<br>数量小，数据更新快<br>服务器压力大，技术要求高</p>
+<p><img src="C:\Users\leek\Pictures\1334284682_7917.jpg" alt="1334284682_7917"></p>
+<p>在gist环境下回有图层的概念</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-dockerfile使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1153,238 +1399,6 @@
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
     </div>
  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-pgsql调优转载" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3990369431.html" class="article-date">
-      <time datetime="2020-07-29T07:11:42.000Z" itemprop="datePublished">2020-07-29</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3990369431.html">pgsql调优转载</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>持续更新 —————————–</p>
-<p><a target="_blank" rel="noopener" href="http://postgres.cn/docs/10/monitoring-stats.html#PG-STAT-ALL-TABLES-VIEW">官方文档</a></p>
-<p>根据进程可以查询命令执行的时间和效率</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>持续更新 —————————–</p>
-<p><a target="_blank" rel="noopener" href="http://postgres.cn/docs/10/monitoring-stats.html#PG-STAT-ALL-TABLES-VIEW">官方文档</a></p>
-<p>根据进程可以查询命令执行的时间和效率</p>
-<ul>
-<li>查询耗时</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT procpid, START, now() - START AS lap, current_query  FROM ( SELECT backendid, pg_stat_get_backend_pid (S.backendid) AS procpid,</span><br><span class="line">pg_stat_get_backend_activity_start (S.backendid) AS START,pg_stat_get_backend_activity (S.backendid) AS current_query  FROM (SELECT</span><br><span class="line">pg_stat_get_backend_idset () AS backendid) AS S) AS S WHERE current_query &lt;&gt; &#39;&lt;IDLE&gt;&#39;  and procpid&#x3D;58762  ORDER BY lap DESC;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>查询连接 查询进程</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM pg_stat_activity  where pid&#x3D;&#x3D;?? and  query &#x3D;?? and </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>pg_stat_statements</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">修改postgresql.conf的shared_preload_libraries增加pg_stat_statements来载入</span><br><span class="line"></span><br><span class="line">③执行SQL启动插件：create extension pg_stat_statements;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>重置计数器（可选操作）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select pg_stat_reset();</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select pg_stat_statements_reset();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用命令查看最耗时的SQL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from pg_stat_statements order by total_time desc limit 5;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查询读取Buffer次数最多的SQL，buffer次数多，可能是因为没有索引，也同时导致了cpu高。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from pg_stat_statements order by shared_blks_hit+shared_blks_read desc limit 5;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>获取后面的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">select to_char(trigger_start_time,&#39;YYYY-MM-DD 00:00:00&#39;)</span><br><span class="line">        as timePoint,sum(trigger_count) as totalCount from network_attack</span><br><span class="line">        where</span><br><span class="line">        trigger_start_time &gt;&#x3D; to_timestamp($1,&#39;yyyy-MM-dd hh24:mi:ss&#39;)</span><br><span class="line">        and trigger_start_time &lt;  to_timestamp($2,&#39;yyyy-MM-dd hh24:mi:ss&#39;)</span><br><span class="line">        group by timePoint</span><br><span class="line">        order by timePoint desc</span><br><span class="line">relid    oid    一个表的 OID</span><br><span class="line">schemaname    name    这个表所在的模式的名称</span><br><span class="line">relname    name    这个表的名称</span><br><span class="line">seq_scan    bigint    在这个表上发起的顺序扫描的次数</span><br><span class="line">seq_tup_read    bigint    被顺序扫描取得的活着的行的数量</span><br><span class="line">idx_scan    bigint    在这个表上发起的索引扫描的次数</span><br><span class="line">idx_tup_fetch    bigint    被索引扫描取得的活着的行的数量</span><br><span class="line">n_tup_ins    bigint    被插入的行数</span><br><span class="line">n_tup_upd    bigint    被更新的行数（包括 HOT 更新的行）</span><br><span class="line">n_tup_del    bigint    被删除的行数</span><br><span class="line">n_tup_hot_upd    bigint    被更新的 HOT 行数（即不要求独立索引更新的行更新）</span><br><span class="line">n_live_tup    bigint    活着的行的估计数量</span><br><span class="line">n_dead_tup    bigint    死亡行的估计数量</span><br><span class="line">n_mod_since_analyze    bigint    从这个表最后一次被分析后备修改的行的估计数量</span><br><span class="line">last_vacuum    timestamp with time zone    上次这个表被手动清理的时间（不统计VACUUM FULL）</span><br><span class="line">last_autovacuum    timestamp with time zone    上次这个表被自动清理守护进程清理的时间</span><br><span class="line">last_analyze    timestamp with time zone    上次这个表被手动分析的时间</span><br><span class="line">last_autoanalyze    timestamp with time zone    上次这个表被自动清理守护进程分析的时间</span><br><span class="line">vacuum_count    bigint    这个表已被手工清理的次数（不统计VACUUM FULL）</span><br><span class="line">autovacuum_count    bigint    这个表已被自动清理守护进程清理的次数</span><br><span class="line">analyze_count    bigint    这个表已被手工分析的次数</span><br><span class="line">autoanalyze_count    bigint    这个表已被自动清理守护进程分析的次数</span><br></pre></td></tr></table></figure>
-
-<p>seq_tup_read 远大于 idx_tup_fetch 说明索引建的有问题</p>
-<p>n_tup_upd 说明有频繁更新的动作</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-树莓派下面搭建pgsql" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1327663525.html" class="article-date">
-      <time datetime="2020-06-19T07:09:18.000Z" itemprop="datePublished">2020-06-19</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1327663525.html">树莓派下面搭建pgsql</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>搭建pgsql的环境查看的文档</p>
-<p>怎么在一台树莓派上安装 Postgres 数据库</p>
-<p>树莓派中安装MySQL 5.7<br>感慨是准备是安装MySQL的,树莓派的环境 : Linux raspberrypi 4.19.97-v7l+ #1294 2020 armv7l</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>搭建pgsql的环境查看的文档</p>
-<p>怎么在一台树莓派上安装 Postgres 数据库</p>
-<p>树莓派中安装MySQL 5.7<br>感慨是准备是安装MySQL的,树莓派的环境 : Linux raspberrypi 4.19.97-v7l+ #1294 2020 armv7l</p>
-<p>目前直接用 sudo apt-get install mysql-service 但是不行返回结果</p>
-<p>没有可用的软件包 mysql-server，但是它被其它的软件包引用了。<br>这可能意味着这个缺失的软件包可能已被废弃，<br>或者只能在其他发布源中找到<br>然而下列软件包会取代它：<br>mariadb-server-10.0</p>
-<p>目前来说直接安装的路被堵死</p>
-<p>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb">http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb</a></p>
-<p>sudo dpkg -i mysql-common_5.8+1.0.2_all.deb<br>sudo dpkg -i mysql-client-core-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-client-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-server-core-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-server-5.7_5.7.18-1_armhf.deb<br>上面的命令是直接在debian上下载 arm版本的MySQL但是现在访问网站已经找不到对于的deb包</p>
-<p>而且在MySQL官网也没找到官方下载链接 arm的包</p>
-<p>访问<a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/</a> 拿到对于的deb包版本为5.7.26-1,比上面的高</p>
-<p>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb">http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb</a></p>
-<p>sudo dpkg -i mysql-common_5.8+1.0.2_all.deb<br>sudo dpkg -i mysql-client-core-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i mysql-client-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i     mysql-server-core-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i mysql-server-5.7_5.7.26-1+b1_armhf.deb<br>安装后显示</p>
-<p>dpkg: 依赖关系问题使得 mysql-server-core-5.7 的配置工作不能继续：<br>mysql-server-core-5.7 依赖于 libaio1 (&gt;= 0.3.93)；然而：<br>未安装软件包 libaio1。<br>mysql-server-core-5.7 依赖于 libc6 (&gt;= 2.29)；然而：<br>系统中 libc6:armhf 的版本为 2.28-10+rpi1。<br>mysql-server-core-5.7 依赖于 libstdc++6 (&gt;= 9)；然而：<br>系统中 libstdc++6:armhf 的版本为 8.3.0-6+rpi1。</p>
-<p>依赖太多找不到目前放弃安装MySQL使用官方推进的Mariadb<br>sudo apt-get install mariadb-server</p>
-<p>当服务器安装完成后，你需要运行：</p>
-<p>sudo mysql_secure_installation<br>来为你的数据库设置安全。</p>
-<p>主要这个用途是设置你 root 的密码，root 的远程访问权限，是否允许匿名访问，是否允许远程访问等。</p>
-<p>如果你只是测试在本地使用这个数据库，你可以不用设置这个。</p>
-<p>但是我们还是建议你设置。</p>
-<p>当前使用pi这个用户无法登陆Mariadb的需要用root登陆</p>
-<p>CREATE USER ‘pi’@’%’ IDENTIFIED BY ‘123’;<br>GRANT USAGE ON . TO ‘pi’@’%’;<br>GRANT ALL PRIVILEGES ON . TO ‘pi’@’%’ IDENTIFIED BY ‘123’ WITH GRANT OPTION;<br>FLUSH PRIVILEGES;</p>
-<p>重启服务器的命令是：</p>
-<p>root@raspberrypi:~# service mariadb restart</p>
-<p>安装pgsql<br>主要参考下面的博客文章 怎么在一台树莓派上安装 Postgres 数据库</p>
-<p>安装pgsql还是简单的 首先输入命令</p>
-<p>apt-get install postgresql</p>
-<p>先安装后软件已经有客户端了,同时会带也会初始化的用户 : postgres</p>
-<p>Postgres 用户去配置数据库：</p>
-<p>sudo su postgres</p>
-<p>初始化一个新的用户(pi) createuser pi -P –interactive</p>
-<p>PostgreSQL 配置允许远程连接：</p>
-<p>1、 编辑 PostgreSQL 配置文件 /etc/postgresql/9.6/main/postgresql.conf ，取消 listen_addresses 行的注释，并把它的值从 localhost 改变成 *。然后保存并退出。</p>
-<p>2、 编辑 pg_hba 配置文件 /etc/postgresql/9.6/main/postgresql.conf，将 127.0.0.1/32 改变成 0.0.0.0/0 （对于IPv4）和将 ::1/128 改变成 ::/0 （对于 IPv6）。然后保存并退出。</p>
-<p>3、 重启 PostgreSQL 服务： sudo service postgresql restart。</p>
-<p>sudo service postgresql restart</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
 
 
       
