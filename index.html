@@ -269,6 +269,138 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Linux使用fdisk挂载和初始化磁盘以华为云服务器为例" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/ca3ef640.html" class="article-date">
+      <time datetime="2021-01-25T02:49:17.000Z" itemprop="datePublished">2021-01-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h4 id="先使用-fdisk-l-查看磁盘情况"><a href="#先使用-fdisk-l-查看磁盘情况" class="headerlink" title="先使用 fdisk -l 查看磁盘情况"></a>先使用 fdisk -l 查看磁盘情况</h4><p><img src="..%5Cimg%5Cimage-20210122100412882.png" alt="image-20210122100412882"></p>
+<p>磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况</p>
+<p>看到有 <strong>/dev/vdb</strong>没有被使用那就去初始化然后去使用</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h4 id="先使用-fdisk-l-查看磁盘情况"><a href="#先使用-fdisk-l-查看磁盘情况" class="headerlink" title="先使用 fdisk -l 查看磁盘情况"></a>先使用 fdisk -l 查看磁盘情况</h4><p><img src="..%5Cimg%5Cimage-20210122100412882.png" alt="image-20210122100412882"></p>
+<p>磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况</p>
+<p>看到有 <strong>/dev/vdb</strong>没有被使用那就去初始化然后去使用</p>
+<h3 id="使用-fdisk-dev-vdb-来初始化"><a href="#使用-fdisk-dev-vdb-来初始化" class="headerlink" title="使用 fdisk /dev/vdb 来初始化"></a>使用 fdisk /dev/vdb 来初始化</h3><p>先进入会有 (Command (m for help))步骤如下</p>
+<ol>
+<li> n    是去初步去创建新磁盘</li>
+<li> 进入 一直按 enter  包括 primary,extend  ,起始磁盘等都走默认 ,Partition number 默认为1 </li>
+<li> p  查看具体的分区情况</li>
+<li> w  写入修改</li>
+</ol>
+<p>下图为过程</p>
+<p><img src="..%5Cimg%5Cimage-20210122100726644.png" alt="image-20210122100726644"></p>
+<h3 id="fdisk-l-查看磁盘已经初始化"><a href="#fdisk-l-查看磁盘已经初始化" class="headerlink" title="fdisk -l 查看磁盘已经初始化"></a>fdisk -l 查看磁盘已经初始化</h3><p><img src="..%5Cimg%5Cimage-20210122101643077.png" alt="image-20210122101643077"></p>
+<p>图片如下可以看到 分区已经形成,由于我们走默认使用只有一个</p>
+<h3 id="使用ext4格式化-dev-vdb1-这个分区"><a href="#使用ext4格式化-dev-vdb1-这个分区" class="headerlink" title="使用ext4格式化 /dev/vdb1 这个分区"></a>使用ext4格式化 /dev/vdb1 这个分区</h3><p>ext4 格式化后 </p>
+<p><img src="..%5Cimg%5Cimage-20210122101257839.png" alt="image-20210122101257839"></p>
+<h3 id="使用-blkid-dev-vdb1-来查看-UUID"><a href="#使用-blkid-dev-vdb1-来查看-UUID" class="headerlink" title="使用 blkid /dev/vdb1 来查看 UUID"></a>使用 blkid /dev/vdb1 来查看 UUID</h3><p><img src="..%5Cimg%5Cimage-20210122101816988.png" alt="image-20210122101816988"></p>
+<h3 id="修改-etc-fstab-来开机自动挂载分区"><a href="#修改-etc-fstab-来开机自动挂载分区" class="headerlink" title="修改 /etc/fstab 来开机自动挂载分区"></a>修改 <strong>/etc/fstab</strong> 来开机自动挂载分区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UUID&#x3D;0b3040e2-1367-4abb-841d-ddb0b92693df &#x2F;mnt&#x2F;sdc       \ext4    defaults        0 2</span><br></pre></td></tr></table></figure>
+
+<p>可以考这边内容 需要修改 UUID ,和挂载的文件夹 ,我这边是在根目录下面 创建的文件夹挂载的</p>
+<blockquote>
+<ol>
+<li><p>以内容上仅为示例，具体请以实际情况为准，参数说明如下：</p>
+<ul>
+<li><p>第一列为UUID，此处填写<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/qs-evs/evs_01_0033.html#evs_01_0033__li840964143216">1</a>中查询到的磁盘分区的UUID。</p>
+</li>
+<li><p>第二列为磁盘分区的挂载目录，可以通过<strong>df -TH</strong>命令查询。</p>
+</li>
+<li><p>第三列为磁盘分区的文件系统格式， 可以通过<strong>df -TH</strong>命令查询。</p>
+</li>
+<li><p>第四列为磁盘分区的挂载选项，此处通常设置为defaults即可。</p>
+</li>
+<li><p>第五列为Linux dump备份选项。</p>
+<ul>
+<li>0表示不使用Linux dump备份。现在通常不使用dump备份，此处设置为0即可。</li>
+<li>1表示使用Linux dump备份。</li>
+</ul>
+</li>
+<li><p>第六列为fsck选项，即开机时是否使用fsck检查磁盘。</p>
+<ul>
+<li><p>0表示不检验。</p>
+</li>
+<li><p>挂载点为（/）根目录的分区，此处必须填写1。</p>
+<p>根分区设置为1，其他分区只能从2开始，系统会按照数字从小到大依次检查下去。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h3 id="使用mount-a加载-etc-fstab-的配置"><a href="#使用mount-a加载-etc-fstab-的配置" class="headerlink" title="使用mount -a加载**/etc/fstab**的配置"></a>使用<strong>mount -a</strong>加载**/etc/fstab**的配置</h3><p><strong>mount -a</strong> 没有报错后 用df du 都可以看到你挂载的目录和对应的分区</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-docker容器导入导出和配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1305,100 +1437,6 @@
       
 
       <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Jenkins的遇到的坑" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1581320389.html" class="article-date">
-      <time datetime="2020-08-04T07:12:38.000Z" itemprop="datePublished">2020-08-04</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1581320389.html">Jenkins的遇到的坑</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p>
-<h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p>
-<ol>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p>
-<h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p>
-<ol>
-<li>网上看到的是配置没到到 jenkins_home/workspace 下面的project,</li>
-</ol>
-<p>但是我看Jenkins的配置是对的,在对应的文件夹下面是有配置</p>
-<ol>
-<li>网上给的Jenkins迁移job的问题我看了不是这个问题</li>
-</ol>
-<h4 id="我遇到的是job下面的config-xml-maven2-module失败导致的"><a href="#我遇到的是job下面的config-xml-maven2-module失败导致的" class="headerlink" title="我遇到的是job下面的config.xml maven2-module失败导致的"></a>我遇到的是job下面的config.xml maven2-module失败导致的</h4><p>最后解决方案是重启tomcat不是Jenkins是,重启Jenkins是 <code>URL/jenkins/restart</code>, 看到tomcat的日志出现解析 jobs下面的各个job下面的config.xml 出问题 <strong><code>maven2-module</code></strong> ,对于非maven的项目就可以直接解析, 原来是 Maven Integration 插件不存在导致,原有的maven项目不能解析和显示</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
-    </div>
- -->
 
 
       

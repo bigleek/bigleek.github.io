@@ -269,6 +269,240 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-activiti数据库的分类" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2197510555.html" class="article-date">
+      <time datetime="2020-02-14T00:10:04.000Z" itemprop="datePublished">2020-02-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2197510555.html">activiti数据库的分类</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>Activiti数据库表结构</p>
+<p> Activiti工作流总共包含23张数据表，所有的表名默认以“<strong>ACT_</strong>”开头。</p>
+<p>并且表名的第二部分用两个字母表明表的用例，而这个用例也基本上跟Service API匹配。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>Activiti数据库表结构</p>
+<p> Activiti工作流总共包含23张数据表，所有的表名默认以“<strong>ACT_</strong>”开头。</p>
+<p>并且表名的第二部分用两个字母表明表的用例，而这个用例也基本上跟Service API匹配。</p>
+<ul>
+<li><p> <strong>ACT_GE_*</strong> : “GE”代表“General”（通用），用在各种情况下；</p>
+</li>
+<li><p> <strong>ACT_HI_*</strong> : “HI”代表“History”（历史），这些表中保存的都是历史数据，比如执行过的流程实例、变量、任务，等等。Activit默认提供了4种历史级别：</p>
+</li>
+<li><p><strong>none</strong>: 不保存任何历史记录，可以提高系统性能；</p>
+</li>
+<li><p> <strong>activity</strong>：保存所有的流程实例、任务、活动信息；</p>
+</li>
+<li><p> <strong>audit</strong>：也是Activiti的<strong>默认</strong>级别，保存所有的流程实例、任务、活动、表单属性；</p>
+</li>
+<li><p> <strong>full</strong>：最完整的历史记录，除了包含<strong>audit</strong>级别的信息之外还能保存详细，例如：流程变量。</p>
+</li>
+</ul>
+<p>对于几种级别根据对功能的要求选择，如果需要日后跟踪详细可以开启<strong>full</strong>。</p>
+<ul>
+<li><p> <strong>ACT_ID_*</strong> : “ID”代表“Identity”（身份），这些表中保存的都是身份信息，如用户和组以及两者之间的关系。如果Activiti被集成在某一系统当中的话，这些表可以不用，可以直接使用现有系统中的用户或组信息；</p>
+</li>
+<li><p> <strong>ACT_RE_*</strong> : “RE”代表“Repository”（仓库），这些表中保存一些‘静态’信息，如流程定义和流程资源（如图片、规则等）；</p>
+</li>
+<li><p><strong>ACT_RU_*</strong> : “RU”代表“Runtime”（运行时），这些表中保存一些流程实例、用户任务、变量等的运行时数据。Activiti只保存流程实例在执行过程中的运行时数据，并且当流程结束后会立即移除这些数据，这是为了保证运行时表尽量的小并运行的足够快；</p>
+</li>
+</ul>
+<h3 id="Activiti数据表清单"><a href="#Activiti数据表清单" class="headerlink" title="Activiti数据表清单:"></a>Activiti数据表清单:</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>表分类</strong></th>
+<th align="center"><strong>表名</strong></th>
+<th align="center"><strong>解释</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">一般数据</td>
+<td align="center">ACT_GE_BYTEARRAY</td>
+<td align="center">通用的流程定义和流程资源</td>
+</tr>
+<tr>
+<td align="center">ACT_GE_PROPERTY</td>
+<td align="center">系统相关属性</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">流程历史记录</td>
+<td align="center">ACT_HI_ACTINST</td>
+<td align="center">历史的流程实例</td>
+</tr>
+<tr>
+<td align="center">ACT_HI_ATTACHMENT</td>
+<td align="center">历史的流程附件</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_COMMENT</td>
+<td align="center">历史的说明性信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_DETAIL</td>
+<td align="center">历史的流程运行中的细节信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_IDENTITYLINK</td>
+<td align="center">历史的流程运行过程中用户关系</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_PROCINST</td>
+<td align="center">历史的流程实例</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_TASKINST</td>
+<td align="center">历史的任务实例</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_VARINST</td>
+<td align="center">历史的流程运行中的变量信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">用户用户组表</td>
+<td align="center">ACT_ID_GROUP</td>
+<td align="center">身份信息-组信息</td>
+</tr>
+<tr>
+<td align="center">ACT_ID_INFO</td>
+<td align="center">身份信息-组信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_ID_MEMBERSHIP</td>
+<td align="center">身份信息-用户和组关系的中间表</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_ID_USER</td>
+<td align="center">身份信息-用户信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">流程定义表</td>
+<td align="center">ACT_RE_DEPLOYMENT</td>
+<td align="center">部署单元信息</td>
+</tr>
+<tr>
+<td align="center">ACT_RE_MODEL</td>
+<td align="center">模型信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RE_PROCDEF</td>
+<td align="center">已部署的流程定义</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">运行实例表</td>
+<td align="center">ACT_RU_EVENT_SUBSCR</td>
+<td align="center">运行时事件</td>
+</tr>
+<tr>
+<td align="center">ACT_RU_EXECUTION</td>
+<td align="center">运行时流程执行实例</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_IDENTITYLINK</td>
+<td align="center">运行时用户关系信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_JOB</td>
+<td align="center">运行时作业</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_TASK</td>
+<td align="center">运行时任务</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_VARIABLE</td>
+<td align="center">运行时变量表</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-虚拟机内部连vpn" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1165,105 +1399,6 @@
       
 
       <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-floccus利用坚果云WebDAV跨浏览器同步数据" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/4202359184.html" class="article-date">
-      <time datetime="2019-08-29T04:11:41.000Z" itemprop="datePublished">2019-08-29</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="floccus介绍"><a href="#floccus介绍" class="headerlink" title="floccus介绍"></a>floccus介绍</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Floccus 是一款可以通过 Nextcloud，WebDAV 或本地文件（以及任何文件同步解决方案）跨浏览器同步书签的插件，支持 Chrome、Firefox、Kiwi 等浏览器（不支持 iOS）项目地址: https:&#x2F;&#x2F;github.com&#x2F;marcelklehr&#x2F;floccusWebDAV ：目前支持 「坚果云、nextcloud &#x2F; owncloud，box」 等 WebDAV 服务器Nextcloud 书签 ：利用 Nextcloud 自带的书签应用程序进行同步，可通过 Web 访问。(需要nextcloud v12 以上版本)。本地文件同步 ：利用 LoFloccus 4 软件将书签同步到本地, 再利用 Dropbox，Syncthing，rsync 等进行跨设备同步。</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置坚果云"><a href="#配置坚果云" class="headerlink" title="配置坚果云"></a>配置坚果云</h3><p><a href="../img/1567081469042.png"><img src="../img/1567081469042.png" alt="1567081469042"></a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="floccus介绍"><a href="#floccus介绍" class="headerlink" title="floccus介绍"></a>floccus介绍</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Floccus 是一款可以通过 Nextcloud，WebDAV 或本地文件（以及任何文件同步解决方案）跨浏览器同步书签的插件，支持 Chrome、Firefox、Kiwi 等浏览器（不支持 iOS）项目地址: https:&#x2F;&#x2F;github.com&#x2F;marcelklehr&#x2F;floccusWebDAV ：目前支持 「坚果云、nextcloud &#x2F; owncloud，box」 等 WebDAV 服务器Nextcloud 书签 ：利用 Nextcloud 自带的书签应用程序进行同步，可通过 Web 访问。(需要nextcloud v12 以上版本)。本地文件同步 ：利用 LoFloccus 4 软件将书签同步到本地, 再利用 Dropbox，Syncthing，rsync 等进行跨设备同步。</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置坚果云"><a href="#配置坚果云" class="headerlink" title="配置坚果云"></a>配置坚果云</h3><p><a href="../img/1567081469042.png"><img src="../img/1567081469042.png" alt="1567081469042"></a></p>
-<p>尽量和<strong>和我的坚果云文件夹</strong>同级为了后面填写书签同步路径,然后上传一个bookmarks.xbel文件到刚才新建的文件夹里面，没有的<a target="_blank" rel="noopener" href="https://upyuncc.naibabiji.com/wp-content/uploads/2019/05/bookmarks.zip">点这里下载</a>。</p>
-<p>接着坚果云“账户信息”-“安全选项”-“第三方应用管理”，创建一个WebDAV应用，获取密码</p>
-<p><a href="../img/1567080871435.png"><img src="../img/1567080871435.png" alt="1567080871435"></a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 安装Firefox chrome 插件</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/floccus/fnaicdffflnofjppbagibeoednhnbjhg">Chrome扩展地址</a>（<a target="_blank" rel="noopener" href="https://crx.yougaoji.com/crx_download/151">离线地址</a>）、<a target="_blank" rel="noopener" href="https://addons.mozilla.org/en-US/firefox/addon/floccus/">Firefox扩展地址</a></p>
-<p><a href="../img/1567080794015.png"><img src="../img/1567080794015.png" alt="1567080794015"></a></p>
-<p><a href="../img/1567080971630.png"><img src="../img/1567080971630.png" alt="1567080971630"></a></p>
-<h3 id="最后一个注意的"><a href="#最后一个注意的" class="headerlink" title="最后一个注意的"></a>最后一个注意的</h3><p><a href="../img/1567081020328.png"><img src="../img/1567081020328.png" alt="1567081020328"></a></p>
-<p>不然只能同步一部分的</p>
-<p><a href="javascript:;">
-</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li></ul>
-    </div>
- -->
 
 
       

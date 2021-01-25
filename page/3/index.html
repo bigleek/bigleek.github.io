@@ -269,6 +269,219 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-acitiviti的NativeQuery" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2572672426.html" class="article-date">
+      <time datetime="2020-05-03T09:06:08.000Z" itemprop="datePublished">2020-05-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2572672426.html">acitiviti的NativeQuery</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="有写过activiti-activiti数据库的分类"><a href="#有写过activiti-activiti数据库的分类" class="headerlink" title="有写过activiti  activiti数据库的分类 "></a>有写过activiti <a href="2197510555.html"> activiti数据库的分类 </a></h3><p>​          之前有<strong>Query接口</strong>但是自定义程度太低,针对复杂的查询还是需要**NativeQuery **还是需要用下面是我转载的一篇文章 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lyh421/p/6474392.html">2017.2.21 activiti实战–第十三章–流量数据查询与跟踪（一）查询接口介绍及运行时数据查询</a></p>
+<p><strong>第十三章 流量数据查询与跟踪</strong></p>
+<p>本章讲解运行时与历史数据的查询方法。主要包含三种：标准查询，Native查询，CustomSql查询。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="有写过activiti-activiti数据库的分类"><a href="#有写过activiti-activiti数据库的分类" class="headerlink" title="有写过activiti  activiti数据库的分类 "></a>有写过activiti <a href="2197510555.html"> activiti数据库的分类 </a></h3><p>​          之前有<strong>Query接口</strong>但是自定义程度太低,针对复杂的查询还是需要**NativeQuery **还是需要用下面是我转载的一篇文章 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lyh421/p/6474392.html">2017.2.21 activiti实战–第十三章–流量数据查询与跟踪（一）查询接口介绍及运行时数据查询</a></p>
+<p><strong>第十三章 流量数据查询与跟踪</strong></p>
+<p>本章讲解运行时与历史数据的查询方法。主要包含三种：标准查询，Native查询，CustomSql查询。</p>
+<p><strong>13.1 Query API</strong></p>
+<p>Activiti的查询API分为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 标准查询</span><br><span class="line">  以Java对象的方式，创建一个指定类型的Query对象，然后链式编程查询。</span><br><span class="line">  缺点：不支持复杂的查询。</span><br><span class="line">2 Nativit查询</span><br><span class="line">  采用标准SQL的方式查询，因此支持复杂的查询。</span><br><span class="line">  缺点：仅支持部分对象的查询。</span><br></pre></td></tr></table></figure>
+
+<p><strong>（1）Query接口与NativeQuery</strong></p>
+<p>Query接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 （I）Query&lt;...&gt;</span><br><span class="line">2       asc()                    T</span><br><span class="line">3       desc()                   T</span><br><span class="line">4       count()                  long</span><br><span class="line">5       singleResult()           U</span><br><span class="line">6       list()                   List&lt;U&gt;</span><br><span class="line">7       listPage(int,int)        List&lt;U&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>NativeQuery接口（可以看到与Query无区别）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 （I）NativeQuery&lt;...&gt;</span><br><span class="line">2       asc()                    T</span><br><span class="line">3       desc()                   T</span><br><span class="line">4       count()                  long</span><br><span class="line">5       singleResult()           U</span><br><span class="line">6       list()                   List&lt;U&gt;</span><br><span class="line">7       listPage(int,int)        List&lt;U&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>Query接口的子接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> 1 UserQuery</span><br><span class="line"> 2 GroupQuery</span><br><span class="line"> 3</span><br><span class="line"> 4 JobQuery</span><br><span class="line"> 5 ProcessDefinitionQuery</span><br><span class="line"> 6 DeploymentQuery</span><br><span class="line"> 7 ModelQuery</span><br><span class="line"> 8 TaskQuery</span><br><span class="line"> 9 ExecutionQuery</span><br><span class="line">10 ProcessInstanceQuery</span><br><span class="line">11</span><br><span class="line">12 HistroricProcessInstanceQuery</span><br><span class="line">13 HistroricTaskInstanceQuery</span><br><span class="line">14 HistroricActivityInstanceQuery</span><br><span class="line">15 HistroricDetailQuery</span><br><span class="line">16 HistroricVariableInstanceQuery</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>NativeQuery接口的子接口（正如前面所说，NativeQuery只支持部分流程对象）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> 1 UserQuery</span><br><span class="line"> 2 GroupQuery</span><br><span class="line"> 3</span><br><span class="line"> 4 JobQuery</span><br><span class="line"> 5 ProcessDefinitionQuery</span><br><span class="line"> 6 DeploymentQuery</span><br><span class="line"> 7 ModelQuery</span><br><span class="line"> 8 NativeTaskQuery</span><br><span class="line"> 9 NativeExecutionQuery</span><br><span class="line">10 NativeProcessInstanceQuery</span><br><span class="line">11</span><br><span class="line">12 NativeHistroricProcessInstanceQuery</span><br><span class="line">13 NativeHistroricTaskInstanceQuery</span><br><span class="line">14 NativeHistroricActivityInstanceQuery</span><br><span class="line">15 HistroricDetailQuery</span><br><span class="line">16 HistroricVariableInstanceQuery</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>（2）使用xxxService创建查询</strong></p>
+<p>运行时与历史数据涉及到的Service有：RuntimeService，TaskService，HistoryService。</p>
+<p>这里以TaskService为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 （I）TaskService</span><br><span class="line">2    createTaskQuery（）             TaskQuery</span><br><span class="line">3    createNativeTaskQuery（）       NativeTaskQuery</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>13.2 运行时数据查询</strong></p>
+<p>运行时涉及到的Service是：RuntimeService，TaskService。</p>
+<p><strong>（1）流程对象对应的数据库表</strong></p>
+<p>Activiti提供了通过流程对象获取对应表名的接口，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 String tableName &#x3D; managementService.getTableName(Task.Class)</span><br><span class="line">&#x2F;&#x2F;此时返回的tableName &#x3D; &quot;ACT_RU_TASK&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>下面列出流程对象对应的数据库表名。</p>
+<table>
+<thead>
+<tr>
+<th>类名</th>
+<th>表名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>**.task.Task</td>
+<td>ACT_RU_TASK</td>
+</tr>
+<tr>
+<td>**.runtime.Job</td>
+<td>ACT_RU_JOB</td>
+</tr>
+<tr>
+<td>**.runtime.Execution</td>
+<td>ACT_RU_EXECUTION</td>
+</tr>
+<tr>
+<td>**.runtime.ProcessInstance</td>
+<td>ACT_RU_<strong>EXECUTION</strong></td>
+</tr>
+<tr>
+<td>**.repository.ProcessDefinition</td>
+<td>ACT_RE_PROCDEF</td>
+</tr>
+<tr>
+<td>**.repository.Deployment</td>
+<td>ACT_RE_DEPLOYMENT</td>
+</tr>
+<tr>
+<td>**.history.HistoricProcessInstance</td>
+<td>ACT_HI_PROCINST</td>
+</tr>
+<tr>
+<td>**.history.HistoricActivityInstance</td>
+<td>ACT_HI_ACTINST</td>
+</tr>
+<tr>
+<td>**.history.HistoricDetail</td>
+<td>ACT_HI_<strong>DETAIL</strong></td>
+</tr>
+<tr>
+<td>**.history.HistoricVariableUpdate</td>
+<td>ACT_HI_<strong>DETAIL</strong></td>
+</tr>
+<tr>
+<td>**.history.HistoricFormProperty</td>
+<td>ACT_HI_<strong>DETAIL</strong></td>
+</tr>
+<tr>
+<td>**.history.HistoricTaskInstance</td>
+<td>ACT_HI_TASKINST</td>
+</tr>
+<tr>
+<td>**.history.HistoricVariableInstance</td>
+<td>ACT_HI_VARINST</td>
+</tr>
+</tbody></table>
+<p><strong>（2）任务查询</strong></p>
+<p>任务查询的时候，一般都需要满足<strong>分页查询</strong>的要求。所以标准查询无法做到，采用Native查询。从前面的接口介绍中可以看出，<strong>Native</strong>TaskQuery是有的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1 List&lt;Task&gt; tasks &#x3D; taskService.createNativeTaskQuery()</span><br><span class="line">2                    .sql(&quot;SELECT * FROM ACT_RU_TASK T WHERE T.NAME_ &#x3D; #&#123;taskName&#125;&quot; ) &#x2F;&#x2F;此处的表明也可通过managementService.getTableName(Task.Class)获得</span><br><span class="line">3                    .parameter(&quot;taskName&quot;,&quot;人事审批&quot;)</span><br><span class="line">4                    .listPage()；&#x2F;&#x2F;使用list()则不分页</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果不需要分页，采用标准查询也可以完成task的查询功能。</p>
+<p>如果要条件查询，只需要修改sql语句，把 = 换做 like 即可。</p>
+<p><strong>（2）查询参与的流程</strong></p>
+<p>需求：查询已经办理过的流程，以及跟踪流程的办理情况。</p>
+<p>使用标准查询：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1 &#x2F;&#x2F;第9章时已经介绍过ProcessInstance与Execution的关系为一对多</span><br><span class="line">2 List&lt;ProcessInstance&gt; processInstanceList &#x3D; runtimeService.createProcessInstanceQuery().list();</span><br><span class="line">3</span><br><span class="line">4 List&lt;Execution&gt; executionList &#x3D; runtimeService.createExecutionQuery().list();</span><br></pre></td></tr></table></figure>
+
+
+
+<p>但是ProcessInstanceQuery与ExecutionQuery均没有提供”查询某个用户相关的流程”这个接口。所以这时需要用到Native查询。</p>
+<p>native查询的用法前面已经讲过。sql语句如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1 --用于native查询的sql语句</span><br><span class="line">2 SELECT RES.* FROM ACT_RU_EXECUTION RES</span><br><span class="line">3 LEFT JOIN ACT_HI_TASKINST ART</span><br><span class="line">4 ON ART.PROC_INST_ID_ &#x3D; RES.PROC_INST_ID_</span><br><span class="line">5 WHERE ART.ASSIGNEE_ &#x3D; #&#123;userId&#125;</span><br><span class="line">6 AND ACT_ID_ IS NOT NULL</span><br><span class="line">7 AND IS_ACTIVE_ &#x3D; &#39;TRUE&#39;</span><br><span class="line">8 ORDER BY START_TIME_ DESC</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-ubuntu目前经常用到的命令" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1347,109 +1560,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-树莓派nginx代理转发到本机端口" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/981520166.html" class="article-date">
-      <time datetime="2020-04-03T16:09:12.000Z" itemprop="datePublished">2020-04-04</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/981520166.html">树莓派nginx代理转发到本机端口</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>sudo apt-get update</p>
-<p>sudo apt-get install nginx</p>
-<p>安装成功后 sudo /etc/init.d/nginx start 启动一下访问树莓派的IP能访问成功就可以了</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>sudo apt-get update</p>
-<p>sudo apt-get install nginx</p>
-<p>安装成功后 sudo /etc/init.d/nginx start 启动一下访问树莓派的IP能访问成功就可以了</p>
-<p>选择/etc/nginx/nginx.conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line"></span><br><span class="line">   server&#123;</span><br><span class="line">            listen 80;</span><br><span class="line">            server_name yun.imlike.cc;</span><br><span class="line">             location &#x2F; &#123;</span><br><span class="line">             # 一些基本反向代理配置以及获取请求真是IP地址</span><br><span class="line">                    proxy_redirect off;</span><br><span class="line">                    proxy_set_header Host $host;</span><br><span class="line">                    proxy_set_header X-Real-Ip $remote_addr;</span><br><span class="line">                    proxy_set_header X-Forwarded-For $remote_addr;</span><br><span class="line">                    proxy_pass http:&#x2F;&#x2F;192.168.2.189:8001;</span><br><span class="line">            &#125;</span><br><span class="line">           # access_log &#x2F;home&#x2F;wwwlogs&#x2F;git.aboutme.ink.log;</span><br><span class="line">    &#125;</span><br><span class="line">       server&#123;</span><br><span class="line">            listen 80;</span><br><span class="line">            server_name portal.imlike.cc;</span><br><span class="line">             location &#x2F; &#123;</span><br><span class="line">             # 一些基本反向代理配置以及获取请求真是IP地址</span><br><span class="line">                    proxy_redirect off;</span><br><span class="line">                    proxy_set_header Host $host;</span><br><span class="line">                    proxy_set_header X-Real-Ip $remote_addr;</span><br><span class="line">                    proxy_set_header X-Forwarded-For $remote_addr;</span><br><span class="line">                    proxy_pass http:&#x2F;&#x2F;192.168.2.189:9000;</span><br><span class="line">            &#125;</span><br><span class="line">           # access_log &#x2F;home&#x2F;wwwlogs&#x2F;git.aboutme.ink.log;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>sudo /etc/init.d/nginx restart 重启一下</p>
-<h3 id="优化访问"><a href="#优化访问" class="headerlink" title="优化访问"></a>优化访问</h3><p>目前是已经知道树莓派的IP的有两种优化的</p>
-<ol>
-<li><p>使用host改本地访问</p>
-<p>目前我将host改为</p>
-<p>192.168.2.189 yun.imlike.cc<br>192.168.2.189 portal.imlike.cc</p>
-<p>这样这两个域名将会解析到192.168.2.189IP上,由于由于nginx上面的配置会解析 server_name对应的yun.imlike.cc,portal.imlike.cc效果如下</p>
-<p><a href="../img/1586076685372.png"><img src="../img/1586076685372.png" alt="1586076685372"></a></p>
-</li>
-<li><p>使用路由器改变DNS解析,使其解析到树莓派IP</p>
-<p>该方式还没实现,原理是一样的</p>
-</li>
-</ol>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
     </div>
  -->
 

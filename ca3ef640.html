@@ -10,17 +10,23 @@
 
 
 
-<meta name="description" content="持续更新 —————————– 官方文档 根据进程可以查询命令执行的时间和效率  查询耗时  123SELECT procpid, START, now() - START AS lap, current_query  FROM ( SELECT backendid, pg_stat_get_backend_pid (S.backendid) AS procpid,pg_stat_get_back">
+<meta name="description" content="先使用 fdisk -l 查看磁盘情况 磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况 看到有 &#x2F;dev&#x2F;vdb没有被使用那就去初始化然后去使用 使用 fdisk &#x2F;dev&#x2F;vdb 来初始化先进入会有 (Command (m for help))步骤如下   n    是去初步去创建新磁盘  进入 一直按 enter  包括 primary">
 <meta property="og:type" content="article">
-<meta property="og:title" content="pgsql调优转载">
-<meta property="og:url" content="https://imlike.cc/3990369431.html">
+<meta property="og:title" content="Linux使用fdisk挂载和初始化磁盘以华为云服务器为例">
+<meta property="og:url" content="https://imlike.cc/ca3ef640.html">
 <meta property="og:site_name" content="leek 自留地">
-<meta property="og:description" content="持续更新 —————————– 官方文档 根据进程可以查询命令执行的时间和效率  查询耗时  123SELECT procpid, START, now() - START AS lap, current_query  FROM ( SELECT backendid, pg_stat_get_backend_pid (S.backendid) AS procpid,pg_stat_get_back">
+<meta property="og:description" content="先使用 fdisk -l 查看磁盘情况 磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况 看到有 &#x2F;dev&#x2F;vdb没有被使用那就去初始化然后去使用 使用 fdisk &#x2F;dev&#x2F;vdb 来初始化先进入会有 (Command (m for help))步骤如下   n    是去初步去创建新磁盘  进入 一直按 enter  包括 primary">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-07-29T07:11:42.000Z">
-<meta property="article:modified_time" content="2020-11-19T07:20:17.850Z">
+<meta property="og:image" content="https://imlike.cc/..%5Cimg%5Cimage-20210122100412882.png">
+<meta property="og:image" content="https://imlike.cc/..%5Cimg%5Cimage-20210122100726644.png">
+<meta property="og:image" content="https://imlike.cc/..%5Cimg%5Cimage-20210122101643077.png">
+<meta property="og:image" content="https://imlike.cc/..%5Cimg%5Cimage-20210122101257839.png">
+<meta property="og:image" content="https://imlike.cc/..%5Cimg%5Cimage-20210122101816988.png">
+<meta property="article:published_time" content="2021-01-25T02:49:17.000Z">
+<meta property="article:modified_time" content="2021-01-25T02:59:26.408Z">
 <meta property="article:author" content="leek">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imlike.cc/..%5Cimg%5Cimage-20210122100412882.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -54,7 +60,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>pgsql调优转载 | leek 自留地</title>
+<title>Linux使用fdisk挂载和初始化磁盘以华为云服务器为例 | leek 自留地</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -263,11 +269,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-pgsql调优转载" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Linux使用fdisk挂载和初始化磁盘以华为云服务器为例" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/3990369431.html" class="article-date">
-      <time datetime="2020-07-29T07:11:42.000Z" itemprop="datePublished">2020-07-29</time>
+      <a href="/ca3ef640.html" class="article-date">
+      <time datetime="2021-01-25T02:49:17.000Z" itemprop="datePublished">2021-01-25</time>
 </a>
 
 
@@ -282,7 +288,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      pgsql调优转载
+      Linux使用fdisk挂载和初始化磁盘以华为云服务器为例
     </h1>
   
 
@@ -301,84 +307,114 @@
         <div class="article-entry" itemprop="articleBody">
           
                   
-                  <p>持续更新 —————————–</p>
-<p><a target="_blank" rel="noopener" href="http://postgres.cn/docs/10/monitoring-stats.html#PG-STAT-ALL-TABLES-VIEW">官方文档</a></p>
-<p>根据进程可以查询命令执行的时间和效率</p>
-<ul>
-<li>查询耗时</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT procpid, START, now() - START AS lap, current_query  FROM ( SELECT backendid, pg_stat_get_backend_pid (S.backendid) AS procpid,</span><br><span class="line">pg_stat_get_backend_activity_start (S.backendid) AS START,pg_stat_get_backend_activity (S.backendid) AS current_query  FROM (SELECT</span><br><span class="line">pg_stat_get_backend_idset () AS backendid) AS S) AS S WHERE current_query &lt;&gt; &#39;&lt;IDLE&gt;&#39;  and procpid&#x3D;58762  ORDER BY lap DESC;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>查询连接 查询进程</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM pg_stat_activity  where pid&#x3D;&#x3D;?? and  query &#x3D;?? and </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>pg_stat_statements</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">修改postgresql.conf的shared_preload_libraries增加pg_stat_statements来载入</span><br><span class="line"></span><br><span class="line">③执行SQL启动插件：create extension pg_stat_statements;</span><br></pre></td></tr></table></figure>
-
+                  <h4 id="先使用-fdisk-l-查看磁盘情况"><a href="#先使用-fdisk-l-查看磁盘情况" class="headerlink" title="先使用 fdisk -l 查看磁盘情况"></a>先使用 fdisk -l 查看磁盘情况</h4><p><img src="..%5Cimg%5Cimage-20210122100412882.png" alt="image-20210122100412882"></p>
+<p>磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况</p>
+<p>看到有 <strong>/dev/vdb</strong>没有被使用那就去初始化然后去使用</p>
+<h3 id="使用-fdisk-dev-vdb-来初始化"><a href="#使用-fdisk-dev-vdb-来初始化" class="headerlink" title="使用 fdisk /dev/vdb 来初始化"></a>使用 fdisk /dev/vdb 来初始化</h3><p>先进入会有 (Command (m for help))步骤如下</p>
 <ol>
-<li><p>重置计数器（可选操作）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select pg_stat_reset();</span><br></pre></td></tr></table></figure>
+<li> n    是去初步去创建新磁盘</li>
+<li> 进入 一直按 enter  包括 primary,extend  ,起始磁盘等都走默认 ,Partition number 默认为1 </li>
+<li> p  查看具体的分区情况</li>
+<li> w  写入修改</li>
+</ol>
+<p>下图为过程</p>
+<p><img src="..%5Cimg%5Cimage-20210122100726644.png" alt="image-20210122100726644"></p>
+<h3 id="fdisk-l-查看磁盘已经初始化"><a href="#fdisk-l-查看磁盘已经初始化" class="headerlink" title="fdisk -l 查看磁盘已经初始化"></a>fdisk -l 查看磁盘已经初始化</h3><p><img src="..%5Cimg%5Cimage-20210122101643077.png" alt="image-20210122101643077"></p>
+<p>图片如下可以看到 分区已经形成,由于我们走默认使用只有一个</p>
+<h3 id="使用ext4格式化-dev-vdb1-这个分区"><a href="#使用ext4格式化-dev-vdb1-这个分区" class="headerlink" title="使用ext4格式化 /dev/vdb1 这个分区"></a>使用ext4格式化 /dev/vdb1 这个分区</h3><p>ext4 格式化后 </p>
+<p><img src="..%5Cimg%5Cimage-20210122101257839.png" alt="image-20210122101257839"></p>
+<h3 id="使用-blkid-dev-vdb1-来查看-UUID"><a href="#使用-blkid-dev-vdb1-来查看-UUID" class="headerlink" title="使用 blkid /dev/vdb1 来查看 UUID"></a>使用 blkid /dev/vdb1 来查看 UUID</h3><p><img src="..%5Cimg%5Cimage-20210122101816988.png" alt="image-20210122101816988"></p>
+<h3 id="修改-etc-fstab-来开机自动挂载分区"><a href="#修改-etc-fstab-来开机自动挂载分区" class="headerlink" title="修改 /etc/fstab 来开机自动挂载分区"></a>修改 <strong>/etc/fstab</strong> 来开机自动挂载分区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UUID&#x3D;0b3040e2-1367-4abb-841d-ddb0b92693df &#x2F;mnt&#x2F;sdc       \ext4    defaults        0 2</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select pg_stat_statements_reset();</span><br></pre></td></tr></table></figure>
+<p>可以考这边内容 需要修改 UUID ,和挂载的文件夹 ,我这边是在根目录下面 创建的文件夹挂载的</p>
+<blockquote>
+<ol>
+<li><p>以内容上仅为示例，具体请以实际情况为准，参数说明如下：</p>
+<ul>
+<li><p>第一列为UUID，此处填写<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/qs-evs/evs_01_0033.html#evs_01_0033__li840964143216">1</a>中查询到的磁盘分区的UUID。</p>
 </li>
-<li><p>使用命令查看最耗时的SQL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from pg_stat_statements order by total_time desc limit 5;</span><br></pre></td></tr></table></figure>
+<li><p>第二列为磁盘分区的挂载目录，可以通过<strong>df -TH</strong>命令查询。</p>
 </li>
-<li><p>查询读取Buffer次数最多的SQL，buffer次数多，可能是因为没有索引，也同时导致了cpu高。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from pg_stat_statements order by shared_blks_hit+shared_blks_read desc limit 5;</span><br></pre></td></tr></table></figure>
-
+<li><p>第三列为磁盘分区的文件系统格式， 可以通过<strong>df -TH</strong>命令查询。</p>
+</li>
+<li><p>第四列为磁盘分区的挂载选项，此处通常设置为defaults即可。</p>
+</li>
+<li><p>第五列为Linux dump备份选项。</p>
+<ul>
+<li>0表示不使用Linux dump备份。现在通常不使用dump备份，此处设置为0即可。</li>
+<li>1表示使用Linux dump备份。</li>
+</ul>
+</li>
+<li><p>第六列为fsck选项，即开机时是否使用fsck检查磁盘。</p>
+<ul>
+<li><p>0表示不检验。</p>
+</li>
+<li><p>挂载点为（/）根目录的分区，此处必须填写1。</p>
+<p>根分区设置为1，其他分区只能从2开始，系统会按照数字从小到大依次检查下去。</p>
+</li>
+</ul>
+</li>
+</ul>
 </li>
 </ol>
-<p>获取后面的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">select to_char(trigger_start_time,&#39;YYYY-MM-DD 00:00:00&#39;)</span><br><span class="line">        as timePoint,sum(trigger_count) as totalCount from network_attack</span><br><span class="line">        where</span><br><span class="line">        trigger_start_time &gt;&#x3D; to_timestamp($1,&#39;yyyy-MM-dd hh24:mi:ss&#39;)</span><br><span class="line">        and trigger_start_time &lt;  to_timestamp($2,&#39;yyyy-MM-dd hh24:mi:ss&#39;)</span><br><span class="line">        group by timePoint</span><br><span class="line">        order by timePoint desc</span><br><span class="line">relid    oid    一个表的 OID</span><br><span class="line">schemaname    name    这个表所在的模式的名称</span><br><span class="line">relname    name    这个表的名称</span><br><span class="line">seq_scan    bigint    在这个表上发起的顺序扫描的次数</span><br><span class="line">seq_tup_read    bigint    被顺序扫描取得的活着的行的数量</span><br><span class="line">idx_scan    bigint    在这个表上发起的索引扫描的次数</span><br><span class="line">idx_tup_fetch    bigint    被索引扫描取得的活着的行的数量</span><br><span class="line">n_tup_ins    bigint    被插入的行数</span><br><span class="line">n_tup_upd    bigint    被更新的行数（包括 HOT 更新的行）</span><br><span class="line">n_tup_del    bigint    被删除的行数</span><br><span class="line">n_tup_hot_upd    bigint    被更新的 HOT 行数（即不要求独立索引更新的行更新）</span><br><span class="line">n_live_tup    bigint    活着的行的估计数量</span><br><span class="line">n_dead_tup    bigint    死亡行的估计数量</span><br><span class="line">n_mod_since_analyze    bigint    从这个表最后一次被分析后备修改的行的估计数量</span><br><span class="line">last_vacuum    timestamp with time zone    上次这个表被手动清理的时间（不统计VACUUM FULL）</span><br><span class="line">last_autovacuum    timestamp with time zone    上次这个表被自动清理守护进程清理的时间</span><br><span class="line">last_analyze    timestamp with time zone    上次这个表被手动分析的时间</span><br><span class="line">last_autoanalyze    timestamp with time zone    上次这个表被自动清理守护进程分析的时间</span><br><span class="line">vacuum_count    bigint    这个表已被手工清理的次数（不统计VACUUM FULL）</span><br><span class="line">autovacuum_count    bigint    这个表已被自动清理守护进程清理的次数</span><br><span class="line">analyze_count    bigint    这个表已被手工分析的次数</span><br><span class="line">autoanalyze_count    bigint    这个表已被自动清理守护进程分析的次数</span><br></pre></td></tr></table></figure>
-
-<p>seq_tup_read 远大于 idx_tup_fetch 说明索引建的有问题</p>
-<p>n_tup_upd 说明有频繁更新的动作</p>
+</blockquote>
+<h3 id="使用mount-a加载-etc-fstab-的配置"><a href="#使用mount-a加载-etc-fstab-的配置" class="headerlink" title="使用mount -a加载**/etc/fstab**的配置"></a>使用<strong>mount -a</strong>加载**/etc/fstab**的配置</h3><p><strong>mount -a</strong> 没有报错后 用df du 都可以看到你挂载的目录和对应的分区</p>
 
               
               <!-- 
               
-              <p>持续更新 —————————–</p>
-<p><a target="_blank" rel="noopener" href="http://postgres.cn/docs/10/monitoring-stats.html#PG-STAT-ALL-TABLES-VIEW">官方文档</a></p>
-<p>根据进程可以查询命令执行的时间和效率</p>
-<ul>
-<li>查询耗时</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT procpid, START, now() - START AS lap, current_query  FROM ( SELECT backendid, pg_stat_get_backend_pid (S.backendid) AS procpid,</span><br><span class="line">pg_stat_get_backend_activity_start (S.backendid) AS START,pg_stat_get_backend_activity (S.backendid) AS current_query  FROM (SELECT</span><br><span class="line">pg_stat_get_backend_idset () AS backendid) AS S) AS S WHERE current_query &lt;&gt; &#39;&lt;IDLE&gt;&#39;  and procpid&#x3D;58762  ORDER BY lap DESC;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>查询连接 查询进程</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM pg_stat_activity  where pid&#x3D;&#x3D;?? and  query &#x3D;?? and </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>pg_stat_statements</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">修改postgresql.conf的shared_preload_libraries增加pg_stat_statements来载入</span><br><span class="line"></span><br><span class="line">③执行SQL启动插件：create extension pg_stat_statements;</span><br></pre></td></tr></table></figure>
-
+              <h4 id="先使用-fdisk-l-查看磁盘情况"><a href="#先使用-fdisk-l-查看磁盘情况" class="headerlink" title="先使用 fdisk -l 查看磁盘情况"></a>先使用 fdisk -l 查看磁盘情况</h4><p><img src="..%5Cimg%5Cimage-20210122100412882.png" alt="image-20210122100412882"></p>
+<p>磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况</p>
+<p>看到有 <strong>/dev/vdb</strong>没有被使用那就去初始化然后去使用</p>
+<h3 id="使用-fdisk-dev-vdb-来初始化"><a href="#使用-fdisk-dev-vdb-来初始化" class="headerlink" title="使用 fdisk /dev/vdb 来初始化"></a>使用 fdisk /dev/vdb 来初始化</h3><p>先进入会有 (Command (m for help))步骤如下</p>
 <ol>
-<li><p>重置计数器（可选操作）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select pg_stat_reset();</span><br></pre></td></tr></table></figure>
+<li> n    是去初步去创建新磁盘</li>
+<li> 进入 一直按 enter  包括 primary,extend  ,起始磁盘等都走默认 ,Partition number 默认为1 </li>
+<li> p  查看具体的分区情况</li>
+<li> w  写入修改</li>
+</ol>
+<p>下图为过程</p>
+<p><img src="..%5Cimg%5Cimage-20210122100726644.png" alt="image-20210122100726644"></p>
+<h3 id="fdisk-l-查看磁盘已经初始化"><a href="#fdisk-l-查看磁盘已经初始化" class="headerlink" title="fdisk -l 查看磁盘已经初始化"></a>fdisk -l 查看磁盘已经初始化</h3><p><img src="..%5Cimg%5Cimage-20210122101643077.png" alt="image-20210122101643077"></p>
+<p>图片如下可以看到 分区已经形成,由于我们走默认使用只有一个</p>
+<h3 id="使用ext4格式化-dev-vdb1-这个分区"><a href="#使用ext4格式化-dev-vdb1-这个分区" class="headerlink" title="使用ext4格式化 /dev/vdb1 这个分区"></a>使用ext4格式化 /dev/vdb1 这个分区</h3><p>ext4 格式化后 </p>
+<p><img src="..%5Cimg%5Cimage-20210122101257839.png" alt="image-20210122101257839"></p>
+<h3 id="使用-blkid-dev-vdb1-来查看-UUID"><a href="#使用-blkid-dev-vdb1-来查看-UUID" class="headerlink" title="使用 blkid /dev/vdb1 来查看 UUID"></a>使用 blkid /dev/vdb1 来查看 UUID</h3><p><img src="..%5Cimg%5Cimage-20210122101816988.png" alt="image-20210122101816988"></p>
+<h3 id="修改-etc-fstab-来开机自动挂载分区"><a href="#修改-etc-fstab-来开机自动挂载分区" class="headerlink" title="修改 /etc/fstab 来开机自动挂载分区"></a>修改 <strong>/etc/fstab</strong> 来开机自动挂载分区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UUID&#x3D;0b3040e2-1367-4abb-841d-ddb0b92693df &#x2F;mnt&#x2F;sdc       \ext4    defaults        0 2</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select pg_stat_statements_reset();</span><br></pre></td></tr></table></figure>
+<p>可以考这边内容 需要修改 UUID ,和挂载的文件夹 ,我这边是在根目录下面 创建的文件夹挂载的</p>
+<blockquote>
+<ol>
+<li><p>以内容上仅为示例，具体请以实际情况为准，参数说明如下：</p>
+<ul>
+<li><p>第一列为UUID，此处填写<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/qs-evs/evs_01_0033.html#evs_01_0033__li840964143216">1</a>中查询到的磁盘分区的UUID。</p>
 </li>
-<li><p>使用命令查看最耗时的SQL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from pg_stat_statements order by total_time desc limit 5;</span><br></pre></td></tr></table></figure>
+<li><p>第二列为磁盘分区的挂载目录，可以通过<strong>df -TH</strong>命令查询。</p>
 </li>
-<li><p>查询读取Buffer次数最多的SQL，buffer次数多，可能是因为没有索引，也同时导致了cpu高。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from pg_stat_statements order by shared_blks_hit+shared_blks_read desc limit 5;</span><br></pre></td></tr></table></figure>
-
+<li><p>第三列为磁盘分区的文件系统格式， 可以通过<strong>df -TH</strong>命令查询。</p>
+</li>
+<li><p>第四列为磁盘分区的挂载选项，此处通常设置为defaults即可。</p>
+</li>
+<li><p>第五列为Linux dump备份选项。</p>
+<ul>
+<li>0表示不使用Linux dump备份。现在通常不使用dump备份，此处设置为0即可。</li>
+<li>1表示使用Linux dump备份。</li>
+</ul>
+</li>
+<li><p>第六列为fsck选项，即开机时是否使用fsck检查磁盘。</p>
+<ul>
+<li><p>0表示不检验。</p>
+</li>
+<li><p>挂载点为（/）根目录的分区，此处必须填写1。</p>
+<p>根分区设置为1，其他分区只能从2开始，系统会按照数字从小到大依次检查下去。</p>
+</li>
+</ul>
+</li>
+</ul>
 </li>
 </ol>
-<p>获取后面的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">select to_char(trigger_start_time,&#39;YYYY-MM-DD 00:00:00&#39;)</span><br><span class="line">        as timePoint,sum(trigger_count) as totalCount from network_attack</span><br><span class="line">        where</span><br><span class="line">        trigger_start_time &gt;&#x3D; to_timestamp($1,&#39;yyyy-MM-dd hh24:mi:ss&#39;)</span><br><span class="line">        and trigger_start_time &lt;  to_timestamp($2,&#39;yyyy-MM-dd hh24:mi:ss&#39;)</span><br><span class="line">        group by timePoint</span><br><span class="line">        order by timePoint desc</span><br><span class="line">relid    oid    一个表的 OID</span><br><span class="line">schemaname    name    这个表所在的模式的名称</span><br><span class="line">relname    name    这个表的名称</span><br><span class="line">seq_scan    bigint    在这个表上发起的顺序扫描的次数</span><br><span class="line">seq_tup_read    bigint    被顺序扫描取得的活着的行的数量</span><br><span class="line">idx_scan    bigint    在这个表上发起的索引扫描的次数</span><br><span class="line">idx_tup_fetch    bigint    被索引扫描取得的活着的行的数量</span><br><span class="line">n_tup_ins    bigint    被插入的行数</span><br><span class="line">n_tup_upd    bigint    被更新的行数（包括 HOT 更新的行）</span><br><span class="line">n_tup_del    bigint    被删除的行数</span><br><span class="line">n_tup_hot_upd    bigint    被更新的 HOT 行数（即不要求独立索引更新的行更新）</span><br><span class="line">n_live_tup    bigint    活着的行的估计数量</span><br><span class="line">n_dead_tup    bigint    死亡行的估计数量</span><br><span class="line">n_mod_since_analyze    bigint    从这个表最后一次被分析后备修改的行的估计数量</span><br><span class="line">last_vacuum    timestamp with time zone    上次这个表被手动清理的时间（不统计VACUUM FULL）</span><br><span class="line">last_autovacuum    timestamp with time zone    上次这个表被自动清理守护进程清理的时间</span><br><span class="line">last_analyze    timestamp with time zone    上次这个表被手动分析的时间</span><br><span class="line">last_autoanalyze    timestamp with time zone    上次这个表被自动清理守护进程分析的时间</span><br><span class="line">vacuum_count    bigint    这个表已被手工清理的次数（不统计VACUUM FULL）</span><br><span class="line">autovacuum_count    bigint    这个表已被自动清理守护进程清理的次数</span><br><span class="line">analyze_count    bigint    这个表已被手工分析的次数</span><br><span class="line">autoanalyze_count    bigint    这个表已被自动清理守护进程分析的次数</span><br></pre></td></tr></table></figure>
-
-<p>seq_tup_read 远大于 idx_tup_fetch 说明索引建的有问题</p>
-<p>n_tup_upd 说明有频繁更新的动作</p>
+</blockquote>
+<h3 id="使用mount-a加载-etc-fstab-的配置"><a href="#使用mount-a加载-etc-fstab-的配置" class="headerlink" title="使用mount -a加载**/etc/fstab**的配置"></a>使用<strong>mount -a</strong>加载**/etc/fstab**的配置</h3><p><strong>mount -a</strong> 没有报错后 用df du 都可以看到你挂载的目录和对应的分区</p>
 
                -->
         </div>
@@ -469,13 +505,13 @@
 
 
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/3990369431.html">pgsql调优转载</a></p>
+        <p><span>本文标题:</span><a href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
-        <p><span>发布时间:</span>2020-07-29, 15:11:42</p>
-        <p><span>最后更新:</span>2020-11-19, 15:20:17</p>
+        <p><span>发布时间:</span>2021-01-25, 10:49:17</p>
+        <p><span>最后更新:</span>2021-01-25, 10:59:26</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/3990369431.html" title="pgsql调优转载">https://imlike.cc/3990369431.html</a>
-            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/3990369431.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/ca3ef640.html" title="Linux使用fdisk挂载和初始化磁盘以华为云服务器为例">https://imlike.cc/ca3ef640.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/ca3ef640.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -487,16 +523,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/1581320389.html">
-                    Jenkins的遇到的坑
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/1327663525.html">
-                    树莓派下面搭建pgsql
+                <a href="/aba1fef8.html">
+                    docker容器导入导出和配置
                 </a>
             </div>
         
@@ -521,7 +551,7 @@
     </div>
     <script>
         var shareConfig = {
-            title: 'pgsql调优转载',
+            title: 'Linux使用fdisk挂载和初始化磁盘以华为云服务器为例',
             url: window.location.href,
             author: 'leek',
             img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
@@ -547,15 +577,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/1581320389.html" title="上一篇: Jenkins的遇到的坑">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/1327663525.html" title="下一篇: 树莓派下面搭建pgsql">
+            <a href="/aba1fef8.html" title="下一篇: docker容器导入导出和配置">
                 <i class="fa fa-angle-right"></i>
             </a>
         

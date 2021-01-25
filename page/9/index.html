@@ -269,6 +269,103 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-spring 整合回顾" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/857262000000000.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/857262000000000.html">spring 整合回顾</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="spring-整合回顾"><a href="#spring-整合回顾" class="headerlink" title="spring 整合回顾"></a>spring 整合回顾</h1><p>注意spring的对bean的管理必须是建立在你声明的情况下,不然是不会管理的,还有针对配置文件必须要将给类使用也是必须要注解声明<br>在spring整合中要注意包括<br>webapp下的web,xml需要配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dispatch 服务启动时要跟着启动</span><br><span class="line">拦截器保证你拦截到.do或者其他的值(在springmvc配置文件中)</span><br><span class="line">中文乱码</span><br><span class="line">确保能读取spring-xxx.xml的这类文件</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="spring-整合回顾"><a href="#spring-整合回顾" class="headerlink" title="spring 整合回顾"></a>spring 整合回顾</h1><p>注意spring的对bean的管理必须是建立在你声明的情况下,不然是不会管理的,还有针对配置文件必须要将给类使用也是必须要注解声明<br>在spring整合中要注意包括<br>webapp下的web,xml需要配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dispatch 服务启动时要跟着启动</span><br><span class="line">拦截器保证你拦截到.do或者其他的值(在springmvc配置文件中)</span><br><span class="line">中文乱码</span><br><span class="line">确保能读取spring-xxx.xml的这类文件</span><br></pre></td></tr></table></figure>
+
+<p>!!配置监听器过程启动时启动ioc容器!!</p>
+<p>将重要的文件什么会员才能下载的jsp文件都需要放在WEB-INF下面,确保能完成,还有一部分静态资源可以放在static文件夹下面,html的话可以放在主路径下面,</p>
+<p>然后就是核心配置文件的配置包括<br>resource下面spring核心配置文件 注入DataSource bean<br>开启配置文件扫描</p>
+<p>spring_MVC</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">配置文件:开启扫描 原本是在WEB-INF下面现在是都放在web下面</span><br><span class="line">注解开启   </span><br><span class="line">配置拦截路径和指向哪里 .jsp 还有静态文件全部放</span><br><span class="line">在controller下开启restcontroller respestMapping</span><br><span class="line"></span><br><span class="line">&lt;!--重要别忘了解决静态资源被拦截的问题--&gt;</span><br><span class="line">&lt;mvc:default-servlet-handler&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    转换器啊cover</span><br><span class="line">    &lt;mvc:annotation-driven&gt;</span><br><span class="line">    &lt;mvc:message-converters&gt;</span><br><span class="line">        &lt;bean class&#x3D;&quot;org.springframework.http.converter.StringHttpMessageConverter&quot;&gt;</span><br><span class="line">            &lt;constructor-arg name&#x3D;&quot;defaultCharset&quot; value&#x3D;&quot;UTF-8&quot;&#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;bean&gt;</span><br><span class="line">    &lt;&#x2F;mvc:message-converters&gt;</span><br><span class="line">&lt;&#x2F;mvc:annotation-driven&gt;</span><br></pre></td></tr></table></figure>
+
+<p>mybatis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">导入数据库连接池的bean </span><br><span class="line">开启包扫描 </span><br><span class="line">注解开启   </span><br><span class="line">注解开发</span><br><span class="line">扫描mybatis sql的文件</span><br><span class="line"> sql必须要1),名字和接口名一样</span><br><span class="line">        2),@paremater提供</span><br><span class="line">        3).对象里面还有对象的复杂模型</span><br><span class="line">        4).</span><br></pre></td></tr></table></figure>
+
+<p>!! 配置基包!!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mybatis导入插件</span><br><span class="line">&lt;plugins&gt;</span><br><span class="line">    &lt;plugin interceptor&#x3D;&quot;com.github.pagehelper.PageInterceptor&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;plugin interceptor&#x3D;&quot;com.github.abel533.mapperhelper.MapperInterceptor&quot;&gt;</span><br><span class="line">        &lt;!--指定主键自增回写方法,默认值MYSQL,详细说明请看文档 --&gt;</span><br><span class="line">        &lt;property name&#x3D;&quot;IDENTITY&quot; value&#x3D;&quot;MYSQL&quot; &#x2F;&gt;</span><br><span class="line">        &lt;!--通用Mapper接口，多个通用接口用逗号隔开 --&gt;</span><br><span class="line">        &lt;property name&#x3D;&quot;mappers&quot; value&#x3D;&quot;com.github.abel533.mapper.Mapper&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;plugin&gt;</span><br><span class="line">    &lt;&#x2F;plugins&gt;</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-springAOP使用动态代理的简单实现" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1398,127 +1495,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ES相关的知识总结二" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3632233997.html" class="article-date">
-      <time datetime="2019-03-23T18:59:20.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3632233997.html">ES相关的知识总结二</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>聚合aggregations</p>
-<p>聚合可以让我们极其方便的实现对数据的统计、分析。例如：<br>Elasticsearch中的聚合，包含多种类型，最常用的两种，一个叫桶，一个叫度量：</p>
-<p>桶（bucket）,阿里文档称之为存储单元</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>聚合aggregations</p>
-<p>聚合可以让我们极其方便的实现对数据的统计、分析。例如：<br>Elasticsearch中的聚合，包含多种类型，最常用的两种，一个叫桶，一个叫度量：</p>
-<p>桶（bucket）,阿里文档称之为存储单元</p>
-<p>桶的作用，是按照某种方式对数据进行分组，每一组数据在ES中称为一个桶， 例如我们根据国籍对人划分，可以得到中国桶、英国桶，日本桶……或者我们按照年龄段对人进行划分：0<del>10,10</del>20,20<del>30,30</del>40等。</p>
-<p>Elasticsearch中提供的划分桶的方式有很多：</p>
-<ul>
-<li>Date Histogram Aggregation：根据日期阶梯分组，例如给定阶梯为周，会自动每周分为一个存储单元</li>
-<li>Histogram Aggregation：根据数值阶梯分组，与日期类似</li>
-<li>Terms Aggregation：根据词条内容分组，词条内容完全匹配的为一个存储单元</li>
-<li>Range Aggregation：数值和日期的范围分组，指定开始和结束，然后按段分</li>
-<li>……</li>
-</ul>
-<p>综上所述，我们发现bucket aggregations 只负责对数据进行分组，并不进行计算，因此往往bucket中往往会嵌套另一种聚合：metrics aggregations即度量</p>
-<p>度量（metrics）</p>
-<p>分组完成以后，我们一般会对组中的数据进行聚合运算，例如求平均值、最大、最小、求和等，这些在ES中称为度量</p>
-<p>比较常用的一些聚合度量方式：</p>
-<ul>
-<li>Avg Aggregation：求平均值</li>
-<li>Max Aggregation：求最大值</li>
-<li>Min Aggregation：求最小值</li>
-<li>Percentiles Aggregation：求百分比</li>
-<li>Stats Aggregation：同时返回avg、max、min、sum、count等</li>
-<li>Sum Aggregation：求和</li>
-<li>Top hits Aggregation：求前几</li>
-<li>Value Count Aggregation：求总数</li>
-</ul>
-<p>聚合为桶<br>GET /cars/_search<br>{<br>​ “size” : 10,<br>​ “aggs” : {<br>​ “popular_colors” : {<br>​ “terms” : {<br>​ “field” : “color”<br>​ }<br>​ }<br>​ }<br>}</p>
-<ul>
-<li>hits：查询结果为空，因为我们设置了size为0</li>
-<li>aggregations：聚合的结果</li>
-<li>popular_colors：我们定义的聚合名称</li>
-<li>buckets：查找到的桶，每个不同的color字段值都会形成一个桶<ul>
-<li>key：这个桶对应的color字段的值</li>
-<li>doc_count：这个桶中的文档数量</li>
-</ul>
-</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
     </div>
  -->
 
