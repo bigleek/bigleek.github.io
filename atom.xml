@@ -6,7 +6,7 @@
   <link href="https://imlike.cc/atom.xml" rel="self"/>
   
   <link href="https://imlike.cc/"/>
-  <updated>2021-01-27T08:11:37.658Z</updated>
+  <updated>2021-02-02T06:48:11.912Z</updated>
   <id>https://imlike.cc/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>书写技术文档的规范结合阮一峰的博客介绍</title>
+    <link href="https://imlike.cc/cadd68a.html"/>
+    <id>https://imlike.cc/cadd68a.html</id>
+    <published>2021-01-27T13:24:34.000Z</published>
+    <updated>2021-02-02T06:48:11.912Z</updated>
+    
+    <content type="html"><![CDATA[<p>技术文档每天都会遇到,条理不够清晰,表达不够准确首先是很难让人理解,同时还会增加沟通的成本</p><p>我这边结合阮一峰的博客也结合我最近写文档的思路列一下<br>两个方向是实践类(包括但不限于 部署,搭建),预研学习类(包括 新技术,技术选型,新趋势)<br>实践类较为简单<br>先来个实例网站<a href="https://support.huaweicloud.com/dpmg-hdp-kunpengbds/kunpengambarihdp_04_0011.html">华为云的部署文档</a><br>1.t1<br>    1.1 t2<br>        1.1.1t3<br>        a.<br>        b.<br>        c.<br>        或者<br>        -<br>        -<br>        - </p><p>这种来分开步骤和梳理逻辑<br>同时遇到的问题或者是要集中介绍和梳理的内容可以放在后面开头<br>问题这种一般先描述现象和问题,然后 列出解决方案不必纠结与 ,把问题讲清楚<br>在md也尽量使用规范 引用  代码块 需要分开使用不要乱用,对应主要的部分可以加粗高亮</p><p>对于第二种预研学习类<br>来个实例网站 <a href="https://help.aliyun.com/document_detail/129908.html?spm=a2c4g.11186623.2.25.7d0049ec9vDbQk">阿里云 云数据库 hbase</a> </p><p>先应该是基本概念 来介绍名词和这个技术或者服务的概览<br>列出类似的产品服务,描述这个技术和产品的特点 依赖的环境和 版本<br>给出实例代码和<br>有实例代码或者 sample来</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;技术文档每天都会遇到,条理不够清晰,表达不够准确首先是很难让人理解,同时还会增加沟通的成本&lt;/p&gt;
+&lt;p&gt;我这边结合阮一峰的博客也结合我最近写文档的思路列一下&lt;br&gt;两个方向是实践类(包括但不限于 部署,搭建),预研学习类(包括 新技术,技术选型,新趋势)&lt;br&gt;实践类较为</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</title>
@@ -41,7 +62,7 @@
     <link href="https://imlike.cc/aba1fef8.html"/>
     <id>https://imlike.cc/aba1fef8.html</id>
     <published>2021-01-18T02:19:41.000Z</published>
-    <updated>2021-01-25T02:48:53.996Z</updated>
+    <updated>2021-01-27T08:11:37.658Z</updated>
     
     <content type="html"><![CDATA[<h1 id="镜像导入导出"><a href="#镜像导入导出" class="headerlink" title="镜像导入导出"></a><strong>镜像导入导出</strong></h1><p>目前的导入导出是 sava/load,export/import ,前者有完整的数据,后者类似于容器的快照,开始搭建时,想直接复制我们服务器中运行的容器,导出后在docker中运行后 一直报</p><p>No command specified” from re-imported docker image/container</p><p>后面有了解 sava/load 会有完整的数据 但是 export的tar包这个命令将导入镜像文件和参数</p><h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="关于-gdal容器"><a href="#关于-gdal容器" class="headerlink" title="关于 gdal容器"></a>关于 gdal容器</h2><p>目前使用的gdal的容器是  osgeo/gdal:ubuntu-small-3.2.1</p><blockquote><p>docker run -itd –privileged -v /usr/local/gdal/data/:/home    <br>–name gdal_python osgeo/gdal:ubuntu-small-3.2.1</p></blockquote><ul><li>容器的名称需要和上面 application-boot.yml的关联上,需要通过容器的主机 ssh 控制 docker 下的容器</li><li>需要复制 shp2pg.py 到  /usr/local/gdal/data/</li></ul><p>后面的版本是有添加 gdal的环境</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> osgeo/gdal:ubuntu-small-<span class="number">3.2</span>.<span class="number">1</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> gdallikedemo</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> add-apt-repository ppa:openjdk-r/ppa &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get clean;</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> NAME.jar /home/NAME.jar</span></span><br><span class="line"><span class="comment"># RUN nohup java -jar /home/NAME.jar &gt;/dev/null 2&gt;&amp;1 &amp;</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/home/NAME.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure><h1 id="搭建pgsql集群"><a href="#搭建pgsql集群" class="headerlink" title="搭建pgsql集群"></a><strong>搭建pgsql集群</strong></h1><p>搭建集群 可以参考之前的文档 我这边只是列出清单</p><table><thead><tr><th align="left">集群名称</th><th align="left"></th></tr></thead><tbody><tr><td align="left">pg_master</td><td align="left">pg_hba.conf( 配置网络和集群的IP,注意配置 所有从服务器的IP),postgresql.conf(配置数据库自己的服务和资源使用)</td></tr><tr><td align="left">pg_slaver1</td><td align="left">同上,recovery.conf(设置恢复和通信)</td></tr><tr><td align="left">pg_slaver2</td><td align="left">同上,recovery.conf(设置恢复和通信)</td></tr></tbody></table><p>tips:</p><ul><li>建议在postgresql.conf 中的日志打开,日志的配置</li></ul><p>logging_collector =on        # Enable capturing of stderr and csvlog</p><p>日志会在本地的/data/postgresql/data 启动时挂载的点,会有log目录可以找到异常信息</p><ul><li>尽量选择复制配置文件,像postgresql.conf这种<strong>标准配置文件主从有区别要注意</strong></li></ul><h1 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a><strong>nginx</strong></h1><p>拉取 nginx镜像后</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx -p 80:80 --restart&#x3D;always -v \</span><br><span class="line"></span><br><span class="line">&#x2F;data&#x2F;nginx&#x2F;html:&#x2F;etc&#x2F;nginx&#x2F;html&#x2F;   \</span><br><span class="line"></span><br><span class="line">-v &#x2F;data&#x2F;nginx&#x2F;conf&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf \</span><br><span class="line"></span><br><span class="line">-v &#x2F;data&#x2F;nginx&#x2F;conf.d&#x2F;default.conf:&#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;default.conf \</span><br><span class="line"></span><br><span class="line">nginx:1.19.6</span><br></pre></td></tr></table></figure><p>一个要注意的是 网上都是nginx默认的挂载是/usr/share/nginx/html ,使用依照了 官方docker版本我挂载了数据,一直都有是404 ,后面看日志是</p><blockquote><p>2021/01/13 21:56:42 [error] 21#21: *1 “/etc/nginx/html/index.html” is not found (2: No such file or directory), client: 172.17.0.1, server: localhost, request: “GET / HTTP/1.1”, host: “127.0.0.1”</p><p>172.17.0.1 - - [13/Jan/2021:21:56:42 +0000] “GET / HTTP/1.1” 404 153 “-“ “curl/7.29.0”</p></blockquote><p>这边关联到/etc/nginx/html/ 后正常可以看到 welcome nginx的页面</p><h1 id="geoserver"><a href="#geoserver" class="headerlink" title="geoserver"></a>geoserver</h1><p>目前使用的是官方的 geoserver的集群 主要 是要导出 yaml 的文件</p><p>将本地的geoserver 镜像导入 harber的私服中然后再 配置 k8s挂载卷然后编辑</p><ol><li>挂载卷</li><li>harber的远程地址</li></ol><h2 id="推送镜像到harber"><a href="#推送镜像到harber" class="headerlink" title="推送镜像到harber"></a>推送镜像到harber</h2><p>首先 使用命令  docker tag  IMAGE_ID NAME:TAG</p><p>将load 的镜像设置对应的标签方便后面使用k8s导入的配置文件好找到</p><p>push_im.sh文件中的 </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 发布最终版本</span><br><span class="line"># 版本号</span><br><span class="line">version&#x3D;latest</span><br><span class="line"># 打包镜像</span><br><span class="line">docker build -t NAME:$version .</span><br><span class="line"># 配置标签</span><br><span class="line">docker tag NAME:$version 192.168.7.120&#x2F;public&#x2F;NAME:$version</span><br><span class="line"># 推送镜像</span><br><span class="line">docker push 192.168.7.120&#x2F;public&#x2F;NAME:$version</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>version 对应的字段要有 ,同时 harber 地址要改的</p><p>上面的这个 <strong>docker build -t NAME:$version .</strong>   是有个点的, 需要dockerfile文件的</p>]]></content>
     
@@ -440,37 +461,6 @@
     <category term="linux" scheme="https://imlike.cc/tags/linux/"/>
     
     <category term="软件配置" scheme="https://imlike.cc/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>网站推荐</title>
-    <link href="https://imlike.cc/2974411664.html"/>
-    <id>https://imlike.cc/2974411664.html</id>
-    <published>2020-05-09T23:49:23.000Z</published>
-    <updated>2020-11-13T12:31:01.986Z</updated>
-    
-    <content type="html"><![CDATA[<table><thead><tr><th>## 导航类</th></tr></thead><tbody><tr><td><a href="https://adzhp.cn/mian-fei-shi-pin.html">免费视频网站、APP和高清电影下载合集爱达杂货铺</a></td></tr><tr><td><a href="https://jubtnet.github.io/jubt/">聚BT - 聚合最优质的BT、磁力资源BT搜索 磁力搜索 云盘搜索 影视APP 在线影视 磁力影视 种子搜索</a></td></tr><tr><td><a href="https://hao.su/531/?from=dalao.ru">免费的在线影视网站汇总 - 不死鸟 - 分享为王</a></td></tr><tr><td><a href="http://ilxdh.com/">龙轩导航-做个有用的导航</a></td></tr><tr><td><a href="https://www.btmoo.com/#">BT磁力搜索网址_BTMOO</a></td></tr></tbody></table><table><thead><tr><th>## 临时文件传输(少用百度云)</th></tr></thead><tbody><tr><td><a href="https://cowtransfer.com/">奶牛快传</a></td></tr><tr><td><a href="https://www.lanzou.com/">蓝奏云</a></td></tr><tr><td><a href="https://send.firefox.com/">Firefox Send</a></td></tr><tr><td><a href="https://www.wenshushu.cn/">文叔叔</a></td></tr></tbody></table><table><thead><tr><th>## bt磁力网站</th></tr></thead><tbody><tr><td><a href="https://hao.su/908/">bt 磁力搜索网站</a></td></tr><tr><td><a href="https://sourl.cn/PePJ7m">比特球云盘</a></td></tr><tr><td><a href="http://btfox0.org/?from=hao.su">btfox</a></td></tr><tr><td><a href="http://www.mahuazy.net/">麻花影视采集</a></td></tr><tr><td><a href="https://www.juhuitv.com/">剧汇 TV</a></td></tr><tr><td><a href="https://sourl.cn/meKnEp">萝莉岛 APP</a></td></tr><tr><td><a href="https://www.xiacoo.com/article/ajhu.html">bt 磁力网站大全</a></td></tr><tr><td><a href="https://hao.su/1492/">网页在线工具</a></td></tr></tbody></table><table><thead><tr><th>##  资讯类</th></tr></thead><tbody><tr><td><a href="https://tophub.today/">今日热榜官网</a></td></tr><tr><td><a href="https://tophub.fun/main/home/hot/0">鱼塘热榜</a></td></tr><tr><td><a href="http://www.williamlong.info/">月光博客-关注互联网和搜索引擎的IT科技博客</a></td></tr><tr><td><a href="http://www.solidot.org/">Solidot: 奇客的资讯，重要的东西</a></td></tr><tr><td><a href="http://www.ruanyifeng.com/blog/">阮一峰的网络日志</a></td></tr><tr><td><a href="http://www.ftchinese.com/">FT中文网 - 全球财经精粹</a></td></tr><tr><td><a href="https://www.cnbc.com/world/?region=world">International Business, World News &amp; Global Stock Market Analysis–CNBC</a></td></tr><tr><td><a href="https://www.scmp.com/">HK, China, Asia news &amp; opinion from SCMP’s global editionSouth China Morning Post 南华早报</a></td></tr></tbody></table><table><thead><tr><th>##  视频播放和vip解析</th></tr></thead><tbody><tr><td><a href="http://ddrk.me/">低端影视</a></td></tr><tr><td><a href="http://www.dililitv.com/">渧渧哩哩</a></td></tr><tr><td><a href="https://爱看电影.xyz/">速影TV - 免费快速在线电影网</a></td></tr><tr><td><a href="https://www.duboku.tv/">独播库</a></td></tr><tr><td><a href="https://www.yunbtv.com/">云播TV-云播,云影院,云播放,云点播,最新电影,最新电视剧</a></td></tr><tr><td><a href="https://www.dybee.tv/">电影蜜蜂-高清电影资源最新电影下载</a></td></tr><tr><td><a href="http://www.wanmeikk.me/">完美看看-海量高清电影、电视剧、动漫免费在线观看</a></td></tr><tr><td><a href="http://kiwi8.top/mov/s?url=https://m.mgtv.com/b/337284/8002740.html">kiwi视频解析</a></td></tr><tr><td><a href="http://www.guandianzhiku.com/v/s/?url=https://www.iqiyi.com/v_19rr575vxk.html">搜搜GIF - 解析尽在掌握</a></td></tr></tbody></table>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;## 导航类&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://adzhp.cn/mian-fei-shi-pin.html&quot;&gt;免费视频网站、APP和高清电影下载合集爱达杂货</summary>
-      
-    
-    
-    
-    
-    <category term="网站" scheme="https://imlike.cc/tags/%E7%BD%91%E7%AB%99/"/>
-    
-    <category term="推荐" scheme="https://imlike.cc/tags/%E6%8E%A8%E8%8D%90/"/>
     
   </entry>
   

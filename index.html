@@ -269,6 +269,91 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-书写技术文档的规范结合阮一峰的博客介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/cadd68a.html" class="article-date">
+      <time datetime="2021-01-27T13:24:34.000Z" itemprop="datePublished">2021-01-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>技术文档每天都会遇到,条理不够清晰,表达不够准确首先是很难让人理解,同时还会增加沟通的成本</p>
+<p>我这边结合阮一峰的博客也结合我最近写文档的思路列一下<br>两个方向是实践类(包括但不限于 部署,搭建),预研学习类(包括 新技术,技术选型,新趋势)<br>实践类较为简单<br>先来个实例网站<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/dpmg-hdp-kunpengbds/kunpengambarihdp_04_0011.html">华为云的部署文档</a><br>1.t1<br>    1.1 t2<br>        1.1.1t3<br>        a.<br>        b.<br>        c.<br>        或者<br>        -<br>        -<br>        - </p>
+<p>这种来分开步骤和梳理逻辑<br>同时遇到的问题或者是要集中介绍和梳理的内容可以放在后面开头<br>问题这种一般先描述现象和问题,然后 列出解决方案不必纠结与 ,把问题讲清楚<br>在md也尽量使用规范 引用  代码块 需要分开使用不要乱用,对应主要的部分可以加粗高亮</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>技术文档每天都会遇到,条理不够清晰,表达不够准确首先是很难让人理解,同时还会增加沟通的成本</p>
+<p>我这边结合阮一峰的博客也结合我最近写文档的思路列一下<br>两个方向是实践类(包括但不限于 部署,搭建),预研学习类(包括 新技术,技术选型,新趋势)<br>实践类较为简单<br>先来个实例网站<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/dpmg-hdp-kunpengbds/kunpengambarihdp_04_0011.html">华为云的部署文档</a><br>1.t1<br>    1.1 t2<br>        1.1.1t3<br>        a.<br>        b.<br>        c.<br>        或者<br>        -<br>        -<br>        - </p>
+<p>这种来分开步骤和梳理逻辑<br>同时遇到的问题或者是要集中介绍和梳理的内容可以放在后面开头<br>问题这种一般先描述现象和问题,然后 列出解决方案不必纠结与 ,把问题讲清楚<br>在md也尽量使用规范 引用  代码块 需要分开使用不要乱用,对应主要的部分可以加粗高亮</p>
+<p>对于第二种预研学习类<br>来个实例网站 <a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/129908.html?spm=a2c4g.11186623.2.25.7d0049ec9vDbQk">阿里云 云数据库 hbase</a> </p>
+<p>先应该是基本概念 来介绍名词和这个技术或者服务的概览<br>列出类似的产品服务,描述这个技术和产品的特点 依赖的环境和 版本<br>给出实例代码和<br>有实例代码或者 sample来</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Linux使用fdisk挂载和初始化磁盘以华为云服务器为例" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1339,95 +1424,6 @@
 <p><strong>hot-warm-cold</strong>架构将索引数据切分成hot/warm/cold的索引。<code>hot索引</code>负责最新数据的读写，可使用内存存储；<code>warm索引</code>负责较旧数据的读取，可使用内存或SSD存储；<code>cold索引</code>很少被读取，可使用大容量磁盘存储。随着时间的推移，数据不断从hot索引-&gt;warm索引-&gt;cold索引迁移。针对不同阶段的索引我们还可以调整索引的主分片数，副本数，单分片的segment数等等，更好的利用机器资源。</p>
 <p><strong>索引生命周期管理（Index Lifecycle Management ，简称ILM</strong>)<br>作者：Monica2333<br>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844904131262431246">https://juejin.im/post/6844904131262431246</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm&#x2F;policy&#x2F;my_policy</span><br><span class="line">&#123;</span><br><span class="line">  &quot;policy&quot;: &#123;</span><br><span class="line">    &quot;phases&quot;: &#123;</span><br><span class="line">      &quot;hot&quot;: &#123;</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;rollover&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover前距离索引的创建时间最大为7天</span><br><span class="line">            &quot;max_age&quot;: &quot;7d&quot;,</span><br><span class="line">&#x2F;&#x2F;rollover前索引的最大大小不超过50G</span><br><span class="line">            &quot;max_size&quot;: &quot;50G&quot;,</span><br><span class="line">&#x2F;&#x2F;rollover前索引的最大文档数不超过1个（测试用）</span><br><span class="line">            &quot;max_docs&quot;: 1,</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;warm&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入warm阶段的时间不小于30天</span><br><span class="line">        &quot;min_age&quot;: &quot;30d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;forcemerge&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;强制分片merge到segment为1</span><br><span class="line">            &quot;max_num_segments&quot;: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;shrink&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;收缩分片数为1</span><br><span class="line">            &quot;number_of_shards&quot;: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;allocate&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;副本数为2</span><br><span class="line">            &quot;number_of_replicas&quot;: 2</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;cold&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入cold阶段的时间不小于60天</span><br><span class="line">        &quot;min_age&quot;: &quot;60d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;allocate&quot;: &#123;</span><br><span class="line">            &quot;require&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;分配到cold 节点，ES可根据机器资源配置不同类型的节点</span><br><span class="line">              &quot;type&quot;: &quot;cold&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;delete&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入cold阶段的时间不小于60天</span><br><span class="line">        &quot;min_age&quot;: &quot;90d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;delete&quot;: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">作者：Monica2333</span><br><span class="line">链接：https:&#x2F;&#x2F;juejin.im&#x2F;post&#x2F;6844904131262431246</span><br><span class="line">来源：掘金</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu给外接设备修改分辨率" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2232115083.html" class="article-date">
-      <time datetime="2020-08-18T07:13:33.000Z" itemprop="datePublished">2020-08-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
-<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
-<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
-
-<p>cvt 2560 1440 来看分辨率的最优设置</p>
-<p>编辑 ~/.profile的文件来实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo xrandr --newmode &quot;2560x1440_74.97&quot;  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync</span><br><span class="line">sudo xrandr --newmode &quot;2560x1440_60.00&quot;  312.25  2560 2752 3024 3488  1440 1443 1448 1493 -hsync +vsync</span><br><span class="line"></span><br><span class="line">sudo xrandr --addmode DP-1 &quot;2560x1440_74.97&quot;</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://imlike.cc/img/1597749619474.png"><img src="../img/1597749619474.png" alt="1597749619474"></a></p>
-
                -->
         </div>
         
