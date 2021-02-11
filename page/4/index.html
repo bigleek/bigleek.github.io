@@ -269,6 +269,123 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-树莓派内网穿透" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2070834639.html" class="article-date">
+      <time datetime="2020-04-05T00:54:08.000Z" itemprop="datePublished">2020-04-05</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2070834639.html">树莓派内网穿透</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>下面是我了解的提供内网穿透的网站,也可以使用比较传统的花生壳</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.natfrp.com/">Sakura Frp </a>我用的这个</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>下面是我了解的提供内网穿透的网站,也可以使用比较传统的花生壳</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.natfrp.com/">Sakura Frp </a>我用的这个</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.ngrok.cc/">Sunny-Ngrok </a>支持ngrok,frp两种客户端 还是推荐的</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://natapp.cn/">natapp</a> 第一个pass 要手机号码注册而且后面使用其服务还要实名(支付宝验证)</p>
+</li>
+<li><p><a href="../xiaomy.net">网云穿内网穿透</a></p>
+<p>这个看介绍还不错 但是没有树莓派的软件,树莓派目前的 linux-arm不能用64位的,它提供的是wyc_linux_64所以就放弃的,但是它有提供Java版,但是要配置jre环境就算了</p>
+</li>
+</ul>
+<p><a href="../img/1586077499502.png"><img src="../img/1586077499502.png" alt="1586077499502"></a></p>
+<p>大概使用Sakura Frp步骤</p>
+<ol>
+<li><p>下载对应的软件</p>
+<p>这个是注意事项</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">由于客户端更新，所有用户将需要重新下载最新版本的客户端，请老用户访问左侧软件下载获取最新版本客户端。**为了避免滥用，所有国内节点将不会转发未实名用户的HTTP流量（特指使用TCP隧道建立的对HTTP协议web服务器的映射），如希望使用国内节点建站请实名认证或加群(747976298)联系我(Q:2792020)并提供已备案的域名然后使用HTTP&#x2F;HTTPS隧道。**</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://qianqu.me/frp/frpc_linux_arm">https://qianqu.me/frp/frpc_linux_arm</a> 下载树莓派的链接</p>
+</li>
+<li><p>创建隧道</p>
+<p><a href="../img/1586077969123.png"><img src="../img/1586077969123.png" alt="1586077969123"></a></p>
+</li>
+<li><p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chmod +x frpc_linux_arm    </span><br><span class="line">将文件传输到你创建的文件下面  </span><br><span class="line">sudo .&#x2F;frpc_linux_arm         </span><br><span class="line">完成后在平级的文件夹下面会有frp_user.txt的配置文件      然后在终端下面会显示</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>本地：127.0.0.1:80 请把域名: yun.imlike.cc 的CNAME记录更改为: us-la-kr.sakurafrp.com (或更改A记录为: 98.126.219.155)</p>
+<blockquote>
+<p>此时直接访问us-la-kr.sakurafrp.com 是503 Service Unavailable错误,还有就是上面提到的告示,使用国内的节点需要通过站长的通过否则也会导致页面错误</p>
+</blockquote>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-树莓派使用cloudreve搭建nas和离线下载" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1784,100 +1901,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ubuntu导致不能复制剪切板" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3534202997.html" class="article-date">
-      <time datetime="2020-03-03T21:20:16.000Z" itemprop="datePublished">2020-03-04</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3534202997.html">ubuntu导致不能复制剪切板</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="剪切板不能共享"><a href="#剪切板不能共享" class="headerlink" title="剪切板不能共享"></a>剪切板不能共享</h3><p> 以Ubuntu为主机(host)的系统,在vmware的虚拟机(guest)一直无法复制剪切板上的文字,网上看到的都是给Linux的虚拟机安装 vmware tools 的过程,刚开始以为是Linux主机导致 vmware workspace无法安装</p>
-<p> 因为我看到所有Windows安装VMware Workstation的软件在有vmware tools后都有重新安装 tools的<a href="../img/vm.png"><img src="../img/vm.png" alt="img"></a></p>
-<p>所以后面我都以为是系统缘故导致的</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="剪切板不能共享"><a href="#剪切板不能共享" class="headerlink" title="剪切板不能共享"></a>剪切板不能共享</h3><p> 以Ubuntu为主机(host)的系统,在vmware的虚拟机(guest)一直无法复制剪切板上的文字,网上看到的都是给Linux的虚拟机安装 vmware tools 的过程,刚开始以为是Linux主机导致 vmware workspace无法安装</p>
-<p> 因为我看到所有Windows安装VMware Workstation的软件在有vmware tools后都有重新安装 tools的<a href="../img/vm.png"><img src="../img/vm.png" alt="img"></a></p>
-<p>所以后面我都以为是系统缘故导致的</p>
-<h3 id="确定原因和解决方案"><a href="#确定原因和解决方案" class="headerlink" title="确定原因和解决方案"></a>确定原因和解决方案</h3><p>最近有不文档需要复制,我就准备重新下载安装VMware Workstation<a target="_blank" rel="noopener" href="https://my.vmware.com/cn/web/vmware/details?downloadGroup=WKST-1551-LX&productId=799&rPId=39514">链接地址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Name: VMware-Workstation-Full-15.5.1-15018445.x86_64.bundle发行日期: 2019-11-12内部版本号: 15018445This Workstation bundle includes the full product and VMware Tools for Linux 64-bit operating systems.MD5SUM: dfaa7c3b858df839db6d006437142e98SHA1SUM: c82e66f28fb5cc6fac4c38c55727cc45b916d107SHA256SUM: 490f8fe8d874c27601c155c1b2c0055ad0d4f14feb32fa9f18643659a147d3c6</span><br></pre></td></tr></table></figure>
-
-<p>发现其实是附带了tools,然后我就找到<a target="_blank" rel="noopener" href="https://my.vmware.com/web/vmware/details?downloadGroup=VMTOOLS10310&productId=742">Download VMware Tools 10.3.10</a> 的链接,然后下载解压下面是目录结构</p>
-<p><a href="../img/1583206861166.png"><img src="../img/1583206861166.png" alt="1583206861166"></a></p>
-<p>给对于虚拟机安装上后就可以复制了下面是 <a target="_blank" rel="noopener" href="https://docs.vmware.com/en/VMware-Workstation-Pro/15.0/com.vmware.ws.using.doc/GUID-08BB9465-D40A-4E16-9E15-8C016CC8166F.html">Linux的安装步骤方法1</a> <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/34e85ad3cfad">Linux的安装步骤方法2</a></p>
-<p>需要注意的的tools安装文件已经在上面压缩包里面都有了,所以直接解压执行省略步骤方法前面的几个步骤</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li></ul>
     </div>
  -->
 

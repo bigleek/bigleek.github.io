@@ -269,6 +269,89 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-es索引生命周期维护" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2302551430.html" class="article-date">
+      <time datetime="2020-09-08T07:14:34.000Z" itemprop="datePublished">2020-09-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2302551430.html">es索引生命周期维护</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>keyword text</p>
+<p><strong>hot-warm-cold</strong>架构将索引数据切分成hot/warm/cold的索引。<code>hot索引</code>负责最新数据的读写，可使用内存存储；<code>warm索引</code>负责较旧数据的读取，可使用内存或SSD存储；<code>cold索引</code>很少被读取，可使用大容量磁盘存储。随着时间的推移，数据不断从hot索引-&gt;warm索引-&gt;cold索引迁移。针对不同阶段的索引我们还可以调整索引的主分片数，副本数，单分片的segment数等等，更好的利用机器资源。</p>
+<p><strong>索引生命周期管理（Index Lifecycle Management ，简称ILM</strong>)<br>作者：Monica2333<br>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844904131262431246">https://juejin.im/post/6844904131262431246</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>keyword text</p>
+<p><strong>hot-warm-cold</strong>架构将索引数据切分成hot/warm/cold的索引。<code>hot索引</code>负责最新数据的读写，可使用内存存储；<code>warm索引</code>负责较旧数据的读取，可使用内存或SSD存储；<code>cold索引</code>很少被读取，可使用大容量磁盘存储。随着时间的推移，数据不断从hot索引-&gt;warm索引-&gt;cold索引迁移。针对不同阶段的索引我们还可以调整索引的主分片数，副本数，单分片的segment数等等，更好的利用机器资源。</p>
+<p><strong>索引生命周期管理（Index Lifecycle Management ，简称ILM</strong>)<br>作者：Monica2333<br>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844904131262431246">https://juejin.im/post/6844904131262431246</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm&#x2F;policy&#x2F;my_policy</span><br><span class="line">&#123;</span><br><span class="line">  &quot;policy&quot;: &#123;</span><br><span class="line">    &quot;phases&quot;: &#123;</span><br><span class="line">      &quot;hot&quot;: &#123;</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;rollover&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover前距离索引的创建时间最大为7天</span><br><span class="line">            &quot;max_age&quot;: &quot;7d&quot;,</span><br><span class="line">&#x2F;&#x2F;rollover前索引的最大大小不超过50G</span><br><span class="line">            &quot;max_size&quot;: &quot;50G&quot;,</span><br><span class="line">&#x2F;&#x2F;rollover前索引的最大文档数不超过1个（测试用）</span><br><span class="line">            &quot;max_docs&quot;: 1,</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;warm&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入warm阶段的时间不小于30天</span><br><span class="line">        &quot;min_age&quot;: &quot;30d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;forcemerge&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;强制分片merge到segment为1</span><br><span class="line">            &quot;max_num_segments&quot;: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;shrink&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;收缩分片数为1</span><br><span class="line">            &quot;number_of_shards&quot;: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;allocate&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;副本数为2</span><br><span class="line">            &quot;number_of_replicas&quot;: 2</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;cold&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入cold阶段的时间不小于60天</span><br><span class="line">        &quot;min_age&quot;: &quot;60d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;allocate&quot;: &#123;</span><br><span class="line">            &quot;require&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;分配到cold 节点，ES可根据机器资源配置不同类型的节点</span><br><span class="line">              &quot;type&quot;: &quot;cold&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;delete&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入cold阶段的时间不小于60天</span><br><span class="line">        &quot;min_age&quot;: &quot;90d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;delete&quot;: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">作者：Monica2333</span><br><span class="line">链接：https:&#x2F;&#x2F;juejin.im&#x2F;post&#x2F;6844904131262431246</span><br><span class="line">来源：掘金</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Ubuntu给外接设备修改分辨率" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1259,130 +1342,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ubuntu软件的配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3494110652.html" class="article-date">
-      <time datetime="2020-05-10T12:55:01.000Z" itemprop="datePublished">2020-05-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3494110652.html">ubuntu软件的配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><ul>
-<li><p>nginx</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123; listen 80; server_name localhost [www.example.com](http://www.example.com/);</span><br><span class="line">    root /Users/yangyi/www;  #全局定义，表示在该server下web的根目录 </span><br><span class="line">    client_max_body_size 100M; </span><br><span class="line">    keepalive_timeout 20; </span><br><span class="line">    index index.php index.html index.htm;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    access_log logs/host.access.log main; #用来指定此虚拟主机的访问日志存放路径，输出格式为main。</span><br><span class="line">    error_log logs/host.error.log error; #错误日志存放路径，输出格式为error。</span><br><span class="line">    error_page 404 /404.html;    #状态码为404时的时候的网页地址,还可定义500,502之类的 ....</span><br><span class="line"> &#125; 以上一些配置为在该server下具有全局性，例如</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <ul>
-<li><p>nginx</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123; listen 80; server_name localhost [www.example.com](http://www.example.com/);</span><br><span class="line">    root /Users/yangyi/www;  #全局定义，表示在该server下web的根目录 </span><br><span class="line">    client_max_body_size 100M; </span><br><span class="line">    keepalive_timeout 20; </span><br><span class="line">    index index.php index.html index.htm;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    access_log logs/host.access.log main; #用来指定此虚拟主机的访问日志存放路径，输出格式为main。</span><br><span class="line">    error_log logs/host.error.log error; #错误日志存放路径，输出格式为error。</span><br><span class="line">    error_page 404 /404.html;    #状态码为404时的时候的网页地址,还可定义500,502之类的 ....</span><br><span class="line"> &#125; 以上一些配置为在该server下具有全局性，例如</span><br></pre></td></tr></table></figure>
-
-<p>nginx允许跨域配置:return 204;上是针对预检请求（preflight request）,后面add_header 是应对的CROS浏</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;  </span><br><span class="line">     if ($request_method &#x3D; &#39;OPTIONS&#39;) &#123;</span><br><span class="line">            return 204;</span><br><span class="line">        &#125;</span><br><span class="line">    add_header Access-Control-Allow-Origin *;</span><br><span class="line">    add_header Access-Control-Allow-Methods &#39;GET, POST, OPTIONS&#39;;</span><br><span class="line">    add_header Access-Control-Allow-Headers &#39;DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization&#39;;</span><br><span class="line"></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>docker</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 80:8001 --name kodexplorer -v &lt;path&#x2F;to&#x2F;data&gt;:&#x2F;var&#x2F;www&#x2F;html xaljer&#x2F;kodexplorer</span><br><span class="line">docker run -d -p 8001:8001 --name   yangxuan8282&#x2F;kodexplorer -v &quot;$PWD&quot;:&#x2F;var&#x2F;www&#x2F;html yangxuan8282&#x2F;kodexplorer</span><br><span class="line">docker run --name&#x3D;my_portainer -d -p 80:8001 -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock</span><br><span class="line">docker run --name&#x3D;kodexplorer -d -p 8001:8001 -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock</span><br><span class="line"></span><br><span class="line">docker run --privileged&#x3D;true -d  -p 8001:80  --name kod-dockerfile-1  kod:v8</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>npm</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cnpm intall hexo-generator-search --save</span><br><span class="line">cnpm intall  hexo-prism-plugin --save</span><br><span class="line">cnpm install hexo-all-minifier --save</span><br><span class="line">cnpm i -S hexo-prism-plugin --save</span><br><span class="line"></span><br><span class="line">npm config set proxy http:&#x2F;&#x2F;127.0.0.1:7890</span><br><span class="line">npm config list</span><br><span class="line">npm config set  registry </span><br><span class="line"> npm install --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>postgresql</p>
-<blockquote>
-<p><strong>1. 修改postgresql.conf</strong></p>
-<p>postgresql.conf存放位置在/etc/postgresql/9.x/main下，这里的x取决于你安装PostgreSQL的版本号，编辑或添加下面一行，使PostgreSQL可以接受来自任意IP的连接请求。</p>
-<p>listen_addresses = ‘*’ </p>
-<p><strong>2. 修改pg_hba.conf</strong></p>
-<p>pg_hba.conf，位置与postgresql.conf相同，虽然上面配置允许任意地址连接PostgreSQL，但是这在pg中还不够，我们还需在pg_hba.conf中配置服务端允许的认证方式。任意编辑器打开该文件，编辑或添加下面一行。</p>
-<p># TYPE  DATABASE  USER  CIDR-ADDRESS  METHOD host  all  all 0.0.0.0/0 md5</p>
-</blockquote>
-</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li></ul>
     </div>
  -->
 
