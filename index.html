@@ -269,6 +269,198 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-docker搭建单机kafka" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/4225d45e.html" class="article-date">
+      <time datetime="2021-03-07T04:36:44.000Z" itemprop="datePublished">2021-03-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/4225d45e.html">docker搭建单机kafka</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="搭建单机kafka选型"><a href="#搭建单机kafka选型" class="headerlink" title="搭建单机kafka选型"></a>搭建单机kafka选型</h1><ul>
+<li><p>选择docker容器内集成 kafka,zookeeper 的容器 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 找到的这个 容器设置了 kafka的hostname和 zookeeper的ip ,</span></span><br><span class="line"> docker run -d -e ADVERTISED_HOSTNAME=$(hostname -f)  -e KAFKA_ADVERTISED_HOST_NAME=192.168.248.128 -e ZOOKEEPER_IP=192.168.248.128 -p 9092:9092 -p 2181:2181 --restart=always jrottenberg/kafka-standalone</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="搭建单机kafka选型"><a href="#搭建单机kafka选型" class="headerlink" title="搭建单机kafka选型"></a>搭建单机kafka选型</h1><ul>
+<li><p>选择docker容器内集成 kafka,zookeeper 的容器 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 找到的这个 容器设置了 kafka的hostname和 zookeeper的ip ,</span></span><br><span class="line"> docker run -d -e ADVERTISED_HOSTNAME=$(hostname -f)  -e KAFKA_ADVERTISED_HOST_NAME=192.168.248.128 -e ZOOKEEPER_IP=192.168.248.128 -p 9092:9092 -p 2181:2181 --restart=always jrottenberg/kafka-standalone</span><br></pre></td></tr></table></figure>
+
+<p>基于上面的容器是可以运行 获取到了zookeeper的broker 但是kafka是连接不上 </p>
+</li>
+<li><p>docker-composer 来执行</p>
+<p>参考第 <a target="_blank" rel="noopener" href="https://github.com/conduktor/kafka-stack-docker-compose">https://github.com/conduktor/kafka-stack-docker-compose</a> </p>
+<p>但是还有有个问题,我搭建的环境是离线的,尽量还是以 docker命令来执行减少安装其他软件</p>
+</li>
+<li><p>原始的 kafka,zookeeper 分开安装,在设置环境变量(选用的方案)</p>
+</li>
+</ul>
+<h1 id="前置需要安装的软件"><a href="#前置需要安装的软件" class="headerlink" title="前置需要安装的软件"></a>前置需要安装的软件</h1><p>prettyZoo 查看zookeeper很方便</p>
+<p>cmak (kafka manage) kafka监控软件</p>
+<h1 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h1><p><a target="_blank" rel="noopener" href="https://ioccc.cc/2018/12/12/zookeeper-kafka/">https://ioccc.cc/2018/12/12/zookeeper-kafka/</a>   改部分参考该篇博文</p>
+<h2 id="运行zookeeper"><a href="#运行zookeeper" class="headerlink" title="运行zookeeper"></a>运行zookeeper</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name zookeeper --publish 2181:2181 \</span><br><span class="line"> --volume &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime \</span><br><span class="line"> zookeeper:latest</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行kafka"><a href="#运行kafka" class="headerlink" title="运行kafka"></a>运行kafka</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name kafka --publish 9092:9092 \</span><br><span class="line"> --link zookeeper \</span><br><span class="line"> --env KAFKA_ZOOKEEPER_CONNECT&#x3D;zookeeper:2181 \</span><br><span class="line"> --env KAFKA_ADVERTISED_HOST_NAME&#x3D;HOST_IP \</span><br><span class="line"> --env KAFKA_ADVERTISED_PORT&#x3D;9092 \</span><br><span class="line"> --volume &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime \</span><br><span class="line"> wurstmeister&#x2F;kafka:latest</span><br></pre></td></tr></table></figure>
+
+<p>进去容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker  exec -it  &lt;ID&gt; &#x2F;bash&#x2F;sh</span><br><span class="line"></span><br><span class="line">cd &#x2F;opt&#x2F;kafka**&#x2F;bin</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="创建topic-名为test"><a href="#创建topic-名为test" class="headerlink" title="创建topic 名为test"></a>创建topic 名为test</h3><p> kafka-topics.sh –create –zookeeper zookeeper:2181 –replication-factor 1 –partitions 1 –topic test</p>
+<h3 id="列出所有的topic"><a href="#列出所有的topic" class="headerlink" title="列出所有的topic"></a>列出所有的topic</h3><p> kafka-topics.sh –list –zookeeper zookeeper:2181</p>
+<h3 id="创建生产者输入测试信息"><a href="#创建生产者输入测试信息" class="headerlink" title="创建生产者输入测试信息"></a>创建生产者输入测试信息</h3><p> kafka-console-producer.sh –broker-list localhost:9092 –topic test</p>
+<p> kafka-console-consumer.sh –bootstrap-server localhost:9092 –topic test –from-beginning</p>
+<h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><p>需要将  KAFKA_ADVERTISED_HOST_NAME=<strong>HOST_IP</strong> 改为 docker所在的ip</p>
+<p>在cmak中是看不到 topic.需要 用3.3.1 的命令去创建</p>
+<p><img src="file://E:/blog/source/img/image-20210307132400145.png?lastModify=1615094706" alt="image-20210307132400145"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-github action 示例" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/50c36cff.html" class="article-date">
+      <time datetime="2021-03-03T12:00:21.000Z" itemprop="datePublished">2021-03-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/50c36cff.html">dgithubaction 实例操作</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16876.html">https://51.ruyo.net/16876.html</a>  -&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/UnicomTask">https://github.com/bigleek/UnicomTask</a></p>
+<p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16050.html">https://51.ruyo.net/16050.html</a>  -&gt;&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/Cloud189Checkin-Actions">https://github.com/bigleek/Cloud189Checkin-Actions</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-分布式事务" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -2655,207 +2847,9 @@
 
 
   
-    <article id="post-dockerfile使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2ba9cf6c.html" class="article-date">
-      <time datetime="2021-01-08T05:46:19.000Z" itemprop="datePublished">2021-01-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2ba9cf6c.html">dockerfile使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>目前需要创建docker容器 之前用的是基于 Java环境的镜像 构件的,当前开发都后期需要gdal和其他的环境,仅仅基于java的 命令是远远不够用户的</p>
-<p>首先gdal 官方提供了源,但是这个源没有java环境需要我们安装,他提供了多个Linux发行版本 包括Ubuntu和alpine ,起初基于Ubuntu small来搭建的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM osgeo&#x2F;gdal:ubuntu-small-3.2.1</span><br><span class="line">MAINTAINER gdallikedemo</span><br><span class="line">RUN add-apt-repository ppa:openjdk-r&#x2F;ppa &amp;&amp; \</span><br><span class="line">    apt-get update &amp;&amp; \</span><br><span class="line">    apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span><br><span class="line">    apt-get clean;</span><br><span class="line">COPY MY_JAR.jar  &#x2F;home&#x2F;MY_JAR.jar</span><br><span class="line"># RUN nohup  java -jar &#x2F;home&#x2F;MY_JAR.jar  &gt;&#x2F;dev&#x2F;null  2&gt;&amp;1 &amp;</span><br><span class="line">CMD [&quot;java&quot;,&quot;-jar&quot;,&quot;&#x2F;home&#x2F;MY_JAR.jar&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>目前需要创建docker容器 之前用的是基于 Java环境的镜像 构件的,当前开发都后期需要gdal和其他的环境,仅仅基于java的 命令是远远不够用户的</p>
-<p>首先gdal 官方提供了源,但是这个源没有java环境需要我们安装,他提供了多个Linux发行版本 包括Ubuntu和alpine ,起初基于Ubuntu small来搭建的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM osgeo&#x2F;gdal:ubuntu-small-3.2.1</span><br><span class="line">MAINTAINER gdallikedemo</span><br><span class="line">RUN add-apt-repository ppa:openjdk-r&#x2F;ppa &amp;&amp; \</span><br><span class="line">    apt-get update &amp;&amp; \</span><br><span class="line">    apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span><br><span class="line">    apt-get clean;</span><br><span class="line">COPY MY_JAR.jar  &#x2F;home&#x2F;MY_JAR.jar</span><br><span class="line"># RUN nohup  java -jar &#x2F;home&#x2F;MY_JAR.jar  &gt;&#x2F;dev&#x2F;null  2&gt;&amp;1 &amp;</span><br><span class="line">CMD [&quot;java&quot;,&quot;-jar&quot;,&quot;&#x2F;home&#x2F;MY_JAR.jar&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<p>,但是在添加源的时候又依赖于命令 add-resportiy 添加源,如果用 Ubuntu-full后可以看到文件明显增大到1g,明显不符合要求,我就换了alpine  ,看网上介绍路由器和小型设备的,看了后就在这个版本上添加</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> osgeo/gdal:alpine-normal-<span class="number">3.2</span>.<span class="number">0</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> gdallikedemo</span><br><span class="line"><span class="comment"># 添加命令 安装java</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk add  --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community &amp;&amp; \</span></span><br><span class="line"><span class="bash">    apk add openjdk8 ;</span></span><br><span class="line"><span class="comment"># 声明端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">11003</span></span><br><span class="line"><span class="comment"># 复制指定文件</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> MY_JAR.jar  /home/MY_JAR.jar</span></span><br><span class="line"><span class="comment"># RUN nohup  java -jar /home/MY_JAR.jar  &gt;/dev/null  2&gt;&amp;1 &amp;</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/home/MY_JAR.jar&quot;</span>]</span></span><br><span class="line">                                     </span><br></pre></td></tr></table></figure>
-
-<p>如果需要后面的服务也可以</p>
-<p>参考该要求<a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/basic_concept/image/#%E5%88%86%E5%B1%82%E5%AD%98%E5%82%A8">分层存储</a></p>
-<p>镜像构建时，会一层层构建，前一层是后一层的基础。每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层。比如，删除前一层文件的操作，实际不是真的删除前一层的文件，而是仅在当前层标记为该文件已删除。在最终容器运行的时候，虽然不会看到这个文件，但是实际上该文件会一直跟随镜像。因此，在构建镜像的时候，需要额外小心，每一层尽量只包含该层需要添加的东西，任何额外的东西应该在该层构建结束前清理掉。</p>
-<p>Dockerfile 中每一个指令都会建立一层，<code>RUN</code> 也不例外。每一个 <code>RUN</code> 的行为，就和刚才我们手工建立镜像的过程一样：新建立一层，在其上执行这些命令，执行结束后，<code>commit</code> 这一层的修改，构成新的镜像。</p>
-<p>一定要注一个实现 不要多次run,尽量集合在一起执行</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-编写Linux启动文件并设置为自启动使用systemctl" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3e75944c.html" class="article-date">
-      <time datetime="2020-11-29T08:54:38.000Z" itemprop="datePublished">2020-11-29</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="编写Linux启动文件并设置为自启动使用systemctl"><a href="#编写Linux启动文件并设置为自启动使用systemctl" class="headerlink" title="编写Linux启动文件并设置为自启动使用systemctl"></a>编写Linux启动文件并设置为自启动使用systemctl</h2><p>常见使用的格式模板</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Sakura Frp Client Service</span><br><span class="line">After&#x3D;network.target syslog.target</span><br><span class="line">Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">ExecStart&#x3D; 执行步骤</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="编写Linux启动文件并设置为自启动使用systemctl"><a href="#编写Linux启动文件并设置为自启动使用systemctl" class="headerlink" title="编写Linux启动文件并设置为自启动使用systemctl"></a>编写Linux启动文件并设置为自启动使用systemctl</h2><p>常见使用的格式模板</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Sakura Frp Client Service</span><br><span class="line">After&#x3D;network.target syslog.target</span><br><span class="line">Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">ExecStart&#x3D; 执行步骤</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
-
-<p>可以使用 下面的步骤的</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[Unit]</span></span><br><span class="line"><span class="string">    Description=Sakura Frp Client Service</span></span><br><span class="line"><span class="string">    After=network.target syslog.target</span></span><br><span class="line"><span class="string">    Wants=network.target</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    [Service]</span></span><br><span class="line"><span class="string">    Type=simple</span></span><br><span class="line"><span class="string">    Restart=on-failure</span></span><br><span class="line"><span class="string">    RestartSec=5s</span></span><br><span class="line"><span class="string">    ExecStart=<span class="variable">$&#123;FRP_EXEC_DIR&#125;</span><span class="variable">$&#123;FRP_EXEC&#125;</span> -f <span class="variable">$&#123;FRP_KEY&#125;</span>:<span class="variable">$&#123;FRP_TID&#125;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    [Install]</span></span><br><span class="line"><span class="string">    WantedBy=multi-user.target</span></span><br><span class="line"><span class="string">    &quot;</span> &gt; /lib/systemd/system/frpc.service</span><br></pre></td></tr></table></figure>
-
-<p>后面可以使用</p>
-<p>systemctl daemon-reload</p>
-<h3 id="启动-frpc-服务"><a href="#启动-frpc-服务" class="headerlink" title="启动 frpc 服务"></a>启动 frpc 服务</h3><p>systemctl enable frpc<br>systemctl start  frpc</p>
-<p>还有一些其他的systemctl 的 命令 像 status 类似</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;</span><br><span class="line">Wants&#x3D;network-online.target</span><br><span class="line">After&#x3D;network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart&#x3D;</span><br><span class="line">User&#x3D;</span><br><span class="line">WorkingDirectory&#x3D;</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;3</span><br><span class="line">StartLimitBurst&#x3D;10</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">下一页 </a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">下一页 </a>
     </nav>
   
 </div>

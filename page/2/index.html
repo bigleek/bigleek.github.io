@@ -269,6 +269,204 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-dockerfile使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2ba9cf6c.html" class="article-date">
+      <time datetime="2021-01-08T05:46:19.000Z" itemprop="datePublished">2021-01-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2ba9cf6c.html">dockerfile使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>目前需要创建docker容器 之前用的是基于 Java环境的镜像 构件的,当前开发都后期需要gdal和其他的环境,仅仅基于java的 命令是远远不够用户的</p>
+<p>首先gdal 官方提供了源,但是这个源没有java环境需要我们安装,他提供了多个Linux发行版本 包括Ubuntu和alpine ,起初基于Ubuntu small来搭建的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM osgeo&#x2F;gdal:ubuntu-small-3.2.1</span><br><span class="line">MAINTAINER gdallikedemo</span><br><span class="line">RUN add-apt-repository ppa:openjdk-r&#x2F;ppa &amp;&amp; \</span><br><span class="line">    apt-get update &amp;&amp; \</span><br><span class="line">    apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span><br><span class="line">    apt-get clean;</span><br><span class="line">COPY MY_JAR.jar  &#x2F;home&#x2F;MY_JAR.jar</span><br><span class="line"># RUN nohup  java -jar &#x2F;home&#x2F;MY_JAR.jar  &gt;&#x2F;dev&#x2F;null  2&gt;&amp;1 &amp;</span><br><span class="line">CMD [&quot;java&quot;,&quot;-jar&quot;,&quot;&#x2F;home&#x2F;MY_JAR.jar&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>目前需要创建docker容器 之前用的是基于 Java环境的镜像 构件的,当前开发都后期需要gdal和其他的环境,仅仅基于java的 命令是远远不够用户的</p>
+<p>首先gdal 官方提供了源,但是这个源没有java环境需要我们安装,他提供了多个Linux发行版本 包括Ubuntu和alpine ,起初基于Ubuntu small来搭建的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM osgeo&#x2F;gdal:ubuntu-small-3.2.1</span><br><span class="line">MAINTAINER gdallikedemo</span><br><span class="line">RUN add-apt-repository ppa:openjdk-r&#x2F;ppa &amp;&amp; \</span><br><span class="line">    apt-get update &amp;&amp; \</span><br><span class="line">    apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span><br><span class="line">    apt-get clean;</span><br><span class="line">COPY MY_JAR.jar  &#x2F;home&#x2F;MY_JAR.jar</span><br><span class="line"># RUN nohup  java -jar &#x2F;home&#x2F;MY_JAR.jar  &gt;&#x2F;dev&#x2F;null  2&gt;&amp;1 &amp;</span><br><span class="line">CMD [&quot;java&quot;,&quot;-jar&quot;,&quot;&#x2F;home&#x2F;MY_JAR.jar&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>,但是在添加源的时候又依赖于命令 add-resportiy 添加源,如果用 Ubuntu-full后可以看到文件明显增大到1g,明显不符合要求,我就换了alpine  ,看网上介绍路由器和小型设备的,看了后就在这个版本上添加</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> osgeo/gdal:alpine-normal-<span class="number">3.2</span>.<span class="number">0</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> gdallikedemo</span><br><span class="line"><span class="comment"># 添加命令 安装java</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk add  --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community &amp;&amp; \</span></span><br><span class="line"><span class="bash">    apk add openjdk8 ;</span></span><br><span class="line"><span class="comment"># 声明端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">11003</span></span><br><span class="line"><span class="comment"># 复制指定文件</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> MY_JAR.jar  /home/MY_JAR.jar</span></span><br><span class="line"><span class="comment"># RUN nohup  java -jar /home/MY_JAR.jar  &gt;/dev/null  2&gt;&amp;1 &amp;</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/home/MY_JAR.jar&quot;</span>]</span></span><br><span class="line">                                     </span><br></pre></td></tr></table></figure>
+
+<p>如果需要后面的服务也可以</p>
+<p>参考该要求<a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/basic_concept/image/#%E5%88%86%E5%B1%82%E5%AD%98%E5%82%A8">分层存储</a></p>
+<p>镜像构建时，会一层层构建，前一层是后一层的基础。每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层。比如，删除前一层文件的操作，实际不是真的删除前一层的文件，而是仅在当前层标记为该文件已删除。在最终容器运行的时候，虽然不会看到这个文件，但是实际上该文件会一直跟随镜像。因此，在构建镜像的时候，需要额外小心，每一层尽量只包含该层需要添加的东西，任何额外的东西应该在该层构建结束前清理掉。</p>
+<p>Dockerfile 中每一个指令都会建立一层，<code>RUN</code> 也不例外。每一个 <code>RUN</code> 的行为，就和刚才我们手工建立镜像的过程一样：新建立一层，在其上执行这些命令，执行结束后，<code>commit</code> 这一层的修改，构成新的镜像。</p>
+<p>一定要注一个实现 不要多次run,尽量集合在一起执行</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-编写Linux启动文件并设置为自启动使用systemctl" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3e75944c.html" class="article-date">
+      <time datetime="2020-11-29T08:54:38.000Z" itemprop="datePublished">2020-11-29</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="编写Linux启动文件并设置为自启动使用systemctl"><a href="#编写Linux启动文件并设置为自启动使用systemctl" class="headerlink" title="编写Linux启动文件并设置为自启动使用systemctl"></a>编写Linux启动文件并设置为自启动使用systemctl</h2><p>常见使用的格式模板</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Sakura Frp Client Service</span><br><span class="line">After&#x3D;network.target syslog.target</span><br><span class="line">Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">ExecStart&#x3D; 执行步骤</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="编写Linux启动文件并设置为自启动使用systemctl"><a href="#编写Linux启动文件并设置为自启动使用systemctl" class="headerlink" title="编写Linux启动文件并设置为自启动使用systemctl"></a>编写Linux启动文件并设置为自启动使用systemctl</h2><p>常见使用的格式模板</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Sakura Frp Client Service</span><br><span class="line">After&#x3D;network.target syslog.target</span><br><span class="line">Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">ExecStart&#x3D; 执行步骤</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>可以使用 下面的步骤的</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[Unit]</span></span><br><span class="line"><span class="string">    Description=Sakura Frp Client Service</span></span><br><span class="line"><span class="string">    After=network.target syslog.target</span></span><br><span class="line"><span class="string">    Wants=network.target</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    [Service]</span></span><br><span class="line"><span class="string">    Type=simple</span></span><br><span class="line"><span class="string">    Restart=on-failure</span></span><br><span class="line"><span class="string">    RestartSec=5s</span></span><br><span class="line"><span class="string">    ExecStart=<span class="variable">$&#123;FRP_EXEC_DIR&#125;</span><span class="variable">$&#123;FRP_EXEC&#125;</span> -f <span class="variable">$&#123;FRP_KEY&#125;</span>:<span class="variable">$&#123;FRP_TID&#125;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    [Install]</span></span><br><span class="line"><span class="string">    WantedBy=multi-user.target</span></span><br><span class="line"><span class="string">    &quot;</span> &gt; /lib/systemd/system/frpc.service</span><br></pre></td></tr></table></figure>
+
+<p>后面可以使用</p>
+<p>systemctl daemon-reload</p>
+<h3 id="启动-frpc-服务"><a href="#启动-frpc-服务" class="headerlink" title="启动 frpc 服务"></a>启动 frpc 服务</h3><p>systemctl enable frpc<br>systemctl start  frpc</p>
+<p>还有一些其他的systemctl 的 命令 像 status 类似</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;</span><br><span class="line">Wants&#x3D;network-online.target</span><br><span class="line">After&#x3D;network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart&#x3D;</span><br><span class="line">User&#x3D;</span><br><span class="line">WorkingDirectory&#x3D;</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;3</span><br><span class="line">StartLimitBurst&#x3D;10</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-pgsql重要视图转载" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1206,240 +1404,9 @@
 
 
   
-    <article id="post-知识管理工具" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/803410763.html" class="article-date">
-      <time datetime="2020-05-31T00:49:06.000Z" itemprop="datePublished">2020-05-31</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/803410763.html">知识管理工具</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="为什么要知识管理"><a href="#为什么要知识管理" class="headerlink" title="为什么要知识管理"></a>为什么要知识管理</h3><pre><code> 知识管理就是(Personal Knowledge Management),在当前一个知识爆炸的时代,无效信息不经过整理,过几天就会只存在收藏夹 不能被接受的知识是无效,这里的知识是要能被使用或者是可以传授的,不是读书感受,类似与一种综合的笔记</code></pre>
-<blockquote>
-<p>知识和信息不能混为一谈，信息是免费的，但毫无目标的获取信息，就无法将信息转化为知识。因此学习必须要有目标，如果你用有限的时间去学无限的知识，你将被知识“淹没”，我们要学习那些给自己带来最大提升的知识。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="为什么要知识管理"><a href="#为什么要知识管理" class="headerlink" title="为什么要知识管理"></a>为什么要知识管理</h3><pre><code> 知识管理就是(Personal Knowledge Management),在当前一个知识爆炸的时代,无效信息不经过整理,过几天就会只存在收藏夹 不能被接受的知识是无效,这里的知识是要能被使用或者是可以传授的,不是读书感受,类似与一种综合的笔记</code></pre>
-<blockquote>
-<p>知识和信息不能混为一谈，信息是免费的，但毫无目标的获取信息，就无法将信息转化为知识。因此学习必须要有目标，如果你用有限的时间去学无限的知识，你将被知识“淹没”，我们要学习那些给自己带来最大提升的知识。</p>
-<p>　　时间是一个最稀缺的资源，在学习知识的过程中，必须考虑知识获取的“成本”问题，这个成本除了金钱之外，最重要的是时间成本。因此，学习知识的工具需要满足：“花费时间较短，获得价值较高的知识”。</p>
-<p>　　对于纸质书籍的发现和评论，豆瓣读书是一个理想的工具，在使用之前，先标记自己读过的较为喜欢的书籍，不建议标记娱乐性书籍，这样能保证“豆瓣猜”的准确性，之后豆瓣就能根据你的阅读兴趣找到相关的书籍，你可以根据其他人对书籍的评价来决定是否购买。期刊杂志也是同样的道理。</p>
-<p>　　总的来说，网络和电子读物适合浅阅读，具有深度和专业的知识还是需要阅读纸质书籍，你付出了金钱，却节省了时间。</p>
-<p>　　平时工作学习中遇到问题，可以直接使用搜索引擎来寻找答案，通过搜索引擎也可以学到一些你不知道的小知识。</p>
-</blockquote>
-<p>​    学习和积累的基础就是能对要学习的知识点可以罗列出来同时加入自己的认识和理解,不仅有利用后面复习和及时查看 同时文档可以导出和打印 方便查看</p>
-<h3 id="知识管理工具"><a href="#知识管理工具" class="headerlink" title="知识管理工具"></a>知识管理工具</h3><p>用一个产品就可以做文档（Google docs）、管理项目进度（Trello）、做知识文档（Confluence、Github Wiki）、团队协同文档（Dropbox Paper、Quip）、搭建个人博客、做 在线笔记、知识管理（Evernote），而且不用科学上网基础功能不用像 Office 365一样付费，即使付费也可走万能的淘宝，之前还有小伙伴买到永久会员资格知识库管理,文档和知识库,团队的wiki ,</p>
-<p>当前的知识管理工具常见类型</p>
-<ul>
-<li><p>思维导图型</p>
-<p>主要构成是方块和连线以及备注构成的图 类似的鱼骨图</p>
-<p><img src="../img/1594443779161.png" alt="1594443779161"></p>
-</li>
-</ul>
-<ul>
-<li><p>各种云笔记(印象笔记,有道云笔记,为知笔记)全部是在web端的操作</p>
-<p>文档型的笔记,由文件夹,子文件夹,文档(富文本,支持插入office或者思维导图)</p>
-<p><img src="../img/1594444126796.png" alt="1594444126796"></p>
-</li>
-</ul>
-<ul>
-<li><p>wiki,javadoc,Confluence类</p>
-<p>存在条理清晰的目录和内容也是富文本在公司内部使用比较多</p>
-<p><img src="../img/Confluence_Edit_Page.png" alt="Edit page of Confluence"></p>
-</li>
-</ul>
-<ul>
-<li><p>notion,语雀 等综合类</p>
-<p>这类知识管理工具都是以page(语雀以知识库中的文档和目录来体现)),notion是万物都可以引用,page内加page同时可以引用别人的内容</p>
-<p><img src="../img/1594444538182.png" alt="1594444538182"></p>
-<blockquote>
-<p>Notion 自称是一款「<strong>将笔记、知识库和任务管理无缝整合的协作平台</strong>」。它具有无限的层级和相互链接的组织弹性，给笔记间的关系提供了足够自由的组织方式；它排版灵活，能够把笔记里的内容按块（Block）进行组织和拖拽，甚至可以做出 Trello 看板进行项目管理；它的内容类型丰富，可以嵌入图片、网页、文档甚至视频，几乎无所不能。</p>
-<p><a target="_blank" rel="noopener" href="https://sspai.com/post/39694">https://sspai.com/post/39694</a> 少数派: Notion：重新定义数字笔记</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="怎么获取和筛选知识"><a href="#怎么获取和筛选知识" class="headerlink" title="怎么获取和筛选知识"></a>怎么获取和筛选知识</h3><ol>
-<li><p>搜索引擎多个搜索引擎搜索,加插件屏蔽到搜索结果中的广告</p>
-<p><a target="_blank" rel="noopener" href="http://s.uc.cn/">http://s.uc.cn/</a> uc的多重搜索</p>
-<p><a target="_blank" rel="noopener" href="https://dogedoge.com/">多吉搜索</a> </p>
-</li>
-<li><p>外网一手资料</p>
-</li>
-<li><p>各种wiki和简单入门的网站</p>
-</li>
-<li><p>博客 和论坛都是好去处</p>
-</li>
-</ol>
-<p>….</p>
-<h3 id="培养积累和学习的习惯"><a href="#培养积累和学习的习惯" class="headerlink" title="培养积累和学习的习惯"></a>培养积累和学习的习惯</h3><p> ….</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ubuntu输出的分辨率" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3468817301.html" class="article-date">
-      <time datetime="2020-05-26T05:38:11.000Z" itemprop="datePublished">2020-05-26</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3468817301.html">ubuntu输出的分辨率</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>xrandr</p>
-<p><img src="../img/1590471579954.png" alt="1590471579954"></p>
-<p>之前会默认的1080p,我这个显示器是2k的分辨率,使用thunderbolt转接槽接的HDMI接口</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>xrandr</p>
-<p><img src="../img/1590471579954.png" alt="1590471579954"></p>
-<p>之前会默认的1080p,我这个显示器是2k的分辨率,使用thunderbolt转接槽接的HDMI接口</p>
-<p>但是有时候(长时间不工作息屏,先关机后关显示器电源)时会出现显示不出来2k的选项,</p>
-<p>2560x1440     59.95 +  74.97*</p>
-<ol>
-<li>sudo xrandr –newmode “1920x1080_60.00” 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync</li>
-<li>sudo xrandr –addmode VGA1 “1920x1080_60.00”</li>
-<li>sudo xrandr –output VGA1 –mode “1920x1080_60.00”</li>
-</ol>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/"> 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/"> 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/">下一页 </a>
     </nav>
   
 </div>

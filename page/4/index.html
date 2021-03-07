@@ -269,6 +269,323 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-vue中axios中post跨域SpringBoot获取不到RequestBody数据" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/552952049.html" class="article-date">
+      <time datetime="2020-04-11T18:59:20.000Z" itemprop="datePublished">2020-04-12</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>目前使用axios实现vue中与后台数据交互,目前GET,DELETE都是正常使用,但是会有跨域的问题,我就是临时在返回头加上了Access-Control-Allow-Origin:”*”</p>
+<p>但是一直由于POST提交数据后台数据一直获取不到RequestBody,我之前使用postman测试都是可以通过的,显示<strong>status failure</strong>后台也根本不报错,因为获取不到</p>
+<p>开始是以为是我格式问题换了几种数据</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>目前使用axios实现vue中与后台数据交互,目前GET,DELETE都是正常使用,但是会有跨域的问题,我就是临时在返回头加上了Access-Control-Allow-Origin:”*”</p>
+<p>但是一直由于POST提交数据后台数据一直获取不到RequestBody,我之前使用postman测试都是可以通过的,显示<strong>status failure</strong>后台也根本不报错,因为获取不到</p>
+<p>开始是以为是我格式问题换了几种数据</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">axios.post(<span class="string">&#x27;http://localhost:8080/xxx/model/&#x27;</span> + path, modelIds).then(response = &gt; &#123;<span class="built_in">this</span>.searchContent()</span><br><span class="line">&#125;).catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error);</span><br><span class="line">&#125;);</span><br><span class="line">axios.post(<span class="string">&#x27;http://localhost:8080/xxx/process/model/27501&#x27;</span>, &#123;</span><br><span class="line">    comment: <span class="string">&#x27;Fred&#x27;</span>,</span><br><span class="line">    userName: <span class="string">&#x27;Flintstone&#x27;</span></span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(response);</span><br><span class="line">&#125;).catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> options = &#123;</span><br><span class="line">    method: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">    headers: &#123;<span class="string">&#x27;content-type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;,</span><br><span class="line">    data: modelIds,</span><br><span class="line">    url: <span class="string">&#x27;http://localhost:8080/xxx/model/&#x27;</span> + path</span><br><span class="line">&#125;;</span><br><span class="line">axios(options)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>还有就是PUT提交时 application/x-www-form-urlencoded,后台用RequestParam,或者不写都可以接受,对象的话要set,get方法,我刚开始用的form-data,SpringBoot是获取不到数据的</p>
+<p>我目前用的是nginx,代理</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-nginx详细的配置和用途" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2474801124.html" class="article-date">
+      <time datetime="2020-04-11T18:51:11.000Z" itemprop="datePublished">2020-04-12</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2474801124.html">nginx详细的配置和用途</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>补充域名相关的知识</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">www.xxx.com&#96; ,&#96;www.zzz.xxx.com&#96;,&#96;www.xxx.com&#x2F;getName</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>补充域名相关的知识</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">www.xxx.com&#96; ,&#96;www.zzz.xxx.com&#96;,&#96;www.xxx.com&#x2F;getName</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>www: World Wide Web 万维网</p>
+<p>xxx: 注册的名称</p>
+<p>zzz: 子域名(Second-level domain；英文缩写：SLD)</p>
+<p>com:顶级域名(Top-level domains)是org,</p>
+<p>URL: <a target="_blank" rel="noopener" href="http://www.example.net/index.html,www.xxx.com/getName">http://www.example.net/index.html,www.xxx.com/getName</a></p>
+</blockquote>
+<p>对于第三个需要配置 server-&gt;多个location配置</p>
+<p>对于第二中需要配置多个server,或者server-&gt;server_name</p>
+<p>转载地址<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/36148885">nginx 常用配置记录-知乎专栏</a></p>
+<hr>
+<h3 id="server模块"><a href="#server模块" class="headerlink" title="server模块"></a><strong>server模块</strong></h3><p>server模块是http的子模块，它用来定义一个虚拟主机</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen      80;</span><br><span class="line">    server_name localhost www.example.com;</span><br><span class="line">    root        &#x2F;Users&#x2F;yangyi&#x2F;www;# 全局定义，表示在该server下web的根目录</span><br><span class="line">    client_max_body_size 100M;</span><br><span class="line">    keepalive_timeout 20;</span><br><span class="line">    index       index.php index.html index.htm; </span><br><span class="line">    charset     utf-8;</span><br><span class="line">    access_log  logs&#x2F;host.access.log  main; #用来指定此虚拟主机的访问日志存放路径，输出格式为main。</span><br><span class="line">    error_log   logs&#x2F;host.error.log  error; #错误日志存放路径，输出格式为error。</span><br><span class="line">    error_page  404  &#x2F;404.html; #状态码为404时的时候的网页地址,还可定义500,502之类的</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上一些配置为在该server下具有全局性，例如 root，可在location中重新定义root</p>
+<h2 id="关于server-name"><a href="#关于server-name" class="headerlink" title="关于server_name"></a>关于server_name</h2><blockquote>
+<p>用来指定IP地址或者域名，多个域名之间用空格分开</p>
+</blockquote>
+<p>当我们想定义多个server监听同一个端口但访问的host不一样时，server_name就派上用场了。nginx会根据HTTP请求的header Host选择nginx配置文件里符合条件的server_name的server配置</p>
+<p>匹配顺序如下</p>
+<ol>
+<li>完全匹配的server_name;</li>
+<li>后缀匹配: *.example.com;</li>
+<li>前缀匹配: <a target="_blank" rel="noopener" href="http://www.example.*/">www.example.*</a>;</li>
+<li>正则匹配: ~\w+.com;</li>
+<li>listen指令里配置了default或default_server的server;如｀listen 80 default｀</li>
+<li>第一个匹配上listen的server。</li>
+</ol>
+<p>所以当我们监听的的端口只有一个server配置的时候，server_name 可以不填</p>
+<h2 id="关于root和alias的区别"><a href="#关于root和alias的区别" class="headerlink" title="关于root和alias的区别"></a>关于root和alias的区别</h2><p>两者作用差不多，区别在于最终映射的地址不同，例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;request_path&#x2F;image&#x2F; &#123;</span><br><span class="line">    # 如果现在访问 &#x2F;request_path&#x2F;image&#x2F;a&#x2F;b.jpg,root映</span><br><span class="line">    # 射的地址为&#x2F;local_path&#x2F;image&#x2F;request_path&#x2F;image&#x2F;a&#x2F;b.jpg,</span><br><span class="line">    # 而alias为&#x2F;local_path&#x2F;image&#x2F;a&#x2F;b.jpg</span><br><span class="line">    root    &#x2F;local_path&#x2F;image&#x2F;;</span><br><span class="line">    alias   &#x2F;local_path&#x2F;image&#x2F;; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于error-page"><a href="#关于error-page" class="headerlink" title="关于error_page"></a>关于error_page</h2><p>语法：error_page code … [=[response]] uri<br>使用字段: http, server, location, if in location</p>
+<p>产生的效果为内部跳转(internal redirect)，即用户页面地址不变，但内容实际上为设置的uri对应的内容<br>我们也可以自定义设置返回的状态码，如：<br>error_page 502 503 =200 /50x.html;<br>这样用户访问产生502 、503的时候给用户的返回状态是200，内容是50x.html。<br>还有一种写法是 <code>=</code> 后面不带状态码，是针对相应的内容不是一个静态的页面，最终返回的状态码取决于对应url服务返回的状态码。</p>
+<h2 id="location模块"><a href="#location模块" class="headerlink" title="location模块"></a>location模块</h2><blockquote>
+<p>最主要和最复杂的配置，通过定位和解析url，判断该选择什么配置，支持正则和条件判断；</p>
+</blockquote>
+<p>简单例子，匹配所有请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">    root   &#x2F;home&#x2F;www&#x2F;html;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一个正则匹配的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 匹配.php结尾的请求</span><br><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一个反向代理的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 匹配到&#x2F;api开头的路由时候，将请求转发到http:&#x2F;&#x2F;192.168.0.1，但是通常不是直接填写地址，而是设置一个&#96;upstream&#96;配置，后面会提到</span><br><span class="line">location &#x2F;api &#123;</span><br><span class="line">    proxy_pass  http:&#x2F;&#x2F;192.168.0.1; #请求转向地址192.168.0.1</span><br><span class="line">    #不修改被代理服务器返回的响应头中的location头</span><br><span class="line">    proxy_redirect off;</span><br><span class="line">    #使用nginx反向代理后，如果要使服务获取真实的用户信息，用以下的设置</span><br><span class="line">    proxy_set_header Host $host;</span><br><span class="line">    proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>vue-router、react-router等路由框架要开启history模式可以选择的nginx配置的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">  alias     static&#x2F;;</span><br><span class="line">  try_files $uri $uri&#x2F; &#x2F;index.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>location的匹配规则和顺序</strong></p>
+<ol>
+<li>第一种是 <strong>=</strong> 类型，表示精确匹配，优先级最高，一旦匹配到忽略之后的正则匹配</li>
+<li><strong>^~</strong> 类型，表示前缀匹配，是字符串开头匹配而非正则匹配，当匹配到该规则时，停止往下面的搜索，所以如果存在两个<strong>^~</strong> 匹配的时候要注意有顺序之分。优先级比正则高。</li>
+<li><code>~</code> 和 <code>~*</code>,正则匹配，两者区别是后者不区分大小写。有顺序之分，匹配到第一个正则停止搜索。</li>
+<li><code>/uri</code>,普通字符串匹配，无顺序之分，会选择匹配长度最长的配置。</li>
+<li><code>/</code> 通用匹配，匹配所有请求</li>
+</ol>
+<p>还有一种特殊匹配类型 <code>@url</code>，只用于nginx内部跳转，例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">    root &#x2F;var&#x2F;www&#x2F;html;</span><br><span class="line">    error_page 404 @40x;</span><br><span class="line">&#125;</span><br><span class="line">location @40x &#123;</span><br><span class="line">  root &#x2F;var&#x2F;www&#x2F;errors&#x2F;40x.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="upstream模块"><a href="#upstream模块" class="headerlink" title="upstream模块"></a>upstream模块</h2><blockquote>
+<p>upstream后端服务器提供简单的负载均衡（轮循调度和客户端 IP）。</p>
+</blockquote>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">upstream backend  &#123;</span><br><span class="line">  server backend1.example.com weight&#x3D;5;</span><br><span class="line">  server backend2.example.com:8080;</span><br><span class="line">  server unix:&#x2F;tmp&#x2F;backend3;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">server &#123;</span><br><span class="line">  location &#x2F; &#123;</span><br><span class="line">    proxy_pass  http:&#x2F;&#x2F;backend;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有常用两种负载均衡支持调度算法，分别是 <strong>weight</strong> 和 <strong>ip_hash</strong> 。weight 模式下可以为每个 server 设置weight值，weight值越大，分配到的访问机率越高，ip_hash 为同一个ip的<br>分配同一个后端服务器，这样我们不用解决session共享问题。</p>
+<h2 id="include"><a href="#include" class="headerlink" title="include"></a>include</h2><blockquote>
+<p>include指令 使nginx配置更加灵活，将部分配置直接拆分出来,分成不同的配置文件</p>
+</blockquote>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http &#123;    include mime.types;    include vhost&#x2F;*.conf; # 虚拟主机配置&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于-mime-types："><a href="#关于-mime-types：" class="headerlink" title="关于 mime.types："></a>关于 mime.types：</h2><p>mime type 和 文件扩展名的对应关系一般放在 mime.types 里，然后 用 <code>include mime.types</code>;<br>mime.types作用：通过文件的扩展名设置了Content-Type，Nginx如果没找到对应文件的扩展名的话，就使用默认的Type，默认Type通用 <code>default_type</code> 定义，比如 default_type application/octet-stream ;<br>完整的 mime.types 配置：<a href="https://link.zhihu.com/?target=https://github.com/h5bp/server-configs-nginx/blob/master/mime.types">https://github.com/h5bp/server-configs-nginx/blob/master/mime.types</a></p>
+<h2 id="关于-vhost-conf"><a href="#关于-vhost-conf" class="headerlink" title="关于 vhost/*.conf :"></a>关于 vhost/*.conf :</h2><p>一个虚拟主机对一个文件配置，放到vhost文件夹下面，然后通过include指令包含进来，这样更便于维护和管理</p>
+<h2 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h2><blockquote>
+<p>gzip 压缩，用来对静态资源进行压缩，需要客户端同时支持才有效。</p>
+</blockquote>
+<p>配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    #开启gzip压缩</span><br><span class="line">    gzip  on;</span><br><span class="line">    #IE6的某些版本对gzip的压缩支持很不好,故关闭</span><br><span class="line">    gzip_disable &quot;MSIE [1-6]\.(?!.*SV1)&quot;;</span><br><span class="line">    #HTTP1.0以上的版本都启动gzip</span><br><span class="line">    gzip_http_version 1.0；</span><br><span class="line">    #指定哪些类型的相应才启用gzip压缩，多个用空格分隔</span><br><span class="line">    gzip_types </span><br><span class="line">    application&#x2F;javascript </span><br><span class="line">    application&#x2F;json </span><br><span class="line">    text&#x2F;css </span><br><span class="line">    text&#x2F;plain;</span><br><span class="line">    # 压缩等级，可选1-9，值越大压缩时间越长压缩率越高，</span><br><span class="line">    # 通常选5，能压缩到原来的1&#x2F;4</span><br><span class="line">    gzip_comp_level 5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="rewrite模块（ngx-http-rewrite-mode）"><a href="#rewrite模块（ngx-http-rewrite-mode）" class="headerlink" title="rewrite模块（ngx_http_rewrite_mode）"></a>rewrite模块（ngx_http_rewrite_mode）</h2><p>rewrite模块配合很多模块一起使用，包含几个指令：</p>
+<ol>
+<li>break</li>
+<li>if</li>
+<li>return</li>
+<li>rewrite</li>
+<li>rewrite_log</li>
+<li>set</li>
+<li>uninitialized_variable_warn</li>
+</ol>
+<p>这里简单介绍下break、if、return，重点介绍 rewrite</p>
+<h2 id="break"><a href="#break" class="headerlink" title="break"></a>break</h2><p>语法: break;<br>使用字段: server, location, if<br>此指令的意思是停止执行当前虚拟主机的后续rewrite指令集</p>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 如果访问的文件名不存在，反向代理到localhost 。这里的break也是停止rewrite检查</span><br><span class="line">if (!-f $request_filename) &#123;</span><br><span class="line">    break;</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;127.0.0.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><p>语法: if (condition) { … }<br>使用字段: server, location<br>if 判断一个条件，如果条件成立，则后面的大括号内的语句将执行，相关配置从上级继承。</p>
+<p>条件(conditon)可以是如下任何操作：</p>
+<ol>
+<li>当表达式只是一个变量时，如果值为空或任何以0开头的字符串都会当做false；</li>
+<li>使用“=”和“!=”比较一个变量和字符串；</li>
+<li>使用“<del>”做正则表达式匹配，“</del>*”做不区分大小写的正则匹配，“!~”做区分大小写的正则不匹配；</li>
+<li>使用“-f”和“!-f” 检查一个文件是否存在；</li>
+<li>使用“-d”和“!-d”检查一个目录是否存在；</li>
+<li>使用“-e”和“!-e”检查一个文件、目录、符号链接是否存在；</li>
+<li>使用“-x”和“ !-x”检查一个文件是否可执行；</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 如果提交方法为POST，则返回状态405（Method not allowed）</span><br><span class="line">if ($request_method &#x3D; POST) &#123;</span><br><span class="line">    return 405;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="return"><a href="#return" class="headerlink" title="return"></a>return</h2><p>语法: return code [text];<br>return code URL;<br>return URL;<br>使用字段: server, location, if<br>停止处理并为客户端返回状态码，非标准的444状态码将关闭连接，不发送任何响应头。可以使用的状态码有：204，400，402-406，408，410, 411, 413, 416与500-504。如果状态码附带文字段落，该文本将被放置在响应主体。相反，如果状态码后面是一个URL，该URL将成为location头部值。没有状态码的URL将被视为一个302状态码，这种情况下URL需要以“http://”, “https://”, 或者 “$scheme”开头。</p>
+<h2 id="rewrite"><a href="#rewrite" class="headerlink" title="rewrite"></a>rewrite</h2><p>语法: rewrite regex replacement [flag];<br>使用字段: server, location, if<br>使用nginx提供的全局变量或自己设置的变量，然后结合正则表达式和标志位实现url重写以及重定向。多条 rewrite 顺序靠前且匹配的优先执行。可以通过设置 flag 停止继续处理。如果replacement 以“http://”, “https://”, 或者 “$scheme”开头，那么将立即停止处理并临时重定向给客户端。</p>
+<p>flag可以是如下参数：</p>
+<ul>
+<li>last，完成该rewrite规则的执行后，停止处理后续rewrite指令集；然后查找匹配改变后URI的新location；</li>
+<li>break，完成该rewrite规则的执行后，停止处理后续rewrite指令集，并不再重新查找；但是当前location内剩余非rewrite语句和location外的的非rewrite语句可以执行；</li>
+<li>redirect，返回302临时重定向，地址栏会显示跳转后的地址；</li>
+<li>permanent，返回301永久重定向，地址栏会显示跳转后的地址；即表示如果客户端不清理浏览器缓存，那么返回的结果将永久保存在客户端浏览器中了。</li>
+</ul>
+<p>因为301和302不能简单的只返回状态码，还必须有重定向的URL，这就是return指令无法返回301,302的原因了。两种重定向的方式对客户端来说是一样的，就是重新加载另外一个url。我们在实际设置中推荐只使用永久重定向，因为临时重定向可能造成在url为A页面，但显示的是B页面的内容，造成网址劫持。</p>
+<p>比较难以理解的是 last 和 break，让我们先了解 nginx 运行的11个阶段，注意到第四阶段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">typedef enum &#123;  </span><br><span class="line">    NGX_HTTP_POST_READ_PHASE &#x3D; 0,   &#x2F;&#x2F;读取请求头  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_SERVER_REWRITE_PHASE,   &#x2F;&#x2F;执行rewrite  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_FIND_CONFIG_PHASE,  &#x2F;&#x2F;根据uri替换location  </span><br><span class="line">    NGX_HTTP_REWRITE_PHASE,      &#x2F;&#x2F;根据替换结果继续执行rewrite  </span><br><span class="line">    NGX_HTTP_POST_REWRITE_PHASE, &#x2F;&#x2F;执行rewrite后处理  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_PREACCESS_PHASE,    &#x2F;&#x2F;认证预处理   请求限制，连接限制  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_ACCESS_PHASE,       &#x2F;&#x2F;认证处理  </span><br><span class="line">    NGX_HTTP_POST_ACCESS_PHASE,  &#x2F;&#x2F;认证后处理， 认证不通过， 丢包  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_TRY_FILES_PHASE,    &#x2F;&#x2F;尝试try标签  </span><br><span class="line">    NGX_HTTP_CONTENT_PHASE,      &#x2F;&#x2F;内容处理  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_LOG_PHASE           &#x2F;&#x2F;日志处理  </span><br><span class="line">&#125; ngx_http_phases;  </span><br></pre></td></tr></table></figure>
+
+<p>所以我们再来理解last与break的区别：<br>last： 停止当前这个请求，并根据rewrite匹配的规则重新发起一个请求。新请求又从第一阶段开始执行…<br>break：相对last，break并不会重新发起一个请求，只是跳过当前的rewrite阶段，并执行本请求后续的执行阶段…</p>
+<p>通过实例会更加清晰的理解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    server_name dcshi.com;</span><br><span class="line">    root www;</span><br><span class="line"></span><br><span class="line">    location &#x2F;break&#x2F; &#123;</span><br><span class="line">        rewrite ^&#x2F;break&#x2F;(.*) &#x2F;test&#x2F;$1 break;</span><br><span class="line">        echo &quot;break page&quot;;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    location &#x2F;last&#x2F; &#123;</span><br><span class="line">         rewrite ^&#x2F;last&#x2F;(.*) &#x2F;test&#x2F;$1 last;</span><br><span class="line">         echo &quot;last page&quot;;</span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line">    location &#x2F;test&#x2F; &#123;</span><br><span class="line">       echo &quot;test page&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求:<a href="https://link.zhihu.com/?target=http://dcshi.com/break/">http://dcshi.com/break/</a>***<br>输出: break page<br>分析：正如上面讨论所说，break是跳过当前请求的rewrite阶段，并继续执行本请求的其他阶段，很明显，对于/foo 对应的content阶段的输出为 echo “break page”; (content阶段，可以简单理解为产生数据输出的阶段，如返回静态页面内容也是在content阶段；echo指令也是运行在content阶段，一般情况下content阶段只能对应一个输出指令，如同一个location配置两个echo，最终只会有一个echo指令被执行)；当然如果你把/break/里的echo 指令注释，然后再次访问/break/xx会报404，这也跟我们预期一样：虽然/break/xx被重定向到/test/xx,但是break指令不会重新开启一个新的请求继续匹配，所以nginx是不会匹配到下面的/test/这个location；在echo指令被注释的情况下，/break/ 这location里只能执行nginx默认的content指令，即尝试找/test/xx这个html页面并输出起内容，事实上，这个页面不存在，所以会报404的错误。</p>
+<p>请求: <a href="https://link.zhihu.com/?target=http://dcshi.com/last/">http://dcshi.com/last/</a>***<br>输出: test page<br>分析: last与break最大的不同是，last会重新发起一个新请求，并重新匹配location，所以对于/last,重新匹配请求以后会匹配到/test/,所以最终对应的content阶段的输出是test page;</p>
+<p>解释完了 last 和 break ，我们再写一个实例用来说明 rewrite 可以做什么事情。通过rewrite将不带www的请求统一转向为www：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    # ........</span><br><span class="line">    server_name www.abc.com ;&#x2F;&#x2F;只留一个</span><br><span class="line">    # ......</span><br><span class="line">｝</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">  server_name  abc.com;</span><br><span class="line">  rewrite ^(.*)$ http:&#x2F;&#x2F;www.abc.com$1 permanent; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">   listen 80;</span><br><span class="line">   server_name abc.com www.abc.com;</span><br><span class="line">   if ( $host !&#x3D; &#39;www.abc.com&#39;  ) &#123;</span><br><span class="line">       rewrite ^&#x2F;(.*) http:&#x2F;&#x2F;www.abc.com&#x2F;$1 permanent;</span><br><span class="line">   &#125;</span><br><span class="line">   location &#x2F; &#123;</span><br><span class="line">       root &#x2F;data&#x2F;www&#x2F;www;</span><br><span class="line">       index index.html index.htm;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考：</p>
+<p><a href="https://link.zhihu.com/?target=http://tool.oschina.net/apidocs/apidoc?api=nginx-zh">在线文档-nginx-zh</a></p>
+<p><a href="https://link.zhihu.com/?target=https://www.jianshu.com/p/bed000e1830b">WEB请求处理二：Nginx请求反向代理</a></p>
+<p><a href="https://link.zhihu.com/?target=http://blog.sina.com.cn/s/blog_4f9fc6e10102ux0w.html">http://blog.sina.com.cn/s/blog_4f9fc6e10102ux0w.html</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-hexo的next主题换到Yelee(Yilia)" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1247,765 +1564,9 @@
 
 
   
-    <article id="post-vue和element-ui初步使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3181160514.html" class="article-date">
-      <time datetime="2020-04-01T21:13:13.000Z" itemprop="datePublished">2020-04-02</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3181160514.html">vue和element-ui初步使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>是一套用于构建用户界面的<strong>渐进式框架</strong>。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/guide/single-file-components.html">现代化的工具链</a>以及各种<a target="_blank" rel="noopener" href="https://github.com/vuejs/awesome-vue#libraries--plugins">支持类库</a>结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。是一种 MVVM (Model-View-ViewModel)</p>
-<ol>
-<li><h3 id="使用vue首先是需要导入vue-js-下面就是简单的vue对象"><a href="#使用vue首先是需要导入vue-js-下面就是简单的vue对象" class="headerlink" title="使用vue首先是需要导入vue.js,下面就是简单的vue对象"></a>使用vue首先是需要导入vue.js,下面就是简单的vue对象</h3></li>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>是一套用于构建用户界面的<strong>渐进式框架</strong>。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/guide/single-file-components.html">现代化的工具链</a>以及各种<a target="_blank" rel="noopener" href="https://github.com/vuejs/awesome-vue#libraries--plugins">支持类库</a>结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。是一种 MVVM (Model-View-ViewModel)</p>
-<ol>
-<li><h3 id="使用vue首先是需要导入vue-js-下面就是简单的vue对象"><a href="#使用vue首先是需要导入vue-js-下面就是简单的vue对象" class="headerlink" title="使用vue首先是需要导入vue.js,下面就是简单的vue对象"></a>使用vue首先是需要导入vue.js,下面就是简单的vue对象</h3></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![processInstance](&#x2F;home&#x2F;leek&#x2F;桌面&#x2F;processInstance.png)&lt;div id&#x3D;&quot;app&quot;&gt;    &lt;h2&gt;&#123;&#123;name&#125;&#125; 显示&lt;&#x2F;h2&gt;&lt;&#x2F;div&gt;&lt;script src&#x3D;&quot;.&#x2F;node_modules&#x2F;vue&#x2F;dist&#x2F;vue.js&quot;&gt;&lt;&#x2F;script&gt;&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;    &#x2F;&#x2F; 生成一个Vue实例    var app &#x3D; new Vue(&#123;        el:&quot;#app&quot;, &#x2F;&#x2F; el,即element。要渲染的的页面元素        data:&#123; &#x2F;&#x2F; 数据            name:&quot;like&quot;        &#125;    &#125;)&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><h3 id="标签绑定数据"><a href="#标签绑定数据" class="headerlink" title="标签绑定数据"></a>标签绑定数据</h3></li>
-</ol>
-<p>常见数据绑定的熟悉是</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-text">v-text</a> 绑定的值直接显示不解析</li>
-<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-html">v-html</a> <strong>内容按普通 HTML 插入 - 不会作为 Vue 模板进行编译</strong></li>
-<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-show">v-show</a> 是否显示</li>
-<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-if">v-if</a> <strong>内容按普通 HTML 插入 - 不会作为 Vue 模板进行编译</strong></li>
-<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-for">v-for</a></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-for&#x3D;&quot;(item, index) in items&quot;&gt;&lt;&#x2F;div&gt;&lt;div v-for&#x3D;&quot;(val, key) in object&quot;&gt;&lt;&#x2F;div&gt; &lt;div v-for&#x3D;&quot;(val, name, index) in object&quot;&gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-on">v-on</a> 可以用@缩写@click,@node-click</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-bind">v-bind</a> 可以用:缩写</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.prop - 作为一个 DOM property 绑定而不是作为 attribute 绑定。(差别在哪里？).camel - (2.1.0+) 将 kebab-case 特性名转换为 camelCase. (从 2.1.0 开始支持).sync (2.3.0+) 语法糖，会扩展成一个更新父组件绑定值的 v-on 侦听器。</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol>
-<li><h3 id="vue的声明周期"><a href="#vue的声明周期" class="headerlink" title="vue的声明周期"></a>vue的声明周期</h3></li>
-</ol>
-<p><a href="../img/lifecycle.png"><img src="../img/lifecycle.png" alt="lifecycle"></a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; new Vue(&#123;    el: &quot;#app&quot;,    data: &#123;        num: 0    &#125;,    beforeCreate() &#123;        console.log(&quot;创建前&quot;)    &#125;,    created() &#123;        console.log(&quot;创建&quot;)    &#125;,    beforeMount() &#123;        console.log(&quot;计数前&quot;)    &#125;,    mounted() &#123;        console.log(&quot;计数了&quot;)    &#125;,&#125;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="element-UI相关的"><a href="#element-UI相关的" class="headerlink" title="element-UI相关的"></a>element-UI相关的</h2><ol>
-<li><h3 id="element-UI"><a href="#element-UI" class="headerlink" title="element-UI"></a>element-UI</h3><p>网站快速成型工具:一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库 <a target="_blank" rel="noopener" href="https://element.eleme.cn/#/zh-CN/component/container">网站</a></p>
-</li>
-<li><h3 id="element-UI-目前我看到的标签-表格"><a href="#element-UI-目前我看到的标签-表格" class="headerlink" title="element-UI 目前我看到的标签(表格,)"></a>element-UI 目前我看到的标签(表格,)</h3><h4 id="标签1-gt-el-pagination-用于分页-下面是它的相关参数"><a href="#标签1-gt-el-pagination-用于分页-下面是它的相关参数" class="headerlink" title="标签1-&gt;el-pagination 用于分页 下面是它的相关参数"></a>标签1-&gt;el-pagination 用于分页 下面是它的相关参数</h4><p>Attributes</p>
-<p>| 参数 | 说明 | 类型 | 可选值 | 默认值 |<br>| ——————- | ———————————————————— | ——– | ———————————————————— | ————————————– |<br>| small | 是否使用小型分页样式 | boolean | — | false |<br>| background | 是否为分页按钮添加背景色 | boolean | — | false |<br>| page-size | 每页显示条目个数，支持 .sync 修饰符 | number | — | 10 |<br>| total | 总条目数 | number | — | — |<br>| page-count | 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；如果要支持 page-sizes 的更改，则需要使用 total 属性 | Number | — | — |<br>| pager-count | 页码按钮的数量，当总页数超过该值时会折叠 | number | 大于等于 5 且小于等于 21 的奇数 | 7 |<br>| current-page | 当前页数，支持 .sync 修饰符 | number | — | 1 |<br>| layout | 组件布局，子组件名用逗号分隔 | String | <code>sizes</code>, <code>prev</code>, <code>pager</code>, <code>next</code>, <code>jumper</code>, <code>-&gt;</code>, <code>total</code>, <code>slot</code> | ‘prev, pager, next, jumper, -&gt;, total’ |<br>| page-sizes | 每页显示个数选择器的选项设置 | number[] | — | [10, 20, 30, 40, 50, 100] |<br>| popper-class | 每页显示个数选择器的下拉框类名 | string | — | — |<br>| prev-text | 替代图标显示的上一页文字 | string | — | — |<br>| next-text | 替代图标显示的下一页文字 | string | — | — |<br>| disabled | 是否禁用 | boolean | — | false |<br>| hide-on-single-page | 只有一页时是否隐藏 | boolean | — | - |</p>
-<h3 id="¶-Events"><a href="#¶-Events" class="headerlink" title="¶ Events"></a><a target="_blank" rel="noopener" href="https://element.eleme.cn/#/zh-CN/component/pagination#events">¶</a> Events</h3><p>| 事件名称 | 说明 | 回调参数 |<br>| ————– | ———————————- | ——– |<br>| size-change | pageSize 改变时会触发 | 每页条数 |<br>| current-change | currentPage 改变时会触发 | 当前页 |<br>| prev-click | 用户点击上一页按钮改变当前页后触发 | 当前页 |<br>| next-click | 用户点击下一页按钮改变当前页后触发 | 当前页 |</p>
-<h4 id="标签2-gt-el-tooltip-用于显示提示"><a href="#标签2-gt-el-tooltip-用于显示提示" class="headerlink" title="标签2-&gt;el-tooltip 用于显示提示"></a>标签2-&gt;el-tooltip 用于显示提示</h4></li>
-</ol>
-<p>Attributes</p>
-<table>
-<thead>
-<tr>
-<th align="center">参数</th>
-<th align="center">说明</th>
-<th align="center">类型</th>
-<th align="center">可选值</th>
-<th align="center">默认值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">effect</td>
-<td align="center">默认提供的主题</td>
-<td align="center">String</td>
-<td align="center">dark/light</td>
-<td align="center">dark</td>
-</tr>
-<tr>
-<td align="center">content</td>
-<td align="center">显示的内容，也可以通过 <code>slot#content</code> 传入 DOM</td>
-<td align="center">String</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">placement</td>
-<td align="center">Tooltip 的出现位置</td>
-<td align="center">String</td>
-<td align="center">top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end</td>
-<td align="center">bottom</td>
-</tr>
-<tr>
-<td align="center">value / v-model</td>
-<td align="center">状态是否可见</td>
-<td align="center">Boolean</td>
-<td align="center">—</td>
-<td align="center">false</td>
-</tr>
-<tr>
-<td align="center">disabled</td>
-<td align="center">Tooltip 是否可用</td>
-<td align="center">Boolean</td>
-<td align="center">—</td>
-<td align="center">false</td>
-</tr>
-<tr>
-<td align="center">offset</td>
-<td align="center">出现位置的偏移量</td>
-<td align="center">Number</td>
-<td align="center">—</td>
-<td align="center">0</td>
-</tr>
-<tr>
-<td align="center">transition</td>
-<td align="center">定义渐变动画</td>
-<td align="center">String</td>
-<td align="center">—</td>
-<td align="center">el-fade-in-linear</td>
-</tr>
-<tr>
-<td align="center">visible-arrow</td>
-<td align="center">是否显示 Tooltip 箭头，更多参数可见<a target="_blank" rel="noopener" href="https://github.com/element-component/vue-popper">Vue-popper</a></td>
-<td align="center">Boolean</td>
-<td align="center">—</td>
-<td align="center">true</td>
-</tr>
-<tr>
-<td align="center">popper-options</td>
-<td align="center"><a target="_blank" rel="noopener" href="https://popper.js.org/documentation.html">popper.js</a> 的参数</td>
-<td align="center">Object</td>
-<td align="center">参考 <a target="_blank" rel="noopener" href="https://popper.js.org/documentation.html">popper.js</a> 文档</td>
-<td align="center">{ boundariesElement: ‘body’, gpuAcceleration: false }</td>
-</tr>
-<tr>
-<td align="center">open-delay</td>
-<td align="center">延迟出现，单位毫秒</td>
-<td align="center">Number</td>
-<td align="center">—</td>
-<td align="center">0</td>
-</tr>
-<tr>
-<td align="center">manual</td>
-<td align="center">手动控制模式，设置为 true 后，mouseenter 和 mouseleave 事件将不会生效</td>
-<td align="center">Boolean</td>
-<td align="center">—</td>
-<td align="center">false</td>
-</tr>
-<tr>
-<td align="center">popper-class</td>
-<td align="center">为 Tooltip 的 popper 添加类名</td>
-<td align="center">String</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">enterable</td>
-<td align="center">鼠标是否可进入到 tooltip 中</td>
-<td align="center">Boolean</td>
-<td align="center">—</td>
-<td align="center">true</td>
-</tr>
-<tr>
-<td align="center">hide-after</td>
-<td align="center">Tooltip 出现后自动隐藏延时，单位毫秒，为 0 则不会自动隐藏</td>
-<td align="center">number</td>
-<td align="center">—</td>
-<td align="center">0</td>
-</tr>
-<tr>
-<td align="center">tabindex</td>
-<td align="center">Tooltip 组件的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex">tabindex</a></td>
-<td align="center">number</td>
-<td align="center">—</td>
-<td align="center">0</td>
-</tr>
-</tbody></table>
-<h4 id="标签3-gt-el-table-用于显示表格-目前主要是用这个"><a href="#标签3-gt-el-table-用于显示表格-目前主要是用这个" class="headerlink" title="标签3-&gt;el-table 用于显示表格,目前主要是用这个"></a>标签3-&gt;el-table 用于显示表格,目前主要是用这个</h4><p>Table Attributes</p>
-<table>
-<thead>
-<tr>
-<th align="center">参数</th>
-<th align="center">说明</th>
-<th align="center">类型</th>
-<th align="center">可选值</th>
-<th align="center">默认值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">data</td>
-<td align="center">显示的数据</td>
-<td align="center">array</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">height</td>
-<td align="center">Table 的高度，默认为自动高度。如果 height 为 number 类型，单位 px；如果 height 为 string 类型，则这个高度会设置为 Table 的 style.height 的值，Table 的高度会受控于外部样式。</td>
-<td align="center">string/number</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">max-height</td>
-<td align="center">Table 的最大高度。合法的值为数字或者单位为 px 的高度。</td>
-<td align="center">string/number</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">stripe</td>
-<td align="center">是否为斑马纹 table</td>
-<td align="center">boolean</td>
-<td align="center">—</td>
-<td align="center">false</td>
-</tr>
-<tr>
-<td align="center">border</td>
-<td align="center">是否带有纵向边框</td>
-<td align="center">boolean</td>
-<td align="center">—</td>
-<td align="center">false</td>
-</tr>
-<tr>
-<td align="center">size</td>
-<td align="center">Table 的尺寸</td>
-<td align="center">string</td>
-<td align="center">medium / small / mini</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">fit</td>
-<td align="center">列的宽度是否自撑开</td>
-<td align="center">boolean</td>
-<td align="center">—</td>
-<td align="center">true</td>
-</tr>
-<tr>
-<td align="center">show-header</td>
-<td align="center">是否显示表头</td>
-<td align="center">boolean</td>
-<td align="center">—</td>
-<td align="center">true</td>
-</tr>
-<tr>
-<td align="center">highlight-current-row</td>
-<td align="center">是否要高亮当前行</td>
-<td align="center">boolean</td>
-<td align="center">—</td>
-<td align="center">false</td>
-</tr>
-<tr>
-<td align="center">current-row-key</td>
-<td align="center">当前行的 key，只写属性</td>
-<td align="center">String,Number</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">row-class-name</td>
-<td align="center">行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。</td>
-<td align="center">Function({row, rowIndex})/String</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">row-style</td>
-<td align="center">行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。</td>
-<td align="center">Function({row, rowIndex})/Object</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">cell-class-name</td>
-<td align="center">单元格的 className 的回调方法，也可以使用字符串为所有单元格设置一个固定的 className。</td>
-<td align="center">Function({row, column, rowIndex, columnIndex})/String</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">cell-style</td>
-<td align="center">单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有单元格设置一样的 Style。</td>
-<td align="center">Function({row, column, rowIndex, columnIndex})/Object</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">header-row-class-name</td>
-<td align="center">表头行的 className 的回调方法，也可以使用字符串为所有表头行设置一个固定的 className。</td>
-<td align="center">Function({row, rowIndex})/String</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">header-row-style</td>
-<td align="center">表头行的 style 的回调方法，也可以使用一个固定的 Object 为所有表头行设置一样的 Style。</td>
-<td align="center">Function({row, rowIndex})/Object</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">header-cell-class-name</td>
-<td align="center">表头单元格的 className 的回调方法，也可以使用字符串为所有表头单元格设置一个固定的 className。</td>
-<td align="center">Function({row, column, rowIndex, columnIndex})/String</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">header-cell-style</td>
-<td align="center">表头单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有表头单元格设置一样的 Style。</td>
-<td align="center">Function({row, column, rowIndex, columnIndex})/Object</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">row-key</td>
-<td align="center">行数据的 Key，用来优化 Table 的渲染；在使用 reserve-selection 功能与显示树形数据时，该属性是必填的。类型为 String 时，支持多层访问：<code>user.info.id</code>，但不支持 <code>user.info[0].id</code>，此种情况请使用 <code>Function</code>。</td>
-<td align="center">Function(row)/String</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">empty-text</td>
-<td align="center">空数据时显示的文本内容，也可以通过 <code>slot=&quot;empty&quot;</code> 设置</td>
-<td align="center">String</td>
-<td align="center">—</td>
-<td align="center">暂无数据</td>
-</tr>
-<tr>
-<td align="center">default-expand-all</td>
-<td align="center">是否默认展开所有行，当 Table 包含展开行存在或者为树形表格时有效</td>
-<td align="center">Boolean</td>
-<td align="center">—</td>
-<td align="center">false</td>
-</tr>
-<tr>
-<td align="center">expand-row-keys</td>
-<td align="center">可以通过该属性设置 Table 目前的展开行，需要设置 row-key 属性才能使用，该属性为展开行的 keys 数组。</td>
-<td align="center">Array</td>
-<td align="center">—</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">default-sort</td>
-<td align="center">默认的排序列的 prop 和顺序。它的<code>prop</code>属性指定默认的排序的列，<code>order</code>指定默认排序的顺序</td>
-<td align="center">Object</td>
-<td align="center"><code>order</code>: ascending, descending</td>
-<td align="center">如果只指定了<code>prop</code>, 没有指定<code>order</code>, 则默认顺序是ascending</td>
-</tr>
-<tr>
-<td align="center">tooltip-effect</td>
-<td align="center">tooltip <code>effect</code> 属性</td>
-<td align="center">String</td>
-<td align="center">dark/light</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">show-summary</td>
-<td align="center">是否在表尾显示合计行</td>
-<td align="center">Boolean</td>
-<td align="center">—</td>
-<td align="center">false</td>
-</tr>
-<tr>
-<td align="center">sum-text</td>
-<td align="center">合计行第一列的文本</td>
-<td align="center">String</td>
-<td align="center">—</td>
-<td align="center">合计</td>
-</tr>
-<tr>
-<td align="center">summary-method</td>
-<td align="center">自定义的合计计算方法</td>
-<td align="center">Function({ columns, data })</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">span-method</td>
-<td align="center">合并行或列的计算方法</td>
-<td align="center">Function({ row, column, rowIndex, columnIndex })</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">select-on-indeterminate</td>
-<td align="center">在多选表格中，当仅有部分行被选中时，点击表头的多选框时的行为。若为 true，则选中所有行；若为 false，则取消选择所有行</td>
-<td align="center">Boolean</td>
-<td align="center">—</td>
-<td align="center">true</td>
-</tr>
-<tr>
-<td align="center">indent</td>
-<td align="center">展示树形数据时，树节点的缩进</td>
-<td align="center">Number</td>
-<td align="center">—</td>
-<td align="center">16</td>
-</tr>
-<tr>
-<td align="center">lazy</td>
-<td align="center">是否懒加载子节点数据</td>
-<td align="center">Boolean</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">load</td>
-<td align="center">加载子节点数据的函数，lazy 为 true 时生效，函数第二个参数包含了节点的层级信息</td>
-<td align="center">Function(row, treeNode, resolve)</td>
-<td align="center">—</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">tree-props</td>
-<td align="center">渲染嵌套数据的配置选项</td>
-<td align="center">Object</td>
-<td align="center">—</td>
-<td align="center">{ hasChildren: ‘hasChildren’, children: ‘children’ }</td>
-</tr>
-</tbody></table>
-<p><a target="_blank" rel="noopener" href="https://element.eleme.cn/#/zh-CN/component/table#table-events">¶</a> Table Events</p>
-<table>
-<thead>
-<tr>
-<th align="center">事件名</th>
-<th align="center">说明</th>
-<th align="center">参数</th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">select</td>
-<td align="center">当用户手动勾选数据行的 Checkbox 时触发的事件</td>
-<td align="center">selection, row</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">select-all</td>
-<td align="center">当用户手动勾选全选 Checkbox 时触发的事件</td>
-<td align="center">selection</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">selection-change</td>
-<td align="center">当选择项发生变化时会触发该事件</td>
-<td align="center">selection</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">cell-mouse-enter</td>
-<td align="center">当单元格 hover 进入时会触发该事件</td>
-<td align="center">row, column, cell, event</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">cell-mouse-leave</td>
-<td align="center">当单元格 hover 退出时会触发该事件</td>
-<td align="center">row, column, cell, event</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">cell-click</td>
-<td align="center">当某个单元格被点击时会触发该事件</td>
-<td align="center">row, column, cell, event</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">cell-dblclick</td>
-<td align="center">当某个单元格被双击击时会触发该事件</td>
-<td align="center">row, column, cell, event</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">row-click</td>
-<td align="center">当某一行被点击时会触发该事件</td>
-<td align="center">row, column, event</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">row-contextmenu</td>
-<td align="center">当某一行被鼠标右键点击时会触发该事件</td>
-<td align="center">row, column, event</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">row-dblclick</td>
-<td align="center">当某一行被双击时会触发该事件</td>
-<td align="center">row, column, event</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">header-click</td>
-<td align="center">当某一列的表头被点击时会触发该事件</td>
-<td align="center">column, event</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">header-contextmenu</td>
-<td align="center">当某一列的表头被鼠标右键点击时触发该事件</td>
-<td align="center">column, event</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">sort-change</td>
-<td align="center">当表格的排序条件发生变化的时候会触发该事件</td>
-<td align="center">{ column, prop, order }</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">filter-change</td>
-<td align="center">当表格的筛选条件发生变化的时候会触发该事件，参数的值是一个对象，对象的 key 是 column 的 columnKey，对应的 value 为用户选择的筛选条件的数组。</td>
-<td align="center">filters</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">current-change</td>
-<td align="center">当表格的当前行发生变化的时候会触发该事件，如果要高亮当前行，请打开表格的 highlight-current-row 属性</td>
-<td align="center">currentRow, oldCurrentRow</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">header-dragend</td>
-<td align="center">当拖动表头改变了列的宽度的时候会触发该事件</td>
-<td align="center">newWidth, oldWidth, column, event</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">expand-change</td>
-<td align="center">当用户对某一行展开或者关闭的时候会触发该事件（展开行时，回调的第二个参数为 expandedRows；树形表格时第二参数为 expanded）</td>
-<td align="center">row, (expandedRows \</td>
-<td>expanded)</td>
-</tr>
-</tbody></table>
-<p><a target="_blank" rel="noopener" href="https://element.eleme.cn/#/zh-CN/component/table#table-methods">¶</a> Table Methods</p>
-<table>
-<thead>
-<tr>
-<th align="center">方法名</th>
-<th align="center">说明</th>
-<th align="center">参数</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">clearSelection</td>
-<td align="center">用于多选表格，清空用户的选择</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">toggleRowSelection</td>
-<td align="center">用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）</td>
-<td align="center">row, selected</td>
-</tr>
-<tr>
-<td align="center">toggleAllSelection</td>
-<td align="center">用于多选表格，切换所有行的选中状态</td>
-<td align="center">-</td>
-</tr>
-<tr>
-<td align="center">toggleRowExpansion</td>
-<td align="center">用于可展开表格与树形表格，切换某一行的展开状态，如果使用了第二个参数，则是设置这一行展开与否（expanded 为 true 则展开）</td>
-<td align="center">row, expanded</td>
-</tr>
-<tr>
-<td align="center">setCurrentRow</td>
-<td align="center">用于单选表格，设定某一行为选中行，如果调用时不加参数，则会取消目前高亮行的选中状态。</td>
-<td align="center">row</td>
-</tr>
-<tr>
-<td align="center">clearSort</td>
-<td align="center">用于清空排序条件，数据会恢复成未排序的状态</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">clearFilter</td>
-<td align="center">不传入参数时用于清空所有过滤条件，数据会恢复成未过滤的状态，也可传入由columnKey组成的数组以清除指定列的过滤条件</td>
-<td align="center">columnKey</td>
-</tr>
-<tr>
-<td align="center">doLayout</td>
-<td align="center">对 Table 进行重新布局。当 Table 或其祖先元素由隐藏切换为显示时，可能需要调用此方法</td>
-<td align="center">—</td>
-</tr>
-<tr>
-<td align="center">sort</td>
-<td align="center">手动对 Table 进行排序。参数<code>prop</code>属性指定排序列，<code>order</code>指定排序顺序。</td>
-<td align="center">prop: string, order: string</td>
-</tr>
-</tbody></table>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-VUE初级教程" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1664911364.html" class="article-date">
-      <time datetime="2020-03-30T18:08:13.000Z" itemprop="datePublished">2020-03-31</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1664911364.html">VUE初级教程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="http://caibaojian.com/fetching-data-with-vue-js.html">使用Vue.js和Axios从第三方API获取请求数据</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jianxian/p/11938752.html">axios之Vue请求初始化数据放在Created还是Mounted？</a></p>
-<h2 id="axios介绍"><a href="#axios介绍" class="headerlink" title="axios介绍"></a>axios介绍</h2><p>基于Promise的HTTP客户端，用于浏览器和node.js <a target="_blank" rel="noopener" href="https://github.com/axios/axios">axios-github</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="http://caibaojian.com/fetching-data-with-vue-js.html">使用Vue.js和Axios从第三方API获取请求数据</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jianxian/p/11938752.html">axios之Vue请求初始化数据放在Created还是Mounted？</a></p>
-<h2 id="axios介绍"><a href="#axios介绍" class="headerlink" title="axios介绍"></a>axios介绍</h2><p>基于Promise的HTTP客户端，用于浏览器和node.js <a target="_blank" rel="noopener" href="https://github.com/axios/axios">axios-github</a></p>
-<ul>
-<li>制作<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">的XMLHttpRequest</a>从浏览器</li>
-<li>让<a target="_blank" rel="noopener" href="http://nodejs.org/api/http.html">HTTP</a>从node.js的请求</li>
-<li>支持<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a> API</li>
-<li>拦截请求和响应</li>
-<li>转换请求和响应数据</li>
-<li>取消请求</li>
-<li>JSON数据的自动转换</li>
-<li>客户端支持以防止<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">XSRF</a></li>
-</ul>
-<h3 id="vue的初始化过程"><a href="#vue的初始化过程" class="headerlink" title="vue的初始化过程"></a>vue的初始化过程</h3><p><a href="../img/lifecycle.png"><img src="../img/lifecycle.png" alt="lifecycle"></a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; new Vue(&#123;        el: &quot;#app&quot;,        data: &#123;            num: 0        &#125;,        beforeCreate() &#123;                console.log(&quot;创建前&quot;)        &#125;,        created() &#123;            console.log(&quot;创建&quot;)        &#125;,        beforeMount() &#123;            console.log(&quot;计数前&quot;)        &#125;,        mounted() &#123;            console.log(&quot;计数了&quot;)        &#125;,    &#125;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="之前赋值不到vue的data里"><a href="#之前赋值不到vue的data里" class="headerlink" title="之前赋值不到vue的data里"></a>之前赋值不到vue的data里</h2><p>最开始放在 created(),mounted()都可以赋值过去</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var mydata&#x3D;&quot;&quot; ;var app &#x3D; new Vue(&#123;        el: &quot;#app&quot;,        data: &#123;            num: 0,            tableDataA:mydata        &#125;,        beforeCreate() &#123;                console.log(&quot;创建前&quot;)        &#125;,        created() &#123;            console.log(&quot;创建&quot;)        &#125;,        beforeMount() &#123;            console.log(&quot;计数前&quot;)        &#125;,        mounted() &#123;            console.log(&quot;计数了&quot;)        &#125;,    &#125;)</span><br><span class="line">axios.get(&#39;http:&#x2F;&#x2F;localhost:8081&#x2F;BackSpace&#x2F;test&#39;)    .then(function (response) &#123;    &#x2F;&#x2F; mydata&#x3D;response.data 刚开始使用的这个 但是一直赋值不过去        &#x2F;&#x2F;这个方法也不行,this不能指代当前这个app对象    this.tableDataA&#x3D;response.data&#125;)    .catch(function (error) &#123;    console.log(error);&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>成功的版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">axios.get(&#39;http:&#x2F;&#x2F;localhost:8081&#x2F;BackSpace&#x2F;test&#39;).then(response &#x3D;&gt; &#123;this.tableDataA&#x3D;response.data&#125;).catch(function (error) &#123;console.log(error);&#125;);</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/"> 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/3/"> 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/5/">下一页 </a>
     </nav>
   
 </div>

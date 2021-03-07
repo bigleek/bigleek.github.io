@@ -4,6 +4,38 @@
   
     
     <entry>
+      <title>docker搭建单机kafka</title>
+      <link href="4225d45e.html"/>
+      <url>4225d45e.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="搭建单机kafka选型"><a href="#搭建单机kafka选型" class="headerlink" title="搭建单机kafka选型"></a>搭建单机kafka选型</h1><ul><li><p>选择docker容器内集成 kafka,zookeeper 的容器 </p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 找到的这个 容器设置了 kafka的hostname和 zookeeper的ip ,</span></span><br><span class="line"> docker run -d -e ADVERTISED_HOSTNAME=$(hostname -f)  -e KAFKA_ADVERTISED_HOST_NAME=192.168.248.128 -e ZOOKEEPER_IP=192.168.248.128 -p 9092:9092 -p 2181:2181 --restart=always jrottenberg/kafka-standalone</span><br></pre></td></tr></table></figure><p>基于上面的容器是可以运行 获取到了zookeeper的broker 但是kafka是连接不上 </p></li><li><p>docker-composer 来执行</p><p>参考第 <a href="https://github.com/conduktor/kafka-stack-docker-compose">https://github.com/conduktor/kafka-stack-docker-compose</a> </p><p>但是还有有个问题,我搭建的环境是离线的,尽量还是以 docker命令来执行减少安装其他软件</p></li><li><p>原始的 kafka,zookeeper 分开安装,在设置环境变量(选用的方案)</p></li></ul><h1 id="前置需要安装的软件"><a href="#前置需要安装的软件" class="headerlink" title="前置需要安装的软件"></a>前置需要安装的软件</h1><p>prettyZoo 查看zookeeper很方便</p><p>cmak (kafka manage) kafka监控软件</p><h1 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h1><p><a href="https://ioccc.cc/2018/12/12/zookeeper-kafka/">https://ioccc.cc/2018/12/12/zookeeper-kafka/</a>   改部分参考该篇博文</p><h2 id="运行zookeeper"><a href="#运行zookeeper" class="headerlink" title="运行zookeeper"></a>运行zookeeper</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name zookeeper --publish 2181:2181 \</span><br><span class="line"> --volume &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime \</span><br><span class="line"> zookeeper:latest</span><br></pre></td></tr></table></figure><h2 id="运行kafka"><a href="#运行kafka" class="headerlink" title="运行kafka"></a>运行kafka</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name kafka --publish 9092:9092 \</span><br><span class="line"> --link zookeeper \</span><br><span class="line"> --env KAFKA_ZOOKEEPER_CONNECT&#x3D;zookeeper:2181 \</span><br><span class="line"> --env KAFKA_ADVERTISED_HOST_NAME&#x3D;HOST_IP \</span><br><span class="line"> --env KAFKA_ADVERTISED_PORT&#x3D;9092 \</span><br><span class="line"> --volume &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime \</span><br><span class="line"> wurstmeister&#x2F;kafka:latest</span><br></pre></td></tr></table></figure><p>进去容器</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker  exec -it  &lt;ID&gt; &#x2F;bash&#x2F;sh</span><br><span class="line"></span><br><span class="line">cd &#x2F;opt&#x2F;kafka**&#x2F;bin</span><br></pre></td></tr></table></figure><h3 id="创建topic-名为test"><a href="#创建topic-名为test" class="headerlink" title="创建topic 名为test"></a>创建topic 名为test</h3><p> kafka-topics.sh –create –zookeeper zookeeper:2181 –replication-factor 1 –partitions 1 –topic test</p><h3 id="列出所有的topic"><a href="#列出所有的topic" class="headerlink" title="列出所有的topic"></a>列出所有的topic</h3><p> kafka-topics.sh –list –zookeeper zookeeper:2181</p><h3 id="创建生产者输入测试信息"><a href="#创建生产者输入测试信息" class="headerlink" title="创建生产者输入测试信息"></a>创建生产者输入测试信息</h3><p> kafka-console-producer.sh –broker-list localhost:9092 –topic test</p><p> kafka-console-consumer.sh –bootstrap-server localhost:9092 –topic test –from-beginning</p><h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><p>需要将  KAFKA_ADVERTISED_HOST_NAME=<strong>HOST_IP</strong> 改为 docker所在的ip</p><p>在cmak中是看不到 topic.需要 用3.3.1 的命令去创建</p><p><img src="file://E:/blog/source/img/image-20210307132400145.png?lastModify=1615094706" alt="image-20210307132400145"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>dgithubaction 实例操作</title>
+      <link href="50c36cff.html"/>
+      <url>50c36cff.html</url>
+      
+        <content type="html"><![CDATA[<p><a href="https://51.ruyo.net/16876.html">https://51.ruyo.net/16876.html</a>  -&gt;&gt;&gt;&gt;&gt; <a href="https://github.com/bigleek/UnicomTask">https://github.com/bigleek/UnicomTask</a></p><p><a href="https://51.ruyo.net/16050.html">https://51.ruyo.net/16050.html</a>  -&gt;&gt;&gt;&gt;&gt;&gt; <a href="https://github.com/bigleek/Cloud189Checkin-Actions">https://github.com/bigleek/Cloud189Checkin-Actions</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>分布式事务</title>
       <link href="cdcc4eae.html"/>
       <url>cdcc4eae.html</url>
