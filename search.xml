@@ -4,7 +4,39 @@
   
     
     <entry>
-      <title>docker搭建单机kafka</title>
+      <title>ambari-server中postgress启动</title>
+      <link href="466081a0.html"/>
+      <url>466081a0.html</url>
+      
+        <content type="html"><![CDATA[<p><img src="../img/image-20210310160022213.png" alt="image-20210310160022213"></p><p> Unable to start PostgreSQL server. Status stopped. . Exiting</p><p>bin  pg_ctl status </p><p> systemctl start  postgresql.service</p><p><img src="../img/image-20210310160212137.png" alt="image-20210310160212137"></p><p>FATAL:  could not write lock file “postmaster.pid”: No space left on device</p><p> df -h</p><p><img src="../img/image-20210310160232827.png" alt="image-20210310160232827"></p><p>systemctl start  postgresql.service</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>sublime优化和推荐插件</title>
+      <link href="bcb72f0.html"/>
+      <url>bcb72f0.html</url>
+      
+        <content type="html"><![CDATA[<p>参考 链接 <a href="https://segmentfault.com/a/1190000022501113">https://segmentfault.com/a/1190000022501113</a></p><p>ctrol + shift +p</p><p>package control  install  package</p><p><img src="C:/Users/leek/AppData/Roaming/Typora/typora-user-images/image-20210307143657802.png" alt="image-20210307143657802"></p><p>安装后出</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> sublime </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
       <link href="4225d45e.html"/>
       <url>4225d45e.html</url>
       
@@ -1294,7 +1326,7 @@
       <link href="4262021452.html"/>
       <url>4262021452.html</url>
       
-        <content type="html"><![CDATA[<h3 id="如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉："><a href="#如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉：" class="headerlink" title="如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉："></a>如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉：</h3><p>sudo yum -y remove docker docker-common docker-selinux docker-engine docker-engine-selinux container-selinux docker-ce</p><p>#删除所有的镜像、容器、数据卷、配置文件等<br>sudo rm -rf /var/lib/docker</p><h2 id="如果已安装不想要docker、docker-engine、docker-ce相关的软件包"><a href="#如果已安装不想要docker、docker-engine、docker-ce相关的软件包" class="headerlink" title="如果已安装不想要docker、docker-engine、docker-ce相关的软件包"></a>如果已安装不想要docker、docker-engine、docker-ce相关的软件包</h2><p>则卸载掉：<br>sudo yum -y remove docker docker-common docker-selinux docker-engine docker-engine-selinux container-selinux docker-ce</p><p>#删除所有的镜像、容器、数据卷、配置文件等<br>sudo rm -rf /var/lib/docker</p><p>rpm -qa|grep docker</p><p>yum list installed|grep docker</p>]]></content>
+        <content type="html"><![CDATA[<h1 id="离线安装"><a href="#离线安装" class="headerlink" title="离线安装"></a>离线安装</h1><h2 id="docker-依赖检测失败-centos7"><a href="#docker-依赖检测失败-centos7" class="headerlink" title="docker 依赖检测失败 centos7"></a>docker 依赖检测失败 centos7</h2><p>rpm -ivp *.rpm </p><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>但一直报 依赖检测失败以为是系统版本不对用命令查询 cat /etc/redhat-release</p><p>但是都是centos7 小版本有区别,这边之前都是在本地虚拟机上安装没出现这样的问题,以为是真的依赖不上,但是我使用的命令为</p><p>yum download –downloadonly=/root/download  docker </p><p>这个命令应该是会把所有依赖的软件都下载下来的</p><h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>rpm -ivh  –nodeps –force  *.rpm </p><p>强制执行</p><h1 id="完全卸载docker"><a href="#完全卸载docker" class="headerlink" title="完全卸载docker"></a>完全卸载docker</h1><h3 id="如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉："><a href="#如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉：" class="headerlink" title="如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉："></a>如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉：</h3><p>sudo yum -y remove docker docker-common docker-selinux docker-engine docker-engine-selinux container-selinux docker-ce</p><p>#删除所有的镜像、容器、数据卷、配置文件等<br>sudo rm -rf /var/lib/docker</p><h2 id="如果已安装不想要docker、docker-engine、docker-ce相关的软件包"><a href="#如果已安装不想要docker、docker-engine、docker-ce相关的软件包" class="headerlink" title="如果已安装不想要docker、docker-engine、docker-ce相关的软件包"></a>如果已安装不想要docker、docker-engine、docker-ce相关的软件包</h2><p>则卸载掉：<br>sudo yum -y remove docker docker-common docker-selinux docker-engine docker-engine-selinux container-selinux docker-ce</p><p>#删除所有的镜像、容器、数据卷、配置文件等<br>sudo rm -rf /var/lib/docker</p><p>rpm -qa|grep docker</p><p>yum list installed|grep docker</p>]]></content>
       
       
       
