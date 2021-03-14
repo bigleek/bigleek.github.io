@@ -269,6 +269,103 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-spring 整合回顾" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/857262000000000.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/857262000000000.html">spring 整合回顾</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="spring-整合回顾"><a href="#spring-整合回顾" class="headerlink" title="spring 整合回顾"></a>spring 整合回顾</h1><p>注意spring的对bean的管理必须是建立在你声明的情况下,不然是不会管理的,还有针对配置文件必须要将给类使用也是必须要注解声明<br>在spring整合中要注意包括<br>webapp下的web,xml需要配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dispatch 服务启动时要跟着启动</span><br><span class="line">拦截器保证你拦截到.do或者其他的值(在springmvc配置文件中)</span><br><span class="line">中文乱码</span><br><span class="line">确保能读取spring-xxx.xml的这类文件</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="spring-整合回顾"><a href="#spring-整合回顾" class="headerlink" title="spring 整合回顾"></a>spring 整合回顾</h1><p>注意spring的对bean的管理必须是建立在你声明的情况下,不然是不会管理的,还有针对配置文件必须要将给类使用也是必须要注解声明<br>在spring整合中要注意包括<br>webapp下的web,xml需要配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dispatch 服务启动时要跟着启动</span><br><span class="line">拦截器保证你拦截到.do或者其他的值(在springmvc配置文件中)</span><br><span class="line">中文乱码</span><br><span class="line">确保能读取spring-xxx.xml的这类文件</span><br></pre></td></tr></table></figure>
+
+<p>!!配置监听器过程启动时启动ioc容器!!</p>
+<p>将重要的文件什么会员才能下载的jsp文件都需要放在WEB-INF下面,确保能完成,还有一部分静态资源可以放在static文件夹下面,html的话可以放在主路径下面,</p>
+<p>然后就是核心配置文件的配置包括<br>resource下面spring核心配置文件 注入DataSource bean<br>开启配置文件扫描</p>
+<p>spring_MVC</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">配置文件:开启扫描 原本是在WEB-INF下面现在是都放在web下面</span><br><span class="line">注解开启   </span><br><span class="line">配置拦截路径和指向哪里 .jsp 还有静态文件全部放</span><br><span class="line">在controller下开启restcontroller respestMapping</span><br><span class="line"></span><br><span class="line">&lt;!--重要别忘了解决静态资源被拦截的问题--&gt;</span><br><span class="line">&lt;mvc:default-servlet-handler&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    转换器啊cover</span><br><span class="line">    &lt;mvc:annotation-driven&gt;</span><br><span class="line">    &lt;mvc:message-converters&gt;</span><br><span class="line">        &lt;bean class&#x3D;&quot;org.springframework.http.converter.StringHttpMessageConverter&quot;&gt;</span><br><span class="line">            &lt;constructor-arg name&#x3D;&quot;defaultCharset&quot; value&#x3D;&quot;UTF-8&quot;&#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;bean&gt;</span><br><span class="line">    &lt;&#x2F;mvc:message-converters&gt;</span><br><span class="line">&lt;&#x2F;mvc:annotation-driven&gt;</span><br></pre></td></tr></table></figure>
+
+<p>mybatis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">导入数据库连接池的bean </span><br><span class="line">开启包扫描 </span><br><span class="line">注解开启   </span><br><span class="line">注解开发</span><br><span class="line">扫描mybatis sql的文件</span><br><span class="line"> sql必须要1),名字和接口名一样</span><br><span class="line">        2),@paremater提供</span><br><span class="line">        3).对象里面还有对象的复杂模型</span><br><span class="line">        4).</span><br></pre></td></tr></table></figure>
+
+<p>!! 配置基包!!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mybatis导入插件</span><br><span class="line">&lt;plugins&gt;</span><br><span class="line">    &lt;plugin interceptor&#x3D;&quot;com.github.pagehelper.PageInterceptor&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;plugin interceptor&#x3D;&quot;com.github.abel533.mapperhelper.MapperInterceptor&quot;&gt;</span><br><span class="line">        &lt;!--指定主键自增回写方法,默认值MYSQL,详细说明请看文档 --&gt;</span><br><span class="line">        &lt;property name&#x3D;&quot;IDENTITY&quot; value&#x3D;&quot;MYSQL&quot; &#x2F;&gt;</span><br><span class="line">        &lt;!--通用Mapper接口，多个通用接口用逗号隔开 --&gt;</span><br><span class="line">        &lt;property name&#x3D;&quot;mappers&quot; value&#x3D;&quot;com.github.abel533.mapper.Mapper&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;plugin&gt;</span><br><span class="line">    &lt;&#x2F;plugins&gt;</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-springAOP使用动态代理的简单实现" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1398,135 +1495,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ES相关的知识总结一" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3632233998.html" class="article-date">
-      <time datetime="2019-03-23T18:59:20.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3632233998.html">ES相关的知识总结一</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>1）type</p>
-<p>Elasticsearch中支持的数据类型非常丰富：</p>
-<ul>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>1）type</p>
-<p>Elasticsearch中支持的数据类型非常丰富：</p>
-<ul>
-<li>String类型，又分两种：<ul>
-<li>text：可分词，不可参与聚合</li>
-<li>keyword：不可分词，数据会作为完整字段进行匹配，可以参与聚合</li>
-</ul>
-</li>
-<li>Numerical：数值类型，分两类<ul>
-<li>基本数据类型：long、interger、short、byte、double、float、half_float</li>
-<li>浮点数的高精度类型：scaled_float<ul>
-<li>需要指定一个精度因子，比如10或100。elasticsearch会把真实值乘以这个因子后存储，取出时再还原。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Date：日期类型<br>elasticsearch可以对日期格式化为字符串存储，但是建议我们存储为毫秒值，存储为long，节省空间。</li>
-</ul>
-<p>2）index</p>
-<p>index影响字段的索引情况。</p>
-<ul>
-<li>true：字段会被索引，则可以用来进行搜索。默认值就是true</li>
-<li>false：字段不会被索引，不能用来搜索</li>
-</ul>
-<p>index的默认值就是true，也就是说你不进行任何配置，所有字段都会被索引。</p>
-<p>但是有些字段是我们不希望被索引的，比如商品的图片信息，就需要手动设置index为false。</p>
-<p>3）store</p>
-<p>是否将数据进行额外存储。_source</p>
-<p>在学习lucene和solr时，我们知道如果一个字段的store设置为false，那么在文档列表中就不会有这个字段的值，用户的搜索结果中不会显示出来。</p>
-<p>但是在Elasticsearch中，即便store设置为false，也可以搜索到结果。</p>
-<p>原因是Elasticsearch在创建文档索引时，会将文档中的原始数据备份，保存到一个叫做_source的属性中。最终我们查询数据是从_source中来取值，所以可以通过过滤_source来选择哪些要显示，哪些不显示。</p>
-<p>而如果设置store为true，就会在_source以外额外存储一份数据，多余，因此一般我们都会将store设置为false，事实上，store的默认值就是false。</p>
-<p>4）boost</p>
-<p>激励因子，这个与lucene中一样</p>
-<p>其它的不再一一讲解，用的不多，大家参考官方文档：</p>
-<p>还有查询的更多东西(mathch all)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “match_all”: &#123;&#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">匹配查询(match)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “match”:&#123;</span><br><span class="line">​ “title”:”小米电视”</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">多字段查询(multi_match)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “multi_match”: &#123;</span><br><span class="line">​ “query”: “小米”,</span><br><span class="line">​ “fields”: [ “title”, “subTitle” ]</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">词条匹配(term)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “term”:&#123;</span><br><span class="line">​ “price”:2699.00</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">多词条精确匹配(terms)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “terms”:&#123;</span><br><span class="line">​ “price”:[2699.00,2899.00,3899.00]</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>结果过滤</p>
-<p>默认情况下，elasticsearch在搜索的结果中，会把文档中保存在_source的所有字段都返回。</p>
-<p>如果我们只想获取其中的部分字段，我们可以添加_source的过滤</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">“_source”: [“title”,”price”],&#x3D;&#x3D;&#x3D;&#x3D;&gt;includi exclud</span><br><span class="line">“query”: &#123;</span><br><span class="line">​ “term”: &#123;</span><br><span class="line">​ “price”: 2699</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
     </div>
  -->
 

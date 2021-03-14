@@ -269,6 +269,94 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-检查Ubuntu开机的相关操作" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2802364883.html" class="article-date">
+      <time datetime="2019-07-25T03:34:00.000Z" itemprop="datePublished">2019-07-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2802364883.html">检查Ubuntu开机的相关操作</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p> 开机启动软件都会放在这个目录下/etc/init.d/</p>
+<p> systemd-analyze blame 可以分析开机占用时间比较多点 进程</p>
+<p> sudo systemd-analyze plot &gt; boot.svg 可以想数据导出成 svg 文件</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p> 开机启动软件都会放在这个目录下/etc/init.d/</p>
+<p> systemd-analyze blame 可以分析开机占用时间比较多点 进程</p>
+<p> sudo systemd-analyze plot &gt; boot.svg 可以想数据导出成 svg 文件</p>
+<p>或者直接查看 开机日志 /var/log/boot.log</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-搜狗输入法linux版  两个图标在托盘 tray" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1429,99 +1517,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu优化--smb局域网分享" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2693474031.html" class="article-date">
-      <time datetime="2019-03-27T00:53:16.000Z" itemprop="datePublished">2019-03-27</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2693474031.html">Ubuntu优化--smb局域网分享</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/root0/p/9275118.html">samba实现文件共享</a></p>
-<p>Linux系统与Windows系统之间共享文件资源，小文件可以使用lrzsz，大文件可以使用samba。</p>
-<p>Ubuntu是有自带的文件分享的 分享后</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/root0/p/9275118.html">samba实现文件共享</a></p>
-<p>Linux系统与Windows系统之间共享文件资源，小文件可以使用lrzsz，大文件可以使用samba。</p>
-<p>Ubuntu是有自带的文件分享的 分享后</p>
-<p>我是在vmvare上装了Windows的虚拟机经常需要两个局域网上共享文件 用Linux的分享手机也可以使用samba 协议的APP访问局域网 内的文件，还可以正常流媒体在线播放还是比较方便的的</p>
-<p>netstat -an | grep 3306</p>
-<p>tcp 0 0 0.0.0.0:3306 0.0.0.0:* LISTEN<br>tcp 0 0 127.0.0.1:3306 127.0.0.1:52102 ESTABLISHED<br>tcp 0 0 127.0.0.1:3306 127.0.0.1:52104 ESTABLISHED<br>tcp6 0 0 127.0.0.1:52104 127.0.0.1:3306 ESTABLISHED<br>tcp6 0 0 127.0.0.1:52102 127.0.0.1:3306 ESTABLISHED</p>
-<p>bind-address = 127.0.0.1 原本的是这样的</p>
-<p>bind-addres = 0.0.0.0 后面有人说需要 其实主要上面的这个的就行了</p>
-<p>/etc/mysql/mysql.conf.d/mysqld.cnf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 3306 -j ACCEPT</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
     </div>
  -->
 

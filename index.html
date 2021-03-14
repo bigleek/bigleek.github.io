@@ -269,6 +269,155 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-log-drive一次 java.io.IOException Connection reset by peer 故障排查" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/f85e694a.html" class="article-date">
+      <time datetime="2021-03-14T00:29:46.000Z" itemprop="datePublished">2021-03-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>转载地址: <a target="_blank" rel="noopener" href="https://mengkang.net/1118.html">https://mengkang.net/1118.html</a></p>
+<p>我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Connection reset by peer</span><br><span class="line">  at sun.nio.ch.FileDispatcherImpl.read0(Native Method)</span><br><span class="line">  at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)</span><br><span class="line">  at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)</span><br><span class="line">  at sun.nio.ch.IOUtil.read(IOUtil.java:192)</span><br><span class="line">  at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)</span><br><span class="line">  at io.netty.buffer.PooledUnsafeDirectByteBuf.setBytes(PooledUnsafeDirectByteBuf.java:311)</span><br><span class="line">  at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:853)</span><br><span class="line">  at io.netty.buffer.WrappedByteBuf.writeBytes(WrappedByteBuf.java:641)</span><br><span class="line">  at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:240)</span><br><span class="line">  at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:115)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)</span><br><span class="line">  at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>转载地址: <a target="_blank" rel="noopener" href="https://mengkang.net/1118.html">https://mengkang.net/1118.html</a></p>
+<p>我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Connection reset by peer</span><br><span class="line">  at sun.nio.ch.FileDispatcherImpl.read0(Native Method)</span><br><span class="line">  at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)</span><br><span class="line">  at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)</span><br><span class="line">  at sun.nio.ch.IOUtil.read(IOUtil.java:192)</span><br><span class="line">  at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)</span><br><span class="line">  at io.netty.buffer.PooledUnsafeDirectByteBuf.setBytes(PooledUnsafeDirectByteBuf.java:311)</span><br><span class="line">  at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:853)</span><br><span class="line">  at io.netty.buffer.WrappedByteBuf.writeBytes(WrappedByteBuf.java:641)</span><br><span class="line">  at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:240)</span><br><span class="line">  at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:115)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)</span><br><span class="line">  at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/netty/netty/issues/5936">https://github.com/netty/netty/issues/5936</a><br><code>Connection reset by peer</code> is typically a result of your peer sending a TCP RST to you.</p>
+</blockquote>
+<h1 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h1><p>既然是网络故障，tcpdump 是否可用呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sudo netstat -lnp|grep 8657</span><br><span class="line">tcp        0      0 0.0.0.0:443                 0.0.0.0:*                   LISTEN      8657&#x2F;java</span><br></pre></td></tr></table></figure>
+
+<p>没有列出全部的 socket 连接，从当前进程监听的端口入手试试。<code>ifconfig</code>可以看到这台机器有两个网卡（eth0 内网 ip，eth1 公网 ip）。</p>
+<h2 id="tcpdump-下的-tcp-ip-协议解析"><a href="#tcpdump-下的-tcp-ip-协议解析" class="headerlink" title="tcpdump 下的 tcp/ip 协议解析"></a>tcpdump 下的 tcp/ip 协议解析</h2><p>先看下 tcpdump 输出tcp/ip 数据的大致格式</p>
+<blockquote>
+<p>参考 <a target="_blank" rel="noopener" href="http://www.tcpdump.org/tcpdump_man.html">http://www.tcpdump.org/tcpdump_man.html</a> 中关于 tcp 协议的描述，我整理了下格式</p>
+</blockquote>
+<p>The general format of a TCP protocol line is</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src &gt; dst: Flags [tcpflags], seq data-seqno, ack ackno, win window, urg urgent, options [opts], length len</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>src</code> and <code>dst</code> are the source and destination IP addresses and ports.</li>
+<li><code>tcpflags</code> are some combination of <code>S</code> (SYN), <code>F</code> (FIN), <code>P</code> (PUSH), <code>R</code> (RST), <code>U</code> (URG), <code>W</code> (ECN CWR), <code>E</code> (ECN-Echo) or <code>.</code> (ACK), or <code>none</code> if no flags are set.</li>
+<li><code>data-seqno</code> describes the portion of sequence space covered by the data in this packet.</li>
+<li><code>ackno</code> is sequence number of the next data expected the other direction on this connection.</li>
+<li><code>window</code> is the number of bytes of receive buffer space available the other direction on this connection.</li>
+<li><code>urg</code> indicates there is <code>urgent</code> data in the packet.</li>
+<li><code>opts</code> are TCP options (e.g., mss 1024).</li>
+<li><code>len</code> is the length of payload data.</li>
+</ol>
+<h2 id="抓包数据"><a href="#抓包数据" class="headerlink" title="抓包数据"></a>抓包数据</h2><p>通过<code>tcpdump</code>查看下443 端口的网络情况。与上面的格式略有不同。因为我有两个网卡，请求是从 eth0 进，从 eth1 出，我尝试使用<code>tcpdump -i any</code> 发现第三次握手输出的 askno 数据不对。（<strong>为什么会这样呢，还不知道，谁知道请告知下</strong>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$sudo tcpdump -i any -nn port 443</span><br><span class="line"></span><br><span class="line">16:18:41.553460 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: S 806033:806033(0) win 14600 &lt;mss 1460,sackOK,timestamp 2230744217 0,nop,wscale 8&gt;</span><br><span class="line">16:18:41.553483 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.110.5745: S 1720728675:1720728675(0) ack 806034 win 14480 &lt;mss 1460,sackOK,timestamp 2425389802 2230744217,nop,wscale 7&gt;</span><br><span class="line">16:18:41.553647 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: . ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br><span class="line">16:18:41.553677 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: R 1:1(0) ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>但是如果你要导出<code>*.pcap</code>文件然后用<code>wireshark</code>来查看，还是得将两个网卡的流量合并到一起才行。</p>
+</blockquote>
+<p>两个网卡分开抓</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 合并到一起写</span><br><span class="line">$sudo tcpdump -i eth0 -nn port 443</span><br><span class="line">$sudo tcpdump -i eth1 -nn port 443</span><br><span class="line"></span><br><span class="line">16:51:16.073956 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: S 2659415794:2659415794(0) win 14600 &lt;mss 1460,sackOK,timestamp 2328745293 0,nop,wscale 8&gt;</span><br><span class="line">16:51:16.073985 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.2.61835: S 955422999:955422999(0) ack 2659415795 win 14480 &lt;mss 1460,sackOK,timestamp 2427344323 2328745293,nop,wscale 7&gt;</span><br><span class="line">16:51:16.074147 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: . ack 955423000 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br><span class="line">16:51:16.074192 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: R 0:0(0) ack 1 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面的握手比较简单对应着</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">时间 协议 src &gt; dst tcpflags data-seqno ack ackno win window &lt;opts&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="握手逻辑"><a href="#握手逻辑" class="headerlink" title="握手逻辑"></a>握手逻辑</h2><p>一次连接建立的三次握手的步骤：</p>
+<ol>
+<li>Caller sends SYN</li>
+<li>Recipient responds with SYN, ACK</li>
+<li>Caller sends ACK</li>
+</ol>
+<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><ol>
+<li>src 发送的 tcpflags = S，也就是说发送的SYN请求，随机产生一个值 data-seqno = J(<code>2659415794</code>)，并将该数据包发送给 dst</li>
+<li>dst 发送的 tcpflags = S，实际发送的时候 SYN 和 ACK 标志位都置1了，返回一个 ackno=<code>J</code> + 1，也就是<code>2659415795</code>，然后随机生成一个新的 data-seqno = K(<code>955422999</code>) 发送给 src</li>
+<li>src 检查收到的 ackno 是不是等于<code>J</code>+<code>1</code>，然后再发送一个 ackno = <code>K</code>+1，也就是<code>955423000</code>，前面的文档中说道<code>tcpflags</code>为<code>.</code>的时候也表示<code>ACK</code></li>
+<li>src 最后为什么又给 dst 发送一个 tcpflags = R 的请求呢？</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://mengkang.net/upload/image/2017/1221/1513846681114601.png"><img src="https://mengkang.net/upload/image/2017/1221/1513846681114601.png" alt="一次 java.io.IOException: Connection reset by peer 故障排查"></a></p>
+<h2 id="为什么会出现-RST"><a href="#为什么会出现-RST" class="headerlink" title="为什么会出现 RST"></a>为什么会出现 RST</h2><p>因为具有周期性，我大概猜到了，是 lvs 对我的后端服务的健康检查导致的，联系了网络运营服务客服人员，我把<code>.pcap</code>给他们</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i any port 443 -c 3 -w log.pcap</span><br></pre></td></tr></table></figure>
+
+<p>他们确认源地址就是LVS的local地址。<br>健康检查的机制就是建立成功后就 RST 掉，就不占用 session 了。这是公司的规范，问题算是定位了。既然公司的规范，那么我们这边需要定制修改下，针对 vip 发送的 RST 不处理。</p>
+<p>其他参考</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/netty/netty/issues/6029">https://github.com/netty/netty/issues/6029</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc793">https://tools.ietf.org/html/rfc793</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/costaxu/blog/127394">https://my.oschina.net/costaxu/blog/127394</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-ambari-server中postgress启动" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -2607,138 +2756,6 @@
 <p>这种来分开步骤和梳理逻辑<br>同时遇到的问题或者是要集中介绍和梳理的内容可以放在后面开头<br>问题这种一般先描述现象和问题,然后 列出解决方案不必纠结与 ,把问题讲清楚<br>在md也尽量使用规范 引用  代码块 需要分开使用不要乱用,对应主要的部分可以加粗高亮</p>
 <p>对于第二种预研学习类<br>来个实例网站 <a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/129908.html?spm=a2c4g.11186623.2.25.7d0049ec9vDbQk">阿里云 云数据库 hbase</a> </p>
 <p>先应该是基本概念 来介绍名词和这个技术或者服务的概览<br>列出类似的产品服务,描述这个技术和产品的特点 依赖的环境和 版本<br>给出实例代码和<br>有实例代码或者 sample来</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Linux使用fdisk挂载和初始化磁盘以华为云服务器为例" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/ca3ef640.html" class="article-date">
-      <time datetime="2021-01-25T02:49:17.000Z" itemprop="datePublished">2021-01-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h4 id="先使用-fdisk-l-查看磁盘情况"><a href="#先使用-fdisk-l-查看磁盘情况" class="headerlink" title="先使用 fdisk -l 查看磁盘情况"></a>先使用 fdisk -l 查看磁盘情况</h4><p><img src="../img/image-20210122100412882.png" alt="image-20210122100412882"></p>
-<p>磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况</p>
-<p>看到有 <strong>/dev/vdb</strong>没有被使用那就去初始化然后去使用</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h4 id="先使用-fdisk-l-查看磁盘情况"><a href="#先使用-fdisk-l-查看磁盘情况" class="headerlink" title="先使用 fdisk -l 查看磁盘情况"></a>先使用 fdisk -l 查看磁盘情况</h4><p><img src="../img/image-20210122100412882.png" alt="image-20210122100412882"></p>
-<p>磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况</p>
-<p>看到有 <strong>/dev/vdb</strong>没有被使用那就去初始化然后去使用</p>
-<h3 id="使用-fdisk-dev-vdb-来初始化"><a href="#使用-fdisk-dev-vdb-来初始化" class="headerlink" title="使用 fdisk /dev/vdb 来初始化"></a>使用 fdisk /dev/vdb 来初始化</h3><p>先进入会有 (Command (m for help))步骤如下</p>
-<ol>
-<li> n    是去初步去创建新磁盘</li>
-<li> 进入 一直按 enter  包括 primary,extend  ,起始磁盘等都走默认 ,Partition number 默认为1 </li>
-<li> p  查看具体的分区情况</li>
-<li> w  写入修改</li>
-</ol>
-<p>下图为过程</p>
-<p><img src="../img/image-20210122100726644.png" alt="image-20210122100726644"></p>
-<h3 id="fdisk-l-查看磁盘已经初始化"><a href="#fdisk-l-查看磁盘已经初始化" class="headerlink" title="fdisk -l 查看磁盘已经初始化"></a>fdisk -l 查看磁盘已经初始化</h3><p><img src="../img/image-20210122101643077.png" alt="image-20210122101643077"></p>
-<p>图片如下可以看到 分区已经形成,由于我们走默认使用只有一个</p>
-<h3 id="使用ext4格式化-dev-vdb1-这个分区"><a href="#使用ext4格式化-dev-vdb1-这个分区" class="headerlink" title="使用ext4格式化 /dev/vdb1 这个分区"></a>使用ext4格式化 /dev/vdb1 这个分区</h3><p>ext4 格式化后 </p>
-<p><img src="../img/image-20210122101257839.png" alt="image-20210122101257839"></p>
-<h3 id="使用-blkid-dev-vdb1-来查看-UUID"><a href="#使用-blkid-dev-vdb1-来查看-UUID" class="headerlink" title="使用 blkid /dev/vdb1 来查看 UUID"></a>使用 blkid /dev/vdb1 来查看 UUID</h3><p><img src="../img/image-20210122101816988.png" alt="image-20210122101816988"></p>
-<h3 id="修改-etc-fstab-来开机自动挂载分区"><a href="#修改-etc-fstab-来开机自动挂载分区" class="headerlink" title="修改 /etc/fstab 来开机自动挂载分区"></a>修改 <strong>/etc/fstab</strong> 来开机自动挂载分区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UUID&#x3D;0b3040e2-1367-4abb-841d-ddb0b92693df &#x2F;mnt&#x2F;sdc       ext4    defaults        0 2</span><br></pre></td></tr></table></figure>
-
-<p>可以考这边内容 需要修改 UUID ,和挂载的文件夹 ,我这边是在根目录下面 创建的文件夹挂载的</p>
-<blockquote>
-<ol>
-<li><p>以内容上仅为示例，具体请以实际情况为准，参数说明如下：</p>
-<ul>
-<li><p>第一列为UUID，此处填写<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/qs-evs/evs_01_0033.html#evs_01_0033__li840964143216">1</a>中查询到的磁盘分区的UUID。</p>
-</li>
-<li><p>第二列为磁盘分区的挂载目录，可以通过<strong>df -TH</strong>命令查询。</p>
-</li>
-<li><p>第三列为磁盘分区的文件系统格式， 可以通过<strong>df -TH</strong>命令查询。</p>
-</li>
-<li><p>第四列为磁盘分区的挂载选项，此处通常设置为defaults即可。</p>
-</li>
-<li><p>第五列为Linux dump备份选项。</p>
-<ul>
-<li>0表示不使用Linux dump备份。现在通常不使用dump备份，此处设置为0即可。</li>
-<li>1表示使用Linux dump备份。</li>
-</ul>
-</li>
-<li><p>第六列为fsck选项，即开机时是否使用fsck检查磁盘。</p>
-<ul>
-<li><p>0表示不检验。</p>
-</li>
-<li><p>挂载点为（/）根目录的分区，此处必须填写1。</p>
-<p>根分区设置为1，其他分区只能从2开始，系统会按照数字从小到大依次检查下去。</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-</blockquote>
-<h3 id="使用mount-a加载-etc-fstab-的配置"><a href="#使用mount-a加载-etc-fstab-的配置" class="headerlink" title="使用mount -a加载**/etc/fstab**的配置"></a>使用<strong>mount -a</strong>加载**/etc/fstab**的配置</h3><p><strong>mount -a</strong> 没有报错后 用df du 都可以看到你挂载的目录和对应的分区</p>
 
                -->
         </div>

@@ -6,7 +6,7 @@
   <link href="https://imlike.cc/atom.xml" rel="self"/>
   
   <link href="https://imlike.cc/"/>
-  <updated>2021-03-10T09:08:05.940Z</updated>
+  <updated>2021-03-14T01:08:45.921Z</updated>
   <id>https://imlike.cc/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>log-drive一次 java.io.IOException Connection reset by peer 故障排查</title>
+    <link href="https://imlike.cc/f85e694a.html"/>
+    <id>https://imlike.cc/f85e694a.html</id>
+    <published>2021-03-14T00:29:46.000Z</published>
+    <updated>2021-03-14T01:08:45.921Z</updated>
+    
+    <content type="html"><![CDATA[<p>转载地址: <a href="https://mengkang.net/1118.html">https://mengkang.net/1118.html</a></p><p>我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Connection reset by peer</span><br><span class="line">  at sun.nio.ch.FileDispatcherImpl.read0(Native Method)</span><br><span class="line">  at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)</span><br><span class="line">  at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)</span><br><span class="line">  at sun.nio.ch.IOUtil.read(IOUtil.java:192)</span><br><span class="line">  at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)</span><br><span class="line">  at io.netty.buffer.PooledUnsafeDirectByteBuf.setBytes(PooledUnsafeDirectByteBuf.java:311)</span><br><span class="line">  at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:853)</span><br><span class="line">  at io.netty.buffer.WrappedByteBuf.writeBytes(WrappedByteBuf.java:641)</span><br><span class="line">  at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:240)</span><br><span class="line">  at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:115)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)</span><br><span class="line">  at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)</span><br></pre></td></tr></table></figure><blockquote><p><a href="https://github.com/netty/netty/issues/5936">https://github.com/netty/netty/issues/5936</a><br><code>Connection reset by peer</code> is typically a result of your peer sending a TCP RST to you.</p></blockquote><h1 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h1><p>既然是网络故障，tcpdump 是否可用呢？</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sudo netstat -lnp|grep 8657</span><br><span class="line">tcp        0      0 0.0.0.0:443                 0.0.0.0:*                   LISTEN      8657&#x2F;java</span><br></pre></td></tr></table></figure><p>没有列出全部的 socket 连接，从当前进程监听的端口入手试试。<code>ifconfig</code>可以看到这台机器有两个网卡（eth0 内网 ip，eth1 公网 ip）。</p><h2 id="tcpdump-下的-tcp-ip-协议解析"><a href="#tcpdump-下的-tcp-ip-协议解析" class="headerlink" title="tcpdump 下的 tcp/ip 协议解析"></a>tcpdump 下的 tcp/ip 协议解析</h2><p>先看下 tcpdump 输出tcp/ip 数据的大致格式</p><blockquote><p>参考 <a href="http://www.tcpdump.org/tcpdump_man.html">http://www.tcpdump.org/tcpdump_man.html</a> 中关于 tcp 协议的描述，我整理了下格式</p></blockquote><p>The general format of a TCP protocol line is</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src &gt; dst: Flags [tcpflags], seq data-seqno, ack ackno, win window, urg urgent, options [opts], length len</span><br></pre></td></tr></table></figure><ol><li><code>src</code> and <code>dst</code> are the source and destination IP addresses and ports.</li><li><code>tcpflags</code> are some combination of <code>S</code> (SYN), <code>F</code> (FIN), <code>P</code> (PUSH), <code>R</code> (RST), <code>U</code> (URG), <code>W</code> (ECN CWR), <code>E</code> (ECN-Echo) or <code>.</code> (ACK), or <code>none</code> if no flags are set.</li><li><code>data-seqno</code> describes the portion of sequence space covered by the data in this packet.</li><li><code>ackno</code> is sequence number of the next data expected the other direction on this connection.</li><li><code>window</code> is the number of bytes of receive buffer space available the other direction on this connection.</li><li><code>urg</code> indicates there is <code>urgent</code> data in the packet.</li><li><code>opts</code> are TCP options (e.g., mss 1024).</li><li><code>len</code> is the length of payload data.</li></ol><h2 id="抓包数据"><a href="#抓包数据" class="headerlink" title="抓包数据"></a>抓包数据</h2><p>通过<code>tcpdump</code>查看下443 端口的网络情况。与上面的格式略有不同。因为我有两个网卡，请求是从 eth0 进，从 eth1 出，我尝试使用<code>tcpdump -i any</code> 发现第三次握手输出的 askno 数据不对。（<strong>为什么会这样呢，还不知道，谁知道请告知下</strong>）</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$sudo tcpdump -i any -nn port 443</span><br><span class="line"></span><br><span class="line">16:18:41.553460 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: S 806033:806033(0) win 14600 &lt;mss 1460,sackOK,timestamp 2230744217 0,nop,wscale 8&gt;</span><br><span class="line">16:18:41.553483 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.110.5745: S 1720728675:1720728675(0) ack 806034 win 14480 &lt;mss 1460,sackOK,timestamp 2425389802 2230744217,nop,wscale 7&gt;</span><br><span class="line">16:18:41.553647 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: . ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br><span class="line">16:18:41.553677 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: R 1:1(0) ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br></pre></td></tr></table></figure><blockquote><p>但是如果你要导出<code>*.pcap</code>文件然后用<code>wireshark</code>来查看，还是得将两个网卡的流量合并到一起才行。</p></blockquote><p>两个网卡分开抓</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 合并到一起写</span><br><span class="line">$sudo tcpdump -i eth0 -nn port 443</span><br><span class="line">$sudo tcpdump -i eth1 -nn port 443</span><br><span class="line"></span><br><span class="line">16:51:16.073956 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: S 2659415794:2659415794(0) win 14600 &lt;mss 1460,sackOK,timestamp 2328745293 0,nop,wscale 8&gt;</span><br><span class="line">16:51:16.073985 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.2.61835: S 955422999:955422999(0) ack 2659415795 win 14480 &lt;mss 1460,sackOK,timestamp 2427344323 2328745293,nop,wscale 7&gt;</span><br><span class="line">16:51:16.074147 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: . ack 955423000 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br><span class="line">16:51:16.074192 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: R 0:0(0) ack 1 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br></pre></td></tr></table></figure><p>上面的握手比较简单对应着</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">时间 协议 src &gt; dst tcpflags data-seqno ack ackno win window &lt;opts&gt;</span><br></pre></td></tr></table></figure><h2 id="握手逻辑"><a href="#握手逻辑" class="headerlink" title="握手逻辑"></a>握手逻辑</h2><p>一次连接建立的三次握手的步骤：</p><ol><li>Caller sends SYN</li><li>Recipient responds with SYN, ACK</li><li>Caller sends ACK</li></ol><h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><ol><li>src 发送的 tcpflags = S，也就是说发送的SYN请求，随机产生一个值 data-seqno = J(<code>2659415794</code>)，并将该数据包发送给 dst</li><li>dst 发送的 tcpflags = S，实际发送的时候 SYN 和 ACK 标志位都置1了，返回一个 ackno=<code>J</code> + 1，也就是<code>2659415795</code>，然后随机生成一个新的 data-seqno = K(<code>955422999</code>) 发送给 src</li><li>src 检查收到的 ackno 是不是等于<code>J</code>+<code>1</code>，然后再发送一个 ackno = <code>K</code>+1，也就是<code>955423000</code>，前面的文档中说道<code>tcpflags</code>为<code>.</code>的时候也表示<code>ACK</code></li><li>src 最后为什么又给 dst 发送一个 tcpflags = R 的请求呢？</li></ol><p><a href="https://mengkang.net/upload/image/2017/1221/1513846681114601.png"><img src="https://mengkang.net/upload/image/2017/1221/1513846681114601.png" alt="一次 java.io.IOException: Connection reset by peer 故障排查"></a></p><h2 id="为什么会出现-RST"><a href="#为什么会出现-RST" class="headerlink" title="为什么会出现 RST"></a>为什么会出现 RST</h2><p>因为具有周期性，我大概猜到了，是 lvs 对我的后端服务的健康检查导致的，联系了网络运营服务客服人员，我把<code>.pcap</code>给他们</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i any port 443 -c 3 -w log.pcap</span><br></pre></td></tr></table></figure><p>他们确认源地址就是LVS的local地址。<br>健康检查的机制就是建立成功后就 RST 掉，就不占用 session 了。这是公司的规范，问题算是定位了。既然公司的规范，那么我们这边需要定制修改下，针对 vip 发送的 RST 不处理。</p><p>其他参考</p><blockquote><p><a href="https://github.com/netty/netty/issues/6029">https://github.com/netty/netty/issues/6029</a><br><a href="https://tools.ietf.org/html/rfc793">https://tools.ietf.org/html/rfc793</a><br><a href="https://my.oschina.net/costaxu/blog/127394">https://my.oschina.net/costaxu/blog/127394</a></p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;转载地址: &lt;a href=&quot;https://mengkang.net/1118.html&quot;&gt;https://mengkang.net/1118.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次：&lt;/</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>ambari-server中postgress启动</title>
     <link href="https://imlike.cc/466081a0.html"/>
     <id>https://imlike.cc/466081a0.html</id>
     <published>2021-03-10T07:59:20.000Z</published>
-    <updated>2021-03-10T09:08:05.940Z</updated>
+    <updated>2021-03-10T12:46:26.162Z</updated>
     
     <content type="html"><![CDATA[<p><img src="../img/image-20210310160022213.png" alt="image-20210310160022213"></p><p> Unable to start PostgreSQL server. Status stopped. . Exiting</p><p>bin  pg_ctl status </p><p> systemctl start  postgresql.service</p><p><img src="../img/image-20210310160212137.png" alt="image-20210310160212137"></p><p>FATAL:  could not write lock file “postmaster.pid”: No space left on device</p><p> df -h</p><p><img src="../img/image-20210310160232827.png" alt="image-20210310160232827"></p><p>systemctl start  postgresql.service</p>]]></content>
     
@@ -42,7 +63,7 @@
     <link href="https://imlike.cc/bcb72f0.html"/>
     <id>https://imlike.cc/bcb72f0.html</id>
     <published>2021-03-07T06:27:15.794Z</published>
-    <updated>2021-03-10T07:58:24.838Z</updated>
+    <updated>2021-03-10T12:46:26.166Z</updated>
     
     <content type="html"><![CDATA[<p>参考 链接 <a href="https://segmentfault.com/a/1190000022501113">https://segmentfault.com/a/1190000022501113</a></p><p>ctrol + shift +p</p><p>package control  install  package</p><p><img src="C:/Users/leek/AppData/Roaming/Typora/typora-user-images/image-20210307143657802.png" alt="image-20210307143657802"></p><p>安装后出</p>]]></content>
     
@@ -416,30 +437,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>Jenkins的遇到的坑</title>
-    <link href="https://imlike.cc/1581320389.html"/>
-    <id>https://imlike.cc/1581320389.html</id>
-    <published>2020-08-04T07:12:38.000Z</published>
-    <updated>2020-11-19T07:20:08.464Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p><h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p><ol><li>网上看到的是配置没到到 jenkins_home/workspace 下面的project,</li></ol><p>但是我看Jenkins的配置是对的,在对应的文件夹下面是有配置</p><ol><li>网上给的Jenkins迁移job的问题我看了不是这个问题</li></ol><h4 id="我遇到的是job下面的config-xml-maven2-module失败导致的"><a href="#我遇到的是job下面的config-xml-maven2-module失败导致的" class="headerlink" title="我遇到的是job下面的config.xml maven2-module失败导致的"></a>我遇到的是job下面的config.xml maven2-module失败导致的</h4><p>最后解决方案是重启tomcat不是Jenkins是,重启Jenkins是 <code>URL/jenkins/restart</code>, 看到tomcat的日志出现解析 jobs下面的各个job下面的config.xml 出问题 <strong><code>maven2-module</code></strong> ,对于非maven的项目就可以直接解析, 原来是 Maven Integration 插件不存在导致,原有的maven项目不能解析和显示</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;maven本地仓库地址&quot;&gt;&lt;a href=&quot;#maven本地仓库地址&quot; class=&quot;headerlink&quot; title=&quot;maven本地仓库地址&quot;&gt;&lt;/a&gt;maven本地仓库地址&lt;/h3&gt;&lt;p&gt;Jenkins本地仓库依赖的common和工具包,是独立安装的,使用</summary>
-      
-    
-    
-    
-    
-    <category term="jenkins" scheme="https://imlike.cc/tags/jenkins/"/>
-    
-    <category term="maven" scheme="https://imlike.cc/tags/maven/"/>
     
   </entry>
   

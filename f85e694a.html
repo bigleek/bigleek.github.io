@@ -10,18 +10,19 @@
 
 
 
-<meta name="description" content="1）type Elasticsearch中支持的数据类型非常丰富：  String类型，又分两种： text：可分词，不可参与聚合 keyword：不可分词，数据会作为完整字段进行匹配，可以参与聚合   Numerical：数值类型，分两类 基本数据类型：long、interger、short、byte、double、float、half_float 浮点数的高精度类型：scaled_float">
+<meta name="description" content="转载地址: https:&#x2F;&#x2F;mengkang.net&#x2F;1118.html 我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次： 12345678910111213141516171819202122java.io.IOException: Connection reset by peer  at sun.nio.ch.FileDispatcherImpl.r">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ES相关的知识总结一">
-<meta property="og:url" content="https://imlike.cc/3632233998.html">
+<meta property="og:title" content="log-drive一次 java.io.IOException Connection reset by peer 故障排查">
+<meta property="og:url" content="https://imlike.cc/f85e694a.html">
 <meta property="og:site_name" content="leek 自留地">
-<meta property="og:description" content="1）type Elasticsearch中支持的数据类型非常丰富：  String类型，又分两种： text：可分词，不可参与聚合 keyword：不可分词，数据会作为完整字段进行匹配，可以参与聚合   Numerical：数值类型，分两类 基本数据类型：long、interger、short、byte、double、float、half_float 浮点数的高精度类型：scaled_float">
+<meta property="og:description" content="转载地址: https:&#x2F;&#x2F;mengkang.net&#x2F;1118.html 我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次： 12345678910111213141516171819202122java.io.IOException: Connection reset by peer  at sun.nio.ch.FileDispatcherImpl.r">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-03-23T18:59:20.000Z">
-<meta property="article:modified_time" content="2020-11-13T12:31:01.791Z">
+<meta property="og:image" content="https://mengkang.net/upload/image/2017/1221/1513846681114601.png">
+<meta property="article:published_time" content="2021-03-14T00:29:46.000Z">
+<meta property="article:modified_time" content="2021-03-14T01:08:45.921Z">
 <meta property="article:author" content="leek">
-<meta property="article:tag" content="elasticsearch">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mengkang.net/upload/image/2017/1221/1513846681114601.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -55,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>ES相关的知识总结一 | leek 自留地</title>
+<title>log-drive一次 java.io.IOException Connection reset by peer 故障排查 | leek 自留地</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -264,11 +265,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-ES相关的知识总结一" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-log-drive一次 java.io.IOException Connection reset by peer 故障排查" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/3632233998.html" class="article-date">
-      <time datetime="2019-03-23T18:59:20.000Z" itemprop="datePublished">2019-03-24</time>
+      <a href="/f85e694a.html" class="article-date">
+      <time datetime="2021-03-14T00:29:46.000Z" itemprop="datePublished">2021-03-14</time>
 </a>
 
 
@@ -283,7 +284,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      ES相关的知识总结一
+      log-drive一次 java.io.IOException Connection reset by peer 故障排查
     </h1>
   
 
@@ -292,11 +293,7 @@
       <div class="article-info article-info-post">
         
 
-        <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
-    </div>
- -->
+        <!--  -->
 
 
         <div class="clearfix"></div>
@@ -306,99 +303,147 @@
         <div class="article-entry" itemprop="articleBody">
           
                   
-                  <p>1）type</p>
-<p>Elasticsearch中支持的数据类型非常丰富：</p>
-<ul>
-<li>String类型，又分两种：<ul>
-<li>text：可分词，不可参与聚合</li>
-<li>keyword：不可分词，数据会作为完整字段进行匹配，可以参与聚合</li>
-</ul>
-</li>
-<li>Numerical：数值类型，分两类<ul>
-<li>基本数据类型：long、interger、short、byte、double、float、half_float</li>
-<li>浮点数的高精度类型：scaled_float<ul>
-<li>需要指定一个精度因子，比如10或100。elasticsearch会把真实值乘以这个因子后存储，取出时再还原。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Date：日期类型<br>elasticsearch可以对日期格式化为字符串存储，但是建议我们存储为毫秒值，存储为long，节省空间。</li>
-</ul>
-<p>2）index</p>
-<p>index影响字段的索引情况。</p>
-<ul>
-<li>true：字段会被索引，则可以用来进行搜索。默认值就是true</li>
-<li>false：字段不会被索引，不能用来搜索</li>
-</ul>
-<p>index的默认值就是true，也就是说你不进行任何配置，所有字段都会被索引。</p>
-<p>但是有些字段是我们不希望被索引的，比如商品的图片信息，就需要手动设置index为false。</p>
-<p>3）store</p>
-<p>是否将数据进行额外存储。_source</p>
-<p>在学习lucene和solr时，我们知道如果一个字段的store设置为false，那么在文档列表中就不会有这个字段的值，用户的搜索结果中不会显示出来。</p>
-<p>但是在Elasticsearch中，即便store设置为false，也可以搜索到结果。</p>
-<p>原因是Elasticsearch在创建文档索引时，会将文档中的原始数据备份，保存到一个叫做_source的属性中。最终我们查询数据是从_source中来取值，所以可以通过过滤_source来选择哪些要显示，哪些不显示。</p>
-<p>而如果设置store为true，就会在_source以外额外存储一份数据，多余，因此一般我们都会将store设置为false，事实上，store的默认值就是false。</p>
-<p>4）boost</p>
-<p>激励因子，这个与lucene中一样</p>
-<p>其它的不再一一讲解，用的不多，大家参考官方文档：</p>
-<p>还有查询的更多东西(mathch all)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “match_all”: &#123;&#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">匹配查询(match)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “match”:&#123;</span><br><span class="line">​ “title”:”小米电视”</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">多字段查询(multi_match)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “multi_match”: &#123;</span><br><span class="line">​ “query”: “小米”,</span><br><span class="line">​ “fields”: [ “title”, “subTitle” ]</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">词条匹配(term)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “term”:&#123;</span><br><span class="line">​ “price”:2699.00</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">多词条精确匹配(terms)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “terms”:&#123;</span><br><span class="line">​ “price”:[2699.00,2899.00,3899.00]</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                  <p>转载地址: <a target="_blank" rel="noopener" href="https://mengkang.net/1118.html">https://mengkang.net/1118.html</a></p>
+<p>我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Connection reset by peer</span><br><span class="line">  at sun.nio.ch.FileDispatcherImpl.read0(Native Method)</span><br><span class="line">  at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)</span><br><span class="line">  at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)</span><br><span class="line">  at sun.nio.ch.IOUtil.read(IOUtil.java:192)</span><br><span class="line">  at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)</span><br><span class="line">  at io.netty.buffer.PooledUnsafeDirectByteBuf.setBytes(PooledUnsafeDirectByteBuf.java:311)</span><br><span class="line">  at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:853)</span><br><span class="line">  at io.netty.buffer.WrappedByteBuf.writeBytes(WrappedByteBuf.java:641)</span><br><span class="line">  at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:240)</span><br><span class="line">  at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:115)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)</span><br><span class="line">  at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/netty/netty/issues/5936">https://github.com/netty/netty/issues/5936</a><br><code>Connection reset by peer</code> is typically a result of your peer sending a TCP RST to you.</p>
+</blockquote>
+<h1 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h1><p>既然是网络故障，tcpdump 是否可用呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sudo netstat -lnp|grep 8657</span><br><span class="line">tcp        0      0 0.0.0.0:443                 0.0.0.0:*                   LISTEN      8657&#x2F;java</span><br></pre></td></tr></table></figure>
+
+<p>没有列出全部的 socket 连接，从当前进程监听的端口入手试试。<code>ifconfig</code>可以看到这台机器有两个网卡（eth0 内网 ip，eth1 公网 ip）。</p>
+<h2 id="tcpdump-下的-tcp-ip-协议解析"><a href="#tcpdump-下的-tcp-ip-协议解析" class="headerlink" title="tcpdump 下的 tcp/ip 协议解析"></a>tcpdump 下的 tcp/ip 协议解析</h2><p>先看下 tcpdump 输出tcp/ip 数据的大致格式</p>
+<blockquote>
+<p>参考 <a target="_blank" rel="noopener" href="http://www.tcpdump.org/tcpdump_man.html">http://www.tcpdump.org/tcpdump_man.html</a> 中关于 tcp 协议的描述，我整理了下格式</p>
+</blockquote>
+<p>The general format of a TCP protocol line is</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src &gt; dst: Flags [tcpflags], seq data-seqno, ack ackno, win window, urg urgent, options [opts], length len</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>src</code> and <code>dst</code> are the source and destination IP addresses and ports.</li>
+<li><code>tcpflags</code> are some combination of <code>S</code> (SYN), <code>F</code> (FIN), <code>P</code> (PUSH), <code>R</code> (RST), <code>U</code> (URG), <code>W</code> (ECN CWR), <code>E</code> (ECN-Echo) or <code>.</code> (ACK), or <code>none</code> if no flags are set.</li>
+<li><code>data-seqno</code> describes the portion of sequence space covered by the data in this packet.</li>
+<li><code>ackno</code> is sequence number of the next data expected the other direction on this connection.</li>
+<li><code>window</code> is the number of bytes of receive buffer space available the other direction on this connection.</li>
+<li><code>urg</code> indicates there is <code>urgent</code> data in the packet.</li>
+<li><code>opts</code> are TCP options (e.g., mss 1024).</li>
+<li><code>len</code> is the length of payload data.</li>
+</ol>
+<h2 id="抓包数据"><a href="#抓包数据" class="headerlink" title="抓包数据"></a>抓包数据</h2><p>通过<code>tcpdump</code>查看下443 端口的网络情况。与上面的格式略有不同。因为我有两个网卡，请求是从 eth0 进，从 eth1 出，我尝试使用<code>tcpdump -i any</code> 发现第三次握手输出的 askno 数据不对。（<strong>为什么会这样呢，还不知道，谁知道请告知下</strong>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$sudo tcpdump -i any -nn port 443</span><br><span class="line"></span><br><span class="line">16:18:41.553460 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: S 806033:806033(0) win 14600 &lt;mss 1460,sackOK,timestamp 2230744217 0,nop,wscale 8&gt;</span><br><span class="line">16:18:41.553483 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.110.5745: S 1720728675:1720728675(0) ack 806034 win 14480 &lt;mss 1460,sackOK,timestamp 2425389802 2230744217,nop,wscale 7&gt;</span><br><span class="line">16:18:41.553647 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: . ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br><span class="line">16:18:41.553677 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: R 1:1(0) ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>但是如果你要导出<code>*.pcap</code>文件然后用<code>wireshark</code>来查看，还是得将两个网卡的流量合并到一起才行。</p>
+</blockquote>
+<p>两个网卡分开抓</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 合并到一起写</span><br><span class="line">$sudo tcpdump -i eth0 -nn port 443</span><br><span class="line">$sudo tcpdump -i eth1 -nn port 443</span><br><span class="line"></span><br><span class="line">16:51:16.073956 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: S 2659415794:2659415794(0) win 14600 &lt;mss 1460,sackOK,timestamp 2328745293 0,nop,wscale 8&gt;</span><br><span class="line">16:51:16.073985 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.2.61835: S 955422999:955422999(0) ack 2659415795 win 14480 &lt;mss 1460,sackOK,timestamp 2427344323 2328745293,nop,wscale 7&gt;</span><br><span class="line">16:51:16.074147 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: . ack 955423000 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br><span class="line">16:51:16.074192 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: R 0:0(0) ack 1 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面的握手比较简单对应着</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">时间 协议 src &gt; dst tcpflags data-seqno ack ackno win window &lt;opts&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="握手逻辑"><a href="#握手逻辑" class="headerlink" title="握手逻辑"></a>握手逻辑</h2><p>一次连接建立的三次握手的步骤：</p>
+<ol>
+<li>Caller sends SYN</li>
+<li>Recipient responds with SYN, ACK</li>
+<li>Caller sends ACK</li>
+</ol>
+<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><ol>
+<li>src 发送的 tcpflags = S，也就是说发送的SYN请求，随机产生一个值 data-seqno = J(<code>2659415794</code>)，并将该数据包发送给 dst</li>
+<li>dst 发送的 tcpflags = S，实际发送的时候 SYN 和 ACK 标志位都置1了，返回一个 ackno=<code>J</code> + 1，也就是<code>2659415795</code>，然后随机生成一个新的 data-seqno = K(<code>955422999</code>) 发送给 src</li>
+<li>src 检查收到的 ackno 是不是等于<code>J</code>+<code>1</code>，然后再发送一个 ackno = <code>K</code>+1，也就是<code>955423000</code>，前面的文档中说道<code>tcpflags</code>为<code>.</code>的时候也表示<code>ACK</code></li>
+<li>src 最后为什么又给 dst 发送一个 tcpflags = R 的请求呢？</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://mengkang.net/upload/image/2017/1221/1513846681114601.png"><img src="https://mengkang.net/upload/image/2017/1221/1513846681114601.png" alt="一次 java.io.IOException: Connection reset by peer 故障排查"></a></p>
+<h2 id="为什么会出现-RST"><a href="#为什么会出现-RST" class="headerlink" title="为什么会出现 RST"></a>为什么会出现 RST</h2><p>因为具有周期性，我大概猜到了，是 lvs 对我的后端服务的健康检查导致的，联系了网络运营服务客服人员，我把<code>.pcap</code>给他们</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i any port 443 -c 3 -w log.pcap</span><br></pre></td></tr></table></figure>
+
+<p>他们确认源地址就是LVS的local地址。<br>健康检查的机制就是建立成功后就 RST 掉，就不占用 session 了。这是公司的规范，问题算是定位了。既然公司的规范，那么我们这边需要定制修改下，针对 vip 发送的 RST 不处理。</p>
+<p>其他参考</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/netty/netty/issues/6029">https://github.com/netty/netty/issues/6029</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc793">https://tools.ietf.org/html/rfc793</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/costaxu/blog/127394">https://my.oschina.net/costaxu/blog/127394</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
-<p>结果过滤</p>
-<p>默认情况下，elasticsearch在搜索的结果中，会把文档中保存在_source的所有字段都返回。</p>
-<p>如果我们只想获取其中的部分字段，我们可以添加_source的过滤</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">“_source”: [“title”,”price”],&#x3D;&#x3D;&#x3D;&#x3D;&gt;includi exclud</span><br><span class="line">“query”: &#123;</span><br><span class="line">​ “term”: &#123;</span><br><span class="line">​ “price”: 2699</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
 
 
               
               <!-- 
               
-              <p>1）type</p>
-<p>Elasticsearch中支持的数据类型非常丰富：</p>
-<ul>
-<li>String类型，又分两种：<ul>
-<li>text：可分词，不可参与聚合</li>
-<li>keyword：不可分词，数据会作为完整字段进行匹配，可以参与聚合</li>
-</ul>
-</li>
-<li>Numerical：数值类型，分两类<ul>
-<li>基本数据类型：long、interger、short、byte、double、float、half_float</li>
-<li>浮点数的高精度类型：scaled_float<ul>
-<li>需要指定一个精度因子，比如10或100。elasticsearch会把真实值乘以这个因子后存储，取出时再还原。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Date：日期类型<br>elasticsearch可以对日期格式化为字符串存储，但是建议我们存储为毫秒值，存储为long，节省空间。</li>
-</ul>
-<p>2）index</p>
-<p>index影响字段的索引情况。</p>
-<ul>
-<li>true：字段会被索引，则可以用来进行搜索。默认值就是true</li>
-<li>false：字段不会被索引，不能用来搜索</li>
-</ul>
-<p>index的默认值就是true，也就是说你不进行任何配置，所有字段都会被索引。</p>
-<p>但是有些字段是我们不希望被索引的，比如商品的图片信息，就需要手动设置index为false。</p>
-<p>3）store</p>
-<p>是否将数据进行额外存储。_source</p>
-<p>在学习lucene和solr时，我们知道如果一个字段的store设置为false，那么在文档列表中就不会有这个字段的值，用户的搜索结果中不会显示出来。</p>
-<p>但是在Elasticsearch中，即便store设置为false，也可以搜索到结果。</p>
-<p>原因是Elasticsearch在创建文档索引时，会将文档中的原始数据备份，保存到一个叫做_source的属性中。最终我们查询数据是从_source中来取值，所以可以通过过滤_source来选择哪些要显示，哪些不显示。</p>
-<p>而如果设置store为true，就会在_source以外额外存储一份数据，多余，因此一般我们都会将store设置为false，事实上，store的默认值就是false。</p>
-<p>4）boost</p>
-<p>激励因子，这个与lucene中一样</p>
-<p>其它的不再一一讲解，用的不多，大家参考官方文档：</p>
-<p>还有查询的更多东西(mathch all)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “match_all”: &#123;&#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">匹配查询(match)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “match”:&#123;</span><br><span class="line">​ “title”:”小米电视”</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">多字段查询(multi_match)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “multi_match”: &#123;</span><br><span class="line">​ “query”: “小米”,</span><br><span class="line">​ “fields”: [ “title”, “subTitle” ]</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">词条匹配(term)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “term”:&#123;</span><br><span class="line">​ “price”:2699.00</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">多词条精确匹配(terms)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “terms”:&#123;</span><br><span class="line">​ “price”:[2699.00,2899.00,3899.00]</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+              <p>转载地址: <a target="_blank" rel="noopener" href="https://mengkang.net/1118.html">https://mengkang.net/1118.html</a></p>
+<p>我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Connection reset by peer</span><br><span class="line">  at sun.nio.ch.FileDispatcherImpl.read0(Native Method)</span><br><span class="line">  at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)</span><br><span class="line">  at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)</span><br><span class="line">  at sun.nio.ch.IOUtil.read(IOUtil.java:192)</span><br><span class="line">  at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)</span><br><span class="line">  at io.netty.buffer.PooledUnsafeDirectByteBuf.setBytes(PooledUnsafeDirectByteBuf.java:311)</span><br><span class="line">  at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:853)</span><br><span class="line">  at io.netty.buffer.WrappedByteBuf.writeBytes(WrappedByteBuf.java:641)</span><br><span class="line">  at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:240)</span><br><span class="line">  at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:115)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)</span><br><span class="line">  at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/netty/netty/issues/5936">https://github.com/netty/netty/issues/5936</a><br><code>Connection reset by peer</code> is typically a result of your peer sending a TCP RST to you.</p>
+</blockquote>
+<h1 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h1><p>既然是网络故障，tcpdump 是否可用呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sudo netstat -lnp|grep 8657</span><br><span class="line">tcp        0      0 0.0.0.0:443                 0.0.0.0:*                   LISTEN      8657&#x2F;java</span><br></pre></td></tr></table></figure>
+
+<p>没有列出全部的 socket 连接，从当前进程监听的端口入手试试。<code>ifconfig</code>可以看到这台机器有两个网卡（eth0 内网 ip，eth1 公网 ip）。</p>
+<h2 id="tcpdump-下的-tcp-ip-协议解析"><a href="#tcpdump-下的-tcp-ip-协议解析" class="headerlink" title="tcpdump 下的 tcp/ip 协议解析"></a>tcpdump 下的 tcp/ip 协议解析</h2><p>先看下 tcpdump 输出tcp/ip 数据的大致格式</p>
+<blockquote>
+<p>参考 <a target="_blank" rel="noopener" href="http://www.tcpdump.org/tcpdump_man.html">http://www.tcpdump.org/tcpdump_man.html</a> 中关于 tcp 协议的描述，我整理了下格式</p>
+</blockquote>
+<p>The general format of a TCP protocol line is</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src &gt; dst: Flags [tcpflags], seq data-seqno, ack ackno, win window, urg urgent, options [opts], length len</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>src</code> and <code>dst</code> are the source and destination IP addresses and ports.</li>
+<li><code>tcpflags</code> are some combination of <code>S</code> (SYN), <code>F</code> (FIN), <code>P</code> (PUSH), <code>R</code> (RST), <code>U</code> (URG), <code>W</code> (ECN CWR), <code>E</code> (ECN-Echo) or <code>.</code> (ACK), or <code>none</code> if no flags are set.</li>
+<li><code>data-seqno</code> describes the portion of sequence space covered by the data in this packet.</li>
+<li><code>ackno</code> is sequence number of the next data expected the other direction on this connection.</li>
+<li><code>window</code> is the number of bytes of receive buffer space available the other direction on this connection.</li>
+<li><code>urg</code> indicates there is <code>urgent</code> data in the packet.</li>
+<li><code>opts</code> are TCP options (e.g., mss 1024).</li>
+<li><code>len</code> is the length of payload data.</li>
+</ol>
+<h2 id="抓包数据"><a href="#抓包数据" class="headerlink" title="抓包数据"></a>抓包数据</h2><p>通过<code>tcpdump</code>查看下443 端口的网络情况。与上面的格式略有不同。因为我有两个网卡，请求是从 eth0 进，从 eth1 出，我尝试使用<code>tcpdump -i any</code> 发现第三次握手输出的 askno 数据不对。（<strong>为什么会这样呢，还不知道，谁知道请告知下</strong>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$sudo tcpdump -i any -nn port 443</span><br><span class="line"></span><br><span class="line">16:18:41.553460 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: S 806033:806033(0) win 14600 &lt;mss 1460,sackOK,timestamp 2230744217 0,nop,wscale 8&gt;</span><br><span class="line">16:18:41.553483 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.110.5745: S 1720728675:1720728675(0) ack 806034 win 14480 &lt;mss 1460,sackOK,timestamp 2425389802 2230744217,nop,wscale 7&gt;</span><br><span class="line">16:18:41.553647 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: . ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br><span class="line">16:18:41.553677 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: R 1:1(0) ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>但是如果你要导出<code>*.pcap</code>文件然后用<code>wireshark</code>来查看，还是得将两个网卡的流量合并到一起才行。</p>
+</blockquote>
+<p>两个网卡分开抓</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 合并到一起写</span><br><span class="line">$sudo tcpdump -i eth0 -nn port 443</span><br><span class="line">$sudo tcpdump -i eth1 -nn port 443</span><br><span class="line"></span><br><span class="line">16:51:16.073956 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: S 2659415794:2659415794(0) win 14600 &lt;mss 1460,sackOK,timestamp 2328745293 0,nop,wscale 8&gt;</span><br><span class="line">16:51:16.073985 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.2.61835: S 955422999:955422999(0) ack 2659415795 win 14480 &lt;mss 1460,sackOK,timestamp 2427344323 2328745293,nop,wscale 7&gt;</span><br><span class="line">16:51:16.074147 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: . ack 955423000 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br><span class="line">16:51:16.074192 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: R 0:0(0) ack 1 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面的握手比较简单对应着</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">时间 协议 src &gt; dst tcpflags data-seqno ack ackno win window &lt;opts&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="握手逻辑"><a href="#握手逻辑" class="headerlink" title="握手逻辑"></a>握手逻辑</h2><p>一次连接建立的三次握手的步骤：</p>
+<ol>
+<li>Caller sends SYN</li>
+<li>Recipient responds with SYN, ACK</li>
+<li>Caller sends ACK</li>
+</ol>
+<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><ol>
+<li>src 发送的 tcpflags = S，也就是说发送的SYN请求，随机产生一个值 data-seqno = J(<code>2659415794</code>)，并将该数据包发送给 dst</li>
+<li>dst 发送的 tcpflags = S，实际发送的时候 SYN 和 ACK 标志位都置1了，返回一个 ackno=<code>J</code> + 1，也就是<code>2659415795</code>，然后随机生成一个新的 data-seqno = K(<code>955422999</code>) 发送给 src</li>
+<li>src 检查收到的 ackno 是不是等于<code>J</code>+<code>1</code>，然后再发送一个 ackno = <code>K</code>+1，也就是<code>955423000</code>，前面的文档中说道<code>tcpflags</code>为<code>.</code>的时候也表示<code>ACK</code></li>
+<li>src 最后为什么又给 dst 发送一个 tcpflags = R 的请求呢？</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://mengkang.net/upload/image/2017/1221/1513846681114601.png"><img src="https://mengkang.net/upload/image/2017/1221/1513846681114601.png" alt="一次 java.io.IOException: Connection reset by peer 故障排查"></a></p>
+<h2 id="为什么会出现-RST"><a href="#为什么会出现-RST" class="headerlink" title="为什么会出现 RST"></a>为什么会出现 RST</h2><p>因为具有周期性，我大概猜到了，是 lvs 对我的后端服务的健康检查导致的，联系了网络运营服务客服人员，我把<code>.pcap</code>给他们</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i any port 443 -c 3 -w log.pcap</span><br></pre></td></tr></table></figure>
+
+<p>他们确认源地址就是LVS的local地址。<br>健康检查的机制就是建立成功后就 RST 掉，就不占用 session 了。这是公司的规范，问题算是定位了。既然公司的规范，那么我们这边需要定制修改下，针对 vip 发送的 RST 不处理。</p>
+<p>其他参考</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/netty/netty/issues/6029">https://github.com/netty/netty/issues/6029</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc793">https://tools.ietf.org/html/rfc793</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/costaxu/blog/127394">https://my.oschina.net/costaxu/blog/127394</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
-<p>结果过滤</p>
-<p>默认情况下，elasticsearch在搜索的结果中，会把文档中保存在_source的所有字段都返回。</p>
-<p>如果我们只想获取其中的部分字段，我们可以添加_source的过滤</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">“_source”: [“title”,”price”],&#x3D;&#x3D;&#x3D;&#x3D;&gt;includi exclud</span><br><span class="line">“query”: &#123;</span><br><span class="line">​ “term”: &#123;</span><br><span class="line">​ “price”: 2699</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
 
 
                -->
@@ -490,13 +535,13 @@
 
 
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/3632233998.html">ES相关的知识总结一</a></p>
+        <p><span>本文标题:</span><a href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
-        <p><span>发布时间:</span>2019-03-24, 02:59:20</p>
-        <p><span>最后更新:</span>2020-11-13, 20:31:01</p>
+        <p><span>发布时间:</span>2021-03-14, 08:29:46</p>
+        <p><span>最后更新:</span>2021-03-14, 09:08:45</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/3632233998.html" title="ES相关的知识总结一">https://imlike.cc/3632233998.html</a>
-            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/3632233998.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/f85e694a.html" title="log-drive一次 java.io.IOException Connection reset by peer 故障排查">https://imlike.cc/f85e694a.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/f85e694a.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -508,16 +553,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/3642578636.html">
-                    最近折腾Ubuntu16的过程记录
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/3632233997.html">
-                    ES相关的知识总结二
+                <a href="/466081a0.html">
+                    ambari-server中postgress启动
                 </a>
             </div>
         
@@ -542,7 +581,7 @@
     </div>
     <script>
         var shareConfig = {
-            title: 'ES相关的知识总结一',
+            title: 'log-drive一次 java.io.IOException Connection reset by peer 故障排查',
             url: window.location.href,
             author: 'leek',
             img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
@@ -568,15 +607,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/3642578636.html" title="上一篇: 最近折腾Ubuntu16的过程记录">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/3632233997.html" title="下一篇: ES相关的知识总结二">
+            <a href="/466081a0.html" title="下一篇: ambari-server中postgress启动">
                 <i class="fa fa-angle-right"></i>
             </a>
         
