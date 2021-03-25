@@ -269,6 +269,121 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-树莓派使用cloudreve搭建nas和离线下载" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1661309199.html" class="article-date">
+      <time datetime="2020-04-03T17:11:52.000Z" itemprop="datePublished">2020-04-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://www.coolapk.com/feed/17682984?shareKey=MzYxMmY3MTc4YzNjNWU4N2RkYmU~&shareUid=902662&shareFrom=com.coolapk.market_9.0.2"><strong>树莓派搭建满速家庭云网盘（Lv.1）</strong></a></p>
+<p><a target="_blank" rel="noopener" href="https://www.coolapk.com/feed/17772116?shareKey=OTA2MTE2NGIxNDhiNWU4N2U2ZjQ~&shareUid=902662&shareFrom=com.coolapk.market_9.0.2">干货Get!]Android搭建Cloudreve私人云盘</a></p>
+<p><a href="../img/1586074575520.png"><img src="../img/1586074575520.png" alt="1586074575520"></a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://www.coolapk.com/feed/17682984?shareKey=MzYxMmY3MTc4YzNjNWU4N2RkYmU~&shareUid=902662&shareFrom=com.coolapk.market_9.0.2"><strong>树莓派搭建满速家庭云网盘（Lv.1）</strong></a></p>
+<p><a target="_blank" rel="noopener" href="https://www.coolapk.com/feed/17772116?shareKey=OTA2MTE2NGIxNDhiNWU4N2U2ZjQ~&shareUid=902662&shareFrom=com.coolapk.market_9.0.2">干货Get!]Android搭建Cloudreve私人云盘</a></p>
+<p><a href="../img/1586074575520.png"><img src="../img/1586074575520.png" alt="1586074575520"></a></p>
+<h3 id="允许SHH使用root登陆"><a href="#允许SHH使用root登陆" class="headerlink" title="允许SHH使用root登陆"></a>允许SHH使用root登陆</h3><p>sudo passwd 来重置root用户的密码</p>
+<p> <strong>vim /etc/ssh/sshd_config</strong></p>
+<p>注释掉 PermitRootLogin without-password</p>
+<p>使用 PermitRootLogin yes</p>
+<h3 id="连接树莓派将文件传过去"><a href="#连接树莓派将文件传过去" class="headerlink" title="连接树莓派将文件传过去"></a>连接树莓派将文件传过去</h3><p>现在下载 <a target="_blank" rel="noopener" href="https://github.com/cloudreve/Cloudreve/releases">https://github.com/cloudreve/Cloudreve/releases</a> 选择<a target="_blank" rel="noopener" href="https://github.com/cloudreve/Cloudreve/releases/download/3.0.0-rc1/cloudreve_3.0.0-rc1_linux_arm.tar.gz">cloudreve_3.0.0-rc1_linux_arm.tar.gz</a></p>
+<p><a href="../img/1586075347405.png"><img src="../img/1586075347405.png" alt="1586075347405"></a></p>
+<p>sudo mkdir /home/cloud</p>
+<p>使用ftp的客户端连接注意使用 root</p>
+<p>将下载cloudreve_3.0.0-rc1_linux_arm.tar.gz 放到 /home/cloud下</p>
+<p>sudo tar -xzvf cloudreve_3.0.0-rc1_linux_arm.tar.gz 解压后也是个单文件cloudreve</p>
+<p>sudo ./cloudreve</p>
+<p>后面终端会打印出来用户<a href="mailto:admin@cloudreve.org">admin@cloudreve.org</a> 和密码</p>
+<h3 id="初始化cloudreve-3-0-0-rc1-linux-arm和设置"><a href="#初始化cloudreve-3-0-0-rc1-linux-arm和设置" class="headerlink" title="初始化cloudreve_3.0.0-rc1_linux_arm和设置"></a>初始化cloudreve_3.0.0-rc1_linux_arm和设置</h3><p>登陆后下面是初始化的页面</p>
+<p><a href="../img/1586074929312.png"><img src="../img/1586074929312.png" alt="1586074929312"></a></p>
+<h4 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h4><p><a href="../img/1586075685498.png"><img src="../img/1586075685498.png" alt="1586075685498"></a></p>
+<p>只有这个入口可以设置用户(包括管理员)使用的存储的地址,可以本地-&gt;这个本地可以选择硬盘挂载路径,也可以用onedrive</p>
+<h3 id="设置cloudreve后台启动"><a href="#设置cloudreve后台启动" class="headerlink" title="设置cloudreve后台启动"></a>设置cloudreve后台启动</h3><p>vim /usr/lib/systemd/system/cloudreve.service</p>
+<p>粘贴以下内容然后文内的 PATH_TO_CLOUDREVE 更换为程序所在目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">	[Unit]</span><br><span class="line">        Description&#x3D;Cloudreve</span><br><span class="line">        Documentation&#x3D; &#x3D;[查看链接](https:&#x2F;&#x2F;docs.cloudreve.org&#x2F;)</span><br><span class="line">        After&#x3D;network.target</span><br><span class="line">        Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">    WorkingDirectory&#x3D;&#x2F;PATH_TO_CLOUDREVE</span><br><span class="line">    ExecStart&#x3D;&#x2F;PATH_TO_CLOUDREVE&#x2F;cloudreve</span><br><span class="line">    Restart&#x3D;on-abnormal</span><br><span class="line">    RestartSec&#x3D;5s</span><br><span class="line">    KillMode&#x3D;mixed</span><br><span class="line">    StandardOutput&#x3D;null</span><br><span class="line">    StandardError&#x3D;syslog</span><br><span class="line">[Install]</span><br><span class="line">    WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>然后Ctrl+o保存Ctrl+x退出</p>
+<p>然后配置进程<br>更新配置<br>systemctl daemon-reload<br>启动服务<br>systemctl start cloudreve<br>设置开机启动<br>systemctl enable cloudreve</p>
+<p>然后我们就可以通过以下指令来管理服务了<br># 启动服务<br>systemctl start cloudreve</p>
+<p># 停止服务<br>systemctl stop cloudreve</p>
+<p># 重启服务<br>systemctl restart cloudreve</p>
+<p># 查看状态<br>systemctl status cloudreve</p>
+<h2 id="软连接到挂载的硬盘"><a href="#软连接到挂载的硬盘" class="headerlink" title="软连接到挂载的硬盘"></a>软连接到挂载的硬盘</h2><p>ln -s /home/device /home/cloud/uploads/1/disk</p>
+<p>fdisk -l 查看分区和挂载状况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo su 建一个目录作为U盘的挂接点。比如说要把U盘挂载到 &#x2F;mnt&#x2F;usb，那么需要采用下列命令新建 &#x2F;mnt&#x2F;usb。       mkdir &#x2F;mnt&#x2F;usb      </span><br><span class="line">然后就可以采用mount命令把U盘挂载在&#x2F;mnt&#x2F;usb。    </span><br><span class="line">mount &#x2F;dev&#x2F;sdb1 &#x2F;mnt&#x2F;usb     </span><br><span class="line">输入命令 cd &#x2F;mnt&#x2F;usb进入目录&#x2F;mnt&#x2F;usb，</span><br><span class="line">然后输入 ls命令就可以查看U盘里的内容了。</span><br><span class="line">mount  &#x2F;dev&#x2F;sda1  &#x2F;home&#x2F;cloud&#x2F;uploads&#x2F;1&#x2F;diskmount  &#x2F;dev&#x2F;sda1 &#x2F;home&#x2F;device</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-树莓派nginx代理转发到本机端口" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1763,268 +1878,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-activiti用法和结构" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/745403789.html" class="article-date">
-      <time datetime="2020-02-17T23:34:02.000Z" itemprop="datePublished">2020-02-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/745403789.html">activiti用法和结构</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a href="https://imlike.cc/3807663978.html">activiti零零碎碎的记录</a> 包括processengineConfiguration -&gt;processEngine-&gt;respositoryService 下面的各个类和方法</p>
-<h3 id="支持的事件类型"><a href="#支持的事件类型" class="headerlink" title="支持的事件类型"></a>支持的事件类型</h3><p>​    下面是引擎中可能出现的所有activiti事件类型。每个类型都对应<code>org.activiti.engine.delegate.event.ActivitiEventType</code>中的一个枚举值。</p>
-<p>Table 3.2. 支持的事件**</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a href="https://imlike.cc/3807663978.html">activiti零零碎碎的记录</a> 包括processengineConfiguration -&gt;processEngine-&gt;respositoryService 下面的各个类和方法</p>
-<h3 id="支持的事件类型"><a href="#支持的事件类型" class="headerlink" title="支持的事件类型"></a>支持的事件类型</h3><p>​    下面是引擎中可能出现的所有activiti事件类型。每个类型都对应<code>org.activiti.engine.delegate.event.ActivitiEventType</code>中的一个枚举值。</p>
-<p>Table 3.2. 支持的事件**</p>
-<table>
-<thead>
-<tr>
-<th align="center">事件名称</th>
-<th align="left">描述</th>
-<th align="center">事件类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">ENGINE_CREATED</td>
-<td align="left">监听器监听的流程引擎已经创建完毕，并准备好接受API调用。</td>
-<td align="center"><code>org.activiti...ActivitiEvent</code></td>
-</tr>
-<tr>
-<td align="center">ENGINE_CLOSED</td>
-<td align="left">监听器监听的流程引擎已经关闭，不再接受API调用。</td>
-<td align="center"><code>org.activiti...ActivitiEvent</code></td>
-</tr>
-<tr>
-<td align="center">ENTITY_CREATED</td>
-<td align="left">创建了一个新实体。实体包含在事件中。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">ENTITY_INITIALIZED</td>
-<td align="left">创建了一个新实体，初始化也完成了。如果这个实体的创建会包含子实体的创建，这个事件会在子实体都创建/初始化完成后被触发，这是与<code>ENTITY_CREATED</code>的区别。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">ENTITY_UPDATED</td>
-<td align="left">更新了已存在的实体。实体包含在事件中。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">ENTITY_DELETED</td>
-<td align="left">删除了已存在的实体。实体包含在事件中。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">ENTITY_SUSPENDED</td>
-<td align="left">暂停了已存在的实体。实体包含在事件中。会被ProcessDefinitions, ProcessInstances 和 Tasks抛出。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">ENTITY_ACTIVATED</td>
-<td align="left">激活了已存在的实体，实体包含在事件中。会被ProcessDefinitions, ProcessInstances 和 Tasks抛出。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">JOB_EXECUTION_SUCCESS</td>
-<td align="left">作业执行成功。job包含在事件中。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">JOB_EXECUTION_FAILURE</td>
-<td align="left">作业执行失败。作业和异常信息包含在事件中。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code> and <code>org.activiti...ActivitiExceptionEvent</code></td>
-</tr>
-<tr>
-<td align="center">JOB_RETRIES_DECREMENTED</td>
-<td align="left">因为作业执行失败，导致重试次数减少。作业包含在事件中。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">TIMER_FIRED</td>
-<td align="left">触发了定时器。job包含在事件中。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">JOB_CANCELED</td>
-<td align="left">取消了一个作业。事件包含取消的作业。作业可以通过API调用取消， 任务完成后对应的边界定时器也会取消，在新流程定义发布时也会取消。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">ACTIVITY_STARTED</td>
-<td align="left">一个节点开始执行</td>
-<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
-</tr>
-<tr>
-<td align="center">ACTIVITY_COMPLETED</td>
-<td align="left">一个节点成功结束</td>
-<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
-</tr>
-<tr>
-<td align="center">ACTIVITY_SIGNALED</td>
-<td align="left">一个节点收到了一个信号</td>
-<td align="center"><code>org.activiti...ActivitiSignalEvent</code></td>
-</tr>
-<tr>
-<td align="center">ACTIVITY_MESSAGE_RECEIVED</td>
-<td align="left">一个节点收到了一个消息。在节点收到消息之前触发。收到后，会触发<code>ACTIVITY_SIGNAL</code>或<code>ACTIVITY_STARTED</code>，这会根据节点的类型（边界事件，事件子流程开始事件）</td>
-<td align="center"><code>org.activiti...ActivitiMessageEvent</code></td>
-</tr>
-<tr>
-<td align="center">ACTIVITY_ERROR_RECEIVED</td>
-<td align="left">一个节点收到了一个错误事件。在节点实际处理错误之前触发。 事件的<code>activityId</code>对应着处理错误的节点。 这个事件后续会是<code>ACTIVITY_SIGNALLED</code>或<code>ACTIVITY_COMPLETE</code>， 如果错误发送成功的话。</td>
-<td align="center"><code>org.activiti...ActivitiErrorEvent</code></td>
-</tr>
-<tr>
-<td align="center">UNCAUGHT_BPMN_ERROR</td>
-<td align="left">抛出了未捕获的BPMN错误。流程没有提供针对这个错误的处理器。 事件的<code>activityId</code>为空。</td>
-<td align="center"><code>org.activiti...ActivitiErrorEvent</code></td>
-</tr>
-<tr>
-<td align="center">ACTIVITY_COMPENSATE</td>
-<td align="left">一个节点将要被补偿。事件包含了将要执行补偿的节点id。</td>
-<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
-</tr>
-<tr>
-<td align="center">VARIABLE_CREATED</td>
-<td align="left">创建了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
-<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
-</tr>
-<tr>
-<td align="center">VARIABLE_UPDATED</td>
-<td align="left">更新了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
-<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
-</tr>
-<tr>
-<td align="center">VARIABLE_DELETED</td>
-<td align="left">删除了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
-<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
-</tr>
-<tr>
-<td align="center">TASK_ASSIGNED</td>
-<td align="left">任务被分配给了一个人员。事件包含任务。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">TASK_CREATED</td>
-<td align="left">创建了新任务。它位于<code>ENTITY_CREATE</code>事件之后。当任务是由流程创建时， 这个事件会在TaskListener执行之前被执行。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">TASK_COMPLETED</td>
-<td align="left">任务被完成了。它会在<code>ENTITY_DELETE</code>事件之前触发。当任务是流程一部分时，事件会在流程继续运行之前， 后续事件将是<code>ACTIVITY_COMPLETE</code>，对应着完成任务的节点。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">TASK_TIMEOUT</td>
-<td align="left">任务已超时，在<code>TIMER_FIRED</code>事件之后，会触发用户任务的超时事件， 当这个任务分配了一个定时器的时候。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">PROCESS_COMPLETED</td>
-<td align="left">流程已结束。在最后一个节点的<code>ACTIVITY_COMPLETED</code>事件之后触发。 当流程到达的状态，没有任何后续连线时， 流程就会结束。</td>
-<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
-</tr>
-<tr>
-<td align="center">MEMBERSHIP_CREATED</td>
-<td align="left">用户被添加到一个组里。事件包含了用户和组的id。</td>
-<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
-</tr>
-<tr>
-<td align="center">MEMBERSHIP_DELETED</td>
-<td align="left">用户被从一个组中删除。事件包含了用户和组的id。</td>
-<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
-</tr>
-<tr>
-<td align="center">MEMBERSHIPS_DELETED</td>
-<td align="left">所有成员被从一个组中删除。在成员删除之前触发这个事件，所以他们都是可以访问的。 因为性能方面的考虑，不会为每个成员触发单独的<code>MEMBERSHIP_DELETED</code>事件。</td>
-<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
-</tr>
-</tbody></table>
-<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><p>​    业务流程是软件项目的一部分，它也应该和普通的业务流程一样进行测试： 使用单元测试。 因为Activiti是一个嵌入式的java引擎， 为业务流程编写单元测试和写普通单元测试完全一样。</p>
-<p>​    Activiti支持JUnit 3和4进行单元测试。使用JUnit 3时， 必须集成<code>org.activiti.engine.test.ActivitiTestCase</code>。 它通过保护的成员变量提供ProcessEngine和服务， 在测试的<code>setup()</code>中， 默认会使用classpath下的<code>activiti.cfg.xml</code>初始化流程引擎。 想使用不同的配置文件，可以重写*getConfigurationResource()*方法。 如果配置文件相同的话，对应的流程引擎会被静态缓存， 就可以用于多个单元测试。</p>
-<p>​    继承了<code>ActivitiTestCase</code>你，可以在测试方法上使用 <code>org.activiti.engine.test.Deployment</code>注解。 测试执行前，与测试类在同一个包下的， 格式为<code>testClassName.testMethod.bpmn20.xml</code>的资源文件，会被部署。 测试结束后，发布包也会被删除，包括所有相关的流程实例，任务，等等。 <code>Deployment</code>注解也可以直接设置资源的位置。 参考<a target="_blank" rel="noopener" href="http://www.mossle.com/docs/javadocs/org/activiti/engine/test/Deployment.html">Javadocs</a>获得更多信息。</p>
-<p>​    把这些放在一起，JUnit 3测试看起来像这样。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class MyBusinessProcessTest extends ActivitiTestCase &#123;</span><br><span class="line">    @Deployment</span><br><span class="line">    public void testSimpleProcess() &#123;</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;simpleProcess&quot;);</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​    要想在使用JUnit 4编写单元测试时获得同样的功能， 可以使用<code>org.activiti.engine.test.ActivitiRule</code>。 通过它，可以通过getter方法获得流程引擎和各种服务。 和 <code>ActivitiTestCase</code>一样（参考上面章节），使用这个<code>Rule</code> 也会启用<code>org.activiti.engine.test.Deployment</code>注解（参考上面章节使用和配置的介绍）， 它会在classpath下查找默认的配置文件。 如果配置文件相同的话，对应的流程引擎会被静态缓存， 就可以用于多个单元测试。</p>
-<p>​    下面的代码演示了JUnit 4单元测试并使用了<code>ActivitiRule</code>的例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class MyBusinessProcessTest &#123;</span><br><span class="line">    @Rule</span><br><span class="line">    public ActivitiRule activitiRule &#x3D; new ActivitiRule();</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    @Deployment</span><br><span class="line">    public void ruleUsageExample() &#123;</span><br><span class="line">        RuntimeService runtimeService &#x3D; activitiRule.getRuntimeService();</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;ruleUsage&quot;);</span><br><span class="line">        TaskService taskService &#x3D; activitiRule.getTaskService();</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​    当集成Spring时，使用标准的<a target="_blank" rel="noopener" href="http://www.mossle.com/docs/activiti/index.html#apiUnitTesting">Activiti测试工具类</a>是非常容易的对业务流程进行测试。 下面的例子展示了如何在一个典型的基于Spring单元测试测试业务流程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import org.junit.Rule;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.junit.runner.RunWith;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.test.context.ContextConfiguration;</span><br><span class="line">import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"></span><br><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@ContextConfiguration(&quot;classpath:org&#x2F;activiti&#x2F;spring&#x2F;test&#x2F;junit4&#x2F;springTypicalUsageTest-context.xml&quot;)</span><br><span class="line">public class MyBusinessProcessTest &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private RuntimeService runtimeService;</span><br><span class="line">    @Autowired</span><br><span class="line">    private TaskService taskService;</span><br><span class="line">    @Autowired</span><br><span class="line">    @Rule</span><br><span class="line">    public ActivitiRule activitiSpringRule;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    @Deployment</span><br><span class="line">    public void simpleProcessTest() &#123;</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;simpleProcess&quot;);</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
     </div>
  -->
 

@@ -269,6 +269,95 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Ubuntu给外接设备修改分辨率" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2232115083.html" class="article-date">
+      <time datetime="2020-08-18T07:13:33.000Z" itemprop="datePublished">2020-08-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
+<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
+<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
+
+<p>cvt 2560 1440 来看分辨率的最优设置</p>
+<p>编辑 ~/.profile的文件来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo xrandr --newmode &quot;2560x1440_74.97&quot;  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync</span><br><span class="line">sudo xrandr --newmode &quot;2560x1440_60.00&quot;  312.25  2560 2752 3024 3488  1440 1443 1448 1493 -hsync +vsync</span><br><span class="line"></span><br><span class="line">sudo xrandr --addmode DP-1 &quot;2560x1440_74.97&quot;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://imlike.cc/img/1597749619474.png"><img src="../img/1597749619474.png" alt="1597749619474"></a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Jenkins的遇到的坑" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1294,227 +1383,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-navigation" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2974411664.html" class="article-date">
-      <time datetime="2020-05-09T23:49:23.000Z" itemprop="datePublished">2020-05-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2974411664.html">网站推荐</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><table>
-<thead>
-<tr>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <table>
-<thead>
-<tr>
-<th>## 导航类</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://adzhp.cn/mian-fei-shi-pin.html">免费视频网站、APP和高清电影下载合集爱达杂货铺</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://jubtnet.github.io/jubt/">聚BT - 聚合最优质的BT、磁力资源BT搜索 磁力搜索 云盘搜索 影视APP 在线影视 磁力影视 种子搜索</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://hao.su/531/?from=dalao.ru">免费的在线影视网站汇总 - 不死鸟 - 分享为王</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://ilxdh.com/">龙轩导航-做个有用的导航</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.btmoo.com/#">BT磁力搜索网址_BTMOO</a></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>## 临时文件传输(少用百度云)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://cowtransfer.com/">奶牛快传</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.lanzou.com/">蓝奏云</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://send.firefox.com/">Firefox Send</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.wenshushu.cn/">文叔叔</a></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>## bt磁力网站</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://hao.su/908/">bt 磁力搜索网站</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://sourl.cn/PePJ7m">比特球云盘</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://btfox0.org/?from=hao.su">btfox</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.mahuazy.net/">麻花影视采集</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.juhuitv.com/">剧汇 TV</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://sourl.cn/meKnEp">萝莉岛 APP</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.xiacoo.com/article/ajhu.html">bt 磁力网站大全</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://hao.su/1492/">网页在线工具</a></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>##  资讯类</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://tophub.today/">今日热榜官网</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://tophub.fun/main/home/hot/0">鱼塘热榜</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.williamlong.info/">月光博客-关注互联网和搜索引擎的IT科技博客</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.solidot.org/">Solidot: 奇客的资讯，重要的东西</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/">阮一峰的网络日志</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.ftchinese.com/">FT中文网 - 全球财经精粹</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.cnbc.com/world/?region=world">International Business, World News &amp; Global Stock Market Analysis–CNBC</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.scmp.com/">HK, China, Asia news &amp; opinion from SCMP’s global editionSouth China Morning Post 南华早报</a></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>##  视频播放和vip解析</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="http://ddrk.me/">低端影视</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.dililitv.com/">渧渧哩哩</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://爱看电影.xyz/">速影TV - 免费快速在线电影网</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.duboku.tv/">独播库</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.yunbtv.com/">云播TV-云播,云影院,云播放,云点播,最新电影,最新电视剧</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.dybee.tv/">电影蜜蜂-高清电影资源最新电影下载</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.wanmeikk.me/">完美看看-海量高清电影、电视剧、动漫免费在线观看</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://kiwi8.top/mov/s?url=https://m.mgtv.com/b/337284/8002740.html">kiwi视频解析</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.guandianzhiku.com/v/s/?url=https://www.iqiyi.com/v_19rr575vxk.html">搜搜GIF - 解析尽在掌握</a></td>
-</tr>
-</tbody></table>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li></ul>
     </div>
  -->
 

@@ -269,6 +269,109 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-aria2使用rpc下载百度云" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3861112470.html" class="article-date">
+      <time datetime="2019-09-05T03:30:18.000Z" itemprop="datePublished">2019-09-05</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3861112470.html">aria2使用rpc下载百度云</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="1-下载并安装"><a href="#1-下载并安装" class="headerlink" title="1.下载并安装"></a>1.下载并安装</h3><p>github地址-&gt;<a target="_blank" rel="noopener" href="https://github.com/aria2/aria2">https://github.com/aria2/aria2</a></p>
+<p>这边提供一下deb 包的下载地址 <a target="_blank" rel="noopener" href="https://ugetdm.com/go/ubuntu-64-bionic-aria2-download">https://ugetdm.com/go/ubuntu-64-bionic-aria2-download</a></p>
+<p>或者 sudo apt-get install aria2</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="1-下载并安装"><a href="#1-下载并安装" class="headerlink" title="1.下载并安装"></a>1.下载并安装</h3><p>github地址-&gt;<a target="_blank" rel="noopener" href="https://github.com/aria2/aria2">https://github.com/aria2/aria2</a></p>
+<p>这边提供一下deb 包的下载地址 <a target="_blank" rel="noopener" href="https://ugetdm.com/go/ubuntu-64-bionic-aria2-download">https://ugetdm.com/go/ubuntu-64-bionic-aria2-download</a></p>
+<p>或者 sudo apt-get install aria2</p>
+<p>可以尝试在命令行 使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aria2c  --conf-path&#x3D;&lt;配置地址&gt; -D        # aria2c -c -s 5 http:&#x2F;&#x2F;example.org&#x2F;mylinux.iso        -c : 断点续传        -s : 使用线程数        2、Download from 2 sources        # aria2c http:&#x2F;&#x2F;a&#x2F;f.iso   ftp:&#x2F;&#x2F;b&#x2F;f.iso</span><br></pre></td></tr></table></figure>
+
+<p>下载相关的命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1、Download from WEB <span class="comment"># aria2c -c -s 5 http://example.org/mylinux.iso-c : 断点续传-s : 使用线程数2、Download from 2 sources# aria2c http://a/f.iso   ftp://b/f.iso3、Download using 2 connections per host# aria2c -x2 http://a/f.iso4、BitTorrent Magnet URI# aria2c &#x27;magnet:?xt=urn:btih:248D0A1CD08284299DE78D5C1ED359BB46717D8C&#x27;5、Metalink# aria2c http://example.org/mylinux.metalink6、Download URIs found in text file# aria2c -i uris.txt7、BT# aria2c /tmp/CentOS-6.3-i386-bin-DVD1to2.torrent# aria2c http://mirrors.163.com/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.torrent</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-配置Aria2"><a href="#2-配置Aria2" class="headerlink" title="2.配置Aria2"></a>2.配置Aria2</h2><p>一般地址是在 ~/.aria2/aria2.conf</p>
+<p>rpc设置为true</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#用户名</span><br><span class="line">#rpc-user&#x3D;user</span><br><span class="line">#密码</span><br><span class="line">#rpc-passwd&#x3D;passwd</span><br><span class="line">#上面的认证方式不建议使用,建议使用下面的token方式</span><br><span class="line">#设置加密的密钥</span><br><span class="line">#rpc-secret&#x3D;token</span><br><span class="line">#允许rpc</span><br><span class="line">enable-rpc&#x3D;true</span><br><span class="line">#允许所有来源, web界面跨域权限需要</span><br><span class="line">rpc-allow-origin-all&#x3D;true</span><br><span class="line">#允许外部访问，false的话只监听本地端口</span><br><span class="line">rpc-listen-all&#x3D;true</span><br><span class="line">#RPC端口, 仅当默认端口被占用时修改</span><br><span class="line">rpc-listen-port&#x3D;6800</span><br><span class="line">#最大同时下载数(任务数), 路由建议值: 3</span><br><span class="line">max-concurrent-downloads&#x3D;5</span><br><span class="line">#断点续传</span><br><span class="line">continue&#x3D;true</span><br><span class="line">#同服务器连接数</span><br><span class="line">max-connection-per-server&#x3D;16</span><br><span class="line">#最小文件分片大小, 下载线程数上限取决于能分出多少片, 对于小文件重要</span><br><span class="line">min-split-size&#x3D;10M</span><br><span class="line">#单文件最大线程数, 路由建议值: 5</span><br><span class="line">split&#x3D;10</span><br><span class="line">#下载速度限制</span><br><span class="line">max-overall-download-limit&#x3D;0</span><br><span class="line">#单文件速度限制</span><br><span class="line">max-download-limit&#x3D;0</span><br><span class="line">#上传速度限制</span><br><span class="line">max-overall-upload-limit&#x3D;0</span><br><span class="line">#单文件速度限制</span><br><span class="line">max-upload-limit&#x3D;0</span><br><span class="line">#断开速度过慢的连接</span><br><span class="line">#lowest-speed-limit&#x3D;0</span><br><span class="line">#验证用，需要1.16.1之后的release版本</span><br><span class="line">#referer&#x3D;*</span><br><span class="line">#文件保存路径, 默认为当前启动位置</span><br><span class="line">dir&#x3D;&#x2F;home&#x2F;leek&#x2F;save&#x2F;download</span><br><span class="line">#文件缓存, 使用内置的文件缓存, 如果你不相信Linux内核文件缓存和磁盘内置缓存时使用, 需要1.16及以上版本</span><br><span class="line">#disk-cache&#x3D;0</span><br><span class="line">#另一种Linux文件缓存方式, 使用前确保您使用的内核支持此选项, 需要1.15及以上版本(?)</span><br><span class="line">#enable-mmap&#x3D;true</span><br><span class="line">#文件预分配, 能有效降低文件碎片, 提高磁盘性能. 缺点是预分配时间较长</span><br><span class="line">#所需时间 none &lt; falloc ? trunc « prealloc, falloc和trunc需要文件系统和内核支持</span><br><span class="line">file-allocation&#x3D;prealloc</span><br><span class="line">bt-tracker&#x3D;udp:&#x2F;&#x2F;62.138.0.158:6969&#x2F;announce,udp:&#x2F;&#x2F;188.241.58.209:6969&#x2F;announce,udp:&#x2F;&#x2F;93.158.213.92:1337&#x2F;announce,udp:&#x2F;&#x2F;62.210.97.59:1337&#x2F;announce,udp:&#x2F;&#x2F;151.80.120.113:2710&#x2F;announce,udp:&#x2F;&#x2F;151.80.120.113:2710&#x2F;announce,udp:&#x2F;&#x2F;165.231.0.116:80&#x2F;announce,udp:&#x2F;&#x2F;208.83.20.20:6969&#x2F;announce,udp:&#x2F;&#x2F;37.235.174.46:2710&#x2F;announce,udp:&#x2F;&#x2F;185.181.60.67:80&#x2F;announce,udp:&#x2F;&#x2F;54.37.235.149:6969&#x2F;announce,udp:&#x2F;&#x2F;89.234.156.205:451&#x2F;announce,udp:&#x2F;&#x2F;35.156.19.129:6969&#x2F;announce,udp:&#x2F;&#x2F;159.100.245.181:6969&#x2F;announce,udp:&#x2F;&#x2F;51.15.40.114:80&#x2F;announce,udp:&#x2F;&#x2F;142.44.243.4:1337&#x2F;announce,udp:&#x2F;&#x2F;176.113.71.19:6961&#x2F;announce,udp:&#x2F;&#x2F;5.206.54.49:6969&#x2F;announce,udp:&#x2F;&#x2F;184.105.151.164:6969&#x2F;announce,http:&#x2F;&#x2F;184.105.151.164:6969&#x2F;announce,udp:&#x2F;&#x2F;51.254.249.186:6969&#x2F;announce,udp:&#x2F;&#x2F;185.83.215.123:6969&#x2F;announce,udp:&#x2F;&#x2F;194.182.176.251:6969&#x2F;announce,udp:&#x2F;&#x2F;212.1.226.176:2710&#x2F;announce,udp:&#x2F;&#x2F;212.47.227.58:6969&#x2F;announce,udp:&#x2F;&#x2F;95.211.168.204:2710&#x2F;announce,udp:&#x2F;&#x2F;46.148.18.250:2710&#x2F;announce,udp:&#x2F;&#x2F;165.227.0.51:6969&#x2F;announce,udp:&#x2F;&#x2F;91.217.91.21:3218&#x2F;announce,udp:&#x2F;&#x2F;190.146.242.80:7070&#x2F;announce,udp:&#x2F;&#x2F;149.129.65.231:2710&#x2F;announce,udp:&#x2F;&#x2F;15.188.67.15:6969&#x2F;announce,udp:&#x2F;&#x2F;185.97.255.30:6969&#x2F;announce,udp:&#x2F;&#x2F;51.15.134.218:2710&#x2F;announce,udp:&#x2F;&#x2F;52.58.128.163:6969&#x2F;announce,udp:&#x2F;&#x2F;45.86.70.144:6969&#x2F;announce,udp:&#x2F;&#x2F;109.72.83.214:80&#x2F;announce,udp:&#x2F;&#x2F;217.76.183.53:80&#x2F;announce,udp:&#x2F;&#x2F;46.148.18.254:2710&#x2F;announce,udp:&#x2F;&#x2F;23.95.32.130:6969&#x2F;announce,udp:&#x2F;&#x2F;207.241.231.226:6969&#x2F;announce,udp:&#x2F;&#x2F;207.241.226.111:6969&#x2F;announce,udp:&#x2F;&#x2F;207.180.241.35:2710&#x2F;announce,https:&#x2F;&#x2F;47.240.44.4:443&#x2F;announce,http:&#x2F;&#x2F;79.133.36.244:6969&#x2F;announce,http:&#x2F;&#x2F;91.217.91.21:3218&#x2F;announce,http:&#x2F;&#x2F;93.158.213.92:1337&#x2F;announce,http:&#x2F;&#x2F;51.15.134.218:2710&#x2F;announce,http:&#x2F;&#x2F;153.92.6.117:80&#x2F;announce,http:&#x2F;&#x2F;139.99.45.37:80&#x2F;announce,http:&#x2F;&#x2F;78.30.254.12:2710&#x2F;announce,http:&#x2F;&#x2F;91.207.136.85:80&#x2F;announce,http:&#x2F;&#x2F;52.203.65.11:80&#x2F;announce,udp:&#x2F;&#x2F;95.211.168.204:2710&#x2F;announce,udp:&#x2F;&#x2F;176.113.68.67:6961&#x2F;announce,udp:&#x2F;&#x2F;104.244.79.229:6969&#x2F;announce,udp:&#x2F;&#x2F;51.15.3.74:6969&#x2F;announce,udp:&#x2F;&#x2F;218.5.42.53:2710&#x2F;announce,udp:&#x2F;&#x2F;185.83.214.123:6969&#x2F;announce,udp:&#x2F;&#x2F;80.211.26.119:9696&#x2F;announce,udp:&#x2F;&#x2F;139.99.100.97:8080&#x2F;announce,https:&#x2F;&#x2F;212.237.22.141:443&#x2F;announce,http:&#x2F;&#x2F;182.150.53.61:8080&#x2F;announce,http:&#x2F;&#x2F;95.107.48.115:80&#x2F;announce,http:&#x2F;&#x2F;37.235.174.46:2710&#x2F;announce,http:&#x2F;&#x2F;176.113.71.19:6961&#x2F;announce,http:&#x2F;&#x2F;176.113.68.67:6961&#x2F;announce,http:&#x2F;&#x2F;34.92.10.197:6789&#x2F;announce,http:&#x2F;&#x2F;95.216.171.255:6969&#x2F;announce,http:&#x2F;&#x2F;62.210.202.61:80&#x2F;announce,http:&#x2F;&#x2F;104.244.79.229:80&#x2F;announce,http:&#x2F;&#x2F;176.123.5.118:80&#x2F;announce,http:&#x2F;&#x2F;51.79.71.167:80&#x2F;announce,http:&#x2F;&#x2F;185.83.214.123:6969&#x2F;announce,http:&#x2F;&#x2F;62.210.177.88:1096&#x2F;announce,http:&#x2F;&#x2F;51.68.122.172:80&#x2F;announce</span><br><span class="line">## BT&#x2F;PT下载相关 ##</span><br><span class="line"></span><br><span class="line"># 当下载的是一个种子(以.torrent结尾)时, 自动开始BT任务, 默认:true</span><br><span class="line">#follow-torrent&#x3D;true</span><br><span class="line"># BT监听端口, 当端口被屏蔽时使用, 默认:6881-6999</span><br><span class="line">listen-port&#x3D;51413</span><br><span class="line"># 单个种子最大连接数, 默认:55</span><br><span class="line">#bt-max-peers&#x3D;55</span><br><span class="line"># 打开DHT功能, PT需要禁用, 默认:true</span><br><span class="line">enable-dht&#x3D;false</span><br><span class="line"># 打开IPv6 DHT功能, PT需要禁用</span><br><span class="line">#enable-dht6&#x3D;false</span><br><span class="line"># DHT网络监听端口, 默认:6881-6999</span><br><span class="line">#dht-listen-port&#x3D;6881-6999</span><br><span class="line"># 本地节点查找, PT需要禁用, 默认:false</span><br><span class="line">#bt-enable-lpd&#x3D;false</span><br><span class="line"># 种子交换, PT需要禁用, 默认:true</span><br><span class="line">enable-peer-exchange&#x3D;false</span><br><span class="line"># 每个种子限速, 对少种的PT很有用, 默认:50K</span><br><span class="line">#bt-request-peer-speed-limit&#x3D;50K</span><br><span class="line"># 客户端伪装, PT需要</span><br><span class="line">peer-id-prefix&#x3D;-TR2770-</span><br><span class="line">user-agent&#x3D;Transmission&#x2F;2.77</span><br><span class="line">peer-agent&#x3D;Transmission&#x2F;2.77</span><br><span class="line"># 当种子的分享率达到这个数时, 自动停止做种, 0为一直做种, 默认:1.0</span><br><span class="line">seed-ratio&#x3D;0</span><br><span class="line"># 强制保存会话, 即使任务已经完成, 默认:false</span><br><span class="line"># 较新的版本开启后会在任务完成后依然保留.aria2文件</span><br><span class="line">#force-save&#x3D;false</span><br><span class="line"># BT校验相关, 默认:true</span><br><span class="line">#bt-hash-check-seed&#x3D;true</span><br><span class="line"># 继续之前的BT任务时, 无需再次校验, 默认:false</span><br><span class="line">bt-seed-unverified&#x3D;true</span><br><span class="line"># 保存磁力链接元数据为种子文件(.torrent文件), 默认:false</span><br><span class="line">bt-save-metadata&#x3D;true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-rpc调用-下载百度云"><a href="#3-rpc调用-下载百度云" class="headerlink" title="3.rpc调用 下载百度云"></a>3.rpc调用 下载百度云</h2><p>测试 rpc可用性</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1:6800/jsonrpc?jsoncallback=1">http://127.0.0.1:6800/jsonrpc?jsoncallback=1</a></p>
+<p>有返回既能用否则可能是服务没有起起来</p>
+<p>使用的chrome 油猴插件 百度网盘超级助手选择pandownload -&gt; 调用baiduwp.com 的下载接口直接下载 -&gt; 点击具体文件后选择使用Aria2下载</p>
+<p><a href="../img/1567683581804.png"><img src="../img/1567683581804.png" alt="1567683581804"></a></p>
+<p>参考链接</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://ivo-wang.github.io/2019/04/18/%E5%85%B3%E4%BA%8Earia2%E6%9C%80%E5%AE%8C%E6%95%B4%E7%9A%84%E4%B8%80%E7%AF%87/">关于aria2最完整的一篇</a></li>
+<li><a target="_blank" rel="noopener" href="https://binux.blog/2012/12/aria2-examples/">https://binux.blog/2012/12/aria2-examples/</a></li>
+</ul>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-floccus利用坚果云WebDAV跨浏览器同步数据" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1318,152 +1421,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hexo优化" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/878762119.html" class="article-date">
-      <time datetime="2019-07-25T04:09:35.000Z" itemprop="datePublished">2019-07-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/878762119.html">hexo优化</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="hexo-的-themes文件夹下存在git等文件导致URI-malformed"><a href="#hexo-的-themes文件夹下存在git等文件导致URI-malformed" class="headerlink" title="hexo 的 themes文件夹下存在git等文件导致URI malformed"></a>hexo 的 themes文件夹下存在git等文件导致URI malformed</h3><p><a target="_blank" rel="noopener" href="https://blog.liexing.me/2015/09/01/oh-my-hexo/">参考链接</a></p>
-<p>遇到过生成页面后出现一堆代码，或者是 CSS 错误，或者类似 URIError: URI malformed 这样的错误，查了半天，发现是<br>vim 修改了 ejs 文件后，自动生成了带 ~ 后缀的备份文件，这将导致 Hexo 生成的时候一起包含进去出错。删掉所有的备份文件即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">URIError: URI malformed</span><br><span class="line">    at decodeURIComponent (&lt;anonymous&gt;)</span><br><span class="line">    at &#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;hexo-server&#x2F;lib&#x2F;middlewares&#x2F;route.js:17:28</span><br><span class="line">    at call (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:239:7)</span><br><span class="line">    at next (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:183:5)</span><br><span class="line">    at &#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;hexo-server&#x2F;lib&#x2F;middlewares&#x2F;header.js:9:5</span><br><span class="line">    at call (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:239:7)</span><br><span class="line">    at next (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:183:5)</span><br><span class="line">    at Function.handle (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:186:3)</span><br><span class="line">    at Server.app (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:51:37)</span><br><span class="line">    at Server.emit (events.js:310:20)</span><br><span class="line">    at parserOnIncoming (_http_server.js:784:12)</span><br><span class="line">    at HTTPParser.parserOnHeadersComplete (_http_common.js:119:17)</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="hexo-的-themes文件夹下存在git等文件导致URI-malformed"><a href="#hexo-的-themes文件夹下存在git等文件导致URI-malformed" class="headerlink" title="hexo 的 themes文件夹下存在git等文件导致URI malformed"></a>hexo 的 themes文件夹下存在git等文件导致URI malformed</h3><p><a target="_blank" rel="noopener" href="https://blog.liexing.me/2015/09/01/oh-my-hexo/">参考链接</a></p>
-<p>遇到过生成页面后出现一堆代码，或者是 CSS 错误，或者类似 URIError: URI malformed 这样的错误，查了半天，发现是<br>vim 修改了 ejs 文件后，自动生成了带 ~ 后缀的备份文件，这将导致 Hexo 生成的时候一起包含进去出错。删掉所有的备份文件即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">URIError: URI malformed</span><br><span class="line">    at decodeURIComponent (&lt;anonymous&gt;)</span><br><span class="line">    at &#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;hexo-server&#x2F;lib&#x2F;middlewares&#x2F;route.js:17:28</span><br><span class="line">    at call (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:239:7)</span><br><span class="line">    at next (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:183:5)</span><br><span class="line">    at &#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;hexo-server&#x2F;lib&#x2F;middlewares&#x2F;header.js:9:5</span><br><span class="line">    at call (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:239:7)</span><br><span class="line">    at next (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:183:5)</span><br><span class="line">    at Function.handle (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:186:3)</span><br><span class="line">    at Server.app (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:51:37)</span><br><span class="line">    at Server.emit (events.js:310:20)</span><br><span class="line">    at parserOnIncoming (_http_server.js:784:12)</span><br><span class="line">    at HTTPParser.parserOnHeadersComplete (_http_common.js:119:17)</span><br></pre></td></tr></table></figure>
-
-<p>需要在hexo的配置文件添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">skip_render:</span><br><span class="line">- daohang&#x2F;*</span><br><span class="line">- .git&#x2F;*</span><br></pre></td></tr></table></figure>
-
-<p>如果还存在问题可以考虑 对于markdown文件中备注代码块格式加了ejs的备注</p>
-<h3 id="tags-多标签-multi-category-and-multi-tag-2020年3月31日"><a href="#tags-多标签-multi-category-and-multi-tag-2020年3月31日" class="headerlink" title="tags 多标签 multi category and multi tag -2020年3月31日"></a>tags 多标签 multi category and multi tag -2020年3月31日</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;文章标签，可空，多标签请用格式[tag1,tag2,tag3]，如下，注意!!&quot;tags:&quot;后面有个空格tags: [tag1, tag2, tag3, ...]&#x2F;&#x2F; 下面这种方式似乎仅限于hexo 3.0tags:- npm  - vue</span><br></pre></td></tr></table></figure>
-
-<p>注意tags: 后面不要有空格,-与标签名之间应该有空格</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/1520">How about supporting multi category and multi tag</a></p>
-<hr>
-<h3 id="设置date的格式"><a href="#设置date的格式" class="headerlink" title="设置date的格式"></a>设置date的格式</h3><table>
-<thead>
-<tr>
-<th align="center">变量</th>
-<th align="center">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><code>:year</code></td>
-<td align="center">文章的发表年份（4 位数）</td>
-</tr>
-<tr>
-<td align="center"><code>:month</code></td>
-<td align="center">文章的发表月份（2 位数）</td>
-</tr>
-<tr>
-<td align="center"><code>:i_month</code></td>
-<td align="center">文章的发表月份（去掉开头的零）</td>
-</tr>
-<tr>
-<td align="center"><code>:day</code></td>
-<td align="center">文章的发表日期 (2 位数)</td>
-</tr>
-<tr>
-<td align="center"><code>:i_day</code></td>
-<td align="center">文章的发表日期（去掉开头的零）</td>
-</tr>
-<tr>
-<td align="center"><code>:title</code></td>
-<td align="center">文件名称</td>
-</tr>
-<tr>
-<td align="center"><code>:post_title</code></td>
-<td align="center">文章标题</td>
-</tr>
-<tr>
-<td align="center"><code>:id</code></td>
-<td align="center">文章 ID</td>
-</tr>
-<tr>
-<td align="center"><code>:category</code></td>
-<td align="center">分类。如果文章没有分类，则是 <code>default_category</code> 配置信息</td>
-</tr>
-</tbody></table>
-<p><a target="_blank" rel="noopener" href="https://github.com/Rozbo/hexo-abbrlink">github地址</a> 可以参考一下代码风格</p>
-<h3 id="为网页设置统一风格的URL"><a href="#为网页设置统一风格的URL" class="headerlink" title="为网页设置统一风格的URL"></a>为网页设置统一风格的URL</h3><p><a target="_blank" rel="noopener" href="https://github.com/Rozbo/hexo-abbrlink">github地址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-abbrlink --save 安装 该插件 后将_config.yml permalink: :abbrlink.html   # 生成唯一链接  永久链接（Permalinks）abbrlink:  alg: crc32  # 算法：crc16(default) and crc32  rep: dec    # 进制：dec(default) and hex    permalink_defaults: :year&#x2F;:month&#x2F;:day&#x2F;:title&#x2F;   默认是是这样拼接URL</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://liziczh.com/hexo-submit.html">参考链接</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
     </div>
  -->
 
