@@ -6,7 +6,7 @@
   <link href="https://imlike.cc/atom.xml" rel="self"/>
   
   <link href="https://imlike.cc/"/>
-  <updated>2021-05-26T09:35:44.449Z</updated>
+  <updated>2021-05-26T09:35:57.517Z</updated>
   <id>https://imlike.cc/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://imlike.cc/77e0f92d.html"/>
     <id>https://imlike.cc/77e0f92d.html</id>
     <published>2021-05-26T06:53:02.000Z</published>
-    <updated>2021-05-26T09:35:44.449Z</updated>
+    <updated>2021-05-26T09:35:57.517Z</updated>
     
     <content type="html"><![CDATA[<p>Unable to find native drivers in HADOOP_HOME. Please, refer to Hadoop Wiki for more details.</p><p><a href="https://cwiki.apache.org/confluence/display/HADOOP2/WindowsProblems">link</a></p><p>配置环境变量 包括java和hadoop的注意一点尽量不要有空格否则在<br>java -version<br>hadoop version 的时候回报错 java_home  incorrect </p><p><img src="../img/image-20210526145438386.png" alt="image-20210526145438386"></p><p>我这边没看到10 的版本就先使用了最近的</p><p><img src="../img/image-20210526145752361.png" alt="image-20210526145752361"></p><p><img src="../img/image-20210526145319973.png" alt="image-20210526145319973"></p>]]></content>
     
