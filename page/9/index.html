@@ -269,6 +269,98 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ubuntu优化－onedrive" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1097254589.html" class="article-date">
+      <time datetime="2019-06-26T15:17:14.000Z" itemprop="datePublished">2019-06-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1097254589.html">ubuntu优化－onedrive</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>之前是准备用onedrive-dev 但是涉及到太多的以来还有步骤很复杂</p>
+<p>有看到其他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Easy to configure:</span><br><span class="line"></span><br><span class="line">$ cat ~&#x2F;.config&#x2F;onedrive&#x2F;config</span><br><span class="line">sync_dir &#x3D; &quot;~&#x2F;OneDrive&quot;</span><br><span class="line">skip_file &#x3D; &quot;.*|~*|thumbs.db|Games&#x2F;*.iso&quot;</span><br><span class="line">skip_dir &#x3D; &quot;.*|Music|Movies&#x2F;FullHD&quot;</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>之前是准备用onedrive-dev 但是涉及到太多的以来还有步骤很复杂</p>
+<p>有看到其他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Easy to configure:</span><br><span class="line"></span><br><span class="line">$ cat ~&#x2F;.config&#x2F;onedrive&#x2F;config</span><br><span class="line">sync_dir &#x3D; &quot;~&#x2F;OneDrive&quot;</span><br><span class="line">skip_file &#x3D; &quot;.*|~*|thumbs.db|Games&#x2F;*.iso&quot;</span><br><span class="line">skip_dir &#x3D; &quot;.*|Music|Movies&#x2F;FullHD&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">So simple, You already know how to use it:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ onedrive -h	</span><br><span class="line">Usage: onedrive [OPTION]...	</span><br><span class="line">no option	Sync and exit.</span><br><span class="line">-m	--monitor	Keep monitoring for local and remote changes.	</span><br><span class="line">--resync	Forget the last saved state, perform a full sync.	</span><br><span class="line">-v	--verbose	Print more details, useful for debugging.	</span><br><span class="line">-h	--help	This help information.</span><br></pre></td></tr></table></figure>
+
+<p>配置也很简单 onedrive –download 获取授权链接 登录 onedrive的账号就行了 将返回的URL贴到命令行后 火车如果长时间没相应可以直接ctrc+c 后重新运行</p>
+<p>记录一下chmod的用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">查看linux文件的权限：ls -l 文件名称</span><br><span class="line"></span><br><span class="line">查看linux文件夹的权限：ls -ld 文件夹名称（所在目录）</span><br><span class="line"></span><br><span class="line">修改文件及文件夹权限：</span><br><span class="line"></span><br><span class="line">sudo chmod -（代表类型）×××（所有者）×××（组用户）×××（其他用户）</span><br><span class="line"></span><br><span class="line">常用修改权限的命令：</span><br><span class="line"></span><br><span class="line">sudo chmod 600 ××× （只有所有者有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 644 ××× （所有者有读和写的权限，组用户只有读的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 700 ××× （只有所有者有读和写以及执行的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 666 ××× （每个人都有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 777 ××× （每个人都有读和写以及执行的权限）查看linux文件的权限：ls -l 文件名称</span><br><span class="line"></span><br><span class="line">查看linux文件夹的权限：ls -ld 文件夹名称（所在目录）</span><br><span class="line"></span><br><span class="line">修改文件及文件夹权限：</span><br><span class="line"></span><br><span class="line">sudo chmod -（代表类型）×××（所有者）×××（组用户）×××（其他用户）</span><br><span class="line"></span><br><span class="line">常用修改权限的命令：</span><br><span class="line"></span><br><span class="line">sudo chmod 600 ××× （只有所有者有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 644 ××× （所有者有读和写的权限，组用户只有读的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 700 ××× （只有所有者有读和写以及执行的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 666 ××× （每个人都有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 777 ××× （每个人都有读和写以及执行的权限）</span><br></pre></td></tr></table></figure>
+
+<h3 id="aria-下载"><a href="#aria-下载" class="headerlink" title="aria 下载"></a>aria 下载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aria2c -c -s10 -k1M -x16 --enable-rpc&#x3D;false -o &#39;要保存的文件名&#39; --header &quot;User-Agent: Mozilla&#x2F;5.0 (X11; Linux x86_64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;61.0.3163.100 Safari&#x2F;537.36&quot; --header &quot;Cookie: 你的cookie内容&quot; &quot;文件的下载地址&quot;</span><br><span class="line"></span><br><span class="line">使用cookie 来实现百度云下载,想一些网站会识别cookie判断是否能下载</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-on-my-zsh" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1314,102 +1406,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu优化-输入中文和deepin-Win" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2878480242.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>将Deepin-ThunderSpeed ，Deepin-Wechart上在/usr/share/application 完善添加管理员权限</p>
-<p>同时 、vi /etc/sudoers 将对于是sh脚本授予管理员权限</p>
-<p>使用的deepin-wine</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>将Deepin-ThunderSpeed ，Deepin-Wechart上在/usr/share/application 完善添加管理员权限</p>
-<p>同时 、vi /etc/sudoers 将对于是sh脚本授予管理员权限</p>
-<p>使用的deepin-wine</p>
-<p>deepin-wine 可以直接使用IDM 目前市面所有的下载工具 Linux可以寥寥无几像　Ｕget XMD　的用过之后还是不行，但是windows版<br>安装和都很不方便,目前只使用 微信和迅雷 但是下载方面还是很慢 最近突然发现手里还珍藏了之前绿色版的IDM 赶紧的试试不错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Desktop Entry]</span><br><span class="line">Name&#x3D;IdeaIU</span><br><span class="line">Comment&#x3D;IdeaIU</span><br><span class="line">Exec&#x3D;&#x2F;home&#x2F;admin-m&#x2F;soft&#x2F;idea2&#x2F;idea-IU-172.3317.76&#x2F;bin&#x2F;idea.sh</span><br><span class="line">Icon&#x3D;&#x2F;home&#x2F;admin-m&#x2F;soft&#x2F;idea2&#x2F;idea-IU-172.3317.76&#x2F;bin&#x2F;idea.png</span><br><span class="line">Terminal&#x3D;false</span><br><span class="line">Type&#x3D;Application</span><br><span class="line">Categories&#x3D;Application;Development;</span><br><span class="line"></span><br><span class="line">[Desktop Entry]   每个desktop文件都以这个标签开始，说明这是一个Desktop Entry文件</span><br><span class="line">Version &#x3D; 1.0      标明Desktop Entry的版本（可选）</span><br><span class="line">Name &#x3D; IdeaIU    程序名称（必须），这里以创建一个idea的快捷方式为例</span><br><span class="line">GenericName &#x3D; IdeaIU       程序通用名称（可选）</span><br><span class="line">Comment &#x3D;IdeaIU       程序描述（可选）</span><br><span class="line">Exec &#x3D;       程序的启动命令（必选），可以带参数运行</span><br><span class="line">Icon &#x3D;     设置快捷方式的图标（可选），当Type为Application，此项有效</span><br><span class="line">Terminal &#x3D; false   是否在终端中运行（可选），当Type为Application，此项有效</span><br><span class="line">Type &#x3D; Application   desktop的类型（必选），常见值有“Application”和“Link”</span><br><span class="line">Categories &#x3D; GNOME;Application;Network; &#x2F;&#x2F;注明在菜单栏中显示的类别（可选）</span><br><span class="line"></span><br><span class="line">完成   desktop 需要在权限上显示</span><br></pre></td></tr></table></figure>
-
-<p>不要懒，完成好计划好的 提升效率，多想想法子</p>
-<p>sh wechat下面添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export XMODIFIERS&#x3D;&quot;@im&#x3D;fcitx&quot;export GTK_IM_MODULE&#x3D;&quot;fcitx&quot;export QT_IM_MODULE&#x3D;&quot;fcitx&quot;</span><br></pre></td></tr></table></figure>
-
-<p>设置开机主题</p>
-<p>针对Ubuntu18 部分通知没有 可以使用 topicons plus 实现wine通知的</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
     </div>
  -->
 

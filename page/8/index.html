@@ -269,6 +269,108 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-搭建云播基于cloud-torrent" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1352061511.html" class="article-date">
+      <time datetime="2019-08-04T03:39:42.000Z" itemprop="datePublished">2019-08-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1352061511.html">搭建云播基于cloud-torrent</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="基于Aria2-搭建离线云播"><a href="#基于Aria2-搭建离线云播" class="headerlink" title="基于Aria2 搭建离线云播"></a>基于Aria2 搭建离线云播</h3><p>之前撸了个谷歌云的服务器都没怎么用 现在突然记起来了随便搭建了 刚开始是想搭建基于<a target="_blank" rel="noopener" href="https://blog.liyuans.com/archives/yunbt.html">参考链接</a> 离线技术来自于 Aria2</p>
+<p>但是没有安装成功我是 Debian9 没有能安装 脚本里面的是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安装锐速 serverspeeder-all.sh</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="基于Aria2-搭建离线云播"><a href="#基于Aria2-搭建离线云播" class="headerlink" title="基于Aria2 搭建离线云播"></a>基于Aria2 搭建离线云播</h3><p>之前撸了个谷歌云的服务器都没怎么用 现在突然记起来了随便搭建了 刚开始是想搭建基于<a target="_blank" rel="noopener" href="https://blog.liyuans.com/archives/yunbt.html">参考链接</a> 离线技术来自于 Aria2</p>
+<p>但是没有安装成功我是 Debian9 没有能安装 脚本里面的是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安装锐速 serverspeeder-all.sh</span><br></pre></td></tr></table></figure>
+
+<p>而且启动里面的 mysql 还有thinkPHP 所以不上去是不是有什么其他错误</p>
+<h3 id="换一种搭建方案基于cloud-torrent"><a href="#换一种搭建方案基于cloud-torrent" class="headerlink" title="换一种搭建方案基于cloud-torrent"></a>换一种搭建方案基于<strong>cloud-torrent</strong></h3><p>后面是想看看还有没有其他的搭建方案 搜了一下果然是有比较完善和封装比较好的服务</p>
+<p><a target="_blank" rel="noopener" href="https://www.moerats.com/archives/291/">参考链接</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ToyoDAdoubiBackup&#x2F;doubi&#x2F;master&#x2F;cloudt.sh &amp;&amp; chmod +x cloudt.sh &amp;&amp; bash cloudt.sh</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/jpillora/cloud-torrent">github地址</a></p>
+<p>说一下中间的坑 因为选择想有绑定时有域名和IP的两种选项我刚好有域名就绑了个子域名后面等后面安装后启动就一直报</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Can&#39;t assign requested address</span><br></pre></td></tr></table></figure>
+
+<p>我以为是端口占用 杀了对于进程但是不行 我就卸载了对于软件 重新安装 在绑定端口时选择了8080 但是还是不星 但是8080是没有服务占用的</p>
+<p>所以我换成我服务器的IP地址就行了 应该是它需要监听域名的请求但是和本机IP 不能绑定 目前的将我子域名直接解析到对于的云播地址就了</p>
+<p>速度不错</p>
+<p><a href="../img/2019-08-04_19-49.png"><img src="../img/2019-08-04_19-49.png" alt="img"></a></p>
+<p>最后分享应该安卓端也可用的<a target="_blank" rel="noopener" href="http://jufengxiazai.com/">点我下载</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-搭建orientDB" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1291,98 +1393,6 @@
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
     </div>
  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ubuntu优化－onedrive" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1097254589.html" class="article-date">
-      <time datetime="2019-06-26T15:17:14.000Z" itemprop="datePublished">2019-06-26</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1097254589.html">ubuntu优化－onedrive</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>之前是准备用onedrive-dev 但是涉及到太多的以来还有步骤很复杂</p>
-<p>有看到其他</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Easy to configure:</span><br><span class="line"></span><br><span class="line">$ cat ~&#x2F;.config&#x2F;onedrive&#x2F;config</span><br><span class="line">sync_dir &#x3D; &quot;~&#x2F;OneDrive&quot;</span><br><span class="line">skip_file &#x3D; &quot;.*|~*|thumbs.db|Games&#x2F;*.iso&quot;</span><br><span class="line">skip_dir &#x3D; &quot;.*|Music|Movies&#x2F;FullHD&quot;</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>之前是准备用onedrive-dev 但是涉及到太多的以来还有步骤很复杂</p>
-<p>有看到其他</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Easy to configure:</span><br><span class="line"></span><br><span class="line">$ cat ~&#x2F;.config&#x2F;onedrive&#x2F;config</span><br><span class="line">sync_dir &#x3D; &quot;~&#x2F;OneDrive&quot;</span><br><span class="line">skip_file &#x3D; &quot;.*|~*|thumbs.db|Games&#x2F;*.iso&quot;</span><br><span class="line">skip_dir &#x3D; &quot;.*|Music|Movies&#x2F;FullHD&quot;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">So simple, You already know how to use it:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ onedrive -h	</span><br><span class="line">Usage: onedrive [OPTION]...	</span><br><span class="line">no option	Sync and exit.</span><br><span class="line">-m	--monitor	Keep monitoring for local and remote changes.	</span><br><span class="line">--resync	Forget the last saved state, perform a full sync.	</span><br><span class="line">-v	--verbose	Print more details, useful for debugging.	</span><br><span class="line">-h	--help	This help information.</span><br></pre></td></tr></table></figure>
-
-<p>配置也很简单 onedrive –download 获取授权链接 登录 onedrive的账号就行了 将返回的URL贴到命令行后 火车如果长时间没相应可以直接ctrc+c 后重新运行</p>
-<p>记录一下chmod的用法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">查看linux文件的权限：ls -l 文件名称</span><br><span class="line"></span><br><span class="line">查看linux文件夹的权限：ls -ld 文件夹名称（所在目录）</span><br><span class="line"></span><br><span class="line">修改文件及文件夹权限：</span><br><span class="line"></span><br><span class="line">sudo chmod -（代表类型）×××（所有者）×××（组用户）×××（其他用户）</span><br><span class="line"></span><br><span class="line">常用修改权限的命令：</span><br><span class="line"></span><br><span class="line">sudo chmod 600 ××× （只有所有者有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 644 ××× （所有者有读和写的权限，组用户只有读的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 700 ××× （只有所有者有读和写以及执行的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 666 ××× （每个人都有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 777 ××× （每个人都有读和写以及执行的权限）查看linux文件的权限：ls -l 文件名称</span><br><span class="line"></span><br><span class="line">查看linux文件夹的权限：ls -ld 文件夹名称（所在目录）</span><br><span class="line"></span><br><span class="line">修改文件及文件夹权限：</span><br><span class="line"></span><br><span class="line">sudo chmod -（代表类型）×××（所有者）×××（组用户）×××（其他用户）</span><br><span class="line"></span><br><span class="line">常用修改权限的命令：</span><br><span class="line"></span><br><span class="line">sudo chmod 600 ××× （只有所有者有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 644 ××× （所有者有读和写的权限，组用户只有读的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 700 ××× （只有所有者有读和写以及执行的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 666 ××× （每个人都有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 777 ××× （每个人都有读和写以及执行的权限）</span><br></pre></td></tr></table></figure>
-
-<h3 id="aria-下载"><a href="#aria-下载" class="headerlink" title="aria 下载"></a>aria 下载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aria2c -c -s10 -k1M -x16 --enable-rpc&#x3D;false -o &#39;要保存的文件名&#39; --header &quot;User-Agent: Mozilla&#x2F;5.0 (X11; Linux x86_64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;61.0.3163.100 Safari&#x2F;537.36&quot; --header &quot;Cookie: 你的cookie内容&quot; &quot;文件的下载地址&quot;</span><br><span class="line"></span><br><span class="line">使用cookie 来实现百度云下载,想一些网站会识别cookie判断是否能下载</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
 
 
       

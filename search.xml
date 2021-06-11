@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>jd_script_use</title>
+      <link href="8cefd92d.html"/>
+      <url>8cefd92d.html</url>
+      
+        <content type="html"><![CDATA[<p>找到一个jd_script 主要是京东的脚本可以操作，在加入 </p><p>fetchMetadata: sill mapToRegistry uri <a href="https://registry.npm.taobao.org/got">https://registry.npm.taobao.org/got</a></p><p>JS_TOOL执行 jd panelon后执行如果报错 缺 /root/jd/config</p><p>那就新建 /root/jd/config 文件夹 然后将 /root/JS_TOOL/sample中的文件复制到/root/jd/config </p><p>最后来就可以新建</p><p>tips:</p><p>期间 npm  install 会出现</p><p>fetchMetadata: verb afterAdd /root/.npm/ee-first/1.1.1/package/package.json</p><p>这个是下载的过程比较耗时可能10分钟。</p><p>预先要求的条件</p><p>docker的环境</p><ol><li><code>npm config set registry http://registry.npmjs.org/ --global</code></li><li><code>npm cache clear --force</code></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash jd.sh panelon</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>hadoop_windows</title>
       <link href="77e0f92d.html"/>
       <url>77e0f92d.html</url>
