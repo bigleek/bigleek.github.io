@@ -269,6 +269,469 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-书写技术文档的规范结合阮一峰的博客介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/cadd68a.html" class="article-date">
+      <time datetime="2021-01-27T13:24:34.000Z" itemprop="datePublished">2021-01-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>技术文档每天都会遇到,条理不够清晰,表达不够准确首先是很难让人理解,同时还会增加沟通的成本</p>
+<p>我这边结合阮一峰的博客也结合我最近写文档的思路列一下<br>两个方向是实践类(包括但不限于 部署,搭建),预研学习类(包括 新技术,技术选型,新趋势)<br>实践类较为简单<br>先来个实例网站<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/dpmg-hdp-kunpengbds/kunpengambarihdp_04_0011.html">华为云的部署文档</a><br>1.t1<br>    1.1 t2<br>        1.1.1t3<br>        a.<br>        b.<br>        c.<br>        或者<br>        -<br>        -<br>        - </p>
+<p>这种来分开步骤和梳理逻辑<br>同时遇到的问题或者是要集中介绍和梳理的内容可以放在后面开头<br>问题这种一般先描述现象和问题,然后 列出解决方案不必纠结与 ,把问题讲清楚<br>在md也尽量使用规范 引用  代码块 需要分开使用不要乱用,对应主要的部分可以加粗高亮</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>技术文档每天都会遇到,条理不够清晰,表达不够准确首先是很难让人理解,同时还会增加沟通的成本</p>
+<p>我这边结合阮一峰的博客也结合我最近写文档的思路列一下<br>两个方向是实践类(包括但不限于 部署,搭建),预研学习类(包括 新技术,技术选型,新趋势)<br>实践类较为简单<br>先来个实例网站<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/dpmg-hdp-kunpengbds/kunpengambarihdp_04_0011.html">华为云的部署文档</a><br>1.t1<br>    1.1 t2<br>        1.1.1t3<br>        a.<br>        b.<br>        c.<br>        或者<br>        -<br>        -<br>        - </p>
+<p>这种来分开步骤和梳理逻辑<br>同时遇到的问题或者是要集中介绍和梳理的内容可以放在后面开头<br>问题这种一般先描述现象和问题,然后 列出解决方案不必纠结与 ,把问题讲清楚<br>在md也尽量使用规范 引用  代码块 需要分开使用不要乱用,对应主要的部分可以加粗高亮</p>
+<p>对于第二种预研学习类<br>来个实例网站 <a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/129908.html?spm=a2c4g.11186623.2.25.7d0049ec9vDbQk">阿里云 云数据库 hbase</a> </p>
+<p>先应该是基本概念 来介绍名词和这个技术或者服务的概览<br>列出类似的产品服务,描述这个技术和产品的特点 依赖的环境和 版本<br>给出实例代码和<br>有实例代码或者 sample来</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Linux使用fdisk挂载和初始化磁盘以华为云服务器为例" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/ca3ef640.html" class="article-date">
+      <time datetime="2021-01-25T02:49:17.000Z" itemprop="datePublished">2021-01-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h4 id="先使用-fdisk-l-查看磁盘情况"><a href="#先使用-fdisk-l-查看磁盘情况" class="headerlink" title="先使用 fdisk -l 查看磁盘情况"></a>先使用 fdisk -l 查看磁盘情况</h4><p><img src="../img/image-20210122100412882.png" alt="image-20210122100412882"></p>
+<p>磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况</p>
+<p>看到有 <strong>/dev/vdb</strong>没有被使用那就去初始化然后去使用</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h4 id="先使用-fdisk-l-查看磁盘情况"><a href="#先使用-fdisk-l-查看磁盘情况" class="headerlink" title="先使用 fdisk -l 查看磁盘情况"></a>先使用 fdisk -l 查看磁盘情况</h4><p><img src="../img/image-20210122100412882.png" alt="image-20210122100412882"></p>
+<p>磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况</p>
+<p>看到有 <strong>/dev/vdb</strong>没有被使用那就去初始化然后去使用</p>
+<h3 id="使用-fdisk-dev-vdb-来初始化"><a href="#使用-fdisk-dev-vdb-来初始化" class="headerlink" title="使用 fdisk /dev/vdb 来初始化"></a>使用 fdisk /dev/vdb 来初始化</h3><p>先进入会有 (Command (m for help))步骤如下</p>
+<ol>
+<li> n    是去初步去创建新磁盘</li>
+<li> 进入 一直按 enter  包括 primary,extend  ,起始磁盘等都走默认 ,Partition number 默认为1 </li>
+<li> p  查看具体的分区情况</li>
+<li> w  写入修改</li>
+</ol>
+<p>下图为过程</p>
+<p><img src="../img/image-20210122100726644.png" alt="image-20210122100726644"></p>
+<h3 id="fdisk-l-查看磁盘已经初始化"><a href="#fdisk-l-查看磁盘已经初始化" class="headerlink" title="fdisk -l 查看磁盘已经初始化"></a>fdisk -l 查看磁盘已经初始化</h3><p><img src="../img/image-20210122101643077.png" alt="image-20210122101643077"></p>
+<p>图片如下可以看到 分区已经形成,由于我们走默认使用只有一个</p>
+<h3 id="使用ext4格式化-dev-vdb1-这个分区"><a href="#使用ext4格式化-dev-vdb1-这个分区" class="headerlink" title="使用ext4格式化 /dev/vdb1 这个分区"></a>使用ext4格式化 /dev/vdb1 这个分区</h3><p>ext4 格式化后 </p>
+<p><img src="../img/image-20210122101257839.png" alt="image-20210122101257839"></p>
+<h3 id="使用-blkid-dev-vdb1-来查看-UUID"><a href="#使用-blkid-dev-vdb1-来查看-UUID" class="headerlink" title="使用 blkid /dev/vdb1 来查看 UUID"></a>使用 blkid /dev/vdb1 来查看 UUID</h3><p><img src="../img/image-20210122101816988.png" alt="image-20210122101816988"></p>
+<h3 id="修改-etc-fstab-来开机自动挂载分区"><a href="#修改-etc-fstab-来开机自动挂载分区" class="headerlink" title="修改 /etc/fstab 来开机自动挂载分区"></a>修改 <strong>/etc/fstab</strong> 来开机自动挂载分区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UUID&#x3D;0b3040e2-1367-4abb-841d-ddb0b92693df &#x2F;mnt&#x2F;sdc       ext4    defaults        0 2</span><br></pre></td></tr></table></figure>
+
+<p>可以考这边内容 需要修改 UUID ,和挂载的文件夹 ,我这边是在根目录下面 创建的文件夹挂载的</p>
+<blockquote>
+<ol>
+<li><p>以内容上仅为示例，具体请以实际情况为准，参数说明如下：</p>
+<ul>
+<li><p>第一列为UUID，此处填写<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/qs-evs/evs_01_0033.html#evs_01_0033__li840964143216">1</a>中查询到的磁盘分区的UUID。</p>
+</li>
+<li><p>第二列为磁盘分区的挂载目录，可以通过<strong>df -TH</strong>命令查询。</p>
+</li>
+<li><p>第三列为磁盘分区的文件系统格式， 可以通过<strong>df -TH</strong>命令查询。</p>
+</li>
+<li><p>第四列为磁盘分区的挂载选项，此处通常设置为defaults即可。</p>
+</li>
+<li><p>第五列为Linux dump备份选项。</p>
+<ul>
+<li>0表示不使用Linux dump备份。现在通常不使用dump备份，此处设置为0即可。</li>
+<li>1表示使用Linux dump备份。</li>
+</ul>
+</li>
+<li><p>第六列为fsck选项，即开机时是否使用fsck检查磁盘。</p>
+<ul>
+<li><p>0表示不检验。</p>
+</li>
+<li><p>挂载点为（/）根目录的分区，此处必须填写1。</p>
+<p>根分区设置为1，其他分区只能从2开始，系统会按照数字从小到大依次检查下去。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h3 id="使用mount-a加载-etc-fstab-的配置"><a href="#使用mount-a加载-etc-fstab-的配置" class="headerlink" title="使用mount -a加载**/etc/fstab**的配置"></a>使用<strong>mount -a</strong>加载**/etc/fstab**的配置</h3><p><strong>mount -a</strong> 没有报错后 用df du 都可以看到你挂载的目录和对应的分区</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-docker容器导入导出和配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/aba1fef8.html" class="article-date">
+      <time datetime="2021-01-18T02:19:41.000Z" itemprop="datePublished">2021-01-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/aba1fef8.html">docker容器导入导出和配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="镜像导入导出"><a href="#镜像导入导出" class="headerlink" title="镜像导入导出"></a><strong>镜像导入导出</strong></h1><p>目前的导入导出是 sava/load,export/import ,前者有完整的数据,后者类似于容器的快照,开始搭建时,想直接复制我们服务器中运行的容器,导出后在docker中运行后 一直报</p>
+<p>No command specified” from re-imported docker image/container</p>
+<p>后面有了解 sava/load 会有完整的数据 但是 export的tar包这个命令将导入镜像文件和参数</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="镜像导入导出"><a href="#镜像导入导出" class="headerlink" title="镜像导入导出"></a><strong>镜像导入导出</strong></h1><p>目前的导入导出是 sava/load,export/import ,前者有完整的数据,后者类似于容器的快照,开始搭建时,想直接复制我们服务器中运行的容器,导出后在docker中运行后 一直报</p>
+<p>No command specified” from re-imported docker image/container</p>
+<p>后面有了解 sava/load 会有完整的数据 但是 export的tar包这个命令将导入镜像文件和参数</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="关于-gdal容器"><a href="#关于-gdal容器" class="headerlink" title="关于 gdal容器"></a>关于 gdal容器</h2><p>目前使用的gdal的容器是  osgeo/gdal:ubuntu-small-3.2.1</p>
+<blockquote>
+<p>docker run -itd –privileged -v /usr/local/gdal/data/:/home    <br>–name gdal_python osgeo/gdal:ubuntu-small-3.2.1</p>
+</blockquote>
+<ul>
+<li>容器的名称需要和上面 application-boot.yml的关联上,需要通过容器的主机 ssh 控制 docker 下的容器</li>
+<li>需要复制 shp2pg.py 到  /usr/local/gdal/data/</li>
+</ul>
+<p>后面的版本是有添加 gdal的环境</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> osgeo/gdal:ubuntu-small-<span class="number">3.2</span>.<span class="number">1</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> gdallikedemo</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> add-apt-repository ppa:openjdk-r/ppa &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get clean;</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> NAME.jar /home/NAME.jar</span></span><br><span class="line"><span class="comment"># RUN nohup java -jar /home/NAME.jar &gt;/dev/null 2&gt;&amp;1 &amp;</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/home/NAME.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="搭建pgsql集群"><a href="#搭建pgsql集群" class="headerlink" title="搭建pgsql集群"></a><strong>搭建pgsql集群</strong></h1><p>搭建集群 可以参考之前的文档 我这边只是列出清单</p>
+<table>
+<thead>
+<tr>
+<th align="left">集群名称</th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">pg_master</td>
+<td align="left">pg_hba.conf( 配置网络和集群的IP,注意配置 所有从服务器的IP),postgresql.conf(配置数据库自己的服务和资源使用)</td>
+</tr>
+<tr>
+<td align="left">pg_slaver1</td>
+<td align="left">同上,recovery.conf(设置恢复和通信)</td>
+</tr>
+<tr>
+<td align="left">pg_slaver2</td>
+<td align="left">同上,recovery.conf(设置恢复和通信)</td>
+</tr>
+</tbody></table>
+<p>tips:</p>
+<ul>
+<li>建议在postgresql.conf 中的日志打开,日志的配置</li>
+</ul>
+<p>logging_collector =on        # Enable capturing of stderr and csvlog</p>
+<p>日志会在本地的/data/postgresql/data 启动时挂载的点,会有log目录可以找到异常信息</p>
+<ul>
+<li>尽量选择复制配置文件,像postgresql.conf这种<strong>标准配置文件主从有区别要注意</strong></li>
+</ul>
+<h1 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a><strong>nginx</strong></h1><p>拉取 nginx镜像后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx -p 80:80 --restart&#x3D;always -v \</span><br><span class="line"></span><br><span class="line">&#x2F;data&#x2F;nginx&#x2F;html:&#x2F;etc&#x2F;nginx&#x2F;html&#x2F;   \</span><br><span class="line"></span><br><span class="line">-v &#x2F;data&#x2F;nginx&#x2F;conf&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf \</span><br><span class="line"></span><br><span class="line">-v &#x2F;data&#x2F;nginx&#x2F;conf.d&#x2F;default.conf:&#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;default.conf \</span><br><span class="line"></span><br><span class="line">nginx:1.19.6</span><br></pre></td></tr></table></figure>
+
+
+
+<p>一个要注意的是 网上都是nginx默认的挂载是/usr/share/nginx/html ,使用依照了 官方docker版本我挂载了数据,一直都有是404 ,后面看日志是</p>
+<blockquote>
+<p>2021/01/13 21:56:42 [error] 21#21: *1 “/etc/nginx/html/index.html” is not found (2: No such file or directory), client: 172.17.0.1, server: localhost, request: “GET / HTTP/1.1”, host: “127.0.0.1”</p>
+<p>172.17.0.1 - - [13/Jan/2021:21:56:42 +0000] “GET / HTTP/1.1” 404 153 “-“ “curl/7.29.0”</p>
+</blockquote>
+<p>这边关联到/etc/nginx/html/ 后正常可以看到 welcome nginx的页面</p>
+<h1 id="geoserver"><a href="#geoserver" class="headerlink" title="geoserver"></a>geoserver</h1><p>目前使用的是官方的 geoserver的集群 主要 是要导出 yaml 的文件</p>
+<p>将本地的geoserver 镜像导入 harber的私服中然后再 配置 k8s挂载卷然后编辑</p>
+<ol>
+<li>挂载卷</li>
+<li>harber的远程地址</li>
+</ol>
+<h2 id="推送镜像到harber"><a href="#推送镜像到harber" class="headerlink" title="推送镜像到harber"></a>推送镜像到harber</h2><p>首先 使用命令  docker tag  IMAGE_ID NAME:TAG</p>
+<p>将load 的镜像设置对应的标签方便后面使用k8s导入的配置文件好找到</p>
+<p>push_im.sh文件中的 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 发布最终版本</span><br><span class="line"># 版本号</span><br><span class="line">version&#x3D;latest</span><br><span class="line"># 打包镜像</span><br><span class="line">docker build -t NAME:$version .</span><br><span class="line"># 配置标签</span><br><span class="line">docker tag NAME:$version 192.168.7.120&#x2F;public&#x2F;NAME:$version</span><br><span class="line"># 推送镜像</span><br><span class="line">docker push 192.168.7.120&#x2F;public&#x2F;NAME:$version</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>version 对应的字段要有 ,同时 harber 地址要改的</p>
+<p>上面的这个 <strong>docker build -t NAME:$version .</strong>   是有个点的, 需要dockerfile文件的</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-gis初入门" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/6a9c1835.html" class="article-date">
+      <time datetime="2021-01-08T06:24:30.000Z" itemprop="datePublished">2021-01-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/6a9c1835.html">gis初入门</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>参考链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015674238">https://segmentfault.com/a/1190000015674238</a></p>
+<p>GIS是一个设计用来捕获、存储、操作（manipulate）、分析、管理和展示空间或图像数据的系统。</p>
+<p><strong>GIS 应用</strong> = <strong>基础底图</strong> + <strong>操作图层</strong> + <strong>任务</strong></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>参考链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015674238">https://segmentfault.com/a/1190000015674238</a></p>
+<p>GIS是一个设计用来捕获、存储、操作（manipulate）、分析、管理和展示空间或图像数据的系统。</p>
+<p><strong>GIS 应用</strong> = <strong>基础底图</strong> + <strong>操作图层</strong> + <strong>任务</strong></p>
+<ul>
+<li><strong>基础底图</strong>：可以简单地理解为就是地图，并且要求是一个不会频繁改变的地图。</li>
+<li><strong>操作图层</strong>：用户使用的主要图层，承载主要的待<strong>编辑、展示和分析</strong>的信息数据。</li>
+<li><strong>任务</strong>：如导航、地址编码等计算量比较大的分析任务。</li>
+</ul>
+<h2 id="GIS-数据和协议"><a href="#GIS-数据和协议" class="headerlink" title="GIS 数据和协议"></a>GIS 数据和协议</h2><p>由于 ArcGIS 在行业内的龙头地位，其指定的一系列数据格式和交换协议，成为 GIS 业界的标准协议。目前制定 GIS 协议的标准化组织为<a target="_blank" rel="noopener" href="http://www.opengeospatial.org/">开放地理空间协会（OGC）</a>，其制定的规范称为 <strong>OpenGIS</strong>（Open Geodata Interoperation Specification）。</p>
+<p>相关的接口和协议非常多，以后再一一补齐。目前大部分 demo 系统，导入的数据格式为 shp 文件，往往是由甲方直接提供、或者是网上的公开 GIS 服务提供商可提供下载的，不需要我们自行转换数据格式。ArcGIS 可以直接识别并导入，入库后也使用标准接口协议开放服务，比如 WMS（网络地图服务）和 WFS（网络要素服务）。</p>
+<h2 id="免费开源-GIS-软件"><a href="#免费开源-GIS-软件" class="headerlink" title="免费开源 GIS 软件"></a>免费开源 GIS 软件</h2><p>开源 GIS 软件，从大类来分，包含服务器版和桌面版（即桌面版）。显然我们最关注的是服务器版的 GIS 软件 / 组件。</p>
+<p>服务器版的部署架构和 ArcGIS 基本类似，也是分 web、GIS Server、database 三大模块，并且可以分开部署。</p>
+<p>参考链接<a target="_blank" rel="noopener" href="https://blog.csdn.net/sxausgyy/article/details/8151019">https://blog.csdn.net/sxausgyy/article/details/8151019</a></p>
+<p><strong>要素模型(Feature)</strong><br>要素是GeoTools中的核心术语，它是描述地理空间数据对<br>象的基本单位，它描述了一个现实世界中的客观地理实体，如:一条河流、一座桥梁都<br>可以理解为要素。</p>
+<p><strong>栅格数据</strong><br>栅格数据是从上向下拍摄的地球照片，使用离散单元存储其值，图片的每个像素点都有一个指定值<br>服务器本身存储，传输速度快，服务器压力小，多为png,jpg,gif<br>数据量大，更新慢</p>
+<p><strong>矢量数据</strong><br>矢量数据是仅仅存储节点，比如箭头，线条，点等。存储的是对象的轮廓，而栅格数据适合表达对象的内容。<br>矢量数据类型有点，线和多边形。<br>数量小，数据更新快<br>服务器压力大，技术要求高</p>
+<p><img src="../img/1334284682_7917.jpg" alt="1334284682_7917"></p>
+<p>在gist环境下回有图层的概念</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-dockerfile使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -961,421 +1424,6 @@
 <p><strong>hot-warm-cold</strong>架构将索引数据切分成hot/warm/cold的索引。<code>hot索引</code>负责最新数据的读写，可使用内存存储；<code>warm索引</code>负责较旧数据的读取，可使用内存或SSD存储；<code>cold索引</code>很少被读取，可使用大容量磁盘存储。随着时间的推移，数据不断从hot索引-&gt;warm索引-&gt;cold索引迁移。针对不同阶段的索引我们还可以调整索引的主分片数，副本数，单分片的segment数等等，更好的利用机器资源。</p>
 <p><strong>索引生命周期管理（Index Lifecycle Management ，简称ILM</strong>)<br>作者：Monica2333<br>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844904131262431246">https://juejin.im/post/6844904131262431246</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm&#x2F;policy&#x2F;my_policy</span><br><span class="line">&#123;</span><br><span class="line">  &quot;policy&quot;: &#123;</span><br><span class="line">    &quot;phases&quot;: &#123;</span><br><span class="line">      &quot;hot&quot;: &#123;</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;rollover&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover前距离索引的创建时间最大为7天</span><br><span class="line">            &quot;max_age&quot;: &quot;7d&quot;,</span><br><span class="line">&#x2F;&#x2F;rollover前索引的最大大小不超过50G</span><br><span class="line">            &quot;max_size&quot;: &quot;50G&quot;,</span><br><span class="line">&#x2F;&#x2F;rollover前索引的最大文档数不超过1个（测试用）</span><br><span class="line">            &quot;max_docs&quot;: 1,</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;warm&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入warm阶段的时间不小于30天</span><br><span class="line">        &quot;min_age&quot;: &quot;30d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;forcemerge&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;强制分片merge到segment为1</span><br><span class="line">            &quot;max_num_segments&quot;: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;shrink&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;收缩分片数为1</span><br><span class="line">            &quot;number_of_shards&quot;: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;allocate&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;副本数为2</span><br><span class="line">            &quot;number_of_replicas&quot;: 2</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;cold&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入cold阶段的时间不小于60天</span><br><span class="line">        &quot;min_age&quot;: &quot;60d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;allocate&quot;: &#123;</span><br><span class="line">            &quot;require&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;分配到cold 节点，ES可根据机器资源配置不同类型的节点</span><br><span class="line">              &quot;type&quot;: &quot;cold&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;delete&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入cold阶段的时间不小于60天</span><br><span class="line">        &quot;min_age&quot;: &quot;90d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;delete&quot;: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">作者：Monica2333</span><br><span class="line">链接：https:&#x2F;&#x2F;juejin.im&#x2F;post&#x2F;6844904131262431246</span><br><span class="line">来源：掘金</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu给外接设备修改分辨率" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2232115083.html" class="article-date">
-      <time datetime="2020-08-18T07:13:33.000Z" itemprop="datePublished">2020-08-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
-<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
-<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
-
-<p>cvt 2560 1440 来看分辨率的最优设置</p>
-<p>编辑 ~/.profile的文件来实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo xrandr --newmode &quot;2560x1440_74.97&quot;  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync</span><br><span class="line">sudo xrandr --newmode &quot;2560x1440_60.00&quot;  312.25  2560 2752 3024 3488  1440 1443 1448 1493 -hsync +vsync</span><br><span class="line"></span><br><span class="line">sudo xrandr --addmode DP-1 &quot;2560x1440_74.97&quot;</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://imlike.cc/img/1597749619474.png"><img src="../img/1597749619474.png" alt="1597749619474"></a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Jenkins的遇到的坑" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1581320389.html" class="article-date">
-      <time datetime="2020-08-04T07:12:38.000Z" itemprop="datePublished">2020-08-04</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1581320389.html">Jenkins的遇到的坑</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p>
-<h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p>
-<ol>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p>
-<h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p>
-<ol>
-<li>网上看到的是配置没到到 jenkins_home/workspace 下面的project,</li>
-</ol>
-<p>但是我看Jenkins的配置是对的,在对应的文件夹下面是有配置</p>
-<ol>
-<li>网上给的Jenkins迁移job的问题我看了不是这个问题</li>
-</ol>
-<h4 id="我遇到的是job下面的config-xml-maven2-module失败导致的"><a href="#我遇到的是job下面的config-xml-maven2-module失败导致的" class="headerlink" title="我遇到的是job下面的config.xml maven2-module失败导致的"></a>我遇到的是job下面的config.xml maven2-module失败导致的</h4><p>最后解决方案是重启tomcat不是Jenkins是,重启Jenkins是 <code>URL/jenkins/restart</code>, 看到tomcat的日志出现解析 jobs下面的各个job下面的config.xml 出问题 <strong><code>maven2-module</code></strong> ,对于非maven的项目就可以直接解析, 原来是 Maven Integration 插件不存在导致,原有的maven项目不能解析和显示</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-pgsql调优转载" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3990369431.html" class="article-date">
-      <time datetime="2020-07-29T07:11:42.000Z" itemprop="datePublished">2020-07-29</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3990369431.html">pgsql调优转载</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>持续更新 —————————–</p>
-<p><a target="_blank" rel="noopener" href="http://postgres.cn/docs/10/monitoring-stats.html#PG-STAT-ALL-TABLES-VIEW">官方文档</a></p>
-<p>根据进程可以查询命令执行的时间和效率</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>持续更新 —————————–</p>
-<p><a target="_blank" rel="noopener" href="http://postgres.cn/docs/10/monitoring-stats.html#PG-STAT-ALL-TABLES-VIEW">官方文档</a></p>
-<p>根据进程可以查询命令执行的时间和效率</p>
-<ul>
-<li>查询耗时</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT procpid, START, now() - START AS lap, current_query  FROM ( SELECT backendid, pg_stat_get_backend_pid (S.backendid) AS procpid,</span><br><span class="line">pg_stat_get_backend_activity_start (S.backendid) AS START,pg_stat_get_backend_activity (S.backendid) AS current_query  FROM (SELECT</span><br><span class="line">pg_stat_get_backend_idset () AS backendid) AS S) AS S WHERE current_query &lt;&gt; &#39;&lt;IDLE&gt;&#39;  and procpid&#x3D;58762  ORDER BY lap DESC;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>查询连接 查询进程</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM pg_stat_activity  where pid&#x3D;&#x3D;?? and  query &#x3D;?? and </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>pg_stat_statements</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">修改postgresql.conf的shared_preload_libraries增加pg_stat_statements来载入</span><br><span class="line"></span><br><span class="line">③执行SQL启动插件：create extension pg_stat_statements;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>重置计数器（可选操作）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select pg_stat_reset();</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select pg_stat_statements_reset();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用命令查看最耗时的SQL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from pg_stat_statements order by total_time desc limit 5;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查询读取Buffer次数最多的SQL，buffer次数多，可能是因为没有索引，也同时导致了cpu高。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from pg_stat_statements order by shared_blks_hit+shared_blks_read desc limit 5;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>获取后面的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">select to_char(trigger_start_time,&#39;YYYY-MM-DD 00:00:00&#39;)</span><br><span class="line">        as timePoint,sum(trigger_count) as totalCount from network_attack</span><br><span class="line">        where</span><br><span class="line">        trigger_start_time &gt;&#x3D; to_timestamp($1,&#39;yyyy-MM-dd hh24:mi:ss&#39;)</span><br><span class="line">        and trigger_start_time &lt;  to_timestamp($2,&#39;yyyy-MM-dd hh24:mi:ss&#39;)</span><br><span class="line">        group by timePoint</span><br><span class="line">        order by timePoint desc</span><br><span class="line">relid    oid    一个表的 OID</span><br><span class="line">schemaname    name    这个表所在的模式的名称</span><br><span class="line">relname    name    这个表的名称</span><br><span class="line">seq_scan    bigint    在这个表上发起的顺序扫描的次数</span><br><span class="line">seq_tup_read    bigint    被顺序扫描取得的活着的行的数量</span><br><span class="line">idx_scan    bigint    在这个表上发起的索引扫描的次数</span><br><span class="line">idx_tup_fetch    bigint    被索引扫描取得的活着的行的数量</span><br><span class="line">n_tup_ins    bigint    被插入的行数</span><br><span class="line">n_tup_upd    bigint    被更新的行数（包括 HOT 更新的行）</span><br><span class="line">n_tup_del    bigint    被删除的行数</span><br><span class="line">n_tup_hot_upd    bigint    被更新的 HOT 行数（即不要求独立索引更新的行更新）</span><br><span class="line">n_live_tup    bigint    活着的行的估计数量</span><br><span class="line">n_dead_tup    bigint    死亡行的估计数量</span><br><span class="line">n_mod_since_analyze    bigint    从这个表最后一次被分析后备修改的行的估计数量</span><br><span class="line">last_vacuum    timestamp with time zone    上次这个表被手动清理的时间（不统计VACUUM FULL）</span><br><span class="line">last_autovacuum    timestamp with time zone    上次这个表被自动清理守护进程清理的时间</span><br><span class="line">last_analyze    timestamp with time zone    上次这个表被手动分析的时间</span><br><span class="line">last_autoanalyze    timestamp with time zone    上次这个表被自动清理守护进程分析的时间</span><br><span class="line">vacuum_count    bigint    这个表已被手工清理的次数（不统计VACUUM FULL）</span><br><span class="line">autovacuum_count    bigint    这个表已被自动清理守护进程清理的次数</span><br><span class="line">analyze_count    bigint    这个表已被手工分析的次数</span><br><span class="line">autoanalyze_count    bigint    这个表已被自动清理守护进程分析的次数</span><br></pre></td></tr></table></figure>
-
-<p>seq_tup_read 远大于 idx_tup_fetch 说明索引建的有问题</p>
-<p>n_tup_upd 说明有频繁更新的动作</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-树莓派下面搭建pgsql" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1327663525.html" class="article-date">
-      <time datetime="2020-06-19T07:09:18.000Z" itemprop="datePublished">2020-06-19</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1327663525.html">树莓派下面搭建pgsql</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>搭建pgsql的环境查看的文档</p>
-<p>怎么在一台树莓派上安装 Postgres 数据库</p>
-<p>树莓派中安装MySQL 5.7<br>感慨是准备是安装MySQL的,树莓派的环境 : Linux raspberrypi 4.19.97-v7l+ #1294 2020 armv7l</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>搭建pgsql的环境查看的文档</p>
-<p>怎么在一台树莓派上安装 Postgres 数据库</p>
-<p>树莓派中安装MySQL 5.7<br>感慨是准备是安装MySQL的,树莓派的环境 : Linux raspberrypi 4.19.97-v7l+ #1294 2020 armv7l</p>
-<p>目前直接用 sudo apt-get install mysql-service 但是不行返回结果</p>
-<p>没有可用的软件包 mysql-server，但是它被其它的软件包引用了。<br>这可能意味着这个缺失的软件包可能已被废弃，<br>或者只能在其他发布源中找到<br>然而下列软件包会取代它：<br>mariadb-server-10.0</p>
-<p>目前来说直接安装的路被堵死</p>
-<p>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb">http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb</a></p>
-<p>sudo dpkg -i mysql-common_5.8+1.0.2_all.deb<br>sudo dpkg -i mysql-client-core-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-client-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-server-core-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-server-5.7_5.7.18-1_armhf.deb<br>上面的命令是直接在debian上下载 arm版本的MySQL但是现在访问网站已经找不到对于的deb包</p>
-<p>而且在MySQL官网也没找到官方下载链接 arm的包</p>
-<p>访问<a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/</a> 拿到对于的deb包版本为5.7.26-1,比上面的高</p>
-<p>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb">http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb</a></p>
-<p>sudo dpkg -i mysql-common_5.8+1.0.2_all.deb<br>sudo dpkg -i mysql-client-core-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i mysql-client-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i     mysql-server-core-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i mysql-server-5.7_5.7.26-1+b1_armhf.deb<br>安装后显示</p>
-<p>dpkg: 依赖关系问题使得 mysql-server-core-5.7 的配置工作不能继续：<br>mysql-server-core-5.7 依赖于 libaio1 (&gt;= 0.3.93)；然而：<br>未安装软件包 libaio1。<br>mysql-server-core-5.7 依赖于 libc6 (&gt;= 2.29)；然而：<br>系统中 libc6:armhf 的版本为 2.28-10+rpi1。<br>mysql-server-core-5.7 依赖于 libstdc++6 (&gt;= 9)；然而：<br>系统中 libstdc++6:armhf 的版本为 8.3.0-6+rpi1。</p>
-<p>依赖太多找不到目前放弃安装MySQL使用官方推进的Mariadb<br>sudo apt-get install mariadb-server</p>
-<p>当服务器安装完成后，你需要运行：</p>
-<p>sudo mysql_secure_installation<br>来为你的数据库设置安全。</p>
-<p>主要这个用途是设置你 root 的密码，root 的远程访问权限，是否允许匿名访问，是否允许远程访问等。</p>
-<p>如果你只是测试在本地使用这个数据库，你可以不用设置这个。</p>
-<p>但是我们还是建议你设置。</p>
-<p>当前使用pi这个用户无法登陆Mariadb的需要用root登陆</p>
-<p>CREATE USER ‘pi’@’%’ IDENTIFIED BY ‘123’;<br>GRANT USAGE ON . TO ‘pi’@’%’;<br>GRANT ALL PRIVILEGES ON . TO ‘pi’@’%’ IDENTIFIED BY ‘123’ WITH GRANT OPTION;<br>FLUSH PRIVILEGES;</p>
-<p>重启服务器的命令是：</p>
-<p>root@raspberrypi:~# service mariadb restart</p>
-<p>安装pgsql<br>主要参考下面的博客文章 怎么在一台树莓派上安装 Postgres 数据库</p>
-<p>安装pgsql还是简单的 首先输入命令</p>
-<p>apt-get install postgresql</p>
-<p>先安装后软件已经有客户端了,同时会带也会初始化的用户 : postgres</p>
-<p>Postgres 用户去配置数据库：</p>
-<p>sudo su postgres</p>
-<p>初始化一个新的用户(pi) createuser pi -P –interactive</p>
-<p>PostgreSQL 配置允许远程连接：</p>
-<p>1、 编辑 PostgreSQL 配置文件 /etc/postgresql/9.6/main/postgresql.conf ，取消 listen_addresses 行的注释，并把它的值从 localhost 改变成 *。然后保存并退出。</p>
-<p>2、 编辑 pg_hba 配置文件 /etc/postgresql/9.6/main/postgresql.conf，将 127.0.0.1/32 改变成 0.0.0.0/0 （对于IPv4）和将 ::1/128 改变成 ::/0 （对于 IPv6）。然后保存并退出。</p>
-<p>3、 重启 PostgreSQL 服务： sudo service postgresql restart。</p>
-<p>sudo service postgresql restart</p>
-
                -->
         </div>
         

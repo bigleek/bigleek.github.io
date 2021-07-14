@@ -4,6 +4,58 @@
   
     
     <entry>
+      <title>google_voice_keep</title>
+      <link href="18d2c52b.html"/>
+      <url>18d2c52b.html</url>
+      
+        <content type="html"><![CDATA[<p>转载 <a href="https://www.80tm.com/2020/04/05/google-voice%E4%BF%9D%E5%8F%B7%E6%96%B9%E6%B3%95/">https://www.80tm.com/2020/04/05/google-voice%E4%BF%9D%E5%8F%B7%E6%96%B9%E6%B3%95/</a></p><p>1、订阅促销短信。</p><p>发送join 到 527365 ，然后要回复CC<br>先发 code 到 25666  然后回复 PROMO</p><p>也可以查询美国沃尔玛和好市多的促销短信订阅方式。</p><p>2.、打公共电话</p><p>有点儿公共资源。。。建议打个机器人试试就好了。</p><p>美国亚马逊免费客服热线：+1（888）280-4331</p><p>美国微软激活Windows免费电话：+1（888）571-2048</p><p>同时可查询其它美国大型公司的客服电话，注意IPhone是人工客服。</p><p>3、自定义电话</p><p>用IFTTT的定时服务定期拨打电话给你即可，这里推荐两个service</p><p>Keep Google Voice Active 一个月拨打一次，可自定义时间和日期（搜索Keep Gooogle Voice Active）</p><p>Alarm Clock Phone Call 强迫症福利，可自定义拨打频率、时间</p><p>4、30美金转成永久<br>这里看<br><a href="https://www.googlevoice.cn/buy-permanent-use/">https://www.googlevoice.cn/buy-permanent-use/</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>pgsql_json_function</title>
+      <link href="fd4a70cc.html"/>
+      <url>fd4a70cc.html</url>
+      
+        <content type="html"><![CDATA[<p><a href="http://www.postgres.cn/docs/10/functions-json.html">http://www.postgres.cn/docs/10/functions-json.html</a>   命令</p><p> SELECT jsonb_set(‘{“rtime”:”2021-6-15 08:59:44”,”objid”:”001”,”addition”:{“x”:114.5379008,”y”:30.4835323,”z”:0}}’,’{addition,z}’,’12’)</p><p> UPDATE snspdw_position SET content= (jsonb_set(content::jsonb,’{directorytypecode}’,’”947998009457774691”‘::jsonb))</p><p>UPDATE biz_object set confjson = (jsonb_set(confjson::jsonb,’{directorytypecode}’,’”947998009457774691”‘::jsonb)),directorytypecode = ‘947998009457774691’<br>    where modelcode = ‘829609839767532682’ and objectcode = ‘948118654552248419’;</p><pre><code>SELECT jsonb_set(&#39;&#123;&quot;a&quot;:[null,&#123;&quot;b&quot;:[1,2]&#125;]&#125;&#39;, &#39;&#123;a,1,b,1000&#125;&#39;, jsonb &#39;3&#39;, true)select version()</code></pre><p>SELECT jsonb_set(‘{“rtime”:”2021-6-15 08:59:44”,”objid”:”001”,”addition”:{“x”:114.5379008,”y”:30.4835323,”z”:0}}’, ‘$.payFundAcc.addition.z’, ‘3’)</p><p> {“tel”: 13249872314, “name”: “Mike”, “address”: “Guangzhou”}  json_set(data,”{address}”,”Guangzhou”)<br> SELECT jsonb_set(‘{“tel”: 13249872314, “name”: “Mike”, “address”: “Guangzhou”}’,’{address}’,’”hahah”‘)</p><p> SELECT jsonb_set(‘{“rtime”:”2021-6-15 08:59:44”,”objid”:”001”,”addition”:{“x”:114.5379008,”y”:30.4835323,”z”:0}}’,’{addition,z}’,’12’)</p><p> SELECT ‘{“tel”: 13249872314, “name”: “Mike”, “address”: “Guangzhou”}’::jsonb</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ue4安卓打包</title>
+      <link href="54f728db.html"/>
+      <url>54f728db.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="ue4安卓预制环境"><a href="#ue4安卓预制环境" class="headerlink" title="ue4安卓预制环境"></a>ue4安卓预制环境</h2><p>硬件要求</p><h3 id="支持的最低GPU"><a href="#支持的最低GPU" class="headerlink" title="支持的最低GPU"></a>支持的最低GPU</h3><p>自4.25版起，以下GPU满足ES3.1的上述要求：</p><ul><li>Adreno 4xx</li><li>Mali T6xx和更高版本</li><li>Mali G71和更高版本</li><li>PowerVR Rogue G6100</li></ul><p>下载安装安装开发SDK</p><p><a href="https://developer.nvidia.com/codeworks-android-archive">https://developer.nvidia.com/codeworks-android-archive</a></p><p>选择 CodeWorks-1R7-windows_b166.exe 版本来实现</p><p><img src="../img/image-20210707111300230.png" alt="image-20210707111300230"></p><p>创建好的服务</p><p><img src="../img/image-20210707103723169.png" alt="image-20210707103723169"></p><p>配置安卓服务</p><p><img src="../img/image-20210707103812966.png" alt="image-20210707103812966"></p><p>设置层级为安卓</p><p><img src="../img/image-20210707103855145.png" alt="image-20210707103855145"></p><p>安装安卓sdk</p><p><img src="../img/image-20210707124854167.png" alt="image-20210707124854167"></p><p>ERROR: Android toolchain NDK r15c not supported; please use NDK r21 to NDK r23 (NDK r21b recommended)</p><p>UATHelper: Packaging (Android (ETC2)): &gt; Task :app:compileDebugJavaWithJavac FAILED<br>UATHelper: Packaging (Android (ETC2)): The following annotation processors are not incremental: compiler-1.1.1.jar (android.arch.lifecycle:compiler:1.1.1).<br>UATHelper: Packaging (Android (ETC2)): Make sure all annotation processors are incremental to improve your build speed.<br>UATHelper: Packaging (Android (ETC2)): Z:\app\src\main\java\com\epicgames\ue4\GameActivity.java:3531: ����: �Ҳ�������<br>UATHelper: Packaging (Android (ETC2)):             powerManager.addThermalStatusListener(getMainExecutor(), new PowerManager.OnThermalStatusChangedListener() {<br>UATHelper: Packaging (Android (ETC2)): 32 actionable tasks: 3 executed, 29 up-to-date<br>UATHelper: Packaging (Android (ETC2)):                                                                                      ^<br>UATHelper: Packaging (Android (ETC2)):   ����:   �� OnThermalStatusChangedListener<br>UATHelper: Packaging (Android (ETC2)):   λ��: �� PowerManager<br>UATHelper: Packaging (Android (ETC2)): ע: ĳЩ�����ļ�ʹ�û򸲸����ѹ�ʱ�� API��<br>UATHelper: Packaging (Android (ETC2)): ע: �й���ϸ��Ϣ, ��ʹ�� -Xlint:deprecation ���±��롣<br>UATHelper: Packaging (Android (ETC2)): 1 ������<br>UATHelper: Packaging (Android (ETC2)): FAILURE: Build failed with an exception.<br>UATHelper: Packaging (Android (ETC2)): * What went wrong:<br>UATHelper: Packaging (Android (ETC2)): Execution failed for task ‘:app:compileDebugJavaWithJavac’.<br>UATHelper: Packaging (Android (ETC2)): &gt; Compilation failed; see the compiler error output for details.<br>UATHelper: Packaging (Android (ETC2)): * Try:<br>UATHelper: Packaging (Android (ETC2)): Run with –stacktrace option to get the stack trace. Run with –info or –debug option to get more log output. Run with –scan to get full insights.<br>UATHelper: Packaging (Android (ETC2)): * Get more help at <a href="https://help.gradle.org/">https://help.gradle.org</a><br>UATHelper: Packaging (Android (ETC2)): BUILD FAILED in 8s</p><p>需要安装Android_studio同时安装sdk</p><p><img src="../img/image-20210707161238758.png" alt="image-20210707161238758"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>sublime_shortcut</title>
+      <link href="29702c78.html"/>
+      <url>29702c78.html</url>
+      
+        <content type="html"><![CDATA[<p>link: <a href="https://blog.csdn.net/lol_IP/article/details/82416020">https://blog.csdn.net/lol_IP/article/details/82416020</a><br>第一步：选中全部内容</p><p>ctrl+A<br>第二步：进入待操作状态</p><p>ctrl+shift+L<br>第三步：通过←和→控制光标的位置</p><p>第四步：在光标处添加内容</p><p>注：也可以只对多行进行操作，对多行进行操作只需在第一步选择相应的行就可以了</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>python_download_offline_html</title>
       <link href="1a58ae58.html"/>
       <url>1a58ae58.html</url>
