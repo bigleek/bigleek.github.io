@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>ue4_linux_runing</title>
+      <link href="bec1def7.html"/>
+      <url>bec1def7.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="linux环境运行虚幻运行和二进制包"><a href="#linux环境运行虚幻运行和二进制包" class="headerlink" title="linux环境运行虚幻运行和二进制包"></a>linux环境运行虚幻运行和二进制包</h1><h2 id="编译虚幻引擎"><a href="#编译虚幻引擎" class="headerlink" title="编译虚幻引擎"></a>编译虚幻引擎</h2><p>参考链接 <a href="https://docs.unrealengine.com/4.26/zh-CN/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/">https://docs.unrealengine.com/4.26/zh-CN/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/</a></p><ol><li><p>拉取虚幻引擎的代码这里需要在epic账号上关联github账号就可以看到prive权限</p><p><a href="https://github.com/EpicGames/UnrealEngine.git">https://github.com/EpicGames/UnrealEngine.git</a></p></li><li><p>然后拉取代码 这个过程需要持续40分钟</p></li><li><p>进入到目录中安装，编译，打包环境</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//设置生成项目文件所需的文件。</span><br><span class="line">./Setup.sh</span><br><span class="line">//从终端运行 GenerateProjectFiles.sh 以生成项目文件</span><br><span class="line">./GenerateProjectFiles.sh</span><br><span class="line">要构建项目，从终端运行 make。</span><br><span class="line">make </span><br><span class="line"></span><br><span class="line">//运行打包好的程序</span><br><span class="line">./Engine/Binaries/Linux/UE4Editor</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li></ol><p>运行后环境一直报错</p><p><img src="../img/image-20210719172623642.png" alt="image-20210719172623642"></p><p>这个时候需要的步骤的</p><p>网上很多都是用下面这个命令</p><p>sudo add-apt-repository ppa:graphics-drivers/ppa &amp;&amp; sudo apt update</p><blockquote><p>sudo apt install nvidia-graphics-drivers-396 nvidia-settings vulkan vulkan-utils</p></blockquote><p>hwinfo –gfxcard 查看显卡的信息</p><p>lspci | grep VGA 查询vga显示</p><p>ubuntu-drivers  devices</p><p><img src="../img/image-20210719173533066.png" alt="image-20210719173533066"></p><p>apt-get install nvidia-deriver-460</p><p>但会有问题 第一个就是 <strong>nvidia-graphics-drivers-396</strong>这个驱动找不到</p><p>实际上是需要执行 </p><p>需要等待nvidia-settings</p><p><img src="../img/image-20210719115454584.png" alt="image-20210719115454584"></p><p>不可点击</p><p>驱动安装成功后</p><p><img src="../img/image-20210719173846142.png" alt="image-20210719173846142"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>google_voice_keep</title>
       <link href="18d2c52b.html"/>
       <url>18d2c52b.html</url>
