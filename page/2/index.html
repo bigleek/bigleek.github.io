@@ -269,6 +269,247 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-jd-cookie在青龙上操作" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/d3bcc396.html" class="article-date">
+      <time datetime="2023-11-02T12:49:07.000Z" itemprop="datePublished">2023-11-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>安装docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#安装docker</span><br><span class="line">sudo yum check-update</span><br><span class="line">curl -sSL https:&#x2F;&#x2F;get.daocloud.io&#x2F;docker | sh</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl status docker</span><br><span class="line">sudo systemctl enable docker</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>安装docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#安装docker</span><br><span class="line">sudo yum check-update</span><br><span class="line">curl -sSL https:&#x2F;&#x2F;get.daocloud.io&#x2F;docker | sh</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl status docker</span><br><span class="line">sudo systemctl enable docker</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果已经安装docker 删除qinglong的镜像和服务 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker stop $(docker ps -a -q) &#x2F;&#x2F;  stop停止所有容器 </span><br><span class="line">docker rm $(docker ps -a -q) &#x2F;&#x2F;   remove删除所有容器</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装qinglong"><a href="#安装qinglong" class="headerlink" title="安装qinglong"></a>安装qinglong</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker  run -dit \</span><br><span class="line">  -v $PWD&#x2F;ql:&#x2F;ql&#x2F;data  \</span><br><span class="line">  -p 5700:5700 \</span><br><span class="line">  -p 5701:5701 \</span><br><span class="line">  -e ENABLE_WEB_PANEL&#x3D;true \</span><br><span class="line">  -e ENABLE_HANGUP&#x3D;true \</span><br><span class="line">  -e QlPort&#x3D;&quot;5700&quot; \</span><br><span class="line">  --name qinglong \</span><br><span class="line">  --hostname qinglong \</span><br><span class="line">  --restart unless-stopped \</span><br><span class="line">  whyour&#x2F;qinglong:latest</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## ql为容器名 本文机器容器名为qinglong</span><br><span class="line">docker exec -it qinglong bash</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装ninja插件"><a href="#安装ninja插件" class="headerlink" title="安装ninja插件"></a>安装ninja插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;gh-proxy.com&#x2F;https:&#x2F;&#x2F;github.com&#x2F;shufflewzc&#x2F;Waikiki_ninja.git  &#x2F;ql&#x2F;ninja</span><br><span class="line">cd &#x2F;ql&#x2F;ninja&#x2F;backend</span><br><span class="line">pnpm install</span><br><span class="line">pm2 start</span><br></pre></td></tr></table></figure>
+
+<h3 id="打开青龙configs文件夹的extra-sh文件"><a href="#打开青龙configs文件夹的extra-sh文件" class="headerlink" title="打开青龙configs文件夹的extra.sh文件"></a>打开青龙configs文件夹的extra.sh文件</h3><p>将以下内容粘贴进去。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;ql&#x2F;ninja&#x2F;backend </span><br><span class="line">pm2 start</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装签到脚本"><a href="#安装签到脚本" class="headerlink" title="安装签到脚本"></a>安装签到脚本</h3>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https:&#x2F;&#x2F;ghproxy.com&#x2F;https:&#x2F;&#x2F;github.com&#x2F;shufflewzc&#x2F;faker3.git &quot;jd_|jx_|gua_|jddj_|jdCookie&quot; &quot;activity|backUp&quot; &quot;^jd[^_]|USER|function|utils|sendNotify|ZooFaker_Necklace.js|JDJRValidator_|sign_graphics_validate|ql|JDSignValidator|magic|depend|h5sts&quot; &quot;main&quot;    # fake2</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com&#x2F;6dylan6&#x2F;jdpro   # 6dy</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com&#x2F;leafTheFish&#x2F;DeathNote</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li>重启后务必执行一次 <code>ql extra</code> 保证 Ninja 配置成功。</li>
+<li>更新 Ninja 只需要在容器中 <code>ninja/backend</code> 目录执行 <code>git pull</code> 然后 <code>pm2 start</code></li>
+<li>Qinglong 需要在登录状态（<code>auth.json</code> 中有 token）</li>
+</ul>
+<h2 id="获取cookie"><a href="#获取cookie" class="headerlink" title="获取cookie"></a>获取cookie</h2><p>以前大家都是获取jd的cookie来操作现在 cookie非常容易过期,现在推荐使用 <strong>wskey</strong>,需要在移动客户端抓包,下面介绍使用安卓客户端的操作,先安装</p>
+<ol>
+<li><p> app：VNET（抓包用）、京东；</p>
+</li>
+<li><p><strong>VNET抓包wskey:</strong></p>
+</li>
+<li><p><strong>青龙面板使用wskey转换脚本</strong></p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ql repo https:&#x2F;&#x2F;e.coding.net&#x2F;HelloDNS&#x2F;sign&#x2F;wskey.git &quot;wskey&quot;  # 国内外</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="安装青龙的依赖"><a href="#安装青龙的依赖" class="headerlink" title="安装青龙的依赖"></a>安装青龙的依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https:&#x2F;&#x2F;gh-proxy.com&#x2F;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;FlechazoPh&#x2F;QLDependency&#x2F;main&#x2F;Shell&#x2F;QLOneKeyDependency.sh | sh</span><br></pre></td></tr></table></figure>
+
+
+
+<p>设置环境变量 QL_LOG_AUTO_INSTALL_DEPEND=ture</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>参考链接</p>
+<p><a target="_blank" rel="noopener" href="https://thin-hill-428.notion.site/Faker-1c598629675145988b43a37998a1604a">青龙Faker仓库教程合集</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yekui6254/article/details/121511771">安卓抓取JD wskey + 添加脚本自动转换JD cookie_jd_wsck-CSDN博客</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-图像相关的数据和介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/24b88766.html" class="article-date">
+      <time datetime="2023-10-19T12:15:30.000Z" itemprop="datePublished">2023-10-19</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/24b88766.html">图像相关的数据和介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>有损压缩图片 jpg png</p>
+<p>矢量图片 svg</p>
+<p>tiff,tif数据 相比较 jpg png里面的信息更加丰富 每个栅格下 是RGB 还是什么不一定是显示,而是包含高度或者温度</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>有损压缩图片 jpg png</p>
+<p>矢量图片 svg</p>
+<p>tiff,tif数据 相比较 jpg png里面的信息更加丰富 每个栅格下 是RGB 还是什么不一定是显示,而是包含高度或者温度</p>
+<p>所以空间相关比如遥感影像会以TIFF数据来保存一些我们肉眼看不到的数据,同时tiff数据文件开始部分会有部分元数据的信息能被访问同时又cogtif数据来访问,</p>
+<p>类型: bimap</p>
+<p>颜色: 1-24 bit</p>
+<p>压缩 Uncompressed,RLE,LZW,CCITT Group和JPEG</p>
+<p>图像最大尺寸 2^31-1</p>
+<p>是否支持多通道</p>
+<p>IFH (图像文件头)   IFD(图像文件目录)  位图数据</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-程序员工具分享-转载" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1778,176 +2019,6 @@
 <p>总的来说，ModelMapper 是一个强烈推荐的Java对象映射库，适用于处理对象映射。它的智能映射能力和用户友好的API使其成为在不同表示之间转换数据的宝贵资产。</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/modelmapper/modelmapper/issues/198">https://github.com/modelmapper/modelmapper/issues/198</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 完全匹配</span><br><span class="line"> modelMapper.getConfiguration().setFullTypeMatchingRequired(true);</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F; 匹配策略使用严格模式</span><br><span class="line"> modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-使用lettle客户端或者redis连接变化时的触发事件" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/a337c28a.html" class="article-date">
-      <time datetime="2023-07-08T00:25:45.000Z" itemprop="datePublished">2023-07-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisConnectionFactory <span class="title">redisConnectionFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisStandaloneConfiguration config = <span class="keyword">new</span> RedisStandaloneConfiguration();</span><br><span class="line">        config.setHostName(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        config.setPort(<span class="number">11</span>);</span><br><span class="line">        config.setPassword(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LettuceConnectionFactory(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean(name = &quot;redisTemplate&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line"></span><br><span class="line">        StringRedisSerializer stringRedisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        template.setKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        GenericJackson2JsonRedisSerializer redisSerializer = <span class="keyword">new</span> GenericJackson2JsonRedisSerializer();</span><br><span class="line">        template.setValueSerializer(redisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashValueSerializer(redisSerializer);</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CacheManager <span class="title">cacheManager</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()</span><br><span class="line">                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(</span><br><span class="line">                        <span class="keyword">new</span> GenericJackson2JsonRedisSerializer())).disableCachingNullValues();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisConnectionFactory <span class="title">redisConnectionFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisStandaloneConfiguration config = <span class="keyword">new</span> RedisStandaloneConfiguration();</span><br><span class="line">        config.setHostName(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        config.setPort(<span class="number">11</span>);</span><br><span class="line">        config.setPassword(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LettuceConnectionFactory(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean(name = &quot;redisTemplate&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line"></span><br><span class="line">        StringRedisSerializer stringRedisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        template.setKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        GenericJackson2JsonRedisSerializer redisSerializer = <span class="keyword">new</span> GenericJackson2JsonRedisSerializer();</span><br><span class="line">        template.setValueSerializer(redisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashValueSerializer(redisSerializer);</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CacheManager <span class="title">cacheManager</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()</span><br><span class="line">                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(</span><br><span class="line">                        <span class="keyword">new</span> GenericJackson2JsonRedisSerializer())).disableCachingNullValues();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>同时实现 <strong>RedisConnectionStateListener</strong>  保证在onRedisConnected,onRedisDisconnected,onRedisExceptionCaught下运行时的调用注意下列触发事件需要在RedisClient 下注册进去,保证后续的调用成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class CustomRedisConnectionStateListener implements RedisConnectionStateListener &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisConnected(RedisConnection connection) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接成功的逻辑</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisDisconnected(RedisConnection connection) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接断开的逻辑</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisExceptionCaught(RedisConnection connection, Throwable exception) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接异常的逻辑</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Windows下bat脚本文件编写" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/282c310f.html" class="article-date">
-      <time datetime="2023-07-02T06:32:34.000Z" itemprop="datePublished">2023-07-02</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/282c310f.html">Windows下bat脚本文件编写</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>先给个实例来表示 使用杀死 指定端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">set default_port&#x3D;8080</span><br><span class="line">set &#x2F;p port&#x3D;type need killed port (press enter for default port %default_port%): %&#x3D;%</span><br><span class="line">if &quot;%port%&quot;&#x3D;&#x3D;&quot;&quot; set &quot;port&#x3D;%default_port%&quot;</span><br><span class="line">rem set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line"></span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pause</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>先给个实例来表示 使用杀死 指定端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">set default_port&#x3D;8080</span><br><span class="line">set &#x2F;p port&#x3D;type need killed port (press enter for default port %default_port%): %&#x3D;%</span><br><span class="line">if &quot;%port%&quot;&#x3D;&#x3D;&quot;&quot; set &quot;port&#x3D;%default_port%&quot;</span><br><span class="line">rem set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line"></span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pause</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
                -->

@@ -269,6 +269,176 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-使用lettle客户端或者redis连接变化时的触发事件" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/a337c28a.html" class="article-date">
+      <time datetime="2023-07-08T00:25:45.000Z" itemprop="datePublished">2023-07-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisConnectionFactory <span class="title">redisConnectionFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisStandaloneConfiguration config = <span class="keyword">new</span> RedisStandaloneConfiguration();</span><br><span class="line">        config.setHostName(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        config.setPort(<span class="number">11</span>);</span><br><span class="line">        config.setPassword(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LettuceConnectionFactory(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean(name = &quot;redisTemplate&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line"></span><br><span class="line">        StringRedisSerializer stringRedisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        template.setKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        GenericJackson2JsonRedisSerializer redisSerializer = <span class="keyword">new</span> GenericJackson2JsonRedisSerializer();</span><br><span class="line">        template.setValueSerializer(redisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashValueSerializer(redisSerializer);</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CacheManager <span class="title">cacheManager</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()</span><br><span class="line">                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(</span><br><span class="line">                        <span class="keyword">new</span> GenericJackson2JsonRedisSerializer())).disableCachingNullValues();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisConnectionFactory <span class="title">redisConnectionFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisStandaloneConfiguration config = <span class="keyword">new</span> RedisStandaloneConfiguration();</span><br><span class="line">        config.setHostName(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        config.setPort(<span class="number">11</span>);</span><br><span class="line">        config.setPassword(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LettuceConnectionFactory(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean(name = &quot;redisTemplate&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line"></span><br><span class="line">        StringRedisSerializer stringRedisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        template.setKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        GenericJackson2JsonRedisSerializer redisSerializer = <span class="keyword">new</span> GenericJackson2JsonRedisSerializer();</span><br><span class="line">        template.setValueSerializer(redisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashValueSerializer(redisSerializer);</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CacheManager <span class="title">cacheManager</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()</span><br><span class="line">                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(</span><br><span class="line">                        <span class="keyword">new</span> GenericJackson2JsonRedisSerializer())).disableCachingNullValues();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>同时实现 <strong>RedisConnectionStateListener</strong>  保证在onRedisConnected,onRedisDisconnected,onRedisExceptionCaught下运行时的调用注意下列触发事件需要在RedisClient 下注册进去,保证后续的调用成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class CustomRedisConnectionStateListener implements RedisConnectionStateListener &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisConnected(RedisConnection connection) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接成功的逻辑</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisDisconnected(RedisConnection connection) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接断开的逻辑</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisExceptionCaught(RedisConnection connection, Throwable exception) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接异常的逻辑</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Windows下bat脚本文件编写" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/282c310f.html" class="article-date">
+      <time datetime="2023-07-02T06:32:34.000Z" itemprop="datePublished">2023-07-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/282c310f.html">Windows下bat脚本文件编写</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>先给个实例来表示 使用杀死 指定端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">set default_port&#x3D;8080</span><br><span class="line">set &#x2F;p port&#x3D;type need killed port (press enter for default port %default_port%): %&#x3D;%</span><br><span class="line">if &quot;%port%&quot;&#x3D;&#x3D;&quot;&quot; set &quot;port&#x3D;%default_port%&quot;</span><br><span class="line">rem set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line"></span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pause</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>先给个实例来表示 使用杀死 指定端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">set default_port&#x3D;8080</span><br><span class="line">set &#x2F;p port&#x3D;type need killed port (press enter for default port %default_port%): %&#x3D;%</span><br><span class="line">if &quot;%port%&quot;&#x3D;&#x3D;&quot;&quot; set &quot;port&#x3D;%default_port%&quot;</span><br><span class="line">rem set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line"></span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pause</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-postgresql查询表结构和表字段" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1138,192 +1308,6 @@
 </blockquote>
 <p>所以我项目下resource下面需要有对应的路径,由于太久没写都是直接写mapper导致解析不到</p>
 <p>参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/hopeofthevillage/p/12858565.html">spring boot mybatis 报错Invalid bound statement (not found)解决过程 - 全me村的希望 - 博客园</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-windows使用vmvare创建mac-intel虚拟机" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/267b5788.html" class="article-date">
-      <time datetime="2023-03-29T00:22:46.000Z" itemprop="datePublished">2023-03-29</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.freedidi.com/5257.html">虚拟机安装 macOS 黑苹果系统！所需要的资料 - 零度解说</a><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FO9Bwa5btn8">Windows 11 上安装 macOS系统！通过虚拟机即可轻松搞定</a></p>
-<p>需要的软件</p>
-<p><strong>1.VMware 下载：【<a target="_blank" rel="noopener" href="https://www.freedidi.com/1385.html">点击下载</a>】</strong></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.freedidi.com/5257.html">虚拟机安装 macOS 黑苹果系统！所需要的资料 - 零度解说</a><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FO9Bwa5btn8">Windows 11 上安装 macOS系统！通过虚拟机即可轻松搞定</a></p>
-<p>需要的软件</p>
-<p><strong>1.VMware 下载：【<a target="_blank" rel="noopener" href="https://www.freedidi.com/1385.html">点击下载</a>】</strong></p>
-<p><strong>2.Auto-Unlocker 開源輔助工具：【<a target="_blank" rel="noopener" href="https://github.com/paolo-projects/auto-unlocker/releases">点击下载</a>】</strong></p>
-<p><strong>3.macOS big sur 系統ISO鏡像</strong>：-&gt; <a target="_blank" rel="noopener" href="https://sysin.org/blog/macOS-Monterey/#1-ISO-%E6%A0%BC%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%8C%85%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89-8">macOS Monterey 12.6.3 (21G419) 正式版 ISO、IPSW、PKG 下载</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-chatgpt关于学习英文" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/24cfb670.html" class="article-date">
-      <time datetime="2023-03-21T14:22:16.000Z" itemprop="datePublished">2023-03-21</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/24cfb670.html">chatgpt关于学习英文</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ok ,i pleasure give some questions ,first can you tell me learing english for step by step</span><br><span class="line">Certainly! Here are some steps you can take to learn English:</span><br><span class="line"></span><br><span class="line">1. Start with the basics: Learn the English alphabet, basic grammar rules, and common vocabulary words.</span><br><span class="line"></span><br><span class="line">2. Practice listening and speaking: Listen to English speakers and practice speaking with native speakers or language partners. This will help you improve your pronunciation and fluency.</span><br><span class="line"></span><br><span class="line">3. Read in English: Start with simple texts like children&#39;s books or news articles, and gradually work your way up to more complex texts.</span><br><span class="line"></span><br><span class="line">4. Write in English: Practice writing in English by keeping a journal, writing emails, or participating in online forums.</span><br><span class="line"></span><br><span class="line">5. Take a course or find a tutor: Consider taking an English course at a language school or finding a tutor who can provide personalized instruction.</span><br><span class="line"></span><br><span class="line">6. Use language learning apps: There are many apps available that can help you learn English, such as Duolingo, Babbel, and Rosetta Stone.</span><br><span class="line"></span><br><span class="line">7. Immerse yourself in the language: Watch movies or TV shows in English, listen to music in English, and try to use the language as</span><br></pre></td></tr></table></figure>
-
-<p>continue</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ok ,i pleasure give some questions ,first can you tell me learing english for step by step</span><br><span class="line">Certainly! Here are some steps you can take to learn English:</span><br><span class="line"></span><br><span class="line">1. Start with the basics: Learn the English alphabet, basic grammar rules, and common vocabulary words.</span><br><span class="line"></span><br><span class="line">2. Practice listening and speaking: Listen to English speakers and practice speaking with native speakers or language partners. This will help you improve your pronunciation and fluency.</span><br><span class="line"></span><br><span class="line">3. Read in English: Start with simple texts like children&#39;s books or news articles, and gradually work your way up to more complex texts.</span><br><span class="line"></span><br><span class="line">4. Write in English: Practice writing in English by keeping a journal, writing emails, or participating in online forums.</span><br><span class="line"></span><br><span class="line">5. Take a course or find a tutor: Consider taking an English course at a language school or finding a tutor who can provide personalized instruction.</span><br><span class="line"></span><br><span class="line">6. Use language learning apps: There are many apps available that can help you learn English, such as Duolingo, Babbel, and Rosetta Stone.</span><br><span class="line"></span><br><span class="line">7. Immerse yourself in the language: Watch movies or TV shows in English, listen to music in English, and try to use the language as</span><br></pre></td></tr></table></figure>
-
-<p>continue</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">much as possible in your daily life. This will help you become more comfortable with the language and improve your overall proficiency.</span><br><span class="line"></span><br><span class="line">8. Set goals and track your progress: Set specific goals for yourself, such as learning a certain number of new words each week or practicing speaking for a certain amount of time each day. Keep track of your progress and celebrate your achievements along the way.</span><br><span class="line"></span><br><span class="line">Remember that learning a new language takes time and effort, so be patient with yourself and don&#39;t get discouraged if you make mistakes. With consistent practice and dedication, you can improve your English skills and achieve your language learning goals.</span><br></pre></td></tr></table></figure>
-
-
-
-<p>continue</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">9. Join a language exchange program: Find a language exchange partner who speaks English and is learning your native language. This way, you can practice speaking with each other and help each other improve.</span><br><span class="line"></span><br><span class="line">10. Use English in real-life situations: Try to use English in real-life situations, such as ordering food at a restaurant or asking for directions. This will help you become more comfortable using the language in everyday situations.</span><br><span class="line"></span><br><span class="line">11. Learn from your mistakes: Don&#39;t be afraid to make mistakes when speaking or writing in English. Instead, learn from your mistakes and use them as opportunities to improve.</span><br><span class="line"></span><br><span class="line">12. Stay motivated: Learning a new language can be challenging, so it&#39;s important to stay motivated and keep practicing even when it gets difficult. Find ways to make learning fun and enjoyable, such as watching movies or listening to music in English.</span><br><span class="line"></span><br><span class="line">By following these steps and staying committed to your language learning goals, you can improve your English skills and become more confident using the language in a variety of settings.</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>so frequently Misspell</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Misspelling words is a common challenge when learning a new language, and it can be frustrating. Here are some tips that may help you improve your spelling in English:</span><br><span class="line"></span><br><span class="line">1. Practice regularly: The more you practice spelling, the better you will become. Try to set aside some time each day to practice spelling words.</span><br><span class="line"></span><br><span class="line">2. Learn the rules: English has many spelling rules that can help you spell words correctly. For example, &quot;i before e except after c&quot; is a common rule that can help you spell words like &quot;believe&quot; and &quot;receive.&quot;</span><br><span class="line"></span><br><span class="line">3. Use mnemonics: Mnemonics are memory aids that can help you remember how to spell difficult words. For example, to remember how to spell &quot;necessary,&quot; you could use the phrase &quot;one collar and two sleeves are necessary.&quot;</span><br><span class="line"></span><br><span class="line">4. Read and write in English: Reading and writing in English can help you become more familiar with the language and its spelling patterns.</span><br><span class="line"></span><br><span class="line">5. Use online resources: There are many online resources available that can help you improve your spelling, such as spelling games, quizzes, and exercises.</span><br><span class="line"></span><br><span class="line">Remember that improving your spelling takes time and practice, so don&#39;t get discouraged if it doesn&#39;t happen overnight. Keep practicing and using these tips, and you will see improvement over time.</span><br></pre></td></tr></table></figure>
-
-
-
-<p>yes you are righ,and when I read some english web content ,I fell hard and want to escape</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Reading English web content can be challenging, especially if you&#39;re not used to reading in English. Here are some tips that may help you improve your reading skills:</span><br><span class="line"></span><br><span class="line">1. Start with easy material: If you&#39;re finding it difficult to read English web content, start with material that is easier to understand. For example, you could start with children&#39;s books or news articles written for English learners.</span><br><span class="line"></span><br><span class="line">2. Use a dictionary: If you come across words that you don&#39;t know, look them up in a dictionary. This will help you expand your vocabulary and understand the text better.</span><br><span class="line"></span><br><span class="line">3. Take breaks: Reading in a new language can be tiring, so take breaks when you need to. This will help you stay focused and avoid getting overwhelmed.</span><br><span class="line"></span><br><span class="line">4. Read out loud: Reading out loud can help improve your pronunciation and comprehension of the text.</span><br><span class="line"></span><br><span class="line">5. Practice regularly: The more you practice reading in English, the easier it will become over time.</span><br><span class="line"></span><br><span class="line">Remember that learning a new language takes time and practice, so don&#39;t get discouraged if it&#39;s difficult at first. Keep practicing and using these tips, and you will see improvement over time.</span><br></pre></td></tr></table></figure>
-
-
 
                -->
         </div>

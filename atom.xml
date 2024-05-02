@@ -6,7 +6,7 @@
   <link href="https://imlike.cc/atom.xml" rel="self"/>
   
   <link href="https://imlike.cc/"/>
-  <updated>2024-03-14T14:55:29.481Z</updated>
+  <updated>2024-05-02T05:05:51.705Z</updated>
   <id>https://imlike.cc/</id>
   
   <author>
@@ -15,6 +15,47 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用 cloudflare对于 WARP订阅</title>
+    <link href="https://imlike.cc/undefined.html"/>
+    <id>https://imlike.cc/undefined.html</id>
+    <published>2024-05-02T04:20:01.000Z</published>
+    <updated>2024-05-02T05:05:51.705Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://github.com/vvbbnn00/WARP-Clash-API">vvbbnn00/WARP-Clash-API: 该项目可以让你通过订阅的方式使用Cloudflare WARP+，自动获取流量。.</a></p><p><a href="https://github.com/cmliu/edgetunnel">cmliu/edgetunnel: 在原版的基础上修改了显示 VLESS 配置信息转换为订阅内容。使用该脚本，你可以方便地将 VLESS 配置信息使用在线配置转换到 Clash 或 Singbox 等工具中。</a></p><p>docker-compose up -d</p><p>下面是安装 docker-compose </p><ol><li><strong>卸载旧版本的 Docker Compose</strong></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure><ol><li><strong>下载最新版本</strong></li></ol><p>目前最新版本是 2.18.1 (截至 2023 年 5 月),下载命令如下:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L &quot;https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;v2.18.1&#x2F;docker-compose-$(uname -s)-$(uname -m)&quot; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure><p>如果速度起不来可以使用这个镜像</p><blockquote><p>sudo curl -L “<a href="https://dl.ghpig.top/https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$">https://dl.ghpig.top/https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$</a>(uname -s)-$(uname -m)” -o /usr/local/bin/docker-compose</p></blockquote><ol><li><strong>设置执行权限</strong></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure><ol><li><strong>创建软链接 (可选)</strong></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose &#x2F;usr&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure><ol><li><strong>验证安装</strong></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure><p>它应该显示 <code>docker-compose version v2.18.1</code></p><p>注意以下几点:</p><ul><li>需要有 root 或 sudo 权限执行上述命令</li><li>上面的下载链接会自动根据您的系统架构获取合适的二进制文件</li><li>如果下载链接发生改变,可访问 <a href="https://github.com/docker/compose/releases">https://github.com/docker/compose/releases</a> 获取最新下载链接</li><li>Docker Compose 2.x 版本需要 Docker 17.12.0 或更高版本</li></ul><p>按照以上步骤,您就可以成功将 Docker Compose 升级到最新的 2.18.1 版本了。升级后最好查看一下新版本的文档,了解新增的语法和功能变化。</p><p><img src="../img/image-20240502130357242.png" alt="image-20240502130357242"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/vvbbnn00/WARP-Clash-API&quot;&gt;vvbbnn00/WARP-Clash-API: 该项目可以让你通过订阅的方式使用Cloudflare WARP+，自动获取流量。.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a hre</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>macbook软件配置(新手项)</title>
+    <link href="https://imlike.cc/58edfabc.html"/>
+    <id>https://imlike.cc/58edfabc.html</id>
+    <published>2024-03-23T05:29:26.000Z</published>
+    <updated>2024-03-23T05:31:50.289Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="配置相关"><a href="#配置相关" class="headerlink" title="配置相关"></a>配置相关</h2><h2 id="软件推荐"><a href="#软件推荐" class="headerlink" title="软件推荐"></a>软件推荐</h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;配置相关&quot;&gt;&lt;a href=&quot;#配置相关&quot; class=&quot;headerlink&quot; title=&quot;配置相关&quot;&gt;&lt;/a&gt;配置相关&lt;/h2&gt;&lt;h2 id=&quot;软件推荐&quot;&gt;&lt;a href=&quot;#软件推荐&quot; class=&quot;headerlink&quot; title=&quot;软件推荐&quot;&gt;&lt;/a</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>sublime优化和推荐插件</title>
@@ -384,47 +425,6 @@
       
     <summary type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/modelmapper/modelmapper&quot;&gt;ModelMapper&lt;/a&gt; 是一个智能的Java对象映射库，它提供了一种方便高效的方式来映射不同模型之间的对象，使得在不同模型之间转换数据变得更加容易。&lt;/p&gt;
 &lt;</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>使用Lettuce客户端或者redis连接变化时的触发事件</title>
-    <link href="https://imlike.cc/a337c28a.html"/>
-    <id>https://imlike.cc/a337c28a.html</id>
-    <published>2023-07-08T00:25:45.000Z</published>
-    <updated>2024-03-14T14:55:29.483Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisConnectionFactory <span class="title">redisConnectionFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisStandaloneConfiguration config = <span class="keyword">new</span> RedisStandaloneConfiguration();</span><br><span class="line">        config.setHostName(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        config.setPort(<span class="number">11</span>);</span><br><span class="line">        config.setPassword(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LettuceConnectionFactory(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean(name = &quot;redisTemplate&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line"></span><br><span class="line">        StringRedisSerializer stringRedisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        template.setKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        GenericJackson2JsonRedisSerializer redisSerializer = <span class="keyword">new</span> GenericJackson2JsonRedisSerializer();</span><br><span class="line">        template.setValueSerializer(redisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashValueSerializer(redisSerializer);</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CacheManager <span class="title">cacheManager</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()</span><br><span class="line">                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(</span><br><span class="line">                        <span class="keyword">new</span> GenericJackson2JsonRedisSerializer())).disableCachingNullValues();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>同时实现 <strong>RedisConnectionStateListener</strong>  保证在onRedisConnected,onRedisDisconnected,onRedisExceptionCaught下运行时的调用注意下列触发事件需要在RedisClient 下注册进去,保证后续的调用成功</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class CustomRedisConnectionStateListener implements RedisConnectionStateListener &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisConnected(RedisConnection connection) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接成功的逻辑</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisDisconnected(RedisConnection connection) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接断开的逻辑</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisExceptionCaught(RedisConnection connection, Throwable exception) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接异常的逻辑</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Windows下bat脚本文件编写</title>
-    <link href="https://imlike.cc/282c310f.html"/>
-    <id>https://imlike.cc/282c310f.html</id>
-    <published>2023-07-02T06:32:34.000Z</published>
-    <updated>2024-03-14T14:55:29.475Z</updated>
-    
-    <content type="html"><![CDATA[<p>先给个实例来表示 使用杀死 指定端口</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">set default_port&#x3D;8080</span><br><span class="line">set &#x2F;p port&#x3D;type need killed port (press enter for default port %default_port%): %&#x3D;%</span><br><span class="line">if &quot;%port%&quot;&#x3D;&#x3D;&quot;&quot; set &quot;port&#x3D;%default_port%&quot;</span><br><span class="line">rem set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line"></span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pause</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;先给个实例来表示 使用杀死 指定端口&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;lin</summary>
       
     
     

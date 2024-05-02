@@ -269,6 +269,197 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="wrap-启动" class="article article-type-wrap" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/undefined.html" class="article-date">
+      <time datetime="2024-05-02T04:20:01.000Z" itemprop="datePublished">2024-05-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/undefined.html">使用 cloudflare对于 WARP订阅</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://github.com/vvbbnn00/WARP-Clash-API">vvbbnn00/WARP-Clash-API: 该项目可以让你通过订阅的方式使用Cloudflare WARP+，自动获取流量。.</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/cmliu/edgetunnel">cmliu/edgetunnel: 在原版的基础上修改了显示 VLESS 配置信息转换为订阅内容。使用该脚本，你可以方便地将 VLESS 配置信息使用在线配置转换到 Clash 或 Singbox 等工具中。</a></p>
+<p>docker-compose up -d</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://github.com/vvbbnn00/WARP-Clash-API">vvbbnn00/WARP-Clash-API: 该项目可以让你通过订阅的方式使用Cloudflare WARP+，自动获取流量。.</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/cmliu/edgetunnel">cmliu/edgetunnel: 在原版的基础上修改了显示 VLESS 配置信息转换为订阅内容。使用该脚本，你可以方便地将 VLESS 配置信息使用在线配置转换到 Clash 或 Singbox 等工具中。</a></p>
+<p>docker-compose up -d</p>
+<p>下面是安装 docker-compose </p>
+<ol>
+<li><strong>卸载旧版本的 Docker Compose</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>下载最新版本</strong></li>
+</ol>
+<p>目前最新版本是 2.18.1 (截至 2023 年 5 月),下载命令如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L &quot;https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;v2.18.1&#x2F;docker-compose-$(uname -s)-$(uname -m)&quot; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+<p>如果速度起不来可以使用这个镜像</p>
+<blockquote>
+<p>sudo curl -L “<a target="_blank" rel="noopener" href="https://dl.ghpig.top/https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$">https://dl.ghpig.top/https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$</a>(uname -s)-$(uname -m)” -o /usr/local/bin/docker-compose</p>
+</blockquote>
+<ol>
+<li><strong>设置执行权限</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>创建软链接 (可选)</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose &#x2F;usr&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>验证安装</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
+
+<p>它应该显示 <code>docker-compose version v2.18.1</code></p>
+<p>注意以下几点:</p>
+<ul>
+<li>需要有 root 或 sudo 权限执行上述命令</li>
+<li>上面的下载链接会自动根据您的系统架构获取合适的二进制文件</li>
+<li>如果下载链接发生改变,可访问 <a target="_blank" rel="noopener" href="https://github.com/docker/compose/releases">https://github.com/docker/compose/releases</a> 获取最新下载链接</li>
+<li>Docker Compose 2.x 版本需要 Docker 17.12.0 或更高版本</li>
+</ul>
+<p>按照以上步骤,您就可以成功将 Docker Compose 升级到最新的 2.18.1 版本了。升级后最好查看一下新版本的文档,了解新增的语法和功能变化。</p>
+<p><img src="../img/image-20240502130357242.png" alt="image-20240502130357242"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macbook软件配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/58edfabc.html" class="article-date">
+      <time datetime="2024-03-23T05:29:26.000Z" itemprop="datePublished">2024-03-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/58edfabc.html">macbook软件配置(新手项)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <h2 id="配置相关"><a href="#配置相关" class="headerlink" title="配置相关"></a>配置相关</h2><h2 id="软件推荐"><a href="#软件推荐" class="headerlink" title="软件推荐"></a>软件推荐</h2>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-sublime优化和推荐插件" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1287,247 +1478,6 @@
 <p>比如说，在地理坐标系中，经度的范围为[-180, 180]，纬度的范围为[-90, 90]，超出这个范围的坐标即为invalid coordinate。此处不加图片示意了。</p>
 <h2 id="10-Ring-Not-Closed"><a href="#10-Ring-Not-Closed" class="headerlink" title="10.Ring Not Closed"></a>10.Ring Not Closed</h2><p><em>Indicates that a ring is not correctly closed.(the first and the last coordinate are different)</em></p>
 <p>即多边形没有合上。正确的polygon应该是首尾相连的，若不相连即出现此错误。此处不加图片示意了</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-jd-cookie在青龙上操作" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/d3bcc396.html" class="article-date">
-      <time datetime="2023-11-02T12:49:07.000Z" itemprop="datePublished">2023-11-02</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>安装docker</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#安装docker</span><br><span class="line">sudo yum check-update</span><br><span class="line">curl -sSL https:&#x2F;&#x2F;get.daocloud.io&#x2F;docker | sh</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl status docker</span><br><span class="line">sudo systemctl enable docker</span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>安装docker</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#安装docker</span><br><span class="line">sudo yum check-update</span><br><span class="line">curl -sSL https:&#x2F;&#x2F;get.daocloud.io&#x2F;docker | sh</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl status docker</span><br><span class="line">sudo systemctl enable docker</span><br></pre></td></tr></table></figure>
-
-
-
-<p>如果已经安装docker 删除qinglong的镜像和服务 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker stop $(docker ps -a -q) &#x2F;&#x2F;  stop停止所有容器 </span><br><span class="line">docker rm $(docker ps -a -q) &#x2F;&#x2F;   remove删除所有容器</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="安装qinglong"><a href="#安装qinglong" class="headerlink" title="安装qinglong"></a>安装qinglong</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker  run -dit \</span><br><span class="line">  -v $PWD&#x2F;ql:&#x2F;ql&#x2F;data  \</span><br><span class="line">  -p 5700:5700 \</span><br><span class="line">  -p 5701:5701 \</span><br><span class="line">  -e ENABLE_WEB_PANEL&#x3D;true \</span><br><span class="line">  -e ENABLE_HANGUP&#x3D;true \</span><br><span class="line">  -e QlPort&#x3D;&quot;5700&quot; \</span><br><span class="line">  --name qinglong \</span><br><span class="line">  --hostname qinglong \</span><br><span class="line">  --restart unless-stopped \</span><br><span class="line">  whyour&#x2F;qinglong:latest</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## ql为容器名 本文机器容器名为qinglong</span><br><span class="line">docker exec -it qinglong bash</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装ninja插件"><a href="#安装ninja插件" class="headerlink" title="安装ninja插件"></a>安装ninja插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;gh-proxy.com&#x2F;https:&#x2F;&#x2F;github.com&#x2F;shufflewzc&#x2F;Waikiki_ninja.git  &#x2F;ql&#x2F;ninja</span><br><span class="line">cd &#x2F;ql&#x2F;ninja&#x2F;backend</span><br><span class="line">pnpm install</span><br><span class="line">pm2 start</span><br></pre></td></tr></table></figure>
-
-<h3 id="打开青龙configs文件夹的extra-sh文件"><a href="#打开青龙configs文件夹的extra-sh文件" class="headerlink" title="打开青龙configs文件夹的extra.sh文件"></a>打开青龙configs文件夹的extra.sh文件</h3><p>将以下内容粘贴进去。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;ql&#x2F;ninja&#x2F;backend </span><br><span class="line">pm2 start</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="安装签到脚本"><a href="#安装签到脚本" class="headerlink" title="安装签到脚本"></a>安装签到脚本</h3>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https:&#x2F;&#x2F;ghproxy.com&#x2F;https:&#x2F;&#x2F;github.com&#x2F;shufflewzc&#x2F;faker3.git &quot;jd_|jx_|gua_|jddj_|jdCookie&quot; &quot;activity|backUp&quot; &quot;^jd[^_]|USER|function|utils|sendNotify|ZooFaker_Necklace.js|JDJRValidator_|sign_graphics_validate|ql|JDSignValidator|magic|depend|h5sts&quot; &quot;main&quot;    # fake2</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com&#x2F;6dylan6&#x2F;jdpro   # 6dy</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com&#x2F;leafTheFish&#x2F;DeathNote</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
-<li>重启后务必执行一次 <code>ql extra</code> 保证 Ninja 配置成功。</li>
-<li>更新 Ninja 只需要在容器中 <code>ninja/backend</code> 目录执行 <code>git pull</code> 然后 <code>pm2 start</code></li>
-<li>Qinglong 需要在登录状态（<code>auth.json</code> 中有 token）</li>
-</ul>
-<h2 id="获取cookie"><a href="#获取cookie" class="headerlink" title="获取cookie"></a>获取cookie</h2><p>以前大家都是获取jd的cookie来操作现在 cookie非常容易过期,现在推荐使用 <strong>wskey</strong>,需要在移动客户端抓包,下面介绍使用安卓客户端的操作,先安装</p>
-<ol>
-<li><p> app：VNET（抓包用）、京东；</p>
-</li>
-<li><p><strong>VNET抓包wskey:</strong></p>
-</li>
-<li><p><strong>青龙面板使用wskey转换脚本</strong></p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ql repo https:&#x2F;&#x2F;e.coding.net&#x2F;HelloDNS&#x2F;sign&#x2F;wskey.git &quot;wskey&quot;  # 国内外</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="安装青龙的依赖"><a href="#安装青龙的依赖" class="headerlink" title="安装青龙的依赖"></a>安装青龙的依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https:&#x2F;&#x2F;gh-proxy.com&#x2F;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;FlechazoPh&#x2F;QLDependency&#x2F;main&#x2F;Shell&#x2F;QLOneKeyDependency.sh | sh</span><br></pre></td></tr></table></figure>
-
-
-
-<p>设置环境变量 QL_LOG_AUTO_INSTALL_DEPEND=ture</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>参考链接</p>
-<p><a target="_blank" rel="noopener" href="https://thin-hill-428.notion.site/Faker-1c598629675145988b43a37998a1604a">青龙Faker仓库教程合集</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yekui6254/article/details/121511771">安卓抓取JD wskey + 添加脚本自动转换JD cookie_jd_wsck-CSDN博客</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-图像相关的数据和介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/24b88766.html" class="article-date">
-      <time datetime="2023-10-19T12:15:30.000Z" itemprop="datePublished">2023-10-19</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/24b88766.html">图像相关的数据和介绍</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>有损压缩图片 jpg png</p>
-<p>矢量图片 svg</p>
-<p>tiff,tif数据 相比较 jpg png里面的信息更加丰富 每个栅格下 是RGB 还是什么不一定是显示,而是包含高度或者温度</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>有损压缩图片 jpg png</p>
-<p>矢量图片 svg</p>
-<p>tiff,tif数据 相比较 jpg png里面的信息更加丰富 每个栅格下 是RGB 还是什么不一定是显示,而是包含高度或者温度</p>
-<p>所以空间相关比如遥感影像会以TIFF数据来保存一些我们肉眼看不到的数据,同时tiff数据文件开始部分会有部分元数据的信息能被访问同时又cogtif数据来访问,</p>
-<p>类型: bimap</p>
-<p>颜色: 1-24 bit</p>
-<p>压缩 Uncompressed,RLE,LZW,CCITT Group和JPEG</p>
-<p>图像最大尺寸 2^31-1</p>
-<p>是否支持多通道</p>
-<p>IFH (图像文件头)   IFD(图像文件目录)  位图数据</p>
 
                -->
         </div>
