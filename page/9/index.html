@@ -269,6 +269,81 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-curl-download-page-url-file" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/d40194d4.html" class="article-date">
+      <time datetime="2022-03-07T14:07:55.000Z" itemprop="datePublished">2022-03-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/d40194d4.html">使用curl命令来下载页面中连接</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/23446635/how-to-download-http-directory-with-all-files-and-sub-directories-as-they-appear">html - How to download HTTP directory with all files and sub-directories as they appear on the online files/folders list? - Stack Overflow</a></p>
+<p>wget -r -np -nH –cut-dirs=3 -R index.html <a target="_blank" rel="noopener" href="http://hostname/aaa/bbb/ccc/ddd/">http://hostname/aaa/bbb/ccc/ddd/</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-java线程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1448,120 +1523,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-nginx-deep-optimize" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/132c3fd6.html" class="article-date">
-      <time datetime="2022-01-06T08:10:59.000Z" itemprop="datePublished">2022-01-06</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/132c3fd6.html">nginx的深度调优</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p> 参考文章</p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6895660634466156558#heading-30">Nginx全能解析及性能调优 - 掘金</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/91454882">Nginx调优 - 知乎</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p> 参考文章</p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6895660634466156558#heading-30">Nginx全能解析及性能调优 - 掘金</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/91454882">Nginx调优 - 知乎</a></p>
-<p><img src="../img/bd998aa92614417f8b1b9db6302bc738~tplv-k3u1fbpfcp-watermark.awebp" alt="Aleyson爱逼逼"></p>
-<h2 id="设置静态资源的过期时间"><a href="#设置静态资源的过期时间" class="headerlink" title="设置静态资源的过期时间"></a>设置静态资源的过期时间</h2><p><img src="../img/image-20220106161111684.png" alt="image-20220106161111684"></p>
-<h2 id="反向代理设置缓存"><a href="#反向代理设置缓存" class="headerlink" title="反向代理设置缓存"></a>反向代理设置缓存</h2><blockquote>
-<p>proxy_cache_path /data/nginx/cache  levels=1:2 keys_zone=one:200m inactive=60m loader_threshold=300 loader_files=300 max_size=2000m;</p>
-</blockquote>
-<h2 id="关闭access-log"><a href="#关闭access-log" class="headerlink" title="关闭access_log"></a>关闭access_log</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># svg, fonts</span><br><span class="line">location ~ &#x2F;last&#x2F;\.(?:jpg|png|gif|cmpt|b3dm)$  &#123;</span><br><span class="line">    add_header Access-Control-Allow-Origin &quot;*&quot;;</span><br><span class="line">    expires    7d;</span><br><span class="line">    access_log off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="设置worker-processes"><a href="#设置worker-processes" class="headerlink" title="设置worker_processes"></a>设置worker_processes</h2><blockquote>
-<p>grep processor /proc/cpuinfo | wc –l 获取CPU核心数为8</p>
-</blockquote>
-<p>可以获取CPU相关的信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">worker_processes auto;</span><br><span class="line">worker_rlimit_nofile 65535;</span><br><span class="line">#pid logs&#x2F;nginx.pid;</span><br><span class="line">events &#123;</span><br><span class="line">   worker_connections 65535;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通常需要的设置的worker_processes 为核心数除以2的n次方.推荐设置为auto</p>
-<p>设置gzip压缩</p>
-<p>这个需要确认这个请求是支持gzip压缩的可以参考</p>
-<p><img src="../img/image-20220107162340670.png" alt="image-20220107162340670"></p>
-<p><strong>tips</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gzip on;  #是否开启gzip模块 on表示开启 off表示关闭</span><br><span class="line">gzip_static on;</span><br><span class="line">gzip_buffers 4 16k;  #设置压缩所需要的缓冲区大小</span><br><span class="line">gzip_comp_level 6;  #压缩级别1-9，数字越大压缩的越好，也越占用CPU时间</span><br><span class="line">gzip_min_length 1k;  #设置允许压缩的最小字节</span><br><span class="line">gzip_http_version 1.0;  #设置压缩http协议的版本,默认是1.1 如果nginx前面还有反向代理 这要设置为1.0</span><br><span class="line">gzip_types text&#x2F;plain application&#x2F;x-javascript text&#x2F;css text&#x2F;javascript application&#x2F;x-httpd-php image&#x2F;jpeg image&#x2F;gif image&#x2F;png application&#x2F;octet-stream application&#x2F;javascript;  #设置压缩的文件类型</span><br><span class="line">gzip_vary     on;  #加上http头信息Vary: Accept-Encoding给后端代理服务器识别是否启用 gzip 压缩</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img src="../img/image-20220106161202850.png" alt="image-20220106161202850"></p>
-<h2 id="Linux环境下设置io多路复用-epoll-模型"><a href="#Linux环境下设置io多路复用-epoll-模型" class="headerlink" title="Linux环境下设置io多路复用(epoll)模型"></a>Linux环境下设置io多路复用(epoll)模型</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">worker_processes     auto;</span><br><span class="line">worker_rlimit_nofile 65535;</span><br><span class="line">events &#123;</span><br><span class="line">    use epoll; # 这个设置是针对2.6内核  cat &#x2F;proc&#x2F;version可读取</span><br><span class="line">    multi_accept       on;</span><br><span class="line">    worker_connections 65535;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
     </div>
  -->
 

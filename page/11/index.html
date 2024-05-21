@@ -269,6 +269,137 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-k8s-deploy-geoserver-activemq" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/c1c66eff.html" class="article-date">
+      <time datetime="2021-10-15T01:40:51.000Z" itemprop="datePublished">2021-10-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>目前公司需要搭建geoserver集群集成jms和jdbcstore的插件,实现数据保存在数据库,同时通过jms来同步集群的缓存数据</p>
+<h2 id="部署activeMQ"><a href="#部署activeMQ" class="headerlink" title="部署activeMQ"></a>部署activeMQ</h2><h4 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h4><p><img src="../img/1634094696968-466f7ccf-f903-442d-b53c-d5a361ecba88.png" alt="image-20211013110849180.png"></p>
+<p>####</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>目前公司需要搭建geoserver集群集成jms和jdbcstore的插件,实现数据保存在数据库,同时通过jms来同步集群的缓存数据</p>
+<h2 id="部署activeMQ"><a href="#部署activeMQ" class="headerlink" title="部署activeMQ"></a>部署activeMQ</h2><h4 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h4><p><img src="../img/1634094696968-466f7ccf-f903-442d-b53c-d5a361ecba88.png" alt="image-20211013110849180.png"></p>
+<p>####</p>
+<p>包括注解包括你需要备注的信息<br>标签: 用于部署pod 服务,用于设置部署在指定标签节点 在高级设置里面可以设置<br>副本数即类似于克隆了多个镜像服务,他们的配置都是一样的<br>分层级类似于归类的作业,突出显示和归纳</p>
+<h3 id="配置容器"><a href="#配置容器" class="headerlink" title="配置容器"></a>配置容器</h3><p><img src="../img/1634094933299-65354b7f-48f9-4293-9739-6000138dc82b.png" alt="image.png"></p>
+<p>这部分主要是要注意要注意如果服务是需要暴露端口的必须要配置,否则服务启动会有问题,暴露的端口不是直接给外部访问,是节点的容器组IP的暴露出来的可以用于容器内部的通信<br>容器的镜像通常就是 dockerhub官方提供的,亦或者是内网的镜像仓库harbor部署的,<br>命令参数目前使用的少,看介绍可以替代dockerfile中 cmd部分执行的命令<br>环境变量即添加容器内部的环境变量,包括很多敏感的secret和key ,需要运行时使用便可以放在上面<br>资源请求/限制: 即对容器调用host的资源进行限制,不挤占其他服务的资源<br>​</p>
+<h3 id="挂载存储"><a href="#挂载存储" class="headerlink" title="挂载存储"></a>挂载存储</h3><h2 id=""><a href="#" class="headerlink" title=""></a><img src="../img/1634094947506-dc314125-33e7-4bff-a302-652d53bc50e7.png" alt="image.png"></h2><p>这里主要是注意一点 挂载数据卷到容器中,倘若容器中的配置文件在挂载卷不存在,但是配置挂载会替换容器中的文件导致pod启动失败<br>​</p>
+<p><strong>还有配置路径也是需要注意</strong><br>上面的路径的容器内的绝对路径<br>下面的子路径是相对路径但是相对的是 挂载的卷的的根节点 类似于 /var/lib/kubelet/pods/8c7ba28d-59bd-4ad3-a592-4212ad540939/volumes/kubernetes.io~glusterfs/pvc-02a2b3a6-bd84-4687-8c37-67eb0b4a1ed1<br>如果配置的是文件<br>那么下面挂载卷内的文件会替换上面容器绝对路径的文件</p>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><h3 id="服务-应用路由"><a href="#服务-应用路由" class="headerlink" title="服务/应用路由"></a>服务/应用路由</h3><p><img src="../img/1634094993788-5b18b1ae-d1ac-4907-b084-26ad23abb8fc.png" alt="image.png"></p>
+<h2 id="-2"><a href="#-2" class="headerlink" title=""></a></h2><p>需要主要的要主要在服务定义 如果是暴露在集群内部那么选择clusterip只会容器上可以使用 <strong>通过集群的内部 IP 暴露服务，选择该值时服务只能够在集群内部访问。 这也是默认的 ServiceType。</strong><br>如果选择nodePort那么则是需要在集群对外暴露端口通常都是五位数的端口,通过集群每个节点的端口监听和dns解析,<br>headless是没有任何配置 ** Service 并不会分配 Cluster IP，kube-proxy 不会处理它们， 而且平台也不会为它们进行负载均衡和路由。 DNS 如何实现自动配置，依赖于 Service 是否定义了选择算符**</p>
+<p><img src="../img/1634096515885-5cc05172-5e3d-4e1d-a807-158279a04c82.svg" alt="services-userspace-overview.svg"></p>
+<h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><p>如果保存后pod启动有问题报<br> 不挂载卷,可以直接启动,但是挂载就一直报<br>Back-off restarting failed container   这种一般都是容器启动的时有问题导致的运行失败,需要看日志,体现出来就是容器启动后没有一种运行的进程导致 被回收<br><img src="../img/1634097165049-b2d82280-d4c5-4054-846a-ba9d3c925fe0.png" alt="image.png"></p>
+<h2 id="优化目标"><a href="#优化目标" class="headerlink" title="优化目标"></a>优化目标</h2><ul>
+<li>使用jdbcstore插件后大比例不 不显示空白</li>
+<li>结果jdbcstore和jms插件的冲突</li>
+<li>高版本(19)geoserver集群的部署</li>
+</ul>
+<h2 id="使用jdbcstore插件后大比例不-不显示空白"><a href="#使用jdbcstore插件后大比例不-不显示空白" class="headerlink" title="使用jdbcstore插件后大比例不 不显示空白"></a>使用jdbcstore插件后大比例不 不显示空白</h2><h4 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h4><p>在使用jdbcstore插件来实现数据的数据库保存,但是在预览图层时会出现放大到一定程度层级后空白 的情况</p>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>在查询源码后知道新版的geoserver优化的SQL查询逻辑调用了</p>
+<p>老版的geoserver实际执行的SQL</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 对比可以知道 在勾选Support on the fly geometry simplification 后 没有使用ST_Simplify 这个函数在</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Simplify(ST_Force2D(<span class="string">&quot;geom&quot;</span>), <span class="number">3.8116173982620243</span>, <span class="literal">true</span>)),<span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>) 勾选</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Force2D(<span class="string">&quot;geom&quot;</span>)),<span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>) 不勾选</span><br></pre></td></tr></table></figure>
+
+
+<p>新版的geoserver实际执行的SQL</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 对比可以确定 新版本勾选 Support on the fly geometry simplification后 区别在于选用ST_AsTWKB作为简化内容导致的数据缺失</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsTWKB(ST_Simplify(ST_Force2D(<span class="string">&quot;geom&quot;</span>), <span class="number">3.8116173923015597</span>, <span class="literal">true</span>),<span class="number">0</span>), <span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Force2D(<span class="string">&quot;geom&quot;</span>)), <span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p>debug方法调用</p>
+<p>org.geoserver.wms.GetMap#executeInternal</p>
+<p>org.geotools.renderer.lite.StreamingRenderer#drawPlain</p>
+<p>org.geotools.data.store.ContentFeatureSource#getReader(org.geotools.data.Query)</p>
+<p>org.geoserver.wms.GetMapOutputFormat#produceMap</p>
+<p>org.geoserver.wms.map.RenderedImageMapOutputFormat#produceMap(org.geoserver.wms.WMSMapContent, boolean)</p>
+<p>renderer.paint(</p>
+<p>org.geotools.data.postgis.PostGISDialect#encodeGeometryColumnSimplified</p>
+<p>最后修改gt-jdbc-postgis jar下面的 org.geotools.data.postgis.PostGISDialect#isAggregatedSortSupported 然后重新打包替换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static final Version V_1_5_0 &#x3D; new Version(&quot;1.5.0&quot;);</span><br><span class="line"></span><br><span class="line">static final Version V_2_0_0 &#x3D; new Version(&quot;2.0.0&quot;);</span><br><span class="line"></span><br><span class="line">static final Version V_2_1_0 &#x3D; new Version(&quot;2.1.0&quot;);</span><br><span class="line"></span><br><span class="line">static final Version V_2_2_0 &#x3D; new Version(&quot;2.30.0&quot;); &#x2F;&#x2F;修改这个字段</span><br><span class="line"></span><br><span class="line">static final Version PGSQL_V_9_0 &#x3D; new Version(&quot;9.0&quot;);</span><br><span class="line"></span><br><span class="line">static final Version PGSQL_V_9_1 &#x3D; new Version(&quot;9.1&quot;);</span><br></pre></td></tr></table></figure>
+
+
+<p>保证无论碰到什么版本的geoserver使用老的方法</p>
+<h2 id="解决jdbcstore和jms插件的冲突"><a href="#解决jdbcstore和jms插件的冲突" class="headerlink" title="解决jdbcstore和jms插件的冲突"></a>解决jdbcstore和jms插件的冲突</h2><h4 id="现象-1"><a href="#现象-1" class="headerlink" title="现象"></a>现象</h4><p>启动失败会报MultipleBeansException  org.geoserver.config.GeoServerLoader</p>
+<h4 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h4><p>查询知道在 jms-cluster 下面有个 org.geoserver.config.ReadOnlyGeoServerLoader 继承了org.geoserver.config.DefaultGeoServerLoader</p>
+<p>同时gs-jdbcconfig 下面 org.geoserver.jdbcconfig.JDBCGeoServerLoader也继承DefaultGeoServerLoader</p>
+<p>导致冲突在org.geoserver.config.GeoServerLoaderProxy#lookupGeoServerLoader 会判断GeoServerLoader的类,如果是两个就报错</p>
+<p>目前是默认使用JDBCGeoServerLoader 代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> GeoServerLoader <span class="title">lookupGeoServerLoader</span><span class="params">(ApplicationContext appContext)</span> </span>&#123;</span><br><span class="line">        GeoServerLoader loader = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            loader =</span><br><span class="line">                    (GeoServerLoader)</span><br><span class="line">                            GeoServerExtensions.bean(</span><br><span class="line">                                    Class.forName(<span class="string">&quot;org.geoserver.jdbcconfig.JDBCGeoServerLoader&quot;</span>),</span><br><span class="line">                                    appContext);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (loader == <span class="keyword">null</span>) &#123;</span><br><span class="line">            loader = <span class="keyword">new</span> DefaultGeoServerLoader(resourceLoader);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> loader;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="高版本-19-geoserver集群的部署"><a href="#高版本-19-geoserver集群的部署" class="headerlink" title="高版本(19)geoserver集群的部署"></a>高版本(19)geoserver集群的部署</h2><h4 id="现象-2"><a href="#现象-2" class="headerlink" title="现象"></a>现象</h4><p>集群挂载在同一个盘上面,修改一个jmx的配置,其他节点也跟着修改</p>
+<h4 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h4><p>针对不同节点创建各自的配置文件,在挂载的时候配置映射文件</p>
+<p><img src="../img/1634094768227-8941ca86-61d5-43b5-a0ea-f75b20258ded.png" alt="image-20211012144321551.png"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-geoserver-high-version-some-scale-lose-layer" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1212,91 +1343,6 @@
 <p>UATHelper: Packaging (Android (ETC2)): &gt; Task :app:compileDebugJavaWithJavac FAILED<br>UATHelper: Packaging (Android (ETC2)): The following annotation processors are not incremental: compiler-1.1.1.jar (android.arch.lifecycle:compiler:1.1.1).<br>UATHelper: Packaging (Android (ETC2)): Make sure all annotation processors are incremental to improve your build speed.<br>UATHelper: Packaging (Android (ETC2)): Z:\app\src\main\java\com\epicgames\ue4\GameActivity.java:3531: ����: �Ҳ�������<br>UATHelper: Packaging (Android (ETC2)):             powerManager.addThermalStatusListener(getMainExecutor(), new PowerManager.OnThermalStatusChangedListener() {<br>UATHelper: Packaging (Android (ETC2)): 32 actionable tasks: 3 executed, 29 up-to-date<br>UATHelper: Packaging (Android (ETC2)):                                                                                      ^<br>UATHelper: Packaging (Android (ETC2)):   ����:   �� OnThermalStatusChangedListener<br>UATHelper: Packaging (Android (ETC2)):   λ��: �� PowerManager<br>UATHelper: Packaging (Android (ETC2)): ע: ĳЩ�����ļ�ʹ�û򸲸����ѹ�ʱ�� API��<br>UATHelper: Packaging (Android (ETC2)): ע: �й���ϸ��Ϣ, ��ʹ�� -Xlint:deprecation ���±��롣<br>UATHelper: Packaging (Android (ETC2)): 1 ������<br>UATHelper: Packaging (Android (ETC2)): FAILURE: Build failed with an exception.<br>UATHelper: Packaging (Android (ETC2)): * What went wrong:<br>UATHelper: Packaging (Android (ETC2)): Execution failed for task ‘:app:compileDebugJavaWithJavac’.<br>UATHelper: Packaging (Android (ETC2)): &gt; Compilation failed; see the compiler error output for details.<br>UATHelper: Packaging (Android (ETC2)): * Try:<br>UATHelper: Packaging (Android (ETC2)): Run with –stacktrace option to get the stack trace. Run with –info or –debug option to get more log output. Run with –scan to get full insights.<br>UATHelper: Packaging (Android (ETC2)): * Get more help at <a target="_blank" rel="noopener" href="https://help.gradle.org/">https://help.gradle.org</a><br>UATHelper: Packaging (Android (ETC2)): BUILD FAILED in 8s</p>
 <p>需要安装Android_studio同时安装sdk</p>
 <p><img src="../img/image-20210707161238758.png" alt="image-20210707161238758"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-sublime-shortcut" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/29702c78.html" class="article-date">
-      <time datetime="2021-07-04T01:24:36.000Z" itemprop="datePublished">2021-07-04</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/29702c78.html">sublime_shortcut</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>link: <a target="_blank" rel="noopener" href="https://blog.csdn.net/lol_IP/article/details/82416020">https://blog.csdn.net/lol_IP/article/details/82416020</a><br>第一步：选中全部内容</p>
-<p>ctrl+A<br>第二步：进入待操作状态</p>
-<p>ctrl+shift+L<br>第三步：通过←和→控制光标的位置</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>link: <a target="_blank" rel="noopener" href="https://blog.csdn.net/lol_IP/article/details/82416020">https://blog.csdn.net/lol_IP/article/details/82416020</a><br>第一步：选中全部内容</p>
-<p>ctrl+A<br>第二步：进入待操作状态</p>
-<p>ctrl+shift+L<br>第三步：通过←和→控制光标的位置</p>
-<p>第四步：在光标处添加内容</p>
-<p>注：也可以只对多行进行操作，对多行进行操作只需在第一步选择相应的行就可以了</p>
 
                -->
         </div>
