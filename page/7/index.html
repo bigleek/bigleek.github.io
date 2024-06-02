@@ -269,6 +269,89 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-mysql索引和锁相关的整理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2fd84806.html" class="article-date">
+      <time datetime="2022-09-25T08:34:34.000Z" itemprop="datePublished">2022-09-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2fd84806.html">mysql索引和锁相关的整理</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>ToDo</p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.7.2.1 Transaction Isolation Levels</a></p>
+<p>针对MySQL5,.7</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>ToDo</p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.7.2.1 Transaction Isolation Levels</a></p>
+<p>针对MySQL5,.7</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-spring-data-jap入门和测试用例以及介绍" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1601,114 +1684,6 @@
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li></ul>
     </div>
  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-springsecurity入门介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/329899c5.html" class="article-date">
-      <time datetime="2022-05-01T06:53:48.000Z" itemprop="datePublished">2022-05-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/329899c5.html">springsecurity入门介绍</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6934503341380599822">Spring Security系列之一 简单介绍和实战 - 掘金</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.1024sou.com/article/56472.html">20210902#_【项目实践】一文带你搞定Spring Security + JWT - 1024搜-程序员专属的搜索引擎</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.springcloud.cc/spring-session.html">Spring Session 中文文档 参考手册 中文版</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6934503341380599822">Spring Security系列之一 简单介绍和实战 - 掘金</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.1024sou.com/article/56472.html">20210902#_【项目实践】一文带你搞定Spring Security + JWT - 1024搜-程序员专属的搜索引擎</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.springcloud.cc/spring-session.html">Spring Session 中文文档 参考手册 中文版</a></p>
-<p>springsecurity和shiro都是权限和认证的框架，目前公司有基于springsecurity开发集成包，目前使用结合使用过程梳理一下springsecurity的特性和注意事项和集成的要点</p>
-<p>目前引入的springsecurity的</p>
-<p>springsecurity -outh 2.2.2.6 和需要和session打交道的session-core和session-data-redis2.4.1</p>
-<p>利用session-redis来存储session</p>
-<p>Web系统中登录认证（Authentication）的核心就是<strong>凭证</strong>机制，无论是<code>Session</code>还是<code>JWT</code>，都是在用户成功登录时返回给用户一个凭证，后续用户访问接口需携带凭证来标明自己的身份。后端会对需要进行认证的接口进行安全判断，若凭证没问题则代表已登录就放行接口，若凭证有问题则直接拒绝请求。这个安全判断<strong>都是放在过滤器里统一处理的</strong>：</p>
-<p>一般需要实现 </p>
-<h3 id="需要实现UserDetails"><a href="#需要实现UserDetails" class="headerlink" title="需要实现UserDetails"></a>需要实现UserDetails</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AuthUser extends User UserDetails, CredentialsContainer</span><br></pre></td></tr></table></figure>
-
-<h3 id="实现loadUserByUsername"><a href="#实现loadUserByUsername" class="headerlink" title="实现loadUserByUsername"></a>实现loadUserByUsername</h3><p>org.springframework.security.core.userdetails.UserDetailsService.loadUserByUsername</p>
-<h3 id="PasswordEncoder-密码的认证"><a href="#PasswordEncoder-密码的认证" class="headerlink" title="PasswordEncoder 密码的认证"></a><strong>PasswordEncoder</strong> 密码的认证</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Bean</span><br><span class="line">public PasswordEncoder passwordEncoder() &#123;</span><br><span class="line">    &#x2F;&#x2F; 这里我们使用bcrypt加密算法，安全性比较高</span><br><span class="line">    return new BCryptPasswordEncoder();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="继承WebSecurityConfigurerAdapter"><a href="#继承WebSecurityConfigurerAdapter" class="headerlink" title="继承WebSecurityConfigurerAdapter"></a>继承WebSecurityConfigurerAdapter</h3><p>org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter</p>
-<blockquote>
-<p>由 authenticationManager() 的默认实现用来尝试获取 AuthenticationManager。如果被覆盖，应该使用 AuthenticationManagerBuilder 来指定 AuthenticationManager。<br>authenticationManagerBean() 方法可用于将生成的 AuthenticationManager 公开为 Bean。 userDetailsServiceBean() 可用于公开使用 AuthenticationManagerBuilder 作为 Bean 创建的最后填充的 UserDetailsService。 UserDetailsService 也将自动填充到 HttpSecurity.getSharedObject(Class) 以与其他 SecurityContextConfigurer （即 RememberMeConfigurer ）一起使用<br>例如，以下配置可用于在内存中注册身份验证，以公开内存中的 UserDetailsService：<br>UserDetailsService:<br>       @Override<br>       protected void configure(AuthenticationManagerBuilder auth) {<br>           auth<br>           // enable in memory based authentication with a user named<br>           // “user” and “admin”<br>           .inMemoryAuthentication().withUser(“user”).password(“password”).roles(“USER”).and()<br>                   .withUser(“admin”).password(“password”).roles(“USER”, “ADMIN”);<br>       }</p>
-<pre><code>   // Expose the UserDetailsService as a Bean
-   @Bean
-   @Override
-   public UserDetailsService userDetailsServiceBean() throws Exception &#123;
-       return super.userDetailsServiceBean();
-   &#125;</code></pre>
-</blockquote>
-<p>目前使用的方式设置认证的方式和控制那些需要被权限管理</p>
-<h3 id="继承SecurityMetadataSource"><a href="#继承SecurityMetadataSource" class="headerlink" title="继承SecurityMetadataSource"></a>继承SecurityMetadataSource</h3><p>org.springframework.security.access.SecurityMetadataSource</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实现动态的权限验证，当然要先要获取对应的资源，然后再将他们对应哪些角色可以访问的关系表示出来</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
 
 
       

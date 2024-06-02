@@ -269,6 +269,110 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-使用vue-cli脚手架" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/46994988.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/46994988.html">使用vue-cli脚手架</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="使用vue-cli脚手架"><a href="#使用vue-cli脚手架" class="headerlink" title="使用vue-cli脚手架"></a>使用vue-cli脚手架</h1><p>创建vue初始化项目<br>感觉vue init webpack-simple这样的方式适合小项目，vue init webpack这样的方式适合中大型项目，两种方式初始化Vue-Cli的项目的目录差别比较大，你可以发现使用vue init webpack这样的方式来初始化项目，默认提供了很多的webpack的配置，也更加的方便你对代理(跨域)、最终打包资源放到服务器什么目录、以及js、css、img和项目在打包过程等优化的配置等等</p>
+<p>当 Vue Loader 编译单文件组件中的 块时，它也会将所有遇到的资源 URL 转换为 webpack 模块请求。<br>webpack 和 Vue Loader 的结合为你提供了一个现代、灵活且极其强大的前端工作流，来帮助撰写 Vue.js 应用。<a target="_blank" rel="noopener" href="https://vue-loader.vuejs.org/zh/">vue-loader</a></p>
+<h1 id="转换规则"><a href="#转换规则" class="headerlink" title="转换规则"></a>转换规则</h1><p>资源 URL 转换会遵循如下规则：</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="使用vue-cli脚手架"><a href="#使用vue-cli脚手架" class="headerlink" title="使用vue-cli脚手架"></a>使用vue-cli脚手架</h1><p>创建vue初始化项目<br>感觉vue init webpack-simple这样的方式适合小项目，vue init webpack这样的方式适合中大型项目，两种方式初始化Vue-Cli的项目的目录差别比较大，你可以发现使用vue init webpack这样的方式来初始化项目，默认提供了很多的webpack的配置，也更加的方便你对代理(跨域)、最终打包资源放到服务器什么目录、以及js、css、img和项目在打包过程等优化的配置等等</p>
+<p>当 Vue Loader 编译单文件组件中的 块时，它也会将所有遇到的资源 URL 转换为 webpack 模块请求。<br>webpack 和 Vue Loader 的结合为你提供了一个现代、灵活且极其强大的前端工作流，来帮助撰写 Vue.js 应用。<a target="_blank" rel="noopener" href="https://vue-loader.vuejs.org/zh/">vue-loader</a></p>
+<h1 id="转换规则"><a href="#转换规则" class="headerlink" title="转换规则"></a>转换规则</h1><p>资源 URL 转换会遵循如下规则：</p>
+<ol>
+<li>有序列表如果路径是绝对路径 (例如 /images/foo.png)，会原样保留。</li>
+<li>有序列表如果路径以 . 开头，将会被看作相对的模块依赖，并按照你的本地文件系统上的目录结构进行解析。</li>
+<li>有序列表如果路径以 ~ 开头，其后的部分将会被看作模块依赖。这意味着你可以用该特性来引用一个 Node 依赖中的资源：</li>
+<li>有序列表如果路径以 @ 开头，也会被看作模块依赖。如果你的 webpack 配置中给 @ 配置了 alias，这就很有用了。所有 vue-cli 创建的项目都默认配置了将 @ 指向 /src。<br>在导入模块和文件的简写要注意还包括./这种是有特殊含义的</li>
+</ol>
+<h2 id="浅谈Vue-use"><a href="#浅谈Vue-use" class="headerlink" title="浅谈Vue.use"></a>浅谈Vue.use</h2><p>写一个组件命名part.vue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;loading-box&quot;&gt;</span><br><span class="line">       我是组件</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在js中引入上面这个组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 引入组件</span><br><span class="line">import LoadingComponent from &#39;.&#x2F;part.vue&#39;</span><br><span class="line">&#x2F;&#x2F; 定义 Loading 对象</span><br><span class="line">const Loading&#x3D;&#123;</span><br><span class="line">    &#x2F;&#x2F; install 是默认的方法。当外界在 use 这个组件的时候，就会调用本身的 install 方法，同时传一个 Vue 这个类的参数。</span><br><span class="line">    install:function(Vue)&#123;</span><br><span class="line">        Vue.component(&#39;Loading&#39;,LoadingComponent)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 导出</span><br><span class="line">export default Loading</span><br></pre></td></tr></table></figure>
+
+
+
+<p>注意如果 在其他地方用上面的index.js就必须要申明Vue.use(Loading)<br>当外界在 use 这个组件的时候，就会调用本身的 install 方法，同时传一个 Vue 这个类的参数。<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/89a05706917a">参考地址</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-网上收集的关于spring特点的总结和spring介绍" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">

@@ -269,6 +269,96 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ConcurrentHashMap解析-转载" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/b7c8f71.html" class="article-date">
+      <time datetime="2023-02-02T03:41:43.000Z" itemprop="datePublished">2023-02-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/09/java/hashmap-xiang-guan-lei-jie-xi/">HashMap相关类：Hashtable、LinkHashMap、TreeMap | HuanBlog</a> </p>
+<p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/07/java/shen-ru-jie-xi-concurrenthashmap-gan-shou-bing-fa-bian-cheng-zhi-hui/">深入解析ConcurrentHashMap：感受并发编程智慧 | HuanBlog</a></p>
+<p>本次先简要讨论ConcurrentHashMap 顺便讨论下HashMap,HashTable这些Map的数据的结构,线程安全,在get,put部分的业务逻辑</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/09/java/hashmap-xiang-guan-lei-jie-xi/">HashMap相关类：Hashtable、LinkHashMap、TreeMap | HuanBlog</a> </p>
+<p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/07/java/shen-ru-jie-xi-concurrenthashmap-gan-shou-bing-fa-bian-cheng-zhi-hui/">深入解析ConcurrentHashMap：感受并发编程智慧 | HuanBlog</a></p>
+<p>本次先简要讨论ConcurrentHashMap 顺便讨论下HashMap,HashTable这些Map的数据的结构,线程安全,在get,put部分的业务逻辑</p>
+<p>ConcurrentHashMap : 是线程安全的主要是通过node来加锁,同时要结构是数组+链表,但是在1.7的版本是数组加链表 使用segemen的分块锁来完成</p>
+<p>HashMap: 数据加链表 分为大概是 hash函数–hash冲突–扩容方案–线程安全的设计</p>
+<p>HashTable: 1.2版本现在使用的少,它是基于synchronize对象来加锁的</p>
+<p>fast-fail  fail-safe</p>
+<p>记录一个count在并发的操作和影响</p>
+<p>最后我把<a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/07/java/shen-ru-jie-xi-concurrenthashmap-gan-shou-bing-fa-bian-cheng-zhi-hui/">深入解析ConcurrentHashMap：感受并发编程智慧 | HuanBlog</a>的这篇文章总结下(jdk 1.8)</p>
+<h3 id="CAS与自旋锁"><a href="#CAS与自旋锁" class="headerlink" title="CAS与自旋锁"></a>CAS与自旋锁</h3><p>主要是在并发下处理</p>
+<h3 id="如何控制并发"><a href="#如何控制并发" class="headerlink" title="如何控制并发"></a>如何控制并发</h3><h3 id="添加数据：putVal"><a href="#添加数据：putVal" class="headerlink" title="添加数据：putVal()"></a>添加数据：putVal()</h3><h3 id="初始化数组：initTable"><a href="#初始化数组：initTable" class="headerlink" title="初始化数组：initTable()"></a>初始化数组：initTable()</h3><h3 id="修改节点总数：addCount"><a href="#修改节点总数：addCount" class="headerlink" title="修改节点总数：addCount()"></a>修改节点总数：addCount()</h3><h3 id="扩容方案：transfer"><a href="#扩容方案：transfer" class="headerlink" title="扩容方案：transfer()"></a>扩容方案：transfer()</h3>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-kafka小结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1242,113 +1332,6 @@
               <!-- 
               
               <p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/768513">Spring中异步注解@Async的使用、原理及使用时可能导致的问题-阿里云开发者社区</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mysql-json函数使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/7c7b32f9.html" class="article-date">
-      <time datetime="2022-11-23T12:07:46.000Z" itemprop="datePublished">2022-11-23</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/7c7b32f9.html">mysql_json函数使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57904266/how-to-use-mysql-json-contains-with-jpa-specification">How to use mysql “json_contains” with JPA Specification - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36249828/how-to-search-json-array-in-mysql">How to search JSON array in MySQL? - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/66576018/mysql-json-extract-value-of-property-based-on-criteria">json - MySQL JSON_EXTRACT value of property based on criteria - Stack Overflow</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57904266/how-to-use-mysql-json-contains-with-jpa-specification">How to use mysql “json_contains” with JPA Specification - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36249828/how-to-search-json-array-in-mysql">How to search JSON array in MySQL? - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/66576018/mysql-json-extract-value-of-property-based-on-criteria">json - MySQL JSON_EXTRACT value of property based on criteria - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fenglailea/article/details/124687284">spring jpa function(函数) JSON_EXTRACT 复杂查询，jpa josn查询_风.foxwho的博客-CSDN博客_jpa json查询</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.docs4dev.com/docs/zh/mysql/5.7/reference/json-search-functions.html#function_json-contains">MySql 中文文档 - 12.17.3 搜索 JSON 值的函数 | Docs4dev</a></p>
-<p>json字符串搜索模糊匹配等相关的内容</p>
-<p>1.JSON_SEARCH 直接使用这个来查询还可以模糊匹配</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	SELECT</span><br><span class="line">	JSON_SEARCH(</span><br><span class="line">&#39;[&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444417&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;,&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444416&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;]&#39;,</span><br><span class="line">		&#39;all&#39;,</span><br><span class="line">		&#39;%44444%&#39;,</span><br><span class="line">	NULL,</span><br><span class="line">	&#39;$**.sticker&#39;)</span><br></pre></td></tr></table></figure>
-
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM incident_report WHERE (JSON_SEARCH(users,&#39;one&#39;,&#39;39717&#39;,null,&#39;$**.id&#39;) is not null)</span><br><span class="line">SELECT users FROM incident_report LIMIT 10  15890    qrCode  44444403</span><br><span class="line">SELECT JSON_SEARCH(users,&#39;one&#39;,&#39;%51230%&#39;,null,&#39;$**.qrCode&#39;) FROM incident_report LIMIT 10</span><br></pre></td></tr></table></figure>
-
-<p> 2.JSON_EXTRACT(解析json数据),使用JSON_CONTAIN来查询 解析后的JSON信息</p>
-<p>对对于是数组里面的特定对象字段譬如 下面这种,这需要进一步抽取</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444417&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;,&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444416&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;]</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>JSON_CONTAINS(JSON_EXTRACT(json_field, ‘$[*].id’), 11, ‘$’)    </p>
-</blockquote>
-<pre><code>SELECT JSON_EXTRACT(users,&#39;$.id&#39;) FROM incident_report LIMIT 10
-SELECT JSON_EXTRACT(users, &#39;$[*].userTrips[*].id&#39;) FROM incident_report LIMIT 10
-SELECT users,JSON_CONTAINS(JSON_EXTRACT(users, &#39;$[*].userTrips[*].id&#39;), &#39;12689&#39;, &#39;$&#39;) FROM incident_report LIMIT 10</code></pre>
-<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/json-search-functions.html">https://dev.mysql.com/doc/refman/5.7/en/json-search-functions.html</a>)</p>
 
                -->
         </div>

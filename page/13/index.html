@@ -269,6 +269,95 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ambari-server中postgress启动" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/466081a0.html" class="article-date">
+      <time datetime="2021-03-10T07:59:20.000Z" itemprop="datePublished">2021-03-10</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/466081a0.html">ambari-server中postgress启动</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><img src="../img/image-20210310160022213.png" alt="image-20210310160022213"></p>
+<p> Unable to start PostgreSQL server. Status stopped. . Exiting</p>
+<p>bin  pg_ctl status </p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><img src="../img/image-20210310160022213.png" alt="image-20210310160022213"></p>
+<p> Unable to start PostgreSQL server. Status stopped. . Exiting</p>
+<p>bin  pg_ctl status </p>
+<p> systemctl start  postgresql.service</p>
+<p><img src="../img/image-20210310160212137.png" alt="image-20210310160212137"></p>
+<p>FATAL:  could not write lock file “postmaster.pid”: No space left on device</p>
+<p> df -h</p>
+<p><img src="../img/image-20210310160232827.png" alt="image-20210310160232827"></p>
+<p>systemctl start  postgresql.service</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-docker搭建单机kafka" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -2731,104 +2820,6 @@
 
 <p>version 对应的字段要有 ,同时 harber 地址要改的</p>
 <p>上面的这个 <strong>docker build -t NAME:$version .</strong>   是有个点的, 需要dockerfile文件的</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-gis初入门" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/6a9c1835.html" class="article-date">
-      <time datetime="2021-01-08T06:24:30.000Z" itemprop="datePublished">2021-01-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/6a9c1835.html">gis初入门</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>参考链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015674238">https://segmentfault.com/a/1190000015674238</a></p>
-<p>GIS是一个设计用来捕获、存储、操作（manipulate）、分析、管理和展示空间或图像数据的系统。</p>
-<p><strong>GIS 应用</strong> = <strong>基础底图</strong> + <strong>操作图层</strong> + <strong>任务</strong></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>参考链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015674238">https://segmentfault.com/a/1190000015674238</a></p>
-<p>GIS是一个设计用来捕获、存储、操作（manipulate）、分析、管理和展示空间或图像数据的系统。</p>
-<p><strong>GIS 应用</strong> = <strong>基础底图</strong> + <strong>操作图层</strong> + <strong>任务</strong></p>
-<ul>
-<li><strong>基础底图</strong>：可以简单地理解为就是地图，并且要求是一个不会频繁改变的地图。</li>
-<li><strong>操作图层</strong>：用户使用的主要图层，承载主要的待<strong>编辑、展示和分析</strong>的信息数据。</li>
-<li><strong>任务</strong>：如导航、地址编码等计算量比较大的分析任务。</li>
-</ul>
-<h2 id="GIS-数据和协议"><a href="#GIS-数据和协议" class="headerlink" title="GIS 数据和协议"></a>GIS 数据和协议</h2><p>由于 ArcGIS 在行业内的龙头地位，其指定的一系列数据格式和交换协议，成为 GIS 业界的标准协议。目前制定 GIS 协议的标准化组织为<a target="_blank" rel="noopener" href="http://www.opengeospatial.org/">开放地理空间协会（OGC）</a>，其制定的规范称为 <strong>OpenGIS</strong>（Open Geodata Interoperation Specification）。</p>
-<p>相关的接口和协议非常多，以后再一一补齐。目前大部分 demo 系统，导入的数据格式为 shp 文件，往往是由甲方直接提供、或者是网上的公开 GIS 服务提供商可提供下载的，不需要我们自行转换数据格式。ArcGIS 可以直接识别并导入，入库后也使用标准接口协议开放服务，比如 WMS（网络地图服务）和 WFS（网络要素服务）。</p>
-<h2 id="免费开源-GIS-软件"><a href="#免费开源-GIS-软件" class="headerlink" title="免费开源 GIS 软件"></a>免费开源 GIS 软件</h2><p>开源 GIS 软件，从大类来分，包含服务器版和桌面版（即桌面版）。显然我们最关注的是服务器版的 GIS 软件 / 组件。</p>
-<p>服务器版的部署架构和 ArcGIS 基本类似，也是分 web、GIS Server、database 三大模块，并且可以分开部署。</p>
-<p>参考链接<a target="_blank" rel="noopener" href="https://blog.csdn.net/sxausgyy/article/details/8151019">https://blog.csdn.net/sxausgyy/article/details/8151019</a></p>
-<p><strong>要素模型(Feature)</strong><br>要素是GeoTools中的核心术语，它是描述地理空间数据对<br>象的基本单位，它描述了一个现实世界中的客观地理实体，如:一条河流、一座桥梁都<br>可以理解为要素。</p>
-<p><strong>栅格数据</strong><br>栅格数据是从上向下拍摄的地球照片，使用离散单元存储其值，图片的每个像素点都有一个指定值<br>服务器本身存储，传输速度快，服务器压力小，多为png,jpg,gif<br>数据量大，更新慢</p>
-<p><strong>矢量数据</strong><br>矢量数据是仅仅存储节点，比如箭头，线条，点等。存储的是对象的轮廓，而栅格数据适合表达对象的内容。<br>矢量数据类型有点，线和多边形。<br>数量小，数据更新快<br>服务器压力大，技术要求高</p>
-<p><img src="../img/1334284682_7917.jpg" alt="1334284682_7917"></p>
-<p>在gist环境下回有图层的概念</p>
 
                -->
         </div>

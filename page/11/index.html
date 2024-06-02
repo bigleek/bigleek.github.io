@@ -269,6 +269,180 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-think-about-data-structure" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/b760fb1a.html" class="article-date">
+      <time datetime="2021-10-15T02:17:39.000Z" itemprop="datePublished">2021-10-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/b760fb1a.html">think-about-data-structure</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>为什么有数据结构的问题就是数据本来是无序和杂乱的<br>怎么在保存的时候方便后续更加方便查询和分析<br>如果是像记事本和word这种的确是可以使用单考虑到大量的数据就要考虑效率和成本</p>
+<p>最后就发现了很多方法</p>
+<ul>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>为什么有数据结构的问题就是数据本来是无序和杂乱的<br>怎么在保存的时候方便后续更加方便查询和分析<br>如果是像记事本和word这种的确是可以使用单考虑到大量的数据就要考虑效率和成本</p>
+<p>最后就发现了很多方法</p>
+<ul>
+<li>内存保存</li>
+<li>基于机械硬盘保存附以数据结构</li>
+<li>混合内存和硬盘保存包括数据的生命周期来实现</li>
+</ul>
+<h2 id="内存保存"><a href="#内存保存" class="headerlink" title="内存保存"></a>内存保存</h2><p><strong>redis</strong>,<strong>Cassandra</strong>,<strong>Neo4j</strong> 等将数据保存在内存中实现快速存储,同时还提供数据的持久化,和过期时间,同时包括其他的有效特性</p>
+<h2 id="磁盘保存"><a href="#磁盘保存" class="headerlink" title="磁盘保存"></a>磁盘保存</h2><ol>
+<li>二分查找: 将文件数据有序保存，使用二分查找来完成特定key的查找。</li>
+<li>哈希：用哈希将数据分割为不同的bucket</li>
+<li>B+树：使用B+树 或者 ISAM 等方法，可以减少外部文件的读取</li>
+<li>外部文件： 将数据保存为日志，并创建一个hash或者查找树映射相应的文件。</li>
+</ol>
+<p><img src="../img/352f30322f4a6f75726e616c362d31303234783530332e706e67.png" alt="basic lsm"></p>
+<p>基于硬盘的保存就要优先考虑磁盘原理,磁盘的探测器读取磁道的数据,所以数据是顺序读写的,且会预读取数据到内存,目前很多开发的分布式服务都基于此设计为(LSM Log Structured-Merge Tree) 包括kafka, hbase 等尽量避免顺序读写</p>
+<p>b+数这类设计目标提高数据的查询的效率,在数据保存的时候将数据建议归类以树状的结构排列,同时在包括叶子节点和根节点来实现快速找对数据节点</p>
+<p>通常数据库还有一个方式 WAL(writte ahaead log) 即写数据之前会先累积数据后在保存在</p>
+<p>现在常见的数据保存结构有哪些</p>
+<p>树状结构 b数,b+树,b-树</p>
+<p>线性 lsm结构 数据保存读写会累积不是覆盖这种</p>
+<p>数据库索引常见,b-tree,hash,gist,gin,sp-gist,brin</p>
+<p>方便查询</p>
+<p>方便读写</p>
+<blockquote>
+<p>   B-Tree 索引是 MySQL 数据库中使用最为频繁的索引类型，除了 Archive 存储引擎之外的其他所有的存储引擎都支持 B-Tree 索引。不仅仅在 MySQL 中是如此，实际上在其他的很多数据库管理系统中B-Tree 索引也同样是作为最主要的索引类型，这主要是因为B-Tree 索引的存储结构在数据库的数据检索中有非常优异的表现。<br>    一般来说， MySQL 中的 B-Tree 索引的物理文件大多都是以 Balance Tree 的结构来存储的，也就是所有实际需要的数据都存放于 Tree 的 Leaf Node ，而且到任何一个 Leaf Node 的最短路径的长度都是完全相同的，所以我们大家都称之为 B-Tree 索引当然，可能各种数据库（或 MySQL 的各种存储引擎）在存放自己的 B-Tree 索引的时候会对存储结构稍作改造。如 Innodb 存储引擎的 B-Tree 索引实际使用的存储结构实际上是 B+Tree ，也就是在 B-Tree 数据结构的基础上做了很小的改造，在每一个<strong>Leaf Node</strong> (叶子节点)上面出了存放索引键的相关信息之外，还存储了指向与该 Leaf Node 相邻的后一个 LeafNode 的指针信息，这主要是为了加快检索多个相邻 Leaf Node 的效率考虑。<br>    B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。<br>    在B+树上的常规检索，从根节点到叶子节点的搜索效率基本相当，不会出现大幅波动，而且基于索引的顺序扫描时，也可以利用双向指针快速左右移动，效率非常高。<br>    因此，B+树索引被广泛应用于数据库、文件系统等场景。顺便说一下，xfs文件系统比ext3/ext4效率高很多的原因之一就是，它的文件及目录索引结构全部采用B+树索引，而ext3/ext4的文件目录结构则采用Linked list, hashed B-tree、Extents/Bitmap等索引数据结构，因此在高I/O压力下，其IOPS能力不如xfs。</p>
+</blockquote>
+<p>所以使用</p>
+<h2 id="混合内存和硬盘保存包括数据的生命周期来实现"><a href="#混合内存和硬盘保存包括数据的生命周期来实现" class="headerlink" title="混合内存和硬盘保存包括数据的生命周期来实现"></a>混合内存和硬盘保存包括数据的生命周期来实现</h2><p>代表程序为 elasticsearch</p>
+<p><strong>数据过来会被建立索引保存在内存中后面会被保存在磁盘,数据的生命周期为hot  warm cold</strong> <strong>delete</strong></p>
+<table>
+<thead>
+<tr>
+<th>阶段 / action</th>
+<th>优先级设置</th>
+<th>取消跟随</th>
+<th>滚动索引</th>
+<th>分片分配</th>
+<th>只读</th>
+<th>强制段合并</th>
+<th>收缩索引</th>
+<th>冻结索引</th>
+<th>删除</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hot</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td>warm</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td>cold</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>√</td>
+</tr>
+</tbody></table>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-k8s-deploy-geoserver-activemq" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1239,110 +1413,6 @@
 
 
 
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ue4-pack-android" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/54f728db.html" class="article-date">
-      <time datetime="2021-07-07T08:15:57.000Z" itemprop="datePublished">2021-07-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/54f728db.html">ue4安卓打包</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="ue4安卓预制环境"><a href="#ue4安卓预制环境" class="headerlink" title="ue4安卓预制环境"></a>ue4安卓预制环境</h2><p>硬件要求</p>
-<h3 id="支持的最低GPU"><a href="#支持的最低GPU" class="headerlink" title="支持的最低GPU"></a>支持的最低GPU</h3><p>自4.25版起，以下GPU满足ES3.1的上述要求：</p>
-<ul>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="ue4安卓预制环境"><a href="#ue4安卓预制环境" class="headerlink" title="ue4安卓预制环境"></a>ue4安卓预制环境</h2><p>硬件要求</p>
-<h3 id="支持的最低GPU"><a href="#支持的最低GPU" class="headerlink" title="支持的最低GPU"></a>支持的最低GPU</h3><p>自4.25版起，以下GPU满足ES3.1的上述要求：</p>
-<ul>
-<li>Adreno 4xx</li>
-<li>Mali T6xx和更高版本</li>
-<li>Mali G71和更高版本</li>
-<li>PowerVR Rogue G6100</li>
-</ul>
-<p>下载安装安装开发SDK</p>
-<p><a target="_blank" rel="noopener" href="https://developer.nvidia.com/codeworks-android-archive">https://developer.nvidia.com/codeworks-android-archive</a></p>
-<p>选择 CodeWorks-1R7-windows_b166.exe 版本来实现</p>
-<p><img src="../img/image-20210707111300230.png" alt="image-20210707111300230"></p>
-<p>创建好的服务</p>
-<p><img src="../img/image-20210707103723169.png" alt="image-20210707103723169"></p>
-<p>配置安卓服务</p>
-<p><img src="../img/image-20210707103812966.png" alt="image-20210707103812966"></p>
-<p>设置层级为安卓</p>
-<p><img src="../img/image-20210707103855145.png" alt="image-20210707103855145"></p>
-<p>安装安卓sdk</p>
-<p><img src="../img/image-20210707124854167.png" alt="image-20210707124854167"></p>
-<p>ERROR: Android toolchain NDK r15c not supported; please use NDK r21 to NDK r23 (NDK r21b recommended)</p>
-<p>UATHelper: Packaging (Android (ETC2)): &gt; Task :app:compileDebugJavaWithJavac FAILED<br>UATHelper: Packaging (Android (ETC2)): The following annotation processors are not incremental: compiler-1.1.1.jar (android.arch.lifecycle:compiler:1.1.1).<br>UATHelper: Packaging (Android (ETC2)): Make sure all annotation processors are incremental to improve your build speed.<br>UATHelper: Packaging (Android (ETC2)): Z:\app\src\main\java\com\epicgames\ue4\GameActivity.java:3531: ����: �Ҳ�������<br>UATHelper: Packaging (Android (ETC2)):             powerManager.addThermalStatusListener(getMainExecutor(), new PowerManager.OnThermalStatusChangedListener() {<br>UATHelper: Packaging (Android (ETC2)): 32 actionable tasks: 3 executed, 29 up-to-date<br>UATHelper: Packaging (Android (ETC2)):                                                                                      ^<br>UATHelper: Packaging (Android (ETC2)):   ����:   �� OnThermalStatusChangedListener<br>UATHelper: Packaging (Android (ETC2)):   λ��: �� PowerManager<br>UATHelper: Packaging (Android (ETC2)): ע: ĳЩ�����ļ�ʹ�û򸲸����ѹ�ʱ�� API��<br>UATHelper: Packaging (Android (ETC2)): ע: �й���ϸ��Ϣ, ��ʹ�� -Xlint:deprecation ���±��롣<br>UATHelper: Packaging (Android (ETC2)): 1 ������<br>UATHelper: Packaging (Android (ETC2)): FAILURE: Build failed with an exception.<br>UATHelper: Packaging (Android (ETC2)): * What went wrong:<br>UATHelper: Packaging (Android (ETC2)): Execution failed for task ‘:app:compileDebugJavaWithJavac’.<br>UATHelper: Packaging (Android (ETC2)): &gt; Compilation failed; see the compiler error output for details.<br>UATHelper: Packaging (Android (ETC2)): * Try:<br>UATHelper: Packaging (Android (ETC2)): Run with –stacktrace option to get the stack trace. Run with –info or –debug option to get more log output. Run with –scan to get full insights.<br>UATHelper: Packaging (Android (ETC2)): * Get more help at <a target="_blank" rel="noopener" href="https://help.gradle.org/">https://help.gradle.org</a><br>UATHelper: Packaging (Android (ETC2)): BUILD FAILED in 8s</p>
-<p>需要安装Android_studio同时安装sdk</p>
-<p><img src="../img/image-20210707161238758.png" alt="image-20210707161238758"></p>
 
                -->
         </div>

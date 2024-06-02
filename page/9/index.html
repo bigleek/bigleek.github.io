@@ -269,6 +269,77 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-aliyun-service-alarm" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/7d4de1d4.html" class="article-date">
+      <time datetime="2022-03-08T02:16:22.000Z" itemprop="datePublished">2022-03-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/7d4de1d4.html">aliyun的服务警告</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <p><img src="../img/image-20220308101648269.png" alt="image-20220308101648269"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-curl-download-page-url-file" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1435,94 +1506,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-pack-linux-binary" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2aff3a72.html" class="article-date">
-      <time datetime="2022-01-07T05:29:02.000Z" itemprop="datePublished">2022-01-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2aff3a72.html">打包linux的bin二进制包</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>二进制的文件需要将压缩包的数据和shell脚本打包的为一个整体</p>
-<p>为避免多个sh文件使用 <strong>cat &lt;&lt; EOF</strong>  来生成上面的sh文件,这样只需要下面这个sh文件就可以将指定的文件夹压缩,同时添加 执行命令那部分内容</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;压缩文件。。。&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INSTALL_DIR=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line">tar -zcvf  <span class="variable">$INSTALL_DIR</span>/XXXX.tar.gz  <span class="variable">$INSTALL_DIR</span>/install/*</span><br><span class="line">cat &lt;&lt; <span class="string">EOF &gt;&gt;$INSTALL_DIR/install.sh</span></span><br><span class="line"><span class="string">#!/bin/bash</span></span><br><span class="line"><span class="string">#Test shell self-extracting</span></span><br><span class="line"><span class="string">TmpDir=/tmp/XXX</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">TARGET_DIR=./XXX</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if [ ! -d \$&#123;TmpDir&#125; ]; then</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    mkdir \$TmpDir</span></span><br><span class="line"><span class="string">    echo \$TmpDir  路径下不存在,正在创建</span></span><br><span class="line"><span class="string">  else</span></span><br><span class="line"><span class="string">    echo \$TmpDir 文件将会被覆盖</span></span><br><span class="line"><span class="string">    rm -rf  \$TmpDir/*</span></span><br><span class="line"><span class="string">fi</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ARCHIVE=\$(awk &#x27;/^__ARCHIVE_BELOW__/ &#123;print NR + 1; exit 0; &#125;&#x27; &quot;\$0&quot;)</span></span><br><span class="line"><span class="string">tail -n+\$ARCHIVE &quot;\$0&quot; | tar -xzvm -C \$TmpDir &gt; /dev/null 2&gt;&amp;1 3&gt;&amp;1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if [ ! -d \$&#123;TARGET_DIR&#125; ]; then</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">       echo \$TARGET_DIR 路径下不存在现在创建</span></span><br><span class="line"><span class="string">       mkdir \$&#123;TARGET_DIR&#125;</span></span><br><span class="line"><span class="string">  else</span></span><br><span class="line"><span class="string">       echo \$TARGET_DIR 路径下的文件将会被覆盖</span></span><br><span class="line"><span class="string">       rm -rf  \$&#123;TARGET_DIR&#125;/*</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">fi</span></span><br><span class="line"><span class="string">cp -R \$TmpDir/*  \$&#123;TARGET_DIR&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo &#x27;-------------------------------------------------------------------------------------------------&#x27;</span></span><br><span class="line"><span class="string">echo &#x27;********************************准备初始化 服务****************************************&#x27;</span></span><br><span class="line"><span class="string">echo &#x27;-------------------------------------------------------------------------------------------------&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/bin/sh  \$TARGET_DIR/install.sh</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">exit 0</span></span><br><span class="line"><span class="string">#This line must be the last line of the file</span></span><br><span class="line"><span class="string">__ARCHIVE_BELOW__</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$INSTALL_DIR</span>/install.sh <span class="variable">$INSTALL_DIR</span>/XXX.tar.gz &gt;  <span class="variable">$INSTALL_DIR</span>/XXX_install.run</span><br><span class="line">rm -f XXX.tar.gz</span><br><span class="line">rm -f install.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>二进制的文件需要将压缩包的数据和shell脚本打包的为一个整体</p>
-<p>为避免多个sh文件使用 <strong>cat &lt;&lt; EOF</strong>  来生成上面的sh文件,这样只需要下面这个sh文件就可以将指定的文件夹压缩,同时添加 执行命令那部分内容</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;压缩文件。。。&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INSTALL_DIR=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line">tar -zcvf  <span class="variable">$INSTALL_DIR</span>/XXXX.tar.gz  <span class="variable">$INSTALL_DIR</span>/install/*</span><br><span class="line">cat &lt;&lt; <span class="string">EOF &gt;&gt;$INSTALL_DIR/install.sh</span></span><br><span class="line"><span class="string">#!/bin/bash</span></span><br><span class="line"><span class="string">#Test shell self-extracting</span></span><br><span class="line"><span class="string">TmpDir=/tmp/XXX</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">TARGET_DIR=./XXX</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if [ ! -d \$&#123;TmpDir&#125; ]; then</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    mkdir \$TmpDir</span></span><br><span class="line"><span class="string">    echo \$TmpDir  路径下不存在,正在创建</span></span><br><span class="line"><span class="string">  else</span></span><br><span class="line"><span class="string">    echo \$TmpDir 文件将会被覆盖</span></span><br><span class="line"><span class="string">    rm -rf  \$TmpDir/*</span></span><br><span class="line"><span class="string">fi</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ARCHIVE=\$(awk &#x27;/^__ARCHIVE_BELOW__/ &#123;print NR + 1; exit 0; &#125;&#x27; &quot;\$0&quot;)</span></span><br><span class="line"><span class="string">tail -n+\$ARCHIVE &quot;\$0&quot; | tar -xzvm -C \$TmpDir &gt; /dev/null 2&gt;&amp;1 3&gt;&amp;1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if [ ! -d \$&#123;TARGET_DIR&#125; ]; then</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">       echo \$TARGET_DIR 路径下不存在现在创建</span></span><br><span class="line"><span class="string">       mkdir \$&#123;TARGET_DIR&#125;</span></span><br><span class="line"><span class="string">  else</span></span><br><span class="line"><span class="string">       echo \$TARGET_DIR 路径下的文件将会被覆盖</span></span><br><span class="line"><span class="string">       rm -rf  \$&#123;TARGET_DIR&#125;/*</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">fi</span></span><br><span class="line"><span class="string">cp -R \$TmpDir/*  \$&#123;TARGET_DIR&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo &#x27;-------------------------------------------------------------------------------------------------&#x27;</span></span><br><span class="line"><span class="string">echo &#x27;********************************准备初始化 服务****************************************&#x27;</span></span><br><span class="line"><span class="string">echo &#x27;-------------------------------------------------------------------------------------------------&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/bin/sh  \$TARGET_DIR/install.sh</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">exit 0</span></span><br><span class="line"><span class="string">#This line must be the last line of the file</span></span><br><span class="line"><span class="string">__ARCHIVE_BELOW__</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$INSTALL_DIR</span>/install.sh <span class="variable">$INSTALL_DIR</span>/XXX.tar.gz &gt;  <span class="variable">$INSTALL_DIR</span>/XXX_install.run</span><br><span class="line">rm -f XXX.tar.gz</span><br><span class="line">rm -f install.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
     </div>
  -->
 

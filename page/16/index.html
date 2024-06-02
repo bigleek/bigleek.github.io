@@ -269,6 +269,97 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-vue中axios中post跨域SpringBoot获取不到RequestBody数据" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/552952049.html" class="article-date">
+      <time datetime="2020-04-11T18:59:20.000Z" itemprop="datePublished">2020-04-12</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>目前使用axios实现vue中与后台数据交互,目前GET,DELETE都是正常使用,但是会有跨域的问题,我就是临时在返回头加上了Access-Control-Allow-Origin:”*”</p>
+<p>但是一直由于POST提交数据后台数据一直获取不到RequestBody,我之前使用postman测试都是可以通过的,显示<strong>status failure</strong>后台也根本不报错,因为获取不到</p>
+<p>开始是以为是我格式问题换了几种数据</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>目前使用axios实现vue中与后台数据交互,目前GET,DELETE都是正常使用,但是会有跨域的问题,我就是临时在返回头加上了Access-Control-Allow-Origin:”*”</p>
+<p>但是一直由于POST提交数据后台数据一直获取不到RequestBody,我之前使用postman测试都是可以通过的,显示<strong>status failure</strong>后台也根本不报错,因为获取不到</p>
+<p>开始是以为是我格式问题换了几种数据</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">axios.post(<span class="string">&#x27;http://localhost:8080/xxx/model/&#x27;</span> + path, modelIds).then(response = &gt; &#123;<span class="built_in">this</span>.searchContent()</span><br><span class="line">&#125;).catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error);</span><br><span class="line">&#125;);</span><br><span class="line">axios.post(<span class="string">&#x27;http://localhost:8080/xxx/process/model/27501&#x27;</span>, &#123;</span><br><span class="line">    comment: <span class="string">&#x27;Fred&#x27;</span>,</span><br><span class="line">    userName: <span class="string">&#x27;Flintstone&#x27;</span></span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(response);</span><br><span class="line">&#125;).catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> options = &#123;</span><br><span class="line">    method: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">    headers: &#123;<span class="string">&#x27;content-type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;,</span><br><span class="line">    data: modelIds,</span><br><span class="line">    url: <span class="string">&#x27;http://localhost:8080/xxx/model/&#x27;</span> + path</span><br><span class="line">&#125;;</span><br><span class="line">axios(options)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>还有就是PUT提交时 application/x-www-form-urlencoded,后台用RequestParam,或者不写都可以接受,对象的话要set,get方法,我刚开始用的form-data,SpringBoot是获取不到数据的</p>
+<p>我目前用的是nginx,代理</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-hexo的next主题换到Yelee(Yilia)" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1867,81 +1958,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-VScode优化和插件推荐" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2425517015.html" class="article-date">
-      <time datetime="2020-03-28T21:38:31.000Z" itemprop="datePublished">2020-03-29</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2425517015.html">VScode优化和插件推荐</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <h4 id="Auto-Close-Tag-自动闭合标签"><a href="#Auto-Close-Tag-自动闭合标签" class="headerlink" title="Auto Close Tag 自动闭合标签"></a>Auto Close Tag 自动闭合标签</h4><h4 id="Auto-Rename-Tag-尾部闭合标签同步修改"><a href="#Auto-Rename-Tag-尾部闭合标签同步修改" class="headerlink" title="Auto Rename Tag 尾部闭合标签同步修改"></a>Auto Rename Tag 尾部闭合标签同步修改</h4><h4 id="Live-Server-实时预览"><a href="#Live-Server-实时预览" class="headerlink" title="Live Server 实时预览"></a>Live Server 实时预览</h4><h4 id="Bracket-Pair-Colorizer-用不同颜色高亮显示匹配的括号"><a href="#Bracket-Pair-Colorizer-用不同颜色高亮显示匹配的括号" class="headerlink" title="Bracket Pair Colorizer 用不同颜色高亮显示匹配的括号"></a>Bracket Pair Colorizer 用不同颜色高亮显示匹配的括号</h4><h4 id="Highlight-Matching-Tag-高亮显示匹配标签"><a href="#Highlight-Matching-Tag-高亮显示匹配标签" class="headerlink" title="Highlight Matching Tag 高亮显示匹配标签"></a>Highlight Matching Tag 高亮显示匹配标签</h4><h4 id="Vscode-icons-VSCode-文件图标"><a href="#Vscode-icons-VSCode-文件图标" class="headerlink" title="Vscode-icons VSCode 文件图标"></a>Vscode-icons VSCode 文件图标</h4><h3 id="优化字段的字体"><a href="#优化字段的字体" class="headerlink" title="优化字段的字体"></a>优化字段的字体</h3><p> 需要编辑 Editor: Font Family 下我的设置<strong>‘Droid Sans Mono’, ‘monospace’, monospace, ‘Droid Sans Fallback’</strong></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li></ul>
     </div>
  -->
 
