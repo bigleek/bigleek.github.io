@@ -269,6 +269,304 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Ubuntu给外接设备修改分辨率" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2232115083.html" class="article-date">
+      <time datetime="2020-08-18T07:13:33.000Z" itemprop="datePublished">2020-08-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
+<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
+<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
+
+<p>cvt 2560 1440 来看分辨率的最优设置</p>
+<p>编辑 ~/.profile的文件来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo xrandr --newmode &quot;2560x1440_74.97&quot;  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync</span><br><span class="line">sudo xrandr --newmode &quot;2560x1440_60.00&quot;  312.25  2560 2752 3024 3488  1440 1443 1448 1493 -hsync +vsync</span><br><span class="line"></span><br><span class="line">sudo xrandr --addmode DP-1 &quot;2560x1440_74.97&quot;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://imlike.cc/img/1597749619474.png"><img src="../img/1597749619474.png" alt="1597749619474"></a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Jenkins的遇到的坑" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1581320389.html" class="article-date">
+      <time datetime="2020-08-04T07:12:38.000Z" itemprop="datePublished">2020-08-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1581320389.html">Jenkins的遇到的坑</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p>
+<h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p>
+<ol>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p>
+<h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p>
+<ol>
+<li>网上看到的是配置没到到 jenkins_home/workspace 下面的project,</li>
+</ol>
+<p>但是我看Jenkins的配置是对的,在对应的文件夹下面是有配置</p>
+<ol>
+<li>网上给的Jenkins迁移job的问题我看了不是这个问题</li>
+</ol>
+<h4 id="我遇到的是job下面的config-xml-maven2-module失败导致的"><a href="#我遇到的是job下面的config-xml-maven2-module失败导致的" class="headerlink" title="我遇到的是job下面的config.xml maven2-module失败导致的"></a>我遇到的是job下面的config.xml maven2-module失败导致的</h4><p>最后解决方案是重启tomcat不是Jenkins是,重启Jenkins是 <code>URL/jenkins/restart</code>, 看到tomcat的日志出现解析 jobs下面的各个job下面的config.xml 出问题 <strong><code>maven2-module</code></strong> ,对于非maven的项目就可以直接解析, 原来是 Maven Integration 插件不存在导致,原有的maven项目不能解析和显示</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-树莓派下面搭建pgsql" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1327663525.html" class="article-date">
+      <time datetime="2020-06-19T07:09:18.000Z" itemprop="datePublished">2020-06-19</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1327663525.html">树莓派下面搭建pgsql</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>搭建pgsql的环境查看的文档</p>
+<p>怎么在一台树莓派上安装 Postgres 数据库</p>
+<p>树莓派中安装MySQL 5.7<br>感慨是准备是安装MySQL的,树莓派的环境 : Linux raspberrypi 4.19.97-v7l+ #1294 2020 armv7l</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>搭建pgsql的环境查看的文档</p>
+<p>怎么在一台树莓派上安装 Postgres 数据库</p>
+<p>树莓派中安装MySQL 5.7<br>感慨是准备是安装MySQL的,树莓派的环境 : Linux raspberrypi 4.19.97-v7l+ #1294 2020 armv7l</p>
+<p>目前直接用 sudo apt-get install mysql-service 但是不行返回结果</p>
+<p>没有可用的软件包 mysql-server，但是它被其它的软件包引用了。<br>这可能意味着这个缺失的软件包可能已被废弃，<br>或者只能在其他发布源中找到<br>然而下列软件包会取代它：<br>mariadb-server-10.0</p>
+<p>目前来说直接安装的路被堵死</p>
+<p>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb">http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb</a></p>
+<p>sudo dpkg -i mysql-common_5.8+1.0.2_all.deb<br>sudo dpkg -i mysql-client-core-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-client-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-server-core-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-server-5.7_5.7.18-1_armhf.deb<br>上面的命令是直接在debian上下载 arm版本的MySQL但是现在访问网站已经找不到对于的deb包</p>
+<p>而且在MySQL官网也没找到官方下载链接 arm的包</p>
+<p>访问<a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/</a> 拿到对于的deb包版本为5.7.26-1,比上面的高</p>
+<p>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb">http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb</a></p>
+<p>sudo dpkg -i mysql-common_5.8+1.0.2_all.deb<br>sudo dpkg -i mysql-client-core-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i mysql-client-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i     mysql-server-core-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i mysql-server-5.7_5.7.26-1+b1_armhf.deb<br>安装后显示</p>
+<p>dpkg: 依赖关系问题使得 mysql-server-core-5.7 的配置工作不能继续：<br>mysql-server-core-5.7 依赖于 libaio1 (&gt;= 0.3.93)；然而：<br>未安装软件包 libaio1。<br>mysql-server-core-5.7 依赖于 libc6 (&gt;= 2.29)；然而：<br>系统中 libc6:armhf 的版本为 2.28-10+rpi1。<br>mysql-server-core-5.7 依赖于 libstdc++6 (&gt;= 9)；然而：<br>系统中 libstdc++6:armhf 的版本为 8.3.0-6+rpi1。</p>
+<p>依赖太多找不到目前放弃安装MySQL使用官方推进的Mariadb<br>sudo apt-get install mariadb-server</p>
+<p>当服务器安装完成后，你需要运行：</p>
+<p>sudo mysql_secure_installation<br>来为你的数据库设置安全。</p>
+<p>主要这个用途是设置你 root 的密码，root 的远程访问权限，是否允许匿名访问，是否允许远程访问等。</p>
+<p>如果你只是测试在本地使用这个数据库，你可以不用设置这个。</p>
+<p>但是我们还是建议你设置。</p>
+<p>当前使用pi这个用户无法登陆Mariadb的需要用root登陆</p>
+<p>CREATE USER ‘pi’@’%’ IDENTIFIED BY ‘123’;<br>GRANT USAGE ON . TO ‘pi’@’%’;<br>GRANT ALL PRIVILEGES ON . TO ‘pi’@’%’ IDENTIFIED BY ‘123’ WITH GRANT OPTION;<br>FLUSH PRIVILEGES;</p>
+<p>重启服务器的命令是：</p>
+<p>root@raspberrypi:~# service mariadb restart</p>
+<p>安装pgsql<br>主要参考下面的博客文章 怎么在一台树莓派上安装 Postgres 数据库</p>
+<p>安装pgsql还是简单的 首先输入命令</p>
+<p>apt-get install postgresql</p>
+<p>先安装后软件已经有客户端了,同时会带也会初始化的用户 : postgres</p>
+<p>Postgres 用户去配置数据库：</p>
+<p>sudo su postgres</p>
+<p>初始化一个新的用户(pi) createuser pi -P –interactive</p>
+<p>PostgreSQL 配置允许远程连接：</p>
+<p>1、 编辑 PostgreSQL 配置文件 /etc/postgresql/9.6/main/postgresql.conf ，取消 listen_addresses 行的注释，并把它的值从 localhost 改变成 *。然后保存并退出。</p>
+<p>2、 编辑 pg_hba 配置文件 /etc/postgresql/9.6/main/postgresql.conf，将 127.0.0.1/32 改变成 0.0.0.0/0 （对于IPv4）和将 ::1/128 改变成 ::/0 （对于 IPv6）。然后保存并退出。</p>
+<p>3、 重启 PostgreSQL 服务： sudo service postgresql restart。</p>
+<p>sudo service postgresql restart</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-知识管理工具" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1189,429 +1487,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-acitiviti的NativeQuery" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2572672426.html" class="article-date">
-      <time datetime="2020-05-03T09:06:08.000Z" itemprop="datePublished">2020-05-03</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2572672426.html">acitiviti的NativeQuery</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="有写过activiti-activiti数据库的分类"><a href="#有写过activiti-activiti数据库的分类" class="headerlink" title="有写过activiti  activiti数据库的分类 "></a>有写过activiti <a href="2197510555.html"> activiti数据库的分类 </a></h3><p>​          之前有<strong>Query接口</strong>但是自定义程度太低,针对复杂的查询还是需要**NativeQuery **还是需要用下面是我转载的一篇文章 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lyh421/p/6474392.html">2017.2.21 activiti实战–第十三章–流量数据查询与跟踪（一）查询接口介绍及运行时数据查询</a></p>
-<p><strong>第十三章 流量数据查询与跟踪</strong></p>
-<p>本章讲解运行时与历史数据的查询方法。主要包含三种：标准查询，Native查询，CustomSql查询。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="有写过activiti-activiti数据库的分类"><a href="#有写过activiti-activiti数据库的分类" class="headerlink" title="有写过activiti  activiti数据库的分类 "></a>有写过activiti <a href="2197510555.html"> activiti数据库的分类 </a></h3><p>​          之前有<strong>Query接口</strong>但是自定义程度太低,针对复杂的查询还是需要**NativeQuery **还是需要用下面是我转载的一篇文章 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lyh421/p/6474392.html">2017.2.21 activiti实战–第十三章–流量数据查询与跟踪（一）查询接口介绍及运行时数据查询</a></p>
-<p><strong>第十三章 流量数据查询与跟踪</strong></p>
-<p>本章讲解运行时与历史数据的查询方法。主要包含三种：标准查询，Native查询，CustomSql查询。</p>
-<p><strong>13.1 Query API</strong></p>
-<p>Activiti的查询API分为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 标准查询</span><br><span class="line">  以Java对象的方式，创建一个指定类型的Query对象，然后链式编程查询。</span><br><span class="line">  缺点：不支持复杂的查询。</span><br><span class="line">2 Nativit查询</span><br><span class="line">  采用标准SQL的方式查询，因此支持复杂的查询。</span><br><span class="line">  缺点：仅支持部分对象的查询。</span><br></pre></td></tr></table></figure>
-
-<p><strong>（1）Query接口与NativeQuery</strong></p>
-<p>Query接口：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 （I）Query&lt;...&gt;</span><br><span class="line">2       asc()                    T</span><br><span class="line">3       desc()                   T</span><br><span class="line">4       count()                  long</span><br><span class="line">5       singleResult()           U</span><br><span class="line">6       list()                   List&lt;U&gt;</span><br><span class="line">7       listPage(int,int)        List&lt;U&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>NativeQuery接口（可以看到与Query无区别）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 （I）NativeQuery&lt;...&gt;</span><br><span class="line">2       asc()                    T</span><br><span class="line">3       desc()                   T</span><br><span class="line">4       count()                  long</span><br><span class="line">5       singleResult()           U</span><br><span class="line">6       list()                   List&lt;U&gt;</span><br><span class="line">7       listPage(int,int)        List&lt;U&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>Query接口的子接口：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> 1 UserQuery</span><br><span class="line"> 2 GroupQuery</span><br><span class="line"> 3</span><br><span class="line"> 4 JobQuery</span><br><span class="line"> 5 ProcessDefinitionQuery</span><br><span class="line"> 6 DeploymentQuery</span><br><span class="line"> 7 ModelQuery</span><br><span class="line"> 8 TaskQuery</span><br><span class="line"> 9 ExecutionQuery</span><br><span class="line">10 ProcessInstanceQuery</span><br><span class="line">11</span><br><span class="line">12 HistroricProcessInstanceQuery</span><br><span class="line">13 HistroricTaskInstanceQuery</span><br><span class="line">14 HistroricActivityInstanceQuery</span><br><span class="line">15 HistroricDetailQuery</span><br><span class="line">16 HistroricVariableInstanceQuery</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>NativeQuery接口的子接口（正如前面所说，NativeQuery只支持部分流程对象）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> 1 UserQuery</span><br><span class="line"> 2 GroupQuery</span><br><span class="line"> 3</span><br><span class="line"> 4 JobQuery</span><br><span class="line"> 5 ProcessDefinitionQuery</span><br><span class="line"> 6 DeploymentQuery</span><br><span class="line"> 7 ModelQuery</span><br><span class="line"> 8 NativeTaskQuery</span><br><span class="line"> 9 NativeExecutionQuery</span><br><span class="line">10 NativeProcessInstanceQuery</span><br><span class="line">11</span><br><span class="line">12 NativeHistroricProcessInstanceQuery</span><br><span class="line">13 NativeHistroricTaskInstanceQuery</span><br><span class="line">14 NativeHistroricActivityInstanceQuery</span><br><span class="line">15 HistroricDetailQuery</span><br><span class="line">16 HistroricVariableInstanceQuery</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><strong>（2）使用xxxService创建查询</strong></p>
-<p>运行时与历史数据涉及到的Service有：RuntimeService，TaskService，HistoryService。</p>
-<p>这里以TaskService为例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 （I）TaskService</span><br><span class="line">2    createTaskQuery（）             TaskQuery</span><br><span class="line">3    createNativeTaskQuery（）       NativeTaskQuery</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>13.2 运行时数据查询</strong></p>
-<p>运行时涉及到的Service是：RuntimeService，TaskService。</p>
-<p><strong>（1）流程对象对应的数据库表</strong></p>
-<p>Activiti提供了通过流程对象获取对应表名的接口，比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 String tableName &#x3D; managementService.getTableName(Task.Class)</span><br><span class="line">&#x2F;&#x2F;此时返回的tableName &#x3D; &quot;ACT_RU_TASK&quot;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>下面列出流程对象对应的数据库表名。</p>
-<table>
-<thead>
-<tr>
-<th>类名</th>
-<th>表名</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>**.task.Task</td>
-<td>ACT_RU_TASK</td>
-</tr>
-<tr>
-<td>**.runtime.Job</td>
-<td>ACT_RU_JOB</td>
-</tr>
-<tr>
-<td>**.runtime.Execution</td>
-<td>ACT_RU_EXECUTION</td>
-</tr>
-<tr>
-<td>**.runtime.ProcessInstance</td>
-<td>ACT_RU_<strong>EXECUTION</strong></td>
-</tr>
-<tr>
-<td>**.repository.ProcessDefinition</td>
-<td>ACT_RE_PROCDEF</td>
-</tr>
-<tr>
-<td>**.repository.Deployment</td>
-<td>ACT_RE_DEPLOYMENT</td>
-</tr>
-<tr>
-<td>**.history.HistoricProcessInstance</td>
-<td>ACT_HI_PROCINST</td>
-</tr>
-<tr>
-<td>**.history.HistoricActivityInstance</td>
-<td>ACT_HI_ACTINST</td>
-</tr>
-<tr>
-<td>**.history.HistoricDetail</td>
-<td>ACT_HI_<strong>DETAIL</strong></td>
-</tr>
-<tr>
-<td>**.history.HistoricVariableUpdate</td>
-<td>ACT_HI_<strong>DETAIL</strong></td>
-</tr>
-<tr>
-<td>**.history.HistoricFormProperty</td>
-<td>ACT_HI_<strong>DETAIL</strong></td>
-</tr>
-<tr>
-<td>**.history.HistoricTaskInstance</td>
-<td>ACT_HI_TASKINST</td>
-</tr>
-<tr>
-<td>**.history.HistoricVariableInstance</td>
-<td>ACT_HI_VARINST</td>
-</tr>
-</tbody></table>
-<p><strong>（2）任务查询</strong></p>
-<p>任务查询的时候，一般都需要满足<strong>分页查询</strong>的要求。所以标准查询无法做到，采用Native查询。从前面的接口介绍中可以看出，<strong>Native</strong>TaskQuery是有的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1 List&lt;Task&gt; tasks &#x3D; taskService.createNativeTaskQuery()</span><br><span class="line">2                    .sql(&quot;SELECT * FROM ACT_RU_TASK T WHERE T.NAME_ &#x3D; #&#123;taskName&#125;&quot; ) &#x2F;&#x2F;此处的表明也可通过managementService.getTableName(Task.Class)获得</span><br><span class="line">3                    .parameter(&quot;taskName&quot;,&quot;人事审批&quot;)</span><br><span class="line">4                    .listPage()；&#x2F;&#x2F;使用list()则不分页</span><br></pre></td></tr></table></figure>
-
-
-
-<p>如果不需要分页，采用标准查询也可以完成task的查询功能。</p>
-<p>如果要条件查询，只需要修改sql语句，把 = 换做 like 即可。</p>
-<p><strong>（2）查询参与的流程</strong></p>
-<p>需求：查询已经办理过的流程，以及跟踪流程的办理情况。</p>
-<p>使用标准查询：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1 &#x2F;&#x2F;第9章时已经介绍过ProcessInstance与Execution的关系为一对多</span><br><span class="line">2 List&lt;ProcessInstance&gt; processInstanceList &#x3D; runtimeService.createProcessInstanceQuery().list();</span><br><span class="line">3</span><br><span class="line">4 List&lt;Execution&gt; executionList &#x3D; runtimeService.createExecutionQuery().list();</span><br></pre></td></tr></table></figure>
-
-
-
-<p>但是ProcessInstanceQuery与ExecutionQuery均没有提供”查询某个用户相关的流程”这个接口。所以这时需要用到Native查询。</p>
-<p>native查询的用法前面已经讲过。sql语句如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1 --用于native查询的sql语句</span><br><span class="line">2 SELECT RES.* FROM ACT_RU_EXECUTION RES</span><br><span class="line">3 LEFT JOIN ACT_HI_TASKINST ART</span><br><span class="line">4 ON ART.PROC_INST_ID_ &#x3D; RES.PROC_INST_ID_</span><br><span class="line">5 WHERE ART.ASSIGNEE_ &#x3D; #&#123;userId&#125;</span><br><span class="line">6 AND ACT_ID_ IS NOT NULL</span><br><span class="line">7 AND IS_ACTIVE_ &#x3D; &#39;TRUE&#39;</span><br><span class="line">8 ORDER BY START_TIME_ DESC</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ubuntu目前经常用到的命令" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1501012444.html" class="article-date">
-      <time datetime="2020-04-25T07:55:33.000Z" itemprop="datePublished">2020-04-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1501012444.html">ubuntu目前经常用到的命令</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="最近常用的方法"><a href="#最近常用的方法" class="headerlink" title="最近常用的方法"></a>最近常用的方法</h3><ul>
-<li><p>Linux下软链接</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/node-v12.16.2-linux-x64/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/node-v12.16.2-linux-x64/npm /usr/<span class="built_in">local</span>/bin/npm</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export PATH=&quot;/usr/local/node-v12.16.2-linux-x64/bin:$PATH&quot;&#x27;</span> &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">sudo chown  -R leek node-v12.16.2-linux-x64  更改用户权限</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="最近常用的方法"><a href="#最近常用的方法" class="headerlink" title="最近常用的方法"></a>最近常用的方法</h3><ul>
-<li><p>Linux下软链接</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/node-v12.16.2-linux-x64/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/node-v12.16.2-linux-x64/npm /usr/<span class="built_in">local</span>/bin/npm</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export PATH=&quot;/usr/local/node-v12.16.2-linux-x64/bin:$PATH&quot;&#x27;</span> &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">sudo chown  -R leek node-v12.16.2-linux-x64  更改用户权限</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>终端走代理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:7890   </span><br><span class="line">export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:7891</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-树莓派天翼云盘目录索引" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/759123676.html" class="article-date">
-      <time datetime="2020-04-19T08:36:28.000Z" itemprop="datePublished">2020-04-19</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/759123676.html">树莓派天翼云盘目录索引</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://ventoso.top/2020/03/13/sharelist/">或许是最好用的天翼云目录索引程序-sharelist</a></p>
-<p>sharelist <a target="_blank" rel="noopener" href="https://github.com/reruin/sharelist">项目地址</a></p>
-<p>1 该项目需要先有nodejs的环境,注意树莓派arm版本的</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://ventoso.top/2020/03/13/sharelist/">或许是最好用的天翼云目录索引程序-sharelist</a></p>
-<p>sharelist <a target="_blank" rel="noopener" href="https://github.com/reruin/sharelist">项目地址</a></p>
-<p>1 该项目需要先有nodejs的环境,注意树莓派arm版本的</p>
-<blockquote>
-<p>npm config set registry <a target="_blank" rel="noopener" href="https://registry.npm.taobao.org/">https://registry.npm.taobao.org</a></p>
-<p> npm install -g pm2</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">|   ShareList is installing ...</span><br><span class="line">install.sh: 29: install.sh: npm: not found</span><br><span class="line">install.sh: 30: install.sh: npm: not found</span><br><span class="line">install.sh: 32: install.sh: pm2: not found</span><br><span class="line">install.sh: 33: install.sh: pm2: not found</span><br><span class="line">install.sh: 34: install.sh: pm2: not found</span><br></pre></td></tr></table></figure>
-
-<p>中间出现问题安装完npm还有这个问题</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">PATH=/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/usr/sbin:/usr/bin:/sbin:/bin</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;+============================================================+&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;|                    ShareList Installer                     |&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;|                                                            |&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;|                                         &lt;reruin@gmail.com&gt; |&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;|------------------------------------------------------------|&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;|                                         https://reruin.net |&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;+============================================================+&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\n|   ShareList is installing ... &quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># deps</span></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">&quot;<span class="subst">$(command -v apt-get)</span>&quot;</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  apt-get install -y curl &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">  curl -sL https://deb.nodesource.com/setup_8.x | bash - &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">  apt-get install -y nodejs &gt;/dev/null 2&gt;&amp;1</span><br><span class="line"><span class="keyword">elif</span> [ -n <span class="string">&quot;<span class="subst">$(command -v yum)</span>&quot;</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  yum install -y curl &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">  curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">  yum install -y nodejs &gt;/dev/null 2&gt;&amp;1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">npm install</span><br><span class="line">npm install pm2 -g</span><br><span class="line"></span><br><span class="line">pm2 start app.js --name sharelist --env prod</span><br><span class="line">pm2 save</span><br><span class="line">pm2 startup</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;|\n|   Success: ShareList has been installed\n|&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>看了下是在29行出问题的</p>
-<blockquote>
-<p> pm2 list</p>
-<p> pm2 show  applicationName</p>
-<p>pm2 start 会运行当前目录下的app.js</p>
-</blockquote>
-<p>加入后管理按钮就在页面下面</p>
-<p><img src="../img/1587285755580.png" alt="1587285755580"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
     </div>
  -->
 

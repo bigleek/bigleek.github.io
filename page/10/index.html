@@ -269,6 +269,488 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-k8s-init-and-deploy-sample-service" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/16f52beb.html" class="article-date">
+      <time datetime="2022-01-27T03:07:50.000Z" itemprop="datePublished">2022-01-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="初始化k8s"><a href="#初始化k8s" class="headerlink" title="初始化k8s"></a>初始化k8s</h1><p>我了解有下列一键部署k8s,第一个是网友推荐，第二个是kuboard上面推荐</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/fanux/sealos">fanux/sealos: 一条命令离线安装高可用 Kubernetes🔥 ⎈ 🐳</a>不依赖haproxy keepalived</li>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="初始化k8s"><a href="#初始化k8s" class="headerlink" title="初始化k8s"></a>初始化k8s</h1><p>我了解有下列一键部署k8s,第一个是网友推荐，第二个是kuboard上面推荐</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/fanux/sealos">fanux/sealos: 一条命令离线安装高可用 Kubernetes🔥 ⎈ 🐳</a>不依赖haproxy keepalived</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eip-work/kuboard-spray">eip-work/kuboard-spray: 使用图形化的界面离线安装、维护高可用的 K8S 集群</a>基于kubespray</li>
+</ul>
+<p>目前使用 sealos来一键初始化kubernetes环境</p>
+<h2 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h2><ul>
+<li>hostname不能重名</li>
+<li>服务过程中会自动关闭防火墙</li>
+<li>需要保证节点服务的可访问</li>
+<li>默认使用containerd而不是docker为容器平台</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 下载并安装sealos, sealos是个golang的二进制工具，直接下载拷贝到bin目录即可, release页面也可下载</span><br><span class="line">wget -c https:&#x2F;&#x2F;sealyun.oss-cn-beijing.aliyuncs.com&#x2F;latest&#x2F;sealos &amp;&amp; \</span><br><span class="line">    chmod +x sealos &amp;&amp; mv sealos &#x2F;usr&#x2F;bin</span><br><span class="line"></span><br><span class="line"># 下载离线资源包</span><br><span class="line">wget -c https:&#x2F;&#x2F;sealyun.oss-cn-beijing.aliyuncs.com&#x2F;05a3db657821277f5f3b92d834bbaf98-v1.22.0&#x2F;kube1.22.0.tar.gz</span><br><span class="line"></span><br><span class="line"># 安装一个三master的kubernetes集群</span><br><span class="line">sealos init --passwd &#39;123456&#39; \</span><br><span class="line">	--master 192.168.0.2  --master 192.168.0.3  --master 192.168.0.4  \</span><br><span class="line">	--node 192.168.0.5 \</span><br><span class="line">	--pkg-url &#x2F;root&#x2F;kube1.22.0.tar.gz \</span><br><span class="line">	--version v1.22.0</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="1-1-常见问题"><a href="#1-1-常见问题" class="headerlink" title="1.1 常见问题"></a>1.1 常见问题</h3><h4 id="1-1-1初始化失败"><a href="#1-1-1初始化失败" class="headerlink" title="1.1.1初始化失败"></a>1.1.1初始化失败</h4><p>现象如下：</p>
+<blockquote>
+<p>generator kubeconfig failed couldn’t create a kubeconfig</p>
+<p>container runtime is not running: output</p>
+</blockquote>
+<p>解决方法： 不用安装docker和其他服务，服务器只需要wget 服务</p>
+<h4 id="1-1-2kubectl-get-pod"><a href="#1-1-2kubectl-get-pod" class="headerlink" title="1.1.2kubectl get pod"></a>1.1.2kubectl get pod</h4><blockquote>
+<p>The connection to the server localhost:8080 was refused - did you specify the right host or port?</p>
+</blockquote>
+<p>解决方法： 将主节点的 admin.conf 拷到对应节点后配置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scp  /etc/kubernetes/admin.conf  192.168.31.133:/etc/kubernetes</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export KUBECONFIG=/etc/kubernetes/admin.conf&quot;</span> &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br><span class="line"></span><br><span class="line">kubectl get pods</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1499871">k8s集群部分常见问题处理 - 云+社区 - 腾讯云</a></p>
+<h2 id="二、kuboard安装"><a href="#二、kuboard安装" class="headerlink" title="二、kuboard安装"></a>二、kuboard安装</h2><p><a target="_blank" rel="noopener" href="https://kuboard.cn/install/v3/install-in-k8s.html#%E6%96%B9%E6%B3%95%E4%B8%80-%E4%BD%BF%E7%94%A8-hostpath-%E6%8F%90%E4%BE%9B%E6%8C%81%E4%B9%85%E5%8C%96">在 K8S 中安装 Kuboard v3 | Kuboard</a> </p>
+<p>我选择使用 hostPath 提供持久化而不是 StorageClass 提供持久化（还没有创建）</p>
+<p>界面如下</p>
+<p><img src="../img/image-20220127150651513.png" alt="image-20220127150651513"></p>
+<h3 id="三、使用kubectl来创建pod并部署"><a href="#三、使用kubectl来创建pod并部署" class="headerlink" title="三、使用kubectl来创建pod并部署"></a>三、使用kubectl来创建pod并部署</h3><p>命令来创建，部署</p>
+<p>注意kubectl 需要指定namespace的值，否则默认是default</p>
+<blockquote>
+<p> kubectl get pod        No resources found in default namespace.</p>
+</blockquote>
+<h4 id="3-1-创建nginx镜像"><a href="#3-1-创建nginx镜像" class="headerlink" title="3.1. 创建nginx镜像"></a>3.1. 创建nginx镜像</h4><p>kubectl run nginx –image=nginx –port=80</p>
+<blockquote>
+<p>NAME    READY   STATUS    RESTARTS   AGE</p>
+<p>nginx   1/1     Running   0          83s</p>
+</blockquote>
+<h4 id="3-2-部署nginx"><a href="#3-2-部署nginx" class="headerlink" title="3.2. 部署nginx"></a>3.2. 部署nginx</h4><p>kubectl create deployment nginx –image=nginx</p>
+<blockquote>
+<p>deployment.apps/nginx created</p>
+</blockquote>
+<p> 否则 运行下面命令会出现没有部署服务</p>
+<p> kubectl get deployment</p>
+<blockquote>
+<p>  No resources found in default namespace.</p>
+</blockquote>
+<h4 id="3-3-nginx端口暴露能被外部访问"><a href="#3-3-nginx端口暴露能被外部访问" class="headerlink" title="3.3. nginx端口暴露能被外部访问"></a>3.3. nginx端口暴露能被外部访问</h4><blockquote>
+<p> kubectl expose deployment nginx –port=80 –type=LoadBalancer</p>
+</blockquote>
+<h4 id="3-4-查看pod的信息"><a href="#3-4-查看pod的信息" class="headerlink" title="3.4. 查看pod的信息"></a>3.4. 查看pod的信息</h4><p>kubectl describe service nginx</p>
+<blockquote>
+<p>Name:                     nginx<br>Namespace:                default<br>Labels:                   app=nginx<br>Annotations:              <none><br>Selector:                 app=nginx<br>Type:                     LoadBalancer<br>IP Family Policy:         SingleStack<br>IP Families:              IPv4<br>IP:                       10.109.244.210<br>IPs:                      10.109.244.210<br>Port:                     <unset>  80/TCP<br>TargetPort:               80/TCP<br>NodePort:                 <unset>  30682/TCP<br>Endpoints:                100.118.167.130:80<br>Session Affinity:         None<br>External Traffic Policy:  Cluster<br>Events:                   <none></p>
+</blockquote>
+<p>kubectl get pods –all-namespaces</p>
+<h4 id="配置文件来部署"><a href="#配置文件来部署" class="headerlink" title="配置文件来部署"></a>配置文件来部署</h4><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">hello-node</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">hello-node</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">hello-node</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">hello-node</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">hello-node-container</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">gcr.io/$DEVSHELL_PROJECT_ID/hello-node:1.0</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+
+<p>kubectl apply -f nginx-deployment.yaml</p>
+<h4 id="3-5常见问题"><a href="#3-5常见问题" class="headerlink" title="3.5常见问题"></a>3.5常见问题</h4><h5 id="3-5-1-k8s某个节点挂掉"><a href="#3-5-1-k8s某个节点挂掉" class="headerlink" title="3.5.1 k8s某个节点挂掉"></a>3.5.1 k8s某个节点挂掉</h5><p>如果遇到k8s某个节点挂掉，但是服务器还是可以连接的情况，说明是服务器节点通信问题，首先参考下面的连接查看日志和对应端口是否是正常的</p>
+<p><a target="_blank" rel="noopener" href="http://www.knockatdatabase.com/2021/11/27/kubernetes-cant-work-after-reboot-os/">服务器重启后kubernetes无法启动的原因 - 数据库敲门人</a></p>
+<p><a target="_blank" rel="noopener" href="https://discuss.kubernetes.io/t/the-connection-to-the-server-host-6443-was-refused-did-you-specify-the-right-host-or-port/552/4">The connection to the server <host>:6443 was refused - did you specify the right host or port? - General Discussions - Discuss Kubernetes</a></p>
+<h6 id="查看日志的命令如下"><a href="#查看日志的命令如下" class="headerlink" title="查看日志的命令如下"></a>查看日志的命令如下</h6><blockquote>
+<p> journalctl -u kubelet.service</p>
+<p>journalctl -xefu kubelet</p>
+</blockquote>
+<h6 id="查看节点命令如下"><a href="#查看节点命令如下" class="headerlink" title="查看节点命令如下"></a>查看节点命令如下</h6><p>kubectl get node –watch</p>
+<h6 id="重启kubelet的服务"><a href="#重启kubelet的服务" class="headerlink" title="重启kubelet的服务"></a>重启kubelet的服务</h6><p>systemctl restart kubelet</p>
+<h6 id="查看端口的连接情况"><a href="#查看端口的连接情况" class="headerlink" title="查看端口的连接情况"></a>查看端口的连接情况</h6><p>netstat -nap|grep 6443<br>The connection to the server apiserver.cluster.local:6443 was refused - did you specify the right host or port?</p>
+<h6 id="使用的是sealons重新添加该集群"><a href="#使用的是sealons重新添加该集群" class="headerlink" title="使用的是sealons重新添加该集群"></a>使用的是sealons重新添加该集群</h6><p>建议可以使用 sealos  delete 删除掉线的节点</p>
+<p>然后再使用 sealos  join 命令能把节点重新加入到集群中</p>
+<h5 id="3-5-2-容器运行时报错Network-plugin-returns-error"><a href="#3-5-2-容器运行时报错Network-plugin-returns-error" class="headerlink" title="3.5.2 容器运行时报错Network plugin returns error"></a>3.5.2 容器运行时报错Network plugin returns error</h5><p>日志如下</p>
+<p>cat  /var/log/pods/kube-system_kube-apiserver-master2_d653fc9e62a54eaa54def1ae5c0dde56/kube-apiserver</p>
+<blockquote>
+<p>container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized</p>
+</blockquote>
+<p>首先查看kube-system中NetworkPlugin是否存在</p>
+<blockquote>
+<p> kubectl get pod -n kube-system</p>
+</blockquote>
+<p>k8s中存在网络插件一般包括**<em>Choose network plugin (cilium, calico, contiv, weave or flannel)**</em>，我看着初始化的是calico</p>
+<p>同时查看对应calico的日志</p>
+<blockquote>
+<p> kubectl logs  calico-node-rkqkq –namespace=kube-system</p>
+</blockquote>
+<p>kubectl get pods -o wide -A</p>
+<p>查看对应的配置信息</p>
+<blockquote>
+<p>kubectl describe pod calico-node-rkqkq –namespace=kube-system</p>
+</blockquote>
+<p>配置文件存放地址 /root/kube/conf/calico.yaml</p>
+<p>下面推荐的解决方案：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cuicj/articles/14512540.html">k8s join集群时报错Container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:docker: - 丛丛丛丛 - 博客园</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57504063/calico-kubernetes-pods-cant-ping-each-other-use-cluster-ip">kubeadm - Calico: Kubernetes pods can’t ping each other use Cluster IP - Stack Overflow</a><br>kubectl delete-f /etc/kubernetes/addons/calico.yaml</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/tankruning/article/details/107102725">kubenates启动calico-node时，有节点总是报错CrashLoopBackOff_dkgee-CSDN博客</a></p>
+<h2 id="四、部署minio和创建volumeclass"><a href="#四、部署minio和创建volumeclass" class="headerlink" title="四、部署minio和创建volumeclass"></a>四、部署minio和创建volumeclass</h2><p>根据官方文档可以找到</p>
+<p><a target="_blank" rel="noopener" href="https://docs.min.io/minio/k8s/deployment/deploy-minio-operator.html#procedure">Deploy MinIO Operator on Kubernetes — MinIO Hybrid Cloud Documentation</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/minio/operator/blob/master/README.md">operator/README.md at master · minio/operator</a></p>
+<p>需要 <a target="_blank" rel="noopener" href="https://krew.sigs.k8s.io/docs/user-guide/setup/install/">Installing · Krew</a>或者<a target="_blank" rel="noopener" href="https://helm.sh/">minio/helm/minio at master )</a>包管理软件</p>
+<h3 id="4-1使用krew初始化minio"><a href="#4-1使用krew初始化minio" class="headerlink" title="4.1使用krew初始化minio"></a>4.1使用krew初始化minio</h3><p>我选择krew包管理，需要使用到git命令</p>
+<p>然后运行下面这段内容</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(</span><br><span class="line">  <span class="built_in">set</span> -x; <span class="built_in">cd</span> <span class="string">&quot;<span class="subst">$(mktemp -d)</span>&quot;</span> &amp;&amp;</span><br><span class="line">  OS=<span class="string">&quot;<span class="subst">$(uname | tr &#x27;[:upper:]&#x27; &#x27;[:lower:]&#x27;)</span>&quot;</span> &amp;&amp;</span><br><span class="line">  ARCH=<span class="string">&quot;<span class="subst">$(uname -m | sed -e &#x27;s/x86_64/amd64/&#x27; -e &#x27;s/\(arm\)\(64\)\?.*/\1\2/&#x27; -e &#x27;s/aarch64$/arm64/&#x27;)</span>&quot;</span> &amp;&amp;</span><br><span class="line">  KREW=<span class="string">&quot;krew-<span class="variable">$&#123;OS&#125;</span>_<span class="variable">$&#123;ARCH&#125;</span>&quot;</span> &amp;&amp;</span><br><span class="line">  curl -fsSLO <span class="string">&quot;https://github.com/kubernetes-sigs/krew/releases/latest/download/<span class="variable">$&#123;KREW&#125;</span>.tar.gz&quot;</span> &amp;&amp;</span><br><span class="line">  tar zxvf <span class="string">&quot;<span class="variable">$&#123;KREW&#125;</span>.tar.gz&quot;</span> &amp;&amp;</span><br><span class="line">  ./<span class="string">&quot;<span class="variable">$&#123;KREW&#125;</span>&quot;</span> install krew</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>运行过程中出了问题 变量${KREW}=krew-linux_amd64</p>
+<p>我是下载 <a target="_blank" rel="noopener" href="https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz%E3%80%81">https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz、</a></p>
+<p>export PATH=”$HOME/.krew}/bin:$PATH”</p>
+<p>目前使用kuboard web界面管理k8s集群</p>
+<p><a target="_blank" rel="noopener" href="https://www.kuboard.cn/learning/k8s-intermediate/persistent/storage-class.html">存储类StorageClass | Kuboard</a>但是目前只支持界面配置 cephfs，nfs</p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/storage/storage-classes/">Storage Classes | Kubernetes</a> 官方支持的volumeclass也没有minio需要手写 yml的配置文件</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-distributed-file-storage" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1128ed08.html" class="article-date">
+      <time datetime="2022-01-19T08:30:54.000Z" itemprop="datePublished">2022-01-19</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1128ed08.html">分布式文件存储</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="文件存储选型"><a href="#文件存储选型" class="headerlink" title="文件存储选型"></a>文件存储选型</h1><h2 id="专业名称"><a href="#专业名称" class="headerlink" title="专业名称"></a>专业名称</h2><p><a target="_blank" rel="noopener" href="http://blog.zollty.com/b/archive/relations-among-object-file-and-block-storage.html">对象存储、文件存储、块存储的区别和联系 | Zollty’s Blog</a></p>
+<p><a target="_blank" rel="noopener" href="https://note.dolyw.com/fs/00-FS-Select.html">文件系统了解及对比选型 | 笔记</a></p>
+<p>目前主要存储的种类对象存储，文件存储，块存储。需要使用</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="文件存储选型"><a href="#文件存储选型" class="headerlink" title="文件存储选型"></a>文件存储选型</h1><h2 id="专业名称"><a href="#专业名称" class="headerlink" title="专业名称"></a>专业名称</h2><p><a target="_blank" rel="noopener" href="http://blog.zollty.com/b/archive/relations-among-object-file-and-block-storage.html">对象存储、文件存储、块存储的区别和联系 | Zollty’s Blog</a></p>
+<p><a target="_blank" rel="noopener" href="https://note.dolyw.com/fs/00-FS-Select.html">文件系统了解及对比选型 | 笔记</a></p>
+<p>目前主要存储的种类对象存储，文件存储，块存储。需要使用</p>
+<p><strong>对象存储</strong>：是目前流行的存储服务也是云服务厂商提供的类似于Amazon 的 s3(<em>Simple Storage Service</em> ) 和阿里云对象存储OSS（Object Storage Service）</p>
+<p><strong>文件存储</strong>：狭义理解 Linux 实现POSIX接口，能挂载在Linux上，FTP、NFS服务器SAMBA </p>
+<p><strong>块存储</strong>： 磁盘阵列，硬盘 ，可能会使用RAID NAS这种来实现数据的冗余备份</p>
+<table>
+<thead>
+<tr>
+<th>存储类型</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对象存储</td>
+<td>类似于s3,主要是存储静态的数据,不受扩展不受元数据约束限制的块设备</td>
+</tr>
+<tr>
+<td>文件存储</td>
+<td>通常是实现了POSIX接口,能挂载librados，libcephfs</td>
+</tr>
+<tr>
+<td>块存储</td>
+<td>磁盘阵列，硬盘</td>
+</tr>
+</tbody></table>
+<p>通常情况下云服务厂商会有数据容灾（ 同城人员存储，跨区域复制，合规保留策略，版本控制功能），数据加密，权限和访问（用户级别资源隔离，防盗链，访问控制ACL）</p>
+<p>分布式 –&gt;容错冗余备份 –&gt;方便拓展 –&gt;稳定性-&gt;速度（磁盘io，网络io，软件优化，服务器CPU等硬件）</p>
+<ol>
+<li><p>是否要兼容目前k8s环境</p>
+</li>
+<li><p> 提供restful接口</p>
+</li>
+<li><p>目前文件主要为零散文件和打包后的大文件</p>
+</li>
+<li><p>稳定性和调试是否方便</p>
+</li>
+</ol>
+<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><table>
+<thead>
+<tr>
+<th>系统</th>
+<th>文件元数据</th>
+<th>文件内容读取</th>
+<th>POSIX</th>
+<th>REST API</th>
+<th>针对大量小文件进行了优化</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SeaweedFS</td>
+<td>查找卷 ID，可缓存</td>
+<td>O(1) 磁盘寻道</td>
+<td></td>
+<td>是的</td>
+<td>是的</td>
+</tr>
+<tr>
+<td>SeaweedFS Filer</td>
+<td>线性可扩展，可定制</td>
+<td>O(1) 磁盘寻道</td>
+<td>FUSE</td>
+<td>是的</td>
+<td>是的</td>
+</tr>
+<tr>
+<td>GlusterFS</td>
+<td>散列</td>
+<td></td>
+<td>FUSE，NFS</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Ceph</td>
+<td>哈希+规则</td>
+<td></td>
+<td>FUSE</td>
+<td>是的</td>
+<td></td>
+</tr>
+<tr>
+<td>MooseFS</td>
+<td>在记忆中</td>
+<td></td>
+<td>FUSE</td>
+<td></td>
+<td>不</td>
+</tr>
+<tr>
+<td>MinIO</td>
+<td>每个文件的单独元文件</td>
+<td></td>
+<td></td>
+<td>是的</td>
+<td>不</td>
+</tr>
+</tbody></table>
+<p>minio: <a target="_blank" rel="noopener" href="https://pureage.info/post/scalability-of-minio/">掀桌子的 MinIO - 纯真年代</a></p>
+<p><img src="../img/architecture_diagram.svg" alt="architecture_diagram"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-docker-container-small-ubuntu-install-jdk" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/dda6ae1a.html" class="article-date">
+      <time datetime="2022-01-17T01:20:12.000Z" itemprop="datePublished">2022-01-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h2><p>公司线上运行的容器是jre,没有调试和debug的工具,同时使用起来很不方便</p>
+<h3 id="查看系统版本"><a href="#查看系统版本" class="headerlink" title="查看系统版本"></a>查看系统版本</h3><p>运行 <strong>cat /etc/issue</strong> 看到是debian 7的系统后</p>
+<p>在/usr/lib/jvm 目录先看到的openjdk11</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h2><p>公司线上运行的容器是jre,没有调试和debug的工具,同时使用起来很不方便</p>
+<h3 id="查看系统版本"><a href="#查看系统版本" class="headerlink" title="查看系统版本"></a>查看系统版本</h3><p>运行 <strong>cat /etc/issue</strong> 看到是debian 7的系统后</p>
+<p>在/usr/lib/jvm 目录先看到的openjdk11</p>
+<p>参考该链接的内容<a target="_blank" rel="noopener" href="https://techoral.com/blog/java/install-openjdk-11-debian.html">How To Install OpenJDK Java 11 On Debian Real Quick</a> </p>
+<blockquote>
+<p>The openjdk-11-jre package contains just the Java Runtime Environment. If you want to develop Java programs then please install the openjdk-11-jdk package.<br>To Install OpenJDK 11 Debian Java Development Kit (JDK) - Enter the below command on Debian command line.</p>
+</blockquote>
+<p>需要还安装jdk</p>
+<h3 id="在线安装openjdk11"><a href="#在线安装openjdk11" class="headerlink" title="在线安装openjdk11"></a>在线安装openjdk11</h3><p>将 /etc/apt/source.list 备份后修改为debian 7 阿里的源</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib</span><br><span class="line">deb http://mirrors.aliyun.com/debian-security stretch/updates main</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian-security stretch/updates main</span><br><span class="line">deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib</span><br><span class="line"><span class="comment">#deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib</span></span><br><span class="line"><span class="comment">#deb-src http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib</span></span><br></pre></td></tr></table></figure>
+
+<p>运行 <strong>apt install openjdk-11-jdk</strong> 一直卡在安装  openjdk-11-jre-headless_11.0.13+8-1 起初因为是源的问题,切换后还是很慢,后面考虑应该连接的是官方的地址,于是尝试从网站下载对应的openjdk-11-jre-headless_11.0.13+8-1_amd64.deb 包使用 <strong>dpkg -i</strong>安装 .</p>
+<p>后面才知道</p>
+<h3 id="离线安装"><a href="#离线安装" class="headerlink" title="离线安装"></a>离线安装</h3><p>使用dpkg -i  *.deb 的时候出现依赖没有安装</p>
+<p>使用apt-get -f -y install 解决依赖问题后再执行dpkg安装deb包</p>
+<p>jdk-11.0.2_linux-x64_bin.deb 大概150mb左右</p>
+<h2 id="封装为脚本"><a href="#封装为脚本" class="headerlink" title="封装为脚本"></a>封装为脚本</h2><p><a target="_blank" rel="noopener" href="https://code.aliyun.com/whotolike/deploycode/raw/master/init_debian_container.sh">https://code.aliyun.com/whotolike/deploycode/raw/master/init_debian_container.sh</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-pack-linux-binary" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1559,429 +2041,6 @@
 <td align="left"><code>$&#123;yarn.timeline-service.hostname&#125;:8190</code></td>
 </tr>
 </tbody></table>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-restful-resource-naming-practise" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/26c9c081.html" class="article-date">
-      <time datetime="2021-10-18T02:46:56.000Z" itemprop="datePublished">2021-10-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/26c9c081.html">RESTful 资源命名最佳实践</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>本文转载自 <a target="_blank" rel="noopener" href="https://generalthink.github.io/2019/09/20/restful-resource-naming-practise/">RESTful 资源命名最佳实践</a></p>
-<h1 id="RESTful-资源命名最佳实践"><a href="#RESTful-资源命名最佳实践" class="headerlink" title="RESTful 资源命名最佳实践"></a>RESTful 资源命名最佳实践</h1><p> 2019-09-20  2021-05-07  7<br> 6k  5 分钟</p>
-<p>在 Rest 中，数据的呈现方式叫做资源 (Resource)。拥有强大而一致的 REST 资源命名策略，是最好的设计决策。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>本文转载自 <a target="_blank" rel="noopener" href="https://generalthink.github.io/2019/09/20/restful-resource-naming-practise/">RESTful 资源命名最佳实践</a></p>
-<h1 id="RESTful-资源命名最佳实践"><a href="#RESTful-资源命名最佳实践" class="headerlink" title="RESTful 资源命名最佳实践"></a>RESTful 资源命名最佳实践</h1><p> 2019-09-20  2021-05-07  7<br> 6k  5 分钟</p>
-<p>在 Rest 中，数据的呈现方式叫做资源 (Resource)。拥有强大而一致的 REST 资源命名策略，是最好的设计决策。</p>
-<p>一个资源可以是单个的也可以是一个集合。比如 customers 是一个集合，而 customer 是单个资源。我们可以定义 customers 这个集合的资源的 URI 是 <code>/customers</code>, 而单个 customer 资源的 URI 是 <code>/customers/&#123;customerId&#125;</code>。</p>
-<p>资源也可以包含子集合的资源。比如，使用 <code>/customers/&#123;customerId&#125;/accounts</code> 来表示某个 customer 下的 account 集合资源。同样的，对于 account 集合资源下的单个 account 我们可以定义成这样:<code>/customers/&#123;customerId&#125;/accounts/&#123;accountId&#125;</code></p>
-<p>REST API 使用统一资源标识符（URI）来寻址资源。REST API 设计者应该创建 URI，将 REST API 的资源模型传达给潜在的客户端开发人员。当资源命名良好时，API 直观且易于使用。如果做得不好，那么相同的 API 会感觉难以使用和理解。</p>
-<h3 id="使用名词来表示资源"><a href="#使用名词来表示资源" class="headerlink" title="使用名词来表示资源"></a>使用名词来表示资源</h3><p>RESTful URI 应该引用作为事物（名词）的资源而不是引用动作（动词），因为名词具有动词不具有的属性 - 类似于具有属性的资源。资源的一些示例是：</p>
-<ol>
-<li>系统的用户</li>
-<li>用户账户 (银行的场景):</li>
-<li>网络设备</li>
-</ol>
-<p>它们的资源 URI 可以被设计成下面这样:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices </span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;device-id&#125; </span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users&#x2F;</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users&#x2F;&#123;id&#125;</span><br></pre></td></tr></table></figure>
-
-<p>为了更好的说明我们把资源原型分为四个种类 (document,collection,store 以及 controller), 你应该总是把资源放到其中一个原型中，并且遵守它的统一命名。</p>
-<h4 id="document"><a href="#document" class="headerlink" title="document"></a>document</h4><p>文档资源是一种类似于对象实例或数据库记录的单一概念 (比如 mysql 中的一行记录，Mongodb 中的 document), 在 REST 中，你可以将其视为资源集合中的单个资源。文档的状态表示通常包括具有值的字段和指向其他相关资源的链接。</p>
-<p>使用单数名称表示文档资源原型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;device-id&#125;</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users&#x2F;&#123;id&#125;</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users&#x2F;admin</span><br></pre></td></tr></table></figure>
-
-<h4 id="collection"><a href="#collection" class="headerlink" title="collection"></a>collection</h4><p>集合资源是服务端管理的资源目录。客户可以建议将新资源添加到集合中。但是，要由集合选择是否创建新资源。集合资源选择它想要包含的内容，并决定每个包含的资源的 URI。</p>
-<p>使用复数名称表示集合资源原型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users&#x2F;&#123;id&#125;&#x2F;accounts</span><br></pre></td></tr></table></figure>
-
-<h4 id="store"><a href="#store" class="headerlink" title="store"></a>store</h4><p>store 是<strong>客户端管理的资源库</strong> ,store 资源允许 API 客户端放入资源，取出资源，并决定何时删除它们。store 永远不会生成新的 URI。相反，每个存储的资源都有一个客户端在最初放入存储时选择的 URI。</p>
-<p>使用复数名称表示 store 资源原型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;cart-management&#x2F;users&#x2F;&#123;id&#125;&#x2F;carts</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;song-management&#x2F;users&#x2F;&#123;id&#125;&#x2F;playlists</span><br></pre></td></tr></table></figure>
-
-<h4 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h4><p>controller 资源有点像程序的概念，controller 资源就像可执行函数，带有参数和返回值；输入和输出。</p>
-<p>使用动词表示 controller 原型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 查看用户的信用卡</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;cart-management&#x2F;users&#x2F;&#123;id&#125;&#x2F;cart&#x2F;checkout</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 播放整个播放列表</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;song-management&#x2F;users&#x2F;&#123;id&#125;&#x2F;playlist&#x2F;play</span><br></pre></td></tr></table></figure>
-
-<p>这里的 controller 为什么要用动词呢？其实大家可以想象下 Spring 中 Controller 做了什么事情，它调用了 service 组合成各个业务逻辑，将数据组合起来之后进行返回.</p>
-<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p>使用一致的资源命名约定和 URI 格式，以最小化和最大可读性和可维护性。你可以实现以下设计提示以实现一致性：</p>
-<h4 id="使用正斜杠（-）表示层次关系"><a href="#使用正斜杠（-）表示层次关系" class="headerlink" title="使用正斜杠（/）表示层次关系"></a>使用正斜杠（/）表示层次关系</h4><p>正斜杠（/）字符用于 URI 的路径部分，以指示资源之间的层次关系</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;&#x2F;scripts</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;&#x2F;scripts&#x2F;&#123;id&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="不要在-URI-中使用尾部正斜杠（-）"><a href="#不要在-URI-中使用尾部正斜杠（-）" class="headerlink" title="不要在 URI 中使用尾部正斜杠（/）"></a>不要在 URI 中使用尾部正斜杠（/）</h4><p>作为 URI 路径中的最后一个字符，正斜杠（/）不会添加语义值，并可能导致混淆。最好完全放弃它们</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;</span><br><span class="line"></span><br><span class="line">&#x2F;*这个版本更好*&#x2F;</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br></pre></td></tr></table></figure>
-
-<h4 id="使用连字符（-）来提高-URI-的可读性"><a href="#使用连字符（-）来提高-URI-的可读性" class="headerlink" title="使用连字符（ - ）来提高 URI 的可读性"></a>使用连字符（ - ）来提高 URI 的可读性</h4><p>要使你的 URI 易于扫描和解释，请使用连字符（ - ）字符来提高长路径段中名称的可读性。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 更好可读性</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;inventory-management&#x2F;managed-entities&#x2F;&#123;id&#125;&#x2F;install-script-location</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 可读性不够高</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;inventory-management&#x2F;managedEntities&#x2F;&#123;id&#125;&#x2F;installScriptLocation</span><br></pre></td></tr></table></figure>
-
-<h4 id="不用使用下滑线"><a href="#不用使用下滑线" class="headerlink" title="不用使用下滑线 _"></a>不用使用下滑线 _</h4><p>可以使用下划线代替连字符作为分隔符 - 但是根据应用程序的字体，下划线 _ 字符可能会在某些浏览器或屏幕中被部分遮挡或完全隐藏。为避免这种混淆，请使用连字符 - 而不是下划线 _。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 更具可读性</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;inventory-management&#x2F;managed-entities&#x2F;&#123;id&#125;&#x2F;install-script-location</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 更容易出错</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;inventory_management&#x2F;managed_entities&#x2F;&#123;id&#125;&#x2F;install_script_location</span><br></pre></td></tr></table></figure>
-
-<h4 id="在-URI-中使用小写字母"><a href="#在-URI-中使用小写字母" class="headerlink" title="在 URI 中使用小写字母"></a>在 URI 中使用小写字母</h4><p>方便时，URI 路径中应始终首选小写字母。</p>
-<p><a target="_blank" rel="noopener" href="http://www.rfc-base.org/txt/rfc-3986.txt">RFC 3986</a> 将 URI 定义为区分大小写，但协议和 host 除外</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 1</span><br><span class="line">http:&#x2F;&#x2F;api.example.org&#x2F;my-folder&#x2F;my-doc</span><br><span class="line">&#x2F;&#x2F; 2</span><br><span class="line">HTTP:&#x2F;&#x2F;API.EXAMPLE.ORG&#x2F;my-folder&#x2F;my-doc</span><br><span class="line">&#x2F;&#x2F; 3</span><br><span class="line">http:&#x2F;&#x2F;api.example.org&#x2F;My-Folder&#x2F;my-doc</span><br></pre></td></tr></table></figure>
-
-<p>在上面的例子中，1 和 2 是相同的，但 3 不是，因为它使用大写字母的 My-Folder。</p>
-<h4 id="不要使用文件扩展名"><a href="#不要使用文件扩展名" class="headerlink" title="不要使用文件扩展名"></a>不要使用文件扩展名</h4><p>文件扩展名看起来很糟糕，不会增加任何优势。删除它们也会减少 URI 的长度。没理由保留它们。除了上述原因，如果你想使用文件扩展突出显示 API 的媒体类型，那么你应该依赖于通过 Content-Type 标头传达的媒体类型来确定如何处理正文的内容。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 不要这样用</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices.xml</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 正确的URI</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br></pre></td></tr></table></figure>
-
-<h3 id="切勿在-URI-中使用-CRUD-函数名称"><a href="#切勿在-URI-中使用-CRUD-函数名称" class="headerlink" title="切勿在 URI 中使用 CRUD 函数名称"></a>切勿在 URI 中使用 CRUD 函数名称</h3><p>URI 不应用于指示执行 CRUD 功能。URI 应该用于唯一标识资源，而不是对它们的任何操作。应使用 HTTP 请求方法来指示执行哪个 CRUD 功能。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 获取所有设备</span><br><span class="line">HTTP GET http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br><span class="line">&#x2F;&#x2F; 创建新设备</span><br><span class="line">HTTP POST http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 根据给定id获取设备</span><br><span class="line">HTTP GET http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 根据给定id更新设备</span><br><span class="line">HTTP PUT http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 根据给定id删除设备</span><br><span class="line">HTTP DELETE http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用查询组件过滤-URI-集合"><a href="#使用查询组件过滤-URI-集合" class="headerlink" title="使用查询组件过滤 URI 集合"></a>使用查询组件过滤 URI 集合</h3><p>很多时候，你会遇到需要根据某些特定资源属性对需要排序，过滤或限制的资源集合的要求。为此，不要创建新的 API - 而是在资源集合 API 中启用排序，过滤和分页功能，并将输入参数作为查询参数传递</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices?region&#x3D;USA</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices?region&#x3D;USA&amp;brand&#x3D;XYZ</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices?region&#x3D;USA&amp;brand&#x3D;XYZ&amp;sort&#x3D;installation-date</span><br></pre></td></tr></table></figure>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-why-mongodb-use-b-tree" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/bf7d2fd3.html" class="article-date">
-      <time datetime="2021-10-18T02:35:49.000Z" itemprop="datePublished">2021-10-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>本文转载自 <a target="_blank" rel="noopener" href="https://generalthink.github.io/2020/04/16/why-mongodb-use-b-tree/">why-mongodb-use-b-tree</a></p>
-<p>除了 B+ 树，你可能还听说过 B 树、 B- 树，实际上， B- 树就是 B 树，英文翻译都是 B-Tree ，这里的 “-” 并不是相对 B+ 树中的 “+” ，而只是一个连接符。而 B 树实际上是低级版的 B+ 树，或者说 B+ 树是 B 树的改进版。</p>
-<h3 id="B-tree"><a href="#B-tree" class="headerlink" title="B+ tree"></a>B+ tree</h3><p>B+ tree 实际上是一颗 m 叉平衡查找树 (不是二叉树)</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>本文转载自 <a target="_blank" rel="noopener" href="https://generalthink.github.io/2020/04/16/why-mongodb-use-b-tree/">why-mongodb-use-b-tree</a></p>
-<p>除了 B+ 树，你可能还听说过 B 树、 B- 树，实际上， B- 树就是 B 树，英文翻译都是 B-Tree ，这里的 “-” 并不是相对 B+ 树中的 “+” ，而只是一个连接符。而 B 树实际上是低级版的 B+ 树，或者说 B+ 树是 B 树的改进版。</p>
-<h3 id="B-tree"><a href="#B-tree" class="headerlink" title="B+ tree"></a>B+ tree</h3><p>B+ tree 实际上是一颗 m 叉平衡查找树 (不是二叉树)</p>
-<blockquote>
-<p>平衡查找树定义：树中任意一个节点的左右子树的高度相差不能大于 1</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://generalthink.github.io/images/java/BPlusTree.png"><img src="../img/BPlusTree.png" alt="B+ tree"></a></p>
-<p><a target="_blank" rel="noopener" href="https://generalthink.github.io/images/java/BPlusTree.png">B+ tree</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">* 这是B+树非叶子节点的定义。</span><br><span class="line">*</span><br><span class="line">* 假设keywords&#x3D;[3, 5, 8, 10]</span><br><span class="line">* 4个键值将数据分为5个区间：(-INF,3), [3,5), [5,8), [8,10), [10,INF)</span><br><span class="line">* 5个区间分别对应：children[0]...children[4]</span><br><span class="line">*</span><br><span class="line">* m值是事先计算得到的，计算的依据是让所有信息的大小正好等于页的大小：</span><br><span class="line">* PAGE_SIZE &#x3D; (m-1)*4[keywordss大小]+m*8[children大小]</span><br><span class="line">*&#x2F;</span><br><span class="line">public class BPlusTreeNode &#123;</span><br><span class="line">  &#x2F;&#x2F; 5叉树</span><br><span class="line">  public static int m &#x3D; 5;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 键值，用来划分数据区间</span><br><span class="line">  public int[] keywords &#x3D; new int[m-1];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 保存子节点指针</span><br><span class="line">  public BPlusTreeNode[] children &#x3D; new BPlusTreeNode[m];</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;**</span><br><span class="line">* 这是B+树中叶子节点的定义。</span><br><span class="line">*</span><br><span class="line">* B+树中的叶子节点跟内部结点是不一样的,</span><br><span class="line">* 叶子节点存储的是值，而非区间。</span><br><span class="line">* 这个定义里，每个叶子节点存储3个数据行的键值及地址信息。</span><br><span class="line">*</span><br><span class="line">* k值是事先计算得到的，计算的依据是让所有信息的大小正好等于页的大小：</span><br><span class="line">* PAGE_SIZE &#x3D; k*4[keyw..大小]+k*8[dataAd..大小]+8[prev大小]+8[next大小]</span><br><span class="line">*&#x2F;</span><br><span class="line">public class BPlusTreeLeafNode &#123;</span><br><span class="line">  public static int k &#x3D; 3;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 数据的键值</span><br><span class="line">  public int[] keywords &#x3D; new int[k];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 数据地址</span><br><span class="line">  public long[] dataAddress &#x3D; new long[k];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 这个结点在链表中的前驱结点</span><br><span class="line">  public BPlusTreeLeafNode prev;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 这个结点在链表中的后继结点 </span><br><span class="line">  public BPlusTreeLeafNode next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在 B+ 树中，树中的节点并不存储数据本身，而是只是作为索引。除此之外，所有记录的节点按大小顺序存储在同一层的叶节点中，并且每个叶节点通过指针连接。</p>
-<p>总结下，B + 树有以下特点</p>
-<ol>
-<li>B + 树的每个节点可以包含更多节点，其原因有两个，其一是降低树的高度 (索引不会全部存储在内存中，内存中可能撑不住，所以一般都是将索引树存储在磁盘中，只是将根节点放到内存中，这样对每个节点的访问，实际上就是访问磁盘，树的高度就等于每次查询数据时磁盘 IO 操作的次数), 另一种是将数据范围更改为多个间隔。间隔越大，数据检索越快 (可以想象跳表)</li>
-<li>每个节点不在是存储一个 key, 而是存储多个 key</li>
-<li>叶节点来存储数据，而其他节点用于索引</li>
-<li>叶子节点通过两个指针相互链接，顺序查询性能更高。</li>
-</ol>
-<p>这样设计还有以下优点：</p>
-<ol>
-<li>B + 树的非叶子节点仅存储键，占用很小的空间，因此节点的每一层可以索引的数据范围要宽得多。换句话说，可以为每个 IO 操作搜索更多数据</li>
-<li>叶子节点成对连接，符合磁盘的预读特性。例如，叶节点存储 50 和 55，它们具有指向叶节点 60 和 62 的指针。当我们从磁盘读取对应于 50 和 55 的数据时，由于磁盘的预读特性，我们将顺便提一下 60 和 62。读出相应的数据。这次是顺序读取，而不是磁盘搜索，加快了速度。</li>
-<li>支持范围查询，局部范围查询非常高效，每个节点都可以索引更大，更准确的范围，这意味着 B + 树单磁盘 IO 信息大于 B 树，并且 I / O 效率更高</li>
-<li>由于数据存储在叶节点层中，并且有指向其他叶节点的指针，因此范围查询仅需要遍历叶节点层，而无需遍历整个树。</li>
-</ol>
-<p>由于磁盘访问速度和内存之间存在差距，为了提高效率，应将磁盘 I / O 最小化。磁盘通常不是严格按需读取的，而是每次都被预读。磁盘读取所需的数据后，它将向后读取内存中的一定长度的数据。这样做的理论基础是计算机科学中众所周知的本地原理：</p>
-<blockquote>
-<p>关于 MySQL 数据索引是如何实现的，可以参考这篇文章：<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/77830">https://time.geekbang.org/column/article/77830</a></p>
-</blockquote>
-<h3 id="B-Tree"><a href="#B-Tree" class="headerlink" title="B-Tree"></a>B-Tree</h3><p>B-Tree 实际上也是一颗 m 叉平衡查找树</p>
-<p><a target="_blank" rel="noopener" href="https://generalthink.github.io/images/java/B-Tree.png"><img src="../img/B-Tree.png" alt="B-Tree"></a></p>
-<p><a target="_blank" rel="noopener" href="https://generalthink.github.io/images/java/B-Tree.png">B-Tree</a></p>
-<ol>
-<li>所有的 key 值分布在整个树中</li>
-<li>所有的 key 值出现在一个节点中</li>
-<li>搜索可以在非叶子节点处结束</li>
-<li>在完整的关键字搜索过程中，性能接近二分搜索。</li>
-</ol>
-<h3 id="B-树和-B-树之间的区别"><a href="#B-树和-B-树之间的区别" class="headerlink" title="B 树和 B + 树之间的区别"></a>B 树和 B + 树之间的区别</h3><ol>
-<li>B + 树中的非叶子节点不存储数据，并且存储在叶节点中的所有数据使得查询时间复杂度固定为 log n。</li>
-<li>B 树查询时间的复杂度不是固定的，它与键在树中的位置有关，最好是 O（1）。</li>
-<li>由于 B + 树的叶子节点是通过双向链表链接的，所以支持范围查询，且效率比 B 树高</li>
-<li>B 树每个节点的键和数据是一起的</li>
-</ol>
-<h3 id="为什么-MongoDB-使用-B-Tree-Mysql-使用-B-Tree"><a href="#为什么-MongoDB-使用-B-Tree-Mysql-使用-B-Tree" class="headerlink" title="为什么 MongoDB 使用 B-Tree,Mysql 使用 B+Tree ?"></a>为什么 MongoDB 使用 B-Tree,Mysql 使用 B+Tree ?</h3><p>B + 树中的非叶子节点不存储数据，并且存储在叶节点中的所有数据使得查询时间复杂度固定为 log n。B 树查询时间复杂度不是固定的，它与键在树中的位置有关，最好是 O (1)。</p>
-<p><strong>我们已经说过，尽可能少的磁盘 IO 是提高性能的有效方法。MongoDB 是一个聚合数据库，而 B 树恰好是键域和数据域的集群。</strong></p>
-<p>至于为什么 MongoDB 使用 B 树而不是 B + 树，可以从其设计的角度考虑它。<br>MongoDB 不是传统的关系数据库，而是以 BSON 格式 (可以认为是 JSON) 存储的 nosql。目的是高性能，高可用性和易于扩展。</p>
-<p>Mysql 是关系型数据库，最常用的是数据遍历操作 (join)，而 MongoDB 它的数据更多的是聚合过的数据，不像 Mysql 那样表之间的关系那么强烈，因此 MongoDB 更多的是单个查询。</p>
-<p>由于 Mysql 使用 B + 树，数据在叶节点上，叶子节点之间又通过双向链表连接，更加有利于数据遍历，而 MongoDB 使用 B 树，所有节点都有一个数据字段。只要找到指定的索引，就可以对其进行访问。毫无疑问，单个查询 MongoDB 平均查询速度比 Mysql 快。</p>
-<h3 id="Hash-索引"><a href="#Hash-索引" class="headerlink" title="Hash 索引"></a>Hash 索引</h3><p>简而言之，哈希索引使用某种哈希算法将键值转换为新的哈希值。不需要像 B + 树那样从根节点到叶节点逐步搜索。只需要一种哈希算法，就可以立即找到对应的位置，速度非常快。(此处可以想想 Java 中的 HashMap)。</p>
-<h4 id="B-树索引和-Hash-索引的区别"><a href="#B-树索引和-Hash-索引的区别" class="headerlink" title="B + 树索引和 Hash 索引的区别"></a>B + 树索引和 Hash 索引的区别</h4><ol>
-<li><p>如果是等价查询，则哈希索引显然具有绝对优势，因为只需一种算法即可找到相应的键值；当然，前提是键值是唯一的，如果存在 hash 冲突就必须链表遍历了。</p>
-</li>
-<li><p>哈希索引不支持范围查询 (不过改造之后可以，Java 中的 LinkedHashMap 通过链表保存了节点的插入顺序，那么也可以使用链表将数据的大小顺序保存起来)</p>
-<blockquote>
-<p>这样做虽然支持了范围查询但是时间复杂度是 O (n), 效率比跳表和 B+Tree 差</p>
-</blockquote>
-</li>
-<li><p>哈希索引无法使用索引排序以及模糊匹配</p>
-</li>
-<li><p>哈希索引也不支持多列联合索引的最左边匹配规则。</p>
-</li>
-<li><p>键值大量冲突的情况下，Hash 索引效率极低</p>
-</li>
-</ol>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-think-about-cluster" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2525ce5c.html" class="article-date">
-      <time datetime="2021-10-15T02:33:48.000Z" itemprop="datePublished">2021-10-15</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2525ce5c.html">think-about-cluster</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>分布式集群</p>
-<p>分布式: 即拆分原有的功能,避免冗余和服务的耦合</p>
-<p>集群: 提供多台服务避免单点故障</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>分布式集群</p>
-<p>分布式: 即拆分原有的功能,避免冗余和服务的耦合</p>
-<p>集群: 提供多台服务避免单点故障</p>
-<p>使用分布式集群好处很多 避免某个服务出问题服务不受影响,同时提供多台性能没那么强的数据也成本更低,数据的分块和副本也能最大程度减少数据的丢失,<strong>单机io瓶颈</strong></p>
-<p>坏处就是: 开发成本 超时等待,不同节点数据的同步,分布式事务,grpc接口的各种可能情况</p>
-<p>通常会有3个以上的节点,数据过来会被分块和创建副本,同时会有选取机制或者是专门的服务负责协调数据的同步和客户端访问具体的数据节点</p>
-<p>下面举出比较有特点的分布式服务</p>
-<table>
-<thead>
-<tr>
-<th><strong>elasticsearch</strong></th>
-<th><strong>kafka</strong></th>
-<th><strong>hbase</strong></th>
-<th><strong>zookeeper</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>节点 datandoe coordinate数据 doc数据集 index数据分块 shard</td>
-<td>节点 broke数据 message数据集 topic数据集分块 partition replica例外消费者comsumer生产者 producter消费者组 comsumer-group元数据保存在zookeeper上</td>
-<td>节点 datanode数据</td>
-<td>节点 node选举半数以上有个master,存储元数据leaderfollower</td>
-</tr>
-<tr>
-<td>index：对外暴露的搜索单元，由一系列的shard组成。shard：es实际执行的单元，开始针对索引的写入和查询，都会拆分为segment：es里面完整的索引集合，由document和索引文件document：对应一天天数据translog: 事务日志</td>
-<td></td>
-<td>table：由多行数据组成region：由很多store组成，有多少个列族就有多少个storeStore: 由Memstore和StoreFile组成，一个列簇对应一个Store，包含在内存中的Memstore以及持久化到hdfs里的多个HFile，StoreFile的底层就是HFile，它是HFile的一个轻量级封装row, column, cell: 一个row由rowKey和多个column及其对应值组成，一张表的所有row都按rowkey的字典序由小到大排序，column由columnFamily和Qualifier组成，cell是row, column, timestamp, type, value等组成。HLog: 类似于ES的Translog，主要也是用于数据的恢复。</td>
-<td></td>
-</tr>
-<tr>
-<td>merge 索引 merge 分块</td>
-<td>rebalance 消费者rebalance topic 的推送</td>
-<td>为什么hbase会有列族 可以没有严格限定列的格式就是因为 hbase的</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>下面是补充</p>
-<h2 id="分布式系统常见异常问题"><a href="#分布式系统常见异常问题" class="headerlink" title="分布式系统常见异常问题"></a>分布式系统常见异常问题</h2><ul>
-<li><p>通信异常：网络不可用（消息延迟或者丢失），会导致分布式系统内部无法顺利进行一次网络通信进行沟通协调，所以可能造成多节点数据丢失和 状态不一致，还有可能造成数据乱序。解决方案：重试机制</p>
-</li>
-<li><p>网络分区：网络不连通，但各个子网络的内部网络是正常的，从而导致整个系统的网络环境被切分成了若干个孤立的区域，分布式系统就会出现局 部小集群造成数据不一致。解决方案：把数据状态不是最新的给下线掉</p>
-</li>
-<li><p>节点故障/机器宕机：服务器节点出现的宕机或”僵死”现象，这是常态，而不是异常。解决方案：数据副本协议，异步复制</p>
-</li>
-<li><p>分布式三态：即成功、失败和超时，分布式环境中的网络通信请求发送和结果响应都有可能丢失，所以请求发起方无法确定消息是否处理成功。分 布式系统的可用性：在用户能忍受的时间范围内，一定给出响应！解决方案：超时处理</p>
-</li>
-<li><p>存储数据丢失：对于有状态节点来说，数据丢失意味着状态丢失，通常只能从其他节点读取、恢复存储的状态。解决方案：副本协议</p>
-</li>
-</ul>
-<h2 id="2-3-分布式系统性能指标"><a href="#2-3-分布式系统性能指标" class="headerlink" title="2.3 分布式系统性能指标"></a>2.3 分布式系统性能指标</h2><ul>
-<li><p><strong>性能</strong>：下面三个性能指标（吞吐，延迟，并发）往往会相互制约，追求高吞吐的系统，往往很难做到低延迟；系统平均响应时间较长时，也很难提高 QPS。<em>系统的吞吐能力，指系统在某一时间可以处理的数据/请求总量，通常可以用系统每秒处理的总数据/总请求量来衡量； 系统的响应延迟，指系统完成某一功能需要使用的时间； 系统的并发能力，指系统可以同时完成某一功能的能力，通常也用QPS(query per second)来衡量。</em></p>
-</li>
-<li><p><strong>可用性</strong>：系统的可用性（availability）指系统在面对各种异常时可以正确提供服务的能力。系统的可用性可以用系统停服务的时间与正常服务的时间 的比例来衡量，也可以用某功能的失败次数与成功次数的比例来衡量。可用性是分布式的重要指标，衡量了系统的鲁棒性，是系统容错能力的体现。（5 个 9 的可靠性：一年只有 5 分钟的宕机时间！6 个 9 的可靠性，也就是 31 秒，99.9999%）</p>
-</li>
-<li><p><strong>可扩展性</strong>：系统的可扩展性（scalability）指分布式系统通过扩展集群机器规模提高系统性能（吞吐、延迟、并发）、存储容量、计算能力的特性。好 的分布式系统总在追求 “线性扩展性”，也就是使得系统的某一指标可以随着集群中的机器数量线性增长。最期望的情况：动态热部署</p>
-</li>
-<li><p><strong>一致性</strong>：分布式系统为了提高可用性，总是不可避免的使用副本的机制，从而引发副本一致性的问题。越是强的一致性的模型，对于用户使用来说使 用起来越简单。</p>
-</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="http://luochong.online/2021/06/11/ZooKeeper%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%88%86%E6%9E%90/">ZooKeeper架构设计分析/</a></p>
 
                -->
         </div>
