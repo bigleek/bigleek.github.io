@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="Redis是一个开源的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。以下是它的主要特点和原理：  内存存储：将所有数据存储在内存中，以实现快速读写访问。同时，它支持多种数据结构，如字符串、哈希、列表、集合和有序集合。 持久性：Redis支持将数据持久化到磁盘上，以实现数据的可靠存储和恢复。它提供两种不同的持久化选项：快照和日志。 高可用性：Redis支持主从复制和哨兵机制，以实现高可用性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis介绍">
+<meta property="og:url" content="https://imlike.cc/1a32b04.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="Redis是一个开源的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。以下是它的主要特点和原理：  内存存储：将所有数据存储在内存中，以实现快速读写访问。同时，它支持多种数据结构，如字符串、哈希、列表、集合和有序集合。 持久性：Redis支持将数据持久化到磁盘上，以实现数据的可靠存储和恢复。它提供两种不同的持久化选项：快照和日志。 高可用性：Redis支持主从复制和哨兵机制，以实现高可用性">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-44-47.png?version=1&modificationDate=1696920288000&api=v2">
+<meta property="og:image" content="https://image-static.segmentfault.com/124/529/1245298177-5e6ed603a6d8b_articlex">
+<meta property="og:image" content="https://image-static.segmentfault.com/423/790/4237905659-5e6ed60450b11_articlex">
+<meta property="og:image" content="https://image-static.segmentfault.com/965/514/965514528-5e6ed605ee5db_articlex">
+<meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/61781cd6d82e4a0cc5f7521333049f0d.png">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-14-16.png?version=1&modificationDate=1695096856000&api=v2">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-50-12.png?version=1&modificationDate=1696920612000&api=v2">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-26-33.png?version=1&modificationDate=1695097593000&api=v2">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/45221264/1280X1280.PNG?version=1&modificationDate=1695099341000&api=v2">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-44-47.png?version=1&modificationDate=1696920288000&api=v2">
+<meta property="og:image" content="https://image-static.segmentfault.com/124/529/1245298177-5e6ed603a6d8b_articlex">
+<meta property="og:image" content="https://image-static.segmentfault.com/423/790/4237905659-5e6ed60450b11_articlex">
+<meta property="og:image" content="https://image-static.segmentfault.com/965/514/965514528-5e6ed605ee5db_articlex">
+<meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/61781cd6d82e4a0cc5f7521333049f0d.png">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-14-16.png?version=1&modificationDate=1695096856000&api=v2">
+<meta property="og:image" content="https://imlike.cc/img/7c19b433-91f4-4575-9536-8fd9050da6d4.gif">
+<meta property="article:published_time" content="2023-10-14T06:35:26.000Z">
+<meta property="article:modified_time" content="2024-03-14T14:55:29.480Z">
+<meta property="article:author" content="leek">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-44-47.png?version=1&modificationDate=1696920288000&api=v2">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>redis介绍 | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-redis介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1a32b04.html" class="article-date">
+      <time datetime="2023-10-14T06:35:26.000Z" itemprop="datePublished">2023-10-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      redis介绍
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!--  -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Redis%E7%9A%84%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%92%8CLinux%E7%9A%84ePoll%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">1. Redis的单线程和Linux的ePoll特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">1.1. 缓存数据存储和持久化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Redis%E6%94%AF%E6%8C%81%E7%9A%84%E5%B8%B8%E8%A7%81%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">2. Redis支持的常见结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">2.1. 数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%88String%EF%BC%89%EF%BC%9A"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1. .字符串（String）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-2-%E5%93%88%E5%B8%8C%EF%BC%88Hash%EF%BC%89%EF%BC%9A"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.1.2. 哈希（Hash）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-3-%E5%88%97%E8%A1%A8%EF%BC%88List%EF%BC%89%EF%BC%9A"><span class="toc-number">2.1.3.</span> <span class="toc-text">2.1.3. 列表（List）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-4-%E9%9B%86%E5%90%88%EF%BC%88Set%EF%BC%89%EF%BC%9A"><span class="toc-number">2.1.4.</span> <span class="toc-text">2.1.4. 集合（Set）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-5-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%EF%BC%88Sorted-Set%EF%BC%89%EF%BC%9A"><span class="toc-number">2.1.5.</span> <span class="toc-text">2.1.5. 有序集合（Sorted Set）：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-Redis%E6%94%AF%E6%8C%81%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B%EF%BC%9A%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8%E3%80%81HyperLogLog%E5%92%8CGeohash"><span class="toc-number">2.2.</span> <span class="toc-text">2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8-Bloom-filter"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1. 布隆过滤器(Bloom filter)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-HyperLogLog-HyperLogLog"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2. HyperLogLog(HyperLogLog)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E5%B8%83%E8%B0%B7%E9%B8%9F%E7%AE%97%E6%B3%95-Cuckoo-filter"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3. 布谷鸟算法(Cuckoo filter)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-4-%E7%A9%BA%E9%97%B4%E7%B1%BB%E5%9E%8B-geospatial"><span class="toc-number">2.2.4.</span> <span class="toc-text">2.2.4. 空间类型 geospatial</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-5-BitMap%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.5.</span> <span class="toc-text">2.2.5. BitMap类型 </span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Redis%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5"><span class="toc-number">3.</span> <span class="toc-text">3. Redis淘汰策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-Redis%E9%9B%86%E7%BE%A4"><span class="toc-number">4.</span> <span class="toc-text">4. Redis集群</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="toc-number">4.1.</span> <span class="toc-text">4.1. 主从复制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">4.1.1.</span> <span class="toc-text">4.1.1. 主从复制的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.2.</span> <span class="toc-text">4.2. 哨兵模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-Cluster%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.3.</span> <span class="toc-text">4.3. Cluster模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-Redis%E4%B8%AD%E7%9A%84%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E5%92%8C%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E9%97%AE%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">5. Redis中的缓存雪崩和缓存击穿问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">5.1.</span> <span class="toc-text">5.1. 缓存雪崩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="toc-number">5.2.</span> <span class="toc-text">5.2. 缓存击穿</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E5%9C%A8Spring-Boot%E4%B8%AD%E4%BD%BF%E7%94%A8Redis"><span class="toc-number">6.</span> <span class="toc-text">6. 在Spring Boot中使用Redis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-%E6%B7%BB%E5%8A%A0Redis%E4%BE%9D%E8%B5%96"><span class="toc-number">6.1.</span> <span class="toc-text">6.1. .添加Redis依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E9%85%8D%E7%BD%AERedis%E8%BF%9E%E6%8E%A5"><span class="toc-number">6.2.</span> <span class="toc-text">6.2. 配置Redis连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-%E4%BD%BF%E7%94%A8RedisTemplate"><span class="toc-number">6.3.</span> <span class="toc-text">6.3. 使用RedisTemplate</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="toc-number">7.</span> <span class="toc-text">7. 使用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-%E5%B8%B8%E8%A7%81%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%AF%94%E8%BE%83-lettuce-redisson-jedis"><span class="toc-number">7.1.</span> <span class="toc-text">7.1. 常见客户端比较 lettuce ,redisson,jedis</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-%E7%BB%93%E8%AE%BA"><span class="toc-number">8.</span> <span class="toc-text">8. 结论</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Redis%E7%9A%84%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%92%8CLinux%E7%9A%84ePoll%E7%89%B9%E6%80%A7-1"><span class="toc-number">9.</span> <span class="toc-text">1. Redis的单线程和Linux的ePoll特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96-1"><span class="toc-number">9.1.</span> <span class="toc-text">1.1. 缓存数据存储和持久化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Redis%E6%94%AF%E6%8C%81%E7%9A%84%E5%B8%B8%E8%A7%81%E7%BB%93%E6%9E%84-1"><span class="toc-number">10.</span> <span class="toc-text">2. Redis支持的常见结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1"><span class="toc-number">10.1.</span> <span class="toc-text">2.1. 数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%88String%EF%BC%89%EF%BC%9A-1"><span class="toc-number">10.1.1.</span> <span class="toc-text">2.1.1. .字符串（String）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-2-%E5%93%88%E5%B8%8C%EF%BC%88Hash%EF%BC%89%EF%BC%9A-1"><span class="toc-number">10.1.2.</span> <span class="toc-text">2.1.2. 哈希（Hash）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-3-%E5%88%97%E8%A1%A8%EF%BC%88List%EF%BC%89%EF%BC%9A-1"><span class="toc-number">10.1.3.</span> <span class="toc-text">2.1.3. 列表（List）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-4-%E9%9B%86%E5%90%88%EF%BC%88Set%EF%BC%89%EF%BC%9A-1"><span class="toc-number">10.1.4.</span> <span class="toc-text">2.1.4. 集合（Set）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-5-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%EF%BC%88Sorted-Set%EF%BC%89%EF%BC%9A-1"><span class="toc-number">10.1.5.</span> <span class="toc-text">2.1.5. 有序集合（Sorted Set）：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-Redis%E6%94%AF%E6%8C%81%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B%EF%BC%9A%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8%E3%80%81HyperLogLog%E5%92%8CGeohash-1"><span class="toc-number">10.2.</span> <span class="toc-text">2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8-Bloom-filter-1"><span class="toc-number">10.2.1.</span> <span class="toc-text">2.2.1. 布隆过滤器(Bloom filter)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-HyperLogLog-HyperLogLog-1"><span class="toc-number">10.2.2.</span> <span class="toc-text">2.2.2. HyperLogLog(HyperLogLog)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E5%B8%83%E8%B0%B7%E9%B8%9F%E7%AE%97%E6%B3%95-Cuckoo-filter-1"><span class="toc-number">10.2.3.</span> <span class="toc-text">2.2.3. 布谷鸟算法(Cuckoo filter)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-4-%E7%A9%BA%E9%97%B4%E7%B1%BB%E5%9E%8B-geospatial-1"><span class="toc-number">10.2.4.</span> <span class="toc-text">2.2.4. 空间类型 geospatial</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-5-BitMap%E7%B1%BB%E5%9E%8B-1"><span class="toc-number">10.2.5.</span> <span class="toc-text">2.2.5. BitMap类型 </span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Redis%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5-1"><span class="toc-number">11.</span> <span class="toc-text">3. Redis淘汰策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-Redis%E9%9B%86%E7%BE%A4-1"><span class="toc-number">12.</span> <span class="toc-text">4. Redis集群</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6-1"><span class="toc-number">12.1.</span> <span class="toc-text">4.1. 主从复制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9-1"><span class="toc-number">12.1.1.</span> <span class="toc-text">4.1.1. 主从复制的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F-1"><span class="toc-number">12.2.</span> <span class="toc-text">4.2. 哨兵模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-Cluster%E6%A8%A1%E5%BC%8F-1"><span class="toc-number">12.3.</span> <span class="toc-text">4.3. Cluster模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-Redis%E4%B8%AD%E7%9A%84%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E5%92%8C%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E9%97%AE%E9%A2%98-1"><span class="toc-number">13.</span> <span class="toc-text">5. Redis中的缓存雪崩和缓存击穿问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9-1"><span class="toc-number">13.1.</span> <span class="toc-text">5.1. 缓存雪崩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-1"><span class="toc-number">13.2.</span> <span class="toc-text">5.2. 缓存击穿</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E5%9C%A8Spring-Boot%E4%B8%AD%E4%BD%BF%E7%94%A8Redis-1"><span class="toc-number">14.</span> <span class="toc-text">6. 在Spring Boot中使用Redis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-%E6%B7%BB%E5%8A%A0Redis%E4%BE%9D%E8%B5%96-1"><span class="toc-number">14.1.</span> <span class="toc-text">6.1. .添加Redis依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E9%85%8D%E7%BD%AERedis%E8%BF%9E%E6%8E%A5-1"><span class="toc-number">14.2.</span> <span class="toc-text">6.2. 配置Redis连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-%E4%BD%BF%E7%94%A8RedisTemplate-1"><span class="toc-number">14.3.</span> <span class="toc-text">6.3. 使用RedisTemplate</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3-1"><span class="toc-number">15.</span> <span class="toc-text">7. 使用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-%E5%B8%B8%E8%A7%81%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%AF%94%E8%BE%83-lettuce-redisson-jedis-1"><span class="toc-number">15.1.</span> <span class="toc-text">7.1. 常见客户端比较 lettuce ,redisson,jedis</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-%E7%BB%93%E8%AE%BA-1"><span class="toc-number">16.</span> <span class="toc-text">8. 结论</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#8-1-%E5%B8%B8%E8%A7%81%E7%9A%84%E7%94%A8%E9%80%94"><span class="toc-number">16.1.</span> <span class="toc-text">8.1. 常见的用途</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-1-%E5%B8%B8%E8%A7%81%E7%9A%84%E7%94%A8%E9%80%94-1"><span class="toc-number">16.2.</span> <span class="toc-text">8.1. 常见的用途</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <p>Redis是一个开源的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。以下是它的主要特点和原理：</p>
+<ul>
+<li>内存存储：将所有数据存储在内存中，以实现快速读写访问。同时，它支持多种数据结构，如字<strong>符串、哈希、列表、集合和有序集合</strong>。</li>
+<li>持久性：Redis支持将数据持久化到磁盘上，以实现数据的可靠存储和恢复。它提供两种不同的持久化选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，以实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现横向扩展和高性能。</li>
+<li>事务和Lua脚本：重新支持事务和Lua脚本，以实现原子操作和自定义命令。</li>
+</ul>
+<h1 id="1-Redis的单线程和Linux的ePoll特性"><a href="#1-Redis的单线程和Linux的ePoll特性" class="headerlink" title="1. Redis的单线程和Linux的ePoll特性"></a>1. Redis的单线程和Linux的ePoll特性</h1><p>Redis是单线程的，这意味着它使用一个主线程来处理所有客户端请求。它的性能非常高，因为它不需要线程切换的开销，并且可以使用非常少的内存来处理大量的并发连接。另外，Redis使用Linux的ePoll特性来实现异步I/O操作，这使得Redis能够在高负载情况下保持高性能。</p>
+<p>在**redis中会有epoll模型是基于异步的io来实现的,**在该模型下每个连接都会有个FileDscript的文件来标示连接情况,连接的客户端有相关的io才会唤醒redis的线程来进行操作</p>
+<h2 id="1-1-缓存数据存储和持久化"><a href="#1-1-缓存数据存储和持久化" class="headerlink" title="1.1. 缓存数据存储和持久化"></a>1.1. 缓存数据存储和持久化</h2><ol>
+<li><p>RDB（Redis Database）：</p>
+<ul>
+<li>RDB 是 Redis 数据的非常紧凑的单文件时间点表示形式。 RDB 文件非常适合备份。 例如，您可能希望在最近 24 小时内每小时归档一次 RDB 文件，并在 30 天内每天保存一个 RDB 快照。 这使您可以在发生灾难时轻松恢复不同版本的数据集。<br>RDB 非常适合灾难恢复，它是一个紧凑的文件，可以传输到远程数据中心或 Amazon S3（可能是加密的）。<br>RDB 最大限度地提高了 Redis 的性能，因为 Redis 父进程为了持久化需要做的唯一工作就是派生一个子进程，该子进程将完成其余所有工作。 父进程永远不会执行磁盘 I/O 等操作。<br>与 AOF 相比，RDB 允许更快地重新启动大数据集。<br>在副本上，RDB 支持重启和故障转移后的部分重新同步。</li>
+</ul>
+</li>
+<li><p>AOF日志（Append-Only File）：</p>
+<ul>
+<li><p>AOF日志以追加方式记录Redis服务器所执行的写命令，以文本格式保存在一个文件中。</p>
+</li>
+<li><p>AOF日志允许Redis将写操作追加到文件的末尾，以保持数据的完整性。</p>
+</li>
+<li><p>AOF日志可以通过配置文件中的appendonly选项来启用和配置。</p>
+</li>
+<li><p>AOF日志的优点是可以提供更高的数据安全性和持久性，但相比于快照有一定的性能开销。</p>
+</li>
+<li><p>可以通过配置AOF重写来压缩和优化AOF日志的大小。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="2-Redis支持的常见结构"><a href="#2-Redis支持的常见结构" class="headerlink" title="2. Redis支持的常见结构"></a>2. Redis支持的常见结构</h1><h2 id="2-1-数据结构"><a href="#2-1-数据结构" class="headerlink" title="2.1. 数据结构"></a>2.1. 数据结构</h2><h3 id="2-1-1-字符串（String）："><a href="#2-1-1-字符串（String）：" class="headerlink" title="2.1.1. .字符串（String）："></a>2.1.1. .字符串（String）：</h3><p>Redis的字符串是一个简单的键值对结构，键是一个字符串，值可以是任意二进制数据。<br>常用操作：设置值、获取值、增加或减少数值、追加字符串、获取子字符串等。<br>适用场景：缓存、计数器、分布式锁等。</p>
+<h3 id="2-1-2-哈希（Hash）："><a href="#2-1-2-哈希（Hash）：" class="headerlink" title="2.1.2. 哈希（Hash）："></a>2.1.2. 哈希（Hash）：</h3><p>Redis的哈希是一个键值对集合，其中键是一个字符串，值是一个字段-值对的映射表。<br>常用操作：设置字段值、获取字段值、获取所有字段与值、删除字段等。<br>适用场景：存储对象、存储用户信息、存储配置信息等。</p>
+<h3 id="2-1-3-列表（List）："><a href="#2-1-3-列表（List）：" class="headerlink" title="2.1.3. 列表（List）："></a>2.1.3. 列表（List）：</h3><p>Redis的列表是一个有序的字符串元素集合，它可以在两端进行插入、删除和查询操作。<br>常用操作：从列表的左端或右端插入元素、从左端或右端弹出元素、获取指定索引位置的元素等。<br>适用场景：消息队列、实现最新消息推送、记录操作日志等。</p>
+<h3 id="2-1-4-集合（Set）："><a href="#2-1-4-集合（Set）：" class="headerlink" title="2.1.4. 集合（Set）："></a>2.1.4. 集合（Set）：</h3><p>Redis的集合是一个无序的字符串元素集合，它不允许重复的元素存在。<br>常用操作：添加元素、移除元素、判断元素是否存在、求交集、求并集等。<br>适用场景：标签系统、好友关系、计算共同喜好等。</p>
+<h3 id="2-1-5-有序集合（Sorted-Set）："><a href="#2-1-5-有序集合（Sorted-Set）：" class="headerlink" title="2.1.5. 有序集合（Sorted Set）："></a>2.1.5. 有序集合（Sorted Set）：</h3><p>Redis的有序集合是一个排序的字符串元素集合，每个元素都会关联一个分数，通过分数可以进行排序。<br>常用操作：添加元素、移除元素、根据分数范围获取元素等。<br>适用场景：排行榜、优先级队列、范围查询等。</p>
+<h2 id="2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash"><a href="#2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash" class="headerlink" title="2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash"></a>2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash</h2><p>除了支持字符串、哈希、列表、集合和排序集等常见数据结构外，Redis还支持在某些用例中有用的几种专用数据类型。</p>
+<h3 id="2-2-1-布隆过滤器-Bloom-filter"><a href="#2-2-1-布隆过滤器-Bloom-filter" class="headerlink" title="2.2.1. 布隆过滤器(Bloom filter)"></a>2.2.1. 布隆过滤器(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/bloom-filter/">Bloom filter</a>)</h3><p>布隆过滤器是一种概率数据结构，可用于确定元素是否可能存在于集合中。它们在误报（表示元素不在集合中时）是可以接受的，但误报（表示元素不在集合中时）不是可以接受的情况下特别有用。Redis中的布隆过滤器是使用<code>BF. ADD</code>、<code>BF.EXISTS</code>和<code>BF.MADD</code>命令实现的。</p>
+<h3 id="2-2-2-HyperLogLog-HyperLogLog"><a href="#2-2-2-HyperLogLog-HyperLogLog" class="headerlink" title="2.2.2. HyperLogLog(HyperLogLog)"></a>2.2.2. HyperLogLog(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/hyperloglogs/">HyperLogLog</a>)</h3><p>HyperLogLog是一种用于估计集合基数的概率算法。它为存储集合本身提供了一种节省空间的替代方案，可用于高精度估计非常大的集合中唯一元素的数量。Redis中的HyperLogLog使用<code>PFADD</code>、<code>PFCOUNT</code>和<code>PFMERGE</code>命令实现。</p>
+<h3 id="2-2-3-布谷鸟算法-Cuckoo-filter"><a href="#2-2-3-布谷鸟算法-Cuckoo-filter" class="headerlink" title="2.2.3. 布谷鸟算法(Cuckoo filter)"></a>2.2.3. 布谷鸟算法(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/cuckoo-filter/">Cuckoo filter</a>)</h3><p>检测特定集合是否存在是否存在</p>
+<h3 id="2-2-4-空间类型-geospatial"><a href="#2-2-4-空间类型-geospatial" class="headerlink" title="2.2.4. 空间类型 geospatial"></a>2.2.4. 空间类型 <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/geospatial/">geospatial</a></h3><p>地理散列是一种以保留接近度的方式将地理坐标编码为字符串的技术。它可用于对一组坐标执行空间查询，例如查找给定点一定半径内的所有坐标。Redis支持通过<code>GEOADD</code>、<code>GEODIST</code>、<code>GEOHASH</code>、<code>GEOPOS</code>和<code>GEORADIUS</code>命令进行地理散列。<br>通过为这些专门的数据类型提供支持，Redis使开发人员能够凭借其强大的内存数据存储和处理能力解决更广泛的问题。</p>
+<h3 id="2-2-5-BitMap类型"><a href="#2-2-5-BitMap类型" class="headerlink" title="2.2.5. BitMap类型 "></a>2.2.5. <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/bitmaps/">BitMap类型 </a></h3><p>Bitmap，即位图，是一串连续的二进制数组（0和1），可以通过偏移量（offset）定位元素。BitMap通过最小的单位bit来进行<code>0|1</code>的设置，表示某个元素的值或者状态，时间复杂度为O(1)。由于bit是计算机中最小的单位，使用它进行储存将非常节省空间，特别适合一些数据量大且使用二值统计的场景。</p>
+<p>使用示例 位移值和0|1 存储值,例如是否在线,考勤是否打卡</p>
+<h1 id="3-Redis淘汰策略"><a href="#3-Redis淘汰策略" class="headerlink" title="3. Redis淘汰策略"></a>3. Redis淘汰策略</h1><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-44-47.png?version=1&modificationDate=1696920288000&api=v2" alt="img"></p>
+<p>Redis的淘汰策略，根据是否会进行数据淘汰可以把它们分成两类：</p>
+<ul>
+<li>不进行数据淘汰的策略，只有 noeviction 这一种。</li>
+<li>会进行淘汰的 7 种其他策略。</li>
+</ul>
+<p>会进行淘汰的 7 种策略，我们可以再进一步根据淘汰候选数据集的范围把它们分成两类：</p>
+<ul>
+<li>在设置了过期时间的数据中进行淘汰，包括 volatile-random、volatile-ttl、volatile-lru、volatile-lfu（Redis 4.0 后新增）四种。</li>
+<li>在所有数据范围内进行淘汰，包括 allkeys-lru、allkeys-random、allkeys-lfu（Redis 4.0 后新增）三种。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7027067417469648926">Redis的八种淘汰策略（五） - 掘金</a></p>
+<p>volatile-random、volatile-ttl、volatile-lru、volatile-lfu 四种策略是针对已经设置了过期时间的键值对。到键值对的到期时间到了或者Redis内存使用量达到了<code>maxmemory</code>阈值，Redis会根据这些策略对键值对进行淘汰；</p>
+<ul>
+<li>volatile-ttl 在筛选时，会针对设置了过期时间的键值对，根据过期时间的先后进行删除，越早过期的越先被删除。</li>
+<li>volatile-random 就像它的名称一样，在设置了过期时间的键值对中，进行随机删除。</li>
+<li>volatile-lru 会使用 LRU (最近最少使用淘汰算法（Least Recently Used）) 算法筛选设置了过期时间的键值对。</li>
+<li>volatile-lfu 会使用 LFU 最不经常使用淘汰算法（Least Frequently Used）选择设置了过期时间的键值对。</li>
+</ul>
+<p>备注:</p>
+<p>LRU，即：最近最少使用淘汰算法（Least Recently Used）。LRU是淘汰最长时间没有被使用的页面。</p>
+<p>LFU，即：最不经常使用淘汰算法（Least Frequently Used）。LFU是淘汰一段时间内，使用次数最少的页面</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fengzheng/p/13296082.html">动手实现 LRU 算法，以及 Caffeine 和 Redis 中的缓存淘汰策略 - 风的姿态 - 博客园</a></p>
+<h1 id="4-Redis集群"><a href="#4-Redis集群" class="headerlink" title="4. Redis集群"></a>4. Redis集群</h1><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022028642">一文掌握Redis的三种集群方案 - 个人文章 - SegmentFault 思否</a></p>
+<h2 id="4-1-主从复制"><a href="#4-1-主从复制" class="headerlink" title="4.1. 主从复制"></a>4.1. 主从复制</h2><p><img src="https://image-static.segmentfault.com/124/529/1245298177-5e6ed603a6d8b_articlex" alt="redis-master-slave"></p>
+<h3 id="4-1-1-主从复制的优缺点"><a href="#4-1-1-主从复制的优缺点" class="headerlink" title="4.1.1. 主从复制的优缺点"></a>4.1.1. 主从复制的优缺点</h3><p>优点：</p>
+<ol>
+<li>master能自动将数据同步到slave，可以进行读写分离，分担master的读压力</li>
+<li>master、slave之间的同步是以非阻塞的方式进行的，同步期间，客户端仍然可以提交查询或更新请求</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>不具备自动容错与恢复功能，master或slave的宕机都可能导致客户端请求失败，需要等待机器重启或手动切换客户端IP才能恢复</li>
+<li>master宕机，如果宕机前数据没有同步完，则切换IP后会存在数据不一致的问题</li>
+<li>难以支持在线扩容，Redis的容量受限于单机配置</li>
+</ol>
+<h2 id="4-2-哨兵模式"><a href="#4-2-哨兵模式" class="headerlink" title="4.2. 哨兵模式"></a>4.2. 哨兵模式</h2><p><img src="https://image-static.segmentfault.com/423/790/4237905659-5e6ed60450b11_articlex" alt="redis-sentinel"></p>
+<p>优点：</p>
+<ol>
+<li>哨兵模式基于主从复制模式，所以主从复制模式有的优点，哨兵模式也有</li>
+<li>哨兵模式下，master挂掉可以自动进行切换，系统可用性更高</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>同样也继承了主从模式难以在线扩容的缺点，Redis的容量受限于单机配置</li>
+<li>需要额外的资源来启动sentinel进程，实现相对复杂一点，同时slave节点作为备份节点不提供服务</li>
+</ol>
+<h2 id="4-3-Cluster模式"><a href="#4-3-Cluster模式" class="headerlink" title="4.3. Cluster模式"></a>4.3. Cluster模式</h2><p><img src="https://image-static.segmentfault.com/965/514/965514528-5e6ed605ee5db_articlex" alt="redis-cluster"></p>
+<p>　　Redis Cluster 采用虚拟哈希槽分区，所有的键根据哈希函数映射到 0 ~ 16383 整数槽内，计算公式：<code>HASH_SLOT = CRC16(key) % 16384</code>。每一个节点负责维护一部分槽以及槽所映射的键值数据。</p>
+<h1 id="5-Redis中的缓存雪崩和缓存击穿问题"><a href="#5-Redis中的缓存雪崩和缓存击穿问题" class="headerlink" title="5. Redis中的缓存雪崩和缓存击穿问题"></a>5. Redis中的缓存雪崩和缓存击穿问题</h1><p><img src="https://cdn.xiaolincoding.com//mysql/other/61781cd6d82e4a0cc5f7521333049f0d.png" alt="图片"></p>
+<h2 id="5-1-缓存雪崩"><a href="#5-1-缓存雪崩" class="headerlink" title="5.1. 缓存雪崩"></a>5.1. 缓存雪崩</h2><p>缓存雪崩是指在同一时间，缓存中大量的缓存数据失效，导致大量的请求直接打到了后端数据库上，使得数据库瞬间达到峰值负载，甚至直接宕机。这种情况通常发生在缓存中的数据同时过期时间设置相同，同时失效的情况下。<br>为了避免缓存雪崩问题，可以采取以下措施：</p>
+<ul>
+<li>给缓存数据的过期时间加上随机值，避免同时失效。</li>
+<li>将缓存数据的过期时间分散开来，比如一部分设置为5分钟，一部分设置为10分钟，一部分设置为15分钟，以此类推。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<h2 id="5-2-缓存击穿"><a href="#5-2-缓存击穿" class="headerlink" title="5.2. 缓存击穿"></a>5.2. 缓存击穿</h2><p>缓存击穿是指某个热点key在缓存过期的同时，有大量的请求访问该key的时候，这些请求直接穿透到后端数据库，导致数据库瞬间达到峰值负载，甚至直接宕机。<br>为了避免缓存击穿问题，可以采取以下措施：</p>
+<ul>
+<li>在缓存数据不存在时，不直接去查询后端数据库，而是先将该key设置为一个特殊的值（如null），在一段时间内（如5秒）不再查询后端数据库，从而避免瞬间大量请求打到数据库上。</li>
+<li>设置热点数据永不过期，或者过期时间非常长，例如一天、一周、一个月等。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<p>在使用Redis时需要注意缓存雪崩和缓存击穿问题，采取相应的措施可以避免这些问题的发生，提高系统的稳定性和可靠性。<br>在Redis中，缓存失效可能有以下几种情况：</p>
+<ol>
+<li>过期时间到期：当设置了缓存的过期时间后，到期后缓存将会失效。</li>
+<li>主动删除：使用<code>DEL</code>命令或者程序中的<code>delete</code>方法，主动删除缓存。</li>
+<li>内存空间不足：当Rediss内存空间不足时，Rediss会优先淘汰赛掉内存占用较大，使用较少的缓存，以腾出更多的内存空间。</li>
+<li>内存泄漏：当程序中出现内存泄漏时，会导致缓存失效。</li>
+<li>Redis重启：当Redis服务重启时，缓存也会失效。</li>
+</ol>
+<p>为了避免缓存失效，我们可以设置合适的缓存过期时间，定期检查和清理过期缓存，优化Redis的内存使用，以及避免内存泄漏等问题。</p>
+<h1 id="6-在Spring-Boot中使用Redis"><a href="#6-在Spring-Boot中使用Redis" class="headerlink" title="6. 在Spring Boot中使用Redis"></a>6. 在Spring Boot中使用Redis</h1><p>Redis是一个流行的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。在本文中，我们将介绍如何在Spring Boot应用程序中使用Redis。</p>
+<h2 id="6-1-添加Redis依赖"><a href="#6-1-添加Redis依赖" class="headerlink" title="6.1. .添加Redis依赖"></a>6.1. .添加Redis依赖</h2><p>要在Spring Boot应用程序中使用Redis，我们首先需要添加Redis依赖，在Maven项目中，我们可以在pom. xml文件中添加以下依赖项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-配置Redis连接"><a href="#6-2-配置Redis连接" class="headerlink" title="6.2. 配置Redis连接"></a>6.2. 配置Redis连接</h2><p>在我们可以使用Redis之前，我们需要配置Redis连接.在Spring Boot应用程序中，我们可以在application.properties文件中添加以下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=localhost</span><br><span class="line">spring.redis.port=6379</span><br></pre></td></tr></table></figure>
+
+
+<p>这将配置Redis连接到本地主机的默认端口6379。</p>
+<h2 id="6-3-使用RedisTemplate"><a href="#6-3-使用RedisTemplate" class="headerlink" title="6.3. 使用RedisTemplate"></a>6.3. 使用RedisTemplate</h2><p>Spring Boot提供了一个RedisTemplate类，它是一个用于与Redis交互的高级API。我们可以使用RedisTemplate来执行Redis操作，如存储、检索和删除数据。以下是一个使用RedisTemplate执行Redis操作的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private RedisTemplate&lt;String, Object&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">public void setValue(String key, Object value) &#123;</span><br><span class="line">    redisTemplate.opsForValue().set(key, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public Object getValue(String key) &#123;</span><br><span class="line">    return redisTemplate.opsForValue().get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们注入了一个RedisTemplate对象，并使用它来存储和检索数据。我们使用opsForValue()方法来访问Redis值操作，如设置和获取值。</p>
+<h1 id="7-使用注解"><a href="#7-使用注解" class="headerlink" title="7. 使用注解"></a>7. 使用注解</h1><p>除了使用RedisTemplate之外，Spring Boot还提供了一些注解，可以更轻松地使用Redis。例如，我们可以使用@Cacheable注解将方法的结果缓存到Redis中，从而加快方法的执行速度。以下是一个使用@Cacheable注解的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Cacheable(value = &quot;users&quot;, key = &quot;#userId&quot;)</span><br><span class="line">public User getUserById(String userId) &#123;</span><br><span class="line">    // 获取用户信息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们使用@Cache able注解将User By Id方法的结果缓存到名为”user”的Red is缓存中，缓存键为rId参数。</p>
+<h2 id="7-1-常见客户端比较-lettuce-redisson-jedis"><a href="#7-1-常见客户端比较-lettuce-redisson-jedis" class="headerlink" title="7.1. 常见客户端比较 lettuce ,redisson,jedis"></a>7.1. 常见客户端比较 lettuce ,redisson,jedis</h2><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-14-16.png?version=1&modificationDate=1695096856000&api=v2" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">Lettuce</th>
+<th align="left">Redisson</th>
+<th align="left">Jedis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">完整性</td>
+<td align="left">Lettuce 是一个可扩展的线程安全 Redis 客户端，适用于同步、异步和反应式使用。 如果多个线程避免阻塞和事务性操作（例如 BLPOP 和 MULTI/EXEC），则它们可以共享一个连接。 Lettuce是用netty构建的。 支持高级 Redis 功能，例如 Sentinel、集群、管道、自动重新连接和 Redis 数据模型。</td>
+<td align="left">Redisson提供了完整的Redis协议支持,基于<a target="_blank" rel="noopener" href="http://netty.io/">Netty</a> 框架，并在其基础上封装了更丰富的特性，如分布式锁、分布式集合等.线程安全的实现 支持Redis复制、Redis集群、Redis哨兵、Redis主从、Redis单机、Redis代理、Redis多集群设置</td>
+<td align="left">Jedis提供了基本的Redis协议支持，但支持高级功能如Pipelining、Miscellaneous、Cluster、Pub/Sub等。Redis 官方推荐的Java客户端</td>
+</tr>
+<tr>
+<td align="left">连接管理</td>
+<td align="left">支持连接池和连接自动恢复机制，具有更好的连接管理能力。</td>
+<td align="left">支持连接池和连接自动恢复机制，具有较好的连接管理能力。</td>
+<td align="left">支持连接池，但没有连接自动恢复机制，</td>
+</tr>
+<tr>
+<td align="left">异步操作</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">不支持异步操作，只能使用同步方式进行操作。</td>
+</tr>
+<tr>
+<td align="left">分布式功能</td>
+<td align="left">支持Redis Sentinel和Redis Cluster，可以使用Lettuce进行分布式部署。</td>
+<td align="left">提供了丰富的分布式功能，如分布式锁、分布式集合、分布式对象等。</td>
+<td align="left">不支持Redis Sentinel和Redis Cluster，不适用于分布式部署。</td>
+</tr>
+<tr>
+<td align="left">扩展性</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接池实现等。</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接管理器等。</td>
+<td align="left">较难进行扩展，功能相对固定。</td>
+</tr>
+<tr>
+<td align="left">社区活跃度</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有较为活跃的开源社区，但相对于Lettuce和Redisson稍显不足。</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/lettuce-io/lettuce-core%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E6%98%AF">https://github.com/lettuce-io/lettuce-core最新版本是</a></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redisson/redisson">https://github.com/redisson/redisson</a> 最新版是 3.23.4</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redis/jedis">https://github.com/redis/jedis</a> 最近版本是5.0.0</td>
+</tr>
+</tbody></table>
+<h1 id="8-结论"><a href="#8-结论" class="headerlink" title="8. 结论"></a>8. 结论</h1><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-50-12.png?version=1&modificationDate=1696920612000&api=v2" alt="img"></p>
+<p>Redis是一个开源的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。以下是它的主要特点和原理：</p>
+<ul>
+<li>内存存储：将所有数据存储在内存中，以实现快速读写访问。同时，它支持多种数据结构，如字<strong>符串、哈希、列表、集合和有序集合</strong>。</li>
+<li>持久性：Redis支持将数据持久化到磁盘上，以实现数据的可靠存储和恢复。它提供两种不同的持久化选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，以实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现横向扩展和高性能。</li>
+<li>事务和Lua脚本：重新支持事务和Lua脚本，以实现原子操作和自定义命令。</li>
+</ul>
+<h1 id="1-Redis的单线程和Linux的ePoll特性-1"><a href="#1-Redis的单线程和Linux的ePoll特性-1" class="headerlink" title="1. Redis的单线程和Linux的ePoll特性"></a>1. Redis的单线程和Linux的ePoll特性</h1><p>Redis是单线程的，这意味着它使用一个主线程来处理所有客户端请求。它的性能非常高，因为它不需要线程切换的开销，并且可以使用非常少的内存来处理大量的并发连接。另外，Redis使用Linux的ePoll特性来实现异步I/O操作，这使得Redis能够在高负载情况下保持高性能。</p>
+<p>在**redis中会有epoll模型是基于异步的io来实现的,**在该模型下每个连接都会有个FileDscript的文件来标示连接情况,连接的客户端有相关的io才会唤醒redis的线程来进行操作</p>
+<h2 id="1-1-缓存数据存储和持久化-1"><a href="#1-1-缓存数据存储和持久化-1" class="headerlink" title="1.1. 缓存数据存储和持久化"></a>1.1. 缓存数据存储和持久化</h2><ol>
+<li><p>RDB（Redis Database）：</p>
+<ul>
+<li>RDB 是 Redis 数据的非常紧凑的单文件时间点表示形式。 RDB 文件非常适合备份。 例如，您可能希望在最近 24 小时内每小时归档一次 RDB 文件，并在 30 天内每天保存一个 RDB 快照。 这使您可以在发生灾难时轻松恢复不同版本的数据集。<br>RDB 非常适合灾难恢复，它是一个紧凑的文件，可以传输到远程数据中心或 Amazon S3（可能是加密的）。<br>RDB 最大限度地提高了 Redis 的性能，因为 Redis 父进程为了持久化需要做的唯一工作就是派生一个子进程，该子进程将完成其余所有工作。 父进程永远不会执行磁盘 I/O 等操作。<br>与 AOF 相比，RDB 允许更快地重新启动大数据集。<br>在副本上，RDB 支持重启和故障转移后的部分重新同步。</li>
+</ul>
+</li>
+<li><p>AOF日志（Append-Only File）：</p>
+<ul>
+<li><p>AOF日志以追加方式记录Redis服务器所执行的写命令，以文本格式保存在一个文件中。</p>
+</li>
+<li><p>AOF日志允许Redis将写操作追加到文件的末尾，以保持数据的完整性。</p>
+</li>
+<li><p>AOF日志可以通过配置文件中的appendonly选项来启用和配置。</p>
+</li>
+<li><p>AOF日志的优点是可以提供更高的数据安全性和持久性，但相比于快照有一定的性能开销。</p>
+</li>
+<li><p>可以通过配置AOF重写来压缩和优化AOF日志的大小。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="2-Redis支持的常见结构-1"><a href="#2-Redis支持的常见结构-1" class="headerlink" title="2. Redis支持的常见结构"></a>2. Redis支持的常见结构</h1><h2 id="2-1-数据结构-1"><a href="#2-1-数据结构-1" class="headerlink" title="2.1. 数据结构"></a>2.1. 数据结构</h2><h3 id="2-1-1-字符串（String）：-1"><a href="#2-1-1-字符串（String）：-1" class="headerlink" title="2.1.1. .字符串（String）："></a>2.1.1. .字符串（String）：</h3><p>Redis的字符串是一个简单的键值对结构，键是一个字符串，值可以是任意二进制数据。<br>常用操作：设置值、获取值、增加或减少数值、追加字符串、获取子字符串等。<br>适用场景：缓存、计数器、分布式锁等。</p>
+<h3 id="2-1-2-哈希（Hash）：-1"><a href="#2-1-2-哈希（Hash）：-1" class="headerlink" title="2.1.2. 哈希（Hash）："></a>2.1.2. 哈希（Hash）：</h3><p>Redis的哈希是一个键值对集合，其中键是一个字符串，值是一个字段-值对的映射表。<br>常用操作：设置字段值、获取字段值、获取所有字段与值、删除字段等。<br>适用场景：存储对象、存储用户信息、存储配置信息等。</p>
+<h3 id="2-1-3-列表（List）：-1"><a href="#2-1-3-列表（List）：-1" class="headerlink" title="2.1.3. 列表（List）："></a>2.1.3. 列表（List）：</h3><p>Redis的列表是一个有序的字符串元素集合，它可以在两端进行插入、删除和查询操作。<br>常用操作：从列表的左端或右端插入元素、从左端或右端弹出元素、获取指定索引位置的元素等。<br>适用场景：消息队列、实现最新消息推送、记录操作日志等。</p>
+<h3 id="2-1-4-集合（Set）：-1"><a href="#2-1-4-集合（Set）：-1" class="headerlink" title="2.1.4. 集合（Set）："></a>2.1.4. 集合（Set）：</h3><p>Redis的集合是一个无序的字符串元素集合，它不允许重复的元素存在。<br>常用操作：添加元素、移除元素、判断元素是否存在、求交集、求并集等。<br>适用场景：标签系统、好友关系、计算共同喜好等。</p>
+<h3 id="2-1-5-有序集合（Sorted-Set）：-1"><a href="#2-1-5-有序集合（Sorted-Set）：-1" class="headerlink" title="2.1.5. 有序集合（Sorted Set）："></a>2.1.5. 有序集合（Sorted Set）：</h3><p>Redis的有序集合是一个排序的字符串元素集合，每个元素都会关联一个分数，通过分数可以进行排序。<br>常用操作：添加元素、移除元素、根据分数范围获取元素等。<br>适用场景：排行榜、优先级队列、范围查询等。</p>
+<h2 id="2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash-1"><a href="#2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash-1" class="headerlink" title="2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash"></a>2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash</h2><p>除了支持字符串、哈希、列表、集合和排序集等常见数据结构外，Redis还支持在某些用例中有用的几种专用数据类型。</p>
+<h3 id="2-2-1-布隆过滤器-Bloom-filter-1"><a href="#2-2-1-布隆过滤器-Bloom-filter-1" class="headerlink" title="2.2.1. 布隆过滤器(Bloom filter)"></a>2.2.1. 布隆过滤器(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/bloom-filter/">Bloom filter</a>)</h3><p>布隆过滤器是一种概率数据结构，可用于确定元素是否可能存在于集合中。它们在误报（表示元素不在集合中时）是可以接受的，但误报（表示元素不在集合中时）不是可以接受的情况下特别有用。Redis中的布隆过滤器是使用<code>BF. ADD</code>、<code>BF.EXISTS</code>和<code>BF.MADD</code>命令实现的。</p>
+<h3 id="2-2-2-HyperLogLog-HyperLogLog-1"><a href="#2-2-2-HyperLogLog-HyperLogLog-1" class="headerlink" title="2.2.2. HyperLogLog(HyperLogLog)"></a>2.2.2. HyperLogLog(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/hyperloglogs/">HyperLogLog</a>)</h3><p>HyperLogLog是一种用于估计集合基数的概率算法。它为存储集合本身提供了一种节省空间的替代方案，可用于高精度估计非常大的集合中唯一元素的数量。Redis中的HyperLogLog使用<code>PFADD</code>、<code>PFCOUNT</code>和<code>PFMERGE</code>命令实现。</p>
+<h3 id="2-2-3-布谷鸟算法-Cuckoo-filter-1"><a href="#2-2-3-布谷鸟算法-Cuckoo-filter-1" class="headerlink" title="2.2.3. 布谷鸟算法(Cuckoo filter)"></a>2.2.3. 布谷鸟算法(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/cuckoo-filter/">Cuckoo filter</a>)</h3><p>检测特定集合是否存在是否存在</p>
+<h3 id="2-2-4-空间类型-geospatial-1"><a href="#2-2-4-空间类型-geospatial-1" class="headerlink" title="2.2.4. 空间类型 geospatial"></a>2.2.4. 空间类型 <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/geospatial/">geospatial</a></h3><p>地理散列是一种以保留接近度的方式将地理坐标编码为字符串的技术。它可用于对一组坐标执行空间查询，例如查找给定点一定半径内的所有坐标。Redis支持通过<code>GEOADD</code>、<code>GEODIST</code>、<code>GEOHASH</code>、<code>GEOPOS</code>和<code>GEORADIUS</code>命令进行地理散列。<br>通过为这些专门的数据类型提供支持，Redis使开发人员能够凭借其强大的内存数据存储和处理能力解决更广泛的问题。</p>
+<h3 id="2-2-5-BitMap类型-1"><a href="#2-2-5-BitMap类型-1" class="headerlink" title="2.2.5. BitMap类型 "></a>2.2.5. <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/bitmaps/">BitMap类型 </a></h3><p>Bitmap，即位图，是一串连续的二进制数组（0和1），可以通过偏移量（offset）定位元素。BitMap通过最小的单位bit来进行<code>0|1</code>的设置，表示某个元素的值或者状态，时间复杂度为O(1)。由于bit是计算机中最小的单位，使用它进行储存将非常节省空间，特别适合一些数据量大且使用二值统计的场景。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-26-33.png?version=1&modificationDate=1695097593000&api=v2" alt="img"></p>
+<p>使用示例 位移值和0|1 存储值,例如是否在线,考勤是否打卡</p>
+<p><img src="https://rd.dtdream.com/download/attachments/45221264/1280X1280.PNG?version=1&modificationDate=1695099341000&api=v2" alt="img"></p>
+<h1 id="3-Redis淘汰策略-1"><a href="#3-Redis淘汰策略-1" class="headerlink" title="3. Redis淘汰策略"></a>3. Redis淘汰策略</h1><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-44-47.png?version=1&modificationDate=1696920288000&api=v2" alt="img"></p>
+<p>Redis的淘汰策略，根据是否会进行数据淘汰可以把它们分成两类：</p>
+<ul>
+<li>不进行数据淘汰的策略，只有 noeviction 这一种。</li>
+<li>会进行淘汰的 7 种其他策略。</li>
+</ul>
+<p>会进行淘汰的 7 种策略，我们可以再进一步根据淘汰候选数据集的范围把它们分成两类：</p>
+<ul>
+<li>在设置了过期时间的数据中进行淘汰，包括 volatile-random、volatile-ttl、volatile-lru、volatile-lfu（Redis 4.0 后新增）四种。</li>
+<li>在所有数据范围内进行淘汰，包括 allkeys-lru、allkeys-random、allkeys-lfu（Redis 4.0 后新增）三种。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7027067417469648926">Redis的八种淘汰策略（五） - 掘金</a></p>
+<p>volatile-random、volatile-ttl、volatile-lru、volatile-lfu 四种策略是针对已经设置了过期时间的键值对。到键值对的到期时间到了或者Redis内存使用量达到了<code>maxmemory</code>阈值，Redis会根据这些策略对键值对进行淘汰；</p>
+<ul>
+<li>volatile-ttl 在筛选时，会针对设置了过期时间的键值对，根据过期时间的先后进行删除，越早过期的越先被删除。</li>
+<li>volatile-random 就像它的名称一样，在设置了过期时间的键值对中，进行随机删除。</li>
+<li>volatile-lru 会使用 LRU (最近最少使用淘汰算法（Least Recently Used）) 算法筛选设置了过期时间的键值对。</li>
+<li>volatile-lfu 会使用 LFU 最不经常使用淘汰算法（Least Frequently Used）选择设置了过期时间的键值对。</li>
+</ul>
+<p>备注:</p>
+<p>LRU，即：最近最少使用淘汰算法（Least Recently Used）。LRU是淘汰最长时间没有被使用的页面。</p>
+<p>LFU，即：最不经常使用淘汰算法（Least Frequently Used）。LFU是淘汰一段时间内，使用次数最少的页面</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fengzheng/p/13296082.html">动手实现 LRU 算法，以及 Caffeine 和 Redis 中的缓存淘汰策略 - 风的姿态 - 博客园</a></p>
+<h1 id="4-Redis集群-1"><a href="#4-Redis集群-1" class="headerlink" title="4. Redis集群"></a>4. Redis集群</h1><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022028642">一文掌握Redis的三种集群方案 - 个人文章 - SegmentFault 思否</a></p>
+<h2 id="4-1-主从复制-1"><a href="#4-1-主从复制-1" class="headerlink" title="4.1. 主从复制"></a>4.1. 主从复制</h2><p><img src="https://image-static.segmentfault.com/124/529/1245298177-5e6ed603a6d8b_articlex" alt="redis-master-slave"></p>
+<h3 id="4-1-1-主从复制的优缺点-1"><a href="#4-1-1-主从复制的优缺点-1" class="headerlink" title="4.1.1. 主从复制的优缺点"></a>4.1.1. 主从复制的优缺点</h3><p>优点：</p>
+<ol>
+<li>master能自动将数据同步到slave，可以进行读写分离，分担master的读压力</li>
+<li>master、slave之间的同步是以非阻塞的方式进行的，同步期间，客户端仍然可以提交查询或更新请求</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>不具备自动容错与恢复功能，master或slave的宕机都可能导致客户端请求失败，需要等待机器重启或手动切换客户端IP才能恢复</li>
+<li>master宕机，如果宕机前数据没有同步完，则切换IP后会存在数据不一致的问题</li>
+<li>难以支持在线扩容，Redis的容量受限于单机配置</li>
+</ol>
+<h2 id="4-2-哨兵模式-1"><a href="#4-2-哨兵模式-1" class="headerlink" title="4.2. 哨兵模式"></a>4.2. 哨兵模式</h2><p><img src="https://image-static.segmentfault.com/423/790/4237905659-5e6ed60450b11_articlex" alt="redis-sentinel"></p>
+<p>优点：</p>
+<ol>
+<li>哨兵模式基于主从复制模式，所以主从复制模式有的优点，哨兵模式也有</li>
+<li>哨兵模式下，master挂掉可以自动进行切换，系统可用性更高</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>同样也继承了主从模式难以在线扩容的缺点，Redis的容量受限于单机配置</li>
+<li>需要额外的资源来启动sentinel进程，实现相对复杂一点，同时slave节点作为备份节点不提供服务</li>
+</ol>
+<h2 id="4-3-Cluster模式-1"><a href="#4-3-Cluster模式-1" class="headerlink" title="4.3. Cluster模式"></a>4.3. Cluster模式</h2><p><img src="https://image-static.segmentfault.com/965/514/965514528-5e6ed605ee5db_articlex" alt="redis-cluster"></p>
+<p>　　Redis Cluster 采用虚拟哈希槽分区，所有的键根据哈希函数映射到 0 ~ 16383 整数槽内，计算公式：<code>HASH_SLOT = CRC16(key) % 16384</code>。每一个节点负责维护一部分槽以及槽所映射的键值数据。</p>
+<h1 id="5-Redis中的缓存雪崩和缓存击穿问题-1"><a href="#5-Redis中的缓存雪崩和缓存击穿问题-1" class="headerlink" title="5. Redis中的缓存雪崩和缓存击穿问题"></a>5. Redis中的缓存雪崩和缓存击穿问题</h1><p><img src="https://cdn.xiaolincoding.com//mysql/other/61781cd6d82e4a0cc5f7521333049f0d.png" alt="图片"></p>
+<h2 id="5-1-缓存雪崩-1"><a href="#5-1-缓存雪崩-1" class="headerlink" title="5.1. 缓存雪崩"></a>5.1. 缓存雪崩</h2><p>缓存雪崩是指在同一时间，缓存中大量的缓存数据失效，导致大量的请求直接打到了后端数据库上，使得数据库瞬间达到峰值负载，甚至直接宕机。这种情况通常发生在缓存中的数据同时过期时间设置相同，同时失效的情况下。<br>为了避免缓存雪崩问题，可以采取以下措施：</p>
+<ul>
+<li>给缓存数据的过期时间加上随机值，避免同时失效。</li>
+<li>将缓存数据的过期时间分散开来，比如一部分设置为5分钟，一部分设置为10分钟，一部分设置为15分钟，以此类推。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<h2 id="5-2-缓存击穿-1"><a href="#5-2-缓存击穿-1" class="headerlink" title="5.2. 缓存击穿"></a>5.2. 缓存击穿</h2><p>缓存击穿是指某个热点key在缓存过期的同时，有大量的请求访问该key的时候，这些请求直接穿透到后端数据库，导致数据库瞬间达到峰值负载，甚至直接宕机。<br>为了避免缓存击穿问题，可以采取以下措施：</p>
+<ul>
+<li>在缓存数据不存在时，不直接去查询后端数据库，而是先将该key设置为一个特殊的值（如null），在一段时间内（如5秒）不再查询后端数据库，从而避免瞬间大量请求打到数据库上。</li>
+<li>设置热点数据永不过期，或者过期时间非常长，例如一天、一周、一个月等。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<p>在使用Redis时需要注意缓存雪崩和缓存击穿问题，采取相应的措施可以避免这些问题的发生，提高系统的稳定性和可靠性。<br>在Redis中，缓存失效可能有以下几种情况：</p>
+<ol>
+<li>过期时间到期：当设置了缓存的过期时间后，到期后缓存将会失效。</li>
+<li>主动删除：使用<code>DEL</code>命令或者程序中的<code>delete</code>方法，主动删除缓存。</li>
+<li>内存空间不足：当Rediss内存空间不足时，Rediss会优先淘汰赛掉内存占用较大，使用较少的缓存，以腾出更多的内存空间。</li>
+<li>内存泄漏：当程序中出现内存泄漏时，会导致缓存失效。</li>
+<li>Redis重启：当Redis服务重启时，缓存也会失效。</li>
+</ol>
+<p>为了避免缓存失效，我们可以设置合适的缓存过期时间，定期检查和清理过期缓存，优化Redis的内存使用，以及避免内存泄漏等问题。</p>
+<h1 id="6-在Spring-Boot中使用Redis-1"><a href="#6-在Spring-Boot中使用Redis-1" class="headerlink" title="6. 在Spring Boot中使用Redis"></a>6. 在Spring Boot中使用Redis</h1><p>Redis是一个流行的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。在本文中，我们将介绍如何在Spring Boot应用程序中使用Redis。</p>
+<h2 id="6-1-添加Redis依赖-1"><a href="#6-1-添加Redis依赖-1" class="headerlink" title="6.1. .添加Redis依赖"></a>6.1. .添加Redis依赖</h2><p>要在Spring Boot应用程序中使用Redis，我们首先需要添加Redis依赖，在Maven项目中，我们可以在pom. xml文件中添加以下依赖项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-配置Redis连接-1"><a href="#6-2-配置Redis连接-1" class="headerlink" title="6.2. 配置Redis连接"></a>6.2. 配置Redis连接</h2><p>在我们可以使用Redis之前，我们需要配置Redis连接.在Spring Boot应用程序中，我们可以在application.properties文件中添加以下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=localhost</span><br><span class="line">spring.redis.port=6379</span><br></pre></td></tr></table></figure>
+
+
+<p>这将配置Redis连接到本地主机的默认端口6379。</p>
+<h2 id="6-3-使用RedisTemplate-1"><a href="#6-3-使用RedisTemplate-1" class="headerlink" title="6.3. 使用RedisTemplate"></a>6.3. 使用RedisTemplate</h2><p>Spring Boot提供了一个RedisTemplate类，它是一个用于与Redis交互的高级API。我们可以使用RedisTemplate来执行Redis操作，如存储、检索和删除数据。以下是一个使用RedisTemplate执行Redis操作的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private RedisTemplate&lt;String, Object&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">public void setValue(String key, Object value) &#123;</span><br><span class="line">    redisTemplate.opsForValue().set(key, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public Object getValue(String key) &#123;</span><br><span class="line">    return redisTemplate.opsForValue().get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们注入了一个RedisTemplate对象，并使用它来存储和检索数据。我们使用opsForValue()方法来访问Redis值操作，如设置和获取值。</p>
+<h1 id="7-使用注解-1"><a href="#7-使用注解-1" class="headerlink" title="7. 使用注解"></a>7. 使用注解</h1><p>除了使用RedisTemplate之外，Spring Boot还提供了一些注解，可以更轻松地使用Redis。例如，我们可以使用@Cacheable注解将方法的结果缓存到Redis中，从而加快方法的执行速度。以下是一个使用@Cacheable注解的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Cacheable(value = &quot;users&quot;, key = &quot;#userId&quot;)</span><br><span class="line">public User getUserById(String userId) &#123;</span><br><span class="line">    // 获取用户信息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们使用@Cache able注解将User By Id方法的结果缓存到名为”user”的Red is缓存中，缓存键为rId参数。</p>
+<h2 id="7-1-常见客户端比较-lettuce-redisson-jedis-1"><a href="#7-1-常见客户端比较-lettuce-redisson-jedis-1" class="headerlink" title="7.1. 常见客户端比较 lettuce ,redisson,jedis"></a>7.1. 常见客户端比较 lettuce ,redisson,jedis</h2><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-14-16.png?version=1&modificationDate=1695096856000&api=v2" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">Lettuce</th>
+<th align="left">Redisson</th>
+<th align="left">Jedis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">完整性</td>
+<td align="left">Lettuce 是一个可扩展的线程安全 Redis 客户端，适用于同步、异步和反应式使用。 如果多个线程避免阻塞和事务性操作（例如 BLPOP 和 MULTI/EXEC），则它们可以共享一个连接。 Lettuce是用netty构建的。 支持高级 Redis 功能，例如 Sentinel、集群、管道、自动重新连接和 Redis 数据模型。</td>
+<td align="left">Redisson提供了完整的Redis协议支持,基于<a target="_blank" rel="noopener" href="http://netty.io/">Netty</a> 框架，并在其基础上封装了更丰富的特性，如分布式锁、分布式集合等.线程安全的实现 支持Redis复制、Redis集群、Redis哨兵、Redis主从、Redis单机、Redis代理、Redis多集群设置</td>
+<td align="left">Jedis提供了基本的Redis协议支持，但支持高级功能如Pipelining、Miscellaneous、Cluster、Pub/Sub等。Redis 官方推荐的Java客户端</td>
+</tr>
+<tr>
+<td align="left">连接管理</td>
+<td align="left">支持连接池和连接自动恢复机制，具有更好的连接管理能力。</td>
+<td align="left">支持连接池和连接自动恢复机制，具有较好的连接管理能力。</td>
+<td align="left">支持连接池，但没有连接自动恢复机制，</td>
+</tr>
+<tr>
+<td align="left">异步操作</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">不支持异步操作，只能使用同步方式进行操作。</td>
+</tr>
+<tr>
+<td align="left">分布式功能</td>
+<td align="left">支持Redis Sentinel和Redis Cluster，可以使用Lettuce进行分布式部署。</td>
+<td align="left">提供了丰富的分布式功能，如分布式锁、分布式集合、分布式对象等。</td>
+<td align="left">不支持Redis Sentinel和Redis Cluster，不适用于分布式部署。</td>
+</tr>
+<tr>
+<td align="left">扩展性</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接池实现等。</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接管理器等。</td>
+<td align="left">较难进行扩展，功能相对固定。</td>
+</tr>
+<tr>
+<td align="left">社区活跃度</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有较为活跃的开源社区，但相对于Lettuce和Redisson稍显不足。</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/lettuce-io/lettuce-core%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E6%98%AF">https://github.com/lettuce-io/lettuce-core最新版本是</a></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redisson/redisson">https://github.com/redisson/redisson</a> 最新版是 3.23.4</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redis/jedis">https://github.com/redis/jedis</a> 最近版本是5.0.0</td>
+</tr>
+</tbody></table>
+<h1 id="8-结论-1"><a href="#8-结论-1" class="headerlink" title="8. 结论"></a>8. 结论</h1><p><img src="../img/7c19b433-91f4-4575-9536-8fd9050da6d4.gif" alt="7c19b433-91f4-4575-9536-8fd9050da6d4"><br>在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。我们可以使用RedisTemplate类来执行Redis操作，也可以使用注解来更轻松地使用Redis。无论是存储会话数据还是缓存结果，Redis都是一个强大的解决方案。如果您正在使用Spring Boot，请考虑在应用程序中使用Redis。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。</p>
+<h2 id="8-1-常见的用途"><a href="#8-1-常见的用途" class="headerlink" title="8.1. 常见的用途"></a>8.1. 常见的用途</h2><ol>
+<li>同步session</li>
+<li>分布式事务锁或者是 lock</li>
+<li>注册中心</li>
+<li>缓存中间件</li>
+<li>触发器,订阅-触发的同步机制</li>
+</ol>
+<p>在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。我们可以使用RedisTemplate类来执行Redis操作，也可以使用注解来更轻松地使用Redis。无论是存储会话数据还是缓存结果，Redis都是一个强大的解决方案。如果您正在使用Spring Boot，请考虑在应用程序中使用Redis。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。</p>
+<h2 id="8-1-常见的用途-1"><a href="#8-1-常见的用途-1" class="headerlink" title="8.1. 常见的用途"></a>8.1. 常见的用途</h2><ol>
+<li>同步session</li>
+<li>分布式事务锁或者是 lock</li>
+<li>注册中心</li>
+<li>缓存中间件</li>
+<li>触发器,订阅-触发的同步机制</li>
+</ol>
+
+              
+              <!-- 
+              
+              <p>Redis是一个开源的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。以下是它的主要特点和原理：</p>
+<ul>
+<li>内存存储：将所有数据存储在内存中，以实现快速读写访问。同时，它支持多种数据结构，如字<strong>符串、哈希、列表、集合和有序集合</strong>。</li>
+<li>持久性：Redis支持将数据持久化到磁盘上，以实现数据的可靠存储和恢复。它提供两种不同的持久化选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，以实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现横向扩展和高性能。</li>
+<li>事务和Lua脚本：重新支持事务和Lua脚本，以实现原子操作和自定义命令。</li>
+</ul>
+<h1 id="1-Redis的单线程和Linux的ePoll特性"><a href="#1-Redis的单线程和Linux的ePoll特性" class="headerlink" title="1. Redis的单线程和Linux的ePoll特性"></a>1. Redis的单线程和Linux的ePoll特性</h1><p>Redis是单线程的，这意味着它使用一个主线程来处理所有客户端请求。它的性能非常高，因为它不需要线程切换的开销，并且可以使用非常少的内存来处理大量的并发连接。另外，Redis使用Linux的ePoll特性来实现异步I/O操作，这使得Redis能够在高负载情况下保持高性能。</p>
+<p>在**redis中会有epoll模型是基于异步的io来实现的,**在该模型下每个连接都会有个FileDscript的文件来标示连接情况,连接的客户端有相关的io才会唤醒redis的线程来进行操作</p>
+<h2 id="1-1-缓存数据存储和持久化"><a href="#1-1-缓存数据存储和持久化" class="headerlink" title="1.1. 缓存数据存储和持久化"></a>1.1. 缓存数据存储和持久化</h2><ol>
+<li><p>RDB（Redis Database）：</p>
+<ul>
+<li>RDB 是 Redis 数据的非常紧凑的单文件时间点表示形式。 RDB 文件非常适合备份。 例如，您可能希望在最近 24 小时内每小时归档一次 RDB 文件，并在 30 天内每天保存一个 RDB 快照。 这使您可以在发生灾难时轻松恢复不同版本的数据集。<br>RDB 非常适合灾难恢复，它是一个紧凑的文件，可以传输到远程数据中心或 Amazon S3（可能是加密的）。<br>RDB 最大限度地提高了 Redis 的性能，因为 Redis 父进程为了持久化需要做的唯一工作就是派生一个子进程，该子进程将完成其余所有工作。 父进程永远不会执行磁盘 I/O 等操作。<br>与 AOF 相比，RDB 允许更快地重新启动大数据集。<br>在副本上，RDB 支持重启和故障转移后的部分重新同步。</li>
+</ul>
+</li>
+<li><p>AOF日志（Append-Only File）：</p>
+<ul>
+<li><p>AOF日志以追加方式记录Redis服务器所执行的写命令，以文本格式保存在一个文件中。</p>
+</li>
+<li><p>AOF日志允许Redis将写操作追加到文件的末尾，以保持数据的完整性。</p>
+</li>
+<li><p>AOF日志可以通过配置文件中的appendonly选项来启用和配置。</p>
+</li>
+<li><p>AOF日志的优点是可以提供更高的数据安全性和持久性，但相比于快照有一定的性能开销。</p>
+</li>
+<li><p>可以通过配置AOF重写来压缩和优化AOF日志的大小。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="2-Redis支持的常见结构"><a href="#2-Redis支持的常见结构" class="headerlink" title="2. Redis支持的常见结构"></a>2. Redis支持的常见结构</h1><h2 id="2-1-数据结构"><a href="#2-1-数据结构" class="headerlink" title="2.1. 数据结构"></a>2.1. 数据结构</h2><h3 id="2-1-1-字符串（String）："><a href="#2-1-1-字符串（String）：" class="headerlink" title="2.1.1. .字符串（String）："></a>2.1.1. .字符串（String）：</h3><p>Redis的字符串是一个简单的键值对结构，键是一个字符串，值可以是任意二进制数据。<br>常用操作：设置值、获取值、增加或减少数值、追加字符串、获取子字符串等。<br>适用场景：缓存、计数器、分布式锁等。</p>
+<h3 id="2-1-2-哈希（Hash）："><a href="#2-1-2-哈希（Hash）：" class="headerlink" title="2.1.2. 哈希（Hash）："></a>2.1.2. 哈希（Hash）：</h3><p>Redis的哈希是一个键值对集合，其中键是一个字符串，值是一个字段-值对的映射表。<br>常用操作：设置字段值、获取字段值、获取所有字段与值、删除字段等。<br>适用场景：存储对象、存储用户信息、存储配置信息等。</p>
+<h3 id="2-1-3-列表（List）："><a href="#2-1-3-列表（List）：" class="headerlink" title="2.1.3. 列表（List）："></a>2.1.3. 列表（List）：</h3><p>Redis的列表是一个有序的字符串元素集合，它可以在两端进行插入、删除和查询操作。<br>常用操作：从列表的左端或右端插入元素、从左端或右端弹出元素、获取指定索引位置的元素等。<br>适用场景：消息队列、实现最新消息推送、记录操作日志等。</p>
+<h3 id="2-1-4-集合（Set）："><a href="#2-1-4-集合（Set）：" class="headerlink" title="2.1.4. 集合（Set）："></a>2.1.4. 集合（Set）：</h3><p>Redis的集合是一个无序的字符串元素集合，它不允许重复的元素存在。<br>常用操作：添加元素、移除元素、判断元素是否存在、求交集、求并集等。<br>适用场景：标签系统、好友关系、计算共同喜好等。</p>
+<h3 id="2-1-5-有序集合（Sorted-Set）："><a href="#2-1-5-有序集合（Sorted-Set）：" class="headerlink" title="2.1.5. 有序集合（Sorted Set）："></a>2.1.5. 有序集合（Sorted Set）：</h3><p>Redis的有序集合是一个排序的字符串元素集合，每个元素都会关联一个分数，通过分数可以进行排序。<br>常用操作：添加元素、移除元素、根据分数范围获取元素等。<br>适用场景：排行榜、优先级队列、范围查询等。</p>
+<h2 id="2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash"><a href="#2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash" class="headerlink" title="2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash"></a>2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash</h2><p>除了支持字符串、哈希、列表、集合和排序集等常见数据结构外，Redis还支持在某些用例中有用的几种专用数据类型。</p>
+<h3 id="2-2-1-布隆过滤器-Bloom-filter"><a href="#2-2-1-布隆过滤器-Bloom-filter" class="headerlink" title="2.2.1. 布隆过滤器(Bloom filter)"></a>2.2.1. 布隆过滤器(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/bloom-filter/">Bloom filter</a>)</h3><p>布隆过滤器是一种概率数据结构，可用于确定元素是否可能存在于集合中。它们在误报（表示元素不在集合中时）是可以接受的，但误报（表示元素不在集合中时）不是可以接受的情况下特别有用。Redis中的布隆过滤器是使用<code>BF. ADD</code>、<code>BF.EXISTS</code>和<code>BF.MADD</code>命令实现的。</p>
+<h3 id="2-2-2-HyperLogLog-HyperLogLog"><a href="#2-2-2-HyperLogLog-HyperLogLog" class="headerlink" title="2.2.2. HyperLogLog(HyperLogLog)"></a>2.2.2. HyperLogLog(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/hyperloglogs/">HyperLogLog</a>)</h3><p>HyperLogLog是一种用于估计集合基数的概率算法。它为存储集合本身提供了一种节省空间的替代方案，可用于高精度估计非常大的集合中唯一元素的数量。Redis中的HyperLogLog使用<code>PFADD</code>、<code>PFCOUNT</code>和<code>PFMERGE</code>命令实现。</p>
+<h3 id="2-2-3-布谷鸟算法-Cuckoo-filter"><a href="#2-2-3-布谷鸟算法-Cuckoo-filter" class="headerlink" title="2.2.3. 布谷鸟算法(Cuckoo filter)"></a>2.2.3. 布谷鸟算法(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/cuckoo-filter/">Cuckoo filter</a>)</h3><p>检测特定集合是否存在是否存在</p>
+<h3 id="2-2-4-空间类型-geospatial"><a href="#2-2-4-空间类型-geospatial" class="headerlink" title="2.2.4. 空间类型 geospatial"></a>2.2.4. 空间类型 <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/geospatial/">geospatial</a></h3><p>地理散列是一种以保留接近度的方式将地理坐标编码为字符串的技术。它可用于对一组坐标执行空间查询，例如查找给定点一定半径内的所有坐标。Redis支持通过<code>GEOADD</code>、<code>GEODIST</code>、<code>GEOHASH</code>、<code>GEOPOS</code>和<code>GEORADIUS</code>命令进行地理散列。<br>通过为这些专门的数据类型提供支持，Redis使开发人员能够凭借其强大的内存数据存储和处理能力解决更广泛的问题。</p>
+<h3 id="2-2-5-BitMap类型"><a href="#2-2-5-BitMap类型" class="headerlink" title="2.2.5. BitMap类型 "></a>2.2.5. <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/bitmaps/">BitMap类型 </a></h3><p>Bitmap，即位图，是一串连续的二进制数组（0和1），可以通过偏移量（offset）定位元素。BitMap通过最小的单位bit来进行<code>0|1</code>的设置，表示某个元素的值或者状态，时间复杂度为O(1)。由于bit是计算机中最小的单位，使用它进行储存将非常节省空间，特别适合一些数据量大且使用二值统计的场景。</p>
+<p>使用示例 位移值和0|1 存储值,例如是否在线,考勤是否打卡</p>
+<h1 id="3-Redis淘汰策略"><a href="#3-Redis淘汰策略" class="headerlink" title="3. Redis淘汰策略"></a>3. Redis淘汰策略</h1><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-44-47.png?version=1&modificationDate=1696920288000&api=v2" alt="img"></p>
+<p>Redis的淘汰策略，根据是否会进行数据淘汰可以把它们分成两类：</p>
+<ul>
+<li>不进行数据淘汰的策略，只有 noeviction 这一种。</li>
+<li>会进行淘汰的 7 种其他策略。</li>
+</ul>
+<p>会进行淘汰的 7 种策略，我们可以再进一步根据淘汰候选数据集的范围把它们分成两类：</p>
+<ul>
+<li>在设置了过期时间的数据中进行淘汰，包括 volatile-random、volatile-ttl、volatile-lru、volatile-lfu（Redis 4.0 后新增）四种。</li>
+<li>在所有数据范围内进行淘汰，包括 allkeys-lru、allkeys-random、allkeys-lfu（Redis 4.0 后新增）三种。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7027067417469648926">Redis的八种淘汰策略（五） - 掘金</a></p>
+<p>volatile-random、volatile-ttl、volatile-lru、volatile-lfu 四种策略是针对已经设置了过期时间的键值对。到键值对的到期时间到了或者Redis内存使用量达到了<code>maxmemory</code>阈值，Redis会根据这些策略对键值对进行淘汰；</p>
+<ul>
+<li>volatile-ttl 在筛选时，会针对设置了过期时间的键值对，根据过期时间的先后进行删除，越早过期的越先被删除。</li>
+<li>volatile-random 就像它的名称一样，在设置了过期时间的键值对中，进行随机删除。</li>
+<li>volatile-lru 会使用 LRU (最近最少使用淘汰算法（Least Recently Used）) 算法筛选设置了过期时间的键值对。</li>
+<li>volatile-lfu 会使用 LFU 最不经常使用淘汰算法（Least Frequently Used）选择设置了过期时间的键值对。</li>
+</ul>
+<p>备注:</p>
+<p>LRU，即：最近最少使用淘汰算法（Least Recently Used）。LRU是淘汰最长时间没有被使用的页面。</p>
+<p>LFU，即：最不经常使用淘汰算法（Least Frequently Used）。LFU是淘汰一段时间内，使用次数最少的页面</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fengzheng/p/13296082.html">动手实现 LRU 算法，以及 Caffeine 和 Redis 中的缓存淘汰策略 - 风的姿态 - 博客园</a></p>
+<h1 id="4-Redis集群"><a href="#4-Redis集群" class="headerlink" title="4. Redis集群"></a>4. Redis集群</h1><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022028642">一文掌握Redis的三种集群方案 - 个人文章 - SegmentFault 思否</a></p>
+<h2 id="4-1-主从复制"><a href="#4-1-主从复制" class="headerlink" title="4.1. 主从复制"></a>4.1. 主从复制</h2><p><img src="https://image-static.segmentfault.com/124/529/1245298177-5e6ed603a6d8b_articlex" alt="redis-master-slave"></p>
+<h3 id="4-1-1-主从复制的优缺点"><a href="#4-1-1-主从复制的优缺点" class="headerlink" title="4.1.1. 主从复制的优缺点"></a>4.1.1. 主从复制的优缺点</h3><p>优点：</p>
+<ol>
+<li>master能自动将数据同步到slave，可以进行读写分离，分担master的读压力</li>
+<li>master、slave之间的同步是以非阻塞的方式进行的，同步期间，客户端仍然可以提交查询或更新请求</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>不具备自动容错与恢复功能，master或slave的宕机都可能导致客户端请求失败，需要等待机器重启或手动切换客户端IP才能恢复</li>
+<li>master宕机，如果宕机前数据没有同步完，则切换IP后会存在数据不一致的问题</li>
+<li>难以支持在线扩容，Redis的容量受限于单机配置</li>
+</ol>
+<h2 id="4-2-哨兵模式"><a href="#4-2-哨兵模式" class="headerlink" title="4.2. 哨兵模式"></a>4.2. 哨兵模式</h2><p><img src="https://image-static.segmentfault.com/423/790/4237905659-5e6ed60450b11_articlex" alt="redis-sentinel"></p>
+<p>优点：</p>
+<ol>
+<li>哨兵模式基于主从复制模式，所以主从复制模式有的优点，哨兵模式也有</li>
+<li>哨兵模式下，master挂掉可以自动进行切换，系统可用性更高</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>同样也继承了主从模式难以在线扩容的缺点，Redis的容量受限于单机配置</li>
+<li>需要额外的资源来启动sentinel进程，实现相对复杂一点，同时slave节点作为备份节点不提供服务</li>
+</ol>
+<h2 id="4-3-Cluster模式"><a href="#4-3-Cluster模式" class="headerlink" title="4.3. Cluster模式"></a>4.3. Cluster模式</h2><p><img src="https://image-static.segmentfault.com/965/514/965514528-5e6ed605ee5db_articlex" alt="redis-cluster"></p>
+<p>　　Redis Cluster 采用虚拟哈希槽分区，所有的键根据哈希函数映射到 0 ~ 16383 整数槽内，计算公式：<code>HASH_SLOT = CRC16(key) % 16384</code>。每一个节点负责维护一部分槽以及槽所映射的键值数据。</p>
+<h1 id="5-Redis中的缓存雪崩和缓存击穿问题"><a href="#5-Redis中的缓存雪崩和缓存击穿问题" class="headerlink" title="5. Redis中的缓存雪崩和缓存击穿问题"></a>5. Redis中的缓存雪崩和缓存击穿问题</h1><p><img src="https://cdn.xiaolincoding.com//mysql/other/61781cd6d82e4a0cc5f7521333049f0d.png" alt="图片"></p>
+<h2 id="5-1-缓存雪崩"><a href="#5-1-缓存雪崩" class="headerlink" title="5.1. 缓存雪崩"></a>5.1. 缓存雪崩</h2><p>缓存雪崩是指在同一时间，缓存中大量的缓存数据失效，导致大量的请求直接打到了后端数据库上，使得数据库瞬间达到峰值负载，甚至直接宕机。这种情况通常发生在缓存中的数据同时过期时间设置相同，同时失效的情况下。<br>为了避免缓存雪崩问题，可以采取以下措施：</p>
+<ul>
+<li>给缓存数据的过期时间加上随机值，避免同时失效。</li>
+<li>将缓存数据的过期时间分散开来，比如一部分设置为5分钟，一部分设置为10分钟，一部分设置为15分钟，以此类推。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<h2 id="5-2-缓存击穿"><a href="#5-2-缓存击穿" class="headerlink" title="5.2. 缓存击穿"></a>5.2. 缓存击穿</h2><p>缓存击穿是指某个热点key在缓存过期的同时，有大量的请求访问该key的时候，这些请求直接穿透到后端数据库，导致数据库瞬间达到峰值负载，甚至直接宕机。<br>为了避免缓存击穿问题，可以采取以下措施：</p>
+<ul>
+<li>在缓存数据不存在时，不直接去查询后端数据库，而是先将该key设置为一个特殊的值（如null），在一段时间内（如5秒）不再查询后端数据库，从而避免瞬间大量请求打到数据库上。</li>
+<li>设置热点数据永不过期，或者过期时间非常长，例如一天、一周、一个月等。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<p>在使用Redis时需要注意缓存雪崩和缓存击穿问题，采取相应的措施可以避免这些问题的发生，提高系统的稳定性和可靠性。<br>在Redis中，缓存失效可能有以下几种情况：</p>
+<ol>
+<li>过期时间到期：当设置了缓存的过期时间后，到期后缓存将会失效。</li>
+<li>主动删除：使用<code>DEL</code>命令或者程序中的<code>delete</code>方法，主动删除缓存。</li>
+<li>内存空间不足：当Rediss内存空间不足时，Rediss会优先淘汰赛掉内存占用较大，使用较少的缓存，以腾出更多的内存空间。</li>
+<li>内存泄漏：当程序中出现内存泄漏时，会导致缓存失效。</li>
+<li>Redis重启：当Redis服务重启时，缓存也会失效。</li>
+</ol>
+<p>为了避免缓存失效，我们可以设置合适的缓存过期时间，定期检查和清理过期缓存，优化Redis的内存使用，以及避免内存泄漏等问题。</p>
+<h1 id="6-在Spring-Boot中使用Redis"><a href="#6-在Spring-Boot中使用Redis" class="headerlink" title="6. 在Spring Boot中使用Redis"></a>6. 在Spring Boot中使用Redis</h1><p>Redis是一个流行的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。在本文中，我们将介绍如何在Spring Boot应用程序中使用Redis。</p>
+<h2 id="6-1-添加Redis依赖"><a href="#6-1-添加Redis依赖" class="headerlink" title="6.1. .添加Redis依赖"></a>6.1. .添加Redis依赖</h2><p>要在Spring Boot应用程序中使用Redis，我们首先需要添加Redis依赖，在Maven项目中，我们可以在pom. xml文件中添加以下依赖项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-配置Redis连接"><a href="#6-2-配置Redis连接" class="headerlink" title="6.2. 配置Redis连接"></a>6.2. 配置Redis连接</h2><p>在我们可以使用Redis之前，我们需要配置Redis连接.在Spring Boot应用程序中，我们可以在application.properties文件中添加以下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=localhost</span><br><span class="line">spring.redis.port=6379</span><br></pre></td></tr></table></figure>
+
+
+<p>这将配置Redis连接到本地主机的默认端口6379。</p>
+<h2 id="6-3-使用RedisTemplate"><a href="#6-3-使用RedisTemplate" class="headerlink" title="6.3. 使用RedisTemplate"></a>6.3. 使用RedisTemplate</h2><p>Spring Boot提供了一个RedisTemplate类，它是一个用于与Redis交互的高级API。我们可以使用RedisTemplate来执行Redis操作，如存储、检索和删除数据。以下是一个使用RedisTemplate执行Redis操作的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private RedisTemplate&lt;String, Object&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">public void setValue(String key, Object value) &#123;</span><br><span class="line">    redisTemplate.opsForValue().set(key, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public Object getValue(String key) &#123;</span><br><span class="line">    return redisTemplate.opsForValue().get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们注入了一个RedisTemplate对象，并使用它来存储和检索数据。我们使用opsForValue()方法来访问Redis值操作，如设置和获取值。</p>
+<h1 id="7-使用注解"><a href="#7-使用注解" class="headerlink" title="7. 使用注解"></a>7. 使用注解</h1><p>除了使用RedisTemplate之外，Spring Boot还提供了一些注解，可以更轻松地使用Redis。例如，我们可以使用@Cacheable注解将方法的结果缓存到Redis中，从而加快方法的执行速度。以下是一个使用@Cacheable注解的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Cacheable(value = &quot;users&quot;, key = &quot;#userId&quot;)</span><br><span class="line">public User getUserById(String userId) &#123;</span><br><span class="line">    // 获取用户信息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们使用@Cache able注解将User By Id方法的结果缓存到名为”user”的Red is缓存中，缓存键为rId参数。</p>
+<h2 id="7-1-常见客户端比较-lettuce-redisson-jedis"><a href="#7-1-常见客户端比较-lettuce-redisson-jedis" class="headerlink" title="7.1. 常见客户端比较 lettuce ,redisson,jedis"></a>7.1. 常见客户端比较 lettuce ,redisson,jedis</h2><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-14-16.png?version=1&modificationDate=1695096856000&api=v2" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">Lettuce</th>
+<th align="left">Redisson</th>
+<th align="left">Jedis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">完整性</td>
+<td align="left">Lettuce 是一个可扩展的线程安全 Redis 客户端，适用于同步、异步和反应式使用。 如果多个线程避免阻塞和事务性操作（例如 BLPOP 和 MULTI/EXEC），则它们可以共享一个连接。 Lettuce是用netty构建的。 支持高级 Redis 功能，例如 Sentinel、集群、管道、自动重新连接和 Redis 数据模型。</td>
+<td align="left">Redisson提供了完整的Redis协议支持,基于<a target="_blank" rel="noopener" href="http://netty.io/">Netty</a> 框架，并在其基础上封装了更丰富的特性，如分布式锁、分布式集合等.线程安全的实现 支持Redis复制、Redis集群、Redis哨兵、Redis主从、Redis单机、Redis代理、Redis多集群设置</td>
+<td align="left">Jedis提供了基本的Redis协议支持，但支持高级功能如Pipelining、Miscellaneous、Cluster、Pub/Sub等。Redis 官方推荐的Java客户端</td>
+</tr>
+<tr>
+<td align="left">连接管理</td>
+<td align="left">支持连接池和连接自动恢复机制，具有更好的连接管理能力。</td>
+<td align="left">支持连接池和连接自动恢复机制，具有较好的连接管理能力。</td>
+<td align="left">支持连接池，但没有连接自动恢复机制，</td>
+</tr>
+<tr>
+<td align="left">异步操作</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">不支持异步操作，只能使用同步方式进行操作。</td>
+</tr>
+<tr>
+<td align="left">分布式功能</td>
+<td align="left">支持Redis Sentinel和Redis Cluster，可以使用Lettuce进行分布式部署。</td>
+<td align="left">提供了丰富的分布式功能，如分布式锁、分布式集合、分布式对象等。</td>
+<td align="left">不支持Redis Sentinel和Redis Cluster，不适用于分布式部署。</td>
+</tr>
+<tr>
+<td align="left">扩展性</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接池实现等。</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接管理器等。</td>
+<td align="left">较难进行扩展，功能相对固定。</td>
+</tr>
+<tr>
+<td align="left">社区活跃度</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有较为活跃的开源社区，但相对于Lettuce和Redisson稍显不足。</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/lettuce-io/lettuce-core%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E6%98%AF">https://github.com/lettuce-io/lettuce-core最新版本是</a></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redisson/redisson">https://github.com/redisson/redisson</a> 最新版是 3.23.4</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redis/jedis">https://github.com/redis/jedis</a> 最近版本是5.0.0</td>
+</tr>
+</tbody></table>
+<h1 id="8-结论"><a href="#8-结论" class="headerlink" title="8. 结论"></a>8. 结论</h1><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-50-12.png?version=1&modificationDate=1696920612000&api=v2" alt="img"></p>
+<p>Redis是一个开源的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。以下是它的主要特点和原理：</p>
+<ul>
+<li>内存存储：将所有数据存储在内存中，以实现快速读写访问。同时，它支持多种数据结构，如字<strong>符串、哈希、列表、集合和有序集合</strong>。</li>
+<li>持久性：Redis支持将数据持久化到磁盘上，以实现数据的可靠存储和恢复。它提供两种不同的持久化选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，以实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现横向扩展和高性能。</li>
+<li>事务和Lua脚本：重新支持事务和Lua脚本，以实现原子操作和自定义命令。</li>
+</ul>
+<h1 id="1-Redis的单线程和Linux的ePoll特性-1"><a href="#1-Redis的单线程和Linux的ePoll特性-1" class="headerlink" title="1. Redis的单线程和Linux的ePoll特性"></a>1. Redis的单线程和Linux的ePoll特性</h1><p>Redis是单线程的，这意味着它使用一个主线程来处理所有客户端请求。它的性能非常高，因为它不需要线程切换的开销，并且可以使用非常少的内存来处理大量的并发连接。另外，Redis使用Linux的ePoll特性来实现异步I/O操作，这使得Redis能够在高负载情况下保持高性能。</p>
+<p>在**redis中会有epoll模型是基于异步的io来实现的,**在该模型下每个连接都会有个FileDscript的文件来标示连接情况,连接的客户端有相关的io才会唤醒redis的线程来进行操作</p>
+<h2 id="1-1-缓存数据存储和持久化-1"><a href="#1-1-缓存数据存储和持久化-1" class="headerlink" title="1.1. 缓存数据存储和持久化"></a>1.1. 缓存数据存储和持久化</h2><ol>
+<li><p>RDB（Redis Database）：</p>
+<ul>
+<li>RDB 是 Redis 数据的非常紧凑的单文件时间点表示形式。 RDB 文件非常适合备份。 例如，您可能希望在最近 24 小时内每小时归档一次 RDB 文件，并在 30 天内每天保存一个 RDB 快照。 这使您可以在发生灾难时轻松恢复不同版本的数据集。<br>RDB 非常适合灾难恢复，它是一个紧凑的文件，可以传输到远程数据中心或 Amazon S3（可能是加密的）。<br>RDB 最大限度地提高了 Redis 的性能，因为 Redis 父进程为了持久化需要做的唯一工作就是派生一个子进程，该子进程将完成其余所有工作。 父进程永远不会执行磁盘 I/O 等操作。<br>与 AOF 相比，RDB 允许更快地重新启动大数据集。<br>在副本上，RDB 支持重启和故障转移后的部分重新同步。</li>
+</ul>
+</li>
+<li><p>AOF日志（Append-Only File）：</p>
+<ul>
+<li><p>AOF日志以追加方式记录Redis服务器所执行的写命令，以文本格式保存在一个文件中。</p>
+</li>
+<li><p>AOF日志允许Redis将写操作追加到文件的末尾，以保持数据的完整性。</p>
+</li>
+<li><p>AOF日志可以通过配置文件中的appendonly选项来启用和配置。</p>
+</li>
+<li><p>AOF日志的优点是可以提供更高的数据安全性和持久性，但相比于快照有一定的性能开销。</p>
+</li>
+<li><p>可以通过配置AOF重写来压缩和优化AOF日志的大小。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="2-Redis支持的常见结构-1"><a href="#2-Redis支持的常见结构-1" class="headerlink" title="2. Redis支持的常见结构"></a>2. Redis支持的常见结构</h1><h2 id="2-1-数据结构-1"><a href="#2-1-数据结构-1" class="headerlink" title="2.1. 数据结构"></a>2.1. 数据结构</h2><h3 id="2-1-1-字符串（String）：-1"><a href="#2-1-1-字符串（String）：-1" class="headerlink" title="2.1.1. .字符串（String）："></a>2.1.1. .字符串（String）：</h3><p>Redis的字符串是一个简单的键值对结构，键是一个字符串，值可以是任意二进制数据。<br>常用操作：设置值、获取值、增加或减少数值、追加字符串、获取子字符串等。<br>适用场景：缓存、计数器、分布式锁等。</p>
+<h3 id="2-1-2-哈希（Hash）：-1"><a href="#2-1-2-哈希（Hash）：-1" class="headerlink" title="2.1.2. 哈希（Hash）："></a>2.1.2. 哈希（Hash）：</h3><p>Redis的哈希是一个键值对集合，其中键是一个字符串，值是一个字段-值对的映射表。<br>常用操作：设置字段值、获取字段值、获取所有字段与值、删除字段等。<br>适用场景：存储对象、存储用户信息、存储配置信息等。</p>
+<h3 id="2-1-3-列表（List）：-1"><a href="#2-1-3-列表（List）：-1" class="headerlink" title="2.1.3. 列表（List）："></a>2.1.3. 列表（List）：</h3><p>Redis的列表是一个有序的字符串元素集合，它可以在两端进行插入、删除和查询操作。<br>常用操作：从列表的左端或右端插入元素、从左端或右端弹出元素、获取指定索引位置的元素等。<br>适用场景：消息队列、实现最新消息推送、记录操作日志等。</p>
+<h3 id="2-1-4-集合（Set）：-1"><a href="#2-1-4-集合（Set）：-1" class="headerlink" title="2.1.4. 集合（Set）："></a>2.1.4. 集合（Set）：</h3><p>Redis的集合是一个无序的字符串元素集合，它不允许重复的元素存在。<br>常用操作：添加元素、移除元素、判断元素是否存在、求交集、求并集等。<br>适用场景：标签系统、好友关系、计算共同喜好等。</p>
+<h3 id="2-1-5-有序集合（Sorted-Set）：-1"><a href="#2-1-5-有序集合（Sorted-Set）：-1" class="headerlink" title="2.1.5. 有序集合（Sorted Set）："></a>2.1.5. 有序集合（Sorted Set）：</h3><p>Redis的有序集合是一个排序的字符串元素集合，每个元素都会关联一个分数，通过分数可以进行排序。<br>常用操作：添加元素、移除元素、根据分数范围获取元素等。<br>适用场景：排行榜、优先级队列、范围查询等。</p>
+<h2 id="2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash-1"><a href="#2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash-1" class="headerlink" title="2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash"></a>2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash</h2><p>除了支持字符串、哈希、列表、集合和排序集等常见数据结构外，Redis还支持在某些用例中有用的几种专用数据类型。</p>
+<h3 id="2-2-1-布隆过滤器-Bloom-filter-1"><a href="#2-2-1-布隆过滤器-Bloom-filter-1" class="headerlink" title="2.2.1. 布隆过滤器(Bloom filter)"></a>2.2.1. 布隆过滤器(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/bloom-filter/">Bloom filter</a>)</h3><p>布隆过滤器是一种概率数据结构，可用于确定元素是否可能存在于集合中。它们在误报（表示元素不在集合中时）是可以接受的，但误报（表示元素不在集合中时）不是可以接受的情况下特别有用。Redis中的布隆过滤器是使用<code>BF. ADD</code>、<code>BF.EXISTS</code>和<code>BF.MADD</code>命令实现的。</p>
+<h3 id="2-2-2-HyperLogLog-HyperLogLog-1"><a href="#2-2-2-HyperLogLog-HyperLogLog-1" class="headerlink" title="2.2.2. HyperLogLog(HyperLogLog)"></a>2.2.2. HyperLogLog(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/hyperloglogs/">HyperLogLog</a>)</h3><p>HyperLogLog是一种用于估计集合基数的概率算法。它为存储集合本身提供了一种节省空间的替代方案，可用于高精度估计非常大的集合中唯一元素的数量。Redis中的HyperLogLog使用<code>PFADD</code>、<code>PFCOUNT</code>和<code>PFMERGE</code>命令实现。</p>
+<h3 id="2-2-3-布谷鸟算法-Cuckoo-filter-1"><a href="#2-2-3-布谷鸟算法-Cuckoo-filter-1" class="headerlink" title="2.2.3. 布谷鸟算法(Cuckoo filter)"></a>2.2.3. 布谷鸟算法(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/cuckoo-filter/">Cuckoo filter</a>)</h3><p>检测特定集合是否存在是否存在</p>
+<h3 id="2-2-4-空间类型-geospatial-1"><a href="#2-2-4-空间类型-geospatial-1" class="headerlink" title="2.2.4. 空间类型 geospatial"></a>2.2.4. 空间类型 <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/geospatial/">geospatial</a></h3><p>地理散列是一种以保留接近度的方式将地理坐标编码为字符串的技术。它可用于对一组坐标执行空间查询，例如查找给定点一定半径内的所有坐标。Redis支持通过<code>GEOADD</code>、<code>GEODIST</code>、<code>GEOHASH</code>、<code>GEOPOS</code>和<code>GEORADIUS</code>命令进行地理散列。<br>通过为这些专门的数据类型提供支持，Redis使开发人员能够凭借其强大的内存数据存储和处理能力解决更广泛的问题。</p>
+<h3 id="2-2-5-BitMap类型-1"><a href="#2-2-5-BitMap类型-1" class="headerlink" title="2.2.5. BitMap类型 "></a>2.2.5. <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/bitmaps/">BitMap类型 </a></h3><p>Bitmap，即位图，是一串连续的二进制数组（0和1），可以通过偏移量（offset）定位元素。BitMap通过最小的单位bit来进行<code>0|1</code>的设置，表示某个元素的值或者状态，时间复杂度为O(1)。由于bit是计算机中最小的单位，使用它进行储存将非常节省空间，特别适合一些数据量大且使用二值统计的场景。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-26-33.png?version=1&modificationDate=1695097593000&api=v2" alt="img"></p>
+<p>使用示例 位移值和0|1 存储值,例如是否在线,考勤是否打卡</p>
+<p><img src="https://rd.dtdream.com/download/attachments/45221264/1280X1280.PNG?version=1&modificationDate=1695099341000&api=v2" alt="img"></p>
+<h1 id="3-Redis淘汰策略-1"><a href="#3-Redis淘汰策略-1" class="headerlink" title="3. Redis淘汰策略"></a>3. Redis淘汰策略</h1><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-44-47.png?version=1&modificationDate=1696920288000&api=v2" alt="img"></p>
+<p>Redis的淘汰策略，根据是否会进行数据淘汰可以把它们分成两类：</p>
+<ul>
+<li>不进行数据淘汰的策略，只有 noeviction 这一种。</li>
+<li>会进行淘汰的 7 种其他策略。</li>
+</ul>
+<p>会进行淘汰的 7 种策略，我们可以再进一步根据淘汰候选数据集的范围把它们分成两类：</p>
+<ul>
+<li>在设置了过期时间的数据中进行淘汰，包括 volatile-random、volatile-ttl、volatile-lru、volatile-lfu（Redis 4.0 后新增）四种。</li>
+<li>在所有数据范围内进行淘汰，包括 allkeys-lru、allkeys-random、allkeys-lfu（Redis 4.0 后新增）三种。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7027067417469648926">Redis的八种淘汰策略（五） - 掘金</a></p>
+<p>volatile-random、volatile-ttl、volatile-lru、volatile-lfu 四种策略是针对已经设置了过期时间的键值对。到键值对的到期时间到了或者Redis内存使用量达到了<code>maxmemory</code>阈值，Redis会根据这些策略对键值对进行淘汰；</p>
+<ul>
+<li>volatile-ttl 在筛选时，会针对设置了过期时间的键值对，根据过期时间的先后进行删除，越早过期的越先被删除。</li>
+<li>volatile-random 就像它的名称一样，在设置了过期时间的键值对中，进行随机删除。</li>
+<li>volatile-lru 会使用 LRU (最近最少使用淘汰算法（Least Recently Used）) 算法筛选设置了过期时间的键值对。</li>
+<li>volatile-lfu 会使用 LFU 最不经常使用淘汰算法（Least Frequently Used）选择设置了过期时间的键值对。</li>
+</ul>
+<p>备注:</p>
+<p>LRU，即：最近最少使用淘汰算法（Least Recently Used）。LRU是淘汰最长时间没有被使用的页面。</p>
+<p>LFU，即：最不经常使用淘汰算法（Least Frequently Used）。LFU是淘汰一段时间内，使用次数最少的页面</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fengzheng/p/13296082.html">动手实现 LRU 算法，以及 Caffeine 和 Redis 中的缓存淘汰策略 - 风的姿态 - 博客园</a></p>
+<h1 id="4-Redis集群-1"><a href="#4-Redis集群-1" class="headerlink" title="4. Redis集群"></a>4. Redis集群</h1><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022028642">一文掌握Redis的三种集群方案 - 个人文章 - SegmentFault 思否</a></p>
+<h2 id="4-1-主从复制-1"><a href="#4-1-主从复制-1" class="headerlink" title="4.1. 主从复制"></a>4.1. 主从复制</h2><p><img src="https://image-static.segmentfault.com/124/529/1245298177-5e6ed603a6d8b_articlex" alt="redis-master-slave"></p>
+<h3 id="4-1-1-主从复制的优缺点-1"><a href="#4-1-1-主从复制的优缺点-1" class="headerlink" title="4.1.1. 主从复制的优缺点"></a>4.1.1. 主从复制的优缺点</h3><p>优点：</p>
+<ol>
+<li>master能自动将数据同步到slave，可以进行读写分离，分担master的读压力</li>
+<li>master、slave之间的同步是以非阻塞的方式进行的，同步期间，客户端仍然可以提交查询或更新请求</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>不具备自动容错与恢复功能，master或slave的宕机都可能导致客户端请求失败，需要等待机器重启或手动切换客户端IP才能恢复</li>
+<li>master宕机，如果宕机前数据没有同步完，则切换IP后会存在数据不一致的问题</li>
+<li>难以支持在线扩容，Redis的容量受限于单机配置</li>
+</ol>
+<h2 id="4-2-哨兵模式-1"><a href="#4-2-哨兵模式-1" class="headerlink" title="4.2. 哨兵模式"></a>4.2. 哨兵模式</h2><p><img src="https://image-static.segmentfault.com/423/790/4237905659-5e6ed60450b11_articlex" alt="redis-sentinel"></p>
+<p>优点：</p>
+<ol>
+<li>哨兵模式基于主从复制模式，所以主从复制模式有的优点，哨兵模式也有</li>
+<li>哨兵模式下，master挂掉可以自动进行切换，系统可用性更高</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>同样也继承了主从模式难以在线扩容的缺点，Redis的容量受限于单机配置</li>
+<li>需要额外的资源来启动sentinel进程，实现相对复杂一点，同时slave节点作为备份节点不提供服务</li>
+</ol>
+<h2 id="4-3-Cluster模式-1"><a href="#4-3-Cluster模式-1" class="headerlink" title="4.3. Cluster模式"></a>4.3. Cluster模式</h2><p><img src="https://image-static.segmentfault.com/965/514/965514528-5e6ed605ee5db_articlex" alt="redis-cluster"></p>
+<p>　　Redis Cluster 采用虚拟哈希槽分区，所有的键根据哈希函数映射到 0 ~ 16383 整数槽内，计算公式：<code>HASH_SLOT = CRC16(key) % 16384</code>。每一个节点负责维护一部分槽以及槽所映射的键值数据。</p>
+<h1 id="5-Redis中的缓存雪崩和缓存击穿问题-1"><a href="#5-Redis中的缓存雪崩和缓存击穿问题-1" class="headerlink" title="5. Redis中的缓存雪崩和缓存击穿问题"></a>5. Redis中的缓存雪崩和缓存击穿问题</h1><p><img src="https://cdn.xiaolincoding.com//mysql/other/61781cd6d82e4a0cc5f7521333049f0d.png" alt="图片"></p>
+<h2 id="5-1-缓存雪崩-1"><a href="#5-1-缓存雪崩-1" class="headerlink" title="5.1. 缓存雪崩"></a>5.1. 缓存雪崩</h2><p>缓存雪崩是指在同一时间，缓存中大量的缓存数据失效，导致大量的请求直接打到了后端数据库上，使得数据库瞬间达到峰值负载，甚至直接宕机。这种情况通常发生在缓存中的数据同时过期时间设置相同，同时失效的情况下。<br>为了避免缓存雪崩问题，可以采取以下措施：</p>
+<ul>
+<li>给缓存数据的过期时间加上随机值，避免同时失效。</li>
+<li>将缓存数据的过期时间分散开来，比如一部分设置为5分钟，一部分设置为10分钟，一部分设置为15分钟，以此类推。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<h2 id="5-2-缓存击穿-1"><a href="#5-2-缓存击穿-1" class="headerlink" title="5.2. 缓存击穿"></a>5.2. 缓存击穿</h2><p>缓存击穿是指某个热点key在缓存过期的同时，有大量的请求访问该key的时候，这些请求直接穿透到后端数据库，导致数据库瞬间达到峰值负载，甚至直接宕机。<br>为了避免缓存击穿问题，可以采取以下措施：</p>
+<ul>
+<li>在缓存数据不存在时，不直接去查询后端数据库，而是先将该key设置为一个特殊的值（如null），在一段时间内（如5秒）不再查询后端数据库，从而避免瞬间大量请求打到数据库上。</li>
+<li>设置热点数据永不过期，或者过期时间非常长，例如一天、一周、一个月等。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<p>在使用Redis时需要注意缓存雪崩和缓存击穿问题，采取相应的措施可以避免这些问题的发生，提高系统的稳定性和可靠性。<br>在Redis中，缓存失效可能有以下几种情况：</p>
+<ol>
+<li>过期时间到期：当设置了缓存的过期时间后，到期后缓存将会失效。</li>
+<li>主动删除：使用<code>DEL</code>命令或者程序中的<code>delete</code>方法，主动删除缓存。</li>
+<li>内存空间不足：当Rediss内存空间不足时，Rediss会优先淘汰赛掉内存占用较大，使用较少的缓存，以腾出更多的内存空间。</li>
+<li>内存泄漏：当程序中出现内存泄漏时，会导致缓存失效。</li>
+<li>Redis重启：当Redis服务重启时，缓存也会失效。</li>
+</ol>
+<p>为了避免缓存失效，我们可以设置合适的缓存过期时间，定期检查和清理过期缓存，优化Redis的内存使用，以及避免内存泄漏等问题。</p>
+<h1 id="6-在Spring-Boot中使用Redis-1"><a href="#6-在Spring-Boot中使用Redis-1" class="headerlink" title="6. 在Spring Boot中使用Redis"></a>6. 在Spring Boot中使用Redis</h1><p>Redis是一个流行的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。在本文中，我们将介绍如何在Spring Boot应用程序中使用Redis。</p>
+<h2 id="6-1-添加Redis依赖-1"><a href="#6-1-添加Redis依赖-1" class="headerlink" title="6.1. .添加Redis依赖"></a>6.1. .添加Redis依赖</h2><p>要在Spring Boot应用程序中使用Redis，我们首先需要添加Redis依赖，在Maven项目中，我们可以在pom. xml文件中添加以下依赖项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-配置Redis连接-1"><a href="#6-2-配置Redis连接-1" class="headerlink" title="6.2. 配置Redis连接"></a>6.2. 配置Redis连接</h2><p>在我们可以使用Redis之前，我们需要配置Redis连接.在Spring Boot应用程序中，我们可以在application.properties文件中添加以下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=localhost</span><br><span class="line">spring.redis.port=6379</span><br></pre></td></tr></table></figure>
+
+
+<p>这将配置Redis连接到本地主机的默认端口6379。</p>
+<h2 id="6-3-使用RedisTemplate-1"><a href="#6-3-使用RedisTemplate-1" class="headerlink" title="6.3. 使用RedisTemplate"></a>6.3. 使用RedisTemplate</h2><p>Spring Boot提供了一个RedisTemplate类，它是一个用于与Redis交互的高级API。我们可以使用RedisTemplate来执行Redis操作，如存储、检索和删除数据。以下是一个使用RedisTemplate执行Redis操作的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private RedisTemplate&lt;String, Object&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">public void setValue(String key, Object value) &#123;</span><br><span class="line">    redisTemplate.opsForValue().set(key, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public Object getValue(String key) &#123;</span><br><span class="line">    return redisTemplate.opsForValue().get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们注入了一个RedisTemplate对象，并使用它来存储和检索数据。我们使用opsForValue()方法来访问Redis值操作，如设置和获取值。</p>
+<h1 id="7-使用注解-1"><a href="#7-使用注解-1" class="headerlink" title="7. 使用注解"></a>7. 使用注解</h1><p>除了使用RedisTemplate之外，Spring Boot还提供了一些注解，可以更轻松地使用Redis。例如，我们可以使用@Cacheable注解将方法的结果缓存到Redis中，从而加快方法的执行速度。以下是一个使用@Cacheable注解的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Cacheable(value = &quot;users&quot;, key = &quot;#userId&quot;)</span><br><span class="line">public User getUserById(String userId) &#123;</span><br><span class="line">    // 获取用户信息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们使用@Cache able注解将User By Id方法的结果缓存到名为”user”的Red is缓存中，缓存键为rId参数。</p>
+<h2 id="7-1-常见客户端比较-lettuce-redisson-jedis-1"><a href="#7-1-常见客户端比较-lettuce-redisson-jedis-1" class="headerlink" title="7.1. 常见客户端比较 lettuce ,redisson,jedis"></a>7.1. 常见客户端比较 lettuce ,redisson,jedis</h2><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-14-16.png?version=1&modificationDate=1695096856000&api=v2" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">Lettuce</th>
+<th align="left">Redisson</th>
+<th align="left">Jedis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">完整性</td>
+<td align="left">Lettuce 是一个可扩展的线程安全 Redis 客户端，适用于同步、异步和反应式使用。 如果多个线程避免阻塞和事务性操作（例如 BLPOP 和 MULTI/EXEC），则它们可以共享一个连接。 Lettuce是用netty构建的。 支持高级 Redis 功能，例如 Sentinel、集群、管道、自动重新连接和 Redis 数据模型。</td>
+<td align="left">Redisson提供了完整的Redis协议支持,基于<a target="_blank" rel="noopener" href="http://netty.io/">Netty</a> 框架，并在其基础上封装了更丰富的特性，如分布式锁、分布式集合等.线程安全的实现 支持Redis复制、Redis集群、Redis哨兵、Redis主从、Redis单机、Redis代理、Redis多集群设置</td>
+<td align="left">Jedis提供了基本的Redis协议支持，但支持高级功能如Pipelining、Miscellaneous、Cluster、Pub/Sub等。Redis 官方推荐的Java客户端</td>
+</tr>
+<tr>
+<td align="left">连接管理</td>
+<td align="left">支持连接池和连接自动恢复机制，具有更好的连接管理能力。</td>
+<td align="left">支持连接池和连接自动恢复机制，具有较好的连接管理能力。</td>
+<td align="left">支持连接池，但没有连接自动恢复机制，</td>
+</tr>
+<tr>
+<td align="left">异步操作</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">不支持异步操作，只能使用同步方式进行操作。</td>
+</tr>
+<tr>
+<td align="left">分布式功能</td>
+<td align="left">支持Redis Sentinel和Redis Cluster，可以使用Lettuce进行分布式部署。</td>
+<td align="left">提供了丰富的分布式功能，如分布式锁、分布式集合、分布式对象等。</td>
+<td align="left">不支持Redis Sentinel和Redis Cluster，不适用于分布式部署。</td>
+</tr>
+<tr>
+<td align="left">扩展性</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接池实现等。</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接管理器等。</td>
+<td align="left">较难进行扩展，功能相对固定。</td>
+</tr>
+<tr>
+<td align="left">社区活跃度</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有较为活跃的开源社区，但相对于Lettuce和Redisson稍显不足。</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/lettuce-io/lettuce-core%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E6%98%AF">https://github.com/lettuce-io/lettuce-core最新版本是</a></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redisson/redisson">https://github.com/redisson/redisson</a> 最新版是 3.23.4</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redis/jedis">https://github.com/redis/jedis</a> 最近版本是5.0.0</td>
+</tr>
+</tbody></table>
+<h1 id="8-结论-1"><a href="#8-结论-1" class="headerlink" title="8. 结论"></a>8. 结论</h1><p><img src="../img/7c19b433-91f4-4575-9536-8fd9050da6d4.gif" alt="7c19b433-91f4-4575-9536-8fd9050da6d4"><br>在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。我们可以使用RedisTemplate类来执行Redis操作，也可以使用注解来更轻松地使用Redis。无论是存储会话数据还是缓存结果，Redis都是一个强大的解决方案。如果您正在使用Spring Boot，请考虑在应用程序中使用Redis。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。</p>
+<h2 id="8-1-常见的用途"><a href="#8-1-常见的用途" class="headerlink" title="8.1. 常见的用途"></a>8.1. 常见的用途</h2><ol>
+<li>同步session</li>
+<li>分布式事务锁或者是 lock</li>
+<li>注册中心</li>
+<li>缓存中间件</li>
+<li>触发器,订阅-触发的同步机制</li>
+</ol>
+<p>在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。我们可以使用RedisTemplate类来执行Redis操作，也可以使用注解来更轻松地使用Redis。无论是存储会话数据还是缓存结果，Redis都是一个强大的解决方案。如果您正在使用Spring Boot，请考虑在应用程序中使用Redis。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。</p>
+<h2 id="8-1-常见的用途-1"><a href="#8-1-常见的用途-1" class="headerlink" title="8.1. 常见的用途"></a>8.1. 常见的用途</h2><ol>
+<li>同步session</li>
+<li>分布式事务锁或者是 lock</li>
+<li>注册中心</li>
+<li>缓存中间件</li>
+<li>触发器,订阅-触发的同步机制</li>
+</ol>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/1a32b04.html">redis介绍</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2023-10-14, 14:35:26</p>
+        <p><span>最后更新:</span>2024-03-14, 22:55:29</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/1a32b04.html" title="redis介绍">https://imlike.cc/1a32b04.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/1a32b04.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/fee7f0df.html">
+                    程序员工具分享-转载
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/7d305c2e.html">
+                    es查询和简要介绍
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: 'redis介绍',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/fee7f0df.html" title="上一篇: 程序员工具分享-转载">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/7d305c2e.html" title="下一篇: es查询和简要介绍">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/Infinity.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2024 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

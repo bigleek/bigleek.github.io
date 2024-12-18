@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="​        转载Linux中国关于 Git&#x2F;GitHub 中文术语表 ,可以参考一下不至于混乱 Git 和 GitHub 已经成为了开发者的基础工具，尤其是参与开源软件开发时经常会使用它们。但是在 Git 和 GitHub 使用过程中遇到的很多术语并没有标准的或约定俗成的中文译名，因此，我们根据 GitHub 、Git 等文档，并结合我们的翻译惯例，收集整理了 Git 和 GitHub 中常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git&#x2F;GitHub 中文术语表">
+<meta property="og:url" content="https://imlike.cc/19126373.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="​        转载Linux中国关于 Git&#x2F;GitHub 中文术语表 ,可以参考一下不至于混乱 Git 和 GitHub 已经成为了开发者的基础工具，尤其是参与开源软件开发时经常会使用它们。但是在 Git 和 GitHub 使用过程中遇到的很多术语并没有标准的或约定俗成的中文译名，因此，我们根据 GitHub 、Git 等文档，并结合我们的翻译惯例，收集整理了 Git 和 GitHub 中常">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-26T00:08:22.000Z">
+<meta property="article:modified_time" content="2024-03-14T14:55:29.473Z">
+<meta property="article:author" content="leek">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Git/GitHub 中文术语表 | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-GitGitHub 中文术语表" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/19126373.html" class="article-date">
+      <time datetime="2020-05-26T00:08:22.000Z" itemprop="datePublished">2020-05-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git/GitHub 中文术语表
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
+    </div>
+ -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%97%E8%AE%A9%E4%BA%BAassignee"><span class="toc-number">1.</span> <span class="toc-text">受让人assignee</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E6%BA%AFblame"><span class="toc-number">2.</span> <span class="toc-text">追溯blame</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%94%AFbranch"><span class="toc-number">3.</span> <span class="toc-text">分支branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E5%87%BAcheckout"><span class="toc-number">4.</span> <span class="toc-text">检出checkout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E9%80%89cherry-picking"><span class="toc-number">5.</span> <span class="toc-text">优选cherry-picking</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E6%B4%81clean"><span class="toc-number">6.</span> <span class="toc-text">清洁clean</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%8B%E9%9A%86clone"><span class="toc-number">7.</span> <span class="toc-text">克隆clone</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E5%87%86%E5%88%99code-of-conduct"><span class="toc-number">8.</span> <span class="toc-text">行为准则code of conduct</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%89%80%E6%9C%89%E8%80%85code-owner"><span class="toc-number">9.</span> <span class="toc-text">代码所有者code owner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8F%E4%BD%9C%E8%80%85collaborator"><span class="toc-number">10.</span> <span class="toc-text">协作者collaborator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4commit"><span class="toc-number">11.</span> <span class="toc-text">提交commit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E4%BD%9C%E8%80%85commit-author"><span class="toc-number">12.</span> <span class="toc-text">提交作者commit author</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4-IDcommit-ID"><span class="toc-number">13.</span> <span class="toc-text">提交 IDcommit ID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E6%B6%88%E6%81%AFcommit-message"><span class="toc-number">14.</span> <span class="toc-text">提交消息commit message</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90continuous-integration"><span class="toc-number">15.</span> <span class="toc-text">持续集成continuous integration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97contribution-guidelines"><span class="toc-number">16.</span> <span class="toc-text">贡献指南contribution guidelines</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AEcontributions"><span class="toc-number">17.</span> <span class="toc-text">贡献contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE%E8%80%85contributor"><span class="toc-number">18.</span> <span class="toc-text">贡献者contributor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AFdefault-branch"><span class="toc-number">19.</span> <span class="toc-text">默认分支default branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B8%E7%A6%BB%E7%9A%84-HEADdetached-HEAD"><span class="toc-number">20.</span> <span class="toc-text">游离的 HEADdetached HEAD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%AE%E5%BC%82diff"><span class="toc-number">21.</span> <span class="toc-text">差异diff</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%84%8Fdirty"><span class="toc-number">22.</span> <span class="toc-text">脏dirty</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E8%BF%9Bfast-forward"><span class="toc-number">23.</span> <span class="toc-text">快进fast-forward</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E5%88%86%E6%94%AFfeature-branch"><span class="toc-number">24.</span> <span class="toc-text">功能分支feature branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%B4%E6%A0%8F%E4%BB%A3%E7%A0%81%E5%9D%97fenced-code-block"><span class="toc-number">25.</span> <span class="toc-text">围栏代码块fenced code block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96fetch"><span class="toc-number">26.</span> <span class="toc-text">获取fetch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%9F%E8%BF%9B%EF%BC%88%E7%94%A8%E6%88%B7%EF%BC%89following-users"><span class="toc-number">27.</span> <span class="toc-text">跟进（用户）following (users)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E6%8E%A8%E9%80%81force-push"><span class="toc-number">28.</span> <span class="toc-text">强制推送force push</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%88%BBfork"><span class="toc-number">29.</span> <span class="toc-text">复刻fork</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gitfile"><span class="toc-number">30.</span> <span class="toc-text">gitfile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HEAD"><span class="toc-number">31.</span> <span class="toc-text">HEAD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E9%92%A9hook"><span class="toc-number">32.</span> <span class="toc-text">挂钩hook</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8Binstance"><span class="toc-number">33.</span> <span class="toc-text">实例instance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AE%E9%A2%98issue"><span class="toc-number">34.</span> <span class="toc-text">议题issue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E9%92%A5%E6%8C%87%E7%BA%B9key-fingerprint"><span class="toc-number">35.</span> <span class="toc-text">密钥指纹key fingerprint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8Dkeyword"><span class="toc-number">36.</span> <span class="toc-text">关键词keyword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BElabel"><span class="toc-number">37.</span> <span class="toc-text">标签label</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LFS"><span class="toc-number">38.</span> <span class="toc-text">LFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B8%E5%8F%AF%E8%AF%81license"><span class="toc-number">39.</span> <span class="toc-text">许可证license</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%8C%E6%B3%A8%E9%87%8Aline-comment"><span class="toc-number">40.</span> <span class="toc-text">行注释line comment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%B9%B2master"><span class="toc-number">41.</span> <span class="toc-text">主干master</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%8F%8Amention"><span class="toc-number">42.</span> <span class="toc-text">提及mention</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6merge"><span class="toc-number">43.</span> <span class="toc-text">合并merge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81merge-conflict"><span class="toc-number">44.</span> <span class="toc-text">合并冲突merge conflict</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E8%AF%B7%E6%B1%82merge-request"><span class="toc-number">45.</span> <span class="toc-text">合并请求merge request</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8C%E7%A8%8B%E7%A2%91milestone"><span class="toc-number">46.</span> <span class="toc-text">里程碑milestone</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8Fmirror"><span class="toc-number">47.</span> <span class="toc-text">镜像mirror</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E5%BF%AB%E8%BF%9Bnon-fast-forward"><span class="toc-number">48.</span> <span class="toc-text">非快进non-fast-forward</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%9F%A5notification"><span class="toc-number">49.</span> <span class="toc-text">通知notification</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E5%8D%8F%E4%BD%9C%E8%80%85outside-collaborator"><span class="toc-number">50.</span> <span class="toc-text">外部协作者outside collaborator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%BA%90open-source"><span class="toc-number">51.</span> <span class="toc-text">开源open source</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90origin"><span class="toc-number">52.</span> <span class="toc-text">源origin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%80%E6%9C%89%E8%80%85owner"><span class="toc-number">53.</span> <span class="toc-text">所有者owner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E8%B4%A1%E7%8C%AEprivate-contributions"><span class="toc-number">54.</span> <span class="toc-text">私有贡献private contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93private-repository"><span class="toc-number">55.</span> <span class="toc-text">私有仓库private repository</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E5%88%86%E6%94%AFproduction-branch"><span class="toc-number">56.</span> <span class="toc-text">生产分支production branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AA%E4%BA%BA%E8%B5%84%E6%96%99profile"><span class="toc-number">57.</span> <span class="toc-text">个人资料profile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%97%E4%BF%9D%E6%8A%A4%E5%88%86%E6%94%AFprotected-branch"><span class="toc-number">58.</span> <span class="toc-text">受保护分支protected branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E5%85%B1%E8%B4%A1%E7%8C%AEpublic-contributions"><span class="toc-number">59.</span> <span class="toc-text">公共贡献public contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E5%85%B1%E4%BB%93%E5%BA%93public-repository"><span class="toc-number">60.</span> <span class="toc-text">公共仓库public repository</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%89%E5%8F%96pull"><span class="toc-number">61.</span> <span class="toc-text">拉取pull</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%89%E5%8F%96%E6%9D%83%E9%99%90pull-access"><span class="toc-number">62.</span> <span class="toc-text">拉取权限pull access</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%89%E5%8F%96%E8%AF%B7%E6%B1%82pull-request"><span class="toc-number">63.</span> <span class="toc-text">拉取请求pull request</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%89%E5%8F%96%E8%AF%B7%E6%B1%82%E5%AE%A1%E6%9F%A5pull-request-review"><span class="toc-number">64.</span> <span class="toc-text">拉取请求审查pull request review</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E9%80%81push"><span class="toc-number">65.</span> <span class="toc-text">推送push</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E9%80%81%E5%88%86%E6%94%AFpush-a-branch"><span class="toc-number">66.</span> <span class="toc-text">推送分支push a branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E9%80%81%E6%9D%83%E9%99%90push-access"><span class="toc-number">67.</span> <span class="toc-text">推送权限push access</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%9D%83%E9%99%90read-access"><span class="toc-number">68.</span> <span class="toc-text">读取权限read access</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E8%BF%B0%E6%96%87%E4%BB%B6README"><span class="toc-number">69.</span> <span class="toc-text">自述文件README</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E5%9F%BArebase"><span class="toc-number">70.</span> <span class="toc-text">变基rebase</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B8%83release"><span class="toc-number">71.</span> <span class="toc-text">发布release</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8Bremote"><span class="toc-number">72.</span> <span class="toc-text">远程remote</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93remote-repository"><span class="toc-number">73.</span> <span class="toc-text">远程仓库remote repository</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B-URLremote-URL"><span class="toc-number">74.</span> <span class="toc-text">远程 URLremote URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%AF%E6%9C%ACreplica"><span class="toc-number">75.</span> <span class="toc-text">副本replica</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%93%E5%BA%93repository"><span class="toc-number">76.</span> <span class="toc-text">仓库repository</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%93%E5%BA%93%E7%BB%B4%E6%8A%A4%E5%91%98repository-maintainer"><span class="toc-number">77.</span> <span class="toc-text">仓库维护员repository maintainer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3resolve"><span class="toc-number">78.</span> <span class="toc-text">解决resolve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%98%E5%8E%9Frevert"><span class="toc-number">79.</span> <span class="toc-text">还原revert</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A1%E6%9F%A5review"><span class="toc-number">80.</span> <span class="toc-text">审查review</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8C%82%E9%92%A9service-hook"><span class="toc-number">81.</span> <span class="toc-text">服务挂钩service hook</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%8B%E6%89%81squash"><span class="toc-number">82.</span> <span class="toc-text">压扁squash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%82%E5%AD%98%E5%AE%9E%E4%BE%8Bstaging-instance"><span class="toc-number">83.</span> <span class="toc-text">暂存实例staging instance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81status"><span class="toc-number">84.</span> <span class="toc-text">状态status</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%9F%E6%A0%87star"><span class="toc-number">85.</span> <span class="toc-text">星标star</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E5%88%86%E6%94%AFtopic-branch"><span class="toc-number">86.</span> <span class="toc-text">主题分支topic branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E6%B8%B8upstream"><span class="toc-number">87.</span> <span class="toc-text">上游upstream</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E6%B8%B8%E5%88%86%E6%94%AFupstream-branch"><span class="toc-number">88.</span> <span class="toc-text">上游分支upstream branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bwatch"><span class="toc-number">89.</span> <span class="toc-text">查看watch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web-%E6%8C%82%E9%92%A9webhooks"><span class="toc-number">90.</span> <span class="toc-text">web 挂钩webhooks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E6%9D%83%E9%99%90write-access"><span class="toc-number">91.</span> <span class="toc-text">写入权限write access</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <p>​        转载Linux中国关于 <a target="_blank" rel="noopener" href="https://linux.cn/article-12245-1.html">Git/GitHub 中文术语表</a> ,可以参考一下不至于混乱</p>
+<p>Git 和 GitHub 已经成为了开发者的基础工具，尤其是参与开源软件开发时经常会使用它们。但是在 Git 和 GitHub 使用过程中遇到的很多术语并没有标准的或约定俗成的中文译名，因此，我们根据 <a target="_blank" rel="noopener" href="https://help.github.com/cn/github/getting-started-with-github/github-glossary">GitHub</a> 、<a target="_blank" rel="noopener" href="https://mirrors.edge.kernel.org/pub/software/scm/git/docs/gitglossary.html">Git</a> 等文档，并结合我们的翻译惯例，收集整理了 Git 和 GitHub 中常用术语的中文译名及其解释。</p>
+<p>这里值得注意是术语有复刻、挂钩、议题、星标、变基、仓库等，这些术语之前要么经常中英文混杂使用，要么中文译法不确定，我们根据多年的翻译和开发经验，在 GitHub 译法的基础上进行斟酌，整理了如下的术语表供大家使用参考。此外，“复刻”这个翻译应该是我们 <a target="_blank" rel="noopener" href="https://linux.cn/article-7877-1.html">LCTT 首倡</a>的；而“议题”这个对 issue 的译法也比之前的一些其它译法更为精准；“仓库”一词还有存储库、版本库等译法，但是仓库一词似乎更加合适。</p>
+<h3 id="受让人assignee"><a href="#受让人assignee" class="headerlink" title="受让人assignee"></a>受让人assignee</h3><p>分配到某个议题的用户。</p>
+<h3 id="追溯blame"><a href="#追溯blame" class="headerlink" title="追溯blame"></a>追溯blame</h3><p>Git 中的“追溯”功能描述对文件每行的最新修改，一般会显示修订、作者和时间。这很有用，例如，可以跟踪何时添加了功能，或者哪个提交导致了特定漏洞。</p>
+<h3 id="分支branch"><a href="#分支branch" class="headerlink" title="分支branch"></a>分支branch</h3><p>分支是仓库的平行版本。它包含在仓库中，但不影响主要或 master 分支，可让你自由工作而不中断“即时”版本。在执行所需的更改后，可以将分支合并回 master 分支以发布更改。</p>
+<h3 id="检出checkout"><a href="#检出checkout" class="headerlink" title="检出checkout"></a>检出checkout</h3><p>你可以在命令行上使用 <code>git checkout</code> 创建新分支，将当前的工作分支更改为不同的分支，甚至使用 <code>git checkout [branchname] [path to file]</code>从不同的分支切换到不同版本的文件。“检出”操作会使用对象数据库中的树对象或 blob 更新工作树的全部或部分，以及更新索引和 HEAD（如果整个工作树指向新分支）。</p>
+<h3 id="优选cherry-picking"><a href="#优选cherry-picking" class="headerlink" title="优选cherry-picking"></a>优选cherry-picking</h3><p>从一系列更改（通常是提交）中选择一部分更改，并在不同的代码库上将它们记录为新的更改系列。在 Git 中，这通过 <code>git cherry-pick</code> 命令来执行，在另一个分支上解压缩现有提交引入的更改，并根据当前分支的提示将其记录为新提交。</p>
+<h3 id="清洁clean"><a href="#清洁clean" class="headerlink" title="清洁clean"></a>清洁clean</h3><p>工作树在对应当前头部引用的版本时是清洁的。另请参阅“脏”。</p>
+<h3 id="克隆clone"><a href="#克隆clone" class="headerlink" title="克隆clone"></a>克隆clone</h3><p>克隆是指存在于计算机上而非网站服务器其他位置的仓库副本，或者是复制的操作。在克隆时，可在首选编辑器中编辑文件，使用 Git 跟踪更改而无需保持在线。你克隆的仓库仍与远程版本连接，以便当你在线时将本地更改推送到远程，以保持同步。</p>
+<h3 id="行为准则code-of-conduct"><a href="#行为准则code-of-conduct" class="headerlink" title="行为准则code of conduct"></a>行为准则code of conduct</h3><p>为如何参与社区制定标准的文档。</p>
+<h3 id="代码所有者code-owner"><a href="#代码所有者code-owner" class="headerlink" title="代码所有者code owner"></a>代码所有者code owner</h3><p>被指定为部分仓库代码所有者的个人。当有人打开对代码所有者拥有的代码进行更改的拉取请求（非草稿模式）时，会自动申请代码所有者审查。</p>
+<h3 id="协作者collaborator"><a href="#协作者collaborator" class="headerlink" title="协作者collaborator"></a>协作者collaborator</h3><p>协作者是受仓库所有者邀请参与，对仓库拥有读取和写入权限的人。</p>
+<h3 id="提交commit"><a href="#提交commit" class="headerlink" title="提交commit"></a>提交commit</h3><p>提交或“修订”是对一个文件（或一组文件）的个别更改。在进行提交以保存工作时，Git 会创建唯一的 ID（也称为 “SHA” 或“哈希”），用于记录提交的特定更改以及提交者和提交时间。提交通常包含一条提交消息，其中简要说明所做的更改。</p>
+<h3 id="提交作者commit-author"><a href="#提交作者commit-author" class="headerlink" title="提交作者commit author"></a>提交作者commit author</h3><p>进行提交的用户。</p>
+<h3 id="提交-IDcommit-ID"><a href="#提交-IDcommit-ID" class="headerlink" title="提交 IDcommit ID"></a>提交 IDcommit ID</h3><p>也称为 SHA。用于识别提交的 40 字符校验和的哈希。</p>
+<h3 id="提交消息commit-message"><a href="#提交消息commit-message" class="headerlink" title="提交消息commit message"></a>提交消息commit message</h3><p>随附于提交的简短描述性文字，用于沟通提交引入的更改。</p>
+<h3 id="持续集成continuous-integration"><a href="#持续集成continuous-integration" class="headerlink" title="持续集成continuous integration"></a>持续集成continuous integration</h3><p>也称为 CI。在个人对 GitHub 上配置的仓库提交更改后运行自动化构建和测试的过程。CI 是软件开发中一种帮助检测错误的常用最佳实践。</p>
+<h3 id="贡献指南contribution-guidelines"><a href="#贡献指南contribution-guidelines" class="headerlink" title="贡献指南contribution guidelines"></a>贡献指南contribution guidelines</h3><p>说明人们应如何参与项目的文档。</p>
+<h3 id="贡献contributions"><a href="#贡献contributions" class="headerlink" title="贡献contributions"></a>贡献contributions</h3><p>GitHub 上的特定活动。</p>
+<h3 id="贡献者contributor"><a href="#贡献者contributor" class="headerlink" title="贡献者contributor"></a>贡献者contributor</h3><p>贡献者是指对仓库没有协作者权限但参与过项目，并且他们打开的拉取请求已合并到仓库的人员。</p>
+<h3 id="默认分支default-branch"><a href="#默认分支default-branch" class="headerlink" title="默认分支default branch"></a>默认分支default branch</h3><p>仓库中的基本分支，除非你指定不同的分支，否则会自动对它完成所有拉取请求和代码提交。此分支通常称为 <code>master</code>。</p>
+<h3 id="游离的-HEADdetached-HEAD"><a href="#游离的-HEADdetached-HEAD" class="headerlink" title="游离的 HEADdetached HEAD"></a>游离的 HEADdetached HEAD</h3><p>如果你操作的是游离的 HEAD，Git 将会警告你，这意味着 Git 不指向某个分支，并且你的任何提交都不会出现在提交历史记录中。例如，在检出并非任何特定分支最新提交的任意提交时，你操作的是“游离的 HEAD”。</p>
+<h3 id="差异diff"><a href="#差异diff" class="headerlink" title="差异diff"></a>差异diff</h3><p>差异是指两个提交之间的更改或保存的更改之间的区别，它将从视觉上描述文件自上次提交后添加或删除的内容。</p>
+<h3 id="脏dirty"><a href="#脏dirty" class="headerlink" title="脏dirty"></a>脏dirty</h3><p>工作树如果包含尚未提交到当前分支的更改，将被视为“脏”。</p>
+<h3 id="快进fast-forward"><a href="#快进fast-forward" class="headerlink" title="快进fast-forward"></a>快进fast-forward</h3><p>快进是一种特殊类型的合并，在其中你有修订以及“合并”另一个分支的更改作为现有分支的子系。在这种情况下，你无法进行新的合并提交，而只是更新此修订。这在远程仓库的远程跟踪分支中经常发生。</p>
+<h3 id="功能分支feature-branch"><a href="#功能分支feature-branch" class="headerlink" title="功能分支feature branch"></a>功能分支feature branch</h3><p>用于试验新功能或修复未正式使用的议题的分支。也称为主题分支。</p>
+<h3 id="围栏代码块fenced-code-block"><a href="#围栏代码块fenced-code-block" class="headerlink" title="围栏代码块fenced code block"></a>围栏代码块fenced code block</h3><p>你可以在代码块前后使用三个反引号 `````，通过 GitHub Flavored Markdown 创建缩进代码块。</p>
+<h3 id="获取fetch"><a href="#获取fetch" class="headerlink" title="获取fetch"></a>获取fetch</h3><p>在使用 <code>git fetch</code> 时，你将从远程仓库添加更改到本地工作分支，而不提交它们。与 <code>git pull</code> 不同，提取可让你在更改提交到本地分支之前先进行审查。</p>
+<h3 id="跟进（用户）following-users"><a href="#跟进（用户）following-users" class="headerlink" title="跟进（用户）following (users)"></a>跟进（用户）following (users)</h3><p>获取关于另一个用户的贡献和活动的通知。</p>
+<h3 id="强制推送force-push"><a href="#强制推送force-push" class="headerlink" title="强制推送force push"></a>强制推送force push</h3><p>一种使用本地更改覆盖远程仓库的 Git 推送，不管是否冲突。</p>
+<h3 id="复刻fork"><a href="#复刻fork" class="headerlink" title="复刻fork"></a>复刻fork</h3><p>复刻是其他用户仓库在你的帐户上的个人副本。复刻允许你自由更改项目而不影响原始上游仓库。你也可以在上游仓库中打开拉取请求，并使复刻同步最新的更改，因为两个仓库仍然互相连接。</p>
+<h3 id="gitfile"><a href="#gitfile" class="headerlink" title="gitfile"></a>gitfile</h3><p>一种普通的 <code>.git</code> 文件，始终位于工作树的根部，指向 Git 目录，包含整个 Git 仓库及其元数据。你可以在命令行上使用 <code>git rev-parse --git-dir</code> 查看仓库（实际仓库）的此文件。</p>
+<h3 id="HEAD"><a href="#HEAD" class="headerlink" title="HEAD"></a>HEAD</h3><p>当前分支。</p>
+<h3 id="挂钩hook"><a href="#挂钩hook" class="headerlink" title="挂钩hook"></a>挂钩hook</h3><p>在多个 Git 命令正常执行时，对可选脚本进行标注以允许开发者添加功能或检查。通常，挂钩允许预先验证和潜在中止命令，并且允许在操作完成后再发事后通知。</p>
+<h3 id="实例instance"><a href="#实例instance" class="headerlink" title="实例instance"></a>实例instance</h3><p>组织包含在其配置和控制的虚拟机中的 GitHub 私有副本。</p>
+<h3 id="议题issue"><a href="#议题issue" class="headerlink" title="议题issue"></a>议题issue</h3><p>议题是提议的与仓库相关的改进、任务或问题。（对于公共仓库）任何人都可创建议题，然后由仓库协作者调解。每个议题都包含自己的讨论线程。你也可以使用标签将议题归类并分配到某人。</p>
+<h3 id="密钥指纹key-fingerprint"><a href="#密钥指纹key-fingerprint" class="headerlink" title="密钥指纹key fingerprint"></a>密钥指纹key fingerprint</h3><p>用于识别较长公钥的简短字节系列。</p>
+<h3 id="关键词keyword"><a href="#关键词keyword" class="headerlink" title="关键词keyword"></a>关键词keyword</h3><p>用在拉取请求中时关闭议题的特定文字。</p>
+<h3 id="标签label"><a href="#标签label" class="headerlink" title="标签label"></a>标签label</h3><p>议题或拉取请求的标记。仓库随附一系列默认标签，但用户也可创建自定义标签。</p>
+<h3 id="LFS"><a href="#LFS" class="headerlink" title="LFS"></a>LFS</h3><p>Git Large File Storage。一种开源 Git 扩展，用于对大文件进行版本控制。</p>
+<h3 id="许可证license"><a href="#许可证license" class="headerlink" title="许可证license"></a>许可证license</h3><p>一种可随附于项目的文档，告知们能够对你的源代码执行哪些操作，不能执行哪些操作。</p>
+<h3 id="行注释line-comment"><a href="#行注释line-comment" class="headerlink" title="行注释line comment"></a>行注释line comment</h3><p>拉取请求内特定代码行上的评论。</p>
+<h3 id="主干master"><a href="#主干master" class="headerlink" title="主干master"></a>主干master</h3><p>默认开发分支。只要创建 Git 仓库，就会创建一个名为 <code>master</code> 的分支，并且它会变为活动的分支。大多数情况下，这包含本地开发，但纯属惯例，而非必需。</p>
+<h3 id="提及mention"><a href="#提及mention" class="headerlink" title="提及mention"></a>提及mention</h3><p>一种通过在用户名前加上 @ 符号来发送给用户的通知。GitHub 上组织中的用户也可成为可提及的团队一部分。</p>
+<h3 id="合并merge"><a href="#合并merge" class="headerlink" title="合并merge"></a>合并merge</h3><p>合并是从一个分支（在相同的仓库中或来自一个分叉）提取更改，然后将其应用到另一个分支。这通常是作为“拉取请求”（可视为请求合并）或通过命令行完成。如果没有冲突的更改，可通过 GitHub.com web 界面使用拉取请求完成合并，或始终通过命令行完成。</p>
+<h3 id="合并冲突merge-conflict"><a href="#合并冲突merge-conflict" class="headerlink" title="合并冲突merge conflict"></a>合并冲突merge conflict</h3><p>合并的分支之间发生的差异。当人们对同一文件的同一行进行不同的更改时，或者一个人编辑某文件而另一个人删除该文件时，就会发生合并冲突。必须解决合并冲突后才可合并分支。</p>
+<h3 id="合并请求merge-request"><a href="#合并请求merge-request" class="headerlink" title="合并请求merge request"></a>合并请求merge request</h3><p>合并请求（MR）是 GitLab 上类似于 GitHub 上的拉取请求的概念。</p>
+<h3 id="里程碑milestone"><a href="#里程碑milestone" class="headerlink" title="里程碑milestone"></a>里程碑milestone</h3><p>一种跟踪仓库中议题或拉取请求组进度的方式。</p>
+<h3 id="镜像mirror"><a href="#镜像mirror" class="headerlink" title="镜像mirror"></a>镜像mirror</h3><p>仓库的新副本。</p>
+<h3 id="非快进non-fast-forward"><a href="#非快进non-fast-forward" class="headerlink" title="非快进non-fast-forward"></a>非快进non-fast-forward</h3><p>当仓库的本地副本未与上游仓库同步时，你在推送本地更改之前需要提取上游更改。</p>
+<h3 id="通知notification"><a href="#通知notification" class="headerlink" title="通知notification"></a>通知notification</h3><p>web 或电子邮件（根据你的设置）传送的更新，提供你感兴趣的活动的相关信息。</p>
+<h3 id="外部协作者outside-collaborator"><a href="#外部协作者outside-collaborator" class="headerlink" title="外部协作者outside collaborator"></a>外部协作者outside collaborator</h3><p>已被授予访问一个或多个组织的仓库但对组织没有其他访问权限的用户，且不属于组织的成员。</p>
+<h3 id="开源open-source"><a href="#开源open-source" class="headerlink" title="开源open source"></a>开源open source</h3><p>开源软件是可供任何人自由使用、修改和共享（以修改和未修改的形式）的软件。今天，“开源”的概念通常扩展到软件以外，代表一种协作原则，其中工作材料在线供任何人分叉、修改、讨论和参与。</p>
+<h3 id="源origin"><a href="#源origin" class="headerlink" title="源origin"></a>源origin</h3><p>默认上游仓库。大多数项目至少有一个它们跟踪的上游项目。默认情况下，源用于该目的。</p>
+<h3 id="所有者owner"><a href="#所有者owner" class="headerlink" title="所有者owner"></a>所有者owner</h3><p>对组织有完全管理权限的组织成员。</p>
+<h3 id="私有贡献private-contributions"><a href="#私有贡献private-contributions" class="headerlink" title="私有贡献private contributions"></a>私有贡献private contributions</h3><p>对私有（与公共相对）仓库的贡献。</p>
+<h3 id="私有仓库private-repository"><a href="#私有仓库private-repository" class="headerlink" title="私有仓库private repository"></a>私有仓库private repository</h3><p>私有仓库仅对仓库所有者和所有者指定的协作者可见。</p>
+<h3 id="生产分支production-branch"><a href="#生产分支production-branch" class="headerlink" title="生产分支production branch"></a>生产分支production branch</h3><p>包含可使用或部署到应用程序或站点的最终更改的分支。</p>
+<h3 id="个人资料profile"><a href="#个人资料profile" class="headerlink" title="个人资料profile"></a>个人资料profile</h3><p>显示 GitHub 上用户活动相关信息的页面。</p>
+<h3 id="受保护分支protected-branch"><a href="#受保护分支protected-branch" class="headerlink" title="受保护分支protected branch"></a>受保护分支protected branch</h3><p>受保护分支在仓库管理员选择保护的分支上禁止多项 Git 功能。必要检查未通过或必需审查未批准，不能对它们执行强制推送、删除和更改合并，或者不能从 GitHub web 界面上传文件到其中。受保护分支通常是默认分支。</p>
+<h3 id="公共贡献public-contributions"><a href="#公共贡献public-contributions" class="headerlink" title="公共贡献public contributions"></a>公共贡献public contributions</h3><p>对公共（与私有相对）仓库的贡献。</p>
+<h3 id="公共仓库public-repository"><a href="#公共仓库public-repository" class="headerlink" title="公共仓库public repository"></a>公共仓库public repository</h3><p>公共仓库可供任何人查看，包括不是 GitHub 用户的人员。</p>
+<h3 id="拉取pull"><a href="#拉取pull" class="headerlink" title="拉取pull"></a>拉取pull</h3><p>拉取是指提取与合并更改。例如，如果有人编辑了你操作的远程文件，你要将这些更改拉取到本地副本，以使其保持最新。另请参阅“提取”。</p>
+<h3 id="拉取权限pull-access"><a href="#拉取权限pull-access" class="headerlink" title="拉取权限pull access"></a>拉取权限pull access</h3><p>读取权限的同义词。</p>
+<h3 id="拉取请求pull-request"><a href="#拉取请求pull-request" class="headerlink" title="拉取请求pull request"></a>拉取请求pull request</h3><p>拉取请求（PR）是提议更改用户提交的仓库，然后被仓库协作者接受或拒绝。像议题一样，每个拉取请求都有自己的论坛。</p>
+<h3 id="拉取请求审查pull-request-review"><a href="#拉取请求审查pull-request-review" class="headerlink" title="拉取请求审查pull request review"></a>拉取请求审查pull request review</h3><p>拉取请求中协作者批准更改或在拉取请求合并之前申请进一步更改的评论。</p>
+<h3 id="推送push"><a href="#推送push" class="headerlink" title="推送push"></a>推送push</h3><p>推送是指将提交的更改发送到 GitHub.com 上的远程仓库。例如，如果你在本地更改内容，便可推送这些更改，让其他人访问。</p>
+<h3 id="推送分支push-a-branch"><a href="#推送分支push-a-branch" class="headerlink" title="推送分支push a branch"></a>推送分支push a branch</h3><p>成功将分支推送到远程仓库后，使用本地分支中的更改来更新远程分支。在你“推送分支”时，Git 将会到远程仓库中搜索分支的头部引用，并验证它是分支本地头部引用的直系原型。在验证后，Git 将拉取所有对象（从本地头部引用可获取，而远程仓库中缺失）到远程对象数据库，然后更新远程头部引用。如果远程头部不是本地头部的原型，推送将会失败。</p>
+<h3 id="推送权限push-access"><a href="#推送权限push-access" class="headerlink" title="推送权限push access"></a>推送权限push access</h3><p>写入权限的同义词。</p>
+<h3 id="读取权限read-access"><a href="#读取权限read-access" class="headerlink" title="读取权限read access"></a>读取权限read access</h3><p>对仓库的权限级别，允许用户拉取或者读取仓库中的信息。所有公共仓库向所有 GitHub 用户授予读取权限。拉取权限的同义词。</p>
+<h3 id="自述文件README"><a href="#自述文件README" class="headerlink" title="自述文件README"></a>自述文件README</h3><p>包含仓库中文件相关信息的文本文件，通常是仓库访问者看到的第一个文件。自述文件连同仓库许可证、参与指南以及行为准则，帮助你交流要求和管理项目的参与。</p>
+<h3 id="变基rebase"><a href="#变基rebase" class="headerlink" title="变基rebase"></a>变基rebase</h3><p>将一系列更改从一个分支重新应用到不同的基本分支，并将该分支的头部重置为结果。</p>
+<h3 id="发布release"><a href="#发布release" class="headerlink" title="发布release"></a>发布release</h3><p>GitHub 封装软件并向用户提供软件的方式。</p>
+<h3 id="远程remote"><a href="#远程remote" class="headerlink" title="远程remote"></a>远程remote</h3><p>这是托管于服务器（很可能是 GitHub.com）上的仓库或分支版本。远程版本可以连接到本地克隆，以使更改保持同步。</p>
+<h3 id="远程仓库remote-repository"><a href="#远程仓库remote-repository" class="headerlink" title="远程仓库remote repository"></a>远程仓库remote repository</h3><p>用于跟踪同一个项目但储存在其他位置的仓库。</p>
+<h3 id="远程-URLremote-URL"><a href="#远程-URLremote-URL" class="headerlink" title="远程 URLremote URL"></a>远程 URLremote URL</h3><p>存储代码的位置：GitHub、其他用户分支甚至不同服务器 上的仓库。</p>
+<h3 id="副本replica"><a href="#副本replica" class="headerlink" title="副本replica"></a>副本replica</h3><p>为主要 GitHub Enterprise 实例提供冗余的 GitHub Enterprise 实例。</p>
+<h3 id="仓库repository"><a href="#仓库repository" class="headerlink" title="仓库repository"></a>仓库repository</h3><p>仓库是 GitHub 最基本的元素，最容易被想象成项目的文件夹。一个仓库包含所有项目文件（包括文档），并且存储每个文件的修订历史记录。仓库可有多个协作者，也可以是公共仓库或私有仓库。</p>
+<h3 id="仓库维护员repository-maintainer"><a href="#仓库维护员repository-maintainer" class="headerlink" title="仓库维护员repository maintainer"></a>仓库维护员repository maintainer</h3><p>管理仓库的人员。此人可帮助对议题分类，以及使用标签和其他功能管理仓库的工作，也可负责更新自述文件和参与文件。</p>
+<h3 id="解决resolve"><a href="#解决resolve" class="headerlink" title="解决resolve"></a>解决resolve</h3><p>手动修复自动合并失败的操作。</p>
+<h3 id="还原revert"><a href="#还原revert" class="headerlink" title="还原revert"></a>还原revert</h3><p>恢复 GitHub 上的拉取请求时，新拉取请求会自动打开，其中有一个提交用于从原始合并的拉取请求恢复合并提交。在 Git 中，你可以使用 <code>git revert</code> 恢复提交。</p>
+<h3 id="审查review"><a href="#审查review" class="headerlink" title="审查review"></a>审查review</h3><p>审查允许对仓库具有访问权限的其他人评论拉取请求中提议的更改、审批更改或在拉取请求合并之前请求进一步更改。</p>
+<h3 id="服务挂钩service-hook"><a href="#服务挂钩service-hook" class="headerlink" title="服务挂钩service hook"></a>服务挂钩service hook</h3><p>也称为“Web 挂钩”。Web 挂钩是一种通知方式，只要仓库或组织上发生特定操作，就会发送通知到外部 web 服务器。</p>
+<h3 id="压扁squash"><a href="#压扁squash" class="headerlink" title="压扁squash"></a>压扁squash</h3><p>将多个提交合并为一个。也是 Git 命令。</p>
+<h3 id="暂存实例staging-instance"><a href="#暂存实例staging-instance" class="headerlink" title="暂存实例staging instance"></a>暂存实例staging instance</h3><p>在修改应用到实际 GitHub Enterprise 实例之前测试修改的一种方式。</p>
+<h3 id="状态status"><a href="#状态status" class="headerlink" title="状态status"></a>状态status</h3><p>拉取请求中的可视表现形式，表示你的提交符合你参与的仓库所设定的条件。</p>
+<h3 id="星标star"><a href="#星标star" class="headerlink" title="星标star"></a>星标star</h3><p>仓库的书签或赞赏表示。星标是项目受欢迎程度排名的手动方式。</p>
+<h3 id="主题分支topic-branch"><a href="#主题分支topic-branch" class="headerlink" title="主题分支topic branch"></a>主题分支topic branch</h3><p>开发者用来识别开发概念行的常规 Git 分支。由于分支很容易并且便宜，因此往往适合拥有多个小分支，每个小分支包含定义明确的概念，或者渐进但相关的更改。也可称为“特征分支”。</p>
+<h3 id="上游upstream"><a href="#上游upstream" class="headerlink" title="上游upstream"></a>上游upstream</h3><p>在谈论分支或分叉时，原始仓库的主要分支通常被称为“上游”，因为它是其他更改的主要来源。你操作的分支/分叉则称为“下游”。也称为“源”。</p>
+<h3 id="上游分支upstream-branch"><a href="#上游分支upstream-branch" class="headerlink" title="上游分支upstream branch"></a>上游分支upstream branch</h3><p>合并到所述分支的默认分支（或所述分支变基到的分支）。它通过 <code>branch.&lt;name&gt;.remote</code> 和 <code>branch.&lt;name&gt;.merge</code> 配置。如果 A 的上游分支是源/B，有时我们会说“A 在跟踪源/B”。</p>
+<h3 id="查看watch"><a href="#查看watch" class="headerlink" title="查看watch"></a>查看watch</h3><p>你可以关注仓库或议题，以便在议题或拉取请求有更新时接收通知。</p>
+<h3 id="web-挂钩webhooks"><a href="#web-挂钩webhooks" class="headerlink" title="web 挂钩webhooks"></a>web 挂钩webhooks</h3><p>Web 挂钩可让你构建或设置订阅 GitHub.com 上特定事件的 GitHub 应用程序。Web 挂钩提供一种通知方式，只要仓库或组织中发生特定操作，就会发送通知到外部 web 服务器。也称为“服务挂钩”。</p>
+<h3 id="写入权限write-access"><a href="#写入权限write-access" class="headerlink" title="写入权限write access"></a>写入权限write access</h3><p>对仓库的权限级别，可让用户推送或写入更改到仓库。</p>
+
+              
+              <!-- 
+              
+              <p>​        转载Linux中国关于 <a target="_blank" rel="noopener" href="https://linux.cn/article-12245-1.html">Git/GitHub 中文术语表</a> ,可以参考一下不至于混乱</p>
+<p>Git 和 GitHub 已经成为了开发者的基础工具，尤其是参与开源软件开发时经常会使用它们。但是在 Git 和 GitHub 使用过程中遇到的很多术语并没有标准的或约定俗成的中文译名，因此，我们根据 <a target="_blank" rel="noopener" href="https://help.github.com/cn/github/getting-started-with-github/github-glossary">GitHub</a> 、<a target="_blank" rel="noopener" href="https://mirrors.edge.kernel.org/pub/software/scm/git/docs/gitglossary.html">Git</a> 等文档，并结合我们的翻译惯例，收集整理了 Git 和 GitHub 中常用术语的中文译名及其解释。</p>
+<p>这里值得注意是术语有复刻、挂钩、议题、星标、变基、仓库等，这些术语之前要么经常中英文混杂使用，要么中文译法不确定，我们根据多年的翻译和开发经验，在 GitHub 译法的基础上进行斟酌，整理了如下的术语表供大家使用参考。此外，“复刻”这个翻译应该是我们 <a target="_blank" rel="noopener" href="https://linux.cn/article-7877-1.html">LCTT 首倡</a>的；而“议题”这个对 issue 的译法也比之前的一些其它译法更为精准；“仓库”一词还有存储库、版本库等译法，但是仓库一词似乎更加合适。</p>
+<h3 id="受让人assignee"><a href="#受让人assignee" class="headerlink" title="受让人assignee"></a>受让人assignee</h3><p>分配到某个议题的用户。</p>
+<h3 id="追溯blame"><a href="#追溯blame" class="headerlink" title="追溯blame"></a>追溯blame</h3><p>Git 中的“追溯”功能描述对文件每行的最新修改，一般会显示修订、作者和时间。这很有用，例如，可以跟踪何时添加了功能，或者哪个提交导致了特定漏洞。</p>
+<h3 id="分支branch"><a href="#分支branch" class="headerlink" title="分支branch"></a>分支branch</h3><p>分支是仓库的平行版本。它包含在仓库中，但不影响主要或 master 分支，可让你自由工作而不中断“即时”版本。在执行所需的更改后，可以将分支合并回 master 分支以发布更改。</p>
+<h3 id="检出checkout"><a href="#检出checkout" class="headerlink" title="检出checkout"></a>检出checkout</h3><p>你可以在命令行上使用 <code>git checkout</code> 创建新分支，将当前的工作分支更改为不同的分支，甚至使用 <code>git checkout [branchname] [path to file]</code>从不同的分支切换到不同版本的文件。“检出”操作会使用对象数据库中的树对象或 blob 更新工作树的全部或部分，以及更新索引和 HEAD（如果整个工作树指向新分支）。</p>
+<h3 id="优选cherry-picking"><a href="#优选cherry-picking" class="headerlink" title="优选cherry-picking"></a>优选cherry-picking</h3><p>从一系列更改（通常是提交）中选择一部分更改，并在不同的代码库上将它们记录为新的更改系列。在 Git 中，这通过 <code>git cherry-pick</code> 命令来执行，在另一个分支上解压缩现有提交引入的更改，并根据当前分支的提示将其记录为新提交。</p>
+<h3 id="清洁clean"><a href="#清洁clean" class="headerlink" title="清洁clean"></a>清洁clean</h3><p>工作树在对应当前头部引用的版本时是清洁的。另请参阅“脏”。</p>
+<h3 id="克隆clone"><a href="#克隆clone" class="headerlink" title="克隆clone"></a>克隆clone</h3><p>克隆是指存在于计算机上而非网站服务器其他位置的仓库副本，或者是复制的操作。在克隆时，可在首选编辑器中编辑文件，使用 Git 跟踪更改而无需保持在线。你克隆的仓库仍与远程版本连接，以便当你在线时将本地更改推送到远程，以保持同步。</p>
+<h3 id="行为准则code-of-conduct"><a href="#行为准则code-of-conduct" class="headerlink" title="行为准则code of conduct"></a>行为准则code of conduct</h3><p>为如何参与社区制定标准的文档。</p>
+<h3 id="代码所有者code-owner"><a href="#代码所有者code-owner" class="headerlink" title="代码所有者code owner"></a>代码所有者code owner</h3><p>被指定为部分仓库代码所有者的个人。当有人打开对代码所有者拥有的代码进行更改的拉取请求（非草稿模式）时，会自动申请代码所有者审查。</p>
+<h3 id="协作者collaborator"><a href="#协作者collaborator" class="headerlink" title="协作者collaborator"></a>协作者collaborator</h3><p>协作者是受仓库所有者邀请参与，对仓库拥有读取和写入权限的人。</p>
+<h3 id="提交commit"><a href="#提交commit" class="headerlink" title="提交commit"></a>提交commit</h3><p>提交或“修订”是对一个文件（或一组文件）的个别更改。在进行提交以保存工作时，Git 会创建唯一的 ID（也称为 “SHA” 或“哈希”），用于记录提交的特定更改以及提交者和提交时间。提交通常包含一条提交消息，其中简要说明所做的更改。</p>
+<h3 id="提交作者commit-author"><a href="#提交作者commit-author" class="headerlink" title="提交作者commit author"></a>提交作者commit author</h3><p>进行提交的用户。</p>
+<h3 id="提交-IDcommit-ID"><a href="#提交-IDcommit-ID" class="headerlink" title="提交 IDcommit ID"></a>提交 IDcommit ID</h3><p>也称为 SHA。用于识别提交的 40 字符校验和的哈希。</p>
+<h3 id="提交消息commit-message"><a href="#提交消息commit-message" class="headerlink" title="提交消息commit message"></a>提交消息commit message</h3><p>随附于提交的简短描述性文字，用于沟通提交引入的更改。</p>
+<h3 id="持续集成continuous-integration"><a href="#持续集成continuous-integration" class="headerlink" title="持续集成continuous integration"></a>持续集成continuous integration</h3><p>也称为 CI。在个人对 GitHub 上配置的仓库提交更改后运行自动化构建和测试的过程。CI 是软件开发中一种帮助检测错误的常用最佳实践。</p>
+<h3 id="贡献指南contribution-guidelines"><a href="#贡献指南contribution-guidelines" class="headerlink" title="贡献指南contribution guidelines"></a>贡献指南contribution guidelines</h3><p>说明人们应如何参与项目的文档。</p>
+<h3 id="贡献contributions"><a href="#贡献contributions" class="headerlink" title="贡献contributions"></a>贡献contributions</h3><p>GitHub 上的特定活动。</p>
+<h3 id="贡献者contributor"><a href="#贡献者contributor" class="headerlink" title="贡献者contributor"></a>贡献者contributor</h3><p>贡献者是指对仓库没有协作者权限但参与过项目，并且他们打开的拉取请求已合并到仓库的人员。</p>
+<h3 id="默认分支default-branch"><a href="#默认分支default-branch" class="headerlink" title="默认分支default branch"></a>默认分支default branch</h3><p>仓库中的基本分支，除非你指定不同的分支，否则会自动对它完成所有拉取请求和代码提交。此分支通常称为 <code>master</code>。</p>
+<h3 id="游离的-HEADdetached-HEAD"><a href="#游离的-HEADdetached-HEAD" class="headerlink" title="游离的 HEADdetached HEAD"></a>游离的 HEADdetached HEAD</h3><p>如果你操作的是游离的 HEAD，Git 将会警告你，这意味着 Git 不指向某个分支，并且你的任何提交都不会出现在提交历史记录中。例如，在检出并非任何特定分支最新提交的任意提交时，你操作的是“游离的 HEAD”。</p>
+<h3 id="差异diff"><a href="#差异diff" class="headerlink" title="差异diff"></a>差异diff</h3><p>差异是指两个提交之间的更改或保存的更改之间的区别，它将从视觉上描述文件自上次提交后添加或删除的内容。</p>
+<h3 id="脏dirty"><a href="#脏dirty" class="headerlink" title="脏dirty"></a>脏dirty</h3><p>工作树如果包含尚未提交到当前分支的更改，将被视为“脏”。</p>
+<h3 id="快进fast-forward"><a href="#快进fast-forward" class="headerlink" title="快进fast-forward"></a>快进fast-forward</h3><p>快进是一种特殊类型的合并，在其中你有修订以及“合并”另一个分支的更改作为现有分支的子系。在这种情况下，你无法进行新的合并提交，而只是更新此修订。这在远程仓库的远程跟踪分支中经常发生。</p>
+<h3 id="功能分支feature-branch"><a href="#功能分支feature-branch" class="headerlink" title="功能分支feature branch"></a>功能分支feature branch</h3><p>用于试验新功能或修复未正式使用的议题的分支。也称为主题分支。</p>
+<h3 id="围栏代码块fenced-code-block"><a href="#围栏代码块fenced-code-block" class="headerlink" title="围栏代码块fenced code block"></a>围栏代码块fenced code block</h3><p>你可以在代码块前后使用三个反引号 `````，通过 GitHub Flavored Markdown 创建缩进代码块。</p>
+<h3 id="获取fetch"><a href="#获取fetch" class="headerlink" title="获取fetch"></a>获取fetch</h3><p>在使用 <code>git fetch</code> 时，你将从远程仓库添加更改到本地工作分支，而不提交它们。与 <code>git pull</code> 不同，提取可让你在更改提交到本地分支之前先进行审查。</p>
+<h3 id="跟进（用户）following-users"><a href="#跟进（用户）following-users" class="headerlink" title="跟进（用户）following (users)"></a>跟进（用户）following (users)</h3><p>获取关于另一个用户的贡献和活动的通知。</p>
+<h3 id="强制推送force-push"><a href="#强制推送force-push" class="headerlink" title="强制推送force push"></a>强制推送force push</h3><p>一种使用本地更改覆盖远程仓库的 Git 推送，不管是否冲突。</p>
+<h3 id="复刻fork"><a href="#复刻fork" class="headerlink" title="复刻fork"></a>复刻fork</h3><p>复刻是其他用户仓库在你的帐户上的个人副本。复刻允许你自由更改项目而不影响原始上游仓库。你也可以在上游仓库中打开拉取请求，并使复刻同步最新的更改，因为两个仓库仍然互相连接。</p>
+<h3 id="gitfile"><a href="#gitfile" class="headerlink" title="gitfile"></a>gitfile</h3><p>一种普通的 <code>.git</code> 文件，始终位于工作树的根部，指向 Git 目录，包含整个 Git 仓库及其元数据。你可以在命令行上使用 <code>git rev-parse --git-dir</code> 查看仓库（实际仓库）的此文件。</p>
+<h3 id="HEAD"><a href="#HEAD" class="headerlink" title="HEAD"></a>HEAD</h3><p>当前分支。</p>
+<h3 id="挂钩hook"><a href="#挂钩hook" class="headerlink" title="挂钩hook"></a>挂钩hook</h3><p>在多个 Git 命令正常执行时，对可选脚本进行标注以允许开发者添加功能或检查。通常，挂钩允许预先验证和潜在中止命令，并且允许在操作完成后再发事后通知。</p>
+<h3 id="实例instance"><a href="#实例instance" class="headerlink" title="实例instance"></a>实例instance</h3><p>组织包含在其配置和控制的虚拟机中的 GitHub 私有副本。</p>
+<h3 id="议题issue"><a href="#议题issue" class="headerlink" title="议题issue"></a>议题issue</h3><p>议题是提议的与仓库相关的改进、任务或问题。（对于公共仓库）任何人都可创建议题，然后由仓库协作者调解。每个议题都包含自己的讨论线程。你也可以使用标签将议题归类并分配到某人。</p>
+<h3 id="密钥指纹key-fingerprint"><a href="#密钥指纹key-fingerprint" class="headerlink" title="密钥指纹key fingerprint"></a>密钥指纹key fingerprint</h3><p>用于识别较长公钥的简短字节系列。</p>
+<h3 id="关键词keyword"><a href="#关键词keyword" class="headerlink" title="关键词keyword"></a>关键词keyword</h3><p>用在拉取请求中时关闭议题的特定文字。</p>
+<h3 id="标签label"><a href="#标签label" class="headerlink" title="标签label"></a>标签label</h3><p>议题或拉取请求的标记。仓库随附一系列默认标签，但用户也可创建自定义标签。</p>
+<h3 id="LFS"><a href="#LFS" class="headerlink" title="LFS"></a>LFS</h3><p>Git Large File Storage。一种开源 Git 扩展，用于对大文件进行版本控制。</p>
+<h3 id="许可证license"><a href="#许可证license" class="headerlink" title="许可证license"></a>许可证license</h3><p>一种可随附于项目的文档，告知们能够对你的源代码执行哪些操作，不能执行哪些操作。</p>
+<h3 id="行注释line-comment"><a href="#行注释line-comment" class="headerlink" title="行注释line comment"></a>行注释line comment</h3><p>拉取请求内特定代码行上的评论。</p>
+<h3 id="主干master"><a href="#主干master" class="headerlink" title="主干master"></a>主干master</h3><p>默认开发分支。只要创建 Git 仓库，就会创建一个名为 <code>master</code> 的分支，并且它会变为活动的分支。大多数情况下，这包含本地开发，但纯属惯例，而非必需。</p>
+<h3 id="提及mention"><a href="#提及mention" class="headerlink" title="提及mention"></a>提及mention</h3><p>一种通过在用户名前加上 @ 符号来发送给用户的通知。GitHub 上组织中的用户也可成为可提及的团队一部分。</p>
+<h3 id="合并merge"><a href="#合并merge" class="headerlink" title="合并merge"></a>合并merge</h3><p>合并是从一个分支（在相同的仓库中或来自一个分叉）提取更改，然后将其应用到另一个分支。这通常是作为“拉取请求”（可视为请求合并）或通过命令行完成。如果没有冲突的更改，可通过 GitHub.com web 界面使用拉取请求完成合并，或始终通过命令行完成。</p>
+<h3 id="合并冲突merge-conflict"><a href="#合并冲突merge-conflict" class="headerlink" title="合并冲突merge conflict"></a>合并冲突merge conflict</h3><p>合并的分支之间发生的差异。当人们对同一文件的同一行进行不同的更改时，或者一个人编辑某文件而另一个人删除该文件时，就会发生合并冲突。必须解决合并冲突后才可合并分支。</p>
+<h3 id="合并请求merge-request"><a href="#合并请求merge-request" class="headerlink" title="合并请求merge request"></a>合并请求merge request</h3><p>合并请求（MR）是 GitLab 上类似于 GitHub 上的拉取请求的概念。</p>
+<h3 id="里程碑milestone"><a href="#里程碑milestone" class="headerlink" title="里程碑milestone"></a>里程碑milestone</h3><p>一种跟踪仓库中议题或拉取请求组进度的方式。</p>
+<h3 id="镜像mirror"><a href="#镜像mirror" class="headerlink" title="镜像mirror"></a>镜像mirror</h3><p>仓库的新副本。</p>
+<h3 id="非快进non-fast-forward"><a href="#非快进non-fast-forward" class="headerlink" title="非快进non-fast-forward"></a>非快进non-fast-forward</h3><p>当仓库的本地副本未与上游仓库同步时，你在推送本地更改之前需要提取上游更改。</p>
+<h3 id="通知notification"><a href="#通知notification" class="headerlink" title="通知notification"></a>通知notification</h3><p>web 或电子邮件（根据你的设置）传送的更新，提供你感兴趣的活动的相关信息。</p>
+<h3 id="外部协作者outside-collaborator"><a href="#外部协作者outside-collaborator" class="headerlink" title="外部协作者outside collaborator"></a>外部协作者outside collaborator</h3><p>已被授予访问一个或多个组织的仓库但对组织没有其他访问权限的用户，且不属于组织的成员。</p>
+<h3 id="开源open-source"><a href="#开源open-source" class="headerlink" title="开源open source"></a>开源open source</h3><p>开源软件是可供任何人自由使用、修改和共享（以修改和未修改的形式）的软件。今天，“开源”的概念通常扩展到软件以外，代表一种协作原则，其中工作材料在线供任何人分叉、修改、讨论和参与。</p>
+<h3 id="源origin"><a href="#源origin" class="headerlink" title="源origin"></a>源origin</h3><p>默认上游仓库。大多数项目至少有一个它们跟踪的上游项目。默认情况下，源用于该目的。</p>
+<h3 id="所有者owner"><a href="#所有者owner" class="headerlink" title="所有者owner"></a>所有者owner</h3><p>对组织有完全管理权限的组织成员。</p>
+<h3 id="私有贡献private-contributions"><a href="#私有贡献private-contributions" class="headerlink" title="私有贡献private contributions"></a>私有贡献private contributions</h3><p>对私有（与公共相对）仓库的贡献。</p>
+<h3 id="私有仓库private-repository"><a href="#私有仓库private-repository" class="headerlink" title="私有仓库private repository"></a>私有仓库private repository</h3><p>私有仓库仅对仓库所有者和所有者指定的协作者可见。</p>
+<h3 id="生产分支production-branch"><a href="#生产分支production-branch" class="headerlink" title="生产分支production branch"></a>生产分支production branch</h3><p>包含可使用或部署到应用程序或站点的最终更改的分支。</p>
+<h3 id="个人资料profile"><a href="#个人资料profile" class="headerlink" title="个人资料profile"></a>个人资料profile</h3><p>显示 GitHub 上用户活动相关信息的页面。</p>
+<h3 id="受保护分支protected-branch"><a href="#受保护分支protected-branch" class="headerlink" title="受保护分支protected branch"></a>受保护分支protected branch</h3><p>受保护分支在仓库管理员选择保护的分支上禁止多项 Git 功能。必要检查未通过或必需审查未批准，不能对它们执行强制推送、删除和更改合并，或者不能从 GitHub web 界面上传文件到其中。受保护分支通常是默认分支。</p>
+<h3 id="公共贡献public-contributions"><a href="#公共贡献public-contributions" class="headerlink" title="公共贡献public contributions"></a>公共贡献public contributions</h3><p>对公共（与私有相对）仓库的贡献。</p>
+<h3 id="公共仓库public-repository"><a href="#公共仓库public-repository" class="headerlink" title="公共仓库public repository"></a>公共仓库public repository</h3><p>公共仓库可供任何人查看，包括不是 GitHub 用户的人员。</p>
+<h3 id="拉取pull"><a href="#拉取pull" class="headerlink" title="拉取pull"></a>拉取pull</h3><p>拉取是指提取与合并更改。例如，如果有人编辑了你操作的远程文件，你要将这些更改拉取到本地副本，以使其保持最新。另请参阅“提取”。</p>
+<h3 id="拉取权限pull-access"><a href="#拉取权限pull-access" class="headerlink" title="拉取权限pull access"></a>拉取权限pull access</h3><p>读取权限的同义词。</p>
+<h3 id="拉取请求pull-request"><a href="#拉取请求pull-request" class="headerlink" title="拉取请求pull request"></a>拉取请求pull request</h3><p>拉取请求（PR）是提议更改用户提交的仓库，然后被仓库协作者接受或拒绝。像议题一样，每个拉取请求都有自己的论坛。</p>
+<h3 id="拉取请求审查pull-request-review"><a href="#拉取请求审查pull-request-review" class="headerlink" title="拉取请求审查pull request review"></a>拉取请求审查pull request review</h3><p>拉取请求中协作者批准更改或在拉取请求合并之前申请进一步更改的评论。</p>
+<h3 id="推送push"><a href="#推送push" class="headerlink" title="推送push"></a>推送push</h3><p>推送是指将提交的更改发送到 GitHub.com 上的远程仓库。例如，如果你在本地更改内容，便可推送这些更改，让其他人访问。</p>
+<h3 id="推送分支push-a-branch"><a href="#推送分支push-a-branch" class="headerlink" title="推送分支push a branch"></a>推送分支push a branch</h3><p>成功将分支推送到远程仓库后，使用本地分支中的更改来更新远程分支。在你“推送分支”时，Git 将会到远程仓库中搜索分支的头部引用，并验证它是分支本地头部引用的直系原型。在验证后，Git 将拉取所有对象（从本地头部引用可获取，而远程仓库中缺失）到远程对象数据库，然后更新远程头部引用。如果远程头部不是本地头部的原型，推送将会失败。</p>
+<h3 id="推送权限push-access"><a href="#推送权限push-access" class="headerlink" title="推送权限push access"></a>推送权限push access</h3><p>写入权限的同义词。</p>
+<h3 id="读取权限read-access"><a href="#读取权限read-access" class="headerlink" title="读取权限read access"></a>读取权限read access</h3><p>对仓库的权限级别，允许用户拉取或者读取仓库中的信息。所有公共仓库向所有 GitHub 用户授予读取权限。拉取权限的同义词。</p>
+<h3 id="自述文件README"><a href="#自述文件README" class="headerlink" title="自述文件README"></a>自述文件README</h3><p>包含仓库中文件相关信息的文本文件，通常是仓库访问者看到的第一个文件。自述文件连同仓库许可证、参与指南以及行为准则，帮助你交流要求和管理项目的参与。</p>
+<h3 id="变基rebase"><a href="#变基rebase" class="headerlink" title="变基rebase"></a>变基rebase</h3><p>将一系列更改从一个分支重新应用到不同的基本分支，并将该分支的头部重置为结果。</p>
+<h3 id="发布release"><a href="#发布release" class="headerlink" title="发布release"></a>发布release</h3><p>GitHub 封装软件并向用户提供软件的方式。</p>
+<h3 id="远程remote"><a href="#远程remote" class="headerlink" title="远程remote"></a>远程remote</h3><p>这是托管于服务器（很可能是 GitHub.com）上的仓库或分支版本。远程版本可以连接到本地克隆，以使更改保持同步。</p>
+<h3 id="远程仓库remote-repository"><a href="#远程仓库remote-repository" class="headerlink" title="远程仓库remote repository"></a>远程仓库remote repository</h3><p>用于跟踪同一个项目但储存在其他位置的仓库。</p>
+<h3 id="远程-URLremote-URL"><a href="#远程-URLremote-URL" class="headerlink" title="远程 URLremote URL"></a>远程 URLremote URL</h3><p>存储代码的位置：GitHub、其他用户分支甚至不同服务器 上的仓库。</p>
+<h3 id="副本replica"><a href="#副本replica" class="headerlink" title="副本replica"></a>副本replica</h3><p>为主要 GitHub Enterprise 实例提供冗余的 GitHub Enterprise 实例。</p>
+<h3 id="仓库repository"><a href="#仓库repository" class="headerlink" title="仓库repository"></a>仓库repository</h3><p>仓库是 GitHub 最基本的元素，最容易被想象成项目的文件夹。一个仓库包含所有项目文件（包括文档），并且存储每个文件的修订历史记录。仓库可有多个协作者，也可以是公共仓库或私有仓库。</p>
+<h3 id="仓库维护员repository-maintainer"><a href="#仓库维护员repository-maintainer" class="headerlink" title="仓库维护员repository maintainer"></a>仓库维护员repository maintainer</h3><p>管理仓库的人员。此人可帮助对议题分类，以及使用标签和其他功能管理仓库的工作，也可负责更新自述文件和参与文件。</p>
+<h3 id="解决resolve"><a href="#解决resolve" class="headerlink" title="解决resolve"></a>解决resolve</h3><p>手动修复自动合并失败的操作。</p>
+<h3 id="还原revert"><a href="#还原revert" class="headerlink" title="还原revert"></a>还原revert</h3><p>恢复 GitHub 上的拉取请求时，新拉取请求会自动打开，其中有一个提交用于从原始合并的拉取请求恢复合并提交。在 Git 中，你可以使用 <code>git revert</code> 恢复提交。</p>
+<h3 id="审查review"><a href="#审查review" class="headerlink" title="审查review"></a>审查review</h3><p>审查允许对仓库具有访问权限的其他人评论拉取请求中提议的更改、审批更改或在拉取请求合并之前请求进一步更改。</p>
+<h3 id="服务挂钩service-hook"><a href="#服务挂钩service-hook" class="headerlink" title="服务挂钩service hook"></a>服务挂钩service hook</h3><p>也称为“Web 挂钩”。Web 挂钩是一种通知方式，只要仓库或组织上发生特定操作，就会发送通知到外部 web 服务器。</p>
+<h3 id="压扁squash"><a href="#压扁squash" class="headerlink" title="压扁squash"></a>压扁squash</h3><p>将多个提交合并为一个。也是 Git 命令。</p>
+<h3 id="暂存实例staging-instance"><a href="#暂存实例staging-instance" class="headerlink" title="暂存实例staging instance"></a>暂存实例staging instance</h3><p>在修改应用到实际 GitHub Enterprise 实例之前测试修改的一种方式。</p>
+<h3 id="状态status"><a href="#状态status" class="headerlink" title="状态status"></a>状态status</h3><p>拉取请求中的可视表现形式，表示你的提交符合你参与的仓库所设定的条件。</p>
+<h3 id="星标star"><a href="#星标star" class="headerlink" title="星标star"></a>星标star</h3><p>仓库的书签或赞赏表示。星标是项目受欢迎程度排名的手动方式。</p>
+<h3 id="主题分支topic-branch"><a href="#主题分支topic-branch" class="headerlink" title="主题分支topic branch"></a>主题分支topic branch</h3><p>开发者用来识别开发概念行的常规 Git 分支。由于分支很容易并且便宜，因此往往适合拥有多个小分支，每个小分支包含定义明确的概念，或者渐进但相关的更改。也可称为“特征分支”。</p>
+<h3 id="上游upstream"><a href="#上游upstream" class="headerlink" title="上游upstream"></a>上游upstream</h3><p>在谈论分支或分叉时，原始仓库的主要分支通常被称为“上游”，因为它是其他更改的主要来源。你操作的分支/分叉则称为“下游”。也称为“源”。</p>
+<h3 id="上游分支upstream-branch"><a href="#上游分支upstream-branch" class="headerlink" title="上游分支upstream branch"></a>上游分支upstream branch</h3><p>合并到所述分支的默认分支（或所述分支变基到的分支）。它通过 <code>branch.&lt;name&gt;.remote</code> 和 <code>branch.&lt;name&gt;.merge</code> 配置。如果 A 的上游分支是源/B，有时我们会说“A 在跟踪源/B”。</p>
+<h3 id="查看watch"><a href="#查看watch" class="headerlink" title="查看watch"></a>查看watch</h3><p>你可以关注仓库或议题，以便在议题或拉取请求有更新时接收通知。</p>
+<h3 id="web-挂钩webhooks"><a href="#web-挂钩webhooks" class="headerlink" title="web 挂钩webhooks"></a>web 挂钩webhooks</h3><p>Web 挂钩可让你构建或设置订阅 GitHub.com 上特定事件的 GitHub 应用程序。Web 挂钩提供一种通知方式，只要仓库或组织中发生特定操作，就会发送通知到外部 web 服务器。也称为“服务挂钩”。</p>
+<h3 id="写入权限write-access"><a href="#写入权限write-access" class="headerlink" title="写入权限write access"></a>写入权限write access</h3><p>对仓库的权限级别，可让用户推送或写入更改到仓库。</p>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/19126373.html">Git/GitHub 中文术语表</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2020-05-26, 08:08:22</p>
+        <p><span>最后更新:</span>2024-03-14, 22:55:29</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/19126373.html" title="Git/GitHub 中文术语表">https://imlike.cc/19126373.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/19126373.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/3468817301.html">
+                    ubuntu输出的分辨率
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/1341101137.html">
+                    将博客搬至CSDN
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: 'Git/GitHub 中文术语表',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/3468817301.html" title="上一篇: ubuntu输出的分辨率">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/1341101137.html" title="下一篇: 将博客搬至CSDN">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/Infinity.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2024 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

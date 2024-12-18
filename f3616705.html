@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="🔗 原文链接： https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;rvcb6xzB…   ⏰ 剪存时间：2022-11-21 11:52:31 (UTC+8)   ✂️ 本文档由 飞书剪存 一键生成  veezean 石杉的架构笔记 2022-11-16 07:50 发表于 江苏 「 关注 “石杉的架构笔记” ，大厂架构经验 倾囊相授 」 文章来源：【公众号：架构悟道 】在大部分涉及到数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="transactionl介绍(转载)">
+<meta property="og:url" content="https://imlike.cc/f3616705.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="🔗 原文链接： https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;rvcb6xzB…   ⏰ 剪存时间：2022-11-21 11:52:31 (UTC+8)   ✂️ 本文档由 飞书剪存 一键生成  veezean 石杉的架构笔记 2022-11-16 07:50 发表于 江苏 「 关注 “石杉的架构笔记” ，大厂架构经验 倾囊相授 」 文章来源：【公众号：架构悟道 】在大部分涉及到数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzllYTI1MTQ5ZjU1ODk1YWEwNTQ5MWNjMzljZWYyOTZfZzIzQ1pxaDR6d0ZoTDlxUVVKNnpqa01OamNiam1Kck1fVG9rZW46Ym94Y25hek01d0RUR1IwMDVqTmFNYnoxeUtiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzYwOGYwNjM2Y2JlMTVmOTJhNjY0ZmY3YjE0M2MyNjVfSWZuQXc2ZFI2UjBzZjZZY0JKZHhiOUtSWU9UcGduU09fVG9rZW46Ym94Y25MMzAxVXhmakMzRjFZUHZQTFZTTkpjXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NzMxMjNhOGRhYTE5ZDU0NjIzM2RiZmYwZDI5Y2VmZDdfcTBjVGhoRFlpSU1HMzhuR2U3dWw0VWt5dDBBYWU0VlBfVG9rZW46Ym94Y25lZGZ3ZzRZWEUwMmlKT3ZuNUpadnRoXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzZhNzIwYWNhZWZkY2E1NWViMDE3MWJmYzQyZGY0YTlfV2t0R05OQXV1MmgzYlM4dUJtdnRObWRJckpqOThkQzhfVG9rZW46Ym94Y25zUTA3dkpQdmk5aXRtMXpNRWNVZURoXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDkyMDQ1OTg4NThmYWYzOGE5YjAxOTM2ODQzMDk0ZTVfRjhQUkNjcWhYUmRwNHlIUEFMNndkb3dxb3BSSnR2Wm1fVG9rZW46Ym94Y25rNTk2YWRHSFRrd2QwMlJJVTV2TlBiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NGNhYjZlYjJkOWIyNDFiZTI3ZWFkZjgyZmQ5YzA2NTBfdVRiRDBvQkNlZ00wWGROUmNKNW5jSEFwcldEdmkwNDVfVG9rZW46Ym94Y25HaDd6aUgxVTM2ZE1SWFk4d0F6UUVnXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NjY0MzY1MzdmZTQzNGEwYTgzN2MyNjk0YWZmZmZiYmJfMHlQbVBNMmdab2VjMUJaU2NNQk51dFZuWjVvbTBqb1ZfVG9rZW46Ym94Y25nT29MU0szV2xLcEhKN28wMEk1S0dmXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM0ZmRmMjFiNmEwYjc1Mzc1M2QzYmI4NjU4NTJiODRfMG1DTFJjZE1YNFJIeHBrZVBacklXcVk5UVVEaEZ0Z0tfVG9rZW46Ym94Y25nc2lqbUNpMDl6Z0tYRURtRFVTMkVkXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA">
+<meta property="article:published_time" content="2022-11-21T06:03:48.000Z">
+<meta property="article:modified_time" content="2024-03-14T14:55:29.482Z">
+<meta property="article:author" content="leek">
+<meta property="article:tag" content="转载">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzllYTI1MTQ5ZjU1ODk1YWEwNTQ5MWNjMzljZWYyOTZfZzIzQ1pxaDR6d0ZoTDlxUVVKNnpqa01OamNiam1Kck1fVG9rZW46Ym94Y25hek01d0RUR1IwMDVqTmFNYnoxeUtiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>transactionl介绍(转载) | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-transactionl介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/f3616705.html" class="article-date">
+      <time datetime="2022-11-21T06:03:48.000Z" itemprop="datePublished">2022-11-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      transactionl介绍(转载)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+ -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E6%9D%A5%E6%BA%90%EF%BC%9A%E3%80%90%E5%85%AC%E4%BC%97%E5%8F%B7%EF%BC%9A%E6%9E%B6%E6%9E%84%E6%82%9F%E9%81%93-%E3%80%91"><span class="toc-number">1.</span> <span class="toc-text">文章来源：【公众号：架构悟道 】</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <blockquote>
+<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/rvcb6xzBODqbCE03bwsKag">https://mp.weixin.qq.com/s/rvcb6xzB…</a></p>
+</blockquote>
+<blockquote>
+<p>⏰ 剪存时间：2022-11-21 11:52:31 (UTC+8)</p>
+</blockquote>
+<blockquote>
+<p>✂️ 本文档由 <a target="_blank" rel="noopener" href="https://www.feishu.cn/hc/zh-CN/articles/606278856233?from=in_ccm_clip_doc">飞书剪存 </a>一键生成</p>
+</blockquote>
+<p>veezean 石杉的架构笔记 <em>2022-11-16 07:50 发表于 江苏</em></p>
+<p>「 关注 “石杉的架构笔记” ，大厂架构经验 倾囊相授 」</p>
+<h2 id="文章来源：【公众号：架构悟道-】"><a href="#文章来源：【公众号：架构悟道-】" class="headerlink" title="文章来源：【公众号：架构悟道 】"></a><strong>文章来源：【公众号：架构悟道 】</strong></h2><p>在大部分涉及到数据库操作的项目里面， <strong>事务控制、事务处理都是一个无法回避的问题</strong> 。比如，需要对SQL执行过程进行事务的控制与处理的时候，其整体的处理流程会是如下的示意：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzllYTI1MTQ5ZjU1ODk1YWEwNTQ5MWNjMzljZWYyOTZfZzIzQ1pxaDR6d0ZoTDlxUVVKNnpqa01OamNiam1Kck1fVG9rZW46Ym94Y25hek01d0RUR1IwMDVqTmFNYnoxeUtiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>首先是要开启事务、然后执行具体SQL，如果执行异常则回滚事务，否则提交事务，最后关闭事务，完成整个处理过程。按照这个流程的逻辑，写一下对应的实现代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">public void testJdbcTransactional(DataSource dataSource) &#123;</span><br><span class="line">    Connection conn = null;</span><br><span class="line">    int result = 0;</span><br><span class="line">    try &#123;</span><br><span class="line">        // 获取链接</span><br><span class="line">        conn = dataSource.getConnection();</span><br><span class="line">        // 禁用自动事务提交，改为手动控制</span><br><span class="line">        conn.setAutoCommit(false);</span><br><span class="line">        // 设置事务隔离级别</span><br><span class="line">        conn.setTransactionIsolation(</span><br><span class="line">            TransactionIoslationLevel.READ_COMMITTED.getLevel()</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        // 执行SQL</span><br><span class="line">        PreparedStatement ps = </span><br><span class="line">            conn.prepareStatement(&quot;insert into user (id, name) values (?, ?)&quot;);</span><br><span class="line">        ps.setString(1, &quot;123456&quot;);</span><br><span class="line">        ps.setString(2, &quot;Tom&quot;);</span><br><span class="line">        result = ps.executeUpdate();</span><br><span class="line"></span><br><span class="line">        // 执行成功，手动提交事务</span><br><span class="line">        conn.commit();</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        // 出现异常，手动回滚事务</span><br><span class="line">        if (conn != null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                conn.rollback();</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                // write log...</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        // 执行结束，最终不管成功还是失败，都要释放资源，断开连接</span><br><span class="line">        try &#123;</span><br><span class="line">            if (conn != null &amp;&amp; !conn.isClosed()) &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">             // write log...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不难发现，上面大段的代码逻辑并不复杂，对于业务而言其实仅仅只是执行了一个insert操作而已。但是杂糅的事务控制代码，显然 <strong>干扰了业务自身的代码处理逻辑的阅读与理解</strong> 。</p>
+<p>常规项目的代码中，涉及到DB处理的场景很多，如果每个地方都有这么一段事务控制的逻辑，那么整体代码的可维护性将会比较差，想想都令人窒息。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzYwOGYwNjM2Y2JlMTVmOTJhNjY0ZmY3YjE0M2MyNjVfSWZuQXc2ZFI2UjBzZjZZY0JKZHhiOUtSWU9UcGduU09fVG9rZW46Ym94Y25MMzAxVXhmakMzRjFZUHZQTFZTTkpjXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>好在，JAVA中很多项目现在都是基于Spring框架进行构建的。得益 于 Spring框架的封装，业务代码中进行事务控制操作起来也很简单，直接加个 @Transactional注解即可，大大简化了对业务代码的 <strong>侵入性</strong> 。那么对 @Transactional事务注解了解的够全面吗？知道有哪些场景可能会导致 @Transactional注解并不会如你预期的方式生效吗？知道应该怎么使用 @Transactional才能保证对性能的影响最小化吗？</p>
+<p>下面我们一起探讨下这些问题。</p>
+<blockquote>
+<p><strong>Spring声明式事务处理机制</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>为了简化业务开发场景对事务的处理复杂度，让开发人员可以更关注于业务自身的处理逻辑， <strong>Spring</strong> 提供了声明式事务的能力支持。</p>
+<p><strong>Spring</strong> 数据库事务约定处理逻辑流程如下图所示，对比前面示例中基于 <strong><code>JDBC</code></strong> 的事务处理，Spring的事务的处理操作交给了 <strong>Spring框架</strong> 处理，开发人员仅需要实现自己的业务逻辑即可，大大简化了事务方面的处理投入。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NzMxMjNhOGRhYTE5ZDU0NjIzM2RiZmYwZDI5Y2VmZDdfcTBjVGhoRFlpSU1HMzhuR2U3dWw0VWt5dDBBYWU0VlBfVG9rZW46Ym94Y25lZGZ3ZzRZWEUwMmlKT3ZuNUpadnRoXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>基于Spring事务机制，实现上述DB操作事务控制的代码，我们的代码会变得非常的简洁：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    userDao.insertUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>与JDBC事务实现代码相比，基于Spring的方式只需要添加一个 <strong><code>@Transactional</code></strong> 注解即可，代码中只需要实现业务逻辑即可，实现了事务控制机制对业务代码的 <strong>低侵入性</strong> 。</p>
+<p>Spring支持的基于 <strong><code>Spring AOP</code></strong> 实现的 <strong>声明式事务</strong> 功能，所谓声明式事务，即使用@Transactional注解进行声明标注，告诉Spring框架在什么地方启用数据库事务控制能力。 <strong><code>@Transactional</code></strong> 注解， <em>可以添加在类或者方法上</em> 。如果其添加在类上时，表明此类中所有的 <em>public非静态方法</em> 都将启用事务控制能力。</p>
+<p>既然@Transactional注解承载了Spring框架对于事务处理的相关能力，那么接下来我们就一起看下该注解的一些可选配置以及具体使用场景。</p>
+<blockquote>
+<p><strong>@Transactional主要可选配置</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>只读事务配置</p>
+<p>通过 <strong><code>readonly</code></strong> 参数指定当前事务是否为一个只读事务。设置为true标识此事务是个只读事务，默认情况为false。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(readOnly = true)</span><br><span class="line">public DomResponse&lt;CiCdItemDetail&gt; queryCicdItemDetail(String appCode) &#123;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里涉及一个概念，叫做 <strong>只读事务</strong> ，其含义描述如下：</p>
+<blockquote>
+<p>在多条查询语句一起执行的场景里面会涉及到的概念。表示在事务设置的那一刻开始，到整个事务执行结束的过程中，其他事务所提交的写操作数据，对该事务都不可见。</p>
+</blockquote>
+<p>举个例子：</p>
+<blockquote>
+<p>现在有一个复合查询操作，包含2条SQL查询操作：先获取用户表count数，再获取用户表中所有数据。 (1) 先执行完获取用户表count数，得到结果10 (2) 在还没开始执行后一条语句的时候，另一个进程操作了DB并往用户表中插入一条新数据 (3) 复合操作的第二条SQL语句，获取用户列表的操作被执行，返回了11条记录</p>
+</blockquote>
+<p>很明显，复合操作中的两条SQL语句获取的数据结果无法匹配上。原因就是非原子性操作导致，即2条查询操作执行的间隔内，有另一个写操作修改了目标读取的数据，导致了此问题的出现。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzZhNzIwYWNhZWZkY2E1NWViMDE3MWJmYzQyZGY0YTlfV2t0R05OQXV1MmgzYlM4dUJtdnRObWRJckpqOThkQzhfVG9rZW46Ym94Y25zUTA3dkpQdmk5aXRtMXpNRWNVZURoXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>为了避免此情况的发生，可以给复合查询操作添加上只读事务，这样事务控制范围内，事务外的写操作就不可见，这样就保证了事务内多条查询语句执行结果的一致性。</p>
+<p>那为什么要设置为只读事务、而不是常规的事务呢？主要是从执行效率角度的考虑。因为这个里的操作都是一些只读操作，所以设置为只读事务，数据库会为只读事务提供一些优化手段，比如不启动回滚段、不记录回滚log之类的。</p>
+<p>回滚条件设定</p>
+<p><strong><code>@Transactional</code></strong> 有提供4个不同属性，可以支持传入不同的参数，设定需要回滚的条件：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>含义说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rollbackFor</td>
+<td>用于指定需要回滚的特定异常类型，可以指定一个或者多个。当指定 <strong><code>rollbackFor</code></strong> 或者 <strong><code>rollbackForClassName</code></strong> 之后，方法执行逻辑中只有抛出指定的异常类型，才会触发事务回滚</td>
+</tr>
+<tr>
+<td>rollbackForClassName</td>
+<td>与 <strong><code>rollbackFor</code></strong> 相同，设置字符串格式的类名</td>
+</tr>
+<tr>
+<td>noRollbackFor</td>
+<td>用于指定不需要进行回滚的异常类型，当方法中抛出指定类型的异常时，不进行事务回滚。而其余的类型的异常将会触发事务回滚。</td>
+</tr>
+<tr>
+<td>noRollbackForClassName</td>
+<td>与 <strong><code>noRollbackFor</code></strong> 相同，设置字符串格式的类名</td>
+</tr>
+</tbody></table>
+<p>其中，rollbackFor支持指定单个或者多个异常类型，只要抛出指定类型的异常，事务都将被回滚掉：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 指定单个异常</span><br><span class="line">@Transactional(rollbackFor = DemoException.class)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 指定多个异常</span><br><span class="line">@Transactional(rollbackFor = &#123;DemoException.class, DemoException2.class&#125;)</span><br><span class="line">public void insertUser2() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>rollbackFor</code></strong> 和 <strong><code>rollbackForClassName</code></strong> 作用相同，只是提供了2个不同的指定方法，允许执行Class类型或者ClassName字符串。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 指定异常名称</span><br><span class="line">@Transactional(rollbackForClassName = &#123;&quot;DemoException&quot;&#125;)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同理， <strong><code>noRollbackFor</code></strong> 和 <strong><code>noRollbackForClassName</code></strong> 的使用与上面示意的相似，只是其含义功能点是相反的。</p>
+<p>事务传播行为</p>
+<p><strong><code>propagation</code></strong> 用于指定此事务对应的传播类型。所谓的事务传播类型，即当前已经在一个事务的上下文中时，又需要开始一个事务，这个时候来处理这个将要开启的新事务的处理策略。</p>
+<p>主要有7种类型的事务传播类型：</p>
+<table>
+<thead>
+<tr>
+<th><strong>传播类型</strong></th>
+<th><strong>含义描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>REQUIRED</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务</td>
+</tr>
+<tr>
+<td>SUPPORTS</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行</td>
+</tr>
+<tr>
+<td>MANDATORY</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常</td>
+</tr>
+<tr>
+<td>REQUIRES_NEW</td>
+<td>创建一个新的事务，如果当前存在事务，则把当前事务挂起</td>
+</tr>
+<tr>
+<td>NOT_SUPPORTED</td>
+<td>以非事务方式运行，如果当前存在事务，则把当前事务挂起</td>
+</tr>
+<tr>
+<td>NEVER</td>
+<td>以非事务方式运行，如果当前存在事务，则抛出异常</td>
+</tr>
+<tr>
+<td>NESTED</td>
+<td>如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于REQUIRED</td>
+</tr>
+</tbody></table>
+<p>事务的传播行为，将会影响到事务控制的结果，比如最终是在同一事务中，一旦遇到异常，所有操作都会被回滚掉，而如果是在多个事务中，则某一个事务的回滚，不影响已提交的其余事务的回滚。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDkyMDQ1OTg4NThmYWYzOGE5YjAxOTM2ODQzMDk0ZTVfRjhQUkNjcWhYUmRwNHlIUEFMNndkb3dxb3BSSnR2Wm1fVG9rZW46Ym94Y25rNTk2YWRHSFRrd2QwMlJJVTV2TlBiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>实际编码的时候，可以通过@Transactional注解中的 <strong><code>propagation</code></strong> 参数来指定具体的传播类型，取值由 <strong><code>org.springframework.transaction.annotation.Propagation</code></strong> 枚举类提供。如果不指定，则默认取值为 <strong><code>Propagation.REQUIRED</code></strong> ，也即 <strong>如果当前存在事务，则加入该事务，如果当前没有事务，则创建一个新的事务</strong> 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * The transaction propagation type.</span><br><span class="line"> * &lt;p&gt;Defaults to &#123;@link Propagation#REQUIRED&#125;.</span><br><span class="line"> * @see org.springframework.transaction.interceptor.TransactionAttribute#getPropagationBehavior()</span><br><span class="line"> */</span><br><span class="line">Propagation propagation() default Propagation.REQUIRED;</span><br></pre></td></tr></table></figure>
+
+<p>事务超时设定</p>
+<p>可以使用 <strong><code>timeout</code></strong> 属性来设置事务的超时秒数，默认值为-1，表示永不超时。</p>
+<blockquote>
+<p><strong>@Transactional失效场景避坑</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>同一个类中方法间调用</p>
+<p>Spring的事务实现原理是AOP，而AOP的原理是动态代理。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NGNhYjZlYjJkOWIyNDFiZTI3ZWFkZjgyZmQ5YzA2NTBfdVRiRDBvQkNlZ00wWGROUmNKNW5jSEFwcldEdmkwNDVfVG9rZW46Ym94Y25HaDd6aUgxVTM2ZE1SWFk4d0F6UUVnXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>在类内部方法之间相互调用的时候，本质上是类对象自身的调用，而不是使用代理对象去调用，也就不会触发AOP，这样其实Spring也就无法将事务控制的代码逻辑织入到调用代码流程中，所以这里的事务控制就无法生效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void insertUser() &#123;</span><br><span class="line">    writeDataIntoDb();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Transactional</span><br><span class="line">public void writeDataIntoDb() &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以遇到同一个类中多个方法之间相互调用，且调用的方法需要做事务控制的时候需要特别注意下这个问题。解决方式，可以建2个不同的类，然后将方法放到两个类中，这样跨类调用，Spring事务机制就可以生效。</p>
+<p>添加在非public方法上</p>
+<p>如果将@Transactional注解添加在protected、private修饰的方法上，虽然代码不会有任何的报错，但是实际上注解是不会生效的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line">private void writeDataIntoDb() &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法内部Try Catch吞掉相关异常</p>
+<p>这个其实很容易理解，业务代码中将所有的异常给catch并吞掉了，等同于业务代码认为被捕获的异常不需要去触发回滚。对框架而言，因为异常被捕获了，业务逻辑执行都在正常往下运行，所以也不会触发异常回滚机制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// catch了可能的异常，导致DB操作失败的时候事务不会触发回滚</span><br><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line"></span><br><span class="line">        // 直接吞掉了异常，这样不会触发事务回滚机制</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在业务处理逻辑中，如果确实需要知晓并捕获相关处理的异常进行一些额外的业务逻辑处理，如果要保证事务回滚机制生效，最后需要往外抛出 <strong><code>RuntimeException</code></strong> 异常，或者是继承RuntimeException实现的 <em>业务自定义异常</em> 。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// catch了可能的异常，对外抛出RuntimeException或者其子类,可触发事务回滚</span><br><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line"></span><br><span class="line">        // @Transactional没有指定rollbackFor，所以抛出RuntimeException或者其子类，可触发事务回滚机制</span><br><span class="line">        throw new RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，如果@Transactional注解指定了 <strong><code>rollbackFor</code></strong> 为某个具体的异常类型，则最终需要保证异常时对外抛出相匹配的异常类型，才可以触发事务处理逻辑。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// catch了指定异常，对外抛出对应类型的异常,可触发事务回滚</span><br><span class="line">@Transactional(rollbackFor = DemoException.class)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line">        // @Transactional有指定rollbackFor，抛出异常要与rollbackFor指定异常类型一致</span><br><span class="line">        throw new DemoException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应数据库引擎类型不支持事务</p>
+<p>以 <strong>MySQL</strong> 数据库而言，常见的数据库引擎有 <strong><code>InnoDB</code></strong> 和 <strong><code>Myisam</code></strong> 等类型，但是 <strong>MYISAM引擎类型是不支持事务</strong> 的。所以如果建表时设置的引擎类型设置为 <strong><code>MYISAM</code></strong> 的话，即使代码里面添加了@Transactional最终事务也不会生效的。</p>
+<blockquote>
+<p><strong>@Transactional使用策略</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>因为事务处理对性能会有一定的影响，所以事务也不是说任何地方都可以随便添加的。对于一些性能敏感场景，需要注意几点：</p>
+<ol>
+<li>仅在必要的场合添加事务控制</li>
+</ol>
+<blockquote>
+<p>（1）不含有DB操作相关，无需添加事务控制 （2）单条查询语句，没必要添加事务控制 （3）仅有查询操作的多条SQL执行场景，可以添加只读事务控制 （4）单条 <strong><code>insert/update/delete</code></strong> 语句，其实也不需要添加 <strong><code>@Transactional</code></strong> 事务处理，因为单条语句执行其实数据库有 <strong>隐性事务控制机制</strong> ，如果执行失败，是属于 <strong><code>SQL</code></strong> 报错，数据不会更新成功，自然也无需回滚。</p>
+</blockquote>
+<ol>
+<li>尽可能缩小事务控制的代码段处理范围</li>
+</ol>
+<blockquote>
+<p>主要从性能层面考虑，事务机制，类似于并发场景的加锁处理， <em>范围越大对性能影响越明显</em></p>
+</blockquote>
+<ol>
+<li>事务控制范围内的业务逻辑尽可能简单、避免非事务相关耗时处理逻辑</li>
+</ol>
+<blockquote>
+<p>也是从性能层面考虑，尽量将耗时的逻辑放到事务控制之外执行， <em>事务内仅保留与DB操作切实相关的逻辑</em></p>
+</blockquote>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NjY0MzY1MzdmZTQzNGEwYTgzN2MyNjk0YWZmZmZiYmJfMHlQbVBNMmdab2VjMUJaU2NNQk51dFZuWjVvbTBqb1ZfVG9rZW46Ym94Y25nT29MU0szV2xLcEhKN28wMEk1S0dmXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM0ZmRmMjFiNmEwYjc1Mzc1M2QzYmI4NjU4NTJiODRfMG1DTFJjZE1YNFJIeHBrZVBacklXcVk5UVVEaEZ0Z0tfVG9rZW46Ym94Y25nc2lqbUNpMDl6Z0tYRURtRFVTMkVkXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+
+              
+              <!-- 
+              
+              <blockquote>
+<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/rvcb6xzBODqbCE03bwsKag">https://mp.weixin.qq.com/s/rvcb6xzB…</a></p>
+</blockquote>
+<blockquote>
+<p>⏰ 剪存时间：2022-11-21 11:52:31 (UTC+8)</p>
+</blockquote>
+<blockquote>
+<p>✂️ 本文档由 <a target="_blank" rel="noopener" href="https://www.feishu.cn/hc/zh-CN/articles/606278856233?from=in_ccm_clip_doc">飞书剪存 </a>一键生成</p>
+</blockquote>
+<p>veezean 石杉的架构笔记 <em>2022-11-16 07:50 发表于 江苏</em></p>
+<p>「 关注 “石杉的架构笔记” ，大厂架构经验 倾囊相授 」</p>
+<h2 id="文章来源：【公众号：架构悟道-】"><a href="#文章来源：【公众号：架构悟道-】" class="headerlink" title="文章来源：【公众号：架构悟道 】"></a><strong>文章来源：【公众号：架构悟道 】</strong></h2><p>在大部分涉及到数据库操作的项目里面， <strong>事务控制、事务处理都是一个无法回避的问题</strong> 。比如，需要对SQL执行过程进行事务的控制与处理的时候，其整体的处理流程会是如下的示意：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzllYTI1MTQ5ZjU1ODk1YWEwNTQ5MWNjMzljZWYyOTZfZzIzQ1pxaDR6d0ZoTDlxUVVKNnpqa01OamNiam1Kck1fVG9rZW46Ym94Y25hek01d0RUR1IwMDVqTmFNYnoxeUtiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>首先是要开启事务、然后执行具体SQL，如果执行异常则回滚事务，否则提交事务，最后关闭事务，完成整个处理过程。按照这个流程的逻辑，写一下对应的实现代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">public void testJdbcTransactional(DataSource dataSource) &#123;</span><br><span class="line">    Connection conn = null;</span><br><span class="line">    int result = 0;</span><br><span class="line">    try &#123;</span><br><span class="line">        // 获取链接</span><br><span class="line">        conn = dataSource.getConnection();</span><br><span class="line">        // 禁用自动事务提交，改为手动控制</span><br><span class="line">        conn.setAutoCommit(false);</span><br><span class="line">        // 设置事务隔离级别</span><br><span class="line">        conn.setTransactionIsolation(</span><br><span class="line">            TransactionIoslationLevel.READ_COMMITTED.getLevel()</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        // 执行SQL</span><br><span class="line">        PreparedStatement ps = </span><br><span class="line">            conn.prepareStatement(&quot;insert into user (id, name) values (?, ?)&quot;);</span><br><span class="line">        ps.setString(1, &quot;123456&quot;);</span><br><span class="line">        ps.setString(2, &quot;Tom&quot;);</span><br><span class="line">        result = ps.executeUpdate();</span><br><span class="line"></span><br><span class="line">        // 执行成功，手动提交事务</span><br><span class="line">        conn.commit();</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        // 出现异常，手动回滚事务</span><br><span class="line">        if (conn != null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                conn.rollback();</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                // write log...</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        // 执行结束，最终不管成功还是失败，都要释放资源，断开连接</span><br><span class="line">        try &#123;</span><br><span class="line">            if (conn != null &amp;&amp; !conn.isClosed()) &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">             // write log...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不难发现，上面大段的代码逻辑并不复杂，对于业务而言其实仅仅只是执行了一个insert操作而已。但是杂糅的事务控制代码，显然 <strong>干扰了业务自身的代码处理逻辑的阅读与理解</strong> 。</p>
+<p>常规项目的代码中，涉及到DB处理的场景很多，如果每个地方都有这么一段事务控制的逻辑，那么整体代码的可维护性将会比较差，想想都令人窒息。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzYwOGYwNjM2Y2JlMTVmOTJhNjY0ZmY3YjE0M2MyNjVfSWZuQXc2ZFI2UjBzZjZZY0JKZHhiOUtSWU9UcGduU09fVG9rZW46Ym94Y25MMzAxVXhmakMzRjFZUHZQTFZTTkpjXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>好在，JAVA中很多项目现在都是基于Spring框架进行构建的。得益 于 Spring框架的封装，业务代码中进行事务控制操作起来也很简单，直接加个 @Transactional注解即可，大大简化了对业务代码的 <strong>侵入性</strong> 。那么对 @Transactional事务注解了解的够全面吗？知道有哪些场景可能会导致 @Transactional注解并不会如你预期的方式生效吗？知道应该怎么使用 @Transactional才能保证对性能的影响最小化吗？</p>
+<p>下面我们一起探讨下这些问题。</p>
+<blockquote>
+<p><strong>Spring声明式事务处理机制</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>为了简化业务开发场景对事务的处理复杂度，让开发人员可以更关注于业务自身的处理逻辑， <strong>Spring</strong> 提供了声明式事务的能力支持。</p>
+<p><strong>Spring</strong> 数据库事务约定处理逻辑流程如下图所示，对比前面示例中基于 <strong><code>JDBC</code></strong> 的事务处理，Spring的事务的处理操作交给了 <strong>Spring框架</strong> 处理，开发人员仅需要实现自己的业务逻辑即可，大大简化了事务方面的处理投入。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NzMxMjNhOGRhYTE5ZDU0NjIzM2RiZmYwZDI5Y2VmZDdfcTBjVGhoRFlpSU1HMzhuR2U3dWw0VWt5dDBBYWU0VlBfVG9rZW46Ym94Y25lZGZ3ZzRZWEUwMmlKT3ZuNUpadnRoXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>基于Spring事务机制，实现上述DB操作事务控制的代码，我们的代码会变得非常的简洁：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    userDao.insertUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>与JDBC事务实现代码相比，基于Spring的方式只需要添加一个 <strong><code>@Transactional</code></strong> 注解即可，代码中只需要实现业务逻辑即可，实现了事务控制机制对业务代码的 <strong>低侵入性</strong> 。</p>
+<p>Spring支持的基于 <strong><code>Spring AOP</code></strong> 实现的 <strong>声明式事务</strong> 功能，所谓声明式事务，即使用@Transactional注解进行声明标注，告诉Spring框架在什么地方启用数据库事务控制能力。 <strong><code>@Transactional</code></strong> 注解， <em>可以添加在类或者方法上</em> 。如果其添加在类上时，表明此类中所有的 <em>public非静态方法</em> 都将启用事务控制能力。</p>
+<p>既然@Transactional注解承载了Spring框架对于事务处理的相关能力，那么接下来我们就一起看下该注解的一些可选配置以及具体使用场景。</p>
+<blockquote>
+<p><strong>@Transactional主要可选配置</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>只读事务配置</p>
+<p>通过 <strong><code>readonly</code></strong> 参数指定当前事务是否为一个只读事务。设置为true标识此事务是个只读事务，默认情况为false。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(readOnly = true)</span><br><span class="line">public DomResponse&lt;CiCdItemDetail&gt; queryCicdItemDetail(String appCode) &#123;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里涉及一个概念，叫做 <strong>只读事务</strong> ，其含义描述如下：</p>
+<blockquote>
+<p>在多条查询语句一起执行的场景里面会涉及到的概念。表示在事务设置的那一刻开始，到整个事务执行结束的过程中，其他事务所提交的写操作数据，对该事务都不可见。</p>
+</blockquote>
+<p>举个例子：</p>
+<blockquote>
+<p>现在有一个复合查询操作，包含2条SQL查询操作：先获取用户表count数，再获取用户表中所有数据。 (1) 先执行完获取用户表count数，得到结果10 (2) 在还没开始执行后一条语句的时候，另一个进程操作了DB并往用户表中插入一条新数据 (3) 复合操作的第二条SQL语句，获取用户列表的操作被执行，返回了11条记录</p>
+</blockquote>
+<p>很明显，复合操作中的两条SQL语句获取的数据结果无法匹配上。原因就是非原子性操作导致，即2条查询操作执行的间隔内，有另一个写操作修改了目标读取的数据，导致了此问题的出现。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzZhNzIwYWNhZWZkY2E1NWViMDE3MWJmYzQyZGY0YTlfV2t0R05OQXV1MmgzYlM4dUJtdnRObWRJckpqOThkQzhfVG9rZW46Ym94Y25zUTA3dkpQdmk5aXRtMXpNRWNVZURoXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>为了避免此情况的发生，可以给复合查询操作添加上只读事务，这样事务控制范围内，事务外的写操作就不可见，这样就保证了事务内多条查询语句执行结果的一致性。</p>
+<p>那为什么要设置为只读事务、而不是常规的事务呢？主要是从执行效率角度的考虑。因为这个里的操作都是一些只读操作，所以设置为只读事务，数据库会为只读事务提供一些优化手段，比如不启动回滚段、不记录回滚log之类的。</p>
+<p>回滚条件设定</p>
+<p><strong><code>@Transactional</code></strong> 有提供4个不同属性，可以支持传入不同的参数，设定需要回滚的条件：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>含义说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rollbackFor</td>
+<td>用于指定需要回滚的特定异常类型，可以指定一个或者多个。当指定 <strong><code>rollbackFor</code></strong> 或者 <strong><code>rollbackForClassName</code></strong> 之后，方法执行逻辑中只有抛出指定的异常类型，才会触发事务回滚</td>
+</tr>
+<tr>
+<td>rollbackForClassName</td>
+<td>与 <strong><code>rollbackFor</code></strong> 相同，设置字符串格式的类名</td>
+</tr>
+<tr>
+<td>noRollbackFor</td>
+<td>用于指定不需要进行回滚的异常类型，当方法中抛出指定类型的异常时，不进行事务回滚。而其余的类型的异常将会触发事务回滚。</td>
+</tr>
+<tr>
+<td>noRollbackForClassName</td>
+<td>与 <strong><code>noRollbackFor</code></strong> 相同，设置字符串格式的类名</td>
+</tr>
+</tbody></table>
+<p>其中，rollbackFor支持指定单个或者多个异常类型，只要抛出指定类型的异常，事务都将被回滚掉：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 指定单个异常</span><br><span class="line">@Transactional(rollbackFor = DemoException.class)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 指定多个异常</span><br><span class="line">@Transactional(rollbackFor = &#123;DemoException.class, DemoException2.class&#125;)</span><br><span class="line">public void insertUser2() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>rollbackFor</code></strong> 和 <strong><code>rollbackForClassName</code></strong> 作用相同，只是提供了2个不同的指定方法，允许执行Class类型或者ClassName字符串。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 指定异常名称</span><br><span class="line">@Transactional(rollbackForClassName = &#123;&quot;DemoException&quot;&#125;)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同理， <strong><code>noRollbackFor</code></strong> 和 <strong><code>noRollbackForClassName</code></strong> 的使用与上面示意的相似，只是其含义功能点是相反的。</p>
+<p>事务传播行为</p>
+<p><strong><code>propagation</code></strong> 用于指定此事务对应的传播类型。所谓的事务传播类型，即当前已经在一个事务的上下文中时，又需要开始一个事务，这个时候来处理这个将要开启的新事务的处理策略。</p>
+<p>主要有7种类型的事务传播类型：</p>
+<table>
+<thead>
+<tr>
+<th><strong>传播类型</strong></th>
+<th><strong>含义描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>REQUIRED</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务</td>
+</tr>
+<tr>
+<td>SUPPORTS</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行</td>
+</tr>
+<tr>
+<td>MANDATORY</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常</td>
+</tr>
+<tr>
+<td>REQUIRES_NEW</td>
+<td>创建一个新的事务，如果当前存在事务，则把当前事务挂起</td>
+</tr>
+<tr>
+<td>NOT_SUPPORTED</td>
+<td>以非事务方式运行，如果当前存在事务，则把当前事务挂起</td>
+</tr>
+<tr>
+<td>NEVER</td>
+<td>以非事务方式运行，如果当前存在事务，则抛出异常</td>
+</tr>
+<tr>
+<td>NESTED</td>
+<td>如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于REQUIRED</td>
+</tr>
+</tbody></table>
+<p>事务的传播行为，将会影响到事务控制的结果，比如最终是在同一事务中，一旦遇到异常，所有操作都会被回滚掉，而如果是在多个事务中，则某一个事务的回滚，不影响已提交的其余事务的回滚。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDkyMDQ1OTg4NThmYWYzOGE5YjAxOTM2ODQzMDk0ZTVfRjhQUkNjcWhYUmRwNHlIUEFMNndkb3dxb3BSSnR2Wm1fVG9rZW46Ym94Y25rNTk2YWRHSFRrd2QwMlJJVTV2TlBiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>实际编码的时候，可以通过@Transactional注解中的 <strong><code>propagation</code></strong> 参数来指定具体的传播类型，取值由 <strong><code>org.springframework.transaction.annotation.Propagation</code></strong> 枚举类提供。如果不指定，则默认取值为 <strong><code>Propagation.REQUIRED</code></strong> ，也即 <strong>如果当前存在事务，则加入该事务，如果当前没有事务，则创建一个新的事务</strong> 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * The transaction propagation type.</span><br><span class="line"> * &lt;p&gt;Defaults to &#123;@link Propagation#REQUIRED&#125;.</span><br><span class="line"> * @see org.springframework.transaction.interceptor.TransactionAttribute#getPropagationBehavior()</span><br><span class="line"> */</span><br><span class="line">Propagation propagation() default Propagation.REQUIRED;</span><br></pre></td></tr></table></figure>
+
+<p>事务超时设定</p>
+<p>可以使用 <strong><code>timeout</code></strong> 属性来设置事务的超时秒数，默认值为-1，表示永不超时。</p>
+<blockquote>
+<p><strong>@Transactional失效场景避坑</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>同一个类中方法间调用</p>
+<p>Spring的事务实现原理是AOP，而AOP的原理是动态代理。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NGNhYjZlYjJkOWIyNDFiZTI3ZWFkZjgyZmQ5YzA2NTBfdVRiRDBvQkNlZ00wWGROUmNKNW5jSEFwcldEdmkwNDVfVG9rZW46Ym94Y25HaDd6aUgxVTM2ZE1SWFk4d0F6UUVnXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>在类内部方法之间相互调用的时候，本质上是类对象自身的调用，而不是使用代理对象去调用，也就不会触发AOP，这样其实Spring也就无法将事务控制的代码逻辑织入到调用代码流程中，所以这里的事务控制就无法生效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void insertUser() &#123;</span><br><span class="line">    writeDataIntoDb();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Transactional</span><br><span class="line">public void writeDataIntoDb() &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以遇到同一个类中多个方法之间相互调用，且调用的方法需要做事务控制的时候需要特别注意下这个问题。解决方式，可以建2个不同的类，然后将方法放到两个类中，这样跨类调用，Spring事务机制就可以生效。</p>
+<p>添加在非public方法上</p>
+<p>如果将@Transactional注解添加在protected、private修饰的方法上，虽然代码不会有任何的报错，但是实际上注解是不会生效的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line">private void writeDataIntoDb() &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法内部Try Catch吞掉相关异常</p>
+<p>这个其实很容易理解，业务代码中将所有的异常给catch并吞掉了，等同于业务代码认为被捕获的异常不需要去触发回滚。对框架而言，因为异常被捕获了，业务逻辑执行都在正常往下运行，所以也不会触发异常回滚机制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// catch了可能的异常，导致DB操作失败的时候事务不会触发回滚</span><br><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line"></span><br><span class="line">        // 直接吞掉了异常，这样不会触发事务回滚机制</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在业务处理逻辑中，如果确实需要知晓并捕获相关处理的异常进行一些额外的业务逻辑处理，如果要保证事务回滚机制生效，最后需要往外抛出 <strong><code>RuntimeException</code></strong> 异常，或者是继承RuntimeException实现的 <em>业务自定义异常</em> 。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// catch了可能的异常，对外抛出RuntimeException或者其子类,可触发事务回滚</span><br><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line"></span><br><span class="line">        // @Transactional没有指定rollbackFor，所以抛出RuntimeException或者其子类，可触发事务回滚机制</span><br><span class="line">        throw new RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，如果@Transactional注解指定了 <strong><code>rollbackFor</code></strong> 为某个具体的异常类型，则最终需要保证异常时对外抛出相匹配的异常类型，才可以触发事务处理逻辑。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// catch了指定异常，对外抛出对应类型的异常,可触发事务回滚</span><br><span class="line">@Transactional(rollbackFor = DemoException.class)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line">        // @Transactional有指定rollbackFor，抛出异常要与rollbackFor指定异常类型一致</span><br><span class="line">        throw new DemoException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应数据库引擎类型不支持事务</p>
+<p>以 <strong>MySQL</strong> 数据库而言，常见的数据库引擎有 <strong><code>InnoDB</code></strong> 和 <strong><code>Myisam</code></strong> 等类型，但是 <strong>MYISAM引擎类型是不支持事务</strong> 的。所以如果建表时设置的引擎类型设置为 <strong><code>MYISAM</code></strong> 的话，即使代码里面添加了@Transactional最终事务也不会生效的。</p>
+<blockquote>
+<p><strong>@Transactional使用策略</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>因为事务处理对性能会有一定的影响，所以事务也不是说任何地方都可以随便添加的。对于一些性能敏感场景，需要注意几点：</p>
+<ol>
+<li>仅在必要的场合添加事务控制</li>
+</ol>
+<blockquote>
+<p>（1）不含有DB操作相关，无需添加事务控制 （2）单条查询语句，没必要添加事务控制 （3）仅有查询操作的多条SQL执行场景，可以添加只读事务控制 （4）单条 <strong><code>insert/update/delete</code></strong> 语句，其实也不需要添加 <strong><code>@Transactional</code></strong> 事务处理，因为单条语句执行其实数据库有 <strong>隐性事务控制机制</strong> ，如果执行失败，是属于 <strong><code>SQL</code></strong> 报错，数据不会更新成功，自然也无需回滚。</p>
+</blockquote>
+<ol>
+<li>尽可能缩小事务控制的代码段处理范围</li>
+</ol>
+<blockquote>
+<p>主要从性能层面考虑，事务机制，类似于并发场景的加锁处理， <em>范围越大对性能影响越明显</em></p>
+</blockquote>
+<ol>
+<li>事务控制范围内的业务逻辑尽可能简单、避免非事务相关耗时处理逻辑</li>
+</ol>
+<blockquote>
+<p>也是从性能层面考虑，尽量将耗时的逻辑放到事务控制之外执行， <em>事务内仅保留与DB操作切实相关的逻辑</em></p>
+</blockquote>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NjY0MzY1MzdmZTQzNGEwYTgzN2MyNjk0YWZmZmZiYmJfMHlQbVBNMmdab2VjMUJaU2NNQk51dFZuWjVvbTBqb1ZfVG9rZW46Ym94Y25nT29MU0szV2xLcEhKN28wMEk1S0dmXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM0ZmRmMjFiNmEwYjc1Mzc1M2QzYmI4NjU4NTJiODRfMG1DTFJjZE1YNFJIeHBrZVBacklXcVk5UVVEaEZ0Z0tfVG9rZW46Ym94Y25nc2lqbUNpMDl6Z0tYRURtRFVTMkVkXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/f3616705.html">transactionl介绍(转载)</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2022-11-21, 14:03:48</p>
+        <p><span>最后更新:</span>2024-03-14, 22:55:29</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/f3616705.html" title="transactionl介绍(转载)">https://imlike.cc/f3616705.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/f3616705.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/a0b38034.html">
+                    spring缓存管理Redis+本地
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/a6af0ce2.html">
+                    一次单元测试优化的过程总结(转载)
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: 'transactionl介绍(转载)',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/a0b38034.html" title="上一篇: spring缓存管理Redis+本地">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/a6af0ce2.html" title="下一篇: 一次单元测试优化的过程总结(转载)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/Infinity.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2024 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

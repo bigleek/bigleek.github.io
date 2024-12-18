@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="🔗 原文链接： https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;vLR1FqGi…   ⏰ 剪存时间：2022-11-20 17:50:19 (UTC+8)   ✂️ 本文档由 飞书剪存 一键生成  原创 少飞 闫旭 文文等 美团技术团队 2022-09-15 19:58 发表于 北京 收录于合集 #美团外卖 19 个 #自动化测试 3 个 #前端 22 个 #到家 9 个  总第535">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动化测试在美团外卖的实践与落地(转载)">
+<meta property="og:url" content="https://imlike.cc/ead6381e.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="🔗 原文链接： https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;vLR1FqGi…   ⏰ 剪存时间：2022-11-20 17:50:19 (UTC+8)   ✂️ 本文档由 飞书剪存 一键生成  原创 少飞 闫旭 文文等 美团技术团队 2022-09-15 19:58 发表于 北京 收录于合集 #美团外卖 19 个 #自动化测试 3 个 #前端 22 个 #到家 9 个  总第535">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NzczYjE2NGRkZmQ4ZDQ2N2ZmZTc4NWVmMDlmMGE0ZTFfM2VuV1dBVmxnaGlUc1JhcU9BNFZud3FoZndnM3I4NWdfVG9rZW46Ym94Y25WdWMzdmtFemtYdEtPMGJGZ1NNNjhiXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MWVjMWI1NDRlOWNhZDJkZjI2ZDU4M2FkN2E0Y2VlMTlfenIxdjNBSFNWcGRxZkhXVDdoTTVtZHcyU0tJQUVwcWdfVG9rZW46Ym94Y25nWlE1WDY0NFo5TGNHZE5UZVQzQlplXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDMzZmE0ZjVlMDFhODcxODVhOTMyNWFlMGIyNGM1NjlfU2hsMFZubkF3REppak5qSDEyamZDUk1rRHBOT0NGa0JfVG9rZW46Ym94Y25JVlBodnZaTWhpNGYzdWJWS3VreUZmXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MyNTAyNzY1ZTY4ZTllZmJlZDA2YTZhNDkxZTI4N2ZfcURhamVVclZMMUxnc3daQjVDYTRUN3RDZkNKTm11RnlfVG9rZW46Ym94Y254a0pXVXhTVnhORWRBc2VxN2pEYUFlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzRlNThkMGMxN2I3ZDI0Mjc2ZGJjN2QyNTQ2ZmRkNmVfOW9JNWswYTdWRDhrTW5pSTRoVXBPcW5BSE5kQ1FkQ0JfVG9rZW46Ym94Y25kSjR5ZjhQa0ZtOWh1cUJpdUlWQkJiXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzZjYTJiOTZmZGVhNDBjYWVjYWY5ZjUwMjFkYTBlYzVfU1NDa1l5aTNjOVppMkgyM2RNRTdwaTZDZ2JoQTdWUDhfVG9rZW46Ym94Y254ZElSdmthYURKYnhRMlhFV3h3cWRjXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjIzMDRmZjhiNWZhZTdhYWU0OGNmYzc4YjkxNDE4YTlfTmQxM0I0c3ZKbzludmpSUENnTlg5UXNzN3NmOXNFRDBfVG9rZW46Ym94Y250N3BnV1lnVGVQbHp1S2xMVG5kYmJkXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmE3MWNhODQ3MzIyZTJlNWZhNjY0NTE1MWRkMDdhMThfb3pPZXZWSXlpRVBVYjJHcUx5SGV1cWt1T2hyUE1zYm5fVG9rZW46Ym94Y25OWGNDUDRCRlpWZ25aUUNwMlh6UXdGXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDFjZTA0NGJkMjllNWI1ODA5OWVkMjBkOTZkMzQ2Y2RfRnNndE9JbkZEak1ZUlRIYTZ4YkJXaUdpSUxpdHdEVFVfVG9rZW46Ym94Y25PVjNjZXV4c3NROWN1VWF3ekI1Y2VoXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2Q5MzhmYjAyNTY4MGYwNmJjMzYxZTM1YjJhODkzOGJfcWdHdTJLb1BEWnpZYWk2TWNxSHZZclpyZU80aTZROENfVG9rZW46Ym94Y25ndkp6dW5WbmdhejZLY0xDd1N6TmJnXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MyNjdjYzNlZTZiOWYyNzgzODQ0NjY3M2I3MGVhODBfcXpaeG01SkQ5WXN3UDhTb3h4SEhEZW5XWmc1bmdJM1dfVG9rZW46Ym94Y25HRm80OVlIM1VFYlVORDAxeUJtTndlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzY4NDMwMzhlOGFmZmYyM2I1MmI3ZmEyMmY5ZTUyNDRfMjdNUjV0Mk9zUXRqcHU4aXFUZGJJd1pwTFczUTJYQnBfVG9rZW46Ym94Y25rMzdDVTJsWDhCVjAzWUJjTXJYUnloXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YWQ5ODljMjIzZDAxODUxYzk0YTEwOGI1NzdmMjg3ZTBfTFZqeUJ2TkoxMFdDd3pGeFQ3SnV1ZktUUEc1UzN4R0pfVG9rZW46Ym94Y25XdW1NM2hEVDdDWFdyMUxicVBraGtlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NTVmYzEyNDFjNjA5OWM5OTU3YzEzNmVmYzFjZDE4MzFfNTBTc1hDenkwcTBZRTJreDJUaTVra3Y1MDU3aEtWVWFfVG9rZW46Ym94Y25XNU14YUpjdW5ESWhYYmNlZnFKckljXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzMwZTNiMDc0NmI5MDczYWI5YmM2ODRmNDAyYWJjZDFfZTNaaUhaQVpneE93WWdaVVk1N2pQd29iV1hVZUFEbzBfVG9rZW46Ym94Y25pR0R6SnFUcXliT3BGUGNnRWdjMzNlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjY3YTA2ZGM0YTAwMmFjYWM2Yjk2MTg4MGRkNGQ1NDFfa2Z0bTBtY0Z2Nmp5SUl1S3VkNzVKM2E5QWdDbnZUQlBfVG9rZW46Ym94Y24wbmoxMUZRVVBkZTM5cTRaZDJFY3dkXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmE0N2U2NmQ0MzQwZDk3MDE2YmE4ODUwY2E3OWM1NmFfdHNHYW10SWNRNW1qNDhjTmZIM2d3aXd1VDNydmNEZjRfVG9rZW46Ym94Y251UFNHZmNrUHRESkNIcmFWMHk0Q2hlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY1ZTZjMmQwMDkwODhiMTM1NTNlNDVjZjc0ZGFhYTBfbGVYNzI5M1RqOFFENzVsRWtGTTc2czRQSUtscUFva2tfVG9rZW46Ym94Y24ydUFyelJPZTI5OE9Ub3BFeXRyTzJlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ODlmMDgzZjdhZGM1MGU2ZDE4NzNmM2YwMjE5MWM0OThfZmc4NzhTZmhmYkgyTGh0bTFhRGJrQTU0ZFJnY1oyRExfVG9rZW46Ym94Y25Wb2h1a2dEek04azFVaUlNUVVsNld5XzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NmMxNDY2MzBhODRmOTNjMjM1OTAxZTM2YzdkYmM5NDVfNks1eHJYcGJMdkpPSWs1Q2F2Z2FFbzlSWXRpR0lHM2xfVG9rZW46Ym94Y24xcll2QnY0anBCQkh2Q3JLV0w2aGFnXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTgyYmM3NDQ1MWIzZjhmYjQ1YzJjYjMwZjQyMzNmMTVfWHFzQzVIazF2U29OOEF4OG05ZHlReHZPNFBRb1dlcU1fVG9rZW46Ym94Y24xbmhDa0pETWtraHpwS09aUHp1emZkXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MWVjMGI2M2JhNDAyZDI1Y2VkMmE3MTRiMzA2NTllYjNfN1lRUGZ0dGhleDVDUVBZUm1uTmNTRlN6OFZPQzZqR2tfVG9rZW46Ym94Y24wUmhyR0R2dkl1cU8yclRjRlR6ckl5XzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjNmOGU1MzM0ZDVlZjZkNDdjMDIxMjQ2Njg1YTZhMjFfZEhlV1Y2enFTY2lQQ0FTS3A4RXNpOEk1U05qeWRENjZfVG9rZW46Ym94Y25DRVo5RjBLbUVlRG9Sb3RQbmlKRzRmXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ODE0YjMyYzA5ZTUwZjA4MDkyMmM3MzJmYzBjYTJmMWVfbmRKOGQ2dnp2QzFsVHdRMVRHUGFqWFdSejNta0xJTkNfVG9rZW46Ym94Y24wMThrMDRUWTJyMTlXVFhQbkEwcVlSXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmYxOGVkZTgzYTk3MDM4MTcyNTc4NTYzYTYyYTE5MDZfMWZRZDZ3U2lEYzhzcXU0eE93cWdYak1ReTNaR2FZWmJfVG9rZW46Ym94Y24xbkFha3dOVkdmTmpnUGJHMWhySThmXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY2ODRkNzhjODcxYjgwYzZjZTRmZDkxOTcxYzJkZWFfUTBUbTZzcTFId1A3T2VGMnRpeW1uZTNVQ3dDbWpKUE1fVG9rZW46Ym94Y25nU1NmbmNKV3Zkb1dhOEhEUnhxOTI1XzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+<meta property="article:published_time" content="2022-11-20T09:50:42.000Z">
+<meta property="article:modified_time" content="2024-03-14T14:55:29.486Z">
+<meta property="article:author" content="leek">
+<meta property="article:tag" content="转载">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NzczYjE2NGRkZmQ4ZDQ2N2ZmZTc4NWVmMDlmMGE0ZTFfM2VuV1dBVmxnaGlUc1JhcU9BNFZud3FoZndnM3I4NWdfVG9rZW46Ym94Y25WdWMzdmtFemtYdEtPMGJGZ1NNNjhiXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>自动化测试在美团外卖的实践与落地(转载) | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-自动化测试在美团外卖的实践与落地" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/ead6381e.html" class="article-date">
+      <time datetime="2022-11-20T09:50:42.000Z" itemprop="datePublished">2022-11-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自动化测试在美团外卖的实践与落地(转载)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+ -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">1. 项目背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%A1%B9%E7%9B%AE%E7%9B%AE%E6%A0%87"><span class="toc-number">2.</span> <span class="toc-text">2. 项目目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%96%B9%E6%A1%88%E9%80%89%E5%9E%8B"><span class="toc-number">3.</span> <span class="toc-text">3. 方案选型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%9E%E8%B7%B5%E5%92%8C%E6%8E%A2%E7%B4%A2"><span class="toc-number">4.</span> <span class="toc-text">4. 实践和探索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E9%97%AE%E9%A2%98%E5%92%8C%E6%8C%91%E6%88%98"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 问题和挑战</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6%E5%87%86%E5%A4%87"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 前置条件准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E7%94%A8%E4%BE%8B%E5%BD%95%E5%88%B6%E4%B8%8E%E5%9B%9E%E6%94%BE%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 用例录制与回放的数据一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E7%94%A8%E4%BE%8B%E5%BD%95%E5%88%B6%E4%B8%8E%E5%9B%9E%E6%94%BE%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 用例录制与回放的操作一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E5%8F%AF%E6%BA%AF%E6%BA%90%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95"><span class="toc-number">4.5.</span> <span class="toc-text">4.5 可溯源的自动化测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-%E7%94%A8%E4%BE%8B%E7%9A%84%E7%BB%B4%E6%8A%A4"><span class="toc-number">4.6.</span> <span class="toc-text">4.6 用例的维护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-7-%E8%B7%A8App%E5%9B%9E%E6%94%BE%E7%94%A8%E4%BE%8B"><span class="toc-number">4.7.</span> <span class="toc-text">4.7 跨App回放用例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-%E5%9F%8B%E7%82%B9%E7%9A%84%E5%BD%95%E5%88%B6%E5%9B%9E%E6%94%BE"><span class="toc-number">4.8.</span> <span class="toc-text">4.8 埋点的录制回放</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text">5. 测试流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E8%87%AA%E5%8A%A8%E5%8C%96%E4%BB%BB%E5%8A%A1%E8%A7%A6%E5%8F%91"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 自动化任务触发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E5%9B%9E%E6%94%BE%E9%9B%86%E7%BE%A4%E8%B0%83%E5%BA%A6"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 回放集群调度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E6%96%AD%E8%A8%80%E6%9C%8D%E5%8A%A1"><span class="toc-number">5.3.</span> <span class="toc-text">5.3 断言服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 消息推送</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E8%90%BD%E5%9C%B0%E4%B8%8E%E5%AE%9E%E8%B7%B5"><span class="toc-number">6.</span> <span class="toc-text">6. 落地与实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E4%B8%9A%E5%8A%A1%E5%85%B1%E5%BB%BA"><span class="toc-number">6.1.</span> <span class="toc-text">6.1 业务共建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E5%AE%9E%E8%B7%B5%E6%95%88%E6%9E%9C"><span class="toc-number">6.2.</span> <span class="toc-text">6.2 实践效果</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number"></span> <span class="toc-text">7. 参考资料</span></a>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <blockquote>
+<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/vLR1FqGi6TiICEcWzOnHfQ">https://mp.weixin.qq.com/s/vLR1FqGi…</a></p>
+</blockquote>
+<blockquote>
+<p>⏰ 剪存时间：2022-11-20 17:50:19 (UTC+8)</p>
+</blockquote>
+<blockquote>
+<p>✂️ 本文档由 <a target="_blank" rel="noopener" href="https://www.feishu.cn/hc/zh-CN/articles/606278856233?from=in_ccm_clip_doc">飞书剪存 </a>一键生成</p>
+</blockquote>
+<p>原创 少飞 闫旭 文文等 美团技术团队 <em>2022-09-15 19:58 发表于 北京</em></p>
+<p>收录于合集</p>
+<p>#美团外卖 19 个</p>
+<p>#自动化测试 3 个</p>
+<p>#前端 22 个</p>
+<p>#到家 9 个</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NzczYjE2NGRkZmQ4ZDQ2N2ZmZTc4NWVmMDlmMGE0ZTFfM2VuV1dBVmxnaGlUc1JhcU9BNFZud3FoZndnM3I4NWdfVG9rZW46Ym94Y25WdWMzdmtFemtYdEtPMGJGZ1NNNjhiXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p><strong>总第535 篇 | 2022年 第052篇</strong></p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MWVjMWI1NDRlOWNhZDJkZjI2ZDU4M2FkN2E0Y2VlMTlfenIxdjNBSFNWcGRxZkhXVDdoTTVtZHcyU0tJQUVwcWdfVG9rZW46Ym94Y25nWlE1WDY0NFo5TGNHZE5UZVQzQlplXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>随着美团到家业务的发展，系统复杂度也在持续增长。测试用例数量近两年增长约一倍，单端数量超过1万2千条，而研发人员的工作从大部分时间在开发，转变成一半时间在开发、一半时间在模拟环境和自测。因此，引入自动化测试就显得十分有必要，本文介绍了美团外卖在自动化测试方向做的一些探索和实践，希望对从事相关领域工作的同学能够带来一些启发或帮助。</p>
+<ul>
+<li><p>\1. 项目背景</p>
+</li>
+<li><p>\2. 项目目标</p>
+</li>
+<li><p>\3. 方案选型</p>
+</li>
+<li><p>\4. 实践和探索</p>
+<ul>
+<li>4.1 问题和挑战</li>
+<li>4.2 前置条件准备</li>
+<li>4.3 用例录制与回放的数据一致性</li>
+<li>4.4 用例录制与回放的操作一致性</li>
+<li>4.5 可溯源的自动化测试</li>
+<li>4.6 用例的维护</li>
+<li>4.7 跨App回放用例</li>
+<li>4.8 埋点的录制回放</li>
+</ul>
+</li>
+<li><p>\5. 测试流程</p>
+<ul>
+<li>5.1 自动化任务触发</li>
+<li>5.2 回放集群调度</li>
+<li>5.3 断言服务</li>
+<li>5.4 消息推送</li>
+</ul>
+</li>
+<li><p>\6. 落地与实践</p>
+<ul>
+<li>6.1 业务共建</li>
+<li>6.2 实践效果</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-项目背景"><a href="#1-项目背景" class="headerlink" title="1. 项目背景"></a><strong>1. 项目背景</strong></h2><p>美团外卖的业务场景比较多元化，除了外卖自身的业务，还作为平台承接了闪购、团好货、医药、跑腿等其他业务。除此之外，在全链路动态化的大基调下，外卖各个页面的技术形态也变得越来越复杂，除了Native代码，还包括Mach（ 外卖自研动态化框架 ）、React Native、美团小程序、H5等，不同技术栈的底层技术实现不同，渲染机制不同，进而对测试方式要求也有所不同，这也在无形中增加了测试的难度。下图汇总了美团多业务、多技术、多App的一些典型场景。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDMzZmE0ZjVlMDFhODcxODVhOTMyNWFlMGIyNGM1NjlfU2hsMFZubkF3REppak5qSDEyamZDUk1rRHBOT0NGa0JfVG9rZW46Ym94Y25JVlBodnZaTWhpNGYzdWJWS3VreUZmXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图1 多业务、多技术栈、多App</p>
+<p>在产品交付上线的过程中，测试的占比也是非常大的，甚至大于总时长的30%。如下图所示，整个测试包括了冒烟测试、新功能测试、二轮回归测试、三轮测试。然而，现在需求测试绝大部分还是采用非自动化的方式，这就使得人力成本变得非常之高。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MyNTAyNzY1ZTY4ZTllZmJlZDA2YTZhNDkxZTI4N2ZfcURhamVVclZMMUxnc3daQjVDYTRUN3RDZkNKTm11RnlfVG9rZW46Ym94Y254a0pXVXhTVnhORWRBc2VxN2pEYUFlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图2 外卖迭代模型</p>
+<p>另一方面，相比于2018年，2022年的测试用例数量增长近3倍，已经超过1万2千条（ 如下图所示 ）。同时，外卖的业务是“三端复用”，除了外卖App，还需要集成到美团App和大众点评App上，这样一来，测试工作量就翻了3倍，业务测试压力之大可想而知。如果按照当前的增长趋势持续下去，要保障外卖业务的稳定，就必须持续不断地投入大量的人力成本，所以引入能够支持外卖“多业务场景”、“多App复用”、“多技术栈” 特点的自动化测试工具来提升人效和质量，势在必行。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzRlNThkMGMxN2I3ZDI0Mjc2ZGJjN2QyNTQ2ZmRkNmVfOW9JNWswYTdWRDhrTW5pSTRoVXBPcW5BSE5kQ1FkQ0JfVG9rZW46Ym94Y25kSjR5ZjhQa0ZtOWh1cUJpdUlWQkJiXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图3 近几年用例增长变化</p>
+<h2 id="2-项目目标"><a href="#2-项目目标" class="headerlink" title="2. 项目目标"></a><strong>2. 项目目标</strong></h2><p>为了解决外卖面临的测试困境，我们尝试去探索一种零学习成本、低维护、高可用的自动化测试方案，能够支持外卖复杂多变的测试场景，它必须同时满足下面几点要求：</p>
+<ul>
+<li><p><strong>易用性</strong> ：工具/平台的上手难度，使用复杂度应该尽可能的低，因为自动化测试的目的是提效人力，而不是增加人力负担。</p>
+</li>
+<li><p><strong>平台支持</strong> ：移动端至少需要覆盖iOS和Android双平台，同时基于外卖的业务特点，不仅需要对Native支持，也需要支持Mach（ 自研局部动态化框架 ）、H5、React Native、美团小程序等技术栈。</p>
+</li>
+<li><p><strong>稳定性</strong> ：自动化测试用例的执行需要有足够的稳定性和准确性，测试过程中不应因测试工具本身的不稳定而出现稳定性问题。</p>
+</li>
+<li><p><strong>维护成本</strong> ：维护成本很大程度上决定了测试工作量的大小，因需求产生变动或架构重构等问题时，用例的维护成本应该尽可能的小。</p>
+</li>
+<li><p><strong>可扩展性</strong> ：当测试方案不能满足测试需求时，工具/平台应具备可扩展的能力。</p>
+</li>
+</ul>
+<h2 id="3-方案选型"><a href="#3-方案选型" class="headerlink" title="3. 方案选型"></a><strong>3. 方案选型</strong></h2><blockquote>
+<p>自动化测试工具那么多，自研是重复造轮子吗？</p>
+</blockquote>
+<p>针对终端的UI自动化测试工具/平台可谓“屡见不鲜”，市面上也有很多相对成熟的方案，相信大家都有用过，或者至少有所耳闻，但这些方案是否能真的满足我们提效的诉求呢？以下我们挑选了三类非常具有代表性的自动化测试工具/平台 - Appium、Airtest Project、SoloPi进行了分析，来帮助大家对自动化测试技术建立一个认知：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzZjYTJiOTZmZGVhNDBjYWVjYWY5ZjUwMjFkYTBlYzVfU1NDa1l5aTNjOVppMkgyM2RNRTdwaTZDZ2JoQTdWUDhfVG9rZW46Ym94Y254ZElSdmthYURKYnhRMlhFV3h3cWRjXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<ul>
+<li><p>Appium是一个开源工具，用于自动化测试iOS手机、Android手机和Windows桌面平台上的原生、移动 Web和混合应用。它使用了各系统自带的自动化框架，无需SDK集成，Appium把这些系统本身提供的框架包装进一套API——WebDriver API中，可以使用任何语言编写Client脚本向服务器发送适当的HTTP请求。这让不同技术栈的人员都能快速上手编写测试用例，可以选择自己最为熟悉的语言，但是对于没有语言开发基础的人来说，还是有一定学习成本，而且这种方式在多人协作时并没有太大作用，为了保证自动化用例的可维护性，团队内部应该需要统一脚本语言。值得一提的是：Appium在iOS、Android和 Windows 测试套件之间可做的一定程度的复用代码。但是由于不同端界面及元素定位的差异，这往往是不现实的，更无法保证测试的准确性，所以这种所谓的“跨端”就变得毫无意义。</p>
+</li>
+<li><p>Airtest Project是由网易游戏推出的一款自动化测试平台，除了支持通过系统自带的自动化测试框架，还支持了通过图像识别的方式，对于非基于原生UI系统的一些游戏引擎提供了SDK的支持。其上手难度稍低，可以一定程度上通过IDE进行相关操作来生成简单的脚本指令。Airtest虽然基于图像进行控件识别，为跨端提供了一定的可能性，然而图像识别并不能达到人眼识别的准确度，除此之外移动端页面的构成和游戏页面也存在不小的差别，页面元素的展示规则和样式受屏幕分辨率影响较大，单纯依靠图像识别来进行元素查找成功率不高，无法保证测试的准确性。</p>
+</li>
+<li><p>SoloPi是一个无线化、非侵入式的自动化测试工具，通过录制回放的方式进行UI自动化测试，SoloPi虽然只支持Android，但是在录制回放的这种方式中，还是极具代表性的。传统的自动化测试工具由于需要编写测试脚本，所以存在着一定的上手难度（ Airtest还是存在代码编辑的 ），便产生了SoloPi这种纯基于录制回放的自动化测试方式，将用例的所有操作事件进行录制，生成一个完整的录制脚本，通过对脚本的回放来还原所有的操作，从而进行自动化测试。但是，这种方式只能记录操作，而不能记录数据，在外卖这种数据驱动展示的场景下无法满足测试要求。并且外卖的业务要复用到美团App和大众点评App中，不同App存在部分视图和逻辑性的差异，SoloPi也无法支持我们“一端录制多端回放”的测试场景。</p>
+</li>
+</ul>
+<p>可以看出，以上这些自动化测试工具/平台对于数据记录，环境模拟、维护成本、跨App复用等方面，都是有所欠缺的。所以无论是哪种方案，在易用性、维护成本、稳定性、可扩展性以及最终的测试效果上，都无法满足我们对自动化测试的需求。我们并不是为了自动化而自动化，而是要解决实际的提效问题。</p>
+<p>那么，怎样才能确定一个自动化工具/平台的可用性，并长期落地去使用自动化，带着上述提到的较高门槛的上手成本、操作繁琐的环境模拟、差强人意的测试成功率、定位模糊的测试缺陷、难以维护的用例脚本等几大重要痛点， <strong>本文我们将介绍美团外卖自研的测试平台——AlphaTest</strong> ，都具备哪些能力以及是如何解决这些问题。</p>
+<h2 id="4-实践和探索"><a href="#4-实践和探索" class="headerlink" title="4. 实践和探索"></a><strong>4. 实践和探索</strong></h2><p>一个自动化测试工具/平台能不能用起来，取决于他的上手成本和稳定性，即使工具的测试稳定性做的再好，使用的门槛高也会让人望而生却，反之亦然。所以AlphaTest平台为了上手简单，降低使用成本，采用了 <strong>基于录制回放</strong> 的方式进行设计，并且弥补了常规录制回放无法编辑的痛点，同时在手势操作的基础上增加了数据录制。整合美团系App的特性增加了环境模拟、跨App支持、混合技术栈的支持等能力，在使用简单的同时，也保障了用例的可维护性、测试的准确性等。我们先通过视频简单的了解一下：</p>
+<p><strong>用例录制：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://v.qq.com/txp/iframe/player.html?origin=https://mp.weixin.qq.com&containerId=js_tx_video_container_0.5273447298572995&vid=l3356se7yyc&width=660&height=371.25&autoplay=false&allowFullScreen=true&chid=17&full=true&show1080p=false&isDebugIframe=false">🎦 点击观看视频</a></p>
+<p><strong>用例回放：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://v.qq.com/txp/iframe/player.html?origin=https://mp.weixin.qq.com&containerId=js_tx_video_container_0.944923673371538&vid=a3356pw74ls&width=660&height=371.25&autoplay=false&allowFullScreen=true&chid=17&full=true&show1080p=false&isDebugIframe=false">🎦 点击观看视频</a></p>
+<p><strong>回放报告：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://v.qq.com/txp/iframe/player.html?origin=https://mp.weixin.qq.com&containerId=js_tx_video_container_0.6311952878907903&vid=o3356mbeb6a&width=660&height=371.25&autoplay=false&allowFullScreen=true&chid=17&full=true&show1080p=false&isDebugIframe=false">🎦 点击观看视频</a></p>
+<h3 id="4-1-问题和挑战"><a href="#4-1-问题和挑战" class="headerlink" title="4.1 问题和挑战"></a><strong>4.1 问题和挑战</strong></h3><blockquote>
+<p>注：这里我们将生成的自动化脚本统称为指令，将平台生成的用例统称自动化用例，将录制回放变成可视化的脚本指令，让用例变的易懂、易维护。</p>
+</blockquote>
+<p>录制回放本身是一连串的操作数据的集合，是连续性的、不可拆分，因此几乎不具备可编辑性，这也就导致了用例维护成本极高。AlphaTest虽然同样基于录制回放的方式生成自动化用例，但是我们将每一步的操作都具化成结构化的指令数据，并提供可视化指令编辑器，以支持查看编辑。</p>
+<p>这些可视化的指令，完全通过录制自动生成，也不依赖于任何脚本语言。通过可视化用例指令编辑器，不仅为用例提供了编辑的可能性，同时大大地提高了用例的可阅读性，每一条测试用例在测试过程中每一步都做了什么、当时的界面是什么样的、都有哪些断言校验点，是显而易见的，不会存在像传统图文描述的测试用例那样，出现理解偏差。指令生成演示，手机录制与平台远端录制双模式支持：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjIzMDRmZjhiNWZhZTdhYWU0OGNmYzc4YjkxNDE4YTlfTmQxM0I0c3ZKbzludmpSUENnTlg5UXNzN3NmOXNFRDBfVG9rZW46Ym94Y250N3BnV1lnVGVQbHp1S2xMVG5kYmJkXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图4 指令编辑器</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmE3MWNhODQ3MzIyZTJlNWZhNjY0NTE1MWRkMDdhMThfb3pPZXZWSXlpRVBVYjJHcUx5SGV1cWt1T2hyUE1zYm5fVG9rZW46Ym94Y25OWGNDUDRCRlpWZ25aUUNwMlh6UXdGXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图5 手机录制演示</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDFjZTA0NGJkMjllNWI1ODA5OWVkMjBkOTZkMzQ2Y2RfRnNndE9JbkZEak1ZUlRIYTZ4YkJXaUdpSUxpdHdEVFVfVG9rZW46Ym94Y25PVjNjZXV4c3NROWN1VWF3ekI1Y2VoXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图6 平台远端录制演示</p>
+<h3 id="4-2-前置条件准备"><a href="#4-2-前置条件准备" class="headerlink" title="4.2 前置条件准备"></a><strong>4.2 前置条件准备</strong></h3><blockquote>
+<p>一键环境模拟，解决操作繁琐的用例执行前的环境准备。</p>
+</blockquote>
+<p>进行一个用例的测试之前，往往需要做大量的准备工作，比如切换API环境，定位到某个地点，登录指定账户等。这些需要准备的环境条件我们统称为前置条件。我们知道，前置条件的准备操作通常都不是一两个步骤就可以完成的，比如账号登录/切换：我们需要进入登录页，填写手机号+密码/验证码，点击登录等一系列动作来完成这个过程，非常繁琐，并且每次测试我们都需要准备，重复性高。因此，我们给AlphaTest设计了独立的前置条件模块，将用例拆成了两个部分：前置条件 + 操作步骤。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2Q5MzhmYjAyNTY4MGYwNmJjMzYxZTM1YjJhODkzOGJfcWdHdTJLb1BEWnpZYWk2TWNxSHZZclpyZU80aTZROENfVG9rZW46Ym94Y25ndkp6dW5WbmdhejZLY0xDd1N6TmJnXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图7 前置条件</p>
+<p>与其它测试框架不同的是，AlphaTest采用了SDK集成，但对业务无侵入的方式，因此可以通过编写白盒代码来实现前置条件的自动配置，只需要在平台添加需要的指令，下发到SDK后，即可根据相关指令完成前置条件的自动配置，不再需要重复进行相关的操作。并且这些前置条件支持复用，也不需要每次进行用例准备时的重复配置。AlphaTest的前置条件，不仅有着基于美团内部服务及底层Hook的默认实现，也提供了API支持业务方自定义实现，比如实现不同的账号体系。</p>
+<h3 id="4-3-用例录制与回放的数据一致性"><a href="#4-3-用例录制与回放的数据一致性" class="headerlink" title="4.3 用例录制与回放的数据一致性"></a><strong>4.3 用例录制与回放的数据一致性</strong></h3><blockquote>
+<p>影响用例执行的不仅是代码，还有数据。</p>
+</blockquote>
+<p>很多时候，自动化用例无法正常执行完成，可能是因为App回放时的本地数据及网络数据与录制时的不一致，从而导致用例执行流程的阻塞或App界面展示的不同。这也是大多数自动化测试工具/平台测试通过率不高的主要因素，因此要保证测试成功率，我们需要控制变量，排除由数据产生的影响。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MyNjdjYzNlZTZiOWYyNzgzODQ0NjY3M2I3MGVhODBfcXpaeG01SkQ5WXN3UDhTb3h4SEhEZW5XWmc1bmdJM1dfVG9rZW46Ym94Y25HRm80OVlIM1VFYlVORDAxeUJtTndlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图8 数据一致性</p>
+<p>App运行依赖的数据，有两部分——本地数据和网络数据：</p>
+<ul>
+<li><p>本地数据是App在运行期间产生的缓存数据或持久化的存储数据。为了让用例在录制回放时都能够保持一致的本地数据环境，我们在录制和回放前都对App的本地数据进行了清理操作，这样用例在录制和回放的过程中，都可以保持一致的App初始化环境。</p>
+</li>
+<li><p>网络数据是驱动App交互呈现的基石，各种策略和API升级都会影响网络数据的响应，因此我们将用例录制过程中产生的网络数据也进行了录制，并将网络数据和对应的操作指令进行了关联和绑定，确定了数据产生的事件源。排除数据影响后，我们的自动化测试的成功率就取决于自动化操作的准确性了，这就回到了常见自动化框架范畴。</p>
+</li>
+</ul>
+<h3 id="4-4-用例录制与回放的操作一致性"><a href="#4-4-用例录制与回放的操作一致性" class="headerlink" title="4.4 用例录制与回放的操作一致性"></a><strong>4.4 用例录制与回放的操作一致性</strong></h3><blockquote>
+<p>目标定位的准确性与手势定位的精准性。</p>
+</blockquote>
+<p>UI自动化测试的本质就是代替人去自动的做一步步的操作（ 点击、长按、输入、滑动等 ）。录制与回放过程的操作能否一致，是否精准，直接影响测试的成功率，决定了工具/平台的可用性。</p>
+<ul>
+<li><strong>目标控件定位准确性：</strong></li>
+</ul>
+<p>操作行为是否一致首先需要确认操作目标是否一致。与一般测试工具/平台不同的是AlphaTest采用了ViewPath + 图像 + 坐标的多重定位方案。得益于SDK集成的方式，我们的ViewPath可以记录更多的元素视图特征和执行不同的匹配策略。定位过程中会优先使用ViewPath进行目标控件检索，当目标控件查找异常时，会结合图像匹配和坐标匹配的方式进行兜底查找，来确保界面变化程度不大时，也能准确的查找到目标控件。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzY4NDMwMzhlOGFmZmYyM2I1MmI3ZmEyMmY5ZTUyNDRfMjdNUjV0Mk9zUXRqcHU4aXFUZGJJd1pwTFczUTJYQnBfVG9rZW46Ym94Y25rMzdDVTJsWDhCVjAzWUJjTXJYUnloXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图9 图像识别示意图</p>
+<ul>
+<li><strong>手势定位的精准性：</strong></li>
+</ul>
+<p>有了基于控件的目标定位之后，对于一些常用简单操作手势，比如点击、长按、断言、甚至输入都可以做到很好的支持，只需要找到对应的控件，在控件所在位置下发相应的触摸事件即可。我们知道，App真正接收的触摸事件是屏幕上一个个精准的触摸点，在系统处理后，分发给当前App窗口，App在接收事件后再继续分发，直到找到事件的最佳响应者，后续通过响应者链对事件消化处理。那我们要还原一个触摸事件的坐标点要如何确定呢？由于我们确定的只有控件，所以这个点自然而然就成了控件的中心点了。</p>
+<p>大多数情况下，这些都可以很好地进行工作，但是对于一些多响应控件重叠的情况，可能会产生预想不到的操作误差。为了解决这样的问题，我们把控件定位与坐标定位进行了结合：基于纯坐标的定位是一种定位精准度非常高的定位方式，但是稳定性非常差，只有在屏幕分辨率完全一致且回放页面控件位置完全一致的情况下，才具备足够的可靠性，但这往往是不现实的，对测试环境机器量要求过高。</p>
+<p>基于控件的定位，又存在着精准度不够的问题。使用坐标定位，如果定位区域足够小的话，那么受屏幕尺寸的影响就会越小，只需要确定在小范围内的相对位置即可。而基于控件目标的定位，恰恰可以把目标区域缩小到一个指定区域，我们刚好可以将二者结合起来，同时解决定位精准度和稳定性的问题。</p>
+<p>对于复杂手势的支持，我们同样可以采用微分的方式，将一个复杂手势拆成多个简单手势的组成，比如我们可以将一个滑动操作的定位拆成两个部分：起始位置和终止位置，而这两个位置的定位，就变成了两个普通的单点手势操作定位了，可以通过上面提到的一个目标控件+相对坐标的形式进行定位。核心思想都是将基于屏幕坐标点的定位操作，缩小的目标控件的区域范围内，以达到不受设备分辨率的影响，实现操作行为一致的效果。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YWQ5ODljMjIzZDAxODUxYzk0YTEwOGI1NzdmMjg3ZTBfTFZqeUJ2TkoxMFdDd3pGeFQ3SnV1ZktUUEc1UzN4R0pfVG9rZW46Ym94Y25XdW1NM2hEVDdDWFdyMUxicVBraGtlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图10 手势识别示意图</p>
+<h3 id="4-5-可溯源的自动化测试"><a href="#4-5-可溯源的自动化测试" class="headerlink" title="4.5 可溯源的自动化测试"></a><strong>4.5 可溯源的自动化测试</strong></h3><blockquote>
+<p>测试全流程记录，问题溯源一键即达。</p>
+</blockquote>
+<p>测试的目的是保证App运行的稳定，测试过程中出现Bug导致测试未通过时，需要溯源问题原因，发生的场景，乃至具体的执行步骤。这也是大多自动化测试工具/平台所欠缺的，即使发现了问题，排查工作也很困难；这个问题在手工测试的时候，更为严重，往往因为很多缺陷无法复现而难以定位。</p>
+<p>AlphaTest的自动化用例最小执行单元是操作指令，我们将测试过程的每一条指令的执行状况和过程中的界面快照进行了记录，并在指令执行失败时，对异常原因进行了初步分析。然后将整个用例的执行组合成了一份完整的测试报告，可快速溯源问题步骤。除此之外，我们还增加大量的日志上报，并将整个用例测试过程进行了视频录制，来进一步帮助疑难问题的排查。真正做到了用例回放测试可溯源。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NTVmYzEyNDFjNjA5OWM5OTU3YzEzNmVmYzFjZDE4MzFfNTBTc1hDenkwcTBZRTJreDJUaTVra3Y1MDU3aEtWVWFfVG9rZW46Ym94Y25XNU14YUpjdW5ESWhYYmNlZnFKckljXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图11 回放报告-图文详情</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzMwZTNiMDc0NmI5MDczYWI5YmM2ODRmNDAyYWJjZDFfZTNaaUhaQVpneE93WWdaVVk1N2pQd29iV1hVZUFEbzBfVG9rZW46Ym94Y25pR0R6SnFUcXliT3BGUGNnRWdjMzNlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<h3 id="4-6-用例的维护"><a href="#4-6-用例的维护" class="headerlink" title="4.6 用例的维护"></a><strong>4.6 用例的维护</strong></h3><blockquote>
+<p>自动化用例需要持续地投入人力来维护么？架构升级，页面重构，用例需要全部重新录制么？</p>
+</blockquote>
+<p>因自动化工具/平台众多，阻碍长期落地使用的一大问题是用例维护成本高，很多工具/平台让我们即便是使用上了自动化，但还需要持续投入人力维护用例的更新，最终的提效收益微乎其微。对于用例更新维护，我们可以梳理划分成三个场景：</p>
+<ul>
+<li><p>需求发生重大变更，整体的业务执行流程及相关的校验点都需要进行大量的调整。对于这种情况，无论是何种自动化测试工具/平台，都是需要正常进行用例变更重录以适应新的需求。</p>
+</li>
+<li><p>需求发生略微变更，业务流程基本一致，需要调整的校验点、操作以及数据或不影响整体流程的步骤。对于此场景，AlphaTest通过指令编辑器与操作录制，支持指令增删改以及数据和场景的还原，帮助用户快速的进行用例调整，而无需重新录制用例。例如：修改网络数据字段、视图变更路径、断言替换目标等。</p>
+</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjY3YTA2ZGM0YTAwMmFjYWM2Yjk2MTg4MGRkNGQ1NDFfa2Z0bTBtY0Z2Nmp5SUl1S3VkNzVKM2E5QWdDbnZUQlBfVG9rZW46Ym94Y24wbmoxMUZRVVBkZTM5cTRaZDJFY3dkXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图14 指令编辑</p>
+<ul>
+<li>和业务需求不同，我们的技术实现也会发生迭代。随着App技术架构不断的演进，经常会面临着架构升级，页面重构甚至技术栈变迁等这样的技术升级。这些变动需要覆盖大量的测试用例，其中大量的自动化用例又可能会因为变动而导致失效，需要重新录制。为此，AlphaTest设计一套利用相近分辨率机器进行用例自动修正的功能：利用图像 + 坐标进行二次识别定位，元素定位成功并校验通过后，生成新的ViewPath，更新对应的用例指令，对用例进行自动修复，修复后可在任意回放。</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmE0N2U2NmQ0MzQwZDk3MDE2YmE4ODUwY2E3OWM1NmFfdHNHYW10SWNRNW1qNDhjTmZIM2d3aXd1VDNydmNEZjRfVG9rZW46Ym94Y251UFNHZmNrUHRESkNIcmFWMHk0Q2hlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图15 自修复能力</p>
+<h3 id="4-7-跨App回放用例"><a href="#4-7-跨App回放用例" class="headerlink" title="4.7 跨App回放用例"></a><strong>4.7 跨App回放用例</strong></h3><blockquote>
+<p>同一份代码运行在不同的App上，是否需要重新编写多份用例？</p>
+</blockquote>
+<p>美团系的一些业务可能会复用在多个App上。比如外卖有独立App，但同时也要复用到美团和点评App上，这些功能，几乎共用一份代码，而测试人员却不得不对每个App上的业务功能都进行测试，维护多份用例。由于业务本身实现是一致的，那我们可以通过适配不同App之间的差异，来让一个业务Case可以横跨多个App回放，这便可以将成本缩减好几倍，这些差异主要体现在：</p>
+<ul>
+<li><p><strong>前置条件和初始页面</strong> ：业务的初始页面进入路径不同，例如外卖App打开App就进入到了外卖首页，但是在美团App中就需要从美团首页跳转到外卖频道。同时由于不同App的样式风格、设计规范、业务特性等因素，也会造成首页代码逻辑和视图层级的差异。</p>
+</li>
+<li><p><strong>AB实验配置</strong> ：不同App所配置的实验可能不同，不同的实验会导致不同的样式和代码逻辑。</p>
+</li>
+<li><p><strong>网路接口映射</strong> ：不同App中相同业务场景涉及的接口有所不同。</p>
+</li>
+<li><p><strong>页面Scheme映射</strong> ：不同App中相同页面的跳转Scheme也不相同。</p>
+</li>
+</ul>
+<p>AlphaTest平台支持App维度各项差异数据配置，当SDK检测用例回放环境与录制环境不一致时，会自动进行映射适配，从而让用例运行到了不同App上。</p>
+<h3 id="4-8-埋点的录制回放"><a href="#4-8-埋点的录制回放" class="headerlink" title="4.8 埋点的录制回放"></a><strong>4.8 埋点的录制回放</strong></h3><p>除了功能测试，我们在日常开发和测试的工作中，还会面临另外一个比较重要的问题就是埋点测试。因此，我们在自动化的基础上扩展出埋点自动化测试。埋点自动化测试的核心思想是，通过对比录制时期和回放时期的埋点上报时机和上报参数进行判断。为了保证埋点自动化测试的稳定性，我们主要采用以下的障机制：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY1ZTZjMmQwMDkwODhiMTM1NTNlNDVjZjc0ZGFhYTBfbGVYNzI5M1RqOFFENzVsRWtGTTc2czRQSUtscUFva2tfVG9rZW46Ym94Y24ydUFyelJPZTI5OE9Ub3BFeXRyTzJlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图16 埋点自动化测试示意图</p>
+<ul>
+<li><strong>字段规则配置</strong> ：埋点自定义参数千姿百态，甚至有些字段每次代码执行都不一致，如果进行完全匹配结果注定是失败的，所以我们在AlphaTest平台提供了埋点字段规则配置功能，通过人为设置的方式来避免埋点自定义参数校验失败。App重启进入录制状态时，用户就可以操作App，平台会记录用户的操作行为，当产生相应的埋点日志的时候会将日志信息打印在日志区域（ 如下图17所示 ），在该过程中也会对埋点日志进行一定的校验。重点将操作时机、埋点日志一并保存到服务端。</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ODlmMDgzZjdhZGM1MGU2ZDE4NzNmM2YwMjE5MWM0OThfZmc4NzhTZmhmYkgyTGh0bTFhRGJrQTU0ZFJnY1oyRExfVG9rZW46Ym94Y25Wb2h1a2dEek04azFVaUlNUVVsNld5XzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图17 埋点上报数据控制台打印</p>
+<ul>
+<li><p><strong>埋点时机校验</strong> ：针对时机校验，程序并不支持埋点曝光的”1px曝光”，”下拉刷新曝光”，”页面切换曝光”，”切前后台曝光”这些规则，主要的原因是每一个业务方在对埋点曝光的规则都是不一致的，而且该规则的实现会极大耦合业务代码。在针对时机校验我们目前只支持：</p>
+</li>
+<li><p>[1] 点击埋点上报时机校验，程序通过事件监听和埋点类型信息来判断点击埋点上报的时机是否是在点击的操作下产生的，如果不是则报错。</p>
+</li>
+<li><p>[2] 埋点重复上报校验，针对一般情况下用户一次操作不会产生两个相同的埋点上报，所以程序会校验某个事件下发生的所有埋点日志进行一一校验，检测是否具有2个或多个埋点日志完全一致，如有发生则会上报错误。</p>
+</li>
+<li><p><strong>结果校验</strong> ：回放完成后，我们会对比录制和回放时的埋点数据，根据配置好的字段规则校验埋点上报是否符合预期。</p>
+</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NmMxNDY2MzBhODRmOTNjMjM1OTAxZTM2YzdkYmM5NDVfNks1eHJYcGJMdkpPSWs1Q2F2Z2FFbzlSWXRpR0lHM2xfVG9rZW46Ym94Y24xcll2QnY0anBCQkh2Q3JLV0w2aGFnXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图18 埋点校验流程图</p>
+<h2 id="5-测试流程"><a href="#5-测试流程" class="headerlink" title="5. 测试流程"></a><strong>5. 测试流程</strong></h2><blockquote>
+<p>AlphaTest的核心测试流程始终聚焦在用例的录制与回放环节，整个流程涉及到自动化任务触发、回放集群调度、断言服务、消息推送等核心模块。</p>
+</blockquote>
+<p>以UI自动化和埋点自动化的流程为例，AlphaTest以业务团队为基本单元，可以和各团队的测试用例进行关联，定时同步状态。同时利用需求评审线上化做为基础，将自动化用例和研发流程中的PR、集成打包、二轮回归等节点相结合，定时触发自动化用例并将结果报告推送给相关负责人。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTgyYmM3NDQ1MWIzZjhmYjQ1YzJjYjMwZjQyMzNmMTVfWHFzQzVIazF2U29OOEF4OG05ZHlReHZPNFBRb1dlcU1fVG9rZW46Ym94Y24xbmhDa0pETWtraHpwS09aUHp1emZkXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图19 建设自动化测试流程闭环</p>
+<ul>
+<li><p><strong>录制用例：</strong></p>
+</li>
+<li><p>[1] 首先在AlphaTest平台选择要录制的测试用例，打开待测试App进行扫码即可进入用例待录制状态，此时可以设置用例需要的前置条件（ 账号信息、Mock数据、定位信息等 ），之后点击开始按钮后，手机便会自动重启，开始录制。</p>
+</li>
+<li><p>[2] 用户按照测试用例步骤，正常操作手机，AlphaTest会将用户的操作行为全部记录下来，并自动生成语义化的描述语言显示在AlphaTest平台上，与此同时产生的网络数据、埋点数据等校验信息也会一并存储下来。</p>
+</li>
+<li><p>[3] 在录制的过程中可以快捷的打开断言模式，将页面上想要校验的元素进行文本提取/截图等操作记录下来，用于后续回放过程中对相同元素进行校验。</p>
+</li>
+<li><p>[4] 测试步骤全都执行完毕后，点击保存按钮即可生成本条自动化用例。</p>
+</li>
+<li><p><strong>用例回放：</strong></p>
+</li>
+<li><p>[1] 扫描对应自动化用例的二维码即可进行回放，回放过程中会将用户录制的行为、网络数据进行一比一还原，并且辅助有全过程视频录像，用于后续问题排查和溯源。</p>
+</li>
+<li><p>[2] 回放过程中碰到断言事件时，会将断言的元素进行文本提取/截图，上传至AlphaTest平台。回放完成后，会将回放时候的断言截图和录制时的断言截图进行图像对比，作为整个测试结果的一项。</p>
+</li>
+<li><p>[3] 回放过程中的埋点数据也会一并记录下来，并和录制时候的埋点数据和上报时机进行对比，自动提取出其中的差异项。</p>
+</li>
+<li><p>[4] 回放完成后，会生成完整的测试报告并将结果通过OA推送至相关人员。</p>
+</li>
+<li><p><strong>回放计划</strong> ：二轮回归测试中，回放用例数量多达几百条，为了做到全流程的自动化，我们提供了回放计划的概念，可以将多个自动化用例进行编组管理，每一组就是一个回放计划。触发一个计划的回放即可自动触发计划内的所有自动化用例。整个计划都执行完成后，会通知到指定的计划负责人或群组。</p>
+</li>
+</ul>
+<h3 id="5-1-自动化任务触发"><a href="#5-1-自动化任务触发" class="headerlink" title="5.1 自动化任务触发"></a><strong>5.1 自动化任务触发</strong></h3><p>在整个外卖C端敏捷迭代的流程中，打包平台主要承接了业务需求发起到需求交付的流程，作为AlphaTest的上游平台，可以提供打包信息并触发自动化用例回放任务。以下简单展示AlphaTest与敏捷协同平台的交互流程：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MWVjMGI2M2JhNDAyZDI1Y2VkMmE3MTRiMzA2NTllYjNfN1lRUGZ0dGhleDVDUVBZUm1uTmNTRlN6OFZPQzZqR2tfVG9rZW46Ym94Y24wUmhyR0R2dkl1cU8yclRjRlR6ckl5XzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图20 AlphaTest与敏捷协同平台交互流程图</p>
+<h3 id="5-2-回放集群调度"><a href="#5-2-回放集群调度" class="headerlink" title="5.2 回放集群调度"></a><strong>5.2 回放集群调度</strong></h3><p>整个测试过程真正的解放双手，才能算的上是自动化。因此，我们着手搭建了自己的自动化机器集群，可以 24小时不间断的执行测试任务。为了保证任务回放能够顺利完成，我们在不同阶段增加了相应的保活策略。在极大程度上提高了任务执行完毕的成功率。</p>
+<ul>
+<li><p><strong>执行流程</strong> ：回放任务通过用户在平台手动触发或者二轮自动触发。新增的回放任务经过任务拆分系统拆分成n个子任务，加入到不同设备的回放任务队列中。每个子任务经过占用设备-&gt;安装待测App-&gt;应用授权-&gt;打开scheme-&gt;上报结果等步骤完成回放操作。</p>
+</li>
+<li><p><strong>节点保活机制</strong> ：针对回放流程中每一个节点，失败后进行N（ 默认为3 ）次重试操作。减少因网络波动，接口偶现异常导致的回放失败数量。</p>
+</li>
+<li><p><strong>子任务保活机制</strong> ：每个回放流程，失败后进行N（ 默认为3 ）次断点重试。减少因设备异常，SDK心跳上报异常导致的回放失败数量。</p>
+</li>
+<li><p><strong>父任务保活机制</strong> ：一个父任务会被拆分成N个子任务，当其中的一个子任务S1在节点保活机制和子任务保活机制下仍然执行失败之后，父任务保活机制会尝试将子任务S1中未执行完毕的用例转移到其他活跃状态的子任务中。减少因设备异常，设备掉线等问题导致的回放失败数量。</p>
+</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjNmOGU1MzM0ZDVlZjZkNDdjMDIxMjQ2Njg1YTZhMjFfZEhlV1Y2enFTY2lQQ0FTS3A4RXNpOEk1U05qeWRENjZfVG9rZW46Ym94Y25DRVo5RjBLbUVlRG9Sb3RQbmlKRzRmXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图21 机器集群</p>
+<h3 id="5-3-断言服务"><a href="#5-3-断言服务" class="headerlink" title="5.3 断言服务"></a><strong>5.3 断言服务</strong></h3><p>用例断言是整个自动化用例验证的核心步骤，我们的断言服务依据用例的实际情形可以分别进行文字与图像的断言。其中图像断言服务依托于自建的图像对比算法服务，可以高效进行录制回放断言图像的对比，图像对比准确率可以达到99%以上。</p>
+<ul>
+<li><p><strong>录制阶段：</strong></p>
+</li>
+<li><p>[1] 录制时增加断言决策信息的自动采集。</p>
+</li>
+<li><p>[2] 和正常流程一样，提取区域的截图信息。</p>
+</li>
+<li><p>[3] 如果是文本组件，则提取文本内容，如果是图片组件，则提取图片二进制编码或图片URL，同时提取区域内的布局信息。</p>
+</li>
+<li><p><strong>回放阶段：</strong></p>
+</li>
+<li><p>[1] 回放时，提取和录制时一致的内容（ 文本信息、图片编码、区域截图、布局信息 ）。</p>
+</li>
+<li><p>[2] 将回放时的断言信息上传至AlphaTest平台。</p>
+</li>
+<li><p>[3] AlphaTest平台对断言结果进行校验，首先是基于模型的图像对比，如果判定为一致，则直接标记结果。</p>
+</li>
+<li><p>[4] 如果判定为不一致、则匹配“断言失败数据集”，如果能够匹配上，则标记结果。如果匹配不上，则需要人工选择匹配类型。</p>
+</li>
+<li><p>[5] 匹配类型为“文本校验”、“根据图片信息校验”、“人工校验”。如果前两项判定为一致，则直接标记结果。如果“人工校验”的结果为确实两张图不一致，则直接标记结果，结束。</p>
+</li>
+<li><p>[6] 如果“人工校验”结果为一致，既上述所有判定都不准确，则需要人工对两张图中判定错误的原因进行分类（ 具体类型待定 ），同时将断言存储到失败数据集。</p>
+</li>
+<li><p>[7] 模型自动训练，当数据集超过一定的阈值、通过定时触发、或者手动触发的方式，触发模型自动训练，训练完成后自动部署到AlphaTest平台，不断迭代。</p>
+</li>
+<li><p><strong>图像服务</strong> ：图像对比模型采用基于度量学习的对比算法，将图像对的一致性判别转换为图像语义的相似度量问题。度量学习（ Metric Learning ），也称距离度量学习（ Distance Metric Learning，DML ）属于机器学习的一种。其本质就是相似度的学习，也可以认为距离学习。因为在一定条件下，相似度和距离可以相互转换。比如在空间坐标的两条向量，既可以用余弦相似度的大小，也可以使用欧式距离的远近来衡量相似程度。度量学习的网络采用经典的Siamese结构，使用基于resnext50的主干网络提取图像的高级语义特征，后接spplayer完成多尺度特征融合，融合后的特征输出作为表达图像语义的特征向量，使用ContrastiveLoss进行度量学习。</p>
+</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ODE0YjMyYzA5ZTUwZjA4MDkyMmM3MzJmYzBjYTJmMWVfbmRKOGQ2dnp2QzFsVHdRMVRHUGFqWFdSejNta0xJTkNfVG9rZW46Ym94Y24wMThrMDRUWTJyMTlXVFhQbkEwcVlSXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图22 训练过程</p>
+<p>[1] <strong>预训练过程</strong> ：resnext50网络是使用ImageNet的预训练模型。</p>
+<p>[2] <strong>数据增强</strong> ：为增加数据的丰富性、提高网络的泛化性能，数据增强的方式主要包括：图像右下部分的随机剪切和添加黑色蒙层（ 相应改变图像对的标签 ）。这种数据增强符合控键截图实际情况，不会造成数据分布的改变。</p>
+<p>[3] <strong>对比损失</strong> ：对比损失函数采用ContrastiveLoss，它是一种在欧式空间的pair based loss，其作用是减少一致图像对距离，保证不一致图像对的距离大于margin，其中margin=2。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmYxOGVkZTgzYTk3MDM4MTcyNTc4NTYzYTYyYTE5MDZfMWZRZDZ3U2lEYzhzcXU0eE93cWdYak1ReTNaR2FZWmJfVG9rZW46Ym94Y24xbkFha3dOVkdmTmpnUGJHMWhySThmXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图23 训练过程</p>
+<p>[4] <strong>相似度量</strong> ：相似度量也是采用计算图像对特征向量的欧式距离的方法，并归一化到区间[0, 1]，作为输出的图像对相似度。</p>
+<h3 id="5-4-消息推送"><a href="#5-4-消息推送" class="headerlink" title="5.4 消息推送"></a><strong>5.4 消息推送</strong></h3><p>消息推送作为回放流程的最终环节，我们依赖于美团内部自建的消息队列服务与OA SDK消息推送能力，可以进行测试报告的实时推送。在此之上，还可以针对不同团队的推送诉求，做消息模板的定制化。</p>
+<ul>
+<li><p><strong>消息定制</strong> ：消息推送与触达的核心，是满足业务诉求；不同业务对自动化测试报告中各项指标的关注点不同，这就需要AlphaTest具备消息推送定制的能力；将消息推送的模板以配置文件的形式提供出来，不同的业务使用不同的业务消息配置文件；再利用OA提供的图文、多媒体等消息推送能力，可以将自动化测试报告的各项指标自定义拆分；除此之外，消息还需要减少冗余，在这个信息泛滥的时代，我们愿意为无孔不入的消息、通知做减法，只将最重要、最核心的消息推送给最需要的人，既可以推动自动化测试流程的高效流转，又可以让各相关业务人员享受到自动化测试能力的便捷性。</p>
+</li>
+<li><p><strong>一键触达</strong> ：以往的研发人员冒烟测试，主要依赖于测试人员在用例管理平台建立测试计划，研发人员根据用例进行手工用例测试结果标记，之后去提测完成后续流程。这中间缺失的主要环节是，难以对研发人员冒烟测试的质量进行把控。而AlphaTest正可以解决此问题，流程转换为，研发人员在敏捷协同平台触发一键提测流程，调用AlphaTest的自动化测试能力对冒烟用例进行自动化测试回归，完成之后将测试生成的测试报告同步提测平台，作为研发人员冒烟的结论依据，同时在冒烟过程中发生的问题，也可以及时通知到对应的研发人员与测试人员进行改正。既保证了质量，又避免了人力空耗。</p>
+</li>
+</ul>
+<h2 id="6-落地与实践"><a href="#6-落地与实践" class="headerlink" title="6. 落地与实践"></a><strong>6. 落地与实践</strong></h2><blockquote>
+<p>外卖C端主要承担了用户在App端点餐、下单、配送的所有核心流程，场景繁多、业务复杂，这也给测试人员的版本测试带来了诸多挑战，其中最核心也最耗费人力的便是二轮回归测试环节。目前，C端采用的双周敏捷迭代的开发方式，每个迭代周期给测试人员用来进行二轮核心流程回归的时间为三天，为此C端测试团队投入了许多人力资源，但即便如此，仍难以覆盖全部流程；而AlphaTest的设计初衷也正是为解决此问题——UI测试流程全覆盖及自动化验证。</p>
+</blockquote>
+<h3 id="6-1-业务共建"><a href="#6-1-业务共建" class="headerlink" title="6.1 业务共建"></a><strong>6.1 业务共建</strong></h3><p><strong>用例的转化与维护</strong></p>
+<p>AlphaTest 在外卖C端测试团队的落地初期，我们采用了共建的模式，也就是业务研发人员与对应测试人员共同来进行用例录制与维护的工作；推荐这种工作模式的核心原因是，在C端功能迭代流程中的二轮周期的原有工作模式为，研发人员进行二轮冒烟测试，完成测试之后提交二轮包交由测试人员进行二轮回归测试，所以这本来就是一个双方都需要参与的环节；而二轮测试作为版本上线前的最重要一个测试流程，保证核心流程的正常也是测试人员与研发人员所关心重点。</p>
+<p>经过多轮的使用与磨合之后，这种模式被证明是行之有效的，在整个C端二轮用例的转化过程中，测试人员主要负责了用例的录制与迭代流程，研发人员则主要负责版本回放数据的统计及问题用例的发现与解决。</p>
+<p><strong>外卖二轮落地情况</strong></p>
+<p>目前，AlphaTest已经在外卖多个业务落地，支持了大于15个版本的二轮回归测试，用例覆盖率达到70%。现已 覆盖了Native、Mach、React Native、美团小程序、H5 技术栈的测试工作，能力上可进行支持： UI自动化测试、埋点自动化测试、动态化加载成功率自动化测试、无障碍适配率自动化测试。</p>
+<p>未来，我们会朝着“智能化”和“精准化”两个方向探索，覆盖更多测试场景的同时，更进一步提升测试人效。</p>
+<h3 id="6-2-实践效果"><a href="#6-2-实践效果" class="headerlink" title="6.2 实践效果"></a><strong>6.2 实践效果</strong></h3><p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY2ODRkNzhjODcxYjgwYzZjZTRmZDkxOTcxYzJkZWFfUTBUbTZzcTFId1A3T2VGMnRpeW1uZTNVQ3dDbWpKUE1fVG9rZW46Ym94Y25nU1NmbmNKV3Zkb1dhOEhEUnhxOTI1XzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<h1 id="7-参考资料"><a href="#7-参考资料" class="headerlink" title="7. 参考资料"></a><strong>7. 参考资料</strong></h1><p>[1] <strong><a target="_blank" rel="noopener" href="https://appium.io/">https://appium.io</a></strong></p>
+<p>[2] <strong><a target="_blank" rel="noopener" href="http://docs.seleniumhq.org/projects/webdriver">http://docs.seleniumhq.org/projects/webdriver</a></strong></p>
+<p>[3] <strong><a target="_blank" rel="noopener" href="http://airtest.netease.com/index.html">http://airtest.netease.com/index.html</a></strong></p>
+<p>[4] <strong><a target="_blank" rel="noopener" href="https://github.com/alipay/SoloPi">https://github.com/alipay/SoloPi </a></strong></p>
+<p>———- END ———-</p>
+<p><strong>也许你还想看</strong></p>
+<p><strong>|</strong>  <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651764420&idx=1&sn=392b2a0b187521aad5742cbfe7ca9452&chksm=bd126f898a65e69f6f56368c8dfd2e16dd0a987c3b0136d61205ae0e166a14fb0f3e21b70917&scene=21#wechat_redirect">Spock单元测试框架以及在美团优选的实践</a></p>
+<p><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651749742&idx=2&sn=52e37feddb076a2421993b9b4ad99739&chksm=bd12a4238a652d352ebacadf0d6aaf30e2291abe55dace7c04e48c1d824fda75a1dfef689b15&scene=21#wechat_redirect">美团智能支付稳定性测试实战</a></p>
+<p><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651747335&idx=1&sn=6ca3a91ecc31878b0249f8ae98594ab6&chksm=bd12ad4a8a65245cf74ee314aa8bfb8768ccb065910313a37f796abf202c18aa05240504d385&scene=21#wechat_redirect">Lego：美团接口自动化测试实践</a></p>
+<p><strong>阅读更多</strong></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765958&idx=1&sn=8201546812e5a95a2bee9dffc6d12f00&chksm=bd12658b8a65ec9de2f5be1e96796dfb3c8f1a374d4b7bd91266072f557caf8118d4ddb72b07&scene=21#wechat_redirect">前端 </a><strong>|</strong> <a target="_blank" rel="noopener" href="https://t.1yb.co/jo7v"> </a><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765981&idx=1&sn=c2dd86f15dee2cbbc89e27677d985060&chksm=bd1265908a65ec86d4d08f7600d1518b61c90f6453074f9b308c96861c045712280a73751c73&scene=21#wechat_redirect">算法 </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765982&idx=1&sn=231b41f653ac7959f3e3b8213dcec2b0&chksm=bd1265938a65ec85630c546169444d56377bc2f11401d251da7ca50e5d07e353aa01580c7216&scene=21#wechat_redirect">后端 </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765964&idx=1&sn=ab6d8db147234fe57f27dd46eec40fef&chksm=bd1265818a65ec9749246dd1a2eb3bf7798772cc4d5b4283b15eae2f80bc6db63a1471a9e61e&scene=21#wechat_redirect">数据</a></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765965&idx=1&sn=37e0c56c8b080146ce5249243bfd84d8&chksm=bd1265808a65ec96d3a2b2c87c6e27c910d49cb6b149970fb2db8bf88045a0a85fed2e6a0b84&scene=21#wechat_redirect">安全 </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765972&idx=1&sn=afe02ec92762c1ce18740d03324c4ac3&chksm=bd1265998a65ec8f10d5f58d0f3681ddfc5325137218e568e1cda3a50e427749edb5c6a7dcf5&scene=21#wechat_redirect">Android </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765973&idx=1&sn=32a23bf1d278dda0398f993ab60a697e&chksm=bd1265988a65ec8e630ef4d24b4946ab6bd7e66702c1d712481cf3c471468a059c470a14c30d&scene=21#wechat_redirect">iOS </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765963&idx=1&sn=a3de9ef267d07d94118c1611776a4b28&chksm=bd1265868a65ec906592d25ad65f2a8516338d07ec3217059e6975fc131fc0107d66a8cd2612&scene=21#wechat_redirect">运维 </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765974&idx=1&sn=763c1e37d04acffd0142a2852ecfb000&chksm=bd12659b8a65ec8dfcfeb2028ef287fae7c38f134a665375ba420556ce5d2e4cf398147bd12e&scene=21#wechat_redirect">测试</a></p>
+
+              
+              <!-- 
+              
+              <blockquote>
+<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/vLR1FqGi6TiICEcWzOnHfQ">https://mp.weixin.qq.com/s/vLR1FqGi…</a></p>
+</blockquote>
+<blockquote>
+<p>⏰ 剪存时间：2022-11-20 17:50:19 (UTC+8)</p>
+</blockquote>
+<blockquote>
+<p>✂️ 本文档由 <a target="_blank" rel="noopener" href="https://www.feishu.cn/hc/zh-CN/articles/606278856233?from=in_ccm_clip_doc">飞书剪存 </a>一键生成</p>
+</blockquote>
+<p>原创 少飞 闫旭 文文等 美团技术团队 <em>2022-09-15 19:58 发表于 北京</em></p>
+<p>收录于合集</p>
+<p>#美团外卖 19 个</p>
+<p>#自动化测试 3 个</p>
+<p>#前端 22 个</p>
+<p>#到家 9 个</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NzczYjE2NGRkZmQ4ZDQ2N2ZmZTc4NWVmMDlmMGE0ZTFfM2VuV1dBVmxnaGlUc1JhcU9BNFZud3FoZndnM3I4NWdfVG9rZW46Ym94Y25WdWMzdmtFemtYdEtPMGJGZ1NNNjhiXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p><strong>总第535 篇 | 2022年 第052篇</strong></p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MWVjMWI1NDRlOWNhZDJkZjI2ZDU4M2FkN2E0Y2VlMTlfenIxdjNBSFNWcGRxZkhXVDdoTTVtZHcyU0tJQUVwcWdfVG9rZW46Ym94Y25nWlE1WDY0NFo5TGNHZE5UZVQzQlplXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>随着美团到家业务的发展，系统复杂度也在持续增长。测试用例数量近两年增长约一倍，单端数量超过1万2千条，而研发人员的工作从大部分时间在开发，转变成一半时间在开发、一半时间在模拟环境和自测。因此，引入自动化测试就显得十分有必要，本文介绍了美团外卖在自动化测试方向做的一些探索和实践，希望对从事相关领域工作的同学能够带来一些启发或帮助。</p>
+<ul>
+<li><p>\1. 项目背景</p>
+</li>
+<li><p>\2. 项目目标</p>
+</li>
+<li><p>\3. 方案选型</p>
+</li>
+<li><p>\4. 实践和探索</p>
+<ul>
+<li>4.1 问题和挑战</li>
+<li>4.2 前置条件准备</li>
+<li>4.3 用例录制与回放的数据一致性</li>
+<li>4.4 用例录制与回放的操作一致性</li>
+<li>4.5 可溯源的自动化测试</li>
+<li>4.6 用例的维护</li>
+<li>4.7 跨App回放用例</li>
+<li>4.8 埋点的录制回放</li>
+</ul>
+</li>
+<li><p>\5. 测试流程</p>
+<ul>
+<li>5.1 自动化任务触发</li>
+<li>5.2 回放集群调度</li>
+<li>5.3 断言服务</li>
+<li>5.4 消息推送</li>
+</ul>
+</li>
+<li><p>\6. 落地与实践</p>
+<ul>
+<li>6.1 业务共建</li>
+<li>6.2 实践效果</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-项目背景"><a href="#1-项目背景" class="headerlink" title="1. 项目背景"></a><strong>1. 项目背景</strong></h2><p>美团外卖的业务场景比较多元化，除了外卖自身的业务，还作为平台承接了闪购、团好货、医药、跑腿等其他业务。除此之外，在全链路动态化的大基调下，外卖各个页面的技术形态也变得越来越复杂，除了Native代码，还包括Mach（ 外卖自研动态化框架 ）、React Native、美团小程序、H5等，不同技术栈的底层技术实现不同，渲染机制不同，进而对测试方式要求也有所不同，这也在无形中增加了测试的难度。下图汇总了美团多业务、多技术、多App的一些典型场景。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDMzZmE0ZjVlMDFhODcxODVhOTMyNWFlMGIyNGM1NjlfU2hsMFZubkF3REppak5qSDEyamZDUk1rRHBOT0NGa0JfVG9rZW46Ym94Y25JVlBodnZaTWhpNGYzdWJWS3VreUZmXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图1 多业务、多技术栈、多App</p>
+<p>在产品交付上线的过程中，测试的占比也是非常大的，甚至大于总时长的30%。如下图所示，整个测试包括了冒烟测试、新功能测试、二轮回归测试、三轮测试。然而，现在需求测试绝大部分还是采用非自动化的方式，这就使得人力成本变得非常之高。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MyNTAyNzY1ZTY4ZTllZmJlZDA2YTZhNDkxZTI4N2ZfcURhamVVclZMMUxnc3daQjVDYTRUN3RDZkNKTm11RnlfVG9rZW46Ym94Y254a0pXVXhTVnhORWRBc2VxN2pEYUFlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图2 外卖迭代模型</p>
+<p>另一方面，相比于2018年，2022年的测试用例数量增长近3倍，已经超过1万2千条（ 如下图所示 ）。同时，外卖的业务是“三端复用”，除了外卖App，还需要集成到美团App和大众点评App上，这样一来，测试工作量就翻了3倍，业务测试压力之大可想而知。如果按照当前的增长趋势持续下去，要保障外卖业务的稳定，就必须持续不断地投入大量的人力成本，所以引入能够支持外卖“多业务场景”、“多App复用”、“多技术栈” 特点的自动化测试工具来提升人效和质量，势在必行。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzRlNThkMGMxN2I3ZDI0Mjc2ZGJjN2QyNTQ2ZmRkNmVfOW9JNWswYTdWRDhrTW5pSTRoVXBPcW5BSE5kQ1FkQ0JfVG9rZW46Ym94Y25kSjR5ZjhQa0ZtOWh1cUJpdUlWQkJiXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图3 近几年用例增长变化</p>
+<h2 id="2-项目目标"><a href="#2-项目目标" class="headerlink" title="2. 项目目标"></a><strong>2. 项目目标</strong></h2><p>为了解决外卖面临的测试困境，我们尝试去探索一种零学习成本、低维护、高可用的自动化测试方案，能够支持外卖复杂多变的测试场景，它必须同时满足下面几点要求：</p>
+<ul>
+<li><p><strong>易用性</strong> ：工具/平台的上手难度，使用复杂度应该尽可能的低，因为自动化测试的目的是提效人力，而不是增加人力负担。</p>
+</li>
+<li><p><strong>平台支持</strong> ：移动端至少需要覆盖iOS和Android双平台，同时基于外卖的业务特点，不仅需要对Native支持，也需要支持Mach（ 自研局部动态化框架 ）、H5、React Native、美团小程序等技术栈。</p>
+</li>
+<li><p><strong>稳定性</strong> ：自动化测试用例的执行需要有足够的稳定性和准确性，测试过程中不应因测试工具本身的不稳定而出现稳定性问题。</p>
+</li>
+<li><p><strong>维护成本</strong> ：维护成本很大程度上决定了测试工作量的大小，因需求产生变动或架构重构等问题时，用例的维护成本应该尽可能的小。</p>
+</li>
+<li><p><strong>可扩展性</strong> ：当测试方案不能满足测试需求时，工具/平台应具备可扩展的能力。</p>
+</li>
+</ul>
+<h2 id="3-方案选型"><a href="#3-方案选型" class="headerlink" title="3. 方案选型"></a><strong>3. 方案选型</strong></h2><blockquote>
+<p>自动化测试工具那么多，自研是重复造轮子吗？</p>
+</blockquote>
+<p>针对终端的UI自动化测试工具/平台可谓“屡见不鲜”，市面上也有很多相对成熟的方案，相信大家都有用过，或者至少有所耳闻，但这些方案是否能真的满足我们提效的诉求呢？以下我们挑选了三类非常具有代表性的自动化测试工具/平台 - Appium、Airtest Project、SoloPi进行了分析，来帮助大家对自动化测试技术建立一个认知：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzZjYTJiOTZmZGVhNDBjYWVjYWY5ZjUwMjFkYTBlYzVfU1NDa1l5aTNjOVppMkgyM2RNRTdwaTZDZ2JoQTdWUDhfVG9rZW46Ym94Y254ZElSdmthYURKYnhRMlhFV3h3cWRjXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<ul>
+<li><p>Appium是一个开源工具，用于自动化测试iOS手机、Android手机和Windows桌面平台上的原生、移动 Web和混合应用。它使用了各系统自带的自动化框架，无需SDK集成，Appium把这些系统本身提供的框架包装进一套API——WebDriver API中，可以使用任何语言编写Client脚本向服务器发送适当的HTTP请求。这让不同技术栈的人员都能快速上手编写测试用例，可以选择自己最为熟悉的语言，但是对于没有语言开发基础的人来说，还是有一定学习成本，而且这种方式在多人协作时并没有太大作用，为了保证自动化用例的可维护性，团队内部应该需要统一脚本语言。值得一提的是：Appium在iOS、Android和 Windows 测试套件之间可做的一定程度的复用代码。但是由于不同端界面及元素定位的差异，这往往是不现实的，更无法保证测试的准确性，所以这种所谓的“跨端”就变得毫无意义。</p>
+</li>
+<li><p>Airtest Project是由网易游戏推出的一款自动化测试平台，除了支持通过系统自带的自动化测试框架，还支持了通过图像识别的方式，对于非基于原生UI系统的一些游戏引擎提供了SDK的支持。其上手难度稍低，可以一定程度上通过IDE进行相关操作来生成简单的脚本指令。Airtest虽然基于图像进行控件识别，为跨端提供了一定的可能性，然而图像识别并不能达到人眼识别的准确度，除此之外移动端页面的构成和游戏页面也存在不小的差别，页面元素的展示规则和样式受屏幕分辨率影响较大，单纯依靠图像识别来进行元素查找成功率不高，无法保证测试的准确性。</p>
+</li>
+<li><p>SoloPi是一个无线化、非侵入式的自动化测试工具，通过录制回放的方式进行UI自动化测试，SoloPi虽然只支持Android，但是在录制回放的这种方式中，还是极具代表性的。传统的自动化测试工具由于需要编写测试脚本，所以存在着一定的上手难度（ Airtest还是存在代码编辑的 ），便产生了SoloPi这种纯基于录制回放的自动化测试方式，将用例的所有操作事件进行录制，生成一个完整的录制脚本，通过对脚本的回放来还原所有的操作，从而进行自动化测试。但是，这种方式只能记录操作，而不能记录数据，在外卖这种数据驱动展示的场景下无法满足测试要求。并且外卖的业务要复用到美团App和大众点评App中，不同App存在部分视图和逻辑性的差异，SoloPi也无法支持我们“一端录制多端回放”的测试场景。</p>
+</li>
+</ul>
+<p>可以看出，以上这些自动化测试工具/平台对于数据记录，环境模拟、维护成本、跨App复用等方面，都是有所欠缺的。所以无论是哪种方案，在易用性、维护成本、稳定性、可扩展性以及最终的测试效果上，都无法满足我们对自动化测试的需求。我们并不是为了自动化而自动化，而是要解决实际的提效问题。</p>
+<p>那么，怎样才能确定一个自动化工具/平台的可用性，并长期落地去使用自动化，带着上述提到的较高门槛的上手成本、操作繁琐的环境模拟、差强人意的测试成功率、定位模糊的测试缺陷、难以维护的用例脚本等几大重要痛点， <strong>本文我们将介绍美团外卖自研的测试平台——AlphaTest</strong> ，都具备哪些能力以及是如何解决这些问题。</p>
+<h2 id="4-实践和探索"><a href="#4-实践和探索" class="headerlink" title="4. 实践和探索"></a><strong>4. 实践和探索</strong></h2><p>一个自动化测试工具/平台能不能用起来，取决于他的上手成本和稳定性，即使工具的测试稳定性做的再好，使用的门槛高也会让人望而生却，反之亦然。所以AlphaTest平台为了上手简单，降低使用成本，采用了 <strong>基于录制回放</strong> 的方式进行设计，并且弥补了常规录制回放无法编辑的痛点，同时在手势操作的基础上增加了数据录制。整合美团系App的特性增加了环境模拟、跨App支持、混合技术栈的支持等能力，在使用简单的同时，也保障了用例的可维护性、测试的准确性等。我们先通过视频简单的了解一下：</p>
+<p><strong>用例录制：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://v.qq.com/txp/iframe/player.html?origin=https://mp.weixin.qq.com&containerId=js_tx_video_container_0.5273447298572995&vid=l3356se7yyc&width=660&height=371.25&autoplay=false&allowFullScreen=true&chid=17&full=true&show1080p=false&isDebugIframe=false">🎦 点击观看视频</a></p>
+<p><strong>用例回放：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://v.qq.com/txp/iframe/player.html?origin=https://mp.weixin.qq.com&containerId=js_tx_video_container_0.944923673371538&vid=a3356pw74ls&width=660&height=371.25&autoplay=false&allowFullScreen=true&chid=17&full=true&show1080p=false&isDebugIframe=false">🎦 点击观看视频</a></p>
+<p><strong>回放报告：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://v.qq.com/txp/iframe/player.html?origin=https://mp.weixin.qq.com&containerId=js_tx_video_container_0.6311952878907903&vid=o3356mbeb6a&width=660&height=371.25&autoplay=false&allowFullScreen=true&chid=17&full=true&show1080p=false&isDebugIframe=false">🎦 点击观看视频</a></p>
+<h3 id="4-1-问题和挑战"><a href="#4-1-问题和挑战" class="headerlink" title="4.1 问题和挑战"></a><strong>4.1 问题和挑战</strong></h3><blockquote>
+<p>注：这里我们将生成的自动化脚本统称为指令，将平台生成的用例统称自动化用例，将录制回放变成可视化的脚本指令，让用例变的易懂、易维护。</p>
+</blockquote>
+<p>录制回放本身是一连串的操作数据的集合，是连续性的、不可拆分，因此几乎不具备可编辑性，这也就导致了用例维护成本极高。AlphaTest虽然同样基于录制回放的方式生成自动化用例，但是我们将每一步的操作都具化成结构化的指令数据，并提供可视化指令编辑器，以支持查看编辑。</p>
+<p>这些可视化的指令，完全通过录制自动生成，也不依赖于任何脚本语言。通过可视化用例指令编辑器，不仅为用例提供了编辑的可能性，同时大大地提高了用例的可阅读性，每一条测试用例在测试过程中每一步都做了什么、当时的界面是什么样的、都有哪些断言校验点，是显而易见的，不会存在像传统图文描述的测试用例那样，出现理解偏差。指令生成演示，手机录制与平台远端录制双模式支持：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjIzMDRmZjhiNWZhZTdhYWU0OGNmYzc4YjkxNDE4YTlfTmQxM0I0c3ZKbzludmpSUENnTlg5UXNzN3NmOXNFRDBfVG9rZW46Ym94Y250N3BnV1lnVGVQbHp1S2xMVG5kYmJkXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图4 指令编辑器</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmE3MWNhODQ3MzIyZTJlNWZhNjY0NTE1MWRkMDdhMThfb3pPZXZWSXlpRVBVYjJHcUx5SGV1cWt1T2hyUE1zYm5fVG9rZW46Ym94Y25OWGNDUDRCRlpWZ25aUUNwMlh6UXdGXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图5 手机录制演示</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDFjZTA0NGJkMjllNWI1ODA5OWVkMjBkOTZkMzQ2Y2RfRnNndE9JbkZEak1ZUlRIYTZ4YkJXaUdpSUxpdHdEVFVfVG9rZW46Ym94Y25PVjNjZXV4c3NROWN1VWF3ekI1Y2VoXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图6 平台远端录制演示</p>
+<h3 id="4-2-前置条件准备"><a href="#4-2-前置条件准备" class="headerlink" title="4.2 前置条件准备"></a><strong>4.2 前置条件准备</strong></h3><blockquote>
+<p>一键环境模拟，解决操作繁琐的用例执行前的环境准备。</p>
+</blockquote>
+<p>进行一个用例的测试之前，往往需要做大量的准备工作，比如切换API环境，定位到某个地点，登录指定账户等。这些需要准备的环境条件我们统称为前置条件。我们知道，前置条件的准备操作通常都不是一两个步骤就可以完成的，比如账号登录/切换：我们需要进入登录页，填写手机号+密码/验证码，点击登录等一系列动作来完成这个过程，非常繁琐，并且每次测试我们都需要准备，重复性高。因此，我们给AlphaTest设计了独立的前置条件模块，将用例拆成了两个部分：前置条件 + 操作步骤。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2Q5MzhmYjAyNTY4MGYwNmJjMzYxZTM1YjJhODkzOGJfcWdHdTJLb1BEWnpZYWk2TWNxSHZZclpyZU80aTZROENfVG9rZW46Ym94Y25ndkp6dW5WbmdhejZLY0xDd1N6TmJnXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图7 前置条件</p>
+<p>与其它测试框架不同的是，AlphaTest采用了SDK集成，但对业务无侵入的方式，因此可以通过编写白盒代码来实现前置条件的自动配置，只需要在平台添加需要的指令，下发到SDK后，即可根据相关指令完成前置条件的自动配置，不再需要重复进行相关的操作。并且这些前置条件支持复用，也不需要每次进行用例准备时的重复配置。AlphaTest的前置条件，不仅有着基于美团内部服务及底层Hook的默认实现，也提供了API支持业务方自定义实现，比如实现不同的账号体系。</p>
+<h3 id="4-3-用例录制与回放的数据一致性"><a href="#4-3-用例录制与回放的数据一致性" class="headerlink" title="4.3 用例录制与回放的数据一致性"></a><strong>4.3 用例录制与回放的数据一致性</strong></h3><blockquote>
+<p>影响用例执行的不仅是代码，还有数据。</p>
+</blockquote>
+<p>很多时候，自动化用例无法正常执行完成，可能是因为App回放时的本地数据及网络数据与录制时的不一致，从而导致用例执行流程的阻塞或App界面展示的不同。这也是大多数自动化测试工具/平台测试通过率不高的主要因素，因此要保证测试成功率，我们需要控制变量，排除由数据产生的影响。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MyNjdjYzNlZTZiOWYyNzgzODQ0NjY3M2I3MGVhODBfcXpaeG01SkQ5WXN3UDhTb3h4SEhEZW5XWmc1bmdJM1dfVG9rZW46Ym94Y25HRm80OVlIM1VFYlVORDAxeUJtTndlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图8 数据一致性</p>
+<p>App运行依赖的数据，有两部分——本地数据和网络数据：</p>
+<ul>
+<li><p>本地数据是App在运行期间产生的缓存数据或持久化的存储数据。为了让用例在录制回放时都能够保持一致的本地数据环境，我们在录制和回放前都对App的本地数据进行了清理操作，这样用例在录制和回放的过程中，都可以保持一致的App初始化环境。</p>
+</li>
+<li><p>网络数据是驱动App交互呈现的基石，各种策略和API升级都会影响网络数据的响应，因此我们将用例录制过程中产生的网络数据也进行了录制，并将网络数据和对应的操作指令进行了关联和绑定，确定了数据产生的事件源。排除数据影响后，我们的自动化测试的成功率就取决于自动化操作的准确性了，这就回到了常见自动化框架范畴。</p>
+</li>
+</ul>
+<h3 id="4-4-用例录制与回放的操作一致性"><a href="#4-4-用例录制与回放的操作一致性" class="headerlink" title="4.4 用例录制与回放的操作一致性"></a><strong>4.4 用例录制与回放的操作一致性</strong></h3><blockquote>
+<p>目标定位的准确性与手势定位的精准性。</p>
+</blockquote>
+<p>UI自动化测试的本质就是代替人去自动的做一步步的操作（ 点击、长按、输入、滑动等 ）。录制与回放过程的操作能否一致，是否精准，直接影响测试的成功率，决定了工具/平台的可用性。</p>
+<ul>
+<li><strong>目标控件定位准确性：</strong></li>
+</ul>
+<p>操作行为是否一致首先需要确认操作目标是否一致。与一般测试工具/平台不同的是AlphaTest采用了ViewPath + 图像 + 坐标的多重定位方案。得益于SDK集成的方式，我们的ViewPath可以记录更多的元素视图特征和执行不同的匹配策略。定位过程中会优先使用ViewPath进行目标控件检索，当目标控件查找异常时，会结合图像匹配和坐标匹配的方式进行兜底查找，来确保界面变化程度不大时，也能准确的查找到目标控件。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzY4NDMwMzhlOGFmZmYyM2I1MmI3ZmEyMmY5ZTUyNDRfMjdNUjV0Mk9zUXRqcHU4aXFUZGJJd1pwTFczUTJYQnBfVG9rZW46Ym94Y25rMzdDVTJsWDhCVjAzWUJjTXJYUnloXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图9 图像识别示意图</p>
+<ul>
+<li><strong>手势定位的精准性：</strong></li>
+</ul>
+<p>有了基于控件的目标定位之后，对于一些常用简单操作手势，比如点击、长按、断言、甚至输入都可以做到很好的支持，只需要找到对应的控件，在控件所在位置下发相应的触摸事件即可。我们知道，App真正接收的触摸事件是屏幕上一个个精准的触摸点，在系统处理后，分发给当前App窗口，App在接收事件后再继续分发，直到找到事件的最佳响应者，后续通过响应者链对事件消化处理。那我们要还原一个触摸事件的坐标点要如何确定呢？由于我们确定的只有控件，所以这个点自然而然就成了控件的中心点了。</p>
+<p>大多数情况下，这些都可以很好地进行工作，但是对于一些多响应控件重叠的情况，可能会产生预想不到的操作误差。为了解决这样的问题，我们把控件定位与坐标定位进行了结合：基于纯坐标的定位是一种定位精准度非常高的定位方式，但是稳定性非常差，只有在屏幕分辨率完全一致且回放页面控件位置完全一致的情况下，才具备足够的可靠性，但这往往是不现实的，对测试环境机器量要求过高。</p>
+<p>基于控件的定位，又存在着精准度不够的问题。使用坐标定位，如果定位区域足够小的话，那么受屏幕尺寸的影响就会越小，只需要确定在小范围内的相对位置即可。而基于控件目标的定位，恰恰可以把目标区域缩小到一个指定区域，我们刚好可以将二者结合起来，同时解决定位精准度和稳定性的问题。</p>
+<p>对于复杂手势的支持，我们同样可以采用微分的方式，将一个复杂手势拆成多个简单手势的组成，比如我们可以将一个滑动操作的定位拆成两个部分：起始位置和终止位置，而这两个位置的定位，就变成了两个普通的单点手势操作定位了，可以通过上面提到的一个目标控件+相对坐标的形式进行定位。核心思想都是将基于屏幕坐标点的定位操作，缩小的目标控件的区域范围内，以达到不受设备分辨率的影响，实现操作行为一致的效果。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YWQ5ODljMjIzZDAxODUxYzk0YTEwOGI1NzdmMjg3ZTBfTFZqeUJ2TkoxMFdDd3pGeFQ3SnV1ZktUUEc1UzN4R0pfVG9rZW46Ym94Y25XdW1NM2hEVDdDWFdyMUxicVBraGtlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图10 手势识别示意图</p>
+<h3 id="4-5-可溯源的自动化测试"><a href="#4-5-可溯源的自动化测试" class="headerlink" title="4.5 可溯源的自动化测试"></a><strong>4.5 可溯源的自动化测试</strong></h3><blockquote>
+<p>测试全流程记录，问题溯源一键即达。</p>
+</blockquote>
+<p>测试的目的是保证App运行的稳定，测试过程中出现Bug导致测试未通过时，需要溯源问题原因，发生的场景，乃至具体的执行步骤。这也是大多自动化测试工具/平台所欠缺的，即使发现了问题，排查工作也很困难；这个问题在手工测试的时候，更为严重，往往因为很多缺陷无法复现而难以定位。</p>
+<p>AlphaTest的自动化用例最小执行单元是操作指令，我们将测试过程的每一条指令的执行状况和过程中的界面快照进行了记录，并在指令执行失败时，对异常原因进行了初步分析。然后将整个用例的执行组合成了一份完整的测试报告，可快速溯源问题步骤。除此之外，我们还增加大量的日志上报，并将整个用例测试过程进行了视频录制，来进一步帮助疑难问题的排查。真正做到了用例回放测试可溯源。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NTVmYzEyNDFjNjA5OWM5OTU3YzEzNmVmYzFjZDE4MzFfNTBTc1hDenkwcTBZRTJreDJUaTVra3Y1MDU3aEtWVWFfVG9rZW46Ym94Y25XNU14YUpjdW5ESWhYYmNlZnFKckljXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图11 回放报告-图文详情</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzMwZTNiMDc0NmI5MDczYWI5YmM2ODRmNDAyYWJjZDFfZTNaaUhaQVpneE93WWdaVVk1N2pQd29iV1hVZUFEbzBfVG9rZW46Ym94Y25pR0R6SnFUcXliT3BGUGNnRWdjMzNlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<h3 id="4-6-用例的维护"><a href="#4-6-用例的维护" class="headerlink" title="4.6 用例的维护"></a><strong>4.6 用例的维护</strong></h3><blockquote>
+<p>自动化用例需要持续地投入人力来维护么？架构升级，页面重构，用例需要全部重新录制么？</p>
+</blockquote>
+<p>因自动化工具/平台众多，阻碍长期落地使用的一大问题是用例维护成本高，很多工具/平台让我们即便是使用上了自动化，但还需要持续投入人力维护用例的更新，最终的提效收益微乎其微。对于用例更新维护，我们可以梳理划分成三个场景：</p>
+<ul>
+<li><p>需求发生重大变更，整体的业务执行流程及相关的校验点都需要进行大量的调整。对于这种情况，无论是何种自动化测试工具/平台，都是需要正常进行用例变更重录以适应新的需求。</p>
+</li>
+<li><p>需求发生略微变更，业务流程基本一致，需要调整的校验点、操作以及数据或不影响整体流程的步骤。对于此场景，AlphaTest通过指令编辑器与操作录制，支持指令增删改以及数据和场景的还原，帮助用户快速的进行用例调整，而无需重新录制用例。例如：修改网络数据字段、视图变更路径、断言替换目标等。</p>
+</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjY3YTA2ZGM0YTAwMmFjYWM2Yjk2MTg4MGRkNGQ1NDFfa2Z0bTBtY0Z2Nmp5SUl1S3VkNzVKM2E5QWdDbnZUQlBfVG9rZW46Ym94Y24wbmoxMUZRVVBkZTM5cTRaZDJFY3dkXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图14 指令编辑</p>
+<ul>
+<li>和业务需求不同，我们的技术实现也会发生迭代。随着App技术架构不断的演进，经常会面临着架构升级，页面重构甚至技术栈变迁等这样的技术升级。这些变动需要覆盖大量的测试用例，其中大量的自动化用例又可能会因为变动而导致失效，需要重新录制。为此，AlphaTest设计一套利用相近分辨率机器进行用例自动修正的功能：利用图像 + 坐标进行二次识别定位，元素定位成功并校验通过后，生成新的ViewPath，更新对应的用例指令，对用例进行自动修复，修复后可在任意回放。</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmE0N2U2NmQ0MzQwZDk3MDE2YmE4ODUwY2E3OWM1NmFfdHNHYW10SWNRNW1qNDhjTmZIM2d3aXd1VDNydmNEZjRfVG9rZW46Ym94Y251UFNHZmNrUHRESkNIcmFWMHk0Q2hlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图15 自修复能力</p>
+<h3 id="4-7-跨App回放用例"><a href="#4-7-跨App回放用例" class="headerlink" title="4.7 跨App回放用例"></a><strong>4.7 跨App回放用例</strong></h3><blockquote>
+<p>同一份代码运行在不同的App上，是否需要重新编写多份用例？</p>
+</blockquote>
+<p>美团系的一些业务可能会复用在多个App上。比如外卖有独立App，但同时也要复用到美团和点评App上，这些功能，几乎共用一份代码，而测试人员却不得不对每个App上的业务功能都进行测试，维护多份用例。由于业务本身实现是一致的，那我们可以通过适配不同App之间的差异，来让一个业务Case可以横跨多个App回放，这便可以将成本缩减好几倍，这些差异主要体现在：</p>
+<ul>
+<li><p><strong>前置条件和初始页面</strong> ：业务的初始页面进入路径不同，例如外卖App打开App就进入到了外卖首页，但是在美团App中就需要从美团首页跳转到外卖频道。同时由于不同App的样式风格、设计规范、业务特性等因素，也会造成首页代码逻辑和视图层级的差异。</p>
+</li>
+<li><p><strong>AB实验配置</strong> ：不同App所配置的实验可能不同，不同的实验会导致不同的样式和代码逻辑。</p>
+</li>
+<li><p><strong>网路接口映射</strong> ：不同App中相同业务场景涉及的接口有所不同。</p>
+</li>
+<li><p><strong>页面Scheme映射</strong> ：不同App中相同页面的跳转Scheme也不相同。</p>
+</li>
+</ul>
+<p>AlphaTest平台支持App维度各项差异数据配置，当SDK检测用例回放环境与录制环境不一致时，会自动进行映射适配，从而让用例运行到了不同App上。</p>
+<h3 id="4-8-埋点的录制回放"><a href="#4-8-埋点的录制回放" class="headerlink" title="4.8 埋点的录制回放"></a><strong>4.8 埋点的录制回放</strong></h3><p>除了功能测试，我们在日常开发和测试的工作中，还会面临另外一个比较重要的问题就是埋点测试。因此，我们在自动化的基础上扩展出埋点自动化测试。埋点自动化测试的核心思想是，通过对比录制时期和回放时期的埋点上报时机和上报参数进行判断。为了保证埋点自动化测试的稳定性，我们主要采用以下的障机制：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY1ZTZjMmQwMDkwODhiMTM1NTNlNDVjZjc0ZGFhYTBfbGVYNzI5M1RqOFFENzVsRWtGTTc2czRQSUtscUFva2tfVG9rZW46Ym94Y24ydUFyelJPZTI5OE9Ub3BFeXRyTzJlXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图16 埋点自动化测试示意图</p>
+<ul>
+<li><strong>字段规则配置</strong> ：埋点自定义参数千姿百态，甚至有些字段每次代码执行都不一致，如果进行完全匹配结果注定是失败的，所以我们在AlphaTest平台提供了埋点字段规则配置功能，通过人为设置的方式来避免埋点自定义参数校验失败。App重启进入录制状态时，用户就可以操作App，平台会记录用户的操作行为，当产生相应的埋点日志的时候会将日志信息打印在日志区域（ 如下图17所示 ），在该过程中也会对埋点日志进行一定的校验。重点将操作时机、埋点日志一并保存到服务端。</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ODlmMDgzZjdhZGM1MGU2ZDE4NzNmM2YwMjE5MWM0OThfZmc4NzhTZmhmYkgyTGh0bTFhRGJrQTU0ZFJnY1oyRExfVG9rZW46Ym94Y25Wb2h1a2dEek04azFVaUlNUVVsNld5XzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图17 埋点上报数据控制台打印</p>
+<ul>
+<li><p><strong>埋点时机校验</strong> ：针对时机校验，程序并不支持埋点曝光的”1px曝光”，”下拉刷新曝光”，”页面切换曝光”，”切前后台曝光”这些规则，主要的原因是每一个业务方在对埋点曝光的规则都是不一致的，而且该规则的实现会极大耦合业务代码。在针对时机校验我们目前只支持：</p>
+</li>
+<li><p>[1] 点击埋点上报时机校验，程序通过事件监听和埋点类型信息来判断点击埋点上报的时机是否是在点击的操作下产生的，如果不是则报错。</p>
+</li>
+<li><p>[2] 埋点重复上报校验，针对一般情况下用户一次操作不会产生两个相同的埋点上报，所以程序会校验某个事件下发生的所有埋点日志进行一一校验，检测是否具有2个或多个埋点日志完全一致，如有发生则会上报错误。</p>
+</li>
+<li><p><strong>结果校验</strong> ：回放完成后，我们会对比录制和回放时的埋点数据，根据配置好的字段规则校验埋点上报是否符合预期。</p>
+</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NmMxNDY2MzBhODRmOTNjMjM1OTAxZTM2YzdkYmM5NDVfNks1eHJYcGJMdkpPSWs1Q2F2Z2FFbzlSWXRpR0lHM2xfVG9rZW46Ym94Y24xcll2QnY0anBCQkh2Q3JLV0w2aGFnXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图18 埋点校验流程图</p>
+<h2 id="5-测试流程"><a href="#5-测试流程" class="headerlink" title="5. 测试流程"></a><strong>5. 测试流程</strong></h2><blockquote>
+<p>AlphaTest的核心测试流程始终聚焦在用例的录制与回放环节，整个流程涉及到自动化任务触发、回放集群调度、断言服务、消息推送等核心模块。</p>
+</blockquote>
+<p>以UI自动化和埋点自动化的流程为例，AlphaTest以业务团队为基本单元，可以和各团队的测试用例进行关联，定时同步状态。同时利用需求评审线上化做为基础，将自动化用例和研发流程中的PR、集成打包、二轮回归等节点相结合，定时触发自动化用例并将结果报告推送给相关负责人。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTgyYmM3NDQ1MWIzZjhmYjQ1YzJjYjMwZjQyMzNmMTVfWHFzQzVIazF2U29OOEF4OG05ZHlReHZPNFBRb1dlcU1fVG9rZW46Ym94Y24xbmhDa0pETWtraHpwS09aUHp1emZkXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图19 建设自动化测试流程闭环</p>
+<ul>
+<li><p><strong>录制用例：</strong></p>
+</li>
+<li><p>[1] 首先在AlphaTest平台选择要录制的测试用例，打开待测试App进行扫码即可进入用例待录制状态，此时可以设置用例需要的前置条件（ 账号信息、Mock数据、定位信息等 ），之后点击开始按钮后，手机便会自动重启，开始录制。</p>
+</li>
+<li><p>[2] 用户按照测试用例步骤，正常操作手机，AlphaTest会将用户的操作行为全部记录下来，并自动生成语义化的描述语言显示在AlphaTest平台上，与此同时产生的网络数据、埋点数据等校验信息也会一并存储下来。</p>
+</li>
+<li><p>[3] 在录制的过程中可以快捷的打开断言模式，将页面上想要校验的元素进行文本提取/截图等操作记录下来，用于后续回放过程中对相同元素进行校验。</p>
+</li>
+<li><p>[4] 测试步骤全都执行完毕后，点击保存按钮即可生成本条自动化用例。</p>
+</li>
+<li><p><strong>用例回放：</strong></p>
+</li>
+<li><p>[1] 扫描对应自动化用例的二维码即可进行回放，回放过程中会将用户录制的行为、网络数据进行一比一还原，并且辅助有全过程视频录像，用于后续问题排查和溯源。</p>
+</li>
+<li><p>[2] 回放过程中碰到断言事件时，会将断言的元素进行文本提取/截图，上传至AlphaTest平台。回放完成后，会将回放时候的断言截图和录制时的断言截图进行图像对比，作为整个测试结果的一项。</p>
+</li>
+<li><p>[3] 回放过程中的埋点数据也会一并记录下来，并和录制时候的埋点数据和上报时机进行对比，自动提取出其中的差异项。</p>
+</li>
+<li><p>[4] 回放完成后，会生成完整的测试报告并将结果通过OA推送至相关人员。</p>
+</li>
+<li><p><strong>回放计划</strong> ：二轮回归测试中，回放用例数量多达几百条，为了做到全流程的自动化，我们提供了回放计划的概念，可以将多个自动化用例进行编组管理，每一组就是一个回放计划。触发一个计划的回放即可自动触发计划内的所有自动化用例。整个计划都执行完成后，会通知到指定的计划负责人或群组。</p>
+</li>
+</ul>
+<h3 id="5-1-自动化任务触发"><a href="#5-1-自动化任务触发" class="headerlink" title="5.1 自动化任务触发"></a><strong>5.1 自动化任务触发</strong></h3><p>在整个外卖C端敏捷迭代的流程中，打包平台主要承接了业务需求发起到需求交付的流程，作为AlphaTest的上游平台，可以提供打包信息并触发自动化用例回放任务。以下简单展示AlphaTest与敏捷协同平台的交互流程：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MWVjMGI2M2JhNDAyZDI1Y2VkMmE3MTRiMzA2NTllYjNfN1lRUGZ0dGhleDVDUVBZUm1uTmNTRlN6OFZPQzZqR2tfVG9rZW46Ym94Y24wUmhyR0R2dkl1cU8yclRjRlR6ckl5XzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图20 AlphaTest与敏捷协同平台交互流程图</p>
+<h3 id="5-2-回放集群调度"><a href="#5-2-回放集群调度" class="headerlink" title="5.2 回放集群调度"></a><strong>5.2 回放集群调度</strong></h3><p>整个测试过程真正的解放双手，才能算的上是自动化。因此，我们着手搭建了自己的自动化机器集群，可以 24小时不间断的执行测试任务。为了保证任务回放能够顺利完成，我们在不同阶段增加了相应的保活策略。在极大程度上提高了任务执行完毕的成功率。</p>
+<ul>
+<li><p><strong>执行流程</strong> ：回放任务通过用户在平台手动触发或者二轮自动触发。新增的回放任务经过任务拆分系统拆分成n个子任务，加入到不同设备的回放任务队列中。每个子任务经过占用设备-&gt;安装待测App-&gt;应用授权-&gt;打开scheme-&gt;上报结果等步骤完成回放操作。</p>
+</li>
+<li><p><strong>节点保活机制</strong> ：针对回放流程中每一个节点，失败后进行N（ 默认为3 ）次重试操作。减少因网络波动，接口偶现异常导致的回放失败数量。</p>
+</li>
+<li><p><strong>子任务保活机制</strong> ：每个回放流程，失败后进行N（ 默认为3 ）次断点重试。减少因设备异常，SDK心跳上报异常导致的回放失败数量。</p>
+</li>
+<li><p><strong>父任务保活机制</strong> ：一个父任务会被拆分成N个子任务，当其中的一个子任务S1在节点保活机制和子任务保活机制下仍然执行失败之后，父任务保活机制会尝试将子任务S1中未执行完毕的用例转移到其他活跃状态的子任务中。减少因设备异常，设备掉线等问题导致的回放失败数量。</p>
+</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjNmOGU1MzM0ZDVlZjZkNDdjMDIxMjQ2Njg1YTZhMjFfZEhlV1Y2enFTY2lQQ0FTS3A4RXNpOEk1U05qeWRENjZfVG9rZW46Ym94Y25DRVo5RjBLbUVlRG9Sb3RQbmlKRzRmXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图21 机器集群</p>
+<h3 id="5-3-断言服务"><a href="#5-3-断言服务" class="headerlink" title="5.3 断言服务"></a><strong>5.3 断言服务</strong></h3><p>用例断言是整个自动化用例验证的核心步骤，我们的断言服务依据用例的实际情形可以分别进行文字与图像的断言。其中图像断言服务依托于自建的图像对比算法服务，可以高效进行录制回放断言图像的对比，图像对比准确率可以达到99%以上。</p>
+<ul>
+<li><p><strong>录制阶段：</strong></p>
+</li>
+<li><p>[1] 录制时增加断言决策信息的自动采集。</p>
+</li>
+<li><p>[2] 和正常流程一样，提取区域的截图信息。</p>
+</li>
+<li><p>[3] 如果是文本组件，则提取文本内容，如果是图片组件，则提取图片二进制编码或图片URL，同时提取区域内的布局信息。</p>
+</li>
+<li><p><strong>回放阶段：</strong></p>
+</li>
+<li><p>[1] 回放时，提取和录制时一致的内容（ 文本信息、图片编码、区域截图、布局信息 ）。</p>
+</li>
+<li><p>[2] 将回放时的断言信息上传至AlphaTest平台。</p>
+</li>
+<li><p>[3] AlphaTest平台对断言结果进行校验，首先是基于模型的图像对比，如果判定为一致，则直接标记结果。</p>
+</li>
+<li><p>[4] 如果判定为不一致、则匹配“断言失败数据集”，如果能够匹配上，则标记结果。如果匹配不上，则需要人工选择匹配类型。</p>
+</li>
+<li><p>[5] 匹配类型为“文本校验”、“根据图片信息校验”、“人工校验”。如果前两项判定为一致，则直接标记结果。如果“人工校验”的结果为确实两张图不一致，则直接标记结果，结束。</p>
+</li>
+<li><p>[6] 如果“人工校验”结果为一致，既上述所有判定都不准确，则需要人工对两张图中判定错误的原因进行分类（ 具体类型待定 ），同时将断言存储到失败数据集。</p>
+</li>
+<li><p>[7] 模型自动训练，当数据集超过一定的阈值、通过定时触发、或者手动触发的方式，触发模型自动训练，训练完成后自动部署到AlphaTest平台，不断迭代。</p>
+</li>
+<li><p><strong>图像服务</strong> ：图像对比模型采用基于度量学习的对比算法，将图像对的一致性判别转换为图像语义的相似度量问题。度量学习（ Metric Learning ），也称距离度量学习（ Distance Metric Learning，DML ）属于机器学习的一种。其本质就是相似度的学习，也可以认为距离学习。因为在一定条件下，相似度和距离可以相互转换。比如在空间坐标的两条向量，既可以用余弦相似度的大小，也可以使用欧式距离的远近来衡量相似程度。度量学习的网络采用经典的Siamese结构，使用基于resnext50的主干网络提取图像的高级语义特征，后接spplayer完成多尺度特征融合，融合后的特征输出作为表达图像语义的特征向量，使用ContrastiveLoss进行度量学习。</p>
+</li>
+</ul>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ODE0YjMyYzA5ZTUwZjA4MDkyMmM3MzJmYzBjYTJmMWVfbmRKOGQ2dnp2QzFsVHdRMVRHUGFqWFdSejNta0xJTkNfVG9rZW46Ym94Y24wMThrMDRUWTJyMTlXVFhQbkEwcVlSXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图22 训练过程</p>
+<p>[1] <strong>预训练过程</strong> ：resnext50网络是使用ImageNet的预训练模型。</p>
+<p>[2] <strong>数据增强</strong> ：为增加数据的丰富性、提高网络的泛化性能，数据增强的方式主要包括：图像右下部分的随机剪切和添加黑色蒙层（ 相应改变图像对的标签 ）。这种数据增强符合控键截图实际情况，不会造成数据分布的改变。</p>
+<p>[3] <strong>对比损失</strong> ：对比损失函数采用ContrastiveLoss，它是一种在欧式空间的pair based loss，其作用是减少一致图像对距离，保证不一致图像对的距离大于margin，其中margin=2。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmYxOGVkZTgzYTk3MDM4MTcyNTc4NTYzYTYyYTE5MDZfMWZRZDZ3U2lEYzhzcXU0eE93cWdYak1ReTNaR2FZWmJfVG9rZW46Ym94Y24xbkFha3dOVkdmTmpnUGJHMWhySThmXzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<p>图23 训练过程</p>
+<p>[4] <strong>相似度量</strong> ：相似度量也是采用计算图像对特征向量的欧式距离的方法，并归一化到区间[0, 1]，作为输出的图像对相似度。</p>
+<h3 id="5-4-消息推送"><a href="#5-4-消息推送" class="headerlink" title="5.4 消息推送"></a><strong>5.4 消息推送</strong></h3><p>消息推送作为回放流程的最终环节，我们依赖于美团内部自建的消息队列服务与OA SDK消息推送能力，可以进行测试报告的实时推送。在此之上，还可以针对不同团队的推送诉求，做消息模板的定制化。</p>
+<ul>
+<li><p><strong>消息定制</strong> ：消息推送与触达的核心，是满足业务诉求；不同业务对自动化测试报告中各项指标的关注点不同，这就需要AlphaTest具备消息推送定制的能力；将消息推送的模板以配置文件的形式提供出来，不同的业务使用不同的业务消息配置文件；再利用OA提供的图文、多媒体等消息推送能力，可以将自动化测试报告的各项指标自定义拆分；除此之外，消息还需要减少冗余，在这个信息泛滥的时代，我们愿意为无孔不入的消息、通知做减法，只将最重要、最核心的消息推送给最需要的人，既可以推动自动化测试流程的高效流转，又可以让各相关业务人员享受到自动化测试能力的便捷性。</p>
+</li>
+<li><p><strong>一键触达</strong> ：以往的研发人员冒烟测试，主要依赖于测试人员在用例管理平台建立测试计划，研发人员根据用例进行手工用例测试结果标记，之后去提测完成后续流程。这中间缺失的主要环节是，难以对研发人员冒烟测试的质量进行把控。而AlphaTest正可以解决此问题，流程转换为，研发人员在敏捷协同平台触发一键提测流程，调用AlphaTest的自动化测试能力对冒烟用例进行自动化测试回归，完成之后将测试生成的测试报告同步提测平台，作为研发人员冒烟的结论依据，同时在冒烟过程中发生的问题，也可以及时通知到对应的研发人员与测试人员进行改正。既保证了质量，又避免了人力空耗。</p>
+</li>
+</ul>
+<h2 id="6-落地与实践"><a href="#6-落地与实践" class="headerlink" title="6. 落地与实践"></a><strong>6. 落地与实践</strong></h2><blockquote>
+<p>外卖C端主要承担了用户在App端点餐、下单、配送的所有核心流程，场景繁多、业务复杂，这也给测试人员的版本测试带来了诸多挑战，其中最核心也最耗费人力的便是二轮回归测试环节。目前，C端采用的双周敏捷迭代的开发方式，每个迭代周期给测试人员用来进行二轮核心流程回归的时间为三天，为此C端测试团队投入了许多人力资源，但即便如此，仍难以覆盖全部流程；而AlphaTest的设计初衷也正是为解决此问题——UI测试流程全覆盖及自动化验证。</p>
+</blockquote>
+<h3 id="6-1-业务共建"><a href="#6-1-业务共建" class="headerlink" title="6.1 业务共建"></a><strong>6.1 业务共建</strong></h3><p><strong>用例的转化与维护</strong></p>
+<p>AlphaTest 在外卖C端测试团队的落地初期，我们采用了共建的模式，也就是业务研发人员与对应测试人员共同来进行用例录制与维护的工作；推荐这种工作模式的核心原因是，在C端功能迭代流程中的二轮周期的原有工作模式为，研发人员进行二轮冒烟测试，完成测试之后提交二轮包交由测试人员进行二轮回归测试，所以这本来就是一个双方都需要参与的环节；而二轮测试作为版本上线前的最重要一个测试流程，保证核心流程的正常也是测试人员与研发人员所关心重点。</p>
+<p>经过多轮的使用与磨合之后，这种模式被证明是行之有效的，在整个C端二轮用例的转化过程中，测试人员主要负责了用例的录制与迭代流程，研发人员则主要负责版本回放数据的统计及问题用例的发现与解决。</p>
+<p><strong>外卖二轮落地情况</strong></p>
+<p>目前，AlphaTest已经在外卖多个业务落地，支持了大于15个版本的二轮回归测试，用例覆盖率达到70%。现已 覆盖了Native、Mach、React Native、美团小程序、H5 技术栈的测试工作，能力上可进行支持： UI自动化测试、埋点自动化测试、动态化加载成功率自动化测试、无障碍适配率自动化测试。</p>
+<p>未来，我们会朝着“智能化”和“精准化”两个方向探索，覆盖更多测试场景的同时，更进一步提升测试人效。</p>
+<h3 id="6-2-实践效果"><a href="#6-2-实践效果" class="headerlink" title="6.2 实践效果"></a><strong>6.2 实践效果</strong></h3><p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY2ODRkNzhjODcxYjgwYzZjZTRmZDkxOTcxYzJkZWFfUTBUbTZzcTFId1A3T2VGMnRpeW1uZTNVQ3dDbWpKUE1fVG9rZW46Ym94Y25nU1NmbmNKV3Zkb1dhOEhEUnhxOTI1XzE2Njg5Mzc4Njk6MTY2ODk0MTQ2OV9WNA" alt="img"></p>
+<h1 id="7-参考资料"><a href="#7-参考资料" class="headerlink" title="7. 参考资料"></a><strong>7. 参考资料</strong></h1><p>[1] <strong><a target="_blank" rel="noopener" href="https://appium.io/">https://appium.io</a></strong></p>
+<p>[2] <strong><a target="_blank" rel="noopener" href="http://docs.seleniumhq.org/projects/webdriver">http://docs.seleniumhq.org/projects/webdriver</a></strong></p>
+<p>[3] <strong><a target="_blank" rel="noopener" href="http://airtest.netease.com/index.html">http://airtest.netease.com/index.html</a></strong></p>
+<p>[4] <strong><a target="_blank" rel="noopener" href="https://github.com/alipay/SoloPi">https://github.com/alipay/SoloPi </a></strong></p>
+<p>———- END ———-</p>
+<p><strong>也许你还想看</strong></p>
+<p><strong>|</strong>  <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651764420&idx=1&sn=392b2a0b187521aad5742cbfe7ca9452&chksm=bd126f898a65e69f6f56368c8dfd2e16dd0a987c3b0136d61205ae0e166a14fb0f3e21b70917&scene=21#wechat_redirect">Spock单元测试框架以及在美团优选的实践</a></p>
+<p><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651749742&idx=2&sn=52e37feddb076a2421993b9b4ad99739&chksm=bd12a4238a652d352ebacadf0d6aaf30e2291abe55dace7c04e48c1d824fda75a1dfef689b15&scene=21#wechat_redirect">美团智能支付稳定性测试实战</a></p>
+<p><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651747335&idx=1&sn=6ca3a91ecc31878b0249f8ae98594ab6&chksm=bd12ad4a8a65245cf74ee314aa8bfb8768ccb065910313a37f796abf202c18aa05240504d385&scene=21#wechat_redirect">Lego：美团接口自动化测试实践</a></p>
+<p><strong>阅读更多</strong></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765958&idx=1&sn=8201546812e5a95a2bee9dffc6d12f00&chksm=bd12658b8a65ec9de2f5be1e96796dfb3c8f1a374d4b7bd91266072f557caf8118d4ddb72b07&scene=21#wechat_redirect">前端 </a><strong>|</strong> <a target="_blank" rel="noopener" href="https://t.1yb.co/jo7v"> </a><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765981&idx=1&sn=c2dd86f15dee2cbbc89e27677d985060&chksm=bd1265908a65ec86d4d08f7600d1518b61c90f6453074f9b308c96861c045712280a73751c73&scene=21#wechat_redirect">算法 </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765982&idx=1&sn=231b41f653ac7959f3e3b8213dcec2b0&chksm=bd1265938a65ec85630c546169444d56377bc2f11401d251da7ca50e5d07e353aa01580c7216&scene=21#wechat_redirect">后端 </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765964&idx=1&sn=ab6d8db147234fe57f27dd46eec40fef&chksm=bd1265818a65ec9749246dd1a2eb3bf7798772cc4d5b4283b15eae2f80bc6db63a1471a9e61e&scene=21#wechat_redirect">数据</a></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765965&idx=1&sn=37e0c56c8b080146ce5249243bfd84d8&chksm=bd1265808a65ec96d3a2b2c87c6e27c910d49cb6b149970fb2db8bf88045a0a85fed2e6a0b84&scene=21#wechat_redirect">安全 </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765972&idx=1&sn=afe02ec92762c1ce18740d03324c4ac3&chksm=bd1265998a65ec8f10d5f58d0f3681ddfc5325137218e568e1cda3a50e427749edb5c6a7dcf5&scene=21#wechat_redirect">Android </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765973&idx=1&sn=32a23bf1d278dda0398f993ab60a697e&chksm=bd1265988a65ec8e630ef4d24b4946ab6bd7e66702c1d712481cf3c471468a059c470a14c30d&scene=21#wechat_redirect">iOS </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765963&idx=1&sn=a3de9ef267d07d94118c1611776a4b28&chksm=bd1265868a65ec906592d25ad65f2a8516338d07ec3217059e6975fc131fc0107d66a8cd2612&scene=21#wechat_redirect">运维 </a><strong>|</strong> <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651765974&idx=1&sn=763c1e37d04acffd0142a2852ecfb000&chksm=bd12659b8a65ec8dfcfeb2028ef287fae7c38f134a665375ba420556ce5d2e4cf398147bd12e&scene=21#wechat_redirect">测试</a></p>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2022-11-20, 17:50:42</p>
+        <p><span>最后更新:</span>2024-03-14, 22:55:29</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/ead6381e.html" title="自动化测试在美团外卖的实践与落地(转载)">https://imlike.cc/ead6381e.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/ead6381e.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/a6af0ce2.html">
+                    一次单元测试优化的过程总结(转载)
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/75bc1ba6.html">
+                    Lombok注解@Data和@Builder冲突(转载)
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: '自动化测试在美团外卖的实践与落地(转载)',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/a6af0ce2.html" title="上一篇: 一次单元测试优化的过程总结(转载)">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/75bc1ba6.html" title="下一篇: Lombok注解@Data和@Builder冲突(转载)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/Infinity.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2024 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

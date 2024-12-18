@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="转载 自 掘金: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;6844903573667446797常用的分布式事务解决方案  众所周知，数据库能实现本地事务，也就是在同一个数据库中，你可以允许一组操作要么全都正确执行，要么全都不执行。这里特别强调了本地事务，也就是目前的数据库只能支持同一个数据库中的事务。但现在的系统往往采用微服务架构，业务系统拥有独立的数据库，因此就出现了跨多个数据库的事务需">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式事务">
+<meta property="og:url" content="https://imlike.cc/cdcc4eae.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="转载 自 掘金: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;6844903573667446797常用的分布式事务解决方案  众所周知，数据库能实现本地事务，也就是在同一个数据库中，你可以允许一组操作要么全都正确执行，要么全都不执行。这里特别强调了本地事务，也就是目前的数据库只能支持同一个数据库中的事务。但现在的系统往往采用微服务架构，业务系统拥有独立的数据库，因此就出现了跨多个数据库的事务需">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/3/10/1620fc3b8a2646d3?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/3/10/1620fc316321942a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="article:published_time" content="2021-03-03T02:05:55.000Z">
+<meta property="article:modified_time" content="2024-03-14T14:55:29.483Z">
+<meta property="article:author" content="leek">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/3/10/1620fc3b8a2646d3?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>分布式事务 | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-分布式事务" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/cdcc4eae.html" class="article-date">
+      <time datetime="2021-03-03T02:05:55.000Z" itemprop="datePublished">2021-03-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      分布式事务
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!--  -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E5%8A%A1%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">什么是事务？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7-ACID"><span class="toc-number">2.</span> <span class="toc-text">事务的四大特性 ACID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">3.</span> <span class="toc-text">事务的隔离级别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E5%B9%B6%E5%8F%91%E6%89%A7%E8%A1%8C%E4%BC%9A%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">3.1.</span> <span class="toc-text">事务并发执行会出现的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%9B%9B%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">3.2.</span> <span class="toc-text">数据库的四种隔离级别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">什么是分布式事务？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CAP%E7%90%86%E8%AE%BA"><span class="toc-number">5.</span> <span class="toc-text">CAP理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BASE%E7%90%86%E8%AE%BA"><span class="toc-number">6.</span> <span class="toc-text">BASE理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%B8%E7%A2%B1%E5%B9%B3%E8%A1%A1"><span class="toc-number">7.</span> <span class="toc-text">酸碱平衡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E5%8D%8F%E8%AE%AE"><span class="toc-number">8.</span> <span class="toc-text">分布式事务协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E5%8D%8F%E8%AE%AE-2PC"><span class="toc-number">8.1.</span> <span class="toc-text">两阶段提交协议 2PC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E5%8D%8F%E8%AE%AE-3PC"><span class="toc-number">8.2.</span> <span class="toc-text">三阶段提交协议 3PC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">9.</span> <span class="toc-text">分布式事务的解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%881%EF%BC%9A%E5%85%A8%E5%B1%80%E4%BA%8B%E5%8A%A1%EF%BC%88DTP%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="toc-number">9.1.</span> <span class="toc-text">方案1：全局事务（DTP模型）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%882%EF%BC%9A%E5%9F%BA%E4%BA%8E%E5%8F%AF%E9%9D%A0%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">9.2.</span> <span class="toc-text">方案2：基于可靠消息服务的分布式事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%883%EF%BC%9A%E6%9C%80%E5%A4%A7%E5%8A%AA%E5%8A%9B%E9%80%9A%E7%9F%A5%EF%BC%88%E5%AE%9A%E6%9C%9F%E6%A0%A1%E5%AF%B9%EF%BC%89"><span class="toc-number">9.3.</span> <span class="toc-text">方案3：最大努力通知（定期校对）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%884%EF%BC%9ATCC%EF%BC%88%E4%B8%A4%E9%98%B6%E6%AE%B5%E5%9E%8B%E3%80%81%E8%A1%A5%E5%81%BF%E5%9E%8B%EF%BC%89"><span class="toc-number">9.4.</span> <span class="toc-text">方案4：TCC（两阶段型、补偿型）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCC%E5%85%A8%E5%B1%80%E4%BA%8B%E5%8A%A1%E5%BF%85%E9%A1%BB%E5%9F%BA%E4%BA%8ERM%E6%9C%AC%E5%9C%B0%E4%BA%8B%E5%8A%A1%E6%9D%A5%E5%AE%9E%E7%8E%B0%E5%85%A8%E5%B1%80%E4%BA%8B%E5%8A%A1"><span class="toc-number">9.4.1.</span> <span class="toc-text">TCC全局事务必须基于RM本地事务来实现全局事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCC%E4%BA%8B%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%BA%94%E8%AF%A5%E6%8F%90%E4%BE%9BConfirm-Cancel%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%E4%BF%9D%E9%9A%9C"><span class="toc-number">9.4.2.</span> <span class="toc-text">TCC事务框架应该提供Confirm&#x2F;Cancel服务的幂等性保障</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">10.</span> <span class="toc-text">参考文献</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <p>转载 自 掘金: <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903573667446797%E5%B8%B8%E7%94%A8%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">https://juejin.cn/post/6844903573667446797常用的分布式事务解决方案</a></p>
+<blockquote>
+<p>众所周知，数据库能实现<strong>本地事务</strong>，也就是在<strong>同一个数据库中</strong>，你可以允许一组操作要么全都正确执行，要么全都不执行。这里特别强调了<strong>本地事务</strong>，也就是目前的数据库只能支持同一个数据库中的事务。但现在的系统往往采用微服务架构，业务系统拥有独立的数据库，因此就出现了跨多个数据库的事务需求，这种事务即为“分布式事务”。那么在目前数据库不支持跨库事务的情况下，我们应该如何实现分布式事务呢？本文首先会为大家梳理分布式事务的基本概念和理论基础，然后介绍几种目前常用的分布式事务解决方案。废话不多说，那就开始吧～</p>
+</blockquote>
+<p><img src="https://user-gold-cdn.xitu.io/2018/3/10/1620fc3b8a2646d3?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<h2 id="什么是事务？"><a href="#什么是事务？" class="headerlink" title="什么是事务？"></a>什么是事务？</h2><p>事务由一组操作构成，我们希望这组操作能够全部正确执行，如果这一组操作中的任意一个步骤发生错误，那么就需要回滚之前已经完成的操作。也就是同一个事务中的所有操作，要么全都正确执行，要么全都不要执行。</p>
+<h2 id="事务的四大特性-ACID"><a href="#事务的四大特性-ACID" class="headerlink" title="事务的四大特性 ACID"></a>事务的四大特性 ACID</h2><p>说到事务，就不得不提一下事务著名的四大特性。</p>
+<ul>
+<li>原子性 原子性要求，事务是一个不可分割的执行单元，事务中的所有操作要么全都执行，要么全都不执行。</li>
+<li>一致性 一致性要求，事务在开始前和结束后，数据库的完整性约束没有被破坏。</li>
+<li>隔离性 事务的执行是相互独立的，它们不会相互干扰，一个事务不会看到另一个正在运行过程中的事务的数据。</li>
+<li>持久性 持久性要求，一个事务完成之后，事务的执行结果必须是持久化保存的。即使数据库发生崩溃，在数据库恢复后事务提交的结果仍然不会丢失。</li>
+</ul>
+<blockquote>
+<p>注意：事务只能保证数据库的<strong>高可靠性</strong>，即数据库本身发生问题后，事务提交后的数据仍然能恢复；而如果不是数据库本身的故障，如硬盘损坏了，那么事务提交的数据可能就丢失了。这属于『<strong>高可用性</strong>』的范畴。因此，事务只能保证数据库的『高可靠性』，而『高可用性』需要整个系统共同配合实现。</p>
+</blockquote>
+<h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><p>这里扩展一下，对事务的<strong>隔离性</strong>做一个详细的解释。</p>
+<p>在事务的四大特性ACID中，要求的隔离性是一种严格意义上的隔离，也就是多个事务是串行执行的，彼此之间不会受到任何干扰。这确实能够完全保证数据的安全性，但在实际业务系统中，这种方式性能不高。因此，数据库定义了四种隔离级别，隔离级别和数据库的性能是呈反比的，隔离级别越低，数据库性能越高，而隔离级别越高，数据库性能越差。</p>
+<h3 id="事务并发执行会出现的问题"><a href="#事务并发执行会出现的问题" class="headerlink" title="事务并发执行会出现的问题"></a>事务并发执行会出现的问题</h3><p>我们先来看一下在不同的隔离级别下，数据库可能会出现的问题：</p>
+<ol>
+<li>更新丢失 当有两个并发执行的事务，更新同一行数据，那么有可能一个事务会把另一个事务的更新覆盖掉。 当数据库没有加任何锁操作的情况下会发生。</li>
+<li>脏读 一个事务读到另一个尚未提交的事务中的数据。 该数据可能会被回滚从而失效。 如果第一个事务拿着失效的数据去处理那就发生错误了。</li>
+<li>不可重复读 不可重复度的含义：一个事务对同一行数据读了两次，却得到了不同的结果。它具体分为如下两种情况：<ul>
+<li>虚读：在事务1两次读取同一记录的过程中，事务2对该记录进行了修改，从而事务1第二次读到了不一样的记录。</li>
+<li>幻读：事务1在两次查询的过程中，事务2对该表进行了插入、删除操作，从而事务1第二次查询的结果发生了变化。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>不可重复读 与 脏读 的区别？ 脏读读到的是尚未提交的数据，而不可重复读读到的是已经提交的数据，只不过在两次读的过程中数据被另一个事务改过了。</p>
+</blockquote>
+<h3 id="数据库的四种隔离级别"><a href="#数据库的四种隔离级别" class="headerlink" title="数据库的四种隔离级别"></a>数据库的四种隔离级别</h3><p>数据库一共有如下四种隔离级别：</p>
+<ol>
+<li>Read uncommitted 读未提交 在该级别下，一个事务对一行数据修改的过程中，不允许另一个事务对该行数据进行修改，但允许另一个事务对该行数据读。 因此本级别下，不会出现更新丢失，但会出现脏读、不可重复读。</li>
+<li>Read committed 读提交 在该级别下，未提交的写事务不允许其他事务访问该行，因此不会出现脏读；但是读取数据的事务允许其他事务的访问该行数据，因此会出现不可重复读的情况。</li>
+<li>Repeatable read 重复读 在该级别下，读事务禁止写事务，但允许读事务，因此不会出现同一事务两次读到不同的数据的情况（不可重复读），且写事务禁止其他一切事务。</li>
+<li>Serializable 序列化 该级别要求所有事务都必须串行执行，因此能避免一切因并发引起的问题，但效率很低。</li>
+</ol>
+<p>隔离级别越高，越能保证数据的完整性和一致性，但是对并发性能的影响也越大。对于多数应用程序，可以优先考虑把数据库系统的隔离级别设为Read Committed。它能够避免脏读取，而且具有较好的并发性能。尽管它会导致不可重复读、幻读和第二类丢失更新这些并发问题，在可能出现这类问题的个别场合，可以由应用程序采用悲观锁或乐观锁来控制。</p>
+<hr>
+<h2 id="什么是分布式事务？"><a href="#什么是分布式事务？" class="headerlink" title="什么是分布式事务？"></a>什么是分布式事务？</h2><p>到此为止，所介绍的事务都是基于单数据库的本地事务，目前的数据库仅支持单库事务，并不支持跨库事务。而随着微服务架构的普及，一个大型业务系统往往由若干个子系统构成，这些子系统又拥有各自独立的数据库。往往一个业务流程需要由多个子系统共同完成，而且这些操作可能需要在一个事务中完成。在微服务系统中，这些业务场景是普遍存在的。此时，我们就需要在数据库之上通过某种手段，实现支持跨数据库的事务支持，这也就是大家常说的“分布式事务”。</p>
+<p>这里举一个分布式事务的典型例子——用户下单过程。 当我们的系统采用了微服务架构后，一个电商系统往往被拆分成如下几个子系统：商品系统、订单系统、支付系统、积分系统等。整个下单的过程如下：</p>
+<ol>
+<li>用户通过商品系统浏览商品，他看中了某一项商品，便点击下单</li>
+<li>此时订单系统会生成一条订单</li>
+<li>订单创建成功后，支付系统提供支付功能</li>
+<li>当支付完成后，由积分系统为该用户增加积分</li>
+</ol>
+<p>上述步骤2、3、4需要在一个事务中完成。对于传统单体应用而言，实现事务非常简单，只需将这三个步骤放在一个方法A中，再用Spring的@Transactional注解标识该方法即可。Spring通过数据库的事务支持，保证这些步骤要么全都执行完成，要么全都不执行。但在这个微服务架构中，这三个步骤涉及三个系统，涉及三个数据库，此时我们必须在数据库和应用系统之间，通过某项黑科技，实现分布式事务的支持。</p>
+<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><p>CAP理论说的是：在一个分布式系统中，最多只能满足C、A、P中的两个需求。</p>
+<p>CAP的含义：</p>
+<ul>
+<li>C：Consistency 一致性 同一数据的多个副本是否实时相同。</li>
+<li>A：Availability 可用性 可用性：一定时间内 &amp; 系统返回一个明确的结果 则称为该系统可用。</li>
+<li>P：Partition tolerance 分区容错性 将同一服务分布在多个系统中，从而保证某一个系统宕机，仍然有其他系统提供相同的服务。</li>
+</ul>
+<p>CAP理论告诉我们，在分布式系统中，C、A、P三个条件中我们最多只能选择两个。那么问题来了，究竟选择哪两个条件较为合适呢？</p>
+<p>对于一个业务系统来说，可用性和分区容错性是必须要满足的两个条件，并且这两者是相辅相成的。业务系统之所以使用分布式系统，主要原因有两个：</p>
+<ul>
+<li>提升整体性能 当业务量猛增，单个服务器已经无法满足我们的业务需求的时候，就需要使用分布式系统，使用多个节点提供相同的功能，从而整体上提升系统的性能，这就是使用分布式系统的第一个原因。</li>
+<li>实现分区容错性 单一节点 或 多个节点处于相同的网络环境下，那么会存在一定的风险，万一该机房断电、该地区发生自然灾害，那么业务系统就全面瘫痪了。为了防止这一问题，采用分布式系统，将多个子系统分布在不同的地域、不同的机房中，从而保证系统高可用性。</li>
+</ul>
+<p>这说明分区容错性是分布式系统的根本，如果分区容错性不能满足，那使用分布式系统将失去意义。</p>
+<p>此外，可用性对业务系统也尤为重要。在大谈用户体验的今天，如果业务系统时常出现“系统异常”、响应时间过长等情况，这使得用户对系统的好感度大打折扣，在互联网行业竞争激烈的今天，相同领域的竞争者不甚枚举，系统的间歇性不可用会立马导致用户流向竞争对手。因此，我们只能通过牺牲一致性来换取系统的<strong>可用性</strong>和<strong>分区容错性</strong>。这也就是下面要介绍的BASE理论。</p>
+<h2 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a>BASE理论</h2><p>CAP理论告诉我们一个悲惨但不得不接受的事实——我们只能在C、A、P中选择两个条件。而对于业务系统而言，我们往往选择牺牲一致性来换取系统的可用性和分区容错性。不过这里要指出的是，所谓的“牺牲一致性”并不是完全放弃数据一致性，而是牺牲<strong>强一致性</strong>换取<strong>弱一致性</strong>。下面来介绍下BASE理论。</p>
+<ul>
+<li>BA：Basic Available 基本可用<ul>
+<li>整个系统在某些不可抗力的情况下，仍然能够保证“可用性”，即一定时间内仍然能够返回一个明确的结果。只不过“基本可用”和“高可用”的区别是：<ul>
+<li>“一定时间”可以适当延长 当举行大促时，响应时间可以适当延长</li>
+<li>给部分用户返回一个降级页面 给部分用户直接返回一个降级页面，从而缓解服务器压力。但要注意，返回降级页面仍然是返回明确结果。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>S：Soft State：柔性状态 同一数据的不同副本的状态，可以不需要实时一致。</li>
+<li>E：Eventual Consisstency：最终一致性 同一数据的不同副本的状态，可以不需要实时一致，但一定要保证经过一定时间后仍然是一致的。</li>
+</ul>
+<h2 id="酸碱平衡"><a href="#酸碱平衡" class="headerlink" title="酸碱平衡"></a>酸碱平衡</h2><p>ACID能够保证事务的强一致性，即数据是实时一致的。这在本地事务中是没有问题的，在分布式事务中，强一致性会极大影响分布式系统的性能，因此分布式系统中遵循BASE理论即可。但分布式系统的不同业务场景对一致性的要求也不同。如交易场景下，就要求强一致性，此时就需要遵循ACID理论，而在注册成功后发送短信验证码等场景下，并不需要实时一致，因此遵循BASE理论即可。因此要根据具体业务场景，在ACID和BASE之间寻求平衡。</p>
+<h2 id="分布式事务协议"><a href="#分布式事务协议" class="headerlink" title="分布式事务协议"></a>分布式事务协议</h2><p>下面介绍几种实现分布式事务的协议。</p>
+<h3 id="两阶段提交协议-2PC"><a href="#两阶段提交协议-2PC" class="headerlink" title="两阶段提交协议 2PC"></a>两阶段提交协议 2PC</h3><p>分布式系统的一个难点是如何保证架构下多个节点在进行事务性操作的时候保持一致性。为实现这个目的，二阶段提交算法的成立基于以下假设：</p>
+<ul>
+<li>该分布式系统中，存在一个节点作为协调者(Coordinator)，其他节点作为参与者(Cohorts)。且节点之间可以进行网络通信。</li>
+<li>所有节点都采用预写式日志，且日志被写入后即被保持在可靠的存储设备上，即使节点损坏不会导致日志数据的消失。</li>
+<li>所有节点不会永久性损坏，即使损坏后仍然可以恢复。</li>
+</ul>
+<p><strong>1. 第一阶段（投票阶段）：</strong></p>
+<ol>
+<li>协调者节点向所有参与者节点询问是否可以执行提交操作(vote)，并开始等待各参与者节点的响应。</li>
+<li>参与者节点执行询问发起为止的所有事务操作，并将Undo信息和Redo信息写入日志。（注意：若成功这里其实每个参与者已经执行了事务操作）</li>
+<li>各参与者节点响应协调者节点发起的询问。如果参与者节点的事务操作实际执行成功，则它返回一个”同意”消息；如果参与者节点的事务操作实际执行失败，则它返回一个”中止”消息。</li>
+</ol>
+<p><strong>2. 第二阶段（提交执行阶段）：</strong></p>
+<p>当协调者节点从所有参与者节点获得的相应消息都为”同意”时：</p>
+<ol>
+<li>协调者节点向所有参与者节点发出”正式提交(commit)”的请求。</li>
+<li>参与者节点正式完成操作，并释放在整个事务期间内占用的资源。</li>
+<li>参与者节点向协调者节点发送”完成”消息。</li>
+<li>协调者节点受到所有参与者节点反馈的”完成”消息后，完成事务。</li>
+</ol>
+<p>如果任一参与者节点在第一阶段返回的响应消息为”中止”，或者 协调者节点在第一阶段的询问超时之前无法获取所有参与者节点的响应消息时：</p>
+<ol>
+<li>协调者节点向所有参与者节点发出”回滚操作(rollback)”的请求。</li>
+<li>参与者节点利用之前写入的Undo信息执行回滚，并释放在整个事务期间内占用的资源。</li>
+<li>参与者节点向协调者节点发送”回滚完成”消息。</li>
+<li>协调者节点受到所有参与者节点反馈的”回滚完成”消息后，取消事务。</li>
+</ol>
+<p>不管最后结果如何，第二阶段都会结束当前事务。</p>
+<p>二阶段提交看起来确实能够提供原子性的操作，但是不幸的事，二阶段提交还是有几个缺点的：</p>
+<ol>
+<li>执行过程中，所有参与节点都是事务阻塞型的。当参与者占有公共资源时，其他第三方节点访问公共资源不得不处于阻塞状态。</li>
+<li>参与者发生故障。协调者需要给每个参与者额外指定超时机制，超时后整个事务失败。（没有多少容错机制）</li>
+<li>协调者发生故障。参与者会一直阻塞下去。需要额外的备机进行容错。（这个可以依赖后面要讲的Paxos协议实现HA）</li>
+<li>二阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了。那么即使协调者通过选举协议产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否被已经提交。</li>
+</ol>
+<p>为此，Dale Skeen和Michael Stonebraker在“A Formal Model of Crash Recovery in a Distributed System”中提出了三阶段提交协议（3PC）。</p>
+<h3 id="三阶段提交协议-3PC"><a href="#三阶段提交协议-3PC" class="headerlink" title="三阶段提交协议 3PC"></a>三阶段提交协议 3PC</h3><p>与两阶段提交不同的是，三阶段提交有两个改动点。</p>
+<ul>
+<li>引入超时机制。同时在协调者和参与者中都引入超时机制。</li>
+<li>在第一阶段和第二阶段中插入一个准备阶段。保证了在最后提交阶段之前各参与节点的状态是一致的。</li>
+</ul>
+<p>也就是说，除了引入超时机制之外，3PC把2PC的准备阶段再次一分为二，这样三阶段提交就有CanCommit、PreCommit、DoCommit三个阶段。</p>
+<p><strong>1. CanCommit阶段</strong></p>
+<p>3PC的CanCommit阶段其实和2PC的准备阶段很像。协调者向参与者发送commit请求，参与者如果可以提交就返回Yes响应，否则返回No响应。</p>
+<ol>
+<li>事务询问 协调者向参与者发送CanCommit请求。询问是否可以执行事务提交操作。然后开始等待参与者的响应。</li>
+<li>响应反馈 参与者接到CanCommit请求之后，正常情况下，如果其自身认为可以顺利执行事务，则返回Yes响应，并进入预备状态。否则反馈No</li>
+</ol>
+<p><strong>2. PreCommit阶段</strong></p>
+<p>协调者根据参与者的反应情况来决定是否可以记性事务的PreCommit操作。根据响应情况，有以下两种可能。 假如协调者从所有的参与者获得的反馈都是Yes响应，那么就会执行事务的预执行。</p>
+<ol>
+<li>发送预提交请求 协调者向参与者发送PreCommit请求，并进入Prepared阶段。</li>
+<li>事务预提交 参与者接收到PreCommit请求后，会执行事务操作，并将undo和redo信息记录到事务日志中。</li>
+<li>响应反馈 如果参与者成功的执行了事务操作，则返回ACK响应，同时开始等待最终指令。</li>
+</ol>
+<p>假如有任何一个参与者向协调者发送了No响应，或者等待超时之后，协调者都没有接到参与者的响应，那么就执行事务的中断。</p>
+<ol>
+<li>发送中断请求 协调者向所有参与者发送abort请求。</li>
+<li>中断事务 参与者收到来自协调者的abort请求之后（或超时之后，仍未收到协调者的请求），执行事务的中断。</li>
+</ol>
+<p><strong>3. doCommit阶段</strong> 该阶段进行真正的事务提交，也可以分为以下两种情况。</p>
+<p>该阶段进行真正的事务提交，也可以分为以下两种情况。</p>
+<p><strong>3.1 执行提交</strong></p>
+<ol>
+<li>发送提交请求 协调接收到参与者发送的ACK响应，那么他将从预提交状态进入到提交状态。并向所有参与者发送doCommit请求。</li>
+<li>事务提交 参与者接收到doCommit请求之后，执行正式的事务提交。并在完成事务提交之后释放所有事务资源。</li>
+<li>响应反馈 事务提交完之后，向协调者发送Ack响应。</li>
+<li>完成事务 协调者接收到所有参与者的ack响应之后，完成事务。</li>
+</ol>
+<p><strong>3.2 中断事务</strong> 协调者没有接收到参与者发送的ACK响应（可能是接受者发送的不是ACK响应，也可能响应超时），那么就会执行中断事务。</p>
+<ol>
+<li>发送中断请求 协调者向所有参与者发送abort请求</li>
+<li>事务回滚 参与者接收到abort请求之后，利用其在阶段二记录的undo信息来执行事务的回滚操作，并在完成回滚之后释放所有的事务资源。</li>
+<li>反馈结果 参与者完成事务回滚之后，向协调者发送ACK消息</li>
+<li>中断事务 协调者接收到参与者反馈的ACK消息之后，执行事务的中断。</li>
+</ol>
+<h2 id="分布式事务的解决方案"><a href="#分布式事务的解决方案" class="headerlink" title="分布式事务的解决方案"></a>分布式事务的解决方案</h2><p>分布式事务的解决方案有如下几种：</p>
+<ul>
+<li>全局消息</li>
+<li>基于可靠消息服务的分布式事务</li>
+<li>TCC</li>
+<li>最大努力通知</li>
+</ul>
+<h3 id="方案1：全局事务（DTP模型）"><a href="#方案1：全局事务（DTP模型）" class="headerlink" title="方案1：全局事务（DTP模型）"></a>方案1：全局事务（DTP模型）</h3><p>全局事务基于DTP模型实现。DTP是由X/Open组织提出的一种分布式事务模型——X/Open Distributed Transaction Processing Reference Model。它规定了要实现分布式事务，需要三种角色：</p>
+<ul>
+<li>AP：Application 应用系统 它就是我们开发的业务系统，在我们开发的过程中，可以使用资源管理器提供的事务接口来实现分布式事务。</li>
+<li>TM：Transaction Manager 事务管理器<ul>
+<li>分布式事务的实现由事务管理器来完成，它会提供分布式事务的操作接口供我们的业务系统调用。这些接口称为TX接口。</li>
+<li>事务管理器还管理着所有的资源管理器，通过它们提供的XA接口来同一调度这些资源管理器，以实现分布式事务。</li>
+<li>DTP只是一套实现分布式事务的规范，并没有定义具体如何实现分布式事务，TM可以采用2PC、3PC、Paxos等协议实现分布式事务。</li>
+</ul>
+</li>
+<li>RM：Resource Manager 资源管理器<ul>
+<li>能够提供数据服务的对象都可以是资源管理器，比如：数据库、消息中间件、缓存等。大部分场景下，数据库即为分布式事务中的资源管理器。</li>
+<li>资源管理器能够提供单数据库的事务能力，它们通过XA接口，将本数据库的提交、回滚等能力提供给事务管理器调用，以帮助事务管理器实现分布式的事务管理。</li>
+<li>XA是DTP模型定义的接口，用于向事务管理器提供该资源管理器(该数据库)的提交、回滚等能力。</li>
+<li>DTP只是一套实现分布式事务的规范，RM具体的实现是由数据库厂商来完成的。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ol>
+<li>有没有基于DTP模型的分布式事务中间件？</li>
+</ol>
+</blockquote>
+<ol>
+<li>DTP模型有啥优缺点？</li>
+</ol>
+<h3 id="方案2：基于可靠消息服务的分布式事务"><a href="#方案2：基于可靠消息服务的分布式事务" class="headerlink" title="方案2：基于可靠消息服务的分布式事务"></a>方案2：基于可靠消息服务的分布式事务</h3><p>这种实现分布式事务的方式需要通过消息中间件来实现。假设有A和B两个系统，分别可以处理任务A和任务B。此时系统A中存在一个业务流程，需要将任务A和任务B在同一个事务中处理。下面来介绍基于消息中间件来实现这种分布式事务。</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="383" height="474"></svg>)</p>
+<ul>
+<li>在系统A处理任务A前，首先向消息中间件发送一条消息</li>
+<li>消息中间件收到后将该条消息持久化，但并不投递。此时下游系统B仍然不知道该条消息的存在。</li>
+<li>消息中间件持久化成功后，便向系统A返回一个确认应答；</li>
+<li>系统A收到确认应答后，则可以开始处理任务A；</li>
+<li>任务A处理完成后，向消息中间件发送Commit请求。该请求发送完成后，对系统A而言，该事务的处理过程就结束了，此时它可以处理别的任务了。 但commit消息可能会在传输途中丢失，从而消息中间件并不会向系统B投递这条消息，从而系统就会出现不一致性。这个问题由消息中间件的事务回查机制完成，下文会介绍。</li>
+<li>消息中间件收到Commit指令后，便向系统B投递该消息，从而触发任务B的执行；</li>
+<li>当任务B执行完成后，系统B向消息中间件返回一个确认应答，告诉消息中间件该消息已经成功消费，此时，这个分布式事务完成。</li>
+</ul>
+<blockquote>
+<p>上述过程可以得出如下几个结论：</p>
+</blockquote>
+<ol>
+<li>消息中间件扮演者分布式事务协调者的角色。</li>
+<li>系统A完成任务A后，到任务B执行完成之间，会存在一定的时间差。在这个时间差内，整个系统处于数据不一致的状态，但这短暂的不一致性是可以接受的，因为经过短暂的时间后，系统又可以保持数据一致性，满足BASE理论。</li>
+</ol>
+<p>上述过程中，如果任务A处理失败，那么需要进入回滚流程，如下图所示：</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="336" height="472"></svg>)</p>
+<ul>
+<li>若系统A在处理任务A时失败，那么就会向消息中间件发送Rollback请求。和发送Commit请求一样，系统A发完之后便可以认为回滚已经完成，它便可以去做其他的事情。</li>
+<li>消息中间件收到回滚请求后，直接将该消息丢弃，而不投递给系统B，从而不会触发系统B的任务B。</li>
+</ul>
+<blockquote>
+<p>此时系统又处于一致性状态，因为任务A和任务B都没有执行。</p>
+</blockquote>
+<p>上面所介绍的Commit和Rollback都属于理想情况，但在实际系统中，Commit和Rollback指令都有可能在传输途中丢失。那么当出现这种情况的时候，消息中间件是如何保证数据一致性呢？——答案就是超时询问机制。</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="417" height="549"></svg>)</p>
+<p>系统A除了实现正常的业务流程外，还需提供一个事务询问的接口，供消息中间件调用。当消息中间件收到一条事务型消息后便开始计时，如果到了超时时间也没收到系统A发来的Commit或Rollback指令的话，就会主动调用系统A提供的事务询问接口询问该系统目前的状态。该接口会返回三种结果：</p>
+<ul>
+<li>提交 若获得的状态是“提交”，则将该消息投递给系统B。</li>
+<li>回滚 若获得的状态是“回滚”，则直接将条消息丢弃。</li>
+<li>处理中 若获得的状态是“处理中”，则继续等待。</li>
+</ul>
+<blockquote>
+<p>消息中间件的超时询问机制能够防止上游系统因在传输过程中丢失Commit/Rollback指令而导致的系统不一致情况，而且能降低上游系统的阻塞时间，上游系统只要发出Commit/Rollback指令后便可以处理其他任务，无需等待确认应答。而Commit/Rollback指令丢失的情况通过超时询问机制来弥补，这样大大降低上游系统的阻塞时间，提升系统的并发度。</p>
+</blockquote>
+<p>下面来说一说消息投递过程的可靠性保证。 当上游系统执行完任务并向消息中间件提交了Commit指令后，便可以处理其他任务了，此时它可以认为事务已经完成，接下来消息中间件<strong>一定会保证消息被下游系统成功消费掉！</strong>那么这是怎么做到的呢？这由消息中间件的投递流程来保证。</p>
+<p>消息中间件向下游系统投递完消息后便进入阻塞等待状态，下游系统便立即进行任务的处理，任务处理完成后便向消息中间件返回应答。消息中间件收到确认应答后便认为该事务处理完毕！</p>
+<p>如果消息在投递过程中丢失，或消息的确认应答在返回途中丢失，那么消息中间件在等待确认应答超时之后就会重新投递，直到下游消费者返回消费成功响应为止。当然，一般消息中间件可以设置消息重试的次数和时间间隔，比如：当第一次投递失败后，每隔五分钟重试一次，一共重试3次。如果重试3次之后仍然投递失败，那么这条消息就需要人工干预。</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="440" height="541"></svg>)</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="432" height="598"></svg>)</p>
+<blockquote>
+<p>有的同学可能要问：消息投递失败后为什么不回滚消息，而是不断尝试重新投递？</p>
+</blockquote>
+<p>这就涉及到整套分布式事务系统的实现成本问题。 我们知道，当系统A将向消息中间件发送Commit指令后，它便去做别的事情了。如果此时消息投递失败，需要回滚的话，就需要让系统A事先提供回滚接口，这无疑增加了额外的开发成本，业务系统的复杂度也将提高。对于一个业务系统的设计目标是，在保证性能的前提下，最大限度地降低系统复杂度，从而能够降低系统的运维成本。</p>
+<blockquote>
+<p>不知大家是否发现，上游系统A向消息中间件提交Commit/Rollback消息采用的是异步方式，也就是当上游系统提交完消息后便可以去做别的事情，接下来提交、回滚就完全交给消息中间件来完成，并且完全信任消息中间件，认为它一定能正确地完成事务的提交或回滚。然而，消息中间件向下游系统投递消息的过程是同步的。也就是消息中间件将消息投递给下游系统后，它会阻塞等待，等下游系统成功处理完任务返回确认应答后才取消阻塞等待。为什么这两者在设计上是不一致的呢？</p>
+</blockquote>
+<p>首先，上游系统和消息中间件之间采用异步通信是为了提高系统并发度。业务系统直接和用户打交道，用户体验尤为重要，因此这种异步通信方式能够极大程度地降低用户等待时间。此外，异步通信相对于同步通信而言，没有了长时间的阻塞等待，因此系统的并发性也大大增加。但异步通信可能会引起Commit/Rollback指令丢失的问题，这就由消息中间件的超时询问机制来弥补。</p>
+<p>那么，消息中间件和下游系统之间为什么要采用同步通信呢？</p>
+<p>异步能提升系统性能，但随之会增加系统复杂度；而同步虽然降低系统并发度，但实现成本较低。因此，在对并发度要求不是很高的情况下，或者服务器资源较为充裕的情况下，我们可以选择同步来降低系统的复杂度。 我们知道，消息中间件是一个独立于业务系统的第三方中间件，它不和任何业务系统产生直接的耦合，它也不和用户产生直接的关联，它一般部署在独立的服务器集群上，具有良好的可扩展性，所以不必太过于担心它的性能，如果处理速度无法满足我们的要求，可以增加机器来解决。而且，即使消息中间件处理速度有一定的延迟那也是可以接受的，因为前面所介绍的BASE理论就告诉我们了，我们追求的是最终一致性，而非实时一致性，因此消息中间件产生的时延导致事务短暂的不一致是可以接受的。</p>
+<h3 id="方案3：最大努力通知（定期校对）"><a href="#方案3：最大努力通知（定期校对）" class="headerlink" title="方案3：最大努力通知（定期校对）"></a>方案3：最大努力通知（定期校对）</h3><p>最大努力通知也被称为定期校对，其实在方案二中已经包含，这里再单独介绍，主要是为了知识体系的完整性。这种方案也需要消息中间件的参与，其过程如下：</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="635" height="262"></svg>)</p>
+<ul>
+<li>上游系统在完成任务后，向消息中间件同步地发送一条消息，确保消息中间件成功持久化这条消息，然后上游系统可以去做别的事情了；</li>
+<li>消息中间件收到消息后负责将该消息同步投递给相应的下游系统，并触发下游系统的任务执行；</li>
+<li>当下游系统处理成功后，向消息中间件反馈确认应答，消息中间件便可以将该条消息删除，从而该事务完成。</li>
+</ul>
+<p>上面是一个理想化的过程，但在实际场景中，往往会出现如下几种意外情况：</p>
+<ol>
+<li>消息中间件向下游系统投递消息失败</li>
+<li>上游系统向消息中间件发送消息失败</li>
+</ol>
+<p>对于第一种情况，消息中间件具有重试机制，我们可以在消息中间件中设置消息的重试次数和重试时间间隔，对于网络不稳定导致的消息投递失败的情况，往往重试几次后消息便可以成功投递，如果超过了重试的上限仍然投递失败，那么消息中间件不再投递该消息，而是记录在失败消息表中，消息中间件需要提供失败消息的查询接口，下游系统会定期查询失败消息，并将其消费，这就是所谓的“定期校对”。</p>
+<p>如果重复投递和定期校对都不能解决问题，往往是因为下游系统出现了严重的错误，此时就需要人工干预。</p>
+<p>对于第二种情况，需要在上游系统中建立消息重发机制。可以在上游系统建立一张本地消息表，并将 <strong>任务处理过程</strong> 和 <strong>向本地消息表中插入消息</strong> 这两个步骤放在一个本地事务中完成。如果向本地消息表插入消息失败，那么就会触发回滚，之前的任务处理结果就会被取消。如果这量步都执行成功，那么该本地事务就完成了。接下来会有一个专门的消息发送者不断地发送本地消息表中的消息，如果发送失败它会返回重试。当然，也要给消息发送者设置重试的上限，一般而言，达到重试上限仍然发送失败，那就意味着消息中间件出现严重的问题，此时也只有人工干预才能解决问题。</p>
+<p>对于不支持事务型消息的消息中间件，如果要实现分布式事务的话，就可以采用这种方式。它能够通过<strong>重试机制</strong>+<strong>定期校对</strong>实现分布式事务，但相比于第二种方案，它达到数据一致性的周期较长，而且还需要在上游系统中实现消息重试发布机制，以确保消息成功发布给消息中间件，这无疑增加了业务系统的开发成本，使得业务系统不够纯粹，并且这些额外的业务逻辑无疑会占用业务系统的硬件资源，从而影响性能。</p>
+<p>因此，尽量选择支持事务型消息的消息中间件来实现分布式事务，如RocketMQ。</p>
+<h3 id="方案4：TCC（两阶段型、补偿型）"><a href="#方案4：TCC（两阶段型、补偿型）" class="headerlink" title="方案4：TCC（两阶段型、补偿型）"></a>方案4：TCC（两阶段型、补偿型）</h3><p>TCC即为Try Confirm Cancel，它属于补偿型分布式事务。顾名思义，TCC实现分布式事务一共有三个步骤：</p>
+<ul>
+<li>Try：尝试待执行的业务<ul>
+<li>这个过程并未执行业务，只是完成所有业务的一致性检查，并预留好执行所需的全部资源</li>
+</ul>
+</li>
+<li>Confirm：执行业务<ul>
+<li>这个过程真正开始执行业务，由于Try阶段已经完成了一致性检查，因此本过程直接执行，而不做任何检查。并且在执行的过程中，会使用到Try阶段预留的业务资源。</li>
+</ul>
+</li>
+<li>Cancel：取消执行的业务<ul>
+<li>若业务执行失败，则进入Cancel阶段，它会释放所有占用的业务资源，并回滚Confirm阶段执行的操作。</li>
+</ul>
+</li>
+</ul>
+<p>下面以一个转账的例子来解释下TCC实现分布式事务的过程。</p>
+<blockquote>
+<p>假设用户A用他的账户余额给用户B发一个100元的红包，并且余额系统和红包系统是两个独立的系统。</p>
+</blockquote>
+<ul>
+<li>Try<ul>
+<li>创建一条转账流水，并将流水的状态设为<strong>交易中</strong></li>
+<li>将用户A的账户中扣除100元（预留业务资源）</li>
+<li>Try成功之后，便进入Confirm阶段</li>
+<li>Try过程发生任何异常，均进入Cancel阶段</li>
+</ul>
+</li>
+<li>Confirm<ul>
+<li>向B用户的红包账户中增加100元</li>
+<li>将流水的状态设为<strong>交易已完成</strong></li>
+<li>Confirm过程发生任何异常，均进入Cancel阶段</li>
+<li>Confirm过程执行成功，则该事务结束</li>
+</ul>
+</li>
+<li>Cancel<ul>
+<li>将用户A的账户增加100元</li>
+<li>将流水的状态设为<strong>交易失败</strong></li>
+</ul>
+</li>
+</ul>
+<p>在传统事务机制中，业务逻辑的执行和事务的处理，是在不同的阶段由不同的部件来完成的：业务逻辑部分访问资源实现数据存储，其处理是由业务系统负责；事务处理部分通过协调资源管理器以实现事务管理，其处理由事务管理器来负责。二者没有太多交互的地方，所以，传统事务管理器的事务处理逻辑，仅需要着眼于事务完成（commit/rollback）阶段，而不必关注业务执行阶段。</p>
+<h4 id="TCC全局事务必须基于RM本地事务来实现全局事务"><a href="#TCC全局事务必须基于RM本地事务来实现全局事务" class="headerlink" title="TCC全局事务必须基于RM本地事务来实现全局事务"></a>TCC全局事务必须基于RM本地事务来实现全局事务</h4><p>TCC服务是由Try/Confirm/Cancel业务构成的， 其Try/Confirm/Cancel业务在执行时，会访问资源管理器（Resource Manager，下文简称RM）来存取数据。这些存取操作，必须要参与RM本地事务，以使其更改的数据要么都commit，要么都rollback。</p>
+<p>这一点不难理解，考虑一下如下场景：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/3/10/1620fc316321942a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="title"></p>
+<p>假设图中的服务B没有基于RM本地事务（以RDBS为例，可通过设置auto-commit为true来模拟），那么一旦[B:Try]操作中途执行失败，TCC事务框架后续决定回滚全局事务时，该[B:Cancel]则需要判断[B:Try]中哪些操作已经写到DB、哪些操作还没有写到DB：假设[B:Try]业务有5个写库操作，[B:Cancel]业务则需要逐个判断这5个操作是否生效，并将生效的操作执行反向操作。</p>
+<p>不幸的是，由于[B:Cancel]业务也有n（0&lt;=n&lt;=5）个反向的写库操作，此时一旦[B:Cancel]也中途出错，则后续的[B:Cancel]执行任务更加繁重。因为，相比第一次[B:Cancel]操作，后续的[B:Cancel]操作还需要判断先前的[B:Cancel]操作的n（0&lt;=n&lt;=5）个写库中哪几个已经执行、哪几个还没有执行，这就涉及到了幂等性问题。而对幂等性的保障，又很可能还需要涉及额外的写库操作，该写库操作又会因为没有RM本地事务的支持而存在类似问题。。。可想而知，如果不基于RM本地事务，TCC事务框架是无法有效的管理TCC全局事务的。</p>
+<p>反之，基于RM本地事务的TCC事务，这种情况则会很容易处理：[B:Try]操作中途执行失败，TCC事务框架将其参与RM本地事务直接rollback即可。后续TCC事务框架决定回滚全局事务时，在知道“[B:Try]操作涉及的RM本地事务已经rollback”的情况下，根本无需执行[B:Cancel]操作。</p>
+<p>换句话说，基于RM本地事务实现TCC事务框架时，一个TCC型服务的cancel业务要么执行，要么不执行，不需要考虑部分执行的情况。</p>
+<h4 id="TCC事务框架应该提供Confirm-Cancel服务的幂等性保障"><a href="#TCC事务框架应该提供Confirm-Cancel服务的幂等性保障" class="headerlink" title="TCC事务框架应该提供Confirm/Cancel服务的幂等性保障"></a>TCC事务框架应该提供Confirm/Cancel服务的幂等性保障</h4><p>一般认为，服务的幂等性，是指针对同一个服务的多次(n&gt;1)请求和对它的单次(n=1)请求，二者具有相同的副作用。</p>
+<p>在TCC事务模型中，Confirm/Cancel业务可能会被重复调用，其原因很多。比如，全局事务在提交/回滚时会调用各TCC服务的Confirm/Cancel业务逻辑。执行这些Confirm/Cancel业务时，可能会出现如网络中断的故障而使得全局事务不能完成。因此，故障恢复机制后续仍然会重新提交/回滚这些未完成的全局事务，这样就会再次调用参与该全局事务的各TCC服务的Confirm/Cancel业务逻辑。</p>
+<p>既然Confirm/Cancel业务可能会被多次调用，就需要保障其幂等性。 那么，应该由TCC事务框架来提供幂等性保障？还是应该由业务系统自行来保障幂等性呢？ 个人认为，应该是由TCC事务框架来提供幂等性保障。如果仅仅只是极个别服务存在这个问题的话，那么由业务系统来负责也是可以的；然而，这是一类公共问题，毫无疑问，所有TCC服务的Confirm/Cancel业务存在幂等性问题。TCC服务的公共问题应该由TCC事务框架来解决；而且，考虑一下由业务系统来负责幂等性需要考虑的问题，就会发现，这无疑增大了业务系统的复杂度。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.infoq.com/cn/interviews/soa-chengli">大规模SOA系统中的分布事务处理_程立</a></li>
+<li><a target="_blank" rel="noopener" href="https://cs.brown.edu/courses/cs227/archives/2012/papers/weaker/cidr07p15.pdf">Life beyond Distributed Transactions: an Apostate’s Opinion</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.bytesoft.org/tcc-intro/">关于如何实现一个TCC分布式事务框架的一点思考</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.enterpriseintegrationpatterns.com/patterns/conversation/TryConfirmCancel.html">How can a requestor ensure a consistent outcome across multiple, independent providers</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.hollischuang.com/archives/681#rd?sukey=3997c0719f1515205acb269da14295ad50b0186483fbd0a402a566f45b33525978b375ccc44dba3e85c4d645a320ba47">关于分布式事务、两阶段提交协议、三阶提交协议</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Three-phase_commit_protocol_ei.cs.vt.edu/~cs5204/fall99/distributedDBMS/sreenu/3pc.html">Three-phase commit protocol</a></li>
+</ul>
+
+              
+              <!-- 
+              
+              <p>转载 自 掘金: <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903573667446797%E5%B8%B8%E7%94%A8%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">https://juejin.cn/post/6844903573667446797常用的分布式事务解决方案</a></p>
+<blockquote>
+<p>众所周知，数据库能实现<strong>本地事务</strong>，也就是在<strong>同一个数据库中</strong>，你可以允许一组操作要么全都正确执行，要么全都不执行。这里特别强调了<strong>本地事务</strong>，也就是目前的数据库只能支持同一个数据库中的事务。但现在的系统往往采用微服务架构，业务系统拥有独立的数据库，因此就出现了跨多个数据库的事务需求，这种事务即为“分布式事务”。那么在目前数据库不支持跨库事务的情况下，我们应该如何实现分布式事务呢？本文首先会为大家梳理分布式事务的基本概念和理论基础，然后介绍几种目前常用的分布式事务解决方案。废话不多说，那就开始吧～</p>
+</blockquote>
+<p><img src="https://user-gold-cdn.xitu.io/2018/3/10/1620fc3b8a2646d3?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<h2 id="什么是事务？"><a href="#什么是事务？" class="headerlink" title="什么是事务？"></a>什么是事务？</h2><p>事务由一组操作构成，我们希望这组操作能够全部正确执行，如果这一组操作中的任意一个步骤发生错误，那么就需要回滚之前已经完成的操作。也就是同一个事务中的所有操作，要么全都正确执行，要么全都不要执行。</p>
+<h2 id="事务的四大特性-ACID"><a href="#事务的四大特性-ACID" class="headerlink" title="事务的四大特性 ACID"></a>事务的四大特性 ACID</h2><p>说到事务，就不得不提一下事务著名的四大特性。</p>
+<ul>
+<li>原子性 原子性要求，事务是一个不可分割的执行单元，事务中的所有操作要么全都执行，要么全都不执行。</li>
+<li>一致性 一致性要求，事务在开始前和结束后，数据库的完整性约束没有被破坏。</li>
+<li>隔离性 事务的执行是相互独立的，它们不会相互干扰，一个事务不会看到另一个正在运行过程中的事务的数据。</li>
+<li>持久性 持久性要求，一个事务完成之后，事务的执行结果必须是持久化保存的。即使数据库发生崩溃，在数据库恢复后事务提交的结果仍然不会丢失。</li>
+</ul>
+<blockquote>
+<p>注意：事务只能保证数据库的<strong>高可靠性</strong>，即数据库本身发生问题后，事务提交后的数据仍然能恢复；而如果不是数据库本身的故障，如硬盘损坏了，那么事务提交的数据可能就丢失了。这属于『<strong>高可用性</strong>』的范畴。因此，事务只能保证数据库的『高可靠性』，而『高可用性』需要整个系统共同配合实现。</p>
+</blockquote>
+<h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><p>这里扩展一下，对事务的<strong>隔离性</strong>做一个详细的解释。</p>
+<p>在事务的四大特性ACID中，要求的隔离性是一种严格意义上的隔离，也就是多个事务是串行执行的，彼此之间不会受到任何干扰。这确实能够完全保证数据的安全性，但在实际业务系统中，这种方式性能不高。因此，数据库定义了四种隔离级别，隔离级别和数据库的性能是呈反比的，隔离级别越低，数据库性能越高，而隔离级别越高，数据库性能越差。</p>
+<h3 id="事务并发执行会出现的问题"><a href="#事务并发执行会出现的问题" class="headerlink" title="事务并发执行会出现的问题"></a>事务并发执行会出现的问题</h3><p>我们先来看一下在不同的隔离级别下，数据库可能会出现的问题：</p>
+<ol>
+<li>更新丢失 当有两个并发执行的事务，更新同一行数据，那么有可能一个事务会把另一个事务的更新覆盖掉。 当数据库没有加任何锁操作的情况下会发生。</li>
+<li>脏读 一个事务读到另一个尚未提交的事务中的数据。 该数据可能会被回滚从而失效。 如果第一个事务拿着失效的数据去处理那就发生错误了。</li>
+<li>不可重复读 不可重复度的含义：一个事务对同一行数据读了两次，却得到了不同的结果。它具体分为如下两种情况：<ul>
+<li>虚读：在事务1两次读取同一记录的过程中，事务2对该记录进行了修改，从而事务1第二次读到了不一样的记录。</li>
+<li>幻读：事务1在两次查询的过程中，事务2对该表进行了插入、删除操作，从而事务1第二次查询的结果发生了变化。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>不可重复读 与 脏读 的区别？ 脏读读到的是尚未提交的数据，而不可重复读读到的是已经提交的数据，只不过在两次读的过程中数据被另一个事务改过了。</p>
+</blockquote>
+<h3 id="数据库的四种隔离级别"><a href="#数据库的四种隔离级别" class="headerlink" title="数据库的四种隔离级别"></a>数据库的四种隔离级别</h3><p>数据库一共有如下四种隔离级别：</p>
+<ol>
+<li>Read uncommitted 读未提交 在该级别下，一个事务对一行数据修改的过程中，不允许另一个事务对该行数据进行修改，但允许另一个事务对该行数据读。 因此本级别下，不会出现更新丢失，但会出现脏读、不可重复读。</li>
+<li>Read committed 读提交 在该级别下，未提交的写事务不允许其他事务访问该行，因此不会出现脏读；但是读取数据的事务允许其他事务的访问该行数据，因此会出现不可重复读的情况。</li>
+<li>Repeatable read 重复读 在该级别下，读事务禁止写事务，但允许读事务，因此不会出现同一事务两次读到不同的数据的情况（不可重复读），且写事务禁止其他一切事务。</li>
+<li>Serializable 序列化 该级别要求所有事务都必须串行执行，因此能避免一切因并发引起的问题，但效率很低。</li>
+</ol>
+<p>隔离级别越高，越能保证数据的完整性和一致性，但是对并发性能的影响也越大。对于多数应用程序，可以优先考虑把数据库系统的隔离级别设为Read Committed。它能够避免脏读取，而且具有较好的并发性能。尽管它会导致不可重复读、幻读和第二类丢失更新这些并发问题，在可能出现这类问题的个别场合，可以由应用程序采用悲观锁或乐观锁来控制。</p>
+<hr>
+<h2 id="什么是分布式事务？"><a href="#什么是分布式事务？" class="headerlink" title="什么是分布式事务？"></a>什么是分布式事务？</h2><p>到此为止，所介绍的事务都是基于单数据库的本地事务，目前的数据库仅支持单库事务，并不支持跨库事务。而随着微服务架构的普及，一个大型业务系统往往由若干个子系统构成，这些子系统又拥有各自独立的数据库。往往一个业务流程需要由多个子系统共同完成，而且这些操作可能需要在一个事务中完成。在微服务系统中，这些业务场景是普遍存在的。此时，我们就需要在数据库之上通过某种手段，实现支持跨数据库的事务支持，这也就是大家常说的“分布式事务”。</p>
+<p>这里举一个分布式事务的典型例子——用户下单过程。 当我们的系统采用了微服务架构后，一个电商系统往往被拆分成如下几个子系统：商品系统、订单系统、支付系统、积分系统等。整个下单的过程如下：</p>
+<ol>
+<li>用户通过商品系统浏览商品，他看中了某一项商品，便点击下单</li>
+<li>此时订单系统会生成一条订单</li>
+<li>订单创建成功后，支付系统提供支付功能</li>
+<li>当支付完成后，由积分系统为该用户增加积分</li>
+</ol>
+<p>上述步骤2、3、4需要在一个事务中完成。对于传统单体应用而言，实现事务非常简单，只需将这三个步骤放在一个方法A中，再用Spring的@Transactional注解标识该方法即可。Spring通过数据库的事务支持，保证这些步骤要么全都执行完成，要么全都不执行。但在这个微服务架构中，这三个步骤涉及三个系统，涉及三个数据库，此时我们必须在数据库和应用系统之间，通过某项黑科技，实现分布式事务的支持。</p>
+<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><p>CAP理论说的是：在一个分布式系统中，最多只能满足C、A、P中的两个需求。</p>
+<p>CAP的含义：</p>
+<ul>
+<li>C：Consistency 一致性 同一数据的多个副本是否实时相同。</li>
+<li>A：Availability 可用性 可用性：一定时间内 &amp; 系统返回一个明确的结果 则称为该系统可用。</li>
+<li>P：Partition tolerance 分区容错性 将同一服务分布在多个系统中，从而保证某一个系统宕机，仍然有其他系统提供相同的服务。</li>
+</ul>
+<p>CAP理论告诉我们，在分布式系统中，C、A、P三个条件中我们最多只能选择两个。那么问题来了，究竟选择哪两个条件较为合适呢？</p>
+<p>对于一个业务系统来说，可用性和分区容错性是必须要满足的两个条件，并且这两者是相辅相成的。业务系统之所以使用分布式系统，主要原因有两个：</p>
+<ul>
+<li>提升整体性能 当业务量猛增，单个服务器已经无法满足我们的业务需求的时候，就需要使用分布式系统，使用多个节点提供相同的功能，从而整体上提升系统的性能，这就是使用分布式系统的第一个原因。</li>
+<li>实现分区容错性 单一节点 或 多个节点处于相同的网络环境下，那么会存在一定的风险，万一该机房断电、该地区发生自然灾害，那么业务系统就全面瘫痪了。为了防止这一问题，采用分布式系统，将多个子系统分布在不同的地域、不同的机房中，从而保证系统高可用性。</li>
+</ul>
+<p>这说明分区容错性是分布式系统的根本，如果分区容错性不能满足，那使用分布式系统将失去意义。</p>
+<p>此外，可用性对业务系统也尤为重要。在大谈用户体验的今天，如果业务系统时常出现“系统异常”、响应时间过长等情况，这使得用户对系统的好感度大打折扣，在互联网行业竞争激烈的今天，相同领域的竞争者不甚枚举，系统的间歇性不可用会立马导致用户流向竞争对手。因此，我们只能通过牺牲一致性来换取系统的<strong>可用性</strong>和<strong>分区容错性</strong>。这也就是下面要介绍的BASE理论。</p>
+<h2 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a>BASE理论</h2><p>CAP理论告诉我们一个悲惨但不得不接受的事实——我们只能在C、A、P中选择两个条件。而对于业务系统而言，我们往往选择牺牲一致性来换取系统的可用性和分区容错性。不过这里要指出的是，所谓的“牺牲一致性”并不是完全放弃数据一致性，而是牺牲<strong>强一致性</strong>换取<strong>弱一致性</strong>。下面来介绍下BASE理论。</p>
+<ul>
+<li>BA：Basic Available 基本可用<ul>
+<li>整个系统在某些不可抗力的情况下，仍然能够保证“可用性”，即一定时间内仍然能够返回一个明确的结果。只不过“基本可用”和“高可用”的区别是：<ul>
+<li>“一定时间”可以适当延长 当举行大促时，响应时间可以适当延长</li>
+<li>给部分用户返回一个降级页面 给部分用户直接返回一个降级页面，从而缓解服务器压力。但要注意，返回降级页面仍然是返回明确结果。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>S：Soft State：柔性状态 同一数据的不同副本的状态，可以不需要实时一致。</li>
+<li>E：Eventual Consisstency：最终一致性 同一数据的不同副本的状态，可以不需要实时一致，但一定要保证经过一定时间后仍然是一致的。</li>
+</ul>
+<h2 id="酸碱平衡"><a href="#酸碱平衡" class="headerlink" title="酸碱平衡"></a>酸碱平衡</h2><p>ACID能够保证事务的强一致性，即数据是实时一致的。这在本地事务中是没有问题的，在分布式事务中，强一致性会极大影响分布式系统的性能，因此分布式系统中遵循BASE理论即可。但分布式系统的不同业务场景对一致性的要求也不同。如交易场景下，就要求强一致性，此时就需要遵循ACID理论，而在注册成功后发送短信验证码等场景下，并不需要实时一致，因此遵循BASE理论即可。因此要根据具体业务场景，在ACID和BASE之间寻求平衡。</p>
+<h2 id="分布式事务协议"><a href="#分布式事务协议" class="headerlink" title="分布式事务协议"></a>分布式事务协议</h2><p>下面介绍几种实现分布式事务的协议。</p>
+<h3 id="两阶段提交协议-2PC"><a href="#两阶段提交协议-2PC" class="headerlink" title="两阶段提交协议 2PC"></a>两阶段提交协议 2PC</h3><p>分布式系统的一个难点是如何保证架构下多个节点在进行事务性操作的时候保持一致性。为实现这个目的，二阶段提交算法的成立基于以下假设：</p>
+<ul>
+<li>该分布式系统中，存在一个节点作为协调者(Coordinator)，其他节点作为参与者(Cohorts)。且节点之间可以进行网络通信。</li>
+<li>所有节点都采用预写式日志，且日志被写入后即被保持在可靠的存储设备上，即使节点损坏不会导致日志数据的消失。</li>
+<li>所有节点不会永久性损坏，即使损坏后仍然可以恢复。</li>
+</ul>
+<p><strong>1. 第一阶段（投票阶段）：</strong></p>
+<ol>
+<li>协调者节点向所有参与者节点询问是否可以执行提交操作(vote)，并开始等待各参与者节点的响应。</li>
+<li>参与者节点执行询问发起为止的所有事务操作，并将Undo信息和Redo信息写入日志。（注意：若成功这里其实每个参与者已经执行了事务操作）</li>
+<li>各参与者节点响应协调者节点发起的询问。如果参与者节点的事务操作实际执行成功，则它返回一个”同意”消息；如果参与者节点的事务操作实际执行失败，则它返回一个”中止”消息。</li>
+</ol>
+<p><strong>2. 第二阶段（提交执行阶段）：</strong></p>
+<p>当协调者节点从所有参与者节点获得的相应消息都为”同意”时：</p>
+<ol>
+<li>协调者节点向所有参与者节点发出”正式提交(commit)”的请求。</li>
+<li>参与者节点正式完成操作，并释放在整个事务期间内占用的资源。</li>
+<li>参与者节点向协调者节点发送”完成”消息。</li>
+<li>协调者节点受到所有参与者节点反馈的”完成”消息后，完成事务。</li>
+</ol>
+<p>如果任一参与者节点在第一阶段返回的响应消息为”中止”，或者 协调者节点在第一阶段的询问超时之前无法获取所有参与者节点的响应消息时：</p>
+<ol>
+<li>协调者节点向所有参与者节点发出”回滚操作(rollback)”的请求。</li>
+<li>参与者节点利用之前写入的Undo信息执行回滚，并释放在整个事务期间内占用的资源。</li>
+<li>参与者节点向协调者节点发送”回滚完成”消息。</li>
+<li>协调者节点受到所有参与者节点反馈的”回滚完成”消息后，取消事务。</li>
+</ol>
+<p>不管最后结果如何，第二阶段都会结束当前事务。</p>
+<p>二阶段提交看起来确实能够提供原子性的操作，但是不幸的事，二阶段提交还是有几个缺点的：</p>
+<ol>
+<li>执行过程中，所有参与节点都是事务阻塞型的。当参与者占有公共资源时，其他第三方节点访问公共资源不得不处于阻塞状态。</li>
+<li>参与者发生故障。协调者需要给每个参与者额外指定超时机制，超时后整个事务失败。（没有多少容错机制）</li>
+<li>协调者发生故障。参与者会一直阻塞下去。需要额外的备机进行容错。（这个可以依赖后面要讲的Paxos协议实现HA）</li>
+<li>二阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了。那么即使协调者通过选举协议产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否被已经提交。</li>
+</ol>
+<p>为此，Dale Skeen和Michael Stonebraker在“A Formal Model of Crash Recovery in a Distributed System”中提出了三阶段提交协议（3PC）。</p>
+<h3 id="三阶段提交协议-3PC"><a href="#三阶段提交协议-3PC" class="headerlink" title="三阶段提交协议 3PC"></a>三阶段提交协议 3PC</h3><p>与两阶段提交不同的是，三阶段提交有两个改动点。</p>
+<ul>
+<li>引入超时机制。同时在协调者和参与者中都引入超时机制。</li>
+<li>在第一阶段和第二阶段中插入一个准备阶段。保证了在最后提交阶段之前各参与节点的状态是一致的。</li>
+</ul>
+<p>也就是说，除了引入超时机制之外，3PC把2PC的准备阶段再次一分为二，这样三阶段提交就有CanCommit、PreCommit、DoCommit三个阶段。</p>
+<p><strong>1. CanCommit阶段</strong></p>
+<p>3PC的CanCommit阶段其实和2PC的准备阶段很像。协调者向参与者发送commit请求，参与者如果可以提交就返回Yes响应，否则返回No响应。</p>
+<ol>
+<li>事务询问 协调者向参与者发送CanCommit请求。询问是否可以执行事务提交操作。然后开始等待参与者的响应。</li>
+<li>响应反馈 参与者接到CanCommit请求之后，正常情况下，如果其自身认为可以顺利执行事务，则返回Yes响应，并进入预备状态。否则反馈No</li>
+</ol>
+<p><strong>2. PreCommit阶段</strong></p>
+<p>协调者根据参与者的反应情况来决定是否可以记性事务的PreCommit操作。根据响应情况，有以下两种可能。 假如协调者从所有的参与者获得的反馈都是Yes响应，那么就会执行事务的预执行。</p>
+<ol>
+<li>发送预提交请求 协调者向参与者发送PreCommit请求，并进入Prepared阶段。</li>
+<li>事务预提交 参与者接收到PreCommit请求后，会执行事务操作，并将undo和redo信息记录到事务日志中。</li>
+<li>响应反馈 如果参与者成功的执行了事务操作，则返回ACK响应，同时开始等待最终指令。</li>
+</ol>
+<p>假如有任何一个参与者向协调者发送了No响应，或者等待超时之后，协调者都没有接到参与者的响应，那么就执行事务的中断。</p>
+<ol>
+<li>发送中断请求 协调者向所有参与者发送abort请求。</li>
+<li>中断事务 参与者收到来自协调者的abort请求之后（或超时之后，仍未收到协调者的请求），执行事务的中断。</li>
+</ol>
+<p><strong>3. doCommit阶段</strong> 该阶段进行真正的事务提交，也可以分为以下两种情况。</p>
+<p>该阶段进行真正的事务提交，也可以分为以下两种情况。</p>
+<p><strong>3.1 执行提交</strong></p>
+<ol>
+<li>发送提交请求 协调接收到参与者发送的ACK响应，那么他将从预提交状态进入到提交状态。并向所有参与者发送doCommit请求。</li>
+<li>事务提交 参与者接收到doCommit请求之后，执行正式的事务提交。并在完成事务提交之后释放所有事务资源。</li>
+<li>响应反馈 事务提交完之后，向协调者发送Ack响应。</li>
+<li>完成事务 协调者接收到所有参与者的ack响应之后，完成事务。</li>
+</ol>
+<p><strong>3.2 中断事务</strong> 协调者没有接收到参与者发送的ACK响应（可能是接受者发送的不是ACK响应，也可能响应超时），那么就会执行中断事务。</p>
+<ol>
+<li>发送中断请求 协调者向所有参与者发送abort请求</li>
+<li>事务回滚 参与者接收到abort请求之后，利用其在阶段二记录的undo信息来执行事务的回滚操作，并在完成回滚之后释放所有的事务资源。</li>
+<li>反馈结果 参与者完成事务回滚之后，向协调者发送ACK消息</li>
+<li>中断事务 协调者接收到参与者反馈的ACK消息之后，执行事务的中断。</li>
+</ol>
+<h2 id="分布式事务的解决方案"><a href="#分布式事务的解决方案" class="headerlink" title="分布式事务的解决方案"></a>分布式事务的解决方案</h2><p>分布式事务的解决方案有如下几种：</p>
+<ul>
+<li>全局消息</li>
+<li>基于可靠消息服务的分布式事务</li>
+<li>TCC</li>
+<li>最大努力通知</li>
+</ul>
+<h3 id="方案1：全局事务（DTP模型）"><a href="#方案1：全局事务（DTP模型）" class="headerlink" title="方案1：全局事务（DTP模型）"></a>方案1：全局事务（DTP模型）</h3><p>全局事务基于DTP模型实现。DTP是由X/Open组织提出的一种分布式事务模型——X/Open Distributed Transaction Processing Reference Model。它规定了要实现分布式事务，需要三种角色：</p>
+<ul>
+<li>AP：Application 应用系统 它就是我们开发的业务系统，在我们开发的过程中，可以使用资源管理器提供的事务接口来实现分布式事务。</li>
+<li>TM：Transaction Manager 事务管理器<ul>
+<li>分布式事务的实现由事务管理器来完成，它会提供分布式事务的操作接口供我们的业务系统调用。这些接口称为TX接口。</li>
+<li>事务管理器还管理着所有的资源管理器，通过它们提供的XA接口来同一调度这些资源管理器，以实现分布式事务。</li>
+<li>DTP只是一套实现分布式事务的规范，并没有定义具体如何实现分布式事务，TM可以采用2PC、3PC、Paxos等协议实现分布式事务。</li>
+</ul>
+</li>
+<li>RM：Resource Manager 资源管理器<ul>
+<li>能够提供数据服务的对象都可以是资源管理器，比如：数据库、消息中间件、缓存等。大部分场景下，数据库即为分布式事务中的资源管理器。</li>
+<li>资源管理器能够提供单数据库的事务能力，它们通过XA接口，将本数据库的提交、回滚等能力提供给事务管理器调用，以帮助事务管理器实现分布式的事务管理。</li>
+<li>XA是DTP模型定义的接口，用于向事务管理器提供该资源管理器(该数据库)的提交、回滚等能力。</li>
+<li>DTP只是一套实现分布式事务的规范，RM具体的实现是由数据库厂商来完成的。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ol>
+<li>有没有基于DTP模型的分布式事务中间件？</li>
+</ol>
+</blockquote>
+<ol>
+<li>DTP模型有啥优缺点？</li>
+</ol>
+<h3 id="方案2：基于可靠消息服务的分布式事务"><a href="#方案2：基于可靠消息服务的分布式事务" class="headerlink" title="方案2：基于可靠消息服务的分布式事务"></a>方案2：基于可靠消息服务的分布式事务</h3><p>这种实现分布式事务的方式需要通过消息中间件来实现。假设有A和B两个系统，分别可以处理任务A和任务B。此时系统A中存在一个业务流程，需要将任务A和任务B在同一个事务中处理。下面来介绍基于消息中间件来实现这种分布式事务。</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="383" height="474"></svg>)</p>
+<ul>
+<li>在系统A处理任务A前，首先向消息中间件发送一条消息</li>
+<li>消息中间件收到后将该条消息持久化，但并不投递。此时下游系统B仍然不知道该条消息的存在。</li>
+<li>消息中间件持久化成功后，便向系统A返回一个确认应答；</li>
+<li>系统A收到确认应答后，则可以开始处理任务A；</li>
+<li>任务A处理完成后，向消息中间件发送Commit请求。该请求发送完成后，对系统A而言，该事务的处理过程就结束了，此时它可以处理别的任务了。 但commit消息可能会在传输途中丢失，从而消息中间件并不会向系统B投递这条消息，从而系统就会出现不一致性。这个问题由消息中间件的事务回查机制完成，下文会介绍。</li>
+<li>消息中间件收到Commit指令后，便向系统B投递该消息，从而触发任务B的执行；</li>
+<li>当任务B执行完成后，系统B向消息中间件返回一个确认应答，告诉消息中间件该消息已经成功消费，此时，这个分布式事务完成。</li>
+</ul>
+<blockquote>
+<p>上述过程可以得出如下几个结论：</p>
+</blockquote>
+<ol>
+<li>消息中间件扮演者分布式事务协调者的角色。</li>
+<li>系统A完成任务A后，到任务B执行完成之间，会存在一定的时间差。在这个时间差内，整个系统处于数据不一致的状态，但这短暂的不一致性是可以接受的，因为经过短暂的时间后，系统又可以保持数据一致性，满足BASE理论。</li>
+</ol>
+<p>上述过程中，如果任务A处理失败，那么需要进入回滚流程，如下图所示：</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="336" height="472"></svg>)</p>
+<ul>
+<li>若系统A在处理任务A时失败，那么就会向消息中间件发送Rollback请求。和发送Commit请求一样，系统A发完之后便可以认为回滚已经完成，它便可以去做其他的事情。</li>
+<li>消息中间件收到回滚请求后，直接将该消息丢弃，而不投递给系统B，从而不会触发系统B的任务B。</li>
+</ul>
+<blockquote>
+<p>此时系统又处于一致性状态，因为任务A和任务B都没有执行。</p>
+</blockquote>
+<p>上面所介绍的Commit和Rollback都属于理想情况，但在实际系统中，Commit和Rollback指令都有可能在传输途中丢失。那么当出现这种情况的时候，消息中间件是如何保证数据一致性呢？——答案就是超时询问机制。</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="417" height="549"></svg>)</p>
+<p>系统A除了实现正常的业务流程外，还需提供一个事务询问的接口，供消息中间件调用。当消息中间件收到一条事务型消息后便开始计时，如果到了超时时间也没收到系统A发来的Commit或Rollback指令的话，就会主动调用系统A提供的事务询问接口询问该系统目前的状态。该接口会返回三种结果：</p>
+<ul>
+<li>提交 若获得的状态是“提交”，则将该消息投递给系统B。</li>
+<li>回滚 若获得的状态是“回滚”，则直接将条消息丢弃。</li>
+<li>处理中 若获得的状态是“处理中”，则继续等待。</li>
+</ul>
+<blockquote>
+<p>消息中间件的超时询问机制能够防止上游系统因在传输过程中丢失Commit/Rollback指令而导致的系统不一致情况，而且能降低上游系统的阻塞时间，上游系统只要发出Commit/Rollback指令后便可以处理其他任务，无需等待确认应答。而Commit/Rollback指令丢失的情况通过超时询问机制来弥补，这样大大降低上游系统的阻塞时间，提升系统的并发度。</p>
+</blockquote>
+<p>下面来说一说消息投递过程的可靠性保证。 当上游系统执行完任务并向消息中间件提交了Commit指令后，便可以处理其他任务了，此时它可以认为事务已经完成，接下来消息中间件<strong>一定会保证消息被下游系统成功消费掉！</strong>那么这是怎么做到的呢？这由消息中间件的投递流程来保证。</p>
+<p>消息中间件向下游系统投递完消息后便进入阻塞等待状态，下游系统便立即进行任务的处理，任务处理完成后便向消息中间件返回应答。消息中间件收到确认应答后便认为该事务处理完毕！</p>
+<p>如果消息在投递过程中丢失，或消息的确认应答在返回途中丢失，那么消息中间件在等待确认应答超时之后就会重新投递，直到下游消费者返回消费成功响应为止。当然，一般消息中间件可以设置消息重试的次数和时间间隔，比如：当第一次投递失败后，每隔五分钟重试一次，一共重试3次。如果重试3次之后仍然投递失败，那么这条消息就需要人工干预。</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="440" height="541"></svg>)</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="432" height="598"></svg>)</p>
+<blockquote>
+<p>有的同学可能要问：消息投递失败后为什么不回滚消息，而是不断尝试重新投递？</p>
+</blockquote>
+<p>这就涉及到整套分布式事务系统的实现成本问题。 我们知道，当系统A将向消息中间件发送Commit指令后，它便去做别的事情了。如果此时消息投递失败，需要回滚的话，就需要让系统A事先提供回滚接口，这无疑增加了额外的开发成本，业务系统的复杂度也将提高。对于一个业务系统的设计目标是，在保证性能的前提下，最大限度地降低系统复杂度，从而能够降低系统的运维成本。</p>
+<blockquote>
+<p>不知大家是否发现，上游系统A向消息中间件提交Commit/Rollback消息采用的是异步方式，也就是当上游系统提交完消息后便可以去做别的事情，接下来提交、回滚就完全交给消息中间件来完成，并且完全信任消息中间件，认为它一定能正确地完成事务的提交或回滚。然而，消息中间件向下游系统投递消息的过程是同步的。也就是消息中间件将消息投递给下游系统后，它会阻塞等待，等下游系统成功处理完任务返回确认应答后才取消阻塞等待。为什么这两者在设计上是不一致的呢？</p>
+</blockquote>
+<p>首先，上游系统和消息中间件之间采用异步通信是为了提高系统并发度。业务系统直接和用户打交道，用户体验尤为重要，因此这种异步通信方式能够极大程度地降低用户等待时间。此外，异步通信相对于同步通信而言，没有了长时间的阻塞等待，因此系统的并发性也大大增加。但异步通信可能会引起Commit/Rollback指令丢失的问题，这就由消息中间件的超时询问机制来弥补。</p>
+<p>那么，消息中间件和下游系统之间为什么要采用同步通信呢？</p>
+<p>异步能提升系统性能，但随之会增加系统复杂度；而同步虽然降低系统并发度，但实现成本较低。因此，在对并发度要求不是很高的情况下，或者服务器资源较为充裕的情况下，我们可以选择同步来降低系统的复杂度。 我们知道，消息中间件是一个独立于业务系统的第三方中间件，它不和任何业务系统产生直接的耦合，它也不和用户产生直接的关联，它一般部署在独立的服务器集群上，具有良好的可扩展性，所以不必太过于担心它的性能，如果处理速度无法满足我们的要求，可以增加机器来解决。而且，即使消息中间件处理速度有一定的延迟那也是可以接受的，因为前面所介绍的BASE理论就告诉我们了，我们追求的是最终一致性，而非实时一致性，因此消息中间件产生的时延导致事务短暂的不一致是可以接受的。</p>
+<h3 id="方案3：最大努力通知（定期校对）"><a href="#方案3：最大努力通知（定期校对）" class="headerlink" title="方案3：最大努力通知（定期校对）"></a>方案3：最大努力通知（定期校对）</h3><p>最大努力通知也被称为定期校对，其实在方案二中已经包含，这里再单独介绍，主要是为了知识体系的完整性。这种方案也需要消息中间件的参与，其过程如下：</p>
+<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="635" height="262"></svg>)</p>
+<ul>
+<li>上游系统在完成任务后，向消息中间件同步地发送一条消息，确保消息中间件成功持久化这条消息，然后上游系统可以去做别的事情了；</li>
+<li>消息中间件收到消息后负责将该消息同步投递给相应的下游系统，并触发下游系统的任务执行；</li>
+<li>当下游系统处理成功后，向消息中间件反馈确认应答，消息中间件便可以将该条消息删除，从而该事务完成。</li>
+</ul>
+<p>上面是一个理想化的过程，但在实际场景中，往往会出现如下几种意外情况：</p>
+<ol>
+<li>消息中间件向下游系统投递消息失败</li>
+<li>上游系统向消息中间件发送消息失败</li>
+</ol>
+<p>对于第一种情况，消息中间件具有重试机制，我们可以在消息中间件中设置消息的重试次数和重试时间间隔，对于网络不稳定导致的消息投递失败的情况，往往重试几次后消息便可以成功投递，如果超过了重试的上限仍然投递失败，那么消息中间件不再投递该消息，而是记录在失败消息表中，消息中间件需要提供失败消息的查询接口，下游系统会定期查询失败消息，并将其消费，这就是所谓的“定期校对”。</p>
+<p>如果重复投递和定期校对都不能解决问题，往往是因为下游系统出现了严重的错误，此时就需要人工干预。</p>
+<p>对于第二种情况，需要在上游系统中建立消息重发机制。可以在上游系统建立一张本地消息表，并将 <strong>任务处理过程</strong> 和 <strong>向本地消息表中插入消息</strong> 这两个步骤放在一个本地事务中完成。如果向本地消息表插入消息失败，那么就会触发回滚，之前的任务处理结果就会被取消。如果这量步都执行成功，那么该本地事务就完成了。接下来会有一个专门的消息发送者不断地发送本地消息表中的消息，如果发送失败它会返回重试。当然，也要给消息发送者设置重试的上限，一般而言，达到重试上限仍然发送失败，那就意味着消息中间件出现严重的问题，此时也只有人工干预才能解决问题。</p>
+<p>对于不支持事务型消息的消息中间件，如果要实现分布式事务的话，就可以采用这种方式。它能够通过<strong>重试机制</strong>+<strong>定期校对</strong>实现分布式事务，但相比于第二种方案，它达到数据一致性的周期较长，而且还需要在上游系统中实现消息重试发布机制，以确保消息成功发布给消息中间件，这无疑增加了业务系统的开发成本，使得业务系统不够纯粹，并且这些额外的业务逻辑无疑会占用业务系统的硬件资源，从而影响性能。</p>
+<p>因此，尽量选择支持事务型消息的消息中间件来实现分布式事务，如RocketMQ。</p>
+<h3 id="方案4：TCC（两阶段型、补偿型）"><a href="#方案4：TCC（两阶段型、补偿型）" class="headerlink" title="方案4：TCC（两阶段型、补偿型）"></a>方案4：TCC（两阶段型、补偿型）</h3><p>TCC即为Try Confirm Cancel，它属于补偿型分布式事务。顾名思义，TCC实现分布式事务一共有三个步骤：</p>
+<ul>
+<li>Try：尝试待执行的业务<ul>
+<li>这个过程并未执行业务，只是完成所有业务的一致性检查，并预留好执行所需的全部资源</li>
+</ul>
+</li>
+<li>Confirm：执行业务<ul>
+<li>这个过程真正开始执行业务，由于Try阶段已经完成了一致性检查，因此本过程直接执行，而不做任何检查。并且在执行的过程中，会使用到Try阶段预留的业务资源。</li>
+</ul>
+</li>
+<li>Cancel：取消执行的业务<ul>
+<li>若业务执行失败，则进入Cancel阶段，它会释放所有占用的业务资源，并回滚Confirm阶段执行的操作。</li>
+</ul>
+</li>
+</ul>
+<p>下面以一个转账的例子来解释下TCC实现分布式事务的过程。</p>
+<blockquote>
+<p>假设用户A用他的账户余额给用户B发一个100元的红包，并且余额系统和红包系统是两个独立的系统。</p>
+</blockquote>
+<ul>
+<li>Try<ul>
+<li>创建一条转账流水，并将流水的状态设为<strong>交易中</strong></li>
+<li>将用户A的账户中扣除100元（预留业务资源）</li>
+<li>Try成功之后，便进入Confirm阶段</li>
+<li>Try过程发生任何异常，均进入Cancel阶段</li>
+</ul>
+</li>
+<li>Confirm<ul>
+<li>向B用户的红包账户中增加100元</li>
+<li>将流水的状态设为<strong>交易已完成</strong></li>
+<li>Confirm过程发生任何异常，均进入Cancel阶段</li>
+<li>Confirm过程执行成功，则该事务结束</li>
+</ul>
+</li>
+<li>Cancel<ul>
+<li>将用户A的账户增加100元</li>
+<li>将流水的状态设为<strong>交易失败</strong></li>
+</ul>
+</li>
+</ul>
+<p>在传统事务机制中，业务逻辑的执行和事务的处理，是在不同的阶段由不同的部件来完成的：业务逻辑部分访问资源实现数据存储，其处理是由业务系统负责；事务处理部分通过协调资源管理器以实现事务管理，其处理由事务管理器来负责。二者没有太多交互的地方，所以，传统事务管理器的事务处理逻辑，仅需要着眼于事务完成（commit/rollback）阶段，而不必关注业务执行阶段。</p>
+<h4 id="TCC全局事务必须基于RM本地事务来实现全局事务"><a href="#TCC全局事务必须基于RM本地事务来实现全局事务" class="headerlink" title="TCC全局事务必须基于RM本地事务来实现全局事务"></a>TCC全局事务必须基于RM本地事务来实现全局事务</h4><p>TCC服务是由Try/Confirm/Cancel业务构成的， 其Try/Confirm/Cancel业务在执行时，会访问资源管理器（Resource Manager，下文简称RM）来存取数据。这些存取操作，必须要参与RM本地事务，以使其更改的数据要么都commit，要么都rollback。</p>
+<p>这一点不难理解，考虑一下如下场景：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/3/10/1620fc316321942a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="title"></p>
+<p>假设图中的服务B没有基于RM本地事务（以RDBS为例，可通过设置auto-commit为true来模拟），那么一旦[B:Try]操作中途执行失败，TCC事务框架后续决定回滚全局事务时，该[B:Cancel]则需要判断[B:Try]中哪些操作已经写到DB、哪些操作还没有写到DB：假设[B:Try]业务有5个写库操作，[B:Cancel]业务则需要逐个判断这5个操作是否生效，并将生效的操作执行反向操作。</p>
+<p>不幸的是，由于[B:Cancel]业务也有n（0&lt;=n&lt;=5）个反向的写库操作，此时一旦[B:Cancel]也中途出错，则后续的[B:Cancel]执行任务更加繁重。因为，相比第一次[B:Cancel]操作，后续的[B:Cancel]操作还需要判断先前的[B:Cancel]操作的n（0&lt;=n&lt;=5）个写库中哪几个已经执行、哪几个还没有执行，这就涉及到了幂等性问题。而对幂等性的保障，又很可能还需要涉及额外的写库操作，该写库操作又会因为没有RM本地事务的支持而存在类似问题。。。可想而知，如果不基于RM本地事务，TCC事务框架是无法有效的管理TCC全局事务的。</p>
+<p>反之，基于RM本地事务的TCC事务，这种情况则会很容易处理：[B:Try]操作中途执行失败，TCC事务框架将其参与RM本地事务直接rollback即可。后续TCC事务框架决定回滚全局事务时，在知道“[B:Try]操作涉及的RM本地事务已经rollback”的情况下，根本无需执行[B:Cancel]操作。</p>
+<p>换句话说，基于RM本地事务实现TCC事务框架时，一个TCC型服务的cancel业务要么执行，要么不执行，不需要考虑部分执行的情况。</p>
+<h4 id="TCC事务框架应该提供Confirm-Cancel服务的幂等性保障"><a href="#TCC事务框架应该提供Confirm-Cancel服务的幂等性保障" class="headerlink" title="TCC事务框架应该提供Confirm/Cancel服务的幂等性保障"></a>TCC事务框架应该提供Confirm/Cancel服务的幂等性保障</h4><p>一般认为，服务的幂等性，是指针对同一个服务的多次(n&gt;1)请求和对它的单次(n=1)请求，二者具有相同的副作用。</p>
+<p>在TCC事务模型中，Confirm/Cancel业务可能会被重复调用，其原因很多。比如，全局事务在提交/回滚时会调用各TCC服务的Confirm/Cancel业务逻辑。执行这些Confirm/Cancel业务时，可能会出现如网络中断的故障而使得全局事务不能完成。因此，故障恢复机制后续仍然会重新提交/回滚这些未完成的全局事务，这样就会再次调用参与该全局事务的各TCC服务的Confirm/Cancel业务逻辑。</p>
+<p>既然Confirm/Cancel业务可能会被多次调用，就需要保障其幂等性。 那么，应该由TCC事务框架来提供幂等性保障？还是应该由业务系统自行来保障幂等性呢？ 个人认为，应该是由TCC事务框架来提供幂等性保障。如果仅仅只是极个别服务存在这个问题的话，那么由业务系统来负责也是可以的；然而，这是一类公共问题，毫无疑问，所有TCC服务的Confirm/Cancel业务存在幂等性问题。TCC服务的公共问题应该由TCC事务框架来解决；而且，考虑一下由业务系统来负责幂等性需要考虑的问题，就会发现，这无疑增大了业务系统的复杂度。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.infoq.com/cn/interviews/soa-chengli">大规模SOA系统中的分布事务处理_程立</a></li>
+<li><a target="_blank" rel="noopener" href="https://cs.brown.edu/courses/cs227/archives/2012/papers/weaker/cidr07p15.pdf">Life beyond Distributed Transactions: an Apostate’s Opinion</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.bytesoft.org/tcc-intro/">关于如何实现一个TCC分布式事务框架的一点思考</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.enterpriseintegrationpatterns.com/patterns/conversation/TryConfirmCancel.html">How can a requestor ensure a consistent outcome across multiple, independent providers</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.hollischuang.com/archives/681#rd?sukey=3997c0719f1515205acb269da14295ad50b0186483fbd0a402a566f45b33525978b375ccc44dba3e85c4d645a320ba47">关于分布式事务、两阶段提交协议、三阶提交协议</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Three-phase_commit_protocol_ei.cs.vt.edu/~cs5204/fall99/distributedDBMS/sreenu/3pc.html">Three-phase commit protocol</a></li>
+</ul>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/cdcc4eae.html">分布式事务</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2021-03-03, 10:05:55</p>
+        <p><span>最后更新:</span>2024-03-14, 22:55:29</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/cdcc4eae.html" title="分布式事务">https://imlike.cc/cdcc4eae.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/cdcc4eae.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/50c36cff.html">
+                    github的action上实例操作
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/d4fc710d.html">
+                    浏览器插件推荐(转载)
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: '分布式事务',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/50c36cff.html" title="上一篇: github的action上实例操作">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/d4fc710d.html" title="下一篇: 浏览器插件推荐(转载)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/Infinity.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2024 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

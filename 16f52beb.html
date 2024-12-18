@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="初始化k8s我了解有下列一键部署k8s,第一个是网友推荐，第二个是kuboard上面推荐  fanux&#x2F;sealos: 一条命令离线安装高可用 Kubernetes🔥 ⎈ 🐳不依赖haproxy keepalived eip-work&#x2F;kuboard-spray: 使用图形化的界面离线安装、维护高可用的 K8S 集群基于kubespray  目前使用 sealos来一键初始化kubernete">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s_init_and_deploy_sample_service">
+<meta property="og:url" content="https://imlike.cc/16f52beb.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="初始化k8s我了解有下列一键部署k8s,第一个是网友推荐，第二个是kuboard上面推荐  fanux&#x2F;sealos: 一条命令离线安装高可用 Kubernetes🔥 ⎈ 🐳不依赖haproxy keepalived eip-work&#x2F;kuboard-spray: 使用图形化的界面离线安装、维护高可用的 K8S 集群基于kubespray  目前使用 sealos来一键初始化kubernete">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://imlike.cc/img/image-20220127150651513.png">
+<meta property="article:published_time" content="2022-01-27T03:07:50.000Z">
+<meta property="article:modified_time" content="2024-03-14T14:55:29.479Z">
+<meta property="article:author" content="leek">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="container">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imlike.cc/img/image-20220127150651513.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>k8s_init_and_deploy_sample_service | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-k8s-init-and-deploy-sample-service" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/16f52beb.html" class="article-date">
+      <time datetime="2022-01-27T03:07:50.000Z" itemprop="datePublished">2022-01-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      k8s_init_and_deploy_sample_service
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+    </div>
+ -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96k8s"><span class="toc-number">1.</span> <span class="toc-text">初始化k8s</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%87%86%E5%A4%87"><span class="toc-number">1.1.</span> <span class="toc-text">一、准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-1%E5%88%9D%E5%A7%8B%E5%8C%96%E5%A4%B1%E8%B4%A5"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">1.1.1初始化失败</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2kubectl-get-pod"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">1.1.2kubectl get pod</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81kuboard%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text">二、kuboard安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BD%BF%E7%94%A8kubectl%E6%9D%A5%E5%88%9B%E5%BB%BApod%E5%B9%B6%E9%83%A8%E7%BD%B2"><span class="toc-number">1.2.1.</span> <span class="toc-text">三、使用kubectl来创建pod并部署</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E5%88%9B%E5%BB%BAnginx%E9%95%9C%E5%83%8F"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">3.1. 创建nginx镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E9%83%A8%E7%BD%B2nginx"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">3.2. 部署nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-nginx%E7%AB%AF%E5%8F%A3%E6%9A%B4%E9%9C%B2%E8%83%BD%E8%A2%AB%E5%A4%96%E9%83%A8%E8%AE%BF%E9%97%AE"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">3.3. nginx端口暴露能被外部访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-%E6%9F%A5%E7%9C%8Bpod%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">3.4. 查看pod的信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%9D%A5%E9%83%A8%E7%BD%B2"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">配置文件来部署</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.1.6.</span> <span class="toc-text">3.5常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-5-1-k8s%E6%9F%90%E4%B8%AA%E8%8A%82%E7%82%B9%E6%8C%82%E6%8E%89"><span class="toc-number">1.2.1.6.1.</span> <span class="toc-text">3.5.1 k8s某个节点挂掉</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97%E7%9A%84%E5%91%BD%E4%BB%A4%E5%A6%82%E4%B8%8B"><span class="toc-number">1.2.1.6.1.1.</span> <span class="toc-text">查看日志的命令如下</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%8A%82%E7%82%B9%E5%91%BD%E4%BB%A4%E5%A6%82%E4%B8%8B"><span class="toc-number">1.2.1.6.1.2.</span> <span class="toc-text">查看节点命令如下</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E9%87%8D%E5%90%AFkubelet%E7%9A%84%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.2.1.6.1.3.</span> <span class="toc-text">重启kubelet的服务</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%83%85%E5%86%B5"><span class="toc-number">1.2.1.6.1.4.</span> <span class="toc-text">查看端口的连接情况</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E6%98%AFsealons%E9%87%8D%E6%96%B0%E6%B7%BB%E5%8A%A0%E8%AF%A5%E9%9B%86%E7%BE%A4"><span class="toc-number">1.2.1.6.1.5.</span> <span class="toc-text">使用的是sealons重新添加该集群</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-5-2-%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E6%8A%A5%E9%94%99Network-plugin-returns-error"><span class="toc-number">1.2.1.6.2.</span> <span class="toc-text">3.5.2 容器运行时报错Network plugin returns error</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%83%A8%E7%BD%B2minio%E5%92%8C%E5%88%9B%E5%BB%BAvolumeclass"><span class="toc-number">1.3.</span> <span class="toc-text">四、部署minio和创建volumeclass</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1%E4%BD%BF%E7%94%A8krew%E5%88%9D%E5%A7%8B%E5%8C%96minio"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.1使用krew初始化minio</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <h1 id="初始化k8s"><a href="#初始化k8s" class="headerlink" title="初始化k8s"></a>初始化k8s</h1><p>我了解有下列一键部署k8s,第一个是网友推荐，第二个是kuboard上面推荐</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/fanux/sealos">fanux/sealos: 一条命令离线安装高可用 Kubernetes🔥 ⎈ 🐳</a>不依赖haproxy keepalived</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eip-work/kuboard-spray">eip-work/kuboard-spray: 使用图形化的界面离线安装、维护高可用的 K8S 集群</a>基于kubespray</li>
+</ul>
+<p>目前使用 sealos来一键初始化kubernetes环境</p>
+<h2 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h2><ul>
+<li>hostname不能重名</li>
+<li>服务过程中会自动关闭防火墙</li>
+<li>需要保证节点服务的可访问</li>
+<li>默认使用containerd而不是docker为容器平台</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 下载并安装sealos, sealos是个golang的二进制工具，直接下载拷贝到bin目录即可, release页面也可下载</span><br><span class="line">wget -c https:&#x2F;&#x2F;sealyun.oss-cn-beijing.aliyuncs.com&#x2F;latest&#x2F;sealos &amp;&amp; \</span><br><span class="line">    chmod +x sealos &amp;&amp; mv sealos &#x2F;usr&#x2F;bin</span><br><span class="line"></span><br><span class="line"># 下载离线资源包</span><br><span class="line">wget -c https:&#x2F;&#x2F;sealyun.oss-cn-beijing.aliyuncs.com&#x2F;05a3db657821277f5f3b92d834bbaf98-v1.22.0&#x2F;kube1.22.0.tar.gz</span><br><span class="line"></span><br><span class="line"># 安装一个三master的kubernetes集群</span><br><span class="line">sealos init --passwd &#39;123456&#39; \</span><br><span class="line">	--master 192.168.0.2  --master 192.168.0.3  --master 192.168.0.4  \</span><br><span class="line">	--node 192.168.0.5 \</span><br><span class="line">	--pkg-url &#x2F;root&#x2F;kube1.22.0.tar.gz \</span><br><span class="line">	--version v1.22.0</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="1-1-常见问题"><a href="#1-1-常见问题" class="headerlink" title="1.1 常见问题"></a>1.1 常见问题</h3><h4 id="1-1-1初始化失败"><a href="#1-1-1初始化失败" class="headerlink" title="1.1.1初始化失败"></a>1.1.1初始化失败</h4><p>现象如下：</p>
+<blockquote>
+<p>generator kubeconfig failed couldn’t create a kubeconfig</p>
+<p>container runtime is not running: output</p>
+</blockquote>
+<p>解决方法： 不用安装docker和其他服务，服务器只需要wget 服务</p>
+<h4 id="1-1-2kubectl-get-pod"><a href="#1-1-2kubectl-get-pod" class="headerlink" title="1.1.2kubectl get pod"></a>1.1.2kubectl get pod</h4><blockquote>
+<p>The connection to the server localhost:8080 was refused - did you specify the right host or port?</p>
+</blockquote>
+<p>解决方法： 将主节点的 admin.conf 拷到对应节点后配置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scp  /etc/kubernetes/admin.conf  192.168.31.133:/etc/kubernetes</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export KUBECONFIG=/etc/kubernetes/admin.conf&quot;</span> &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br><span class="line"></span><br><span class="line">kubectl get pods</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1499871">k8s集群部分常见问题处理 - 云+社区 - 腾讯云</a></p>
+<h2 id="二、kuboard安装"><a href="#二、kuboard安装" class="headerlink" title="二、kuboard安装"></a>二、kuboard安装</h2><p><a target="_blank" rel="noopener" href="https://kuboard.cn/install/v3/install-in-k8s.html#%E6%96%B9%E6%B3%95%E4%B8%80-%E4%BD%BF%E7%94%A8-hostpath-%E6%8F%90%E4%BE%9B%E6%8C%81%E4%B9%85%E5%8C%96">在 K8S 中安装 Kuboard v3 | Kuboard</a> </p>
+<p>我选择使用 hostPath 提供持久化而不是 StorageClass 提供持久化（还没有创建）</p>
+<p>界面如下</p>
+<p><img src="../img/image-20220127150651513.png" alt="image-20220127150651513"></p>
+<h3 id="三、使用kubectl来创建pod并部署"><a href="#三、使用kubectl来创建pod并部署" class="headerlink" title="三、使用kubectl来创建pod并部署"></a>三、使用kubectl来创建pod并部署</h3><p>命令来创建，部署</p>
+<p>注意kubectl 需要指定namespace的值，否则默认是default</p>
+<blockquote>
+<p> kubectl get pod        No resources found in default namespace.</p>
+</blockquote>
+<h4 id="3-1-创建nginx镜像"><a href="#3-1-创建nginx镜像" class="headerlink" title="3.1. 创建nginx镜像"></a>3.1. 创建nginx镜像</h4><p>kubectl run nginx –image=nginx –port=80</p>
+<blockquote>
+<p>NAME    READY   STATUS    RESTARTS   AGE</p>
+<p>nginx   1/1     Running   0          83s</p>
+</blockquote>
+<h4 id="3-2-部署nginx"><a href="#3-2-部署nginx" class="headerlink" title="3.2. 部署nginx"></a>3.2. 部署nginx</h4><p>kubectl create deployment nginx –image=nginx</p>
+<blockquote>
+<p>deployment.apps/nginx created</p>
+</blockquote>
+<p> 否则 运行下面命令会出现没有部署服务</p>
+<p> kubectl get deployment</p>
+<blockquote>
+<p>  No resources found in default namespace.</p>
+</blockquote>
+<h4 id="3-3-nginx端口暴露能被外部访问"><a href="#3-3-nginx端口暴露能被外部访问" class="headerlink" title="3.3. nginx端口暴露能被外部访问"></a>3.3. nginx端口暴露能被外部访问</h4><blockquote>
+<p> kubectl expose deployment nginx –port=80 –type=LoadBalancer</p>
+</blockquote>
+<h4 id="3-4-查看pod的信息"><a href="#3-4-查看pod的信息" class="headerlink" title="3.4. 查看pod的信息"></a>3.4. 查看pod的信息</h4><p>kubectl describe service nginx</p>
+<blockquote>
+<p>Name:                     nginx<br>Namespace:                default<br>Labels:                   app=nginx<br>Annotations:              <none><br>Selector:                 app=nginx<br>Type:                     LoadBalancer<br>IP Family Policy:         SingleStack<br>IP Families:              IPv4<br>IP:                       10.109.244.210<br>IPs:                      10.109.244.210<br>Port:                     <unset>  80/TCP<br>TargetPort:               80/TCP<br>NodePort:                 <unset>  30682/TCP<br>Endpoints:                100.118.167.130:80<br>Session Affinity:         None<br>External Traffic Policy:  Cluster<br>Events:                   <none></p>
+</blockquote>
+<p>kubectl get pods –all-namespaces</p>
+<h4 id="配置文件来部署"><a href="#配置文件来部署" class="headerlink" title="配置文件来部署"></a>配置文件来部署</h4><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">hello-node</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">hello-node</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">hello-node</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">hello-node</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">hello-node-container</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">gcr.io/$DEVSHELL_PROJECT_ID/hello-node:1.0</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+
+<p>kubectl apply -f nginx-deployment.yaml</p>
+<h4 id="3-5常见问题"><a href="#3-5常见问题" class="headerlink" title="3.5常见问题"></a>3.5常见问题</h4><h5 id="3-5-1-k8s某个节点挂掉"><a href="#3-5-1-k8s某个节点挂掉" class="headerlink" title="3.5.1 k8s某个节点挂掉"></a>3.5.1 k8s某个节点挂掉</h5><p>如果遇到k8s某个节点挂掉，但是服务器还是可以连接的情况，说明是服务器节点通信问题，首先参考下面的连接查看日志和对应端口是否是正常的</p>
+<p><a target="_blank" rel="noopener" href="http://www.knockatdatabase.com/2021/11/27/kubernetes-cant-work-after-reboot-os/">服务器重启后kubernetes无法启动的原因 - 数据库敲门人</a></p>
+<p><a target="_blank" rel="noopener" href="https://discuss.kubernetes.io/t/the-connection-to-the-server-host-6443-was-refused-did-you-specify-the-right-host-or-port/552/4">The connection to the server <host>:6443 was refused - did you specify the right host or port? - General Discussions - Discuss Kubernetes</a></p>
+<h6 id="查看日志的命令如下"><a href="#查看日志的命令如下" class="headerlink" title="查看日志的命令如下"></a>查看日志的命令如下</h6><blockquote>
+<p> journalctl -u kubelet.service</p>
+<p>journalctl -xefu kubelet</p>
+</blockquote>
+<h6 id="查看节点命令如下"><a href="#查看节点命令如下" class="headerlink" title="查看节点命令如下"></a>查看节点命令如下</h6><p>kubectl get node –watch</p>
+<h6 id="重启kubelet的服务"><a href="#重启kubelet的服务" class="headerlink" title="重启kubelet的服务"></a>重启kubelet的服务</h6><p>systemctl restart kubelet</p>
+<h6 id="查看端口的连接情况"><a href="#查看端口的连接情况" class="headerlink" title="查看端口的连接情况"></a>查看端口的连接情况</h6><p>netstat -nap|grep 6443<br>The connection to the server apiserver.cluster.local:6443 was refused - did you specify the right host or port?</p>
+<h6 id="使用的是sealons重新添加该集群"><a href="#使用的是sealons重新添加该集群" class="headerlink" title="使用的是sealons重新添加该集群"></a>使用的是sealons重新添加该集群</h6><p>建议可以使用 sealos  delete 删除掉线的节点</p>
+<p>然后再使用 sealos  join 命令能把节点重新加入到集群中</p>
+<h5 id="3-5-2-容器运行时报错Network-plugin-returns-error"><a href="#3-5-2-容器运行时报错Network-plugin-returns-error" class="headerlink" title="3.5.2 容器运行时报错Network plugin returns error"></a>3.5.2 容器运行时报错Network plugin returns error</h5><p>日志如下</p>
+<p>cat  /var/log/pods/kube-system_kube-apiserver-master2_d653fc9e62a54eaa54def1ae5c0dde56/kube-apiserver</p>
+<blockquote>
+<p>container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized</p>
+</blockquote>
+<p>首先查看kube-system中NetworkPlugin是否存在</p>
+<blockquote>
+<p> kubectl get pod -n kube-system</p>
+</blockquote>
+<p>k8s中存在网络插件一般包括**<em>Choose network plugin (cilium, calico, contiv, weave or flannel)**</em>，我看着初始化的是calico</p>
+<p>同时查看对应calico的日志</p>
+<blockquote>
+<p> kubectl logs  calico-node-rkqkq –namespace=kube-system</p>
+</blockquote>
+<p>kubectl get pods -o wide -A</p>
+<p>查看对应的配置信息</p>
+<blockquote>
+<p>kubectl describe pod calico-node-rkqkq –namespace=kube-system</p>
+</blockquote>
+<p>配置文件存放地址 /root/kube/conf/calico.yaml</p>
+<p>下面推荐的解决方案：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cuicj/articles/14512540.html">k8s join集群时报错Container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:docker: - 丛丛丛丛 - 博客园</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57504063/calico-kubernetes-pods-cant-ping-each-other-use-cluster-ip">kubeadm - Calico: Kubernetes pods can’t ping each other use Cluster IP - Stack Overflow</a><br>kubectl delete-f /etc/kubernetes/addons/calico.yaml</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/tankruning/article/details/107102725">kubenates启动calico-node时，有节点总是报错CrashLoopBackOff_dkgee-CSDN博客</a></p>
+<h2 id="四、部署minio和创建volumeclass"><a href="#四、部署minio和创建volumeclass" class="headerlink" title="四、部署minio和创建volumeclass"></a>四、部署minio和创建volumeclass</h2><p>根据官方文档可以找到</p>
+<p><a target="_blank" rel="noopener" href="https://docs.min.io/minio/k8s/deployment/deploy-minio-operator.html#procedure">Deploy MinIO Operator on Kubernetes — MinIO Hybrid Cloud Documentation</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/minio/operator/blob/master/README.md">operator/README.md at master · minio/operator</a></p>
+<p>需要 <a target="_blank" rel="noopener" href="https://krew.sigs.k8s.io/docs/user-guide/setup/install/">Installing · Krew</a>或者<a target="_blank" rel="noopener" href="https://helm.sh/">minio/helm/minio at master )</a>包管理软件</p>
+<h3 id="4-1使用krew初始化minio"><a href="#4-1使用krew初始化minio" class="headerlink" title="4.1使用krew初始化minio"></a>4.1使用krew初始化minio</h3><p>我选择krew包管理，需要使用到git命令</p>
+<p>然后运行下面这段内容</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(</span><br><span class="line">  <span class="built_in">set</span> -x; <span class="built_in">cd</span> <span class="string">&quot;<span class="subst">$(mktemp -d)</span>&quot;</span> &amp;&amp;</span><br><span class="line">  OS=<span class="string">&quot;<span class="subst">$(uname | tr &#x27;[:upper:]&#x27; &#x27;[:lower:]&#x27;)</span>&quot;</span> &amp;&amp;</span><br><span class="line">  ARCH=<span class="string">&quot;<span class="subst">$(uname -m | sed -e &#x27;s/x86_64/amd64/&#x27; -e &#x27;s/\(arm\)\(64\)\?.*/\1\2/&#x27; -e &#x27;s/aarch64$/arm64/&#x27;)</span>&quot;</span> &amp;&amp;</span><br><span class="line">  KREW=<span class="string">&quot;krew-<span class="variable">$&#123;OS&#125;</span>_<span class="variable">$&#123;ARCH&#125;</span>&quot;</span> &amp;&amp;</span><br><span class="line">  curl -fsSLO <span class="string">&quot;https://github.com/kubernetes-sigs/krew/releases/latest/download/<span class="variable">$&#123;KREW&#125;</span>.tar.gz&quot;</span> &amp;&amp;</span><br><span class="line">  tar zxvf <span class="string">&quot;<span class="variable">$&#123;KREW&#125;</span>.tar.gz&quot;</span> &amp;&amp;</span><br><span class="line">  ./<span class="string">&quot;<span class="variable">$&#123;KREW&#125;</span>&quot;</span> install krew</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>运行过程中出了问题 变量${KREW}=krew-linux_amd64</p>
+<p>我是下载 <a target="_blank" rel="noopener" href="https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz%E3%80%81">https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz、</a></p>
+<p>export PATH=”$HOME/.krew}/bin:$PATH”</p>
+<p>目前使用kuboard web界面管理k8s集群</p>
+<p><a target="_blank" rel="noopener" href="https://www.kuboard.cn/learning/k8s-intermediate/persistent/storage-class.html">存储类StorageClass | Kuboard</a>但是目前只支持界面配置 cephfs，nfs</p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/storage/storage-classes/">Storage Classes | Kubernetes</a> 官方支持的volumeclass也没有minio需要手写 yml的配置文件</p>
+
+              
+              <!-- 
+              
+              <h1 id="初始化k8s"><a href="#初始化k8s" class="headerlink" title="初始化k8s"></a>初始化k8s</h1><p>我了解有下列一键部署k8s,第一个是网友推荐，第二个是kuboard上面推荐</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/fanux/sealos">fanux/sealos: 一条命令离线安装高可用 Kubernetes🔥 ⎈ 🐳</a>不依赖haproxy keepalived</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eip-work/kuboard-spray">eip-work/kuboard-spray: 使用图形化的界面离线安装、维护高可用的 K8S 集群</a>基于kubespray</li>
+</ul>
+<p>目前使用 sealos来一键初始化kubernetes环境</p>
+<h2 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h2><ul>
+<li>hostname不能重名</li>
+<li>服务过程中会自动关闭防火墙</li>
+<li>需要保证节点服务的可访问</li>
+<li>默认使用containerd而不是docker为容器平台</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 下载并安装sealos, sealos是个golang的二进制工具，直接下载拷贝到bin目录即可, release页面也可下载</span><br><span class="line">wget -c https:&#x2F;&#x2F;sealyun.oss-cn-beijing.aliyuncs.com&#x2F;latest&#x2F;sealos &amp;&amp; \</span><br><span class="line">    chmod +x sealos &amp;&amp; mv sealos &#x2F;usr&#x2F;bin</span><br><span class="line"></span><br><span class="line"># 下载离线资源包</span><br><span class="line">wget -c https:&#x2F;&#x2F;sealyun.oss-cn-beijing.aliyuncs.com&#x2F;05a3db657821277f5f3b92d834bbaf98-v1.22.0&#x2F;kube1.22.0.tar.gz</span><br><span class="line"></span><br><span class="line"># 安装一个三master的kubernetes集群</span><br><span class="line">sealos init --passwd &#39;123456&#39; \</span><br><span class="line">	--master 192.168.0.2  --master 192.168.0.3  --master 192.168.0.4  \</span><br><span class="line">	--node 192.168.0.5 \</span><br><span class="line">	--pkg-url &#x2F;root&#x2F;kube1.22.0.tar.gz \</span><br><span class="line">	--version v1.22.0</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="1-1-常见问题"><a href="#1-1-常见问题" class="headerlink" title="1.1 常见问题"></a>1.1 常见问题</h3><h4 id="1-1-1初始化失败"><a href="#1-1-1初始化失败" class="headerlink" title="1.1.1初始化失败"></a>1.1.1初始化失败</h4><p>现象如下：</p>
+<blockquote>
+<p>generator kubeconfig failed couldn’t create a kubeconfig</p>
+<p>container runtime is not running: output</p>
+</blockquote>
+<p>解决方法： 不用安装docker和其他服务，服务器只需要wget 服务</p>
+<h4 id="1-1-2kubectl-get-pod"><a href="#1-1-2kubectl-get-pod" class="headerlink" title="1.1.2kubectl get pod"></a>1.1.2kubectl get pod</h4><blockquote>
+<p>The connection to the server localhost:8080 was refused - did you specify the right host or port?</p>
+</blockquote>
+<p>解决方法： 将主节点的 admin.conf 拷到对应节点后配置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scp  /etc/kubernetes/admin.conf  192.168.31.133:/etc/kubernetes</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export KUBECONFIG=/etc/kubernetes/admin.conf&quot;</span> &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br><span class="line"></span><br><span class="line">kubectl get pods</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1499871">k8s集群部分常见问题处理 - 云+社区 - 腾讯云</a></p>
+<h2 id="二、kuboard安装"><a href="#二、kuboard安装" class="headerlink" title="二、kuboard安装"></a>二、kuboard安装</h2><p><a target="_blank" rel="noopener" href="https://kuboard.cn/install/v3/install-in-k8s.html#%E6%96%B9%E6%B3%95%E4%B8%80-%E4%BD%BF%E7%94%A8-hostpath-%E6%8F%90%E4%BE%9B%E6%8C%81%E4%B9%85%E5%8C%96">在 K8S 中安装 Kuboard v3 | Kuboard</a> </p>
+<p>我选择使用 hostPath 提供持久化而不是 StorageClass 提供持久化（还没有创建）</p>
+<p>界面如下</p>
+<p><img src="../img/image-20220127150651513.png" alt="image-20220127150651513"></p>
+<h3 id="三、使用kubectl来创建pod并部署"><a href="#三、使用kubectl来创建pod并部署" class="headerlink" title="三、使用kubectl来创建pod并部署"></a>三、使用kubectl来创建pod并部署</h3><p>命令来创建，部署</p>
+<p>注意kubectl 需要指定namespace的值，否则默认是default</p>
+<blockquote>
+<p> kubectl get pod        No resources found in default namespace.</p>
+</blockquote>
+<h4 id="3-1-创建nginx镜像"><a href="#3-1-创建nginx镜像" class="headerlink" title="3.1. 创建nginx镜像"></a>3.1. 创建nginx镜像</h4><p>kubectl run nginx –image=nginx –port=80</p>
+<blockquote>
+<p>NAME    READY   STATUS    RESTARTS   AGE</p>
+<p>nginx   1/1     Running   0          83s</p>
+</blockquote>
+<h4 id="3-2-部署nginx"><a href="#3-2-部署nginx" class="headerlink" title="3.2. 部署nginx"></a>3.2. 部署nginx</h4><p>kubectl create deployment nginx –image=nginx</p>
+<blockquote>
+<p>deployment.apps/nginx created</p>
+</blockquote>
+<p> 否则 运行下面命令会出现没有部署服务</p>
+<p> kubectl get deployment</p>
+<blockquote>
+<p>  No resources found in default namespace.</p>
+</blockquote>
+<h4 id="3-3-nginx端口暴露能被外部访问"><a href="#3-3-nginx端口暴露能被外部访问" class="headerlink" title="3.3. nginx端口暴露能被外部访问"></a>3.3. nginx端口暴露能被外部访问</h4><blockquote>
+<p> kubectl expose deployment nginx –port=80 –type=LoadBalancer</p>
+</blockquote>
+<h4 id="3-4-查看pod的信息"><a href="#3-4-查看pod的信息" class="headerlink" title="3.4. 查看pod的信息"></a>3.4. 查看pod的信息</h4><p>kubectl describe service nginx</p>
+<blockquote>
+<p>Name:                     nginx<br>Namespace:                default<br>Labels:                   app=nginx<br>Annotations:              <none><br>Selector:                 app=nginx<br>Type:                     LoadBalancer<br>IP Family Policy:         SingleStack<br>IP Families:              IPv4<br>IP:                       10.109.244.210<br>IPs:                      10.109.244.210<br>Port:                     <unset>  80/TCP<br>TargetPort:               80/TCP<br>NodePort:                 <unset>  30682/TCP<br>Endpoints:                100.118.167.130:80<br>Session Affinity:         None<br>External Traffic Policy:  Cluster<br>Events:                   <none></p>
+</blockquote>
+<p>kubectl get pods –all-namespaces</p>
+<h4 id="配置文件来部署"><a href="#配置文件来部署" class="headerlink" title="配置文件来部署"></a>配置文件来部署</h4><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">hello-node</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">hello-node</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">hello-node</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">hello-node</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">hello-node-container</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">gcr.io/$DEVSHELL_PROJECT_ID/hello-node:1.0</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+
+<p>kubectl apply -f nginx-deployment.yaml</p>
+<h4 id="3-5常见问题"><a href="#3-5常见问题" class="headerlink" title="3.5常见问题"></a>3.5常见问题</h4><h5 id="3-5-1-k8s某个节点挂掉"><a href="#3-5-1-k8s某个节点挂掉" class="headerlink" title="3.5.1 k8s某个节点挂掉"></a>3.5.1 k8s某个节点挂掉</h5><p>如果遇到k8s某个节点挂掉，但是服务器还是可以连接的情况，说明是服务器节点通信问题，首先参考下面的连接查看日志和对应端口是否是正常的</p>
+<p><a target="_blank" rel="noopener" href="http://www.knockatdatabase.com/2021/11/27/kubernetes-cant-work-after-reboot-os/">服务器重启后kubernetes无法启动的原因 - 数据库敲门人</a></p>
+<p><a target="_blank" rel="noopener" href="https://discuss.kubernetes.io/t/the-connection-to-the-server-host-6443-was-refused-did-you-specify-the-right-host-or-port/552/4">The connection to the server <host>:6443 was refused - did you specify the right host or port? - General Discussions - Discuss Kubernetes</a></p>
+<h6 id="查看日志的命令如下"><a href="#查看日志的命令如下" class="headerlink" title="查看日志的命令如下"></a>查看日志的命令如下</h6><blockquote>
+<p> journalctl -u kubelet.service</p>
+<p>journalctl -xefu kubelet</p>
+</blockquote>
+<h6 id="查看节点命令如下"><a href="#查看节点命令如下" class="headerlink" title="查看节点命令如下"></a>查看节点命令如下</h6><p>kubectl get node –watch</p>
+<h6 id="重启kubelet的服务"><a href="#重启kubelet的服务" class="headerlink" title="重启kubelet的服务"></a>重启kubelet的服务</h6><p>systemctl restart kubelet</p>
+<h6 id="查看端口的连接情况"><a href="#查看端口的连接情况" class="headerlink" title="查看端口的连接情况"></a>查看端口的连接情况</h6><p>netstat -nap|grep 6443<br>The connection to the server apiserver.cluster.local:6443 was refused - did you specify the right host or port?</p>
+<h6 id="使用的是sealons重新添加该集群"><a href="#使用的是sealons重新添加该集群" class="headerlink" title="使用的是sealons重新添加该集群"></a>使用的是sealons重新添加该集群</h6><p>建议可以使用 sealos  delete 删除掉线的节点</p>
+<p>然后再使用 sealos  join 命令能把节点重新加入到集群中</p>
+<h5 id="3-5-2-容器运行时报错Network-plugin-returns-error"><a href="#3-5-2-容器运行时报错Network-plugin-returns-error" class="headerlink" title="3.5.2 容器运行时报错Network plugin returns error"></a>3.5.2 容器运行时报错Network plugin returns error</h5><p>日志如下</p>
+<p>cat  /var/log/pods/kube-system_kube-apiserver-master2_d653fc9e62a54eaa54def1ae5c0dde56/kube-apiserver</p>
+<blockquote>
+<p>container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized</p>
+</blockquote>
+<p>首先查看kube-system中NetworkPlugin是否存在</p>
+<blockquote>
+<p> kubectl get pod -n kube-system</p>
+</blockquote>
+<p>k8s中存在网络插件一般包括**<em>Choose network plugin (cilium, calico, contiv, weave or flannel)**</em>，我看着初始化的是calico</p>
+<p>同时查看对应calico的日志</p>
+<blockquote>
+<p> kubectl logs  calico-node-rkqkq –namespace=kube-system</p>
+</blockquote>
+<p>kubectl get pods -o wide -A</p>
+<p>查看对应的配置信息</p>
+<blockquote>
+<p>kubectl describe pod calico-node-rkqkq –namespace=kube-system</p>
+</blockquote>
+<p>配置文件存放地址 /root/kube/conf/calico.yaml</p>
+<p>下面推荐的解决方案：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cuicj/articles/14512540.html">k8s join集群时报错Container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:docker: - 丛丛丛丛 - 博客园</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57504063/calico-kubernetes-pods-cant-ping-each-other-use-cluster-ip">kubeadm - Calico: Kubernetes pods can’t ping each other use Cluster IP - Stack Overflow</a><br>kubectl delete-f /etc/kubernetes/addons/calico.yaml</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/tankruning/article/details/107102725">kubenates启动calico-node时，有节点总是报错CrashLoopBackOff_dkgee-CSDN博客</a></p>
+<h2 id="四、部署minio和创建volumeclass"><a href="#四、部署minio和创建volumeclass" class="headerlink" title="四、部署minio和创建volumeclass"></a>四、部署minio和创建volumeclass</h2><p>根据官方文档可以找到</p>
+<p><a target="_blank" rel="noopener" href="https://docs.min.io/minio/k8s/deployment/deploy-minio-operator.html#procedure">Deploy MinIO Operator on Kubernetes — MinIO Hybrid Cloud Documentation</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/minio/operator/blob/master/README.md">operator/README.md at master · minio/operator</a></p>
+<p>需要 <a target="_blank" rel="noopener" href="https://krew.sigs.k8s.io/docs/user-guide/setup/install/">Installing · Krew</a>或者<a target="_blank" rel="noopener" href="https://helm.sh/">minio/helm/minio at master )</a>包管理软件</p>
+<h3 id="4-1使用krew初始化minio"><a href="#4-1使用krew初始化minio" class="headerlink" title="4.1使用krew初始化minio"></a>4.1使用krew初始化minio</h3><p>我选择krew包管理，需要使用到git命令</p>
+<p>然后运行下面这段内容</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(</span><br><span class="line">  <span class="built_in">set</span> -x; <span class="built_in">cd</span> <span class="string">&quot;<span class="subst">$(mktemp -d)</span>&quot;</span> &amp;&amp;</span><br><span class="line">  OS=<span class="string">&quot;<span class="subst">$(uname | tr &#x27;[:upper:]&#x27; &#x27;[:lower:]&#x27;)</span>&quot;</span> &amp;&amp;</span><br><span class="line">  ARCH=<span class="string">&quot;<span class="subst">$(uname -m | sed -e &#x27;s/x86_64/amd64/&#x27; -e &#x27;s/\(arm\)\(64\)\?.*/\1\2/&#x27; -e &#x27;s/aarch64$/arm64/&#x27;)</span>&quot;</span> &amp;&amp;</span><br><span class="line">  KREW=<span class="string">&quot;krew-<span class="variable">$&#123;OS&#125;</span>_<span class="variable">$&#123;ARCH&#125;</span>&quot;</span> &amp;&amp;</span><br><span class="line">  curl -fsSLO <span class="string">&quot;https://github.com/kubernetes-sigs/krew/releases/latest/download/<span class="variable">$&#123;KREW&#125;</span>.tar.gz&quot;</span> &amp;&amp;</span><br><span class="line">  tar zxvf <span class="string">&quot;<span class="variable">$&#123;KREW&#125;</span>.tar.gz&quot;</span> &amp;&amp;</span><br><span class="line">  ./<span class="string">&quot;<span class="variable">$&#123;KREW&#125;</span>&quot;</span> install krew</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>运行过程中出了问题 变量${KREW}=krew-linux_amd64</p>
+<p>我是下载 <a target="_blank" rel="noopener" href="https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz%E3%80%81">https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz、</a></p>
+<p>export PATH=”$HOME/.krew}/bin:$PATH”</p>
+<p>目前使用kuboard web界面管理k8s集群</p>
+<p><a target="_blank" rel="noopener" href="https://www.kuboard.cn/learning/k8s-intermediate/persistent/storage-class.html">存储类StorageClass | Kuboard</a>但是目前只支持界面配置 cephfs，nfs</p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/storage/storage-classes/">Storage Classes | Kubernetes</a> 官方支持的volumeclass也没有minio需要手写 yml的配置文件</p>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2022-01-27, 11:07:50</p>
+        <p><span>最后更新:</span>2024-03-14, 22:55:29</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/16f52beb.html" title="k8s_init_and_deploy_sample_service">https://imlike.cc/16f52beb.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/16f52beb.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/dce64a3e.html">
+                    nvidia-jetson-nano-use
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/1128ed08.html">
+                    分布式文件存储
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: 'k8s_init_and_deploy_sample_service',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/dce64a3e.html" title="上一篇: nvidia-jetson-nano-use">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/1128ed08.html" title="下一篇: 分布式文件存储">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/Infinity.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2024 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

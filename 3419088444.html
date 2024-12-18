@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="解决gnome-dash-duck部分软件不能添加入收藏命令行输入启动gnome gsettings get org.gnome.shell favorite-apps 后可以在dash栏直接添加当前运行的问 wine 微信小黑框处理 chatcontactmenuwmctrl -l -G -p -x 显示当前窗口 xdotool windowunmap 0x0340000a 异常对应的窗口 0x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu折腾--优化wine 微信小黑框处理">
+<meta property="og:url" content="https://imlike.cc/3419088444.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="解决gnome-dash-duck部分软件不能添加入收藏命令行输入启动gnome gsettings get org.gnome.shell favorite-apps 后可以在dash栏直接添加当前运行的问 wine 微信小黑框处理 chatcontactmenuwmctrl -l -G -p -x 显示当前窗口 xdotool windowunmap 0x0340000a 异常对应的窗口 0x">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-27T00:53:16.000Z">
+<meta property="article:modified_time" content="2024-03-14T14:55:29.475Z">
+<meta property="article:author" content="leek">
+<meta property="article:tag" content="ubuntu">
+<meta property="article:tag" content="wine">
+<meta name="twitter:card" content="summary">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Ubuntu折腾--优化wine 微信小黑框处理 | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Ubuntu折腾--优化wine 微信小黑框处理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3419088444.html" class="article-date">
+      <time datetime="2019-03-27T00:53:16.000Z" itemprop="datePublished">2019-03-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ubuntu折腾--优化wine 微信小黑框处理
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wine/" rel="tag">wine</a></li></ul>
+    </div>
+ -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3gnome-dash-duck%E9%83%A8%E5%88%86%E8%BD%AF%E4%BB%B6%E4%B8%8D%E8%83%BD%E6%B7%BB%E5%8A%A0%E5%85%A5%E6%94%B6%E8%97%8F"><span class="toc-number">1.</span> <span class="toc-text">解决gnome-dash-duck部分软件不能添加入收藏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wine-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E9%BB%91%E6%A1%86%E5%A4%84%E7%90%86-chatcontactmenu"><span class="toc-number">2.</span> <span class="toc-text">wine 微信小黑框处理 chatcontactmenu</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flameshot-%E7%9A%84%E6%88%AA%E5%B1%8F%E8%BD%AF%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">flameshot 的截屏软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAdesktop%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">构建desktop文件</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <h3 id="解决gnome-dash-duck部分软件不能添加入收藏"><a href="#解决gnome-dash-duck部分软件不能添加入收藏" class="headerlink" title="解决gnome-dash-duck部分软件不能添加入收藏"></a>解决gnome-dash-duck部分软件不能添加入收藏</h3><p>命令行输入启动gnome</p>
+<p>gsettings get org.gnome.shell favorite-apps</p>
+<p>后可以在dash栏直接添加当前运行的问</p>
+<h3 id="wine-微信小黑框处理-chatcontactmenu"><a href="#wine-微信小黑框处理-chatcontactmenu" class="headerlink" title="wine 微信小黑框处理 chatcontactmenu"></a>wine 微信小黑框处理 chatcontactmenu</h3><p>wmctrl -l -G -p -x 显示当前窗口</p>
+<p>xdotool windowunmap 0x0340000a 异常对应的窗口</p>
+<p>0x01a0000a 0 2415 0 0 1920 1080 desktop_window.Nautilus lee-XPS 桌面<br>0x02400084 0 2992 2734 -12 595 434 gedit.Gedit lee-XPS *note (~/桌面) - gedit<br>0x0340000a 0 3200 0 56 1 1 wechat.exe.Wine lee-XPS ChatContactMenu<br>0x0340000c 0 3200 1860 1020 60 60 wechat.exe.Wine lee-XPS<br>0x03400009 0 3200 1220 56 1231 1052 wechat.exe.Wine lee-XPS 微信</p>
+<hr>
+<h3 id="flameshot-的截屏软件"><a href="#flameshot-的截屏软件" class="headerlink" title="flameshot 的截屏软件"></a>flameshot 的截屏软件</h3><p>/usr/bin/flameshot gui<br>gnome-screenshot -ac</p>
+<p>更新 Linux压缩包乱码</p>
+<p>压缩文件乱码的解决方案 指定编码解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -O GBK zip  或者unzip -O cp936</span><br></pre></td></tr></table></figure>
+
+<p>本质问题还是zip格式的缺陷，没有字段标志出文件名的编码格式。ZIP在压缩与解压缩的时候默认使用了系统的本地编码，如windows中文环境下为GBK， 日文 环境下是JIS，linux默认编码为UTF8等；那么在不同系统环境下，只要压缩与解压缩的编码不一致，就会出现乱码。</p>
+<h3 id="构建desktop文件"><a href="#构建desktop文件" class="headerlink" title="构建desktop文件"></a>构建desktop文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Version&#x3D;1.0</span><br><span class="line">Name&#x3D;Firefox Web Browser</span><br><span class="line">Name[ar]&#x3D;متصفح الويب فَيَرفُكْس</span><br><span class="line">Name[ast]&#x3D;Restolador web Firefox</span><br><span class="line">Name[bn]&#x3D;ফায়ারফক্স ওয়েব ব্রাউজার</span><br><span class="line">Name[ca]&#x3D;Navegador web Firefox</span><br><span class="line">Name[cs]&#x3D;Firefox Webový prohlížeč</span><br><span class="line">Name[da]&#x3D;Firefox - internetbrowser</span><br><span class="line">Name[el]&#x3D;Περιηγητής Firefox</span><br><span class="line">Name[es]&#x3D;Navegador web Firefox</span><br><span class="line">Name[et]&#x3D;Firefoxi veebibrauser</span><br><span class="line">Name[fa]&#x3D;مرورگر اینترنتی Firefox</span><br><span class="line">Name[fi]&#x3D;Firefox-selain</span><br><span class="line">Name[fr]&#x3D;Navigateur Web Firefox</span><br><span class="line">Name[gl]&#x3D;Navegador web Firefox</span><br><span class="line">Name[he]&#x3D;דפדפן האינטרנט Firefox</span><br><span class="line">Name[hr]&#x3D;Firefox web preglednik</span><br><span class="line">Name[hu]&#x3D;Firefox webböngésző</span><br><span class="line">Name[it]&#x3D;Firefox Browser Web</span><br><span class="line">Name[ja]&#x3D;Firefox ウェブ・ブラウザ</span><br><span class="line">Name[ko]&#x3D;Firefox 웹 브라우저</span><br><span class="line">Name[ku]&#x3D;Geroka torê Firefox</span><br><span class="line">Name[lt]&#x3D;Firefox interneto naršyklė</span><br><span class="line">Name[nb]&#x3D;Firefox Nettleser</span><br><span class="line">Name[nl]&#x3D;Firefox webbrowser</span><br><span class="line">Name[nn]&#x3D;Firefox Nettlesar</span><br><span class="line">Name[no]&#x3D;Firefox Nettleser</span><br><span class="line">Name[pl]&#x3D;Przeglądarka WWW Firefox</span><br><span class="line">Name[pt]&#x3D;Firefox Navegador Web</span><br><span class="line">Name[pt_BR]&#x3D;Navegador Web Firefox</span><br><span class="line">Name[ro]&#x3D;Firefox – Navigator Internet</span><br><span class="line">Name[ru]&#x3D;Веб-браузер Firefox</span><br><span class="line">Name[sk]&#x3D;Firefox - internetový prehliadač</span><br><span class="line">Name[sl]&#x3D;Firefox spletni brskalnik</span><br><span class="line">Name[sv]&#x3D;Firefox webbläsare</span><br><span class="line">Name[tr]&#x3D;Firefox Web Tarayıcısı</span><br><span class="line">Name[ug]&#x3D;Firefox توركۆرگۈ</span><br><span class="line">Name[uk]&#x3D;Веб-браузер Firefox</span><br><span class="line">Name[vi]&#x3D;Trình duyệt web Firefox</span><br><span class="line">Name[zh_CN]&#x3D;Firefox 网络浏览器</span><br><span class="line">Name[zh_TW]&#x3D;Firefox 網路瀏覽器</span><br><span class="line">Comment&#x3D;Browse the World Wide Web</span><br><span class="line">Comment[ar]&#x3D;تصفح الشبكة العنكبوتية العالمية</span><br><span class="line">Comment[ast]&#x3D;Restola pela Rede</span><br><span class="line">Comment[bn]&#x3D;ইন্টারনেট ব্রাউজ করুন</span><br><span class="line">Comment[ca]&#x3D;Navegueu per la web</span><br><span class="line">Comment[cs]&#x3D;Prohlížení stránek World Wide Webu</span><br><span class="line">Comment[da]&#x3D;Surf på internettet</span><br><span class="line">Comment[de]&#x3D;Im Internet surfen</span><br><span class="line">Comment[el]&#x3D;Μπορείτε να περιηγηθείτε στο διαδίκτυο (Web)</span><br><span class="line">Comment[es]&#x3D;Navegue por la web</span><br><span class="line">Comment[et]&#x3D;Lehitse veebi</span><br><span class="line">Comment[fa]&#x3D;صفحات شبکه جهانی اینترنت را مرور نمایید</span><br><span class="line">Comment[fi]&#x3D;Selaa Internetin WWW-sivuja</span><br><span class="line">Comment[fr]&#x3D;Naviguer sur le Web</span><br><span class="line">Comment[gl]&#x3D;Navegar pola rede</span><br><span class="line">Comment[he]&#x3D;גלישה ברחבי האינטרנט</span><br><span class="line">Comment[hr]&#x3D;Pretražite web</span><br><span class="line">Comment[hu]&#x3D;A világháló böngészése</span><br><span class="line">Comment[it]&#x3D;Esplora il web</span><br><span class="line">Comment[ja]&#x3D;ウェブを閲覧します</span><br><span class="line">Comment[ko]&#x3D;웹을 돌아 다닙니다</span><br><span class="line">Comment[ku]&#x3D;Li torê bigere</span><br><span class="line">Comment[lt]&#x3D;Naršykite internete</span><br><span class="line">Comment[nb]&#x3D;Surf på nettet</span><br><span class="line">Comment[nl]&#x3D;Verken het internet</span><br><span class="line">Comment[nn]&#x3D;Surf på nettet</span><br><span class="line">Comment[no]&#x3D;Surf på nettet</span><br><span class="line">Comment[pl]&#x3D;Przeglądanie stron WWW</span><br><span class="line">Comment[pt]&#x3D;Navegue na Internet</span><br><span class="line">Comment[pt_BR]&#x3D;Navegue na Internet</span><br><span class="line">Comment[ro]&#x3D;Navigați pe Internet</span><br><span class="line">Comment[ru]&#x3D;Доступ в Интернет</span><br><span class="line">Comment[sk]&#x3D;Prehliadanie internetu</span><br><span class="line">Comment[sl]&#x3D;Brskajte po spletu</span><br><span class="line">Comment[sv]&#x3D;Surfa på webben</span><br><span class="line">Comment[tr]&#x3D;İnternet&#39;te Gezinin</span><br><span class="line">Comment[ug]&#x3D;دۇنيادىكى توربەتلەرنى كۆرگىلى بولىدۇ</span><br><span class="line">Comment[uk]&#x3D;Перегляд сторінок Інтернету</span><br><span class="line">Comment[vi]&#x3D;Để duyệt các trang web</span><br><span class="line">Comment[zh_CN]&#x3D;浏览互联网</span><br><span class="line">Comment[zh_TW]&#x3D;瀏覽網際網路</span><br><span class="line">GenericName&#x3D;Web Browser</span><br><span class="line">GenericName[ar]&#x3D;متصفح ويب</span><br><span class="line">GenericName[ast]&#x3D;Restolador Web</span><br><span class="line">GenericName[bn]&#x3D;ওয়েব ব্রাউজার</span><br><span class="line">GenericName[ca]&#x3D;Navegador web</span><br><span class="line">GenericName[cs]&#x3D;Webový prohlížeč</span><br><span class="line">GenericName[da]&#x3D;Webbrowser</span><br><span class="line">GenericName[el]&#x3D;Περιηγητής διαδικτύου</span><br><span class="line">GenericName[es]&#x3D;Navegador web</span><br><span class="line">GenericName[et]&#x3D;Veebibrauser</span><br><span class="line">GenericName[fa]&#x3D;مرورگر اینترنتی</span><br><span class="line">GenericName[fi]&#x3D;WWW-selain</span><br><span class="line">GenericName[fr]&#x3D;Navigateur Web</span><br><span class="line">GenericName[gl]&#x3D;Navegador Web</span><br><span class="line">GenericName[he]&#x3D;דפדפן אינטרנט</span><br><span class="line">GenericName[hr]&#x3D;Web preglednik</span><br><span class="line">GenericName[hu]&#x3D;Webböngésző</span><br><span class="line">GenericName[it]&#x3D;Browser web</span><br><span class="line">GenericName[ja]&#x3D;ウェブ・ブラウザ</span><br><span class="line">GenericName[ko]&#x3D;웹 브라우저</span><br><span class="line">GenericName[ku]&#x3D;Geroka torê</span><br><span class="line">GenericName[lt]&#x3D;Interneto naršyklė</span><br><span class="line">GenericName[nb]&#x3D;Nettleser</span><br><span class="line">GenericName[nl]&#x3D;Webbrowser</span><br><span class="line">GenericName[nn]&#x3D;Nettlesar</span><br><span class="line">GenericName[no]&#x3D;Nettleser</span><br><span class="line">GenericName[pl]&#x3D;Przeglądarka WWW</span><br><span class="line">GenericName[pt]&#x3D;Navegador Web</span><br><span class="line">GenericName[pt_BR]&#x3D;Navegador Web</span><br><span class="line">GenericName[ro]&#x3D;Navigator Internet</span><br><span class="line">GenericName[ru]&#x3D;Веб-браузер</span><br><span class="line">GenericName[sk]&#x3D;Internetový prehliadač</span><br><span class="line">GenericName[sl]&#x3D;Spletni brskalnik</span><br><span class="line">GenericName[sv]&#x3D;Webbläsare</span><br><span class="line">GenericName[tr]&#x3D;Web Tarayıcı</span><br><span class="line">GenericName[ug]&#x3D;توركۆرگۈ</span><br><span class="line">GenericName[uk]&#x3D;Веб-браузер</span><br><span class="line">GenericName[vi]&#x3D;Trình duyệt Web</span><br><span class="line">GenericName[zh_CN]&#x3D;网络浏览器</span><br><span class="line">GenericName[zh_TW]&#x3D;網路瀏覽器</span><br><span class="line">Keywords&#x3D;Internet;WWW;Browser;Web;Explorer</span><br><span class="line">Keywords[ar]&#x3D;انترنت;إنترنت;متصفح;ويب;وب</span><br><span class="line">Keywords[ast]&#x3D;Internet;WWW;Restolador;Web;Esplorador</span><br><span class="line">Keywords[ca]&#x3D;Internet;WWW;Navegador;Web;Explorador;Explorer</span><br><span class="line">Keywords[cs]&#x3D;Internet;WWW;Prohlížeč;Web;Explorer</span><br><span class="line">Keywords[da]&#x3D;Internet;Internettet;WWW;Browser;Browse;Web;Surf;Nettet</span><br><span class="line">Keywords[de]&#x3D;Internet;WWW;Browser;Web;Explorer;Webseite;Site;surfen;online;browsen</span><br><span class="line">Keywords[el]&#x3D;Internet;WWW;Browser;Web;Explorer;Διαδίκτυο;Περιηγητής;Firefox;Φιρεφοχ;Ιντερνετ</span><br><span class="line">Keywords[es]&#x3D;Explorador;Internet;WWW</span><br><span class="line">Keywords[fi]&#x3D;Internet;WWW;Browser;Web;Explorer;selain;Internet-selain;internetselain;verkkoselain;netti;surffaa</span><br><span class="line">Keywords[fr]&#x3D;Internet;WWW;Browser;Web;Explorer;Fureteur;Surfer;Navigateur</span><br><span class="line">Keywords[he]&#x3D;דפדפן;אינטרנט;רשת;אתרים;אתר;פיירפוקס;מוזילה;</span><br><span class="line">Keywords[hr]&#x3D;Internet;WWW;preglednik;Web</span><br><span class="line">Keywords[hu]&#x3D;Internet;WWW;Böngésző;Web;Háló;Net;Explorer</span><br><span class="line">Keywords[it]&#x3D;Internet;WWW;Browser;Web;Navigatore</span><br><span class="line">Keywords[is]&#x3D;Internet;WWW;Vafri;Vefur;Netvafri;Flakk</span><br><span class="line">Keywords[ja]&#x3D;Internet;WWW;Web;インターネット;ブラウザ;ウェブ;エクスプローラ</span><br><span class="line">Keywords[nb]&#x3D;Internett;WWW;Nettleser;Explorer;Web;Browser;Nettside</span><br><span class="line">Keywords[nl]&#x3D;Internet;WWW;Browser;Web;Explorer;Verkenner;Website;Surfen;Online</span><br><span class="line">Keywords[pt]&#x3D;Internet;WWW;Browser;Web;Explorador;Navegador</span><br><span class="line">Keywords[pt_BR]&#x3D;Internet;WWW;Browser;Web;Explorador;Navegador</span><br><span class="line">Keywords[ru]&#x3D;Internet;WWW;Browser;Web;Explorer;интернет;браузер;веб;файрфокс;огнелис</span><br><span class="line">Keywords[sk]&#x3D;Internet;WWW;Prehliadač;Web;Explorer</span><br><span class="line">Keywords[sl]&#x3D;Internet;WWW;Browser;Web;Explorer;Brskalnik;Splet</span><br><span class="line">Keywords[tr]&#x3D;İnternet;WWW;Tarayıcı;Web;Gezgin;Web sitesi;Site;sörf;çevrimiçi;tara</span><br><span class="line">Keywords[uk]&#x3D;Internet;WWW;Browser;Web;Explorer;Інтернет;мережа;переглядач;оглядач;браузер;веб;файрфокс;вогнелис;перегляд</span><br><span class="line">Keywords[vi]&#x3D;Internet;WWW;Browser;Web;Explorer;Trình duyệt;Trang web</span><br><span class="line">Keywords[zh_CN]&#x3D;Internet;WWW;Browser;Web;Explorer;网页;浏览;上网;火狐;Firefox;ff;互联网;网站;</span><br><span class="line">Keywords[zh_TW]&#x3D;Internet;WWW;Browser;Web;Explorer;網際網路;網路;瀏覽器;上網;網頁;火狐</span><br><span class="line">Exec&#x3D;firefox %u</span><br><span class="line">Terminal&#x3D;false</span><br><span class="line">X-MultipleArgs&#x3D;false</span><br><span class="line">Type&#x3D;Application</span><br><span class="line">Icon&#x3D;firefox</span><br><span class="line">Categories&#x3D;GNOME;GTK;Network;WebBrowser;</span><br><span class="line">MimeType&#x3D;text&#x2F;html;text&#x2F;xml;application&#x2F;xhtml+xml;application&#x2F;xml;application&#x2F;rss+xml;application&#x2F;rdf+xml;image&#x2F;gif;image&#x2F;jpeg;image&#x2F;png;x-scheme-handler&#x2F;http;x-scheme-handler&#x2F;https;x-scheme-handler&#x2F;ftp;x-scheme-handler&#x2F;chrome;video&#x2F;webm;application&#x2F;x-xpinstall;</span><br><span class="line">StartupNotify&#x3D;true</span><br><span class="line">Actions&#x3D;new-window;new-private-window;</span><br><span class="line"></span><br><span class="line">[Desktop Action new-window]</span><br><span class="line">Name&#x3D;Open a New Window</span><br><span class="line">Name[ar]&#x3D;افتح نافذة جديدة</span><br><span class="line">Name[ast]&#x3D;Abrir una ventana nueva</span><br><span class="line">Name[bn]&#x3D;Abrir una ventana nueva</span><br><span class="line">Name[ca]&#x3D;Obre una finestra nova</span><br><span class="line">Name[cs]&#x3D;Otevřít nové okno</span><br><span class="line">Name[da]&#x3D;Åbn et nyt vindue</span><br><span class="line">Name[de]&#x3D;Ein neues Fenster öffnen</span><br><span class="line">Name[el]&#x3D;Νέο παράθυρο</span><br><span class="line">Name[es]&#x3D;Abrir una ventana nueva</span><br><span class="line">Name[fi]&#x3D;Avaa uusi ikkuna</span><br><span class="line">Name[fr]&#x3D;Ouvrir une nouvelle fenêtre</span><br><span class="line">Name[gl]&#x3D;Abrir unha nova xanela</span><br><span class="line">Name[he]&#x3D;פתיחת חלון חדש</span><br><span class="line">Name[hr]&#x3D;Otvori novi prozor</span><br><span class="line">Name[hu]&#x3D;Új ablak nyitása</span><br><span class="line">Name[it]&#x3D;Apri una nuova finestra</span><br><span class="line">Name[ja]&#x3D;新しいウィンドウを開く</span><br><span class="line">Name[ko]&#x3D;새 창 열기</span><br><span class="line">Name[ku]&#x3D;Paceyeke nû veke</span><br><span class="line">Name[lt]&#x3D;Atverti naują langą</span><br><span class="line">Name[nb]&#x3D;Åpne et nytt vindu</span><br><span class="line">Name[nl]&#x3D;Nieuw venster openen</span><br><span class="line">Name[pt]&#x3D;Abrir nova janela</span><br><span class="line">Name[pt_BR]&#x3D;Abrir nova janela</span><br><span class="line">Name[ro]&#x3D;Deschide o fereastră nouă</span><br><span class="line">Name[ru]&#x3D;Новое окно</span><br><span class="line">Name[sk]&#x3D;Otvoriť nové okno</span><br><span class="line">Name[sl]&#x3D;Odpri novo okno</span><br><span class="line">Name[sv]&#x3D;Öppna ett nytt fönster</span><br><span class="line">Name[tr]&#x3D;Yeni pencere aç</span><br><span class="line">Name[ug]&#x3D;يېڭى كۆزنەك ئېچىش</span><br><span class="line">Name[uk]&#x3D;Відкрити нове вікно</span><br><span class="line">Name[vi]&#x3D;Mở cửa sổ mới</span><br><span class="line">Name[zh_CN]&#x3D;新建窗口</span><br><span class="line">Name[zh_TW]&#x3D;開啟新視窗</span><br><span class="line">Exec&#x3D;firefox -new-window</span><br><span class="line"></span><br><span class="line">[Desktop Action new-private-window]</span><br><span class="line">Name&#x3D;Open a New Private Window</span><br><span class="line">Name[ar]&#x3D;افتح نافذة جديدة للتصفح الخاص</span><br><span class="line">Name[ca]&#x3D;Obre una finestra nova en mode d&#39;incògnit</span><br><span class="line">Name[cs]&#x3D;Otevřít nové anonymní okno</span><br><span class="line">Name[de]&#x3D;Ein neues privates Fenster öffnen</span><br><span class="line">Name[el]&#x3D;Νέο ιδιωτικό παράθυρο</span><br><span class="line">Name[es]&#x3D;Abrir una ventana privada nueva</span><br><span class="line">Name[fi]&#x3D;Avaa uusi yksityinen ikkuna</span><br><span class="line">Name[fr]&#x3D;Ouvrir une nouvelle fenêtre de navigation privée</span><br><span class="line">Name[he]&#x3D;פתיחת חלון גלישה פרטית חדש</span><br><span class="line">Name[hu]&#x3D;Új privát ablak nyitása</span><br><span class="line">Name[it]&#x3D;Apri una nuova finestra anonima</span><br><span class="line">Name[nb]&#x3D;Åpne et nytt privat vindu</span><br><span class="line">Name[ru]&#x3D;Новое приватное окно</span><br><span class="line">Name[sl]&#x3D;Odpri novo okno zasebnega brskanja</span><br><span class="line">Name[sv]&#x3D;Öppna ett nytt privat fönster</span><br><span class="line">Name[tr]&#x3D;Yeni bir pencere aç</span><br><span class="line">Name[uk]&#x3D;Відкрити нове вікно у потайливому режимі</span><br><span class="line">Name[zh_TW]&#x3D;開啟新隱私瀏覽視窗</span><br><span class="line">Exec&#x3D;&#x2F;opt&#x2F;firefox&#x2F;firefox</span><br><span class="line"># Exec&#x3D;&#x2F;home&#x2F;leek&#x2F;soft&#x2F;firefox&#x2F;firefox %u</span><br><span class="line"># Exec&#x3D;&#x2F;home&#x2F;leek&#x2F;soft&#x2F;firefox&#x2F;firefox -new-window</span><br><span class="line"># Exec&#x3D;&#x2F;home&#x2F;leek&#x2F;soft&#x2F;firefox&#x2F;firefox -private-window</span><br></pre></td></tr></table></figure>
+
+<p>Firefox.com 官网下载国际版 解压后可直接运行Firefox 文件夹下的firefox</p>
+<p>bin 添加对应的脚步文件 打开</p>
+<ul>
+<li>ubuntu 安装开机界面</li>
+<li>Linux 下载神器 motrix</li>
+</ul>
+
+              
+              <!-- 
+              
+              <h3 id="解决gnome-dash-duck部分软件不能添加入收藏"><a href="#解决gnome-dash-duck部分软件不能添加入收藏" class="headerlink" title="解决gnome-dash-duck部分软件不能添加入收藏"></a>解决gnome-dash-duck部分软件不能添加入收藏</h3><p>命令行输入启动gnome</p>
+<p>gsettings get org.gnome.shell favorite-apps</p>
+<p>后可以在dash栏直接添加当前运行的问</p>
+<h3 id="wine-微信小黑框处理-chatcontactmenu"><a href="#wine-微信小黑框处理-chatcontactmenu" class="headerlink" title="wine 微信小黑框处理 chatcontactmenu"></a>wine 微信小黑框处理 chatcontactmenu</h3><p>wmctrl -l -G -p -x 显示当前窗口</p>
+<p>xdotool windowunmap 0x0340000a 异常对应的窗口</p>
+<p>0x01a0000a 0 2415 0 0 1920 1080 desktop_window.Nautilus lee-XPS 桌面<br>0x02400084 0 2992 2734 -12 595 434 gedit.Gedit lee-XPS *note (~/桌面) - gedit<br>0x0340000a 0 3200 0 56 1 1 wechat.exe.Wine lee-XPS ChatContactMenu<br>0x0340000c 0 3200 1860 1020 60 60 wechat.exe.Wine lee-XPS<br>0x03400009 0 3200 1220 56 1231 1052 wechat.exe.Wine lee-XPS 微信</p>
+<hr>
+<h3 id="flameshot-的截屏软件"><a href="#flameshot-的截屏软件" class="headerlink" title="flameshot 的截屏软件"></a>flameshot 的截屏软件</h3><p>/usr/bin/flameshot gui<br>gnome-screenshot -ac</p>
+<p>更新 Linux压缩包乱码</p>
+<p>压缩文件乱码的解决方案 指定编码解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -O GBK zip  或者unzip -O cp936</span><br></pre></td></tr></table></figure>
+
+<p>本质问题还是zip格式的缺陷，没有字段标志出文件名的编码格式。ZIP在压缩与解压缩的时候默认使用了系统的本地编码，如windows中文环境下为GBK， 日文 环境下是JIS，linux默认编码为UTF8等；那么在不同系统环境下，只要压缩与解压缩的编码不一致，就会出现乱码。</p>
+<h3 id="构建desktop文件"><a href="#构建desktop文件" class="headerlink" title="构建desktop文件"></a>构建desktop文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Version&#x3D;1.0</span><br><span class="line">Name&#x3D;Firefox Web Browser</span><br><span class="line">Name[ar]&#x3D;متصفح الويب فَيَرفُكْس</span><br><span class="line">Name[ast]&#x3D;Restolador web Firefox</span><br><span class="line">Name[bn]&#x3D;ফায়ারফক্স ওয়েব ব্রাউজার</span><br><span class="line">Name[ca]&#x3D;Navegador web Firefox</span><br><span class="line">Name[cs]&#x3D;Firefox Webový prohlížeč</span><br><span class="line">Name[da]&#x3D;Firefox - internetbrowser</span><br><span class="line">Name[el]&#x3D;Περιηγητής Firefox</span><br><span class="line">Name[es]&#x3D;Navegador web Firefox</span><br><span class="line">Name[et]&#x3D;Firefoxi veebibrauser</span><br><span class="line">Name[fa]&#x3D;مرورگر اینترنتی Firefox</span><br><span class="line">Name[fi]&#x3D;Firefox-selain</span><br><span class="line">Name[fr]&#x3D;Navigateur Web Firefox</span><br><span class="line">Name[gl]&#x3D;Navegador web Firefox</span><br><span class="line">Name[he]&#x3D;דפדפן האינטרנט Firefox</span><br><span class="line">Name[hr]&#x3D;Firefox web preglednik</span><br><span class="line">Name[hu]&#x3D;Firefox webböngésző</span><br><span class="line">Name[it]&#x3D;Firefox Browser Web</span><br><span class="line">Name[ja]&#x3D;Firefox ウェブ・ブラウザ</span><br><span class="line">Name[ko]&#x3D;Firefox 웹 브라우저</span><br><span class="line">Name[ku]&#x3D;Geroka torê Firefox</span><br><span class="line">Name[lt]&#x3D;Firefox interneto naršyklė</span><br><span class="line">Name[nb]&#x3D;Firefox Nettleser</span><br><span class="line">Name[nl]&#x3D;Firefox webbrowser</span><br><span class="line">Name[nn]&#x3D;Firefox Nettlesar</span><br><span class="line">Name[no]&#x3D;Firefox Nettleser</span><br><span class="line">Name[pl]&#x3D;Przeglądarka WWW Firefox</span><br><span class="line">Name[pt]&#x3D;Firefox Navegador Web</span><br><span class="line">Name[pt_BR]&#x3D;Navegador Web Firefox</span><br><span class="line">Name[ro]&#x3D;Firefox – Navigator Internet</span><br><span class="line">Name[ru]&#x3D;Веб-браузер Firefox</span><br><span class="line">Name[sk]&#x3D;Firefox - internetový prehliadač</span><br><span class="line">Name[sl]&#x3D;Firefox spletni brskalnik</span><br><span class="line">Name[sv]&#x3D;Firefox webbläsare</span><br><span class="line">Name[tr]&#x3D;Firefox Web Tarayıcısı</span><br><span class="line">Name[ug]&#x3D;Firefox توركۆرگۈ</span><br><span class="line">Name[uk]&#x3D;Веб-браузер Firefox</span><br><span class="line">Name[vi]&#x3D;Trình duyệt web Firefox</span><br><span class="line">Name[zh_CN]&#x3D;Firefox 网络浏览器</span><br><span class="line">Name[zh_TW]&#x3D;Firefox 網路瀏覽器</span><br><span class="line">Comment&#x3D;Browse the World Wide Web</span><br><span class="line">Comment[ar]&#x3D;تصفح الشبكة العنكبوتية العالمية</span><br><span class="line">Comment[ast]&#x3D;Restola pela Rede</span><br><span class="line">Comment[bn]&#x3D;ইন্টারনেট ব্রাউজ করুন</span><br><span class="line">Comment[ca]&#x3D;Navegueu per la web</span><br><span class="line">Comment[cs]&#x3D;Prohlížení stránek World Wide Webu</span><br><span class="line">Comment[da]&#x3D;Surf på internettet</span><br><span class="line">Comment[de]&#x3D;Im Internet surfen</span><br><span class="line">Comment[el]&#x3D;Μπορείτε να περιηγηθείτε στο διαδίκτυο (Web)</span><br><span class="line">Comment[es]&#x3D;Navegue por la web</span><br><span class="line">Comment[et]&#x3D;Lehitse veebi</span><br><span class="line">Comment[fa]&#x3D;صفحات شبکه جهانی اینترنت را مرور نمایید</span><br><span class="line">Comment[fi]&#x3D;Selaa Internetin WWW-sivuja</span><br><span class="line">Comment[fr]&#x3D;Naviguer sur le Web</span><br><span class="line">Comment[gl]&#x3D;Navegar pola rede</span><br><span class="line">Comment[he]&#x3D;גלישה ברחבי האינטרנט</span><br><span class="line">Comment[hr]&#x3D;Pretražite web</span><br><span class="line">Comment[hu]&#x3D;A világháló böngészése</span><br><span class="line">Comment[it]&#x3D;Esplora il web</span><br><span class="line">Comment[ja]&#x3D;ウェブを閲覧します</span><br><span class="line">Comment[ko]&#x3D;웹을 돌아 다닙니다</span><br><span class="line">Comment[ku]&#x3D;Li torê bigere</span><br><span class="line">Comment[lt]&#x3D;Naršykite internete</span><br><span class="line">Comment[nb]&#x3D;Surf på nettet</span><br><span class="line">Comment[nl]&#x3D;Verken het internet</span><br><span class="line">Comment[nn]&#x3D;Surf på nettet</span><br><span class="line">Comment[no]&#x3D;Surf på nettet</span><br><span class="line">Comment[pl]&#x3D;Przeglądanie stron WWW</span><br><span class="line">Comment[pt]&#x3D;Navegue na Internet</span><br><span class="line">Comment[pt_BR]&#x3D;Navegue na Internet</span><br><span class="line">Comment[ro]&#x3D;Navigați pe Internet</span><br><span class="line">Comment[ru]&#x3D;Доступ в Интернет</span><br><span class="line">Comment[sk]&#x3D;Prehliadanie internetu</span><br><span class="line">Comment[sl]&#x3D;Brskajte po spletu</span><br><span class="line">Comment[sv]&#x3D;Surfa på webben</span><br><span class="line">Comment[tr]&#x3D;İnternet&#39;te Gezinin</span><br><span class="line">Comment[ug]&#x3D;دۇنيادىكى توربەتلەرنى كۆرگىلى بولىدۇ</span><br><span class="line">Comment[uk]&#x3D;Перегляд сторінок Інтернету</span><br><span class="line">Comment[vi]&#x3D;Để duyệt các trang web</span><br><span class="line">Comment[zh_CN]&#x3D;浏览互联网</span><br><span class="line">Comment[zh_TW]&#x3D;瀏覽網際網路</span><br><span class="line">GenericName&#x3D;Web Browser</span><br><span class="line">GenericName[ar]&#x3D;متصفح ويب</span><br><span class="line">GenericName[ast]&#x3D;Restolador Web</span><br><span class="line">GenericName[bn]&#x3D;ওয়েব ব্রাউজার</span><br><span class="line">GenericName[ca]&#x3D;Navegador web</span><br><span class="line">GenericName[cs]&#x3D;Webový prohlížeč</span><br><span class="line">GenericName[da]&#x3D;Webbrowser</span><br><span class="line">GenericName[el]&#x3D;Περιηγητής διαδικτύου</span><br><span class="line">GenericName[es]&#x3D;Navegador web</span><br><span class="line">GenericName[et]&#x3D;Veebibrauser</span><br><span class="line">GenericName[fa]&#x3D;مرورگر اینترنتی</span><br><span class="line">GenericName[fi]&#x3D;WWW-selain</span><br><span class="line">GenericName[fr]&#x3D;Navigateur Web</span><br><span class="line">GenericName[gl]&#x3D;Navegador Web</span><br><span class="line">GenericName[he]&#x3D;דפדפן אינטרנט</span><br><span class="line">GenericName[hr]&#x3D;Web preglednik</span><br><span class="line">GenericName[hu]&#x3D;Webböngésző</span><br><span class="line">GenericName[it]&#x3D;Browser web</span><br><span class="line">GenericName[ja]&#x3D;ウェブ・ブラウザ</span><br><span class="line">GenericName[ko]&#x3D;웹 브라우저</span><br><span class="line">GenericName[ku]&#x3D;Geroka torê</span><br><span class="line">GenericName[lt]&#x3D;Interneto naršyklė</span><br><span class="line">GenericName[nb]&#x3D;Nettleser</span><br><span class="line">GenericName[nl]&#x3D;Webbrowser</span><br><span class="line">GenericName[nn]&#x3D;Nettlesar</span><br><span class="line">GenericName[no]&#x3D;Nettleser</span><br><span class="line">GenericName[pl]&#x3D;Przeglądarka WWW</span><br><span class="line">GenericName[pt]&#x3D;Navegador Web</span><br><span class="line">GenericName[pt_BR]&#x3D;Navegador Web</span><br><span class="line">GenericName[ro]&#x3D;Navigator Internet</span><br><span class="line">GenericName[ru]&#x3D;Веб-браузер</span><br><span class="line">GenericName[sk]&#x3D;Internetový prehliadač</span><br><span class="line">GenericName[sl]&#x3D;Spletni brskalnik</span><br><span class="line">GenericName[sv]&#x3D;Webbläsare</span><br><span class="line">GenericName[tr]&#x3D;Web Tarayıcı</span><br><span class="line">GenericName[ug]&#x3D;توركۆرگۈ</span><br><span class="line">GenericName[uk]&#x3D;Веб-браузер</span><br><span class="line">GenericName[vi]&#x3D;Trình duyệt Web</span><br><span class="line">GenericName[zh_CN]&#x3D;网络浏览器</span><br><span class="line">GenericName[zh_TW]&#x3D;網路瀏覽器</span><br><span class="line">Keywords&#x3D;Internet;WWW;Browser;Web;Explorer</span><br><span class="line">Keywords[ar]&#x3D;انترنت;إنترنت;متصفح;ويب;وب</span><br><span class="line">Keywords[ast]&#x3D;Internet;WWW;Restolador;Web;Esplorador</span><br><span class="line">Keywords[ca]&#x3D;Internet;WWW;Navegador;Web;Explorador;Explorer</span><br><span class="line">Keywords[cs]&#x3D;Internet;WWW;Prohlížeč;Web;Explorer</span><br><span class="line">Keywords[da]&#x3D;Internet;Internettet;WWW;Browser;Browse;Web;Surf;Nettet</span><br><span class="line">Keywords[de]&#x3D;Internet;WWW;Browser;Web;Explorer;Webseite;Site;surfen;online;browsen</span><br><span class="line">Keywords[el]&#x3D;Internet;WWW;Browser;Web;Explorer;Διαδίκτυο;Περιηγητής;Firefox;Φιρεφοχ;Ιντερνετ</span><br><span class="line">Keywords[es]&#x3D;Explorador;Internet;WWW</span><br><span class="line">Keywords[fi]&#x3D;Internet;WWW;Browser;Web;Explorer;selain;Internet-selain;internetselain;verkkoselain;netti;surffaa</span><br><span class="line">Keywords[fr]&#x3D;Internet;WWW;Browser;Web;Explorer;Fureteur;Surfer;Navigateur</span><br><span class="line">Keywords[he]&#x3D;דפדפן;אינטרנט;רשת;אתרים;אתר;פיירפוקס;מוזילה;</span><br><span class="line">Keywords[hr]&#x3D;Internet;WWW;preglednik;Web</span><br><span class="line">Keywords[hu]&#x3D;Internet;WWW;Böngésző;Web;Háló;Net;Explorer</span><br><span class="line">Keywords[it]&#x3D;Internet;WWW;Browser;Web;Navigatore</span><br><span class="line">Keywords[is]&#x3D;Internet;WWW;Vafri;Vefur;Netvafri;Flakk</span><br><span class="line">Keywords[ja]&#x3D;Internet;WWW;Web;インターネット;ブラウザ;ウェブ;エクスプローラ</span><br><span class="line">Keywords[nb]&#x3D;Internett;WWW;Nettleser;Explorer;Web;Browser;Nettside</span><br><span class="line">Keywords[nl]&#x3D;Internet;WWW;Browser;Web;Explorer;Verkenner;Website;Surfen;Online</span><br><span class="line">Keywords[pt]&#x3D;Internet;WWW;Browser;Web;Explorador;Navegador</span><br><span class="line">Keywords[pt_BR]&#x3D;Internet;WWW;Browser;Web;Explorador;Navegador</span><br><span class="line">Keywords[ru]&#x3D;Internet;WWW;Browser;Web;Explorer;интернет;браузер;веб;файрфокс;огнелис</span><br><span class="line">Keywords[sk]&#x3D;Internet;WWW;Prehliadač;Web;Explorer</span><br><span class="line">Keywords[sl]&#x3D;Internet;WWW;Browser;Web;Explorer;Brskalnik;Splet</span><br><span class="line">Keywords[tr]&#x3D;İnternet;WWW;Tarayıcı;Web;Gezgin;Web sitesi;Site;sörf;çevrimiçi;tara</span><br><span class="line">Keywords[uk]&#x3D;Internet;WWW;Browser;Web;Explorer;Інтернет;мережа;переглядач;оглядач;браузер;веб;файрфокс;вогнелис;перегляд</span><br><span class="line">Keywords[vi]&#x3D;Internet;WWW;Browser;Web;Explorer;Trình duyệt;Trang web</span><br><span class="line">Keywords[zh_CN]&#x3D;Internet;WWW;Browser;Web;Explorer;网页;浏览;上网;火狐;Firefox;ff;互联网;网站;</span><br><span class="line">Keywords[zh_TW]&#x3D;Internet;WWW;Browser;Web;Explorer;網際網路;網路;瀏覽器;上網;網頁;火狐</span><br><span class="line">Exec&#x3D;firefox %u</span><br><span class="line">Terminal&#x3D;false</span><br><span class="line">X-MultipleArgs&#x3D;false</span><br><span class="line">Type&#x3D;Application</span><br><span class="line">Icon&#x3D;firefox</span><br><span class="line">Categories&#x3D;GNOME;GTK;Network;WebBrowser;</span><br><span class="line">MimeType&#x3D;text&#x2F;html;text&#x2F;xml;application&#x2F;xhtml+xml;application&#x2F;xml;application&#x2F;rss+xml;application&#x2F;rdf+xml;image&#x2F;gif;image&#x2F;jpeg;image&#x2F;png;x-scheme-handler&#x2F;http;x-scheme-handler&#x2F;https;x-scheme-handler&#x2F;ftp;x-scheme-handler&#x2F;chrome;video&#x2F;webm;application&#x2F;x-xpinstall;</span><br><span class="line">StartupNotify&#x3D;true</span><br><span class="line">Actions&#x3D;new-window;new-private-window;</span><br><span class="line"></span><br><span class="line">[Desktop Action new-window]</span><br><span class="line">Name&#x3D;Open a New Window</span><br><span class="line">Name[ar]&#x3D;افتح نافذة جديدة</span><br><span class="line">Name[ast]&#x3D;Abrir una ventana nueva</span><br><span class="line">Name[bn]&#x3D;Abrir una ventana nueva</span><br><span class="line">Name[ca]&#x3D;Obre una finestra nova</span><br><span class="line">Name[cs]&#x3D;Otevřít nové okno</span><br><span class="line">Name[da]&#x3D;Åbn et nyt vindue</span><br><span class="line">Name[de]&#x3D;Ein neues Fenster öffnen</span><br><span class="line">Name[el]&#x3D;Νέο παράθυρο</span><br><span class="line">Name[es]&#x3D;Abrir una ventana nueva</span><br><span class="line">Name[fi]&#x3D;Avaa uusi ikkuna</span><br><span class="line">Name[fr]&#x3D;Ouvrir une nouvelle fenêtre</span><br><span class="line">Name[gl]&#x3D;Abrir unha nova xanela</span><br><span class="line">Name[he]&#x3D;פתיחת חלון חדש</span><br><span class="line">Name[hr]&#x3D;Otvori novi prozor</span><br><span class="line">Name[hu]&#x3D;Új ablak nyitása</span><br><span class="line">Name[it]&#x3D;Apri una nuova finestra</span><br><span class="line">Name[ja]&#x3D;新しいウィンドウを開く</span><br><span class="line">Name[ko]&#x3D;새 창 열기</span><br><span class="line">Name[ku]&#x3D;Paceyeke nû veke</span><br><span class="line">Name[lt]&#x3D;Atverti naują langą</span><br><span class="line">Name[nb]&#x3D;Åpne et nytt vindu</span><br><span class="line">Name[nl]&#x3D;Nieuw venster openen</span><br><span class="line">Name[pt]&#x3D;Abrir nova janela</span><br><span class="line">Name[pt_BR]&#x3D;Abrir nova janela</span><br><span class="line">Name[ro]&#x3D;Deschide o fereastră nouă</span><br><span class="line">Name[ru]&#x3D;Новое окно</span><br><span class="line">Name[sk]&#x3D;Otvoriť nové okno</span><br><span class="line">Name[sl]&#x3D;Odpri novo okno</span><br><span class="line">Name[sv]&#x3D;Öppna ett nytt fönster</span><br><span class="line">Name[tr]&#x3D;Yeni pencere aç</span><br><span class="line">Name[ug]&#x3D;يېڭى كۆزنەك ئېچىش</span><br><span class="line">Name[uk]&#x3D;Відкрити нове вікно</span><br><span class="line">Name[vi]&#x3D;Mở cửa sổ mới</span><br><span class="line">Name[zh_CN]&#x3D;新建窗口</span><br><span class="line">Name[zh_TW]&#x3D;開啟新視窗</span><br><span class="line">Exec&#x3D;firefox -new-window</span><br><span class="line"></span><br><span class="line">[Desktop Action new-private-window]</span><br><span class="line">Name&#x3D;Open a New Private Window</span><br><span class="line">Name[ar]&#x3D;افتح نافذة جديدة للتصفح الخاص</span><br><span class="line">Name[ca]&#x3D;Obre una finestra nova en mode d&#39;incògnit</span><br><span class="line">Name[cs]&#x3D;Otevřít nové anonymní okno</span><br><span class="line">Name[de]&#x3D;Ein neues privates Fenster öffnen</span><br><span class="line">Name[el]&#x3D;Νέο ιδιωτικό παράθυρο</span><br><span class="line">Name[es]&#x3D;Abrir una ventana privada nueva</span><br><span class="line">Name[fi]&#x3D;Avaa uusi yksityinen ikkuna</span><br><span class="line">Name[fr]&#x3D;Ouvrir une nouvelle fenêtre de navigation privée</span><br><span class="line">Name[he]&#x3D;פתיחת חלון גלישה פרטית חדש</span><br><span class="line">Name[hu]&#x3D;Új privát ablak nyitása</span><br><span class="line">Name[it]&#x3D;Apri una nuova finestra anonima</span><br><span class="line">Name[nb]&#x3D;Åpne et nytt privat vindu</span><br><span class="line">Name[ru]&#x3D;Новое приватное окно</span><br><span class="line">Name[sl]&#x3D;Odpri novo okno zasebnega brskanja</span><br><span class="line">Name[sv]&#x3D;Öppna ett nytt privat fönster</span><br><span class="line">Name[tr]&#x3D;Yeni bir pencere aç</span><br><span class="line">Name[uk]&#x3D;Відкрити нове вікно у потайливому режимі</span><br><span class="line">Name[zh_TW]&#x3D;開啟新隱私瀏覽視窗</span><br><span class="line">Exec&#x3D;&#x2F;opt&#x2F;firefox&#x2F;firefox</span><br><span class="line"># Exec&#x3D;&#x2F;home&#x2F;leek&#x2F;soft&#x2F;firefox&#x2F;firefox %u</span><br><span class="line"># Exec&#x3D;&#x2F;home&#x2F;leek&#x2F;soft&#x2F;firefox&#x2F;firefox -new-window</span><br><span class="line"># Exec&#x3D;&#x2F;home&#x2F;leek&#x2F;soft&#x2F;firefox&#x2F;firefox -private-window</span><br></pre></td></tr></table></figure>
+
+<p>Firefox.com 官网下载国际版 解压后可直接运行Firefox 文件夹下的firefox</p>
+<p>bin 添加对应的脚步文件 打开</p>
+<ul>
+<li>ubuntu 安装开机界面</li>
+<li>Linux 下载神器 motrix</li>
+</ul>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2019-03-27, 08:53:16</p>
+        <p><span>最后更新:</span>2024-03-14, 22:55:29</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/3419088444.html" title="Ubuntu折腾--优化wine 微信小黑框处理">https://imlike.cc/3419088444.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/3419088444.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2693474031.html">
+                    Ubuntu优化--smb局域网分享
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/3632233999.html">
+                    java实现图片压缩
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: 'Ubuntu折腾--优化wine 微信小黑框处理',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2693474031.html" title="上一篇: Ubuntu优化--smb局域网分享">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/3632233999.html" title="下一篇: java实现图片压缩">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/Infinity.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2024 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

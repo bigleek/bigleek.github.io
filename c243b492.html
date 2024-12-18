@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="大数据计算框架简介Hadoop，Spark、Flink是目前重要的三大分布式计算系统  Hadoop用于离线复杂大数据处理 Spark用于离线快速的大数据处理 Flink用于在线实时的大数据处理  1.1. HadoopHadoop是一个由Apache基金会所开发的分布式系统基础架构，主要解决海量数据的存储和分析计算问题。 广义上来说，Hadoop通常是指一个更广泛的概念——Haddop生态圈。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="空间大数据处理框架">
+<meta property="og:url" content="https://imlike.cc/c243b492.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="大数据计算框架简介Hadoop，Spark、Flink是目前重要的三大分布式计算系统  Hadoop用于离线复杂大数据处理 Spark用于离线快速的大数据处理 Flink用于在线实时的大数据处理  1.1. HadoopHadoop是一个由Apache基金会所开发的分布式系统基础架构，主要解决海量数据的存储和分析计算问题。 广义上来说，Hadoop通常是指一个更广泛的概念——Haddop生态圈。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-23-47.png?version=1&modificationDate=1690788227000&api=v2">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-30-30.png?version=1&modificationDate=1690788630000&api=v2">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-35-39.png?version=1&modificationDate=1690788939000&api=v2">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/44586449/image2023-7-26_14-43-6.png?version=1&modificationDate=1690353785000&api=v2">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/44586449/image2023-8-1_14-20-30.png?version=1&modificationDate=1690870831000&api=v2">
+<meta property="og:image" content="https://rd.dtdream.com/download/attachments/44586449/image2023-8-1_16-8-4.png?version=1&modificationDate=1690877284000&api=v2">
+<meta property="article:published_time" content="2023-11-07T11:38:03.000Z">
+<meta property="article:modified_time" content="2024-03-14T14:55:29.485Z">
+<meta property="article:author" content="leek">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-23-47.png?version=1&modificationDate=1690788227000&api=v2">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>空间大数据处理框架 | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-空间大数据处理框架" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/c243b492.html" class="article-date">
+      <time datetime="2023-11-07T11:38:03.000Z" itemprop="datePublished">2023-11-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      空间大数据处理框架
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!--  -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%A7%E6%95%B0%E6%8D%AE%E8%AE%A1%E7%AE%97%E6%A1%86%E6%9E%B6%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">大数据计算框架简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-Hadoop"><span class="toc-number">1.1.</span> <span class="toc-text">1.1. Hadoop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-Spark"><span class="toc-number">1.2.</span> <span class="toc-text">1.2. Spark</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-Flink"><span class="toc-number">1.3.</span> <span class="toc-text">1.3. Flink</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Spark%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">2. Spark简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-Saprk%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">2.1. Saprk相关概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-Spark%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97"><span class="toc-number">2.2.</span> <span class="toc-text">2.2. Spark核心模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-Spark%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84"><span class="toc-number">2.3.</span> <span class="toc-text">2.3. Spark集群架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-Driver"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1. Driver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-2-Cluster-Manager"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2. Cluster Manager</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-3-Worker"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3. Worker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-4-Executor"><span class="toc-number">2.3.4.</span> <span class="toc-text">2.3.4. Executor</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-Spark%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E8%BF%87%E7%A8%8B"><span class="toc-number">2.4.</span> <span class="toc-text">2.4. Spark任务提交过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98"><span class="toc-number">2.5.</span> <span class="toc-text">2.5. Spark性能调优</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-1-%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98"><span class="toc-number">2.5.1.</span> <span class="toc-text">2.5.1. 参数调优</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-1-num-executors"><span class="toc-number">2.5.1.1.</span> <span class="toc-text">2.5.1.1. num-executors</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-2-executor-memory"><span class="toc-number">2.5.1.2.</span> <span class="toc-text">2.5.1.2. executor-memory</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-3-executor-core"><span class="toc-number">2.5.1.3.</span> <span class="toc-text">2.5.1.3. executor-core</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-4-driver-memory"><span class="toc-number">2.5.1.4.</span> <span class="toc-text">2.5.1.4. driver-memory</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-5-Spark-default-parallelism"><span class="toc-number">2.5.1.5.</span> <span class="toc-text">2.5.1.5. Spark.default.parallelism</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-6-Spark-Shuffle-memoryFraction"><span class="toc-number">2.5.1.6.</span> <span class="toc-text">2.5.1.6. Spark.Shuffle.memoryFraction</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-2-%E4%BB%A3%E7%A0%81%E9%87%8D%E6%9E%84%E8%B0%83%E4%BC%98"><span class="toc-number">2.5.2.</span> <span class="toc-text">2.5.2. 代码重构调优</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-1-%E5%B0%BD%E5%8F%AF%E8%83%BD%E5%A4%8D%E7%94%A8%E4%B8%80%E4%B8%AARDD"><span class="toc-number">2.5.2.1.</span> <span class="toc-text">2.5.2.1. 尽可能复用一个RDD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-2-%E5%AF%B9%E5%A4%9A%E6%AC%A1%E4%BD%BF%E7%94%A8%E7%9A%84RDD%E8%BF%9B%E8%A1%8C%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">2.5.2.2.</span> <span class="toc-text">2.5.2.2. 对多次使用的RDD进行持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-3-%E5%B0%BD%E9%87%8F%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8Shuffle%E7%AE%97%E5%AD%90"><span class="toc-number">2.5.2.3.</span> <span class="toc-text">2.5.2.3. 尽量避免使用Shuffle算子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-4-%E4%BD%BF%E7%94%A8%E9%AB%98%E6%80%A7%E8%83%BD%E7%AE%97%E5%AD%90"><span class="toc-number">2.5.2.4.</span> <span class="toc-text">2.5.2.4. 使用高性能算子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-5-%E4%BD%BF%E7%94%A8Kryo%E4%BC%98%E5%8C%96%E5%BA%8F%E5%88%97%E5%8C%96%E6%80%A7%E8%83%BD"><span class="toc-number">2.5.2.5.</span> <span class="toc-text">2.5.2.5. 使用Kryo优化序列化性能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-6-%E4%BC%98%E5%8C%96%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.5.2.6.</span> <span class="toc-text">2.5.2.6. 优化数据结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-7-%E5%B9%BF%E6%92%AD%E5%A4%A7%E5%8F%98%E9%87%8F"><span class="toc-number">2.5.2.7.</span> <span class="toc-text">2.5.2.7. 广播大变量</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E7%A9%BA%E9%97%B4%E5%A4%A7%E6%95%B0%E6%8D%AE%E8%AE%A1%E7%AE%97%E6%A1%86%E6%9E%B6%E7%AE%80%E4%BB%8B"><span class="toc-number">3.</span> <span class="toc-text">3. 空间大数据计算框架简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-Sedona-GeoSpark-%E7%AE%80%E4%BB%8B"><span class="toc-number">3.1.</span> <span class="toc-text">3.1. Sedona(GeoSpark)简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E6%89%A9%E5%B1%95%E2%80%94%E2%80%94SQL-MM%E7%AE%80%E4%BB%8B"><span class="toc-number">3.2.</span> <span class="toc-text">3.2. 扩展——SQL&#x2F;MM简介</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <h1 id="大数据计算框架简介"><a href="#大数据计算框架简介" class="headerlink" title="大数据计算框架简介"></a>大数据计算框架简介</h1><p>Hadoop，Spark、Flink是目前重要的三大分布式计算系统</p>
+<ul>
+<li>Hadoop用于离线复杂大数据处理</li>
+<li>Spark用于离线快速的大数据处理</li>
+<li>Flink用于在线实时的大数据处理</li>
+</ul>
+<h2 id="1-1-Hadoop"><a href="#1-1-Hadoop" class="headerlink" title="1.1. Hadoop"></a>1.1. Hadoop</h2><p>Hadoop是一个由Apache基金会所开发的分布式系统基础架构，主要解决海量数据的存储和分析计算问题。</p>
+<p>广义上来说，Hadoop通常是指一个更广泛的概念——Haddop生态圈。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-23-47.png?version=1&modificationDate=1690788227000&api=v2" alt="img"></p>
+<p><strong>1) Hadoop分布式文件系统(HDFS)</strong></p>
+<p>HDFS (Hadoop Distributed File System) ，它是一个<strong>文件系统</strong>，用来存储文件，通过目录树来定位文件，其次，它是<strong>分布式</strong>的，由很多服务器联合起来实现其功能，集群中的服务器有各自的角色。</p>
+<p>使用场景：HDFS适合<strong>一次写入，多次读出</strong>的场景，且不支持文件的修改，适合用来做数据分析，并不适合用来做网盘应用。</p>
+<p><strong>2) Hadoop MapReduce引擎</strong></p>
+<p>MapReduce是一种<strong>并行程序设计模型与方法</strong>，用于大规模数据集的并行运算。概念”Map（映射）”和”Reduce（归约）”是它们的主要思想。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-30-30.png?version=1&modificationDate=1690788630000&api=v2" alt="img"></p>
+<h2 id="1-2-Spark"><a href="#1-2-Spark" class="headerlink" title="1.2. Spark"></a>1.2. Spark</h2><p>Apache Spark是专为大规模数据处理而设计的快速通用的计算引擎。Spark是类Hadoop MapReduce的通用并行框架。Spark拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是，Job中间的输出结果可以保存在内存中，从而不再需要读写HDFS，因此Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-35-39.png?version=1&modificationDate=1690788939000&api=v2" alt="img"></p>
+<h2 id="1-3-Flink"><a href="#1-3-Flink" class="headerlink" title="1.3. Flink"></a>1.3. Flink</h2><p>Apache Flink是一个框架和分布式处理引擎，用于对无界和有界数据流进行有状态计算。Flink 被设计在所有常见的集群环境中运行，以内存执行速度和任意规模来执行计算。</p>
+<p><strong>流数据：</strong>在自然环境中，数据的产生原本就是流式的。但是当你分析数据时，可以围绕 有界流（bounded）或 无界流（unbounded）两种模型来组织处理数据，当然，选择不同的模型，程序的执行和处理方式也都会不同。</p>
+<p><strong>离线计算的代表spark和flink的对比</strong></p>
+<p>在spark中，一切都是由批次组成的，离线数据是一个大批次，而实时数据是由一个一个无限的小批次组成的。而在flink中，一切都是由流组成的，离线数据是有界限的流，实时数据是一个没有界限的流。</p>
+<p><strong>有界流\</strong>：****数据有时间的界限，比如我们长说某天的数据、某月的数据。</p>
+<p><strong>无界流：</strong>数据没有时间的界限，所处理的数据是持续不断的输入的。因此程序必须持续不断地对到达的数据进行处理。</p>
+<h1 id="2-Spark简介"><a href="#2-Spark简介" class="headerlink" title="2. Spark简介"></a>2. Spark简介</h1><h2 id="2-1-Saprk相关概念"><a href="#2-1-Saprk相关概念" class="headerlink" title="2.1. Saprk相关概念"></a>2.1. Saprk相关概念</h2><p><strong>RDD（Resilient Distributed Dataset）</strong>：弹性分布式数据集，是Spark的核心部分，可以理解为一个<strong>分布式</strong>数据结构的封装，并在此基础上提供了各种数据操作的API。其中，数据操作可以分成<strong>转换（**</strong>transformation**<strong>）</strong>和<strong>行动（**</strong>action**<strong>）</strong>两类，<strong>转换构建各**</strong>RDD**<strong>之间的依赖关系，但不会实际执行，只有遇到行动操作后才会实际提交作业触发执行</strong>。RDD之间的依赖关系构成了RDD的<strong>血缘</strong>，当RDD丢失时可以通过血缘关系重新执行生成，保证了RDD的容错性。</p>
+<p>举例：</p>
+<table>
+<thead>
+<tr>
+<th align="left">数据集</th>
+<th align="left">map</th>
+<th align="left">reduce</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">{x: x∈N+, x&lt;10 }</td>
+<td align="left">{x: f(x)}</td>
+<td align="left">{x: ∑f(x)}、{x: Πf(x)}等</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">类别</th>
+<th align="left">函数名</th>
+<th align="left">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">转换算子</td>
+<td align="left">map</td>
+<td align="left">将处理的数据逐条进行映射转换，这里的转换可以是类型的转换，也可以是值的转换</td>
+</tr>
+<tr>
+<td align="left">mapPartitions</td>
+<td align="left">将待处理的数据以分区为单位发送到计算节点进行处理，这里的处理是指可以进行任意的处理，包括过滤</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">mapPartitionsWithindex</td>
+<td align="left">将待处理的数据以分区为单位发送到计算节点进行处理，这里的处理是指可以进行任意的处理，包括过滤，在处理同时可以获取当前分区的索引</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">flatMap</td>
+<td align="left">将处理的数据进行扁平化后再进行映射处理，所以算子也称之为扁平映射</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">glom</td>
+<td align="left">将同一个分区的数据直接转换为相同类型的内存数组进行处理，分区不变</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">groupBy</td>
+<td align="left">将数据根据指定的规则进行分组，分区默认不变，但是数据会被打乱重新组合，我们将这样的操作称之为shuffle，极限情况下，数据可能被分到同一个分区中</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">filter</td>
+<td align="left">将数据根据执行的规则进行筛选过滤，符合规则的数据保留，不符合规则的数据丢弃。当数据进行筛选过滤后，分区不变，但是分区内的数据可能不均衡，生产环境下，可能出现数据倾斜</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">sample</td>
+<td align="left">根据指定的规则聪数据中抽取数据</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">coalesce</td>
+<td align="left">根据数据量进行缩减分区，用于大数据集过滤后，提高小数据集的执行效率，减少任务调度成本</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">distinct</td>
+<td align="left">将数据集中的重复数据进行去重</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">repartitions</td>
+<td align="left">调整分区数量</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">sortBy</td>
+<td align="left">可以根据指定的规则对数据源中的数据进行排序</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">intersection</td>
+<td align="left">对源RDD和参数RDD求交集后返回一个新的RDD</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">union</td>
+<td align="left">对源RDD和参数RDD求并集后返回一个新的RDD</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">subtract</td>
+<td align="left">对源RDD和参数RDD求差集后返回一个新的RDD</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">zip</td>
+<td align="left">相同位置的数据拉取到一块</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">partitionBy</td>
+<td align="left">将数据按照指定Partitioner重新进行分区</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">reduceByKey</td>
+<td align="left">将相同的key进行分组，将value聚合</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">groupByKey</td>
+<td align="left">将分区的数据直接转换为相同类型的内存数组进行后续处理</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">aggregateByKey</td>
+<td align="left">将数据根据不同规则进行分区内计算和分区间计算</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">flodByKey</td>
+<td align="left">foldByKey就是aggregateByKey的简化版本，当aggregateByKey的第二个参数计算逻辑相同时就可以用foldByKey</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">combineByKey</td>
+<td align="left">需要三个参数  1.将相同key的第一个数据进行结构的转换，实现操作 2.分区内计算规则 3.分区间计算规则</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">join</td>
+<td align="left">在类型为(K,V)和(K,W)的RDD上调用，返回一个相同的key对应的所有元素连接在一起的（K,(v,w)）的RDD</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">leftOuterJoin</td>
+<td align="left">类似于sql的左外连接</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">rightOuterJoin</td>
+<td align="left">类似于sql的右外连接</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">cogroup</td>
+<td align="left">在类型(K,V)和(K,W)的RDD上调用，返回一个(K,(Iterable<V>,Iterable<W>))类型的RDD</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">行动算子</td>
+<td align="left">reduce</td>
+<td align="left">聚集RDD中的所有元素，先聚合分区内数据，再聚合分区间数</td>
+</tr>
+<tr>
+<td align="left">collect</td>
+<td align="left">方法会将不同分区的数据按照分区顺序采集到Driver端内存中，形成数组</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">count</td>
+<td align="left">数据源中数据的个数</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">first</td>
+<td align="left">数据源中数据的第一个</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">take</td>
+<td align="left">获取n个数据</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">takeOrdered</td>
+<td align="left">数据排序后取n个数据</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">aggregate</td>
+<td align="left">分区的数据通过初始值和分区内的数据进行聚合，然后再和初始值进行分区间的数据聚合</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">fold</td>
+<td align="left">折叠操作,aggregate的简化版操作</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">countByKey</td>
+<td align="left">统计每种key的个数</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<p><strong>Partition</strong>：数据分区，即RDD进行数据划分的单元，也是Spark数据处理的单元，任务的数量由分区数量确定，一个任务处理一个分区的数据。</p>
+<p><strong>Dependency</strong>：RDD之间的依赖关系。分为窄依赖（NarrowDependency）和Shuffle依赖。前者表示子RDD中的分区依赖于父RDD中固定数量的分区，包括依赖一个分区的OneToOneDependency和一定范围内多个分区的RangeDependency；后者也称为宽依赖，子RDD中的分区可能对父RDD中所有的分区产生依赖，具体依赖关系取决于分区器partitioner。</p>
+<p><strong>Job</strong>：Spark中的作业，<strong>对**</strong>RDD**<strong>的一个行动操作对应一个作业</strong>。每个作业包括了该RDD的行动操作以及构成当前RDD血缘关系的所有转换操作，一个Spark应用可以包含多个作业。</p>
+<p><strong>Stage</strong>：在每个作业中，Spark会<strong>根据**</strong>shuffle**<strong>依赖将作业划分成多个阶段</strong>。从最后一个触发行动操作的RDD开始（最后一个属于ResultStage），对RDD的依赖进行回溯，如果遇到shuffle依赖，则将shuffle之前的RDD视为一个阶段（ShuffleMapStage），shuffle之后的RDD到回溯起点之间所有的RDD视为一个阶段，接着从shuffle之前的RDD开始继续回溯，直到回溯至与外部数据源相关的RDD为止，如图1所示。</p>
+<p><strong>Task</strong>：每个阶段中，Spark会<strong>根据**</strong>RDD**<strong>的分区数量，创建相同数量的任务</strong>，每个任务处理一个分区的数据。其中，ShuffleMapStage中的任务为ShuffleMapTask，ResultStage中的任务为ResultTask。</p>
+<p>下图为Spark中Stage的划分方式</p>
+<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-26_14-43-6.png?version=1&modificationDate=1690353785000&api=v2" alt="img"></p>
+<h2 id="2-2-Spark核心模块"><a href="#2-2-Spark核心模块" class="headerlink" title="2.2. Spark核心模块"></a>2.2. Spark核心模块</h2><p>Spark的模块组成包括核心模块Spark Core以及建立在核心模块之上的扩展模块Spark SQL、Spark Streaming、GraphX、MLlib。Spark核心模块提供了Spark中最基础最核心的功能，包括：</p>
+<p><strong>基础设施</strong>：分为负责参数配置的SparkConf，负责Spark跨节点组件之间通信的基于netty实现的RPC框架，负责SparkContext内部组件间通信的事件总线ListenerBus，负责监控各个组件运行期状态的度量系统；</p>
+<p><strong>SparkContext：</strong>作为Spark所有功能的集成者和用户程序开发的接口，其内部封装了网络通信、消息通信、存储体系、计算引擎、度量系统、WebUI等内容，这些功能对开发人员来说都是透明的；</p>
+<p><strong>SparkEnv</strong>：是Spark执行环境，任务运行所必需的组件，由RpcEnv、序列化管理器、BroadcastManager、MapOutputTracker、存储体系、度量系统、OutputCommitCoordinator等组件组成；</p>
+<p><strong>存储体系：</strong>分为内存存储管理和磁盘存储管理，Spark的内存空间提供了Tungsten的实现，对堆外内存进行管理。此外，Spark的内存存储空间和计算存储空间之间的边界是“软”边界，当一方资源不够时可向另一方借用，提高了资源利用率；</p>
+<p><strong>调度体系：</strong>分为DAGScheduler和TaskScheduler，内置在SparkContext中。DAGScheduler负责解析RDD之间的依赖，按照shuffle操作划分阶段，根据阶段创建TaskSet，TaskScheduler负责按照FAIR或FIFO调度算法对TaskSet进行调度，为每个任务分配可执行的Executor，并将序列化后的任务发送到指定的Executor上执行；</p>
+<p><strong>计算引擎：</strong>由内存管理器、Tungsten、任务内存管理器、外部排序器、Shuffle管理器等组成，其中外部排序器用于在map端或者reduce端对ShuffleMapTask计算得到的中间结果进行排序、聚合等操作，Shuffle管理器用于将各个分区对应的ShuffleMapTask产生的中间结果持久化到磁盘，并在reduce端按照分区远程拉取生成的中间结果。</p>
+<h2 id="2-3-Spark集群架构"><a href="#2-3-Spark集群架构" class="headerlink" title="2.3. Spark集群架构"></a>2.3. Spark集群架构</h2><p>从集群部署的角度来看，Spark集群由集群管理器（Cluster Manager）、工作节点（Worker）、执行器（Executor）、驱动器（Driver）、应用程序（Application）等部分组成。<br><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-8-1_14-20-30.png?version=1&modificationDate=1690870831000&api=v2" alt="img"></p>
+<h3 id="2-3-1-Driver"><a href="#2-3-1-Driver" class="headerlink" title="2.3.1. Driver"></a>2.3.1. Driver</h3><p>用于运行Spark程序的 main 方法，创建SparkContext对象</p>
+<p>Driver在spark作业执行时主要负责：</p>
+<p>1）启动SparkContext或SparkSession，将用户程序转化为作业（Job）；</p>
+<p>2）在Executor之间调度任务（Task）；</p>
+<p>3）跟踪Executor的执行情况；</p>
+<p>4）通过UI展示查询运行情况。</p>
+<h3 id="2-3-2-Cluster-Manager"><a href="#2-3-2-Cluster-Manager" class="headerlink" title="2.3.2. Cluster Manager"></a>2.3.2. Cluster Manager</h3><p><strong>在YARN部署模式下为ResourceManager</strong></p>
+<p>负责对整个集群资源的分配与管理，不负责对Executor的资源的分配。</p>
+<p>常见的集群管理工具有<strong>Yarn</strong>、Mesos、Kubernetes、Standalone。</p>
+<h3 id="2-3-3-Worker"><a href="#2-3-3-Worker" class="headerlink" title="2.3.3. Worker"></a>2.3.3. Worker</h3><p><strong>在YARN部署模式下为NodeManager</strong></p>
+<p>负责启动和管理Executor，将Executor状态信息同步给Cluster Manager。</p>
+<h3 id="2-3-4-Executor"><a href="#2-3-4-Executor" class="headerlink" title="2.3.4. Executor"></a>2.3.4. Executor</h3><p>负责执行Spark作业中具体的任务，任务彼此之间相互独立。</p>
+<p>Executor 有两个核心功能：</p>
+<p>1）向Driver认领属于自己的任务，接收任务后负责运行Spark Task，并将结果返回给Driver。</p>
+<p>2）通过自身的Block Manager为用户程序中要求缓存的RDD提供内存式存储。RDD 的数据是直接缓存在 Executor 进程内的，因此任务可以在运行时充分利用缓存数据加速运算。</p>
+<h2 id="2-4-Spark任务提交过程"><a href="#2-4-Spark任务提交过程" class="headerlink" title="2.4. Spark任务提交过程"></a>2.4. Spark任务提交过程</h2><p>当用户通过SparkContext提交应用程序时，分为以下几步：</p>
+<p>1）首先通过RpcEnv<strong>向ClusterManager注册应用并申请资源</strong>。</p>
+<p>2）Cluster Manager根据应用的需求，将<strong>对应的Executor分配给应用程序</strong>，并在Worker上启动Executor后台进程，该进程通过RpcEnv向Driver注册Executor资源信息，Driver中的TaskScheduler保存Executor的地址、内存以及核数等信息；</p>
+<p>3）SparkContext根据RDD的转换操作，<strong>构建RDD的血缘关系</strong>，并在遇到行动操作的时候，<strong>将构建的依赖关系提交给DAGScheduler</strong>，DAGScheduler对依赖关系进行解析，生成TaskSet，将TaskSet保存至任务池，TaskScheduler从任务池中取出TaskSet后按照FAIR或FIFO算法进行调度，给任务分配Executor资源，并将序列化后的任务发送至Executor执行。</p>
+<h2 id="2-5-Spark性能调优"><a href="#2-5-Spark性能调优" class="headerlink" title="2.5. Spark性能调优"></a>2.5. Spark性能调优</h2><h3 id="2-5-1-参数调优"><a href="#2-5-1-参数调优" class="headerlink" title="2.5.1. 参数调优"></a>2.5.1. 参数调优</h3><h4 id="2-5-1-1-num-executors"><a href="#2-5-1-1-num-executors" class="headerlink" title="2.5.1.1. num-executors"></a>2.5.1.1. num-executors</h4><p>该参数用于设计Spark作业总的Executor进程的个数。YARN集群管理器会尽可能根据num-executor设置在工作节点上启动Executor。</p>
+<h4 id="2-5-1-2-executor-memory"><a href="#2-5-1-2-executor-memory" class="headerlink" title="2.5.1.2. executor-memory"></a>2.5.1.2. executor-memory</h4><p>该参数用于设置每个Executor 进程的内存，Executor内存的大小，很多程度上直接决定了Spark作业的性能，而且跟很常见的Java中的虚拟机内存溢出异常(OOM)也有关系。</p>
+<h4 id="2-5-1-3-executor-core"><a href="#2-5-1-3-executor-core" class="headerlink" title="2.5.1.3. executor-core"></a>2.5.1.3. executor-core</h4><p>该参数用于设置每个Executor进程的CPU core 数量。</p>
+<h4 id="2-5-1-4-driver-memory"><a href="#2-5-1-4-driver-memory" class="headerlink" title="2.5.1.4. driver-memory"></a>2.5.1.4. driver-memory</h4><p>该参数用于设置Driver进程的内存，这个参数通常不设置。但是要注意的一点是，使用collect算子时，一定要保证Driver内存足够大，否则会出现内存溢出的错误。</p>
+<h4 id="2-5-1-5-Spark-default-parallelism"><a href="#2-5-1-5-Spark-default-parallelism" class="headerlink" title="2.5.1.5. Spark.default.parallelism"></a>2.5.1.5. Spark.default.parallelism</h4><p>该参数用于设置每个Stage默认的task数量。</p>
+<h4 id="2-5-1-6-Spark-Shuffle-memoryFraction"><a href="#2-5-1-6-Spark-Shuffle-memoryFraction" class="headerlink" title="2.5.1.6. Spark.Shuffle.memoryFraction"></a>2.5.1.6. Spark.Shuffle.memoryFraction</h4><p>该参数用于设置Shuffle过程中一个task拉取到上个Stage的task的输出后，进行聚合操作时能够使用的Executor内存的比例，默认是0.2。也就是说，Executor默认只有20%的内存用来进行该操作。shuffle操作在进行聚合时，如果发现使用的内存超出了这个20%的限制，那么多余的数据就会溢写到磁盘文件中去，此时就会极大地降低性能。建议：如果Spark作业中的RDD持久化操作较少，shuffle操作较多时，建议降低持久化操作的内存占比，提高shuffle操作的内存占比比例，避免shuffle过程中数据过多时内存不够用，必须溢写到磁盘上，降低了性能。此外，如果发现作业由于频繁的gc导致运行缓慢，意味着task执行用户代码的内存不够用，那么同样建议调低这个参数的值。</p>
+<h3 id="2-5-2-代码重构调优"><a href="#2-5-2-代码重构调优" class="headerlink" title="2.5.2. 代码重构调优"></a>2.5.2. 代码重构调优</h3><h4 id="2-5-2-1-尽可能复用一个RDD"><a href="#2-5-2-1-尽可能复用一个RDD" class="headerlink" title="2.5.2.1. 尽可能复用一个RDD"></a>2.5.2.1. 尽可能复用一个RDD</h4><p>在对不同的数据执行算子操作时应该尽量复用一个RDD。例如，当RDD A的数据格式是key-value类型的，RDD B的数据格式是value类型的，但是这两个RDD的value数据完全相同；那么，RDD A包含了RDD B中的所有信息，理论上来说RDD B可以被替代，而实际开发中也应该尽量减少多个RDD数据有重复或者包含的情况，这样可以尽可能减少RDD的数量从而减少算子执行的次数。</p>
+<h4 id="2-5-2-2-对多次使用的RDD进行持久化"><a href="#2-5-2-2-对多次使用的RDD进行持久化" class="headerlink" title="2.5.2.2. 对多次使用的RDD进行持久化"></a>2.5.2.2. 对多次使用的RDD进行持久化</h4><p>RDD的持有化有几种不同的级别，分别是：MEMORY_ONLY、MEMORY_AND_DISK、MEMORY_ONLY_SER、MEMORY_AND_DISK_SER、DISK_ONLY、MEMORY_ONLY_2 等，这几种持久化级别使用的优先级排序如下：</p>
+<ol>
+<li>MEMORY_ONLY性能最高，直接将RDD存储在内存中，省去了序列化及反序列化、从磁盘读取的时间，但是对于内存的容量有较高的要求；</li>
+<li>MEMORY_ONLY_SER会将数据序列化后保存在内存中，通过序列化压缩了RDD的大小，但是相较于MEMORY_ONLY多出了序列化及反序列化的时间；</li>
+<li>MEMORY_AND_DISK_SER优先将RDD缓存在内存中，内存缓存不下时才会存在磁盘中;</li>
+<li>DISK_ONLY和后缀为_2的级别通常不建议使用，完全基于磁盘文件的读写会导致性能的极具降低；后缀为2的级别会将所有数据都复制一份副本到其他节点上，数据复制及网络传输会导致较大的性能开销。</li>
+</ol>
+<h4 id="2-5-2-3-尽量避免使用Shuffle算子"><a href="#2-5-2-3-尽量避免使用Shuffle算子" class="headerlink" title="2.5.2.3. 尽量避免使用Shuffle算子"></a>2.5.2.3. 尽量避免使用Shuffle算子</h4><p>Spark作业最消耗性能的部分就是Shuffle过程，应尽量避免使用Shuffle算子。Shuffle过程就是将分布在集群中多个节点上的同一个 key，拉取到同一个节点上，进行聚合或者join操作，在操作过程中可能会因为一个节点上处理的key过多导致数据溢出到磁盘。由此可见，Shuffle过程可能会发生大量的磁盘文件读写的 IO 操作，以及数据的网络传输操作。</p>
+<p>Shuffle类算子有：<strong>distinct、groupByKey、reduceByKey、aggregateByKey、join、cogroup、repartition</strong>等，编写Spark作业程序时，<strong>应该尽量使用map类算子替代Shuffle算子</strong>。</p>
+<h4 id="2-5-2-4-使用高性能算子"><a href="#2-5-2-4-使用高性能算子" class="headerlink" title="2.5.2.4. 使用高性能算子"></a>2.5.2.4. 使用高性能算子</h4><ol>
+<li>使用reduceByKey/aggregateByKey替代groupByKey</li>
+<li>使用mapPartitions替代普通map Transformation算子</li>
+<li>使用foreachPartitions替代foreach Action算子</li>
+<li>使用filter之后进行coalesce操作</li>
+<li>repartition:coalesce(numPartitions，true)增多分区使用这个</li>
+<li>coalesce(numPartitions，false)减少分区，没有shuffle只是合并partition</li>
+</ol>
+<h4 id="2-5-2-5-使用Kryo优化序列化性能"><a href="#2-5-2-5-使用Kryo优化序列化性能" class="headerlink" title="2.5.2.5. 使用Kryo优化序列化性能"></a>2.5.2.5. 使用Kryo优化序列化性能</h4><p>Spark支持使用Kryo序列化机制。这种序列化机制，比默认的Java序列化机制速度要快，序列化后的数据更小。所以Kryo序列化优化以后，可以让网络传输的数据变少，在集群中耗费的内存资源大大减少。</p>
+<h4 id="2-5-2-6-优化数据结构"><a href="#2-5-2-6-优化数据结构" class="headerlink" title="2.5.2.6. 优化数据结构"></a>2.5.2.6. 优化数据结构</h4><p>在Java中有三种类型比较耗费内存</p>
+<ul>
+<li>对象：每个Java对象都有对象头、引用等额外的信息，因此比较占用内存空间。</li>
+<li>字符串：每个字符串内部都有一个字符数组以及长度等额外信息。</li>
+<li>集合类型：比如HashMap、LinkedList等，因为集合类型内部通常会使用一些内部类来封装集合元素，比如Map.Entry。</li>
+</ul>
+<p>因此Spark编码时应尽量不要使用以上三种数据结构，尽量使用字符串代替对象，使用原始类型（比如 Int、Long）替代字符串，使用数组替代集合类型，这样尽可能地减少内存占用，降低垃圾回收的频率提高性能。</p>
+<h4 id="2-5-2-7-广播大变量"><a href="#2-5-2-7-广播大变量" class="headerlink" title="2.5.2.7. 广播大变量"></a>2.5.2.7. 广播大变量</h4><p>开发过程中，会遇到需要在算子函数中使用外部变量的场景(尤其是大变量，比如100M以上的大集合)，那么此时就应该使用Spark的广播(Broadcast)功能来提升性能；<strong>函数中使用到外部变量时，默认情况下，Spark会将该变量复制多个副本，通过网络传输到task中，此时每个task都有一个变量副本</strong>。如果变量本身比较大的话(比如100M，甚至1G)，那么大量的变量副本在网络中传输的性能开销，以及在各个节点的Executor中占用过多内存导致的频繁GC(垃圾回收)，都会极大地影响性能； 如果使用的外部变量比较大，建议使用Spark的广播功能，对该变量进行广播。<strong>广播后的变量，会保证每个Executor的内存中，只驻留一份变量副本，而Executor中的 task执行时共享该Executor中的那份变量副本</strong>。这样的话，可以大大减少变量副本的数量，从而减少网络传输的性能开销，并减少对Executor内存的占用开销，降低 GC的频率。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-8-1_16-8-4.png?version=1&modificationDate=1690877284000&api=v2" alt="img"></p>
+<h1 id="3-空间大数据计算框架简介"><a href="#3-空间大数据计算框架简介" class="headerlink" title="3. 空间大数据计算框架简介"></a>3. 空间大数据计算框架简介</h1><h2 id="3-1-Sedona-GeoSpark-简介"><a href="#3-1-Sedona-GeoSpark-简介" class="headerlink" title="3.1. Sedona(GeoSpark)简介"></a>3.1. Sedona(GeoSpark)简介</h2><p><a target="_blank" rel="noopener" href="https://rd.dtdream.com/pages/viewpage.action?pageId=44138042">4.1.2.3 sedona(geospark)</a></p>
+<h2 id="3-2-扩展——SQL-MM简介"><a href="#3-2-扩展——SQL-MM简介" class="headerlink" title="3.2. 扩展——SQL/MM简介"></a>3.2. 扩展——SQL/MM简介</h2><p><a target="_blank" rel="noopener" href="https://rd.dtdream.com/pages/viewpage.action?pageId=44589787">1.4.2 SQL/MM</a></p>
+
+              
+              <!-- 
+              
+              <h1 id="大数据计算框架简介"><a href="#大数据计算框架简介" class="headerlink" title="大数据计算框架简介"></a>大数据计算框架简介</h1><p>Hadoop，Spark、Flink是目前重要的三大分布式计算系统</p>
+<ul>
+<li>Hadoop用于离线复杂大数据处理</li>
+<li>Spark用于离线快速的大数据处理</li>
+<li>Flink用于在线实时的大数据处理</li>
+</ul>
+<h2 id="1-1-Hadoop"><a href="#1-1-Hadoop" class="headerlink" title="1.1. Hadoop"></a>1.1. Hadoop</h2><p>Hadoop是一个由Apache基金会所开发的分布式系统基础架构，主要解决海量数据的存储和分析计算问题。</p>
+<p>广义上来说，Hadoop通常是指一个更广泛的概念——Haddop生态圈。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-23-47.png?version=1&modificationDate=1690788227000&api=v2" alt="img"></p>
+<p><strong>1) Hadoop分布式文件系统(HDFS)</strong></p>
+<p>HDFS (Hadoop Distributed File System) ，它是一个<strong>文件系统</strong>，用来存储文件，通过目录树来定位文件，其次，它是<strong>分布式</strong>的，由很多服务器联合起来实现其功能，集群中的服务器有各自的角色。</p>
+<p>使用场景：HDFS适合<strong>一次写入，多次读出</strong>的场景，且不支持文件的修改，适合用来做数据分析，并不适合用来做网盘应用。</p>
+<p><strong>2) Hadoop MapReduce引擎</strong></p>
+<p>MapReduce是一种<strong>并行程序设计模型与方法</strong>，用于大规模数据集的并行运算。概念”Map（映射）”和”Reduce（归约）”是它们的主要思想。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-30-30.png?version=1&modificationDate=1690788630000&api=v2" alt="img"></p>
+<h2 id="1-2-Spark"><a href="#1-2-Spark" class="headerlink" title="1.2. Spark"></a>1.2. Spark</h2><p>Apache Spark是专为大规模数据处理而设计的快速通用的计算引擎。Spark是类Hadoop MapReduce的通用并行框架。Spark拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是，Job中间的输出结果可以保存在内存中，从而不再需要读写HDFS，因此Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-35-39.png?version=1&modificationDate=1690788939000&api=v2" alt="img"></p>
+<h2 id="1-3-Flink"><a href="#1-3-Flink" class="headerlink" title="1.3. Flink"></a>1.3. Flink</h2><p>Apache Flink是一个框架和分布式处理引擎，用于对无界和有界数据流进行有状态计算。Flink 被设计在所有常见的集群环境中运行，以内存执行速度和任意规模来执行计算。</p>
+<p><strong>流数据：</strong>在自然环境中，数据的产生原本就是流式的。但是当你分析数据时，可以围绕 有界流（bounded）或 无界流（unbounded）两种模型来组织处理数据，当然，选择不同的模型，程序的执行和处理方式也都会不同。</p>
+<p><strong>离线计算的代表spark和flink的对比</strong></p>
+<p>在spark中，一切都是由批次组成的，离线数据是一个大批次，而实时数据是由一个一个无限的小批次组成的。而在flink中，一切都是由流组成的，离线数据是有界限的流，实时数据是一个没有界限的流。</p>
+<p><strong>有界流\</strong>：****数据有时间的界限，比如我们长说某天的数据、某月的数据。</p>
+<p><strong>无界流：</strong>数据没有时间的界限，所处理的数据是持续不断的输入的。因此程序必须持续不断地对到达的数据进行处理。</p>
+<h1 id="2-Spark简介"><a href="#2-Spark简介" class="headerlink" title="2. Spark简介"></a>2. Spark简介</h1><h2 id="2-1-Saprk相关概念"><a href="#2-1-Saprk相关概念" class="headerlink" title="2.1. Saprk相关概念"></a>2.1. Saprk相关概念</h2><p><strong>RDD（Resilient Distributed Dataset）</strong>：弹性分布式数据集，是Spark的核心部分，可以理解为一个<strong>分布式</strong>数据结构的封装，并在此基础上提供了各种数据操作的API。其中，数据操作可以分成<strong>转换（**</strong>transformation**<strong>）</strong>和<strong>行动（**</strong>action**<strong>）</strong>两类，<strong>转换构建各**</strong>RDD**<strong>之间的依赖关系，但不会实际执行，只有遇到行动操作后才会实际提交作业触发执行</strong>。RDD之间的依赖关系构成了RDD的<strong>血缘</strong>，当RDD丢失时可以通过血缘关系重新执行生成，保证了RDD的容错性。</p>
+<p>举例：</p>
+<table>
+<thead>
+<tr>
+<th align="left">数据集</th>
+<th align="left">map</th>
+<th align="left">reduce</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">{x: x∈N+, x&lt;10 }</td>
+<td align="left">{x: f(x)}</td>
+<td align="left">{x: ∑f(x)}、{x: Πf(x)}等</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">类别</th>
+<th align="left">函数名</th>
+<th align="left">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">转换算子</td>
+<td align="left">map</td>
+<td align="left">将处理的数据逐条进行映射转换，这里的转换可以是类型的转换，也可以是值的转换</td>
+</tr>
+<tr>
+<td align="left">mapPartitions</td>
+<td align="left">将待处理的数据以分区为单位发送到计算节点进行处理，这里的处理是指可以进行任意的处理，包括过滤</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">mapPartitionsWithindex</td>
+<td align="left">将待处理的数据以分区为单位发送到计算节点进行处理，这里的处理是指可以进行任意的处理，包括过滤，在处理同时可以获取当前分区的索引</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">flatMap</td>
+<td align="left">将处理的数据进行扁平化后再进行映射处理，所以算子也称之为扁平映射</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">glom</td>
+<td align="left">将同一个分区的数据直接转换为相同类型的内存数组进行处理，分区不变</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">groupBy</td>
+<td align="left">将数据根据指定的规则进行分组，分区默认不变，但是数据会被打乱重新组合，我们将这样的操作称之为shuffle，极限情况下，数据可能被分到同一个分区中</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">filter</td>
+<td align="left">将数据根据执行的规则进行筛选过滤，符合规则的数据保留，不符合规则的数据丢弃。当数据进行筛选过滤后，分区不变，但是分区内的数据可能不均衡，生产环境下，可能出现数据倾斜</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">sample</td>
+<td align="left">根据指定的规则聪数据中抽取数据</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">coalesce</td>
+<td align="left">根据数据量进行缩减分区，用于大数据集过滤后，提高小数据集的执行效率，减少任务调度成本</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">distinct</td>
+<td align="left">将数据集中的重复数据进行去重</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">repartitions</td>
+<td align="left">调整分区数量</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">sortBy</td>
+<td align="left">可以根据指定的规则对数据源中的数据进行排序</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">intersection</td>
+<td align="left">对源RDD和参数RDD求交集后返回一个新的RDD</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">union</td>
+<td align="left">对源RDD和参数RDD求并集后返回一个新的RDD</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">subtract</td>
+<td align="left">对源RDD和参数RDD求差集后返回一个新的RDD</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">zip</td>
+<td align="left">相同位置的数据拉取到一块</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">partitionBy</td>
+<td align="left">将数据按照指定Partitioner重新进行分区</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">reduceByKey</td>
+<td align="left">将相同的key进行分组，将value聚合</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">groupByKey</td>
+<td align="left">将分区的数据直接转换为相同类型的内存数组进行后续处理</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">aggregateByKey</td>
+<td align="left">将数据根据不同规则进行分区内计算和分区间计算</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">flodByKey</td>
+<td align="left">foldByKey就是aggregateByKey的简化版本，当aggregateByKey的第二个参数计算逻辑相同时就可以用foldByKey</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">combineByKey</td>
+<td align="left">需要三个参数  1.将相同key的第一个数据进行结构的转换，实现操作 2.分区内计算规则 3.分区间计算规则</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">join</td>
+<td align="left">在类型为(K,V)和(K,W)的RDD上调用，返回一个相同的key对应的所有元素连接在一起的（K,(v,w)）的RDD</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">leftOuterJoin</td>
+<td align="left">类似于sql的左外连接</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">rightOuterJoin</td>
+<td align="left">类似于sql的右外连接</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">cogroup</td>
+<td align="left">在类型(K,V)和(K,W)的RDD上调用，返回一个(K,(Iterable<V>,Iterable<W>))类型的RDD</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">行动算子</td>
+<td align="left">reduce</td>
+<td align="left">聚集RDD中的所有元素，先聚合分区内数据，再聚合分区间数</td>
+</tr>
+<tr>
+<td align="left">collect</td>
+<td align="left">方法会将不同分区的数据按照分区顺序采集到Driver端内存中，形成数组</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">count</td>
+<td align="left">数据源中数据的个数</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">first</td>
+<td align="left">数据源中数据的第一个</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">take</td>
+<td align="left">获取n个数据</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">takeOrdered</td>
+<td align="left">数据排序后取n个数据</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">aggregate</td>
+<td align="left">分区的数据通过初始值和分区内的数据进行聚合，然后再和初始值进行分区间的数据聚合</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">fold</td>
+<td align="left">折叠操作,aggregate的简化版操作</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">countByKey</td>
+<td align="left">统计每种key的个数</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<p><strong>Partition</strong>：数据分区，即RDD进行数据划分的单元，也是Spark数据处理的单元，任务的数量由分区数量确定，一个任务处理一个分区的数据。</p>
+<p><strong>Dependency</strong>：RDD之间的依赖关系。分为窄依赖（NarrowDependency）和Shuffle依赖。前者表示子RDD中的分区依赖于父RDD中固定数量的分区，包括依赖一个分区的OneToOneDependency和一定范围内多个分区的RangeDependency；后者也称为宽依赖，子RDD中的分区可能对父RDD中所有的分区产生依赖，具体依赖关系取决于分区器partitioner。</p>
+<p><strong>Job</strong>：Spark中的作业，<strong>对**</strong>RDD**<strong>的一个行动操作对应一个作业</strong>。每个作业包括了该RDD的行动操作以及构成当前RDD血缘关系的所有转换操作，一个Spark应用可以包含多个作业。</p>
+<p><strong>Stage</strong>：在每个作业中，Spark会<strong>根据**</strong>shuffle**<strong>依赖将作业划分成多个阶段</strong>。从最后一个触发行动操作的RDD开始（最后一个属于ResultStage），对RDD的依赖进行回溯，如果遇到shuffle依赖，则将shuffle之前的RDD视为一个阶段（ShuffleMapStage），shuffle之后的RDD到回溯起点之间所有的RDD视为一个阶段，接着从shuffle之前的RDD开始继续回溯，直到回溯至与外部数据源相关的RDD为止，如图1所示。</p>
+<p><strong>Task</strong>：每个阶段中，Spark会<strong>根据**</strong>RDD**<strong>的分区数量，创建相同数量的任务</strong>，每个任务处理一个分区的数据。其中，ShuffleMapStage中的任务为ShuffleMapTask，ResultStage中的任务为ResultTask。</p>
+<p>下图为Spark中Stage的划分方式</p>
+<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-26_14-43-6.png?version=1&modificationDate=1690353785000&api=v2" alt="img"></p>
+<h2 id="2-2-Spark核心模块"><a href="#2-2-Spark核心模块" class="headerlink" title="2.2. Spark核心模块"></a>2.2. Spark核心模块</h2><p>Spark的模块组成包括核心模块Spark Core以及建立在核心模块之上的扩展模块Spark SQL、Spark Streaming、GraphX、MLlib。Spark核心模块提供了Spark中最基础最核心的功能，包括：</p>
+<p><strong>基础设施</strong>：分为负责参数配置的SparkConf，负责Spark跨节点组件之间通信的基于netty实现的RPC框架，负责SparkContext内部组件间通信的事件总线ListenerBus，负责监控各个组件运行期状态的度量系统；</p>
+<p><strong>SparkContext：</strong>作为Spark所有功能的集成者和用户程序开发的接口，其内部封装了网络通信、消息通信、存储体系、计算引擎、度量系统、WebUI等内容，这些功能对开发人员来说都是透明的；</p>
+<p><strong>SparkEnv</strong>：是Spark执行环境，任务运行所必需的组件，由RpcEnv、序列化管理器、BroadcastManager、MapOutputTracker、存储体系、度量系统、OutputCommitCoordinator等组件组成；</p>
+<p><strong>存储体系：</strong>分为内存存储管理和磁盘存储管理，Spark的内存空间提供了Tungsten的实现，对堆外内存进行管理。此外，Spark的内存存储空间和计算存储空间之间的边界是“软”边界，当一方资源不够时可向另一方借用，提高了资源利用率；</p>
+<p><strong>调度体系：</strong>分为DAGScheduler和TaskScheduler，内置在SparkContext中。DAGScheduler负责解析RDD之间的依赖，按照shuffle操作划分阶段，根据阶段创建TaskSet，TaskScheduler负责按照FAIR或FIFO调度算法对TaskSet进行调度，为每个任务分配可执行的Executor，并将序列化后的任务发送到指定的Executor上执行；</p>
+<p><strong>计算引擎：</strong>由内存管理器、Tungsten、任务内存管理器、外部排序器、Shuffle管理器等组成，其中外部排序器用于在map端或者reduce端对ShuffleMapTask计算得到的中间结果进行排序、聚合等操作，Shuffle管理器用于将各个分区对应的ShuffleMapTask产生的中间结果持久化到磁盘，并在reduce端按照分区远程拉取生成的中间结果。</p>
+<h2 id="2-3-Spark集群架构"><a href="#2-3-Spark集群架构" class="headerlink" title="2.3. Spark集群架构"></a>2.3. Spark集群架构</h2><p>从集群部署的角度来看，Spark集群由集群管理器（Cluster Manager）、工作节点（Worker）、执行器（Executor）、驱动器（Driver）、应用程序（Application）等部分组成。<br><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-8-1_14-20-30.png?version=1&modificationDate=1690870831000&api=v2" alt="img"></p>
+<h3 id="2-3-1-Driver"><a href="#2-3-1-Driver" class="headerlink" title="2.3.1. Driver"></a>2.3.1. Driver</h3><p>用于运行Spark程序的 main 方法，创建SparkContext对象</p>
+<p>Driver在spark作业执行时主要负责：</p>
+<p>1）启动SparkContext或SparkSession，将用户程序转化为作业（Job）；</p>
+<p>2）在Executor之间调度任务（Task）；</p>
+<p>3）跟踪Executor的执行情况；</p>
+<p>4）通过UI展示查询运行情况。</p>
+<h3 id="2-3-2-Cluster-Manager"><a href="#2-3-2-Cluster-Manager" class="headerlink" title="2.3.2. Cluster Manager"></a>2.3.2. Cluster Manager</h3><p><strong>在YARN部署模式下为ResourceManager</strong></p>
+<p>负责对整个集群资源的分配与管理，不负责对Executor的资源的分配。</p>
+<p>常见的集群管理工具有<strong>Yarn</strong>、Mesos、Kubernetes、Standalone。</p>
+<h3 id="2-3-3-Worker"><a href="#2-3-3-Worker" class="headerlink" title="2.3.3. Worker"></a>2.3.3. Worker</h3><p><strong>在YARN部署模式下为NodeManager</strong></p>
+<p>负责启动和管理Executor，将Executor状态信息同步给Cluster Manager。</p>
+<h3 id="2-3-4-Executor"><a href="#2-3-4-Executor" class="headerlink" title="2.3.4. Executor"></a>2.3.4. Executor</h3><p>负责执行Spark作业中具体的任务，任务彼此之间相互独立。</p>
+<p>Executor 有两个核心功能：</p>
+<p>1）向Driver认领属于自己的任务，接收任务后负责运行Spark Task，并将结果返回给Driver。</p>
+<p>2）通过自身的Block Manager为用户程序中要求缓存的RDD提供内存式存储。RDD 的数据是直接缓存在 Executor 进程内的，因此任务可以在运行时充分利用缓存数据加速运算。</p>
+<h2 id="2-4-Spark任务提交过程"><a href="#2-4-Spark任务提交过程" class="headerlink" title="2.4. Spark任务提交过程"></a>2.4. Spark任务提交过程</h2><p>当用户通过SparkContext提交应用程序时，分为以下几步：</p>
+<p>1）首先通过RpcEnv<strong>向ClusterManager注册应用并申请资源</strong>。</p>
+<p>2）Cluster Manager根据应用的需求，将<strong>对应的Executor分配给应用程序</strong>，并在Worker上启动Executor后台进程，该进程通过RpcEnv向Driver注册Executor资源信息，Driver中的TaskScheduler保存Executor的地址、内存以及核数等信息；</p>
+<p>3）SparkContext根据RDD的转换操作，<strong>构建RDD的血缘关系</strong>，并在遇到行动操作的时候，<strong>将构建的依赖关系提交给DAGScheduler</strong>，DAGScheduler对依赖关系进行解析，生成TaskSet，将TaskSet保存至任务池，TaskScheduler从任务池中取出TaskSet后按照FAIR或FIFO算法进行调度，给任务分配Executor资源，并将序列化后的任务发送至Executor执行。</p>
+<h2 id="2-5-Spark性能调优"><a href="#2-5-Spark性能调优" class="headerlink" title="2.5. Spark性能调优"></a>2.5. Spark性能调优</h2><h3 id="2-5-1-参数调优"><a href="#2-5-1-参数调优" class="headerlink" title="2.5.1. 参数调优"></a>2.5.1. 参数调优</h3><h4 id="2-5-1-1-num-executors"><a href="#2-5-1-1-num-executors" class="headerlink" title="2.5.1.1. num-executors"></a>2.5.1.1. num-executors</h4><p>该参数用于设计Spark作业总的Executor进程的个数。YARN集群管理器会尽可能根据num-executor设置在工作节点上启动Executor。</p>
+<h4 id="2-5-1-2-executor-memory"><a href="#2-5-1-2-executor-memory" class="headerlink" title="2.5.1.2. executor-memory"></a>2.5.1.2. executor-memory</h4><p>该参数用于设置每个Executor 进程的内存，Executor内存的大小，很多程度上直接决定了Spark作业的性能，而且跟很常见的Java中的虚拟机内存溢出异常(OOM)也有关系。</p>
+<h4 id="2-5-1-3-executor-core"><a href="#2-5-1-3-executor-core" class="headerlink" title="2.5.1.3. executor-core"></a>2.5.1.3. executor-core</h4><p>该参数用于设置每个Executor进程的CPU core 数量。</p>
+<h4 id="2-5-1-4-driver-memory"><a href="#2-5-1-4-driver-memory" class="headerlink" title="2.5.1.4. driver-memory"></a>2.5.1.4. driver-memory</h4><p>该参数用于设置Driver进程的内存，这个参数通常不设置。但是要注意的一点是，使用collect算子时，一定要保证Driver内存足够大，否则会出现内存溢出的错误。</p>
+<h4 id="2-5-1-5-Spark-default-parallelism"><a href="#2-5-1-5-Spark-default-parallelism" class="headerlink" title="2.5.1.5. Spark.default.parallelism"></a>2.5.1.5. Spark.default.parallelism</h4><p>该参数用于设置每个Stage默认的task数量。</p>
+<h4 id="2-5-1-6-Spark-Shuffle-memoryFraction"><a href="#2-5-1-6-Spark-Shuffle-memoryFraction" class="headerlink" title="2.5.1.6. Spark.Shuffle.memoryFraction"></a>2.5.1.6. Spark.Shuffle.memoryFraction</h4><p>该参数用于设置Shuffle过程中一个task拉取到上个Stage的task的输出后，进行聚合操作时能够使用的Executor内存的比例，默认是0.2。也就是说，Executor默认只有20%的内存用来进行该操作。shuffle操作在进行聚合时，如果发现使用的内存超出了这个20%的限制，那么多余的数据就会溢写到磁盘文件中去，此时就会极大地降低性能。建议：如果Spark作业中的RDD持久化操作较少，shuffle操作较多时，建议降低持久化操作的内存占比，提高shuffle操作的内存占比比例，避免shuffle过程中数据过多时内存不够用，必须溢写到磁盘上，降低了性能。此外，如果发现作业由于频繁的gc导致运行缓慢，意味着task执行用户代码的内存不够用，那么同样建议调低这个参数的值。</p>
+<h3 id="2-5-2-代码重构调优"><a href="#2-5-2-代码重构调优" class="headerlink" title="2.5.2. 代码重构调优"></a>2.5.2. 代码重构调优</h3><h4 id="2-5-2-1-尽可能复用一个RDD"><a href="#2-5-2-1-尽可能复用一个RDD" class="headerlink" title="2.5.2.1. 尽可能复用一个RDD"></a>2.5.2.1. 尽可能复用一个RDD</h4><p>在对不同的数据执行算子操作时应该尽量复用一个RDD。例如，当RDD A的数据格式是key-value类型的，RDD B的数据格式是value类型的，但是这两个RDD的value数据完全相同；那么，RDD A包含了RDD B中的所有信息，理论上来说RDD B可以被替代，而实际开发中也应该尽量减少多个RDD数据有重复或者包含的情况，这样可以尽可能减少RDD的数量从而减少算子执行的次数。</p>
+<h4 id="2-5-2-2-对多次使用的RDD进行持久化"><a href="#2-5-2-2-对多次使用的RDD进行持久化" class="headerlink" title="2.5.2.2. 对多次使用的RDD进行持久化"></a>2.5.2.2. 对多次使用的RDD进行持久化</h4><p>RDD的持有化有几种不同的级别，分别是：MEMORY_ONLY、MEMORY_AND_DISK、MEMORY_ONLY_SER、MEMORY_AND_DISK_SER、DISK_ONLY、MEMORY_ONLY_2 等，这几种持久化级别使用的优先级排序如下：</p>
+<ol>
+<li>MEMORY_ONLY性能最高，直接将RDD存储在内存中，省去了序列化及反序列化、从磁盘读取的时间，但是对于内存的容量有较高的要求；</li>
+<li>MEMORY_ONLY_SER会将数据序列化后保存在内存中，通过序列化压缩了RDD的大小，但是相较于MEMORY_ONLY多出了序列化及反序列化的时间；</li>
+<li>MEMORY_AND_DISK_SER优先将RDD缓存在内存中，内存缓存不下时才会存在磁盘中;</li>
+<li>DISK_ONLY和后缀为_2的级别通常不建议使用，完全基于磁盘文件的读写会导致性能的极具降低；后缀为2的级别会将所有数据都复制一份副本到其他节点上，数据复制及网络传输会导致较大的性能开销。</li>
+</ol>
+<h4 id="2-5-2-3-尽量避免使用Shuffle算子"><a href="#2-5-2-3-尽量避免使用Shuffle算子" class="headerlink" title="2.5.2.3. 尽量避免使用Shuffle算子"></a>2.5.2.3. 尽量避免使用Shuffle算子</h4><p>Spark作业最消耗性能的部分就是Shuffle过程，应尽量避免使用Shuffle算子。Shuffle过程就是将分布在集群中多个节点上的同一个 key，拉取到同一个节点上，进行聚合或者join操作，在操作过程中可能会因为一个节点上处理的key过多导致数据溢出到磁盘。由此可见，Shuffle过程可能会发生大量的磁盘文件读写的 IO 操作，以及数据的网络传输操作。</p>
+<p>Shuffle类算子有：<strong>distinct、groupByKey、reduceByKey、aggregateByKey、join、cogroup、repartition</strong>等，编写Spark作业程序时，<strong>应该尽量使用map类算子替代Shuffle算子</strong>。</p>
+<h4 id="2-5-2-4-使用高性能算子"><a href="#2-5-2-4-使用高性能算子" class="headerlink" title="2.5.2.4. 使用高性能算子"></a>2.5.2.4. 使用高性能算子</h4><ol>
+<li>使用reduceByKey/aggregateByKey替代groupByKey</li>
+<li>使用mapPartitions替代普通map Transformation算子</li>
+<li>使用foreachPartitions替代foreach Action算子</li>
+<li>使用filter之后进行coalesce操作</li>
+<li>repartition:coalesce(numPartitions，true)增多分区使用这个</li>
+<li>coalesce(numPartitions，false)减少分区，没有shuffle只是合并partition</li>
+</ol>
+<h4 id="2-5-2-5-使用Kryo优化序列化性能"><a href="#2-5-2-5-使用Kryo优化序列化性能" class="headerlink" title="2.5.2.5. 使用Kryo优化序列化性能"></a>2.5.2.5. 使用Kryo优化序列化性能</h4><p>Spark支持使用Kryo序列化机制。这种序列化机制，比默认的Java序列化机制速度要快，序列化后的数据更小。所以Kryo序列化优化以后，可以让网络传输的数据变少，在集群中耗费的内存资源大大减少。</p>
+<h4 id="2-5-2-6-优化数据结构"><a href="#2-5-2-6-优化数据结构" class="headerlink" title="2.5.2.6. 优化数据结构"></a>2.5.2.6. 优化数据结构</h4><p>在Java中有三种类型比较耗费内存</p>
+<ul>
+<li>对象：每个Java对象都有对象头、引用等额外的信息，因此比较占用内存空间。</li>
+<li>字符串：每个字符串内部都有一个字符数组以及长度等额外信息。</li>
+<li>集合类型：比如HashMap、LinkedList等，因为集合类型内部通常会使用一些内部类来封装集合元素，比如Map.Entry。</li>
+</ul>
+<p>因此Spark编码时应尽量不要使用以上三种数据结构，尽量使用字符串代替对象，使用原始类型（比如 Int、Long）替代字符串，使用数组替代集合类型，这样尽可能地减少内存占用，降低垃圾回收的频率提高性能。</p>
+<h4 id="2-5-2-7-广播大变量"><a href="#2-5-2-7-广播大变量" class="headerlink" title="2.5.2.7. 广播大变量"></a>2.5.2.7. 广播大变量</h4><p>开发过程中，会遇到需要在算子函数中使用外部变量的场景(尤其是大变量，比如100M以上的大集合)，那么此时就应该使用Spark的广播(Broadcast)功能来提升性能；<strong>函数中使用到外部变量时，默认情况下，Spark会将该变量复制多个副本，通过网络传输到task中，此时每个task都有一个变量副本</strong>。如果变量本身比较大的话(比如100M，甚至1G)，那么大量的变量副本在网络中传输的性能开销，以及在各个节点的Executor中占用过多内存导致的频繁GC(垃圾回收)，都会极大地影响性能； 如果使用的外部变量比较大，建议使用Spark的广播功能，对该变量进行广播。<strong>广播后的变量，会保证每个Executor的内存中，只驻留一份变量副本，而Executor中的 task执行时共享该Executor中的那份变量副本</strong>。这样的话，可以大大减少变量副本的数量，从而减少网络传输的性能开销，并减少对Executor内存的占用开销，降低 GC的频率。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-8-1_16-8-4.png?version=1&modificationDate=1690877284000&api=v2" alt="img"></p>
+<h1 id="3-空间大数据计算框架简介"><a href="#3-空间大数据计算框架简介" class="headerlink" title="3. 空间大数据计算框架简介"></a>3. 空间大数据计算框架简介</h1><h2 id="3-1-Sedona-GeoSpark-简介"><a href="#3-1-Sedona-GeoSpark-简介" class="headerlink" title="3.1. Sedona(GeoSpark)简介"></a>3.1. Sedona(GeoSpark)简介</h2><p><a target="_blank" rel="noopener" href="https://rd.dtdream.com/pages/viewpage.action?pageId=44138042">4.1.2.3 sedona(geospark)</a></p>
+<h2 id="3-2-扩展——SQL-MM简介"><a href="#3-2-扩展——SQL-MM简介" class="headerlink" title="3.2. 扩展——SQL/MM简介"></a>3.2. 扩展——SQL/MM简介</h2><p><a target="_blank" rel="noopener" href="https://rd.dtdream.com/pages/viewpage.action?pageId=44589787">1.4.2 SQL/MM</a></p>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/c243b492.html">空间大数据处理框架</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2023-11-07, 19:38:03</p>
+        <p><span>最后更新:</span>2024-03-14, 22:55:29</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/c243b492.html" title="空间大数据处理框架">https://imlike.cc/c243b492.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/c243b492.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/undefined.html">
+                    appletv安装和相关软件推荐
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/3c685723.html">
+                    空间关系
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: '空间大数据处理框架',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/undefined.html" title="上一篇: appletv安装和相关软件推荐">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/3c685723.html" title="下一篇: 空间关系">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/Infinity.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2024 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

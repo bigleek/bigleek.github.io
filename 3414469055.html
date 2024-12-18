@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="平时时不时遇到数据库，CPU飚到100%，或者数据库突然查询时间变长，看不出来，或者无从下手的时候可以看一下下面转载的文章，也有优化的方向 目前来说，pgsql 这种数据对吧千万级的数据，如果不是特别复杂的查询，或者全表搜索这种，应该是最多2~3s 链接的原始地址 一、什么影响了数据库查询速度1.1 影响数据库查询速度的四个因素 1.2 风险分析QPS：*Queries Per Second* 意">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能">
+<meta property="og:url" content="https://imlike.cc/3414469055.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="平时时不时遇到数据库，CPU飚到100%，或者数据库突然查询时间变长，看不出来，或者无从下手的时候可以看一下下面转载的文章，也有优化的方向 目前来说，pgsql 这种数据对吧千万级的数据，如果不是特别复杂的查询，或者全表搜索这种，应该是最多2~3s 链接的原始地址 一、什么影响了数据库查询速度1.1 影响数据库查询速度的四个因素 1.2 风险分析QPS：*Queries Per Second* 意">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://imlike.cc/img/java4-1575116694.png">
+<meta property="og:image" content="https://imlike.cc/img/java10-1575116694.png">
+<meta property="og:image" content="https://imlike.cc/img/java9-1575116694.png">
+<meta property="og:image" content="https://imlike.cc/img/java2-1575116694.png">
+<meta property="og:image" content="https://www.javazhiyin.com/wp-content/uploads/2019/11/java6-1575116694.png">
+<meta property="og:image" content="https://imlike.cc/img/java3-1575116695.png">
+<meta property="og:image" content="https://www.javazhiyin.com/wp-content/uploads/2019/11/java2-1575116695.png">
+<meta property="og:image" content="https://www.javazhiyin.com/wp-content/uploads/2019/11/java0-1575116695.png">
+<meta property="og:image" content="https://imlike.cc/pics/weixin.png">
+<meta property="og:image" content="https://imlike.cc/pics/alipay.jpg">
+<meta property="article:published_time" content="2020-10-11T07:15:20.000Z">
+<meta property="article:modified_time" content="2024-03-14T14:55:29.487Z">
+<meta property="article:author" content="leek">
+<meta property="article:tag" content="转载">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imlike.cc/img/java4-1575116694.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能 | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3414469055.html" class="article-date">
+      <time datetime="2020-10-11T07:15:20.000Z" itemprop="datePublished">2020-10-11</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      （转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+ -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D%E4%BA%86%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E8%AF%A2%E9%80%9F%E5%BA%A6"><span class="toc-number">1.</span> <span class="toc-text">一、什么影响了数据库查询速度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%BD%B1%E5%93%8D%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E8%AF%A2%E9%80%9F%E5%BA%A6%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%9B%A0%E7%B4%A0"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 影响数据库查询速度的四个因素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%A3%8E%E9%99%A9%E5%88%86%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 风险分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E7%BD%91%E5%8D%A1%E6%B5%81%E9%87%8F%EF%BC%9A%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%83%85%E5%86%B5"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 网卡流量：如何避免无法连接数据库的情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%A4%A7%E8%A1%A8%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 大表带来的问题（重要）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-%E5%A4%A7%E8%A1%A8%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.4.1.</span> <span class="toc-text">1.4.1 大表的特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-2-%E5%A4%A7%E8%A1%A8%E7%9A%84%E5%8D%B1%E5%AE%B3"><span class="toc-number">1.4.2.</span> <span class="toc-text">1.4.2 大表的危害</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-3-%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8A%E7%9A%84%E5%A4%A7%E8%A1%A8"><span class="toc-number">1.4.3.</span> <span class="toc-text">1.4.3 如何处理数据库上的大表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E5%A4%A7%E4%BA%8B%E5%8A%A1%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 大事务带来的问题（重要）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-1-%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.5.1.</span> <span class="toc-text">1.5.1 什么是事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-2%E4%BA%8B%E5%8A%A1%E7%9A%84ACID%E5%B1%9E%E6%80%A7"><span class="toc-number">1.5.2.</span> <span class="toc-text">1.5.2事务的ACID属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-3-%E5%A4%A7%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.5.3.</span> <span class="toc-text">1.5.3 大事务</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D%E4%BA%86MySQL%E6%80%A7%E8%83%BD%EF%BC%88%E9%9D%9E%E5%B8%B8%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">二、什么影响了MySQL性能（非常重要）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%BD%B1%E5%93%8D%E6%80%A7%E8%83%BD%E7%9A%84%E5%87%A0%E4%B8%AA%E6%96%B9%E9%9D%A2"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 影响性能的几个方面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-MySQL%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 MySQL体系结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 InnoDB存储引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-InnoDB%E4%BD%BF%E7%94%A8%E8%A1%A8%E7%A9%BA%E9%97%B4%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E3%80%82"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 InnoDB使用表空间进行数据存储。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-MySQL5-5%E9%BB%98%E8%AE%A4-%E7%B3%BB%E7%BB%9F%E8%A1%A8%E7%A9%BA%E9%97%B4%E4%B8%8E-MySQL5-6%E5%8F%8A%E4%BB%A5%E5%90%8E%E9%BB%98%E8%AE%A4-%E7%8B%AC%E7%AB%8B%E8%A1%A8%E7%A9%BA%E9%97%B4"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 (MySQL5.5默认)系统表空间与(MySQL5.6及以后默认)独立表空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-%E7%B3%BB%E7%BB%9F%E8%A1%A8%E7%A9%BA%E9%97%B4%E7%9A%84%E8%A1%A8%E8%BD%AC%E7%A7%BB%E5%88%B0%E7%8B%AC%E7%AB%8B%E8%A1%A8%E7%A9%BA%E9%97%B4%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3 系统表空间的表转移到独立表空间中的方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%9A%84%E7%89%B9%E6%80%A7"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 InnoDB存储引擎的特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-1-%E7%89%B9%E6%80%A7%E4%B8%80%EF%BC%9A%E4%BA%8B%E5%8A%A1%E6%80%A7%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%8F%8A%E4%B8%A4%E4%B8%AA%E7%89%B9%E6%AE%8A%E6%97%A5%E5%BF%97%E7%B1%BB%E5%9E%8B%EF%BC%9ARedo-Log-%E5%92%8C-Undo-Log"><span class="toc-number">2.4.1.</span> <span class="toc-text">2.4.1 特性一：事务性存储引擎及两个特殊日志类型：Redo Log 和 Undo Log</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-2-%E7%89%B9%E6%80%A7%E4%BA%8C%EF%BC%9A%E6%94%AF%E6%8C%81%E8%A1%8C%E7%BA%A7%E9%94%81"><span class="toc-number">2.4.2.</span> <span class="toc-text">2.4.2 特性二：支持行级锁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E4%BB%80%E4%B9%88%E6%98%AF%E9%94%81"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 什么是锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-%E9%94%81"><span class="toc-number">2.5.1.</span> <span class="toc-text">2.5.1 锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-%E9%94%81%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.5.2.</span> <span class="toc-text">2.5.2 锁类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-3-%E9%94%81%E7%9A%84%E7%B2%92%E5%BA%A6"><span class="toc-number">2.5.3.</span> <span class="toc-text">2.5.3 锁的粒度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-4-%E9%98%BB%E5%A1%9E%E5%92%8C%E6%AD%BB%E9%94%81"><span class="toc-number">2.5.4.</span> <span class="toc-text">2.5.4 阻塞和死锁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="toc-number">2.6.</span> <span class="toc-text">2.6 如何选择正确的存储引擎</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0"><span class="toc-number">2.7.</span> <span class="toc-text">2.7 配置参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-7-1-%E5%86%85%E5%AD%98%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%85%B3%E5%8F%82%E6%95%B0"><span class="toc-number">2.7.1.</span> <span class="toc-text">2.7.1 内存配置相关参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E9%A1%BA%E5%BA%8F"><span class="toc-number">2.8.</span> <span class="toc-text">2.8 性能优化顺序</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <p>平时时不时遇到数据库，CPU飚到100%，或者数据库突然查询时间变长，看不出来，或者无从下手的时候可以看一下下面转载的文章，也有优化的方向</p>
+<p>目前来说，pgsql 这种数据对吧千万级的数据，如果不是特别复杂的查询，或者全表搜索这种，应该是最多2~3s</p>
+<p><a href="https://imlike.cc/segmentfault.com/a/1190000013672421">链接的原始地址</a></p>
+<h2 id="一、什么影响了数据库查询速度"><a href="#一、什么影响了数据库查询速度" class="headerlink" title="一、什么影响了数据库查询速度"></a>一、什么影响了数据库查询速度</h2><h3 id="1-1-影响数据库查询速度的四个因素"><a href="#1-1-影响数据库查询速度的四个因素" class="headerlink" title="1.1 影响数据库查询速度的四个因素"></a>1.1 影响数据库查询速度的四个因素</h3><p><a href="https://imlike.cc/img/java4-1575116694.png"><img src="https://imlike.cc/img/java4-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h3 id="1-2-风险分析"><a href="#1-2-风险分析" class="headerlink" title="1.2 风险分析"></a>1.2 风险分析</h3><p><strong>QPS：*</strong>Queries Per Second* 意思是“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。</p>
+<p><strong>TPS：</strong>是<em>TransactionsPerSecond</em>的缩写，也就是事务数/秒。它是软件测试结果的测量单位。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。</p>
+<blockquote>
+<p>Tips：最好不要在主库上数据库备份，大型活动前取消这样的计划。</p>
+</blockquote>
+<ul>
+<li><strong>效率低下的sql：</strong>超高的QPS与TPS。</li>
+<li><strong>大量的并发：</strong>数据连接数被占满（max_connection默认100，一般把连接数设置得大一些）。<br><strong>并发量：</strong>同一时刻数据库服务器处理的请求数量</li>
+<li><strong>超高的CPU使用率：</strong>CPU资源耗尽出现宕机。</li>
+<li><strong>磁盘IO：</strong>磁盘IO性能突然下降、大量消耗磁盘性能的计划任务。解决：更快磁盘设备、调整计划任务、做好磁盘维护。</li>
+</ul>
+<h3 id="1-3-网卡流量：如何避免无法连接数据库的情况"><a href="#1-3-网卡流量：如何避免无法连接数据库的情况" class="headerlink" title="1.3 网卡流量：如何避免无法连接数据库的情况"></a>1.3 网卡流量：如何避免无法连接数据库的情况</h3><ul>
+<li>减少从服务器的数量（从服务器会从主服务器复制日志）</li>
+<li>进行分级缓存（避免前端大量缓存失效）</li>
+<li>避免使用select * 进行查询</li>
+<li>分离业务网络和服务器网络</li>
+</ul>
+<h3 id="1-4-大表带来的问题（重要）"><a href="#1-4-大表带来的问题（重要）" class="headerlink" title="1.4 大表带来的问题（重要）"></a>1.4 大表带来的问题（重要）</h3><h4 id="1-4-1-大表的特点"><a href="#1-4-1-大表的特点" class="headerlink" title="1.4.1 大表的特点"></a>1.4.1 大表的特点</h4><ul>
+<li>记录行数巨大，单表超千万</li>
+<li>表数据文件巨大，超过10个G</li>
+</ul>
+<h4 id="1-4-2-大表的危害"><a href="#1-4-2-大表的危害" class="headerlink" title="1.4.2 大表的危害"></a>1.4.2 大表的危害</h4><p><strong>1.慢查询：很难在短时间内过滤出需要的数据</strong></p>
+<p>查询字区分度低 -&gt; 要在大数据量的表中筛选出来其中一部分数据会产生大量的磁盘io -&gt; 降低磁盘效率</p>
+<p><strong>2.对DDL影响：</strong></p>
+<p>建立索引需要很长时间：</p>
+<ul>
+<li>MySQL -v&lt;5.5 建立索引会锁表</li>
+<li>MySQL -v&gt;=5.5 建立索引会造成主从延迟（mysql建立索引，先在组上执行，再在库上执行）</li>
+</ul>
+<p><strong>修改表结构需要长时间的锁表：</strong>会造成长时间的主从延迟(‘480秒延迟’)</p>
+<h4 id="1-4-3-如何处理数据库上的大表"><a href="#1-4-3-如何处理数据库上的大表" class="headerlink" title="1.4.3 如何处理数据库上的大表"></a>1.4.3 如何处理数据库上的大表</h4><p>分库分表把一张大表分成多个小表</p>
+<p>难点：</p>
+<ul>
+<li>分表主键的选择</li>
+<li>分表后跨分区数据的查询和统计</li>
+</ul>
+<h3 id="1-5-大事务带来的问题（重要）"><a href="#1-5-大事务带来的问题（重要）" class="headerlink" title="1.5 大事务带来的问题（重要）"></a>1.5 大事务带来的问题（重要）</h3><h4 id="1-5-1-什么是事务"><a href="#1-5-1-什么是事务" class="headerlink" title="1.5.1 什么是事务"></a>1.5.1 什么是事务</h4><p><a href="https://imlike.cc/img/java10-1575116694.png"><img src="https://imlike.cc/img/java10-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h4 id="1-5-2事务的ACID属性"><a href="#1-5-2事务的ACID属性" class="headerlink" title="1.5.2事务的ACID属性"></a>1.5.2事务的ACID属性</h4><p><strong>1、原子性（atomicity)：</strong>全部成功，全部回滚失败。银行存取款。</p>
+<p><strong>2、一致性（consistent)：</strong>银行转账的总金额不变。</p>
+<p><strong>3、隔离性（isolation)：</strong></p>
+<p>隔离性等级：</p>
+<ul>
+<li><strong>未提交读(READ UNCOMMITED)</strong> 脏读,两个事务之间互相可见；</li>
+<li>**已提交读(READ COMMITED)**符合隔离性的基本概念,一个事务进行时，其它已提交的事物对于该事务是可见的，即可以获取其它事务提交的数据。</li>
+<li><strong>可重复读(REPEATABLE READ)</strong> InnoDB的默认隔离等级。事务进行时，其它所有事务对其不可见，即多次执行读，得到的结果是一样的！</li>
+<li><strong>可串行化（SERIALIZABLE）</strong>在读取的每一行数据上都加锁，会造成大量的锁超时和锁征用，严格数据一致性且没有并发是可使用。</li>
+</ul>
+<blockquote>
+<p>查看系统的事务隔离级别：show variables like ‘%iso%’;<br>开启一个新事务：begin;<br>提交一个事务：commit;<br>修改事物的隔离级别：set session tx_isolation=’read-committed’;</p>
+</blockquote>
+<p><strong>4、持久性(DURABILITY)：</strong>从数据库的角度的持久性，磁盘损坏就不行了</p>
+<p><a href="https://imlike.cc/img/java9-1575116694.png"><img src="https://imlike.cc/img/java9-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<p>redo log机制保证事务更新的一致性和持久性</p>
+<h4 id="1-5-3-大事务"><a href="#1-5-3-大事务" class="headerlink" title="1.5.3 大事务"></a>1.5.3 大事务</h4><p>运行时间长，操作数据比较多的事务；</p>
+<p>风险：<strong>锁定数据太多，回滚时间长，执行时间长。</strong></p>
+<ul>
+<li>锁定太多数据，造成大量阻塞和锁超时；</li>
+<li>回滚时所需时间比较长，且数据仍然会处于锁定；</li>
+<li>如果执行时间长，将造成主从延迟，因为只有当主服务器全部执行完写入日志时，从服务器才会开始进行同步，造成延迟。</li>
+</ul>
+<p><strong>解决思路：</strong></p>
+<ul>
+<li>避免一次处理太多数据，可以分批次处理；</li>
+<li>移出不必要的SELECT操作，保证事务中只有必要的写操作。</li>
+</ul>
+<h2 id="二、什么影响了MySQL性能（非常重要）"><a href="#二、什么影响了MySQL性能（非常重要）" class="headerlink" title="二、什么影响了MySQL性能（非常重要）"></a>二、什么影响了MySQL性能<strong>（非常重要）</strong></h2><h3 id="2-1-影响性能的几个方面"><a href="#2-1-影响性能的几个方面" class="headerlink" title="2.1 影响性能的几个方面"></a>2.1 影响性能的几个方面</h3><ul>
+<li>服务器硬件。</li>
+<li>服务器系统（系统参数优化）。</li>
+<li>存储引擎。</li>
+<li><ul>
+<li>MyISAM：不支持事务，表级锁。</li>
+<li>InnoDB: 支持事务，支持行级锁，事务ACID。</li>
+</ul>
+</li>
+<li>数据库参数配置。</li>
+<li>数据库结构设计和SQL语句。（重点优化）</li>
+</ul>
+<h3 id="2-2-MySQL体系结构"><a href="#2-2-MySQL体系结构" class="headerlink" title="2.2 MySQL体系结构"></a>2.2 MySQL体系结构</h3><p>分三层：客户端-&gt;服务层-&gt;存储引擎</p>
+<p><a href="https://imlike.cc/img/java2-1575116694.png"><img src="https://imlike.cc/img/java2-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<ul>
+<li>MySQL是插件式的存储引擎，其中存储引擎分很多种。只要实现符合mysql存储引擎的接口，可以开发自己的存储引擎!</li>
+<li>所有跨存储引擎的功能都是在服务层实现的。</li>
+<li>MySQL的存储引擎是针对表的，不是针对库的。也就是说在一个数据库中可以使用不同的存储引擎。但是不建议这样做。</li>
+</ul>
+<h3 id="2-3-InnoDB存储引擎"><a href="#2-3-InnoDB存储引擎" class="headerlink" title="2.3 InnoDB存储引擎"></a>2.3 InnoDB存储引擎</h3><p>MySQL5.5及之后版本默认的存储引擎：InnoDB。</p>
+<h4 id="2-3-1-InnoDB使用表空间进行数据存储。"><a href="#2-3-1-InnoDB使用表空间进行数据存储。" class="headerlink" title="2.3.1 InnoDB使用表空间进行数据存储。"></a>2.3.1 InnoDB使用表空间进行数据存储。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &#39;innodb_file_per_table</span><br></pre></td></tr></table></figure>
+
+<p>如果innodb_file_per_table 为 ON 将建立独立的表空间，文件为tablename.ibd；</p>
+<p>如果innodb_file_per_table 为 OFF 将数据存储到系统的共享表空间，文件为ibdataX（X为从1开始的整数）；</p>
+<p>.frm ：是服务器层面产生的文件，类似服务器层的数据字典，<strong>记录表结构。</strong></p>
+<h4 id="2-3-2-MySQL5-5默认-系统表空间与-MySQL5-6及以后默认-独立表空间"><a href="#2-3-2-MySQL5-5默认-系统表空间与-MySQL5-6及以后默认-独立表空间" class="headerlink" title="2.3.2 (MySQL5.5默认)系统表空间与(MySQL5.6及以后默认)独立表空间"></a>2.3.2 (MySQL5.5默认)系统表空间与(MySQL5.6及以后默认)独立表空间</h4><ul>
+<li>系统表空间无法简单的收缩文件大小，造成空间浪费，并会产生大量的磁盘碎片。</li>
+<li>独立表空间可以通过optimeze table 收缩系统文件，不需要重启服务器也不会影响对表的正常访问。</li>
+<li>如果对多个表进行刷新时，实际上是顺序进行的，会产生IO瓶颈。</li>
+<li>独立表空间可以同时向多个文件刷新数据。</li>
+</ul>
+<p><strong>强烈建议对Innodb 使用独立表空间，优化什么的更方便，可控。</strong></p>
+<h4 id="2-3-3-系统表空间的表转移到独立表空间中的方法"><a href="#2-3-3-系统表空间的表转移到独立表空间中的方法" class="headerlink" title="2.3.3 系统表空间的表转移到独立表空间中的方法"></a>2.3.3 系统表空间的表转移到独立表空间中的方法</h4><p>1、使用mysqldump 导出所有数据库数据（存储过程、触发器、计划任务一起都要导出 ）可以在从服务器上操作。</p>
+<p>2、停止MYsql 服务器，修改参数（my.cnf加入innodb_file_per_table），并删除Inoodb相关文件（可以重建Data目录）。</p>
+<p>3、重启MYSQL，并重建Innodb系统表空间。</p>
+<p>4、 重新导入数据。</p>
+<p>或者 Alter table 同样可以的转移，但是无法回收系统表空间中占用的空间。</p>
+<h3 id="2-4-InnoDB存储引擎的特性"><a href="#2-4-InnoDB存储引擎的特性" class="headerlink" title="2.4 InnoDB存储引擎的特性"></a>2.4 InnoDB存储引擎的特性</h3><h4 id="2-4-1-特性一：事务性存储引擎及两个特殊日志类型：Redo-Log-和-Undo-Log"><a href="#2-4-1-特性一：事务性存储引擎及两个特殊日志类型：Redo-Log-和-Undo-Log" class="headerlink" title="2.4.1 特性一：事务性存储引擎及两个特殊日志类型：Redo Log 和 Undo Log"></a>2.4.1 特性一：事务性存储引擎及两个特殊日志类型：Redo Log 和 Undo Log</h4><ul>
+<li>Innodb 是一种事务性存储引擎。</li>
+<li>完全支持事务的ACID特性。</li>
+<li>支持事务所需要的两个特殊日志类型：Redo Log 和Undo Log</li>
+</ul>
+<blockquote>
+<p>Redo Log：实现事务的持久性(已提交的事务)。<br>Undo Log：未提交的事务，独立于表空间，需要随机访问，可以存储在高性能io设备上。</p>
+</blockquote>
+<p>Undo日志记录某数据被修改前的值，可以用来在事务失败时进行rollback；Redo日志记录某数据块被修改后的值，可以用来恢复未写入data file的已成功事务更新的数据。</p>
+<p>InnoDB小知识点：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI4Njc5NjM1NQ==&mid=2247490339&idx=2&sn=03dcec83524fd3aaa2bab57dac2763a2&chksm=ebd6240fdca1ad19a6aa3548e299a1cc9749a52f9191481fe3831e3f10150ed992f44fe4d84a&scene=21#wechat_redirect">InnoDB一棵B+树可以存放多少行数据？</a></p>
+<h4 id="2-4-2-特性二：支持行级锁"><a href="#2-4-2-特性二：支持行级锁" class="headerlink" title="2.4.2 特性二：支持行级锁"></a>2.4.2 特性二：支持行级锁</h4><ul>
+<li>InnoDB支持行级锁。</li>
+<li>行级锁可以最大程度地支持并发。</li>
+<li>行级锁是由存储引擎层实现的。</li>
+</ul>
+<h3 id="2-5-什么是锁"><a href="#2-5-什么是锁" class="headerlink" title="2.5 什么是锁"></a>2.5 什么是锁</h3><h4 id="2-5-1-锁"><a href="#2-5-1-锁" class="headerlink" title="2.5.1 锁"></a>2.5.1 锁</h4><p><a target="_blank" rel="noopener" href="https://www.javazhiyin.com/wp-content/uploads/2019/11/java6-1575116694.png"><img src="https://www.javazhiyin.com/wp-content/uploads/2019/11/java6-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h4 id="2-5-2-锁类型"><a href="#2-5-2-锁类型" class="headerlink" title="2.5.2 锁类型"></a>2.5.2 锁类型</h4><p><a href="https://imlike.cc/img/java3-1575116695.png"><img src="https://imlike.cc/img/java3-1575116695.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h4 id="2-5-3-锁的粒度"><a href="#2-5-3-锁的粒度" class="headerlink" title="2.5.3 锁的粒度"></a>2.5.3 锁的粒度</h4><p>MySQL的事务支持不是绑定在MySQL服务器本身，而是<strong>与存储引擎相关</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.javazhiyin.com/wp-content/uploads/2019/11/java2-1575116695.png"><img src="https://www.javazhiyin.com/wp-content/uploads/2019/11/java2-1575116695.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<p>将table_name加表级锁命令：lock table table_name write; 写锁会阻塞其它用户对该表的‘读写’操作，直到写锁被释放：unlock tables；</p>
+<ul>
+<li>锁的开销越大，粒度越小，并发度越高。</li>
+<li>表级锁通常是在服务器层实现的。</li>
+<li>行级锁是存储引擎层实现的。innodb的锁机制，服务器层是不知道的</li>
+</ul>
+<h4 id="2-5-4-阻塞和死锁"><a href="#2-5-4-阻塞和死锁" class="headerlink" title="2.5.4 阻塞和死锁"></a>2.5.4 阻塞和死锁</h4><p>1.阻塞是由于资源不足引起的排队等待现象。</p>
+<p>2.死锁是由于两个对象在拥有一份资源的情况下申请另一份资源，而另一份资源恰好又是这两对象正持有的，导致两对象无法完成操作，且所持资源无法释放。</p>
+<p>关于MySQL锁的详解：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI4Njc5NjM1NQ==&mid=2247490303&idx=2&sn=d2c2c4830ba8d4a2e89619f025b54a10&chksm=ebd625d3dca1acc56a86c895a7a4819b91c182a1d24ac6b48a2bea017cfa9c3ee0cbdf734961&scene=21#wechat_redirect">学会MySQL中的索引和锁</a></p>
+<h3 id="2-6-如何选择正确的存储引擎"><a href="#2-6-如何选择正确的存储引擎" class="headerlink" title="2.6 如何选择正确的存储引擎"></a>2.6 如何选择正确的存储引擎</h3><p>参考条件：</p>
+<ul>
+<li>事务</li>
+<li>备份(Innobd免费在线备份)</li>
+<li>崩溃恢复</li>
+<li>存储引擎的特有特性</li>
+</ul>
+<p>总结:Innodb大法好。</p>
+<p><strong>注意：尽量别使用混合存储引擎，比如回滚会出问题在线热备问题。</strong></p>
+<h3 id="2-7-配置参数"><a href="#2-7-配置参数" class="headerlink" title="2.7 配置参数"></a>2.7 配置参数</h3><h4 id="2-7-1-内存配置相关参数"><a href="#2-7-1-内存配置相关参数" class="headerlink" title="2.7.1 内存配置相关参数"></a>2.7.1 内存配置相关参数</h4><p>确定可以使用的内存上限。</p>
+<p><strong>内存的使用上限不能超过物理内存，否则容易造成内存溢出；**</strong>（对于32位操作系统，MySQL只能使用3G以下的内存。*<strong>*）</strong></p>
+<p>确定MySQL的每个连接单独使用的内存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort_buffer_size #定义了每个线程排序缓存区的大小，MySQL在有查询、需要做排序操作时才会为每个缓冲区分配内存（直接分配该参数的全部内存）；join_buffer_size #定义了每个线程所使用的连接缓冲区的大小，如果一个查询关联了多张表，MySQL会为每张表分配一个连接缓冲，导致一个查询产生了多个连接缓冲；read_buffer_size #定义了当对一张MyISAM进行全表扫描时所分配读缓冲池大小，MySQL有查询需要时会为其分配内存，其必须是4k的倍数；read_rnd_buffer_size #索引缓冲区大小，MySQL有查询需要时会为其分配内存，只会分配需要的大小。</span><br></pre></td></tr></table></figure>
+
+<p>注意：以上四个参数是为一个线程分配的，如果有100个连接，那么需要×100。</p>
+<p><strong>MySQL数据库实例：</strong></p>
+<p>①MySQL是单进程多线程（而oracle是多进程），也就是说MySQL实例在系统上表现就是一个服务进程，即进程；</p>
+<p>②MySQL实例是线程和内存组成，实例才是真正用于操作数据库文件的；</p>
+<p>一般情况下一个实例操作一个或多个数据库；集群情况下多个实例操作一个或多个数据库。</p>
+<p><strong>如何为缓存池分配内存：</strong></p>
+<p>Innodb_buffer_pool_size，定义了Innodb所使用缓存池的大小，对其性能十分重要，必须足够大，但是过大时，使得Innodb 关闭时候需要更多时间把脏页从缓冲池中刷新到磁盘中；</p>
+<p><em>总内存-（每个线程所需要的内存\</em>连接数）-系统保留内存*</p>
+<p>key_buffer_size，定义了MyISAM所使用的缓存池的大小，由于数据是依赖存储操作系统缓存的，所以要为操作系统预留更大的内存空间；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sum(index_length) from information_schema.talbes where engine&#x3D;&#39;myisam&#39;</span><br></pre></td></tr></table></figure>
+
+<p>注意：即使开发使用的表全部是Innodb表，也要为MyISAM预留内存，因为MySQL系统使用的表仍然是MyISAM表。</p>
+<p>max_connections 控制允许的最大连接数，一般2000更大。</p>
+<p><strong>不要使用外键约束保证数据的完整性。</strong></p>
+<h3 id="2-8-性能优化顺序"><a href="#2-8-性能优化顺序" class="headerlink" title="2.8 性能优化顺序"></a>2.8 性能优化顺序</h3><p>从上到下：</p>
+<p><a target="_blank" rel="noopener" href="https://www.javazhiyin.com/wp-content/uploads/2019/11/java0-1575116695.png"><img src="https://www.javazhiyin.com/wp-content/uploads/2019/11/java0-1575116695.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<p><strong>END</strong></p>
+<p><a href="javascript:;">赏加个鸡腿<img src="https://imlike.cc/pics/weixin.png" alt="img">支付宝<img src="https://imlike.cc/pics/alipay.jpg" alt="img">微信</a></p>
+
+              
+              <!-- 
+              
+              <p>平时时不时遇到数据库，CPU飚到100%，或者数据库突然查询时间变长，看不出来，或者无从下手的时候可以看一下下面转载的文章，也有优化的方向</p>
+<p>目前来说，pgsql 这种数据对吧千万级的数据，如果不是特别复杂的查询，或者全表搜索这种，应该是最多2~3s</p>
+<p><a href="https://imlike.cc/segmentfault.com/a/1190000013672421">链接的原始地址</a></p>
+<h2 id="一、什么影响了数据库查询速度"><a href="#一、什么影响了数据库查询速度" class="headerlink" title="一、什么影响了数据库查询速度"></a>一、什么影响了数据库查询速度</h2><h3 id="1-1-影响数据库查询速度的四个因素"><a href="#1-1-影响数据库查询速度的四个因素" class="headerlink" title="1.1 影响数据库查询速度的四个因素"></a>1.1 影响数据库查询速度的四个因素</h3><p><a href="https://imlike.cc/img/java4-1575116694.png"><img src="https://imlike.cc/img/java4-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h3 id="1-2-风险分析"><a href="#1-2-风险分析" class="headerlink" title="1.2 风险分析"></a>1.2 风险分析</h3><p><strong>QPS：*</strong>Queries Per Second* 意思是“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。</p>
+<p><strong>TPS：</strong>是<em>TransactionsPerSecond</em>的缩写，也就是事务数/秒。它是软件测试结果的测量单位。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。</p>
+<blockquote>
+<p>Tips：最好不要在主库上数据库备份，大型活动前取消这样的计划。</p>
+</blockquote>
+<ul>
+<li><strong>效率低下的sql：</strong>超高的QPS与TPS。</li>
+<li><strong>大量的并发：</strong>数据连接数被占满（max_connection默认100，一般把连接数设置得大一些）。<br><strong>并发量：</strong>同一时刻数据库服务器处理的请求数量</li>
+<li><strong>超高的CPU使用率：</strong>CPU资源耗尽出现宕机。</li>
+<li><strong>磁盘IO：</strong>磁盘IO性能突然下降、大量消耗磁盘性能的计划任务。解决：更快磁盘设备、调整计划任务、做好磁盘维护。</li>
+</ul>
+<h3 id="1-3-网卡流量：如何避免无法连接数据库的情况"><a href="#1-3-网卡流量：如何避免无法连接数据库的情况" class="headerlink" title="1.3 网卡流量：如何避免无法连接数据库的情况"></a>1.3 网卡流量：如何避免无法连接数据库的情况</h3><ul>
+<li>减少从服务器的数量（从服务器会从主服务器复制日志）</li>
+<li>进行分级缓存（避免前端大量缓存失效）</li>
+<li>避免使用select * 进行查询</li>
+<li>分离业务网络和服务器网络</li>
+</ul>
+<h3 id="1-4-大表带来的问题（重要）"><a href="#1-4-大表带来的问题（重要）" class="headerlink" title="1.4 大表带来的问题（重要）"></a>1.4 大表带来的问题（重要）</h3><h4 id="1-4-1-大表的特点"><a href="#1-4-1-大表的特点" class="headerlink" title="1.4.1 大表的特点"></a>1.4.1 大表的特点</h4><ul>
+<li>记录行数巨大，单表超千万</li>
+<li>表数据文件巨大，超过10个G</li>
+</ul>
+<h4 id="1-4-2-大表的危害"><a href="#1-4-2-大表的危害" class="headerlink" title="1.4.2 大表的危害"></a>1.4.2 大表的危害</h4><p><strong>1.慢查询：很难在短时间内过滤出需要的数据</strong></p>
+<p>查询字区分度低 -&gt; 要在大数据量的表中筛选出来其中一部分数据会产生大量的磁盘io -&gt; 降低磁盘效率</p>
+<p><strong>2.对DDL影响：</strong></p>
+<p>建立索引需要很长时间：</p>
+<ul>
+<li>MySQL -v&lt;5.5 建立索引会锁表</li>
+<li>MySQL -v&gt;=5.5 建立索引会造成主从延迟（mysql建立索引，先在组上执行，再在库上执行）</li>
+</ul>
+<p><strong>修改表结构需要长时间的锁表：</strong>会造成长时间的主从延迟(‘480秒延迟’)</p>
+<h4 id="1-4-3-如何处理数据库上的大表"><a href="#1-4-3-如何处理数据库上的大表" class="headerlink" title="1.4.3 如何处理数据库上的大表"></a>1.4.3 如何处理数据库上的大表</h4><p>分库分表把一张大表分成多个小表</p>
+<p>难点：</p>
+<ul>
+<li>分表主键的选择</li>
+<li>分表后跨分区数据的查询和统计</li>
+</ul>
+<h3 id="1-5-大事务带来的问题（重要）"><a href="#1-5-大事务带来的问题（重要）" class="headerlink" title="1.5 大事务带来的问题（重要）"></a>1.5 大事务带来的问题（重要）</h3><h4 id="1-5-1-什么是事务"><a href="#1-5-1-什么是事务" class="headerlink" title="1.5.1 什么是事务"></a>1.5.1 什么是事务</h4><p><a href="https://imlike.cc/img/java10-1575116694.png"><img src="https://imlike.cc/img/java10-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h4 id="1-5-2事务的ACID属性"><a href="#1-5-2事务的ACID属性" class="headerlink" title="1.5.2事务的ACID属性"></a>1.5.2事务的ACID属性</h4><p><strong>1、原子性（atomicity)：</strong>全部成功，全部回滚失败。银行存取款。</p>
+<p><strong>2、一致性（consistent)：</strong>银行转账的总金额不变。</p>
+<p><strong>3、隔离性（isolation)：</strong></p>
+<p>隔离性等级：</p>
+<ul>
+<li><strong>未提交读(READ UNCOMMITED)</strong> 脏读,两个事务之间互相可见；</li>
+<li>**已提交读(READ COMMITED)**符合隔离性的基本概念,一个事务进行时，其它已提交的事物对于该事务是可见的，即可以获取其它事务提交的数据。</li>
+<li><strong>可重复读(REPEATABLE READ)</strong> InnoDB的默认隔离等级。事务进行时，其它所有事务对其不可见，即多次执行读，得到的结果是一样的！</li>
+<li><strong>可串行化（SERIALIZABLE）</strong>在读取的每一行数据上都加锁，会造成大量的锁超时和锁征用，严格数据一致性且没有并发是可使用。</li>
+</ul>
+<blockquote>
+<p>查看系统的事务隔离级别：show variables like ‘%iso%’;<br>开启一个新事务：begin;<br>提交一个事务：commit;<br>修改事物的隔离级别：set session tx_isolation=’read-committed’;</p>
+</blockquote>
+<p><strong>4、持久性(DURABILITY)：</strong>从数据库的角度的持久性，磁盘损坏就不行了</p>
+<p><a href="https://imlike.cc/img/java9-1575116694.png"><img src="https://imlike.cc/img/java9-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<p>redo log机制保证事务更新的一致性和持久性</p>
+<h4 id="1-5-3-大事务"><a href="#1-5-3-大事务" class="headerlink" title="1.5.3 大事务"></a>1.5.3 大事务</h4><p>运行时间长，操作数据比较多的事务；</p>
+<p>风险：<strong>锁定数据太多，回滚时间长，执行时间长。</strong></p>
+<ul>
+<li>锁定太多数据，造成大量阻塞和锁超时；</li>
+<li>回滚时所需时间比较长，且数据仍然会处于锁定；</li>
+<li>如果执行时间长，将造成主从延迟，因为只有当主服务器全部执行完写入日志时，从服务器才会开始进行同步，造成延迟。</li>
+</ul>
+<p><strong>解决思路：</strong></p>
+<ul>
+<li>避免一次处理太多数据，可以分批次处理；</li>
+<li>移出不必要的SELECT操作，保证事务中只有必要的写操作。</li>
+</ul>
+<h2 id="二、什么影响了MySQL性能（非常重要）"><a href="#二、什么影响了MySQL性能（非常重要）" class="headerlink" title="二、什么影响了MySQL性能（非常重要）"></a>二、什么影响了MySQL性能<strong>（非常重要）</strong></h2><h3 id="2-1-影响性能的几个方面"><a href="#2-1-影响性能的几个方面" class="headerlink" title="2.1 影响性能的几个方面"></a>2.1 影响性能的几个方面</h3><ul>
+<li>服务器硬件。</li>
+<li>服务器系统（系统参数优化）。</li>
+<li>存储引擎。</li>
+<li><ul>
+<li>MyISAM：不支持事务，表级锁。</li>
+<li>InnoDB: 支持事务，支持行级锁，事务ACID。</li>
+</ul>
+</li>
+<li>数据库参数配置。</li>
+<li>数据库结构设计和SQL语句。（重点优化）</li>
+</ul>
+<h3 id="2-2-MySQL体系结构"><a href="#2-2-MySQL体系结构" class="headerlink" title="2.2 MySQL体系结构"></a>2.2 MySQL体系结构</h3><p>分三层：客户端-&gt;服务层-&gt;存储引擎</p>
+<p><a href="https://imlike.cc/img/java2-1575116694.png"><img src="https://imlike.cc/img/java2-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<ul>
+<li>MySQL是插件式的存储引擎，其中存储引擎分很多种。只要实现符合mysql存储引擎的接口，可以开发自己的存储引擎!</li>
+<li>所有跨存储引擎的功能都是在服务层实现的。</li>
+<li>MySQL的存储引擎是针对表的，不是针对库的。也就是说在一个数据库中可以使用不同的存储引擎。但是不建议这样做。</li>
+</ul>
+<h3 id="2-3-InnoDB存储引擎"><a href="#2-3-InnoDB存储引擎" class="headerlink" title="2.3 InnoDB存储引擎"></a>2.3 InnoDB存储引擎</h3><p>MySQL5.5及之后版本默认的存储引擎：InnoDB。</p>
+<h4 id="2-3-1-InnoDB使用表空间进行数据存储。"><a href="#2-3-1-InnoDB使用表空间进行数据存储。" class="headerlink" title="2.3.1 InnoDB使用表空间进行数据存储。"></a>2.3.1 InnoDB使用表空间进行数据存储。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &#39;innodb_file_per_table</span><br></pre></td></tr></table></figure>
+
+<p>如果innodb_file_per_table 为 ON 将建立独立的表空间，文件为tablename.ibd；</p>
+<p>如果innodb_file_per_table 为 OFF 将数据存储到系统的共享表空间，文件为ibdataX（X为从1开始的整数）；</p>
+<p>.frm ：是服务器层面产生的文件，类似服务器层的数据字典，<strong>记录表结构。</strong></p>
+<h4 id="2-3-2-MySQL5-5默认-系统表空间与-MySQL5-6及以后默认-独立表空间"><a href="#2-3-2-MySQL5-5默认-系统表空间与-MySQL5-6及以后默认-独立表空间" class="headerlink" title="2.3.2 (MySQL5.5默认)系统表空间与(MySQL5.6及以后默认)独立表空间"></a>2.3.2 (MySQL5.5默认)系统表空间与(MySQL5.6及以后默认)独立表空间</h4><ul>
+<li>系统表空间无法简单的收缩文件大小，造成空间浪费，并会产生大量的磁盘碎片。</li>
+<li>独立表空间可以通过optimeze table 收缩系统文件，不需要重启服务器也不会影响对表的正常访问。</li>
+<li>如果对多个表进行刷新时，实际上是顺序进行的，会产生IO瓶颈。</li>
+<li>独立表空间可以同时向多个文件刷新数据。</li>
+</ul>
+<p><strong>强烈建议对Innodb 使用独立表空间，优化什么的更方便，可控。</strong></p>
+<h4 id="2-3-3-系统表空间的表转移到独立表空间中的方法"><a href="#2-3-3-系统表空间的表转移到独立表空间中的方法" class="headerlink" title="2.3.3 系统表空间的表转移到独立表空间中的方法"></a>2.3.3 系统表空间的表转移到独立表空间中的方法</h4><p>1、使用mysqldump 导出所有数据库数据（存储过程、触发器、计划任务一起都要导出 ）可以在从服务器上操作。</p>
+<p>2、停止MYsql 服务器，修改参数（my.cnf加入innodb_file_per_table），并删除Inoodb相关文件（可以重建Data目录）。</p>
+<p>3、重启MYSQL，并重建Innodb系统表空间。</p>
+<p>4、 重新导入数据。</p>
+<p>或者 Alter table 同样可以的转移，但是无法回收系统表空间中占用的空间。</p>
+<h3 id="2-4-InnoDB存储引擎的特性"><a href="#2-4-InnoDB存储引擎的特性" class="headerlink" title="2.4 InnoDB存储引擎的特性"></a>2.4 InnoDB存储引擎的特性</h3><h4 id="2-4-1-特性一：事务性存储引擎及两个特殊日志类型：Redo-Log-和-Undo-Log"><a href="#2-4-1-特性一：事务性存储引擎及两个特殊日志类型：Redo-Log-和-Undo-Log" class="headerlink" title="2.4.1 特性一：事务性存储引擎及两个特殊日志类型：Redo Log 和 Undo Log"></a>2.4.1 特性一：事务性存储引擎及两个特殊日志类型：Redo Log 和 Undo Log</h4><ul>
+<li>Innodb 是一种事务性存储引擎。</li>
+<li>完全支持事务的ACID特性。</li>
+<li>支持事务所需要的两个特殊日志类型：Redo Log 和Undo Log</li>
+</ul>
+<blockquote>
+<p>Redo Log：实现事务的持久性(已提交的事务)。<br>Undo Log：未提交的事务，独立于表空间，需要随机访问，可以存储在高性能io设备上。</p>
+</blockquote>
+<p>Undo日志记录某数据被修改前的值，可以用来在事务失败时进行rollback；Redo日志记录某数据块被修改后的值，可以用来恢复未写入data file的已成功事务更新的数据。</p>
+<p>InnoDB小知识点：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI4Njc5NjM1NQ==&mid=2247490339&idx=2&sn=03dcec83524fd3aaa2bab57dac2763a2&chksm=ebd6240fdca1ad19a6aa3548e299a1cc9749a52f9191481fe3831e3f10150ed992f44fe4d84a&scene=21#wechat_redirect">InnoDB一棵B+树可以存放多少行数据？</a></p>
+<h4 id="2-4-2-特性二：支持行级锁"><a href="#2-4-2-特性二：支持行级锁" class="headerlink" title="2.4.2 特性二：支持行级锁"></a>2.4.2 特性二：支持行级锁</h4><ul>
+<li>InnoDB支持行级锁。</li>
+<li>行级锁可以最大程度地支持并发。</li>
+<li>行级锁是由存储引擎层实现的。</li>
+</ul>
+<h3 id="2-5-什么是锁"><a href="#2-5-什么是锁" class="headerlink" title="2.5 什么是锁"></a>2.5 什么是锁</h3><h4 id="2-5-1-锁"><a href="#2-5-1-锁" class="headerlink" title="2.5.1 锁"></a>2.5.1 锁</h4><p><a target="_blank" rel="noopener" href="https://www.javazhiyin.com/wp-content/uploads/2019/11/java6-1575116694.png"><img src="https://www.javazhiyin.com/wp-content/uploads/2019/11/java6-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h4 id="2-5-2-锁类型"><a href="#2-5-2-锁类型" class="headerlink" title="2.5.2 锁类型"></a>2.5.2 锁类型</h4><p><a href="https://imlike.cc/img/java3-1575116695.png"><img src="https://imlike.cc/img/java3-1575116695.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h4 id="2-5-3-锁的粒度"><a href="#2-5-3-锁的粒度" class="headerlink" title="2.5.3 锁的粒度"></a>2.5.3 锁的粒度</h4><p>MySQL的事务支持不是绑定在MySQL服务器本身，而是<strong>与存储引擎相关</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.javazhiyin.com/wp-content/uploads/2019/11/java2-1575116695.png"><img src="https://www.javazhiyin.com/wp-content/uploads/2019/11/java2-1575116695.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<p>将table_name加表级锁命令：lock table table_name write; 写锁会阻塞其它用户对该表的‘读写’操作，直到写锁被释放：unlock tables；</p>
+<ul>
+<li>锁的开销越大，粒度越小，并发度越高。</li>
+<li>表级锁通常是在服务器层实现的。</li>
+<li>行级锁是存储引擎层实现的。innodb的锁机制，服务器层是不知道的</li>
+</ul>
+<h4 id="2-5-4-阻塞和死锁"><a href="#2-5-4-阻塞和死锁" class="headerlink" title="2.5.4 阻塞和死锁"></a>2.5.4 阻塞和死锁</h4><p>1.阻塞是由于资源不足引起的排队等待现象。</p>
+<p>2.死锁是由于两个对象在拥有一份资源的情况下申请另一份资源，而另一份资源恰好又是这两对象正持有的，导致两对象无法完成操作，且所持资源无法释放。</p>
+<p>关于MySQL锁的详解：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI4Njc5NjM1NQ==&mid=2247490303&idx=2&sn=d2c2c4830ba8d4a2e89619f025b54a10&chksm=ebd625d3dca1acc56a86c895a7a4819b91c182a1d24ac6b48a2bea017cfa9c3ee0cbdf734961&scene=21#wechat_redirect">学会MySQL中的索引和锁</a></p>
+<h3 id="2-6-如何选择正确的存储引擎"><a href="#2-6-如何选择正确的存储引擎" class="headerlink" title="2.6 如何选择正确的存储引擎"></a>2.6 如何选择正确的存储引擎</h3><p>参考条件：</p>
+<ul>
+<li>事务</li>
+<li>备份(Innobd免费在线备份)</li>
+<li>崩溃恢复</li>
+<li>存储引擎的特有特性</li>
+</ul>
+<p>总结:Innodb大法好。</p>
+<p><strong>注意：尽量别使用混合存储引擎，比如回滚会出问题在线热备问题。</strong></p>
+<h3 id="2-7-配置参数"><a href="#2-7-配置参数" class="headerlink" title="2.7 配置参数"></a>2.7 配置参数</h3><h4 id="2-7-1-内存配置相关参数"><a href="#2-7-1-内存配置相关参数" class="headerlink" title="2.7.1 内存配置相关参数"></a>2.7.1 内存配置相关参数</h4><p>确定可以使用的内存上限。</p>
+<p><strong>内存的使用上限不能超过物理内存，否则容易造成内存溢出；**</strong>（对于32位操作系统，MySQL只能使用3G以下的内存。*<strong>*）</strong></p>
+<p>确定MySQL的每个连接单独使用的内存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort_buffer_size #定义了每个线程排序缓存区的大小，MySQL在有查询、需要做排序操作时才会为每个缓冲区分配内存（直接分配该参数的全部内存）；join_buffer_size #定义了每个线程所使用的连接缓冲区的大小，如果一个查询关联了多张表，MySQL会为每张表分配一个连接缓冲，导致一个查询产生了多个连接缓冲；read_buffer_size #定义了当对一张MyISAM进行全表扫描时所分配读缓冲池大小，MySQL有查询需要时会为其分配内存，其必须是4k的倍数；read_rnd_buffer_size #索引缓冲区大小，MySQL有查询需要时会为其分配内存，只会分配需要的大小。</span><br></pre></td></tr></table></figure>
+
+<p>注意：以上四个参数是为一个线程分配的，如果有100个连接，那么需要×100。</p>
+<p><strong>MySQL数据库实例：</strong></p>
+<p>①MySQL是单进程多线程（而oracle是多进程），也就是说MySQL实例在系统上表现就是一个服务进程，即进程；</p>
+<p>②MySQL实例是线程和内存组成，实例才是真正用于操作数据库文件的；</p>
+<p>一般情况下一个实例操作一个或多个数据库；集群情况下多个实例操作一个或多个数据库。</p>
+<p><strong>如何为缓存池分配内存：</strong></p>
+<p>Innodb_buffer_pool_size，定义了Innodb所使用缓存池的大小，对其性能十分重要，必须足够大，但是过大时，使得Innodb 关闭时候需要更多时间把脏页从缓冲池中刷新到磁盘中；</p>
+<p><em>总内存-（每个线程所需要的内存\</em>连接数）-系统保留内存*</p>
+<p>key_buffer_size，定义了MyISAM所使用的缓存池的大小，由于数据是依赖存储操作系统缓存的，所以要为操作系统预留更大的内存空间；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sum(index_length) from information_schema.talbes where engine&#x3D;&#39;myisam&#39;</span><br></pre></td></tr></table></figure>
+
+<p>注意：即使开发使用的表全部是Innodb表，也要为MyISAM预留内存，因为MySQL系统使用的表仍然是MyISAM表。</p>
+<p>max_connections 控制允许的最大连接数，一般2000更大。</p>
+<p><strong>不要使用外键约束保证数据的完整性。</strong></p>
+<h3 id="2-8-性能优化顺序"><a href="#2-8-性能优化顺序" class="headerlink" title="2.8 性能优化顺序"></a>2.8 性能优化顺序</h3><p>从上到下：</p>
+<p><a target="_blank" rel="noopener" href="https://www.javazhiyin.com/wp-content/uploads/2019/11/java0-1575116695.png"><img src="https://www.javazhiyin.com/wp-content/uploads/2019/11/java0-1575116695.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<p><strong>END</strong></p>
+<p><a href="javascript:;">赏加个鸡腿<img src="https://imlike.cc/pics/weixin.png" alt="img">支付宝<img src="https://imlike.cc/pics/alipay.jpg" alt="img">微信</a></p>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2020-10-11, 15:15:20</p>
+        <p><span>最后更新:</span>2024-03-14, 22:55:29</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/3414469055.html" title="（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能">https://imlike.cc/3414469055.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/3414469055.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/3192111075.html">
+                    pgsql和mysql的对比和特性
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2302551430.html">
+                    es索引生命周期维护
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: '（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/3192111075.html" title="上一篇: pgsql和mysql的对比和特性">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2302551430.html" title="下一篇: es索引生命周期维护">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/Infinity.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2024 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
