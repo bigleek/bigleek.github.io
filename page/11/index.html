@@ -269,6 +269,433 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-docker-container-small-ubuntu-install-jdk" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/dda6ae1a.html" class="article-date">
+      <time datetime="2022-01-17T01:20:12.000Z" itemprop="datePublished">2022-01-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h2><p>公司线上运行的容器是jre,没有调试和debug的工具,同时使用起来很不方便</p>
+<h3 id="查看系统版本"><a href="#查看系统版本" class="headerlink" title="查看系统版本"></a>查看系统版本</h3><p>运行 <strong>cat /etc/issue</strong> 看到是debian 7的系统后</p>
+<p>在/usr/lib/jvm 目录先看到的openjdk11</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h2><p>公司线上运行的容器是jre,没有调试和debug的工具,同时使用起来很不方便</p>
+<h3 id="查看系统版本"><a href="#查看系统版本" class="headerlink" title="查看系统版本"></a>查看系统版本</h3><p>运行 <strong>cat /etc/issue</strong> 看到是debian 7的系统后</p>
+<p>在/usr/lib/jvm 目录先看到的openjdk11</p>
+<p>参考该链接的内容<a target="_blank" rel="noopener" href="https://techoral.com/blog/java/install-openjdk-11-debian.html">How To Install OpenJDK Java 11 On Debian Real Quick</a> </p>
+<blockquote>
+<p>The openjdk-11-jre package contains just the Java Runtime Environment. If you want to develop Java programs then please install the openjdk-11-jdk package.<br>To Install OpenJDK 11 Debian Java Development Kit (JDK) - Enter the below command on Debian command line.</p>
+</blockquote>
+<p>需要还安装jdk</p>
+<h3 id="在线安装openjdk11"><a href="#在线安装openjdk11" class="headerlink" title="在线安装openjdk11"></a>在线安装openjdk11</h3><p>将 /etc/apt/source.list 备份后修改为debian 7 阿里的源</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib</span><br><span class="line">deb http://mirrors.aliyun.com/debian-security stretch/updates main</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian-security stretch/updates main</span><br><span class="line">deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib</span><br><span class="line"><span class="comment">#deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib</span></span><br><span class="line"><span class="comment">#deb-src http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib</span></span><br></pre></td></tr></table></figure>
+
+<p>运行 <strong>apt install openjdk-11-jdk</strong> 一直卡在安装  openjdk-11-jre-headless_11.0.13+8-1 起初因为是源的问题,切换后还是很慢,后面考虑应该连接的是官方的地址,于是尝试从网站下载对应的openjdk-11-jre-headless_11.0.13+8-1_amd64.deb 包使用 <strong>dpkg -i</strong>安装 .</p>
+<p>后面才知道</p>
+<h3 id="离线安装"><a href="#离线安装" class="headerlink" title="离线安装"></a>离线安装</h3><p>使用dpkg -i  *.deb 的时候出现依赖没有安装</p>
+<p>使用apt-get -f -y install 解决依赖问题后再执行dpkg安装deb包</p>
+<p>jdk-11.0.2_linux-x64_bin.deb 大概150mb左右</p>
+<h2 id="封装为脚本"><a href="#封装为脚本" class="headerlink" title="封装为脚本"></a>封装为脚本</h2><p><a target="_blank" rel="noopener" href="https://code.aliyun.com/whotolike/deploycode/raw/master/init_debian_container.sh">https://code.aliyun.com/whotolike/deploycode/raw/master/init_debian_container.sh</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-pack-linux-binary" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2aff3a72.html" class="article-date">
+      <time datetime="2022-01-07T05:29:02.000Z" itemprop="datePublished">2022-01-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2aff3a72.html">打包linux的bin二进制包</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>二进制的文件需要将压缩包的数据和shell脚本打包的为一个整体</p>
+<p>为避免多个sh文件使用 <strong>cat &lt;&lt; EOF</strong>  来生成上面的sh文件,这样只需要下面这个sh文件就可以将指定的文件夹压缩,同时添加 执行命令那部分内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;压缩文件。。。&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INSTALL_DIR=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line">tar -zcvf  <span class="variable">$INSTALL_DIR</span>/XXXX.tar.gz  <span class="variable">$INSTALL_DIR</span>/install/*</span><br><span class="line">cat &lt;&lt; <span class="string">EOF &gt;&gt;$INSTALL_DIR/install.sh</span></span><br><span class="line"><span class="string">#!/bin/bash</span></span><br><span class="line"><span class="string">#Test shell self-extracting</span></span><br><span class="line"><span class="string">TmpDir=/tmp/XXX</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">TARGET_DIR=./XXX</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if [ ! -d \$&#123;TmpDir&#125; ]; then</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    mkdir \$TmpDir</span></span><br><span class="line"><span class="string">    echo \$TmpDir  路径下不存在,正在创建</span></span><br><span class="line"><span class="string">  else</span></span><br><span class="line"><span class="string">    echo \$TmpDir 文件将会被覆盖</span></span><br><span class="line"><span class="string">    rm -rf  \$TmpDir/*</span></span><br><span class="line"><span class="string">fi</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ARCHIVE=\$(awk &#x27;/^__ARCHIVE_BELOW__/ &#123;print NR + 1; exit 0; &#125;&#x27; &quot;\$0&quot;)</span></span><br><span class="line"><span class="string">tail -n+\$ARCHIVE &quot;\$0&quot; | tar -xzvm -C \$TmpDir &gt; /dev/null 2&gt;&amp;1 3&gt;&amp;1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if [ ! -d \$&#123;TARGET_DIR&#125; ]; then</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">       echo \$TARGET_DIR 路径下不存在现在创建</span></span><br><span class="line"><span class="string">       mkdir \$&#123;TARGET_DIR&#125;</span></span><br><span class="line"><span class="string">  else</span></span><br><span class="line"><span class="string">       echo \$TARGET_DIR 路径下的文件将会被覆盖</span></span><br><span class="line"><span class="string">       rm -rf  \$&#123;TARGET_DIR&#125;/*</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">fi</span></span><br><span class="line"><span class="string">cp -R \$TmpDir/*  \$&#123;TARGET_DIR&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo &#x27;-------------------------------------------------------------------------------------------------&#x27;</span></span><br><span class="line"><span class="string">echo &#x27;********************************准备初始化 服务****************************************&#x27;</span></span><br><span class="line"><span class="string">echo &#x27;-------------------------------------------------------------------------------------------------&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/bin/sh  \$TARGET_DIR/install.sh</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">exit 0</span></span><br><span class="line"><span class="string">#This line must be the last line of the file</span></span><br><span class="line"><span class="string">__ARCHIVE_BELOW__</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$INSTALL_DIR</span>/install.sh <span class="variable">$INSTALL_DIR</span>/XXX.tar.gz &gt;  <span class="variable">$INSTALL_DIR</span>/XXX_install.run</span><br><span class="line">rm -f XXX.tar.gz</span><br><span class="line">rm -f install.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>二进制的文件需要将压缩包的数据和shell脚本打包的为一个整体</p>
+<p>为避免多个sh文件使用 <strong>cat &lt;&lt; EOF</strong>  来生成上面的sh文件,这样只需要下面这个sh文件就可以将指定的文件夹压缩,同时添加 执行命令那部分内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;压缩文件。。。&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INSTALL_DIR=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line">tar -zcvf  <span class="variable">$INSTALL_DIR</span>/XXXX.tar.gz  <span class="variable">$INSTALL_DIR</span>/install/*</span><br><span class="line">cat &lt;&lt; <span class="string">EOF &gt;&gt;$INSTALL_DIR/install.sh</span></span><br><span class="line"><span class="string">#!/bin/bash</span></span><br><span class="line"><span class="string">#Test shell self-extracting</span></span><br><span class="line"><span class="string">TmpDir=/tmp/XXX</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">TARGET_DIR=./XXX</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if [ ! -d \$&#123;TmpDir&#125; ]; then</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    mkdir \$TmpDir</span></span><br><span class="line"><span class="string">    echo \$TmpDir  路径下不存在,正在创建</span></span><br><span class="line"><span class="string">  else</span></span><br><span class="line"><span class="string">    echo \$TmpDir 文件将会被覆盖</span></span><br><span class="line"><span class="string">    rm -rf  \$TmpDir/*</span></span><br><span class="line"><span class="string">fi</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ARCHIVE=\$(awk &#x27;/^__ARCHIVE_BELOW__/ &#123;print NR + 1; exit 0; &#125;&#x27; &quot;\$0&quot;)</span></span><br><span class="line"><span class="string">tail -n+\$ARCHIVE &quot;\$0&quot; | tar -xzvm -C \$TmpDir &gt; /dev/null 2&gt;&amp;1 3&gt;&amp;1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if [ ! -d \$&#123;TARGET_DIR&#125; ]; then</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">       echo \$TARGET_DIR 路径下不存在现在创建</span></span><br><span class="line"><span class="string">       mkdir \$&#123;TARGET_DIR&#125;</span></span><br><span class="line"><span class="string">  else</span></span><br><span class="line"><span class="string">       echo \$TARGET_DIR 路径下的文件将会被覆盖</span></span><br><span class="line"><span class="string">       rm -rf  \$&#123;TARGET_DIR&#125;/*</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">fi</span></span><br><span class="line"><span class="string">cp -R \$TmpDir/*  \$&#123;TARGET_DIR&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo &#x27;-------------------------------------------------------------------------------------------------&#x27;</span></span><br><span class="line"><span class="string">echo &#x27;********************************准备初始化 服务****************************************&#x27;</span></span><br><span class="line"><span class="string">echo &#x27;-------------------------------------------------------------------------------------------------&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/bin/sh  \$TARGET_DIR/install.sh</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">exit 0</span></span><br><span class="line"><span class="string">#This line must be the last line of the file</span></span><br><span class="line"><span class="string">__ARCHIVE_BELOW__</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$INSTALL_DIR</span>/install.sh <span class="variable">$INSTALL_DIR</span>/XXX.tar.gz &gt;  <span class="variable">$INSTALL_DIR</span>/XXX_install.run</span><br><span class="line">rm -f XXX.tar.gz</span><br><span class="line">rm -f install.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-nginx-deep-optimize" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/132c3fd6.html" class="article-date">
+      <time datetime="2022-01-06T08:10:59.000Z" itemprop="datePublished">2022-01-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/132c3fd6.html">nginx的深度调优</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p> 参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6895660634466156558#heading-30">Nginx全能解析及性能调优 - 掘金</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/91454882">Nginx调优 - 知乎</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p> 参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6895660634466156558#heading-30">Nginx全能解析及性能调优 - 掘金</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/91454882">Nginx调优 - 知乎</a></p>
+<p><img src="../img/bd998aa92614417f8b1b9db6302bc738~tplv-k3u1fbpfcp-watermark.awebp" alt="Aleyson爱逼逼"></p>
+<h2 id="设置静态资源的过期时间"><a href="#设置静态资源的过期时间" class="headerlink" title="设置静态资源的过期时间"></a>设置静态资源的过期时间</h2><p><img src="../img/image-20220106161111684.png" alt="image-20220106161111684"></p>
+<h2 id="反向代理设置缓存"><a href="#反向代理设置缓存" class="headerlink" title="反向代理设置缓存"></a>反向代理设置缓存</h2><blockquote>
+<p>proxy_cache_path /data/nginx/cache  levels=1:2 keys_zone=one:200m inactive=60m loader_threshold=300 loader_files=300 max_size=2000m;</p>
+</blockquote>
+<h2 id="关闭access-log"><a href="#关闭access-log" class="headerlink" title="关闭access_log"></a>关闭access_log</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># svg, fonts</span><br><span class="line">location ~ &#x2F;last&#x2F;\.(?:jpg|png|gif|cmpt|b3dm)$  &#123;</span><br><span class="line">    add_header Access-Control-Allow-Origin &quot;*&quot;;</span><br><span class="line">    expires    7d;</span><br><span class="line">    access_log off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="设置worker-processes"><a href="#设置worker-processes" class="headerlink" title="设置worker_processes"></a>设置worker_processes</h2><blockquote>
+<p>grep processor /proc/cpuinfo | wc –l 获取CPU核心数为8</p>
+</blockquote>
+<p>可以获取CPU相关的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">worker_processes auto;</span><br><span class="line">worker_rlimit_nofile 65535;</span><br><span class="line">#pid logs&#x2F;nginx.pid;</span><br><span class="line">events &#123;</span><br><span class="line">   worker_connections 65535;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通常需要的设置的worker_processes 为核心数除以2的n次方.推荐设置为auto</p>
+<p>设置gzip压缩</p>
+<p>这个需要确认这个请求是支持gzip压缩的可以参考</p>
+<p><img src="../img/image-20220107162340670.png" alt="image-20220107162340670"></p>
+<p><strong>tips</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gzip on;  #是否开启gzip模块 on表示开启 off表示关闭</span><br><span class="line">gzip_static on;</span><br><span class="line">gzip_buffers 4 16k;  #设置压缩所需要的缓冲区大小</span><br><span class="line">gzip_comp_level 6;  #压缩级别1-9，数字越大压缩的越好，也越占用CPU时间</span><br><span class="line">gzip_min_length 1k;  #设置允许压缩的最小字节</span><br><span class="line">gzip_http_version 1.0;  #设置压缩http协议的版本,默认是1.1 如果nginx前面还有反向代理 这要设置为1.0</span><br><span class="line">gzip_types text&#x2F;plain application&#x2F;x-javascript text&#x2F;css text&#x2F;javascript application&#x2F;x-httpd-php image&#x2F;jpeg image&#x2F;gif image&#x2F;png application&#x2F;octet-stream application&#x2F;javascript;  #设置压缩的文件类型</span><br><span class="line">gzip_vary     on;  #加上http头信息Vary: Accept-Encoding给后端代理服务器识别是否启用 gzip 压缩</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="../img/image-20220106161202850.png" alt="image-20220106161202850"></p>
+<h2 id="Linux环境下设置io多路复用-epoll-模型"><a href="#Linux环境下设置io多路复用-epoll-模型" class="headerlink" title="Linux环境下设置io多路复用(epoll)模型"></a>Linux环境下设置io多路复用(epoll)模型</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">worker_processes     auto;</span><br><span class="line">worker_rlimit_nofile 65535;</span><br><span class="line">events &#123;</span><br><span class="line">    use epoll; # 这个设置是针对2.6内核  cat &#x2F;proc&#x2F;version可读取</span><br><span class="line">    multi_accept       on;</span><br><span class="line">    worker_connections 65535;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-树莓派使用cloudreve搭建nas和离线下载" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1661309199.html" class="article-date">
+      <time datetime="2022-01-03T17:11:52.000Z" itemprop="datePublished">2022-01-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>2022-1-20 docker 部署cloudreve</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># 下载</span><br><span class="line">docker pull xavierniu&#x2F;cloudreve</span><br><span class="line"></span><br><span class="line"># 创建</span><br><span class="line">mkdir -p ~&#x2F;cloudreve&#x2F;uploads \</span><br><span class="line">    &amp;&amp; mkdir -p ~&#x2F;cloudreve&#x2F;avatar \</span><br><span class="line">    &amp;&amp; touch ~&#x2F;cloudreve&#x2F;conf.ini \</span><br><span class="line">    &amp;&amp; touch ~&#x2F;cloudreve&#x2F;cloudreve.db</span><br><span class="line"></span><br><span class="line"># 启动</span><br><span class="line">docker run -d \</span><br><span class="line">  --name cloudreve \</span><br><span class="line">  -e PUID&#x3D;$UID \</span><br><span class="line">  -e PGID&#x3D;$GID \</span><br><span class="line">  -e TZ&#x3D;&quot;Asia&#x2F;Shanghai&quot; \</span><br><span class="line">  -p 5212:5212 \</span><br><span class="line">  --restart&#x3D;unless-stopped \</span><br><span class="line">  -v &#x2F;cloudreve&#x2F;uploads:&#x2F;cloudreve&#x2F;uploads \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;conf.ini:&#x2F;cloudreve&#x2F;conf.ini \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;cloudreve.db:&#x2F;cloudreve&#x2F;cloudreve.db \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;avatar:&#x2F;cloudreve&#x2F;avatar \</span><br><span class="line">  xavierniu&#x2F;cloudreve</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"> docker logs -f cloudreve</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>2022-1-20 docker 部署cloudreve</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># 下载</span><br><span class="line">docker pull xavierniu&#x2F;cloudreve</span><br><span class="line"></span><br><span class="line"># 创建</span><br><span class="line">mkdir -p ~&#x2F;cloudreve&#x2F;uploads \</span><br><span class="line">    &amp;&amp; mkdir -p ~&#x2F;cloudreve&#x2F;avatar \</span><br><span class="line">    &amp;&amp; touch ~&#x2F;cloudreve&#x2F;conf.ini \</span><br><span class="line">    &amp;&amp; touch ~&#x2F;cloudreve&#x2F;cloudreve.db</span><br><span class="line"></span><br><span class="line"># 启动</span><br><span class="line">docker run -d \</span><br><span class="line">  --name cloudreve \</span><br><span class="line">  -e PUID&#x3D;$UID \</span><br><span class="line">  -e PGID&#x3D;$GID \</span><br><span class="line">  -e TZ&#x3D;&quot;Asia&#x2F;Shanghai&quot; \</span><br><span class="line">  -p 5212:5212 \</span><br><span class="line">  --restart&#x3D;unless-stopped \</span><br><span class="line">  -v &#x2F;cloudreve&#x2F;uploads:&#x2F;cloudreve&#x2F;uploads \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;conf.ini:&#x2F;cloudreve&#x2F;conf.ini \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;cloudreve.db:&#x2F;cloudreve&#x2F;cloudreve.db \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;avatar:&#x2F;cloudreve&#x2F;avatar \</span><br><span class="line">  xavierniu&#x2F;cloudreve</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"> docker logs -f cloudreve</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.coolapk.com/feed/17682984?shareKey=MzYxMmY3MTc4YzNjNWU4N2RkYmU~&shareUid=902662&shareFrom=com.coolapk.market_9.0.2"><strong>树莓派搭建满速家庭云网盘（Lv.1）</strong></a></p>
+<p><a target="_blank" rel="noopener" href="https://www.coolapk.com/feed/17772116?shareKey=OTA2MTE2NGIxNDhiNWU4N2U2ZjQ~&shareUid=902662&shareFrom=com.coolapk.market_9.0.2">干货Get!]Android搭建Cloudreve私人云盘</a></p>
+<p><a href="../img/1586074575520.png"><img src="../img/1586074575520.png" alt="1586074575520"></a></p>
+<h3 id="允许SHH使用root登陆"><a href="#允许SHH使用root登陆" class="headerlink" title="允许SHH使用root登陆"></a>允许SHH使用root登陆</h3><p>sudo passwd 来重置root用户的密码</p>
+<p> <strong>vim /etc/ssh/sshd_config</strong></p>
+<p>注释掉 PermitRootLogin without-password</p>
+<p>使用 PermitRootLogin yes</p>
+<h3 id="连接树莓派将文件传过去"><a href="#连接树莓派将文件传过去" class="headerlink" title="连接树莓派将文件传过去"></a>连接树莓派将文件传过去</h3><p>现在下载 <a target="_blank" rel="noopener" href="https://github.com/cloudreve/Cloudreve/releases">https://github.com/cloudreve/Cloudreve/releases</a> 选择<a target="_blank" rel="noopener" href="https://github.com/cloudreve/Cloudreve/releases/download/3.0.0-rc1/cloudreve_3.0.0-rc1_linux_arm.tar.gz">cloudreve_3.0.0-rc1_linux_arm.tar.gz</a></p>
+<p><a href="../img/1586075347405.png"><img src="../img/1586075347405.png" alt="1586075347405"></a></p>
+<p>sudo mkdir /home/cloud</p>
+<p>使用ftp的客户端连接注意使用 root</p>
+<p>将下载cloudreve_3.0.0-rc1_linux_arm.tar.gz 放到 /home/cloud下</p>
+<p>sudo tar -xzvf cloudreve_3.0.0-rc1_linux_arm.tar.gz 解压后也是个单文件cloudreve</p>
+<p>sudo ./cloudreve</p>
+<p>后面终端会打印出来用户<a href="mailto:admin@cloudreve.org">admin@cloudreve.org</a> 和密码</p>
+<h3 id="初始化cloudreve-3-0-0-rc1-linux-arm和设置"><a href="#初始化cloudreve-3-0-0-rc1-linux-arm和设置" class="headerlink" title="初始化cloudreve_3.0.0-rc1_linux_arm和设置"></a>初始化cloudreve_3.0.0-rc1_linux_arm和设置</h3><p>登陆后下面是初始化的页面</p>
+<p><a href="../img/1586074929312.png"><img src="../img/1586074929312.png" alt="1586074929312"></a></p>
+<h4 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h4><p><a href="../img/1586075685498.png"><img src="../img/1586075685498.png" alt="1586075685498"></a></p>
+<p>只有这个入口可以设置用户(包括管理员)使用的存储的地址,可以本地-&gt;这个本地可以选择硬盘挂载路径,也可以用onedrive</p>
+<h3 id="设置cloudreve后台启动"><a href="#设置cloudreve后台启动" class="headerlink" title="设置cloudreve后台启动"></a>设置cloudreve后台启动</h3><p>vim /usr/lib/systemd/system/cloudreve.service</p>
+<p>粘贴以下内容然后文内的 PATH_TO_CLOUDREVE 更换为程序所在目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">	[Unit]</span><br><span class="line">        Description&#x3D;Cloudreve</span><br><span class="line">        Documentation&#x3D; &#x3D;[查看链接](https:&#x2F;&#x2F;docs.cloudreve.org&#x2F;)</span><br><span class="line">        After&#x3D;network.target</span><br><span class="line">        Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">    WorkingDirectory&#x3D;&#x2F;PATH_TO_CLOUDREVE</span><br><span class="line">    ExecStart&#x3D;&#x2F;PATH_TO_CLOUDREVE&#x2F;cloudreve</span><br><span class="line">    Restart&#x3D;on-abnormal</span><br><span class="line">    RestartSec&#x3D;5s</span><br><span class="line">    KillMode&#x3D;mixed</span><br><span class="line">    StandardOutput&#x3D;null</span><br><span class="line">    StandardError&#x3D;syslog</span><br><span class="line">[Install]</span><br><span class="line">    WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>然后Ctrl+o保存Ctrl+x退出</p>
+<p>然后配置进程<br>更新配置<br>systemctl daemon-reload<br>启动服务<br>systemctl start cloudreve<br>设置开机启动<br>systemctl enable cloudreve</p>
+<p>然后我们就可以通过以下指令来管理服务了<br># 启动服务<br>systemctl start cloudreve</p>
+<p># 停止服务<br>systemctl stop cloudreve</p>
+<p># 重启服务<br>systemctl restart cloudreve</p>
+<p># 查看状态<br>systemctl status cloudreve</p>
+<h2 id="软连接到挂载的硬盘"><a href="#软连接到挂载的硬盘" class="headerlink" title="软连接到挂载的硬盘"></a>软连接到挂载的硬盘</h2><p>ln -s /home/device /home/cloud/uploads/1/disk</p>
+<p>fdisk -l 查看分区和挂载状况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo su 建一个目录作为U盘的挂接点。比如说要把U盘挂载到 &#x2F;mnt&#x2F;usb，那么需要采用下列命令新建 &#x2F;mnt&#x2F;usb。       mkdir &#x2F;mnt&#x2F;usb      </span><br><span class="line">然后就可以采用mount命令把U盘挂载在&#x2F;mnt&#x2F;usb。    </span><br><span class="line">mount &#x2F;dev&#x2F;sdb1 &#x2F;mnt&#x2F;usb     </span><br><span class="line">输入命令 cd &#x2F;mnt&#x2F;usb进入目录&#x2F;mnt&#x2F;usb，</span><br><span class="line">然后输入 ls命令就可以查看U盘里的内容了。</span><br><span class="line">mount  &#x2F;dev&#x2F;sda1  &#x2F;home&#x2F;cloud&#x2F;uploads&#x2F;1&#x2F;diskmount  &#x2F;dev&#x2F;sda1 &#x2F;home&#x2F;device</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-vmware-extent-disk" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1546,562 +1973,6 @@
 
 
   
-    <article id="post-think-about-cluster" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2525ce5c.html" class="article-date">
-      <time datetime="2021-10-15T02:33:48.000Z" itemprop="datePublished">2021-10-15</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2525ce5c.html">think-about-cluster</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>分布式集群</p>
-<p>分布式: 即拆分原有的功能,避免冗余和服务的耦合</p>
-<p>集群: 提供多台服务避免单点故障</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>分布式集群</p>
-<p>分布式: 即拆分原有的功能,避免冗余和服务的耦合</p>
-<p>集群: 提供多台服务避免单点故障</p>
-<p>使用分布式集群好处很多 避免某个服务出问题服务不受影响,同时提供多台性能没那么强的数据也成本更低,数据的分块和副本也能最大程度减少数据的丢失,<strong>单机io瓶颈</strong></p>
-<p>坏处就是: 开发成本 超时等待,不同节点数据的同步,分布式事务,grpc接口的各种可能情况</p>
-<p>通常会有3个以上的节点,数据过来会被分块和创建副本,同时会有选取机制或者是专门的服务负责协调数据的同步和客户端访问具体的数据节点</p>
-<p>下面举出比较有特点的分布式服务</p>
-<table>
-<thead>
-<tr>
-<th><strong>elasticsearch</strong></th>
-<th><strong>kafka</strong></th>
-<th><strong>hbase</strong></th>
-<th><strong>zookeeper</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>节点 datandoe coordinate数据 doc数据集 index数据分块 shard</td>
-<td>节点 broke数据 message数据集 topic数据集分块 partition replica例外消费者comsumer生产者 producter消费者组 comsumer-group元数据保存在zookeeper上</td>
-<td>节点 datanode数据</td>
-<td>节点 node选举半数以上有个master,存储元数据leaderfollower</td>
-</tr>
-<tr>
-<td>index：对外暴露的搜索单元，由一系列的shard组成。shard：es实际执行的单元，开始针对索引的写入和查询，都会拆分为segment：es里面完整的索引集合，由document和索引文件document：对应一天天数据translog: 事务日志</td>
-<td></td>
-<td>table：由多行数据组成region：由很多store组成，有多少个列族就有多少个storeStore: 由Memstore和StoreFile组成，一个列簇对应一个Store，包含在内存中的Memstore以及持久化到hdfs里的多个HFile，StoreFile的底层就是HFile，它是HFile的一个轻量级封装row, column, cell: 一个row由rowKey和多个column及其对应值组成，一张表的所有row都按rowkey的字典序由小到大排序，column由columnFamily和Qualifier组成，cell是row, column, timestamp, type, value等组成。HLog: 类似于ES的Translog，主要也是用于数据的恢复。</td>
-<td></td>
-</tr>
-<tr>
-<td>merge 索引 merge 分块</td>
-<td>rebalance 消费者rebalance topic 的推送</td>
-<td>为什么hbase会有列族 可以没有严格限定列的格式就是因为 hbase的</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>下面是补充</p>
-<h2 id="分布式系统常见异常问题"><a href="#分布式系统常见异常问题" class="headerlink" title="分布式系统常见异常问题"></a>分布式系统常见异常问题</h2><ul>
-<li><p>通信异常：网络不可用（消息延迟或者丢失），会导致分布式系统内部无法顺利进行一次网络通信进行沟通协调，所以可能造成多节点数据丢失和 状态不一致，还有可能造成数据乱序。解决方案：重试机制</p>
-</li>
-<li><p>网络分区：网络不连通，但各个子网络的内部网络是正常的，从而导致整个系统的网络环境被切分成了若干个孤立的区域，分布式系统就会出现局 部小集群造成数据不一致。解决方案：把数据状态不是最新的给下线掉</p>
-</li>
-<li><p>节点故障/机器宕机：服务器节点出现的宕机或”僵死”现象，这是常态，而不是异常。解决方案：数据副本协议，异步复制</p>
-</li>
-<li><p>分布式三态：即成功、失败和超时，分布式环境中的网络通信请求发送和结果响应都有可能丢失，所以请求发起方无法确定消息是否处理成功。分 布式系统的可用性：在用户能忍受的时间范围内，一定给出响应！解决方案：超时处理</p>
-</li>
-<li><p>存储数据丢失：对于有状态节点来说，数据丢失意味着状态丢失，通常只能从其他节点读取、恢复存储的状态。解决方案：副本协议</p>
-</li>
-</ul>
-<h2 id="2-3-分布式系统性能指标"><a href="#2-3-分布式系统性能指标" class="headerlink" title="2.3 分布式系统性能指标"></a>2.3 分布式系统性能指标</h2><ul>
-<li><p><strong>性能</strong>：下面三个性能指标（吞吐，延迟，并发）往往会相互制约，追求高吞吐的系统，往往很难做到低延迟；系统平均响应时间较长时，也很难提高 QPS。<em>系统的吞吐能力，指系统在某一时间可以处理的数据/请求总量，通常可以用系统每秒处理的总数据/总请求量来衡量； 系统的响应延迟，指系统完成某一功能需要使用的时间； 系统的并发能力，指系统可以同时完成某一功能的能力，通常也用QPS(query per second)来衡量。</em></p>
-</li>
-<li><p><strong>可用性</strong>：系统的可用性（availability）指系统在面对各种异常时可以正确提供服务的能力。系统的可用性可以用系统停服务的时间与正常服务的时间 的比例来衡量，也可以用某功能的失败次数与成功次数的比例来衡量。可用性是分布式的重要指标，衡量了系统的鲁棒性，是系统容错能力的体现。（5 个 9 的可靠性：一年只有 5 分钟的宕机时间！6 个 9 的可靠性，也就是 31 秒，99.9999%）</p>
-</li>
-<li><p><strong>可扩展性</strong>：系统的可扩展性（scalability）指分布式系统通过扩展集群机器规模提高系统性能（吞吐、延迟、并发）、存储容量、计算能力的特性。好 的分布式系统总在追求 “线性扩展性”，也就是使得系统的某一指标可以随着集群中的机器数量线性增长。最期望的情况：动态热部署</p>
-</li>
-<li><p><strong>一致性</strong>：分布式系统为了提高可用性，总是不可避免的使用副本的机制，从而引发副本一致性的问题。越是强的一致性的模型，对于用户使用来说使 用起来越简单。</p>
-</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="http://luochong.online/2021/06/11/ZooKeeper%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%88%86%E6%9E%90/">ZooKeeper架构设计分析/</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-think-about-data-structure" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/b760fb1a.html" class="article-date">
-      <time datetime="2021-10-15T02:17:39.000Z" itemprop="datePublished">2021-10-15</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/b760fb1a.html">think-about-data-structure</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>为什么有数据结构的问题就是数据本来是无序和杂乱的<br>怎么在保存的时候方便后续更加方便查询和分析<br>如果是像记事本和word这种的确是可以使用单考虑到大量的数据就要考虑效率和成本</p>
-<p>最后就发现了很多方法</p>
-<ul>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>为什么有数据结构的问题就是数据本来是无序和杂乱的<br>怎么在保存的时候方便后续更加方便查询和分析<br>如果是像记事本和word这种的确是可以使用单考虑到大量的数据就要考虑效率和成本</p>
-<p>最后就发现了很多方法</p>
-<ul>
-<li>内存保存</li>
-<li>基于机械硬盘保存附以数据结构</li>
-<li>混合内存和硬盘保存包括数据的生命周期来实现</li>
-</ul>
-<h2 id="内存保存"><a href="#内存保存" class="headerlink" title="内存保存"></a>内存保存</h2><p><strong>redis</strong>,<strong>Cassandra</strong>,<strong>Neo4j</strong> 等将数据保存在内存中实现快速存储,同时还提供数据的持久化,和过期时间,同时包括其他的有效特性</p>
-<h2 id="磁盘保存"><a href="#磁盘保存" class="headerlink" title="磁盘保存"></a>磁盘保存</h2><ol>
-<li>二分查找: 将文件数据有序保存，使用二分查找来完成特定key的查找。</li>
-<li>哈希：用哈希将数据分割为不同的bucket</li>
-<li>B+树：使用B+树 或者 ISAM 等方法，可以减少外部文件的读取</li>
-<li>外部文件： 将数据保存为日志，并创建一个hash或者查找树映射相应的文件。</li>
-</ol>
-<p><img src="../img/352f30322f4a6f75726e616c362d31303234783530332e706e67.png" alt="basic lsm"></p>
-<p>基于硬盘的保存就要优先考虑磁盘原理,磁盘的探测器读取磁道的数据,所以数据是顺序读写的,且会预读取数据到内存,目前很多开发的分布式服务都基于此设计为(LSM Log Structured-Merge Tree) 包括kafka, hbase 等尽量避免顺序读写</p>
-<p>b+数这类设计目标提高数据的查询的效率,在数据保存的时候将数据建议归类以树状的结构排列,同时在包括叶子节点和根节点来实现快速找对数据节点</p>
-<p>通常数据库还有一个方式 WAL(writte ahaead log) 即写数据之前会先累积数据后在保存在</p>
-<p>现在常见的数据保存结构有哪些</p>
-<p>树状结构 b数,b+树,b-树</p>
-<p>线性 lsm结构 数据保存读写会累积不是覆盖这种</p>
-<p>数据库索引常见,b-tree,hash,gist,gin,sp-gist,brin</p>
-<p>方便查询</p>
-<p>方便读写</p>
-<blockquote>
-<p>   B-Tree 索引是 MySQL 数据库中使用最为频繁的索引类型，除了 Archive 存储引擎之外的其他所有的存储引擎都支持 B-Tree 索引。不仅仅在 MySQL 中是如此，实际上在其他的很多数据库管理系统中B-Tree 索引也同样是作为最主要的索引类型，这主要是因为B-Tree 索引的存储结构在数据库的数据检索中有非常优异的表现。<br>    一般来说， MySQL 中的 B-Tree 索引的物理文件大多都是以 Balance Tree 的结构来存储的，也就是所有实际需要的数据都存放于 Tree 的 Leaf Node ，而且到任何一个 Leaf Node 的最短路径的长度都是完全相同的，所以我们大家都称之为 B-Tree 索引当然，可能各种数据库（或 MySQL 的各种存储引擎）在存放自己的 B-Tree 索引的时候会对存储结构稍作改造。如 Innodb 存储引擎的 B-Tree 索引实际使用的存储结构实际上是 B+Tree ，也就是在 B-Tree 数据结构的基础上做了很小的改造，在每一个<strong>Leaf Node</strong> (叶子节点)上面出了存放索引键的相关信息之外，还存储了指向与该 Leaf Node 相邻的后一个 LeafNode 的指针信息，这主要是为了加快检索多个相邻 Leaf Node 的效率考虑。<br>    B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。<br>    在B+树上的常规检索，从根节点到叶子节点的搜索效率基本相当，不会出现大幅波动，而且基于索引的顺序扫描时，也可以利用双向指针快速左右移动，效率非常高。<br>    因此，B+树索引被广泛应用于数据库、文件系统等场景。顺便说一下，xfs文件系统比ext3/ext4效率高很多的原因之一就是，它的文件及目录索引结构全部采用B+树索引，而ext3/ext4的文件目录结构则采用Linked list, hashed B-tree、Extents/Bitmap等索引数据结构，因此在高I/O压力下，其IOPS能力不如xfs。</p>
-</blockquote>
-<p>所以使用</p>
-<h2 id="混合内存和硬盘保存包括数据的生命周期来实现"><a href="#混合内存和硬盘保存包括数据的生命周期来实现" class="headerlink" title="混合内存和硬盘保存包括数据的生命周期来实现"></a>混合内存和硬盘保存包括数据的生命周期来实现</h2><p>代表程序为 elasticsearch</p>
-<p><strong>数据过来会被建立索引保存在内存中后面会被保存在磁盘,数据的生命周期为hot  warm cold</strong> <strong>delete</strong></p>
-<table>
-<thead>
-<tr>
-<th>阶段 / action</th>
-<th>优先级设置</th>
-<th>取消跟随</th>
-<th>滚动索引</th>
-<th>分片分配</th>
-<th>只读</th>
-<th>强制段合并</th>
-<th>收缩索引</th>
-<th>冻结索引</th>
-<th>删除</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>hot</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-</tr>
-<tr>
-<td>warm</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>×</td>
-</tr>
-<tr>
-<td>cold</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>√</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-<td>√</td>
-<td>×</td>
-</tr>
-<tr>
-<td>delete</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-<td>√</td>
-</tr>
-</tbody></table>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-k8s-deploy-geoserver-activemq" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/c1c66eff.html" class="article-date">
-      <time datetime="2021-10-15T01:40:51.000Z" itemprop="datePublished">2021-10-15</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>目前公司需要搭建geoserver集群集成jms和jdbcstore的插件,实现数据保存在数据库,同时通过jms来同步集群的缓存数据</p>
-<h2 id="部署activeMQ"><a href="#部署activeMQ" class="headerlink" title="部署activeMQ"></a>部署activeMQ</h2><h4 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h4><p><img src="../img/1634094696968-466f7ccf-f903-442d-b53c-d5a361ecba88.png" alt="image-20211013110849180.png"></p>
-<p>####</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>目前公司需要搭建geoserver集群集成jms和jdbcstore的插件,实现数据保存在数据库,同时通过jms来同步集群的缓存数据</p>
-<h2 id="部署activeMQ"><a href="#部署activeMQ" class="headerlink" title="部署activeMQ"></a>部署activeMQ</h2><h4 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h4><p><img src="../img/1634094696968-466f7ccf-f903-442d-b53c-d5a361ecba88.png" alt="image-20211013110849180.png"></p>
-<p>####</p>
-<p>包括注解包括你需要备注的信息<br>标签: 用于部署pod 服务,用于设置部署在指定标签节点 在高级设置里面可以设置<br>副本数即类似于克隆了多个镜像服务,他们的配置都是一样的<br>分层级类似于归类的作业,突出显示和归纳</p>
-<h3 id="配置容器"><a href="#配置容器" class="headerlink" title="配置容器"></a>配置容器</h3><p><img src="../img/1634094933299-65354b7f-48f9-4293-9739-6000138dc82b.png" alt="image.png"></p>
-<p>这部分主要是要注意要注意如果服务是需要暴露端口的必须要配置,否则服务启动会有问题,暴露的端口不是直接给外部访问,是节点的容器组IP的暴露出来的可以用于容器内部的通信<br>容器的镜像通常就是 dockerhub官方提供的,亦或者是内网的镜像仓库harbor部署的,<br>命令参数目前使用的少,看介绍可以替代dockerfile中 cmd部分执行的命令<br>环境变量即添加容器内部的环境变量,包括很多敏感的secret和key ,需要运行时使用便可以放在上面<br>资源请求/限制: 即对容器调用host的资源进行限制,不挤占其他服务的资源<br>​</p>
-<h3 id="挂载存储"><a href="#挂载存储" class="headerlink" title="挂载存储"></a>挂载存储</h3><h2 id=""><a href="#" class="headerlink" title=""></a><img src="../img/1634094947506-dc314125-33e7-4bff-a302-652d53bc50e7.png" alt="image.png"></h2><p>这里主要是注意一点 挂载数据卷到容器中,倘若容器中的配置文件在挂载卷不存在,但是配置挂载会替换容器中的文件导致pod启动失败<br>​</p>
-<p><strong>还有配置路径也是需要注意</strong><br>上面的路径的容器内的绝对路径<br>下面的子路径是相对路径但是相对的是 挂载的卷的的根节点 类似于 /var/lib/kubelet/pods/8c7ba28d-59bd-4ad3-a592-4212ad540939/volumes/kubernetes.io~glusterfs/pvc-02a2b3a6-bd84-4687-8c37-67eb0b4a1ed1<br>如果配置的是文件<br>那么下面挂载卷内的文件会替换上面容器绝对路径的文件</p>
-<h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><h3 id="服务-应用路由"><a href="#服务-应用路由" class="headerlink" title="服务/应用路由"></a>服务/应用路由</h3><p><img src="../img/1634094993788-5b18b1ae-d1ac-4907-b084-26ad23abb8fc.png" alt="image.png"></p>
-<h2 id="-2"><a href="#-2" class="headerlink" title=""></a></h2><p>需要主要的要主要在服务定义 如果是暴露在集群内部那么选择clusterip只会容器上可以使用 <strong>通过集群的内部 IP 暴露服务，选择该值时服务只能够在集群内部访问。 这也是默认的 ServiceType。</strong><br>如果选择nodePort那么则是需要在集群对外暴露端口通常都是五位数的端口,通过集群每个节点的端口监听和dns解析,<br>headless是没有任何配置 ** Service 并不会分配 Cluster IP，kube-proxy 不会处理它们， 而且平台也不会为它们进行负载均衡和路由。 DNS 如何实现自动配置，依赖于 Service 是否定义了选择算符**</p>
-<p><img src="../img/1634096515885-5cc05172-5e3d-4e1d-a807-158279a04c82.svg" alt="services-userspace-overview.svg"></p>
-<h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><p>如果保存后pod启动有问题报<br> 不挂载卷,可以直接启动,但是挂载就一直报<br>Back-off restarting failed container   这种一般都是容器启动的时有问题导致的运行失败,需要看日志,体现出来就是容器启动后没有一种运行的进程导致 被回收<br><img src="../img/1634097165049-b2d82280-d4c5-4054-846a-ba9d3c925fe0.png" alt="image.png"></p>
-<h2 id="优化目标"><a href="#优化目标" class="headerlink" title="优化目标"></a>优化目标</h2><ul>
-<li>使用jdbcstore插件后大比例不 不显示空白</li>
-<li>结果jdbcstore和jms插件的冲突</li>
-<li>高版本(19)geoserver集群的部署</li>
-</ul>
-<h2 id="使用jdbcstore插件后大比例不-不显示空白"><a href="#使用jdbcstore插件后大比例不-不显示空白" class="headerlink" title="使用jdbcstore插件后大比例不 不显示空白"></a>使用jdbcstore插件后大比例不 不显示空白</h2><h4 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h4><p>在使用jdbcstore插件来实现数据的数据库保存,但是在预览图层时会出现放大到一定程度层级后空白 的情况</p>
-<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>在查询源码后知道新版的geoserver优化的SQL查询逻辑调用了</p>
-<p>老版的geoserver实际执行的SQL</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 对比可以知道 在勾选Support on the fly geometry simplification 后 没有使用ST_Simplify 这个函数在</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Simplify(ST_Force2D(<span class="string">&quot;geom&quot;</span>), <span class="number">3.8116173982620243</span>, <span class="literal">true</span>)),<span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>) 勾选</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Force2D(<span class="string">&quot;geom&quot;</span>)),<span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>) 不勾选</span><br></pre></td></tr></table></figure>
-
-
-<p>新版的geoserver实际执行的SQL</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 对比可以确定 新版本勾选 Support on the fly geometry simplification后 区别在于选用ST_AsTWKB作为简化内容导致的数据缺失</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsTWKB(ST_Simplify(ST_Force2D(<span class="string">&quot;geom&quot;</span>), <span class="number">3.8116173923015597</span>, <span class="literal">true</span>),<span class="number">0</span>), <span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Force2D(<span class="string">&quot;geom&quot;</span>)), <span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>)</span><br></pre></td></tr></table></figure>
-
-
-<p>debug方法调用</p>
-<p>org.geoserver.wms.GetMap#executeInternal</p>
-<p>org.geotools.renderer.lite.StreamingRenderer#drawPlain</p>
-<p>org.geotools.data.store.ContentFeatureSource#getReader(org.geotools.data.Query)</p>
-<p>org.geoserver.wms.GetMapOutputFormat#produceMap</p>
-<p>org.geoserver.wms.map.RenderedImageMapOutputFormat#produceMap(org.geoserver.wms.WMSMapContent, boolean)</p>
-<p>renderer.paint(</p>
-<p>org.geotools.data.postgis.PostGISDialect#encodeGeometryColumnSimplified</p>
-<p>最后修改gt-jdbc-postgis jar下面的 org.geotools.data.postgis.PostGISDialect#isAggregatedSortSupported 然后重新打包替换</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static final Version V_1_5_0 &#x3D; new Version(&quot;1.5.0&quot;);</span><br><span class="line"></span><br><span class="line">static final Version V_2_0_0 &#x3D; new Version(&quot;2.0.0&quot;);</span><br><span class="line"></span><br><span class="line">static final Version V_2_1_0 &#x3D; new Version(&quot;2.1.0&quot;);</span><br><span class="line"></span><br><span class="line">static final Version V_2_2_0 &#x3D; new Version(&quot;2.30.0&quot;); &#x2F;&#x2F;修改这个字段</span><br><span class="line"></span><br><span class="line">static final Version PGSQL_V_9_0 &#x3D; new Version(&quot;9.0&quot;);</span><br><span class="line"></span><br><span class="line">static final Version PGSQL_V_9_1 &#x3D; new Version(&quot;9.1&quot;);</span><br></pre></td></tr></table></figure>
-
-
-<p>保证无论碰到什么版本的geoserver使用老的方法</p>
-<h2 id="解决jdbcstore和jms插件的冲突"><a href="#解决jdbcstore和jms插件的冲突" class="headerlink" title="解决jdbcstore和jms插件的冲突"></a>解决jdbcstore和jms插件的冲突</h2><h4 id="现象-1"><a href="#现象-1" class="headerlink" title="现象"></a>现象</h4><p>启动失败会报MultipleBeansException  org.geoserver.config.GeoServerLoader</p>
-<h4 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h4><p>查询知道在 jms-cluster 下面有个 org.geoserver.config.ReadOnlyGeoServerLoader 继承了org.geoserver.config.DefaultGeoServerLoader</p>
-<p>同时gs-jdbcconfig 下面 org.geoserver.jdbcconfig.JDBCGeoServerLoader也继承DefaultGeoServerLoader</p>
-<p>导致冲突在org.geoserver.config.GeoServerLoaderProxy#lookupGeoServerLoader 会判断GeoServerLoader的类,如果是两个就报错</p>
-<p>目前是默认使用JDBCGeoServerLoader 代码如下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> GeoServerLoader <span class="title">lookupGeoServerLoader</span><span class="params">(ApplicationContext appContext)</span> </span>&#123;</span><br><span class="line">        GeoServerLoader loader = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            loader =</span><br><span class="line">                    (GeoServerLoader)</span><br><span class="line">                            GeoServerExtensions.bean(</span><br><span class="line">                                    Class.forName(<span class="string">&quot;org.geoserver.jdbcconfig.JDBCGeoServerLoader&quot;</span>),</span><br><span class="line">                                    appContext);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (loader == <span class="keyword">null</span>) &#123;</span><br><span class="line">            loader = <span class="keyword">new</span> DefaultGeoServerLoader(resourceLoader);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> loader;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="高版本-19-geoserver集群的部署"><a href="#高版本-19-geoserver集群的部署" class="headerlink" title="高版本(19)geoserver集群的部署"></a>高版本(19)geoserver集群的部署</h2><h4 id="现象-2"><a href="#现象-2" class="headerlink" title="现象"></a>现象</h4><p>集群挂载在同一个盘上面,修改一个jmx的配置,其他节点也跟着修改</p>
-<h4 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h4><p>针对不同节点创建各自的配置文件,在挂载的时候配置映射文件</p>
-<p><img src="../img/1634094768227-8941ca86-61d5-43b5-a0ea-f75b20258ded.png" alt="image-20211012144321551.png"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-geoserver-high-version-some-scale-lose-layer" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/8070f974.html" class="article-date">
-      <time datetime="2021-09-14T12:59:54.000Z" itemprop="datePublished">2021-09-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="启动geoserver报错文件找不到"><a href="#启动geoserver报错文件找不到" class="headerlink" title="启动geoserver报错文件找不到"></a>启动geoserver报错文件找不到</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">java.io.FileNotFoundException: src&#x2F;main&#x2F;webapp</span><br><span class="line">	at org.eclipse.jetty.webapp.WebInfConfiguration.unpack(WebInfConfiguration.java:671)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebInfConfiguration.preConfigure(WebInfConfiguration.java:152)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebAppContext.preConfigure(WebAppContext.java:506)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:544)</span><br><span class="line">	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)</span><br><span class="line">	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:138)</span><br><span class="line">	at org.eclipse.jetty.server.Server.start(Server.java:416)</span><br><span class="line">	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:108)</span><br><span class="line">	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:113)</span><br><span class="line">	at org.eclipse.jetty.server.Server.doStart(Server.java:383)</span><br><span class="line">	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)</span><br><span class="line">	at org.geoserver.web.Start.main(Start.java:125)</span><br><span class="line">九月 15, 2021 11:21:37 上午 org.geoserver.web.Start main</span><br><span class="line">严重: GeoServer startup complete in 0.186s</span><br></pre></td></tr></table></figure>
-
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>org.geoserver.web.Start#main</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="启动geoserver报错文件找不到"><a href="#启动geoserver报错文件找不到" class="headerlink" title="启动geoserver报错文件找不到"></a>启动geoserver报错文件找不到</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">java.io.FileNotFoundException: src&#x2F;main&#x2F;webapp</span><br><span class="line">	at org.eclipse.jetty.webapp.WebInfConfiguration.unpack(WebInfConfiguration.java:671)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebInfConfiguration.preConfigure(WebInfConfiguration.java:152)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebAppContext.preConfigure(WebAppContext.java:506)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:544)</span><br><span class="line">	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)</span><br><span class="line">	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:138)</span><br><span class="line">	at org.eclipse.jetty.server.Server.start(Server.java:416)</span><br><span class="line">	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:108)</span><br><span class="line">	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:113)</span><br><span class="line">	at org.eclipse.jetty.server.Server.doStart(Server.java:383)</span><br><span class="line">	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)</span><br><span class="line">	at org.geoserver.web.Start.main(Start.java:125)</span><br><span class="line">九月 15, 2021 11:21:37 上午 org.geoserver.web.Start main</span><br><span class="line">严重: GeoServer startup complete in 0.186s</span><br></pre></td></tr></table></figure>
-
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>org.geoserver.web.Start#main</p>
-<p>​            wah.setWar(“src/web/app/src/main/webapp”);</p>
-<p>geoserver 调用wms服务时访问的数据</p>
-<p>org.geoserver.wms.GetMap#executeInternal</p>
-<p>org.geotools.renderer.lite.StreamingRenderer#drawPlain</p>
-<p>org.geotools.data.store.ContentFeatureSource#getReader(org.geotools.data.Query)</p>
-<p>org.geoserver.wms.GetMapOutputFormat#produceMap</p>
-<p>org.geoserver.wms.map.RenderedImageMapOutputFormat#produceMap(org.geoserver.wms.WMSMapContent, boolean)</p>
-<p> renderer.paint(</p>
-<p>org.geotools.data.postgis.PostGISDialect#encodeGeometryColumnSimplified</p>
-<p>geoserver 在一定版本下出现数据缺失,本地发布的文件没有这种情况,目前只出现在用postgis发布的数据shp图层数据</p>
-<p>参考了这个github-issues<br><a target="_blank" rel="noopener" href="https://github.com/AtlasOfLivingAustralia/spatial-hub/issues/66">https://github.com/AtlasOfLivingAustralia/spatial-hub/issues/66</a></p>
-<p>之前版本查询SQL</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;ogc_fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> ST_HasArc(<span class="string">&quot;geom&quot;</span>) <span class="keyword">THEN</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">ELSE</span> ST_Simplify(ST_Force2D(<span class="string">&quot;geom&quot;</span>), <span class="number">1.71661376953125E-5</span>, <span class="literal">true</span>) <span class="keyword">END</span>),<span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;cg4201061__hhbjx&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((111.91068649291992 32.39775896072388, 111.91068649291992 32.41295099258423, 111.92733764648438 32.41295099258423, 111.92733764648438 32.39775896072388, 111.91068649291992 32.39775896072388))&#x27;</span>, <span class="number">4490</span>)</span><br></pre></td></tr></table></figure>
-
-<p>现在geoserver 25.2</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="string">&quot;fid&quot;</span>,</span><br><span class="line">	<span class="keyword">encode</span>( ST_AsTWKB ( ST_Simplify ( ST_Force2D ( <span class="string">&quot;geom&quot;</span> ), <span class="number">3.8116173923015597</span>, <span class="literal">TRUE</span> ), <span class="number">0</span> ), <span class="string">&#x27;base64&#x27;</span> ) <span class="keyword">AS</span> <span class="string">&quot;geom&quot;</span> </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	<span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> </span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	<span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText ( <span class="string">&#x27;POLYGON ((38371118.635024056 3413740.625232533, 38371118.635024056 3417424.5832218914, 38374191.75154781 3417424.5832218914, 38374191.75154781 3413740.625232533, 38371118.635024056 3413740.625232533))&#x27;</span>, <span class="number">4526</span> )</span><br></pre></td></tr></table></figure>
-
-<p>在老的版本中 加入了判断是否</p>
-<blockquote>
-<p>encode(ST_AsBinary(CASE WHEN ST_HasArc(“geom”) THEN “geom” ELSE ST_Simplify(ST_Force2D(“geom”), 1.71661376953125E-5, true) END),’base64’) as “geom” </p>
-</blockquote>
-<p>是否是如果一个geometry对象或geometry collection包含一个CircularString对象，则返回TRUE这样如果包含圆的geometry会被简化</p>
-<p>而 <strong>ST_Simplify()</strong> 函数则是通过数据简化 简化太多的圆变成三角形，中间变成八边形</p>
-<p>老版本geoserver(2.15)执行SQL的区别</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">-- 对比可以知道 在勾选Support on the fly geometry simplification 后 没有使用ST_Simplify 这个函数在</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Simplify(ST_Force2D(<span class="string">&quot;geom&quot;</span>), <span class="number">3.8116173982620243</span>, <span class="literal">true</span>)),<span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>) 勾选</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Force2D(<span class="string">&quot;geom&quot;</span>)),<span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>) 不勾选</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>新版本geoserver(2.19) 执行SQL的区别</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">-- 对比可以确定 新版本勾选 Support on the fly geometry simplification后 区别在于选用ST_AsTWKB作为简化内容导致的数据缺失</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsTWKB(ST_Simplify(ST_Force2D(<span class="string">&quot;geom&quot;</span>), <span class="number">3.8116173923015597</span>, <span class="literal">true</span>),<span class="number">0</span>), <span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Force2D(<span class="string">&quot;geom&quot;</span>)), <span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/10/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/12/">下一页 </a>
@@ -2113,7 +1984,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2024 leek
+                2016-2025 leek
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>

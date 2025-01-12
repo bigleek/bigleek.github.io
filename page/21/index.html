@@ -269,6 +269,557 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ubuntu优化－onedrive" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1097254589.html" class="article-date">
+      <time datetime="2019-06-26T15:17:14.000Z" itemprop="datePublished">2019-06-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1097254589.html">ubuntu优化－onedrive</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>之前是准备用onedrive-dev 但是涉及到太多的以来还有步骤很复杂</p>
+<p>有看到其他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Easy to configure:</span><br><span class="line"></span><br><span class="line">$ cat ~&#x2F;.config&#x2F;onedrive&#x2F;config</span><br><span class="line">sync_dir &#x3D; &quot;~&#x2F;OneDrive&quot;</span><br><span class="line">skip_file &#x3D; &quot;.*|~*|thumbs.db|Games&#x2F;*.iso&quot;</span><br><span class="line">skip_dir &#x3D; &quot;.*|Music|Movies&#x2F;FullHD&quot;</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>之前是准备用onedrive-dev 但是涉及到太多的以来还有步骤很复杂</p>
+<p>有看到其他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Easy to configure:</span><br><span class="line"></span><br><span class="line">$ cat ~&#x2F;.config&#x2F;onedrive&#x2F;config</span><br><span class="line">sync_dir &#x3D; &quot;~&#x2F;OneDrive&quot;</span><br><span class="line">skip_file &#x3D; &quot;.*|~*|thumbs.db|Games&#x2F;*.iso&quot;</span><br><span class="line">skip_dir &#x3D; &quot;.*|Music|Movies&#x2F;FullHD&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">So simple, You already know how to use it:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ onedrive -h	</span><br><span class="line">Usage: onedrive [OPTION]...	</span><br><span class="line">no option	Sync and exit.</span><br><span class="line">-m	--monitor	Keep monitoring for local and remote changes.	</span><br><span class="line">--resync	Forget the last saved state, perform a full sync.	</span><br><span class="line">-v	--verbose	Print more details, useful for debugging.	</span><br><span class="line">-h	--help	This help information.</span><br></pre></td></tr></table></figure>
+
+<p>配置也很简单 onedrive –download 获取授权链接 登录 onedrive的账号就行了 将返回的URL贴到命令行后 火车如果长时间没相应可以直接ctrc+c 后重新运行</p>
+<p>记录一下chmod的用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">查看linux文件的权限：ls -l 文件名称</span><br><span class="line"></span><br><span class="line">查看linux文件夹的权限：ls -ld 文件夹名称（所在目录）</span><br><span class="line"></span><br><span class="line">修改文件及文件夹权限：</span><br><span class="line"></span><br><span class="line">sudo chmod -（代表类型）×××（所有者）×××（组用户）×××（其他用户）</span><br><span class="line"></span><br><span class="line">常用修改权限的命令：</span><br><span class="line"></span><br><span class="line">sudo chmod 600 ××× （只有所有者有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 644 ××× （所有者有读和写的权限，组用户只有读的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 700 ××× （只有所有者有读和写以及执行的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 666 ××× （每个人都有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 777 ××× （每个人都有读和写以及执行的权限）查看linux文件的权限：ls -l 文件名称</span><br><span class="line"></span><br><span class="line">查看linux文件夹的权限：ls -ld 文件夹名称（所在目录）</span><br><span class="line"></span><br><span class="line">修改文件及文件夹权限：</span><br><span class="line"></span><br><span class="line">sudo chmod -（代表类型）×××（所有者）×××（组用户）×××（其他用户）</span><br><span class="line"></span><br><span class="line">常用修改权限的命令：</span><br><span class="line"></span><br><span class="line">sudo chmod 600 ××× （只有所有者有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 644 ××× （所有者有读和写的权限，组用户只有读的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 700 ××× （只有所有者有读和写以及执行的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 666 ××× （每个人都有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 777 ××× （每个人都有读和写以及执行的权限）</span><br></pre></td></tr></table></figure>
+
+<h3 id="aria-下载"><a href="#aria-下载" class="headerlink" title="aria 下载"></a>aria 下载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aria2c -c -s10 -k1M -x16 --enable-rpc&#x3D;false -o &#39;要保存的文件名&#39; --header &quot;User-Agent: Mozilla&#x2F;5.0 (X11; Linux x86_64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;61.0.3163.100 Safari&#x2F;537.36&quot; --header &quot;Cookie: 你的cookie内容&quot; &quot;文件的下载地址&quot;</span><br><span class="line"></span><br><span class="line">使用cookie 来实现百度云下载,想一些网站会识别cookie判断是否能下载</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-配置on-my-zsh" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/37058318.html" class="article-date">
+      <time datetime="2019-06-17T03:43:25.000Z" itemprop="datePublished">2019-06-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/37058318.html">配置on-my-zsh</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>补充 添加 找到 <code>~/.zshrc</code> 有一行 <code>plugins=(git)</code>，想加什么插件就把名字放里面就是了，</p>
+<p>1.) autojump</p>
+<p>按照<a target="_blank" rel="noopener" href="https://github.com/wting/autojump">官方文档</a>介绍，需要使用如下命令安装，而不是一些博客中的介绍</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>补充 添加 找到 <code>~/.zshrc</code> 有一行 <code>plugins=(git)</code>，想加什么插件就把名字放里面就是了，</p>
+<p>1.) autojump</p>
+<p>按照<a target="_blank" rel="noopener" href="https://github.com/wting/autojump">官方文档</a>介绍，需要使用如下命令安装，而不是一些博客中的介绍</p>
+<p>~/.oh-my-zsh/plugins/autojump/autojump.plugin.zsh</p>
+<p>安装好之后，记得<code>source ~/.zshrc</code>，然后你就可以通过<code>j+目录名</code>快速进行目录跳转。支持目录名的模糊匹配和自动补全。</p>
+<ul>
+<li><code>j -stat</code>：可以查看历史路径库</li>
+</ul>
+<p>2.) extract</p>
+<p>解压文件用的，所有的压缩文件，都可以直接<code>x filename</code>，不用记忆参数</p>
+<p>当然，如果你想要用<code>tar</code>命令，可以使用<code>tar -</code>加<code>tab</code>键，zsh会列出参数的含义。</p>
+<hr>
+<p>使用zsh 提交命令行输入的输入效率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># 安装 Zshsudo apt install zsh# 将 Zsh 设置为默认 Shellchsh -s &#x2F;bin&#x2F;zsh# 可以通过 echo $SHELL 查看当前默认的 Shell，如果没有改为 &#x2F;bin&#x2F;zsh，那么需要重启 Shell。</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-zsh-也可以安装fish"><a href="#9-zsh-也可以安装fish" class="headerlink" title="9. zsh(也可以安装fish)"></a>9. zsh(也可以安装fish)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install zsh# 切换到zshchsh -s &#x2F;bin&#x2F;zsh</span><br></pre></td></tr></table></figure>
+
+<p>安装<code>Oh-my-zsh</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(wget https:&#x2F;&#x2F;raw.github.com&#x2F;robbyrussell&#x2F;oh-my-zsh&#x2F;master&#x2F;tools&#x2F;install.sh -O -)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>安装插件<code>highlight</code>，高亮语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;.oh-my-zsh&#x2F;custom&#x2F;pluginsgit clone git:&#x2F;&#x2F;github.com&#x2F;zsh-users&#x2F;zsh-syntax-highlighting.git</span><br></pre></td></tr></table></figure>
+
+<p>在<code>Oh-my-zsh</code>的配置文件中<code>~/.zshrc</code>中添加插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plugins&#x3D;( [plugins...] zsh-syntax-highlighting)</span><br></pre></td></tr></table></figure>
+
+<p>最后使配置生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
+
+<p>~/.oh-my-zsh</p>
+<p>配置文件 ~/.zshrc</p>
+<p>plugins=(git</p>
+<p> autojump</p>
+<p> zsh-syntax-highlighting<br>​ )</p>
+<p>#</p>
+<h2 id="光标移动"><a href="#光标移动" class="headerlink" title="光标移动"></a>光标移动</h2><table>
+<thead>
+<tr>
+<th align="center">快捷键</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>Ctrl + a</code></td>
+<td align="center">移动光标到行首</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + e</code></td>
+<td align="center">移动光标到行尾</td>
+</tr>
+<tr>
+<td align="center"><code>Alt + b</code></td>
+<td align="center">移动光标后退一个单词（词首）</td>
+</tr>
+<tr>
+<td align="center"><code>Alt + f</code></td>
+<td align="center">移动光标前进一个单词（词首）</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + f</code></td>
+<td align="center">光标前进一个字母</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + b</code></td>
+<td align="center">光标后退一个字母</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + xx</code></td>
+<td align="center">当前位置与行首之间光标切换</td>
+</tr>
+</tbody></table>
+<h2 id="剪切粘贴"><a href="#剪切粘贴" class="headerlink" title="剪切粘贴"></a>剪切粘贴</h2><table>
+<thead>
+<tr>
+<th align="center">快捷键</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>Ctrl + k</code></td>
+<td align="center">删除从光标到行尾</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + u</code></td>
+<td align="center">删除从光标到行首</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + w</code></td>
+<td align="center">从光标向前删除一个单词</td>
+</tr>
+<tr>
+<td align="center"><code>Alt + d</code></td>
+<td align="center">从光标向后删除一个单词</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + d</code></td>
+<td align="center">删除光标下一个字母</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + h</code></td>
+<td align="center">删除光标前一个字母</td>
+</tr>
+<tr>
+<td align="center"><code>Alt + t</code></td>
+<td align="center">swap(当前单词, 上一个单词)</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + t</code></td>
+<td align="center">swap(当前字母, 上一个字母)</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + y</code></td>
+<td align="center">粘贴上一次删除的文本</td>
+</tr>
+</tbody></table>
+<h1 id="历史命令"><a href="#历史命令" class="headerlink" title="历史命令"></a>历史命令</h1><table>
+<thead>
+<tr>
+<th align="center">快捷键</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>Ctrl + r</code></td>
+<td align="center">向后搜索历史命令</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + g</code></td>
+<td align="center">退出搜索</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + p</code></td>
+<td align="center">历史中上一个命令</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + n</code></td>
+<td align="center">历史中下一个命令</td>
+</tr>
+<tr>
+<td align="center"><code>Alt + .</code></td>
+<td align="center">上一个命令的最后一个单词</td>
+</tr>
+</tbody></table>
+<h2 id="终端指令"><a href="#终端指令" class="headerlink" title="终端指令"></a>终端指令</h2><table>
+<thead>
+<tr>
+<th align="center">快捷键</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>Ctrl + l</code></td>
+<td align="center">清屏</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + s</code></td>
+<td align="center">停止输出（在Zsh中为向前搜索历史命令）</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + q</code></td>
+<td align="center">继续输出</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + c</code></td>
+<td align="center">终止当前命令</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + z</code></td>
+<td align="center">挂起当前命令</td>
+</tr>
+<tr>
+<td align="center"><code>Ctrl + d</code></td>
+<td align="center">结束输入（产生一个EOF）</td>
+</tr>
+</tbody></table>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ubuntu下 intellj idea maven下载" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3350959125.html" class="article-date">
+      <time datetime="2019-06-08T00:53:16.000Z" itemprop="datePublished">2019-06-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>bindsym XF86AudioNext exec playerctl next</p>
+<p>xmodmap -pke | grep XF86Audio </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mdbus2</span><br><span class="line"></span><br><span class="line">dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>bindsym XF86AudioNext exec playerctl next</p>
+<p>xmodmap -pke | grep XF86Audio </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mdbus2</span><br><span class="line"></span><br><span class="line">dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/JAVA_XCNH/article/details/102486030">转载来自 –解决Ubuntu和idea快捷键冲突</a></p>
+<p>1、Gnome 快捷键修改<br><strong>Ctrl + Alt + ←</strong><br><strong>Ctrl + Alt + →</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gsettings <span class="built_in">set</span> org.gnome.desktop.wm.keybindings switch-to-workspace-right <span class="string">&quot;[]&quot;</span></span><br><span class="line">gsettings <span class="built_in">set</span> org.gnome.desktop.wm.keybindings switch-to-workspace-left <span class="string">&quot;[]&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、Fcitx 输入法快捷键修改<br><strong>Ctrl + Alt + B</strong><br><strong>Ctrl + Alt + S</strong><br>点击右上角语言栏，点配置 &gt; 全局配置 &gt; 显示高级选项，点选冲突按键，按 Esc 即可。</p>
+<p>opt/apache-maven-3.6.0/bin/mvn dependency:resolve -Dclassifier=sources</p>
+<p>直接使用本机自己的maven 该问题应该是idea 调用 maven出来问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 3306 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hexo常见命令" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3173742102.html" class="article-date">
+      <time datetime="2019-04-12T20:37:35.000Z" itemprop="datePublished">2019-04-13</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3173742102.html">hexo常见命令</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>npm install hexo-generator-feed –save 生成 RSS组件</p>
+<p>npm install hexo-wordcount –save 统计字数</p>
+<p>npm install hexo-deployer-git –save git 出现 error deployer not found:git 的错误处理</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>npm install hexo-generator-feed –save 生成 RSS组件</p>
+<p>npm install hexo-wordcount –save 统计字数</p>
+<p>npm install hexo-deployer-git –save git 出现 error deployer not found:git 的错误处理</p>
+<p>留言部分的多说和畅眼都有自己的问题不是很好用 hexo中的这个valine 第三方留言还是比较稳定比gtiment也要好</p>
+<ol>
+<li>npm install leancloud-storage –save # Install leancloud’s js-sdk</li>
+<li>npm install valine –save</li>
+</ol>
+<p>hexot添加valine留言系统,之前的留言系统包括多说,畅言都有一部分问题很不好用,valine算比较好用而且好操作的的</p>
+<p><a target="_blank" rel="noopener" href="https://valine.js.org/hexo.html">hexot添加valine留言</a></p>
+<p>hexo clean &amp;&amp; hexo d -g` 部署和清理缓存</p>
+<p>hexo new *** “标题名”* 是保存地址 会自动生成一个markdown文件</p>
+<p>开头是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: hexo常见命令</span><br><span class="line">date: 2019-04-13 12:37:35</span><br><span class="line">tags: hexo</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at	出现上述问题是YAML格式:后面是必须要有空格的title: Hexo</span><br><span class="line">hexo new page *** 可以生成对应的页面 如about pags</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Ubuntu优化--smb局域网分享" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -876,407 +1427,6 @@
 
 
   
-    <article id="post-Ubuntu优化-输入中文和deepin-Win" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2878480242.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>将Deepin-ThunderSpeed ，Deepin-Wechart上在/usr/share/application 完善添加管理员权限</p>
-<p>同时 、vi /etc/sudoers 将对于是sh脚本授予管理员权限</p>
-<p>使用的deepin-wine</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>将Deepin-ThunderSpeed ，Deepin-Wechart上在/usr/share/application 完善添加管理员权限</p>
-<p>同时 、vi /etc/sudoers 将对于是sh脚本授予管理员权限</p>
-<p>使用的deepin-wine</p>
-<p>deepin-wine 可以直接使用IDM 目前市面所有的下载工具 Linux可以寥寥无几像　Ｕget XMD　的用过之后还是不行，但是windows版<br>安装和都很不方便,目前只使用 微信和迅雷 但是下载方面还是很慢 最近突然发现手里还珍藏了之前绿色版的IDM 赶紧的试试不错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Desktop Entry]</span><br><span class="line">Name&#x3D;IdeaIU</span><br><span class="line">Comment&#x3D;IdeaIU</span><br><span class="line">Exec&#x3D;&#x2F;home&#x2F;admin-m&#x2F;soft&#x2F;idea2&#x2F;idea-IU-172.3317.76&#x2F;bin&#x2F;idea.sh</span><br><span class="line">Icon&#x3D;&#x2F;home&#x2F;admin-m&#x2F;soft&#x2F;idea2&#x2F;idea-IU-172.3317.76&#x2F;bin&#x2F;idea.png</span><br><span class="line">Terminal&#x3D;false</span><br><span class="line">Type&#x3D;Application</span><br><span class="line">Categories&#x3D;Application;Development;</span><br><span class="line"></span><br><span class="line">[Desktop Entry]   每个desktop文件都以这个标签开始，说明这是一个Desktop Entry文件</span><br><span class="line">Version &#x3D; 1.0      标明Desktop Entry的版本（可选）</span><br><span class="line">Name &#x3D; IdeaIU    程序名称（必须），这里以创建一个idea的快捷方式为例</span><br><span class="line">GenericName &#x3D; IdeaIU       程序通用名称（可选）</span><br><span class="line">Comment &#x3D;IdeaIU       程序描述（可选）</span><br><span class="line">Exec &#x3D;       程序的启动命令（必选），可以带参数运行</span><br><span class="line">Icon &#x3D;     设置快捷方式的图标（可选），当Type为Application，此项有效</span><br><span class="line">Terminal &#x3D; false   是否在终端中运行（可选），当Type为Application，此项有效</span><br><span class="line">Type &#x3D; Application   desktop的类型（必选），常见值有“Application”和“Link”</span><br><span class="line">Categories &#x3D; GNOME;Application;Network; &#x2F;&#x2F;注明在菜单栏中显示的类别（可选）</span><br><span class="line"></span><br><span class="line">完成   desktop 需要在权限上显示</span><br></pre></td></tr></table></figure>
-
-<p>不要懒，完成好计划好的 提升效率，多想想法子</p>
-<p>sh wechat下面添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export XMODIFIERS&#x3D;&quot;@im&#x3D;fcitx&quot;export GTK_IM_MODULE&#x3D;&quot;fcitx&quot;export QT_IM_MODULE&#x3D;&quot;fcitx&quot;</span><br></pre></td></tr></table></figure>
-
-<p>设置开机主题</p>
-<p>针对Ubuntu18 部分通知没有 可以使用 topicons plus 实现wine通知的</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu安装软件部分" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2690029183.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2690029183.html">Ubuntu安装软件部分</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p> 系统安装完后后面肯定就是安装软件，开始是在谷歌中国上安装chrome，之后是安装最新的Firefox，安装是搜狗了，这种跟着晚上的步骤就可以了，同时可以添加host你懂的加速，然后是撤换国内的镜像源提升下载速度，完成后可以安装markdownd的软件，下载uget添加aira的插件，在chrome 和Firefox上安装配套的插件就可以调用uget下载速度反正比浏览器的速度要快的，这里主要如果没配置好的的话浏览器是不能调用uget的<br>1，） 出现 unable connect 这个是uget的解决方案</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">原因：缺少uget-integrator，出错在设置uGet为chrome的默认下载插件1 </span><br><span class="line">sudo add-apt-repository ppa:slgobinath/uget-chrome-wrapper2 sudo apt update3 </span><br><span class="line">sudo apt install uget-chrome-wrapper</span><br><span class="line">楼主也遇见了这个问题，经过多方查找发现：2018/5/10更新2018年uGet团队已将</span><br><span class="line">uget-chrome-wrapper采用官方插件并重新命名为</span><br><span class="line">uget-integrator 因此新的uget-extension插件不再支持uget-chrome-wrapper 解决方案：</span><br><span class="line">Ubuntu和Linux Mint1 sudo add-apt-repository ppa:uget-team/ppa2 </span><br><span class="line">sudo apt update3 sudo apt install uget-integrator</span><br><span class="line">wget https://raw.githubusercontent.com/ugetdm/ugetintegrator/master/install/linux/install_uget_integrator.sh2 chmod +x install_uget_integrator.sh3 ./install_uget_integrator.sh</span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p> 系统安装完后后面肯定就是安装软件，开始是在谷歌中国上安装chrome，之后是安装最新的Firefox，安装是搜狗了，这种跟着晚上的步骤就可以了，同时可以添加host你懂的加速，然后是撤换国内的镜像源提升下载速度，完成后可以安装markdownd的软件，下载uget添加aira的插件，在chrome 和Firefox上安装配套的插件就可以调用uget下载速度反正比浏览器的速度要快的，这里主要如果没配置好的的话浏览器是不能调用uget的<br>1，） 出现 unable connect 这个是uget的解决方案</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">原因：缺少uget-integrator，出错在设置uGet为chrome的默认下载插件1 </span><br><span class="line">sudo add-apt-repository ppa:slgobinath/uget-chrome-wrapper2 sudo apt update3 </span><br><span class="line">sudo apt install uget-chrome-wrapper</span><br><span class="line">楼主也遇见了这个问题，经过多方查找发现：2018/5/10更新2018年uGet团队已将</span><br><span class="line">uget-chrome-wrapper采用官方插件并重新命名为</span><br><span class="line">uget-integrator 因此新的uget-extension插件不再支持uget-chrome-wrapper 解决方案：</span><br><span class="line">Ubuntu和Linux Mint1 sudo add-apt-repository ppa:uget-team/ppa2 </span><br><span class="line">sudo apt update3 sudo apt install uget-integrator</span><br><span class="line">wget https://raw.githubusercontent.com/ugetdm/ugetintegrator/master/install/linux/install_uget_integrator.sh2 chmod +x install_uget_integrator.sh3 ./install_uget_integrator.sh</span><br></pre></td></tr></table></figure>
-
-<p>2，）如果是搜狗看不到图标可以使用 在终端收入fcitx 查看启动情况，工开始出现有事搜狗启动异常的情况，要切换我就直接卸载了很多次然后又是安装了一大堆，都是一大堆问题，如果你是和我一样的话可以试试我的方法，先将下载fcitx 然后安装搜狗，必要的话按住Ctrl+h键将有sogou和fcitx的删掉，如果又不显示<br>3，）对于网易云音乐安装是比较简单的 就是会出现不能自动登录的情况，每次都要启动都要登录我是参考这个<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/277330447/answer/478510195">链接</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">有些用户有登录不能保持的情况（打开需要重新登录），这种情况多半是sudo方法后的后遗症：使得配置文件的权限属于root。网易云音乐配置文件存在于两个地方，正常情况下的权限如下图：</span><br><span class="line">~&#x2F;.config&#x2F;netease-cloud-music   (~ 代表当前用户的家目录)</span><br><span class="line">~&#x2F;.cache&#x2F;netease-cloud-music  （这是缓存目录，是可以直接删的）</span><br><span class="line">友情提示，如果你没有 ll 命令，可以 ls -al 代替其中fancy是我的用户名，如果你的文件权限是root，那么就需要修改为你可以访问的状态，执行下面的命令就行啦：# 修改文件的所属用户和组，以及权限</span><br><span class="line">find ~&#x2F;.config&#x2F;netease-cloud-music -exec </span><br><span class="line">sudo chown $USER:$USER &#123;&#125; +find ~&#x2F;.config&#x2F;netease-cloud-music -exec sudo chmod 755 &#123;&#125; + find ~&#x2F;.cache&#x2F;netease-cloud-music  -exec sudo chown $USER:$USER &#123;&#125; +find ~&#x2F;.cache&#x2F;netease-cloud-music  -exec sudo chmod 755 &#123;&#125; +</span><br></pre></td></tr></table></figure>
-
-
-
-<p>时候就可以保持登录状态了<br>4，）就是安装deepin-wine了参考了<a target="_blank" rel="noopener" href="https://github.com/wszqkzqk/deepin-wine-ubuntu">这位兄弟</a> 这里<strong>有个地方要主要</strong><br>提供上面的下载链接是有问题的安装时会出现安装包损坏，用下面那个链接我出现安装后点图标没有后面是在 /opt/deepinwine/apps/Deepin-WeChat 这个路径下运行的</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-idea配置同步" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/4293079570.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/4293079570.html">idea配置同步</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><ol>
-<li><p>项目目录</p>
-<ol>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <ol>
-<li><p>项目目录</p>
-<ol>
-<li>.idea 目录和 demo.iml 和我们开发无关，是IDEA工具自己使用的</li>
-<li>out 目录是存储编译后的.class文件</li>
-<li>src 目录是存储我们编写的.java源文件</li>
-<li>右单击模块,show in explorer :快速进入代码所在文件夹</li>
-</ol>
-</li>
-<li><p>常用快捷键</p>
-<ol>
-<li>Alt+Enter 导入包，自动修正代码(重要)</li>
-<li>Ctrl+Y 删除光标所在行</li>
-<li>Ctrl+D 复制光标所在行的内容，插入光标位置下面</li>
-<li>Ctrl+Alt+L 格式化代码 (重要)</li>
-<li>Ctrl+/ 单行注释(记住)</li>
-<li>Ctrl+Shift+/ 选中代码注释，多行注释，再按取消注释(记住)</li>
-<li>Alt+Ins 自动生成代码，toString，get，set等方法</li>
-<li>Alt+Shift+上下箭头 移动当前代码行</li>
-</ol>
-<ul>
-<li>当前用的到的</li>
-</ul>
-<ol>
-<li>psvm: main方法的快捷生成方式</li>
-<li>sout: 输出语句</li>
-<li>fori: for语句</li>
-<li>100.for : for (int i = 0; i &lt; 100; i++)</li>
-</ol>
-</li>
-<li><p>修改快捷键</p>
-<ol>
-<li>在IDEA工具中， Ctrl+空格 的快捷键，可以帮助我们补全代码，但是这个快捷键和Windows中的输入法切换快捷键冲突，需要修改IDEA中的快捷键。</li>
-<li>File-&gt;Settings-&gt;keymap-&gt;Main menu-&gt;code-&gt;Completion-&gt;Basic</li>
-</ol>
-</li>
-<li><p>导入和关闭项目</p>
-<ol>
-<li>关闭IDEA中已经存在的项目， File-&gt;Close Project</li>
-<li>在IDEA的启动界面上，点击 OPEN ，选择项目目录即可</li>
-<li>因为以后大家要看老师的代码,最好专门建立一个文件夹,存放</li>
-</ol>
-</li>
-<li><p>方法</p>
-<ol>
-<li>回顾-方法的定义和调用<ol>
-<li>9*9乘法表</li>
-</ol>
-</li>
-<li>概念:方法也可以称为函数,是完成特定功能的代码块.(25m)</li>
-</ol>
-</li>
-</ol>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-kibana完成的对Elasticsraech的处理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/9bad30c2.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <p>创建索引,然后才能对索引进行映射配置包括映射配置的映射字段,查看映射关系,字段属性的详解<br>PUT demo/_mapping/log<br>{<br>“properties”: {<br> “name”:{<br> “type”:”text”,<br> “index”: true,<br> “store”: true,<br> “analyzer”: “standard”<br> },<br> “images”: {<br> “type”: “keyword”,<br> “index”: “false”<br> },<br> “price”: {<br> “type”: “float”<br> }<br>}<br>}<br>PUT demo<br>{<br>“settings”: {<br> “number_of_replicas”: 1,<br> “number_of_shards”: 5<br>}<br>}<br>POST demo/log<br>{<br>“name”:”王大海”,<br>“images”:”<a target="_blank" rel="noopener" href="http://image.leyou.com/12479122.jpg&quot;">http://image.leyou.com/12479122.jpg&quot;</a>,<br> “price”:2699.00,<br> “hobby”:” 大 桌球 “<br>}<br>GET _search<br>{<br>“query”: {<br> “match_all”: {}<br>}<br>}<br>GET demo/_mapping</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/20/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/22/">下一页 </a>
@@ -1288,7 +1438,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2024 leek
+                2016-2025 leek
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>

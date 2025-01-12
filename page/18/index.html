@@ -269,6 +269,369 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-VUE初级教程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1664911364.html" class="article-date">
+      <time datetime="2020-03-30T18:08:13.000Z" itemprop="datePublished">2020-03-31</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1664911364.html">VUE初级教程</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="http://caibaojian.com/fetching-data-with-vue-js.html">使用Vue.js和Axios从第三方API获取请求数据</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jianxian/p/11938752.html">axios之Vue请求初始化数据放在Created还是Mounted？</a></p>
+<h2 id="axios介绍"><a href="#axios介绍" class="headerlink" title="axios介绍"></a>axios介绍</h2><p>基于Promise的HTTP客户端，用于浏览器和node.js <a target="_blank" rel="noopener" href="https://github.com/axios/axios">axios-github</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="http://caibaojian.com/fetching-data-with-vue-js.html">使用Vue.js和Axios从第三方API获取请求数据</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jianxian/p/11938752.html">axios之Vue请求初始化数据放在Created还是Mounted？</a></p>
+<h2 id="axios介绍"><a href="#axios介绍" class="headerlink" title="axios介绍"></a>axios介绍</h2><p>基于Promise的HTTP客户端，用于浏览器和node.js <a target="_blank" rel="noopener" href="https://github.com/axios/axios">axios-github</a></p>
+<ul>
+<li>制作<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">的XMLHttpRequest</a>从浏览器</li>
+<li>让<a target="_blank" rel="noopener" href="http://nodejs.org/api/http.html">HTTP</a>从node.js的请求</li>
+<li>支持<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a> API</li>
+<li>拦截请求和响应</li>
+<li>转换请求和响应数据</li>
+<li>取消请求</li>
+<li>JSON数据的自动转换</li>
+<li>客户端支持以防止<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">XSRF</a></li>
+</ul>
+<h3 id="vue的初始化过程"><a href="#vue的初始化过程" class="headerlink" title="vue的初始化过程"></a>vue的初始化过程</h3><p><a href="../img/lifecycle.png"><img src="../img/lifecycle.png" alt="lifecycle"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; new Vue(&#123;        el: &quot;#app&quot;,        data: &#123;            num: 0        &#125;,        beforeCreate() &#123;                console.log(&quot;创建前&quot;)        &#125;,        created() &#123;            console.log(&quot;创建&quot;)        &#125;,        beforeMount() &#123;            console.log(&quot;计数前&quot;)        &#125;,        mounted() &#123;            console.log(&quot;计数了&quot;)        &#125;,    &#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="之前赋值不到vue的data里"><a href="#之前赋值不到vue的data里" class="headerlink" title="之前赋值不到vue的data里"></a>之前赋值不到vue的data里</h2><p>最开始放在 created(),mounted()都可以赋值过去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var mydata&#x3D;&quot;&quot; ;var app &#x3D; new Vue(&#123;        el: &quot;#app&quot;,        data: &#123;            num: 0,            tableDataA:mydata        &#125;,        beforeCreate() &#123;                console.log(&quot;创建前&quot;)        &#125;,        created() &#123;            console.log(&quot;创建&quot;)        &#125;,        beforeMount() &#123;            console.log(&quot;计数前&quot;)        &#125;,        mounted() &#123;            console.log(&quot;计数了&quot;)        &#125;,    &#125;)</span><br><span class="line">axios.get(&#39;http:&#x2F;&#x2F;localhost:8081&#x2F;BackSpace&#x2F;test&#39;)    .then(function (response) &#123;    &#x2F;&#x2F; mydata&#x3D;response.data 刚开始使用的这个 但是一直赋值不过去        &#x2F;&#x2F;这个方法也不行,this不能指代当前这个app对象    this.tableDataA&#x3D;response.data&#125;)    .catch(function (error) &#123;    console.log(error);&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>成功的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">axios.get(&#39;http:&#x2F;&#x2F;localhost:8081&#x2F;BackSpace&#x2F;test&#39;).then(response &#x3D;&gt; &#123;this.tableDataA&#x3D;response.data&#125;).catch(function (error) &#123;console.log(error);&#125;);</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-VScode优化和插件推荐" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2425517015.html" class="article-date">
+      <time datetime="2020-03-28T21:38:31.000Z" itemprop="datePublished">2020-03-29</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2425517015.html">VScode优化和插件推荐</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <h4 id="Auto-Close-Tag-自动闭合标签"><a href="#Auto-Close-Tag-自动闭合标签" class="headerlink" title="Auto Close Tag 自动闭合标签"></a>Auto Close Tag 自动闭合标签</h4><h4 id="Auto-Rename-Tag-尾部闭合标签同步修改"><a href="#Auto-Rename-Tag-尾部闭合标签同步修改" class="headerlink" title="Auto Rename Tag 尾部闭合标签同步修改"></a>Auto Rename Tag 尾部闭合标签同步修改</h4><h4 id="Live-Server-实时预览"><a href="#Live-Server-实时预览" class="headerlink" title="Live Server 实时预览"></a>Live Server 实时预览</h4><h4 id="Bracket-Pair-Colorizer-用不同颜色高亮显示匹配的括号"><a href="#Bracket-Pair-Colorizer-用不同颜色高亮显示匹配的括号" class="headerlink" title="Bracket Pair Colorizer 用不同颜色高亮显示匹配的括号"></a>Bracket Pair Colorizer 用不同颜色高亮显示匹配的括号</h4><h4 id="Highlight-Matching-Tag-高亮显示匹配标签"><a href="#Highlight-Matching-Tag-高亮显示匹配标签" class="headerlink" title="Highlight Matching Tag 高亮显示匹配标签"></a>Highlight Matching Tag 高亮显示匹配标签</h4><h4 id="Vscode-icons-VSCode-文件图标"><a href="#Vscode-icons-VSCode-文件图标" class="headerlink" title="Vscode-icons VSCode 文件图标"></a>Vscode-icons VSCode 文件图标</h4><h3 id="优化字段的字体"><a href="#优化字段的字体" class="headerlink" title="优化字段的字体"></a>优化字段的字体</h3><p> 需要编辑 Editor: Font Family 下我的设置<strong>‘Droid Sans Mono’, ‘monospace’, monospace, ‘Droid Sans Fallback’</strong></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Linux下搭建vue环境以及出现No command &#39;vue&#39;found" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3693735390.html" class="article-date">
+      <time datetime="2020-03-27T00:47:43.000Z" itemprop="datePublished">2020-03-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3693735390.html">Linux下搭建vue环境以及出现No command &#39;vue&#39;found</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="搭建nodejs环境"><a href="#搭建nodejs环境" class="headerlink" title="搭建nodejs环境"></a>搭建nodejs环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. 下载node的Linux版2. 解压后放在&#x2F;user&#x2F;local&#x2F; 下或者其他位置3. 设置国内的淘宝源  </span><br><span class="line">npm config set registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org  </span><br><span class="line">或者使用</span><br><span class="line">npm install -g cnpm --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br><span class="line">安装完成后同样要建软链接，否则在使用   		  </span><br><span class="line">cnpm时会报No command &#39;cnpm&#39; found的错误。sudo ln -s &#x2F;home&#x2F;formularoom&#x2F;env&#x2F;node-v8.1.2-linux-x64&#x2F;bin&#x2F;cnpm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;cnpm</span><br></pre></td></tr></table></figure>
+
+<p>常见npm设置命令 npm config get/set xxxx ,其中xxx代指prefix ,registry等,其对于的配置文件地址 ~/.npmrc</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="搭建nodejs环境"><a href="#搭建nodejs环境" class="headerlink" title="搭建nodejs环境"></a>搭建nodejs环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. 下载node的Linux版2. 解压后放在&#x2F;user&#x2F;local&#x2F; 下或者其他位置3. 设置国内的淘宝源  </span><br><span class="line">npm config set registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org  </span><br><span class="line">或者使用</span><br><span class="line">npm install -g cnpm --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br><span class="line">安装完成后同样要建软链接，否则在使用   		  </span><br><span class="line">cnpm时会报No command &#39;cnpm&#39; found的错误。sudo ln -s &#x2F;home&#x2F;formularoom&#x2F;env&#x2F;node-v8.1.2-linux-x64&#x2F;bin&#x2F;cnpm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;cnpm</span><br></pre></td></tr></table></figure>
+
+<p>常见npm设置命令 npm config get/set xxxx ,其中xxx代指prefix ,registry等,其对于的配置文件地址 ~/.npmrc</p>
+<h3 id="下载vuejs"><a href="#下载vuejs" class="headerlink" title="下载vuejs"></a>下载vuejs</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g vue-cli</span><br></pre></td></tr></table></figure>
+
+<h3 id="出现-No-command-‘vue’found"><a href="#出现-No-command-‘vue’found" class="headerlink" title="出现 No command ‘vue’found"></a>出现 No command ‘vue’found</h3><p>由于 /usr/local/bin下面没有对于命令所以显示找不到这个命令,需要建立软链接</p>
+<p>sudo ln -s /usr/local/node-v8.9.3-linux-x64/bin/vue /usr/local/bin/vue</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/FormulaRoom/article/details/73920741">Linux下Vue开发环境搭建一篇全搞定</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-提交文件MultipartFile后ZipEntry.size一直为-1" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3269460028.html" class="article-date">
+      <time datetime="2020-03-16T23:18:32.000Z" itemprop="datePublished">2020-03-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>先看一下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">importModels</span> <span class="params">(MultipartFile file)</span> <span class="keyword">throws</span> IOException, InvalidFormatException </span>&#123;</span><br><span class="line">     ZipInputStream zipInputStream = <span class="keyword">new</span> ZipInputStream(file.getInputStream(), Charset.defaultCharset());</span><br><span class="line">     BufferedInputStream bs = <span class="keyword">new</span> BufferedInputStream(zipInputStream);</span><br><span class="line">     Map&lt;String, Map&gt; stringMapMap;</span><br><span class="line">     Map&lt;String, String&gt; modelJsons = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">     ZipEntry zipEntry;</span><br><span class="line">     String zipFileName;</span><br><span class="line">     <span class="keyword">while</span> ((zipEntry = zipInputStream.getNextEntry()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> (zipEntry.isDirectory()) &#123;                <span class="comment">// do nothing  </span></span><br><span class="line"></span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (zipEntry.getName().endsWith(<span class="string">&quot;json&quot;</span>)) &#123;</span><br><span class="line">             String name = zipEntry.getName();</span><br><span class="line"></span><br><span class="line">             <span class="keyword">long</span> size = zipEntry.getSize();</span><br><span class="line">             <span class="keyword">if</span> (size == -<span class="number">1</span>) &#123;</span><br><span class="line">                 ByteArrayOutputStream baos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">                 <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                     <span class="keyword">int</span> bytes = zipInputStream.read();</span><br><span class="line">                     <span class="keyword">if</span> (bytes == -<span class="number">1</span>) &#123;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                     &#125;</span><br><span class="line">                     baos.write(bytes);</span><br><span class="line">                 &#125;</span><br><span class="line">                 baos.close();</span><br><span class="line">                 System.out.println(String.format(<span class="string">&quot;Name:%s,Content:%s&quot;</span>, name, <span class="keyword">new</span> String(baos.toByteArray())));</span><br><span class="line">             &#125; <span class="keyword">else</span> &#123; <span class="comment">// ZipEntry的size正常     </span></span><br><span class="line">                 <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[(<span class="keyword">int</span>) zipEntry.getSize()];</span><br><span class="line">                 zipInputStream.read(bytes, <span class="number">0</span>, (<span class="keyword">int</span>) zipEntry.getSize());</span><br><span class="line">                 System.out.println(String.format(<span class="string">&quot;Name:%s,Content:%s&quot;</span>, name, <span class="keyword">new</span> String(bytes)));</span><br><span class="line">             &#125;</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (zipEntry.getName().endsWith(<span class="string">&quot;xlxs&quot;</span>)) &#123;               <span class="comment">//do other things      </span></span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="keyword">return</span>;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>先看一下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">importModels</span> <span class="params">(MultipartFile file)</span> <span class="keyword">throws</span> IOException, InvalidFormatException </span>&#123;</span><br><span class="line">     ZipInputStream zipInputStream = <span class="keyword">new</span> ZipInputStream(file.getInputStream(), Charset.defaultCharset());</span><br><span class="line">     BufferedInputStream bs = <span class="keyword">new</span> BufferedInputStream(zipInputStream);</span><br><span class="line">     Map&lt;String, Map&gt; stringMapMap;</span><br><span class="line">     Map&lt;String, String&gt; modelJsons = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">     ZipEntry zipEntry;</span><br><span class="line">     String zipFileName;</span><br><span class="line">     <span class="keyword">while</span> ((zipEntry = zipInputStream.getNextEntry()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> (zipEntry.isDirectory()) &#123;                <span class="comment">// do nothing  </span></span><br><span class="line"></span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (zipEntry.getName().endsWith(<span class="string">&quot;json&quot;</span>)) &#123;</span><br><span class="line">             String name = zipEntry.getName();</span><br><span class="line"></span><br><span class="line">             <span class="keyword">long</span> size = zipEntry.getSize();</span><br><span class="line">             <span class="keyword">if</span> (size == -<span class="number">1</span>) &#123;</span><br><span class="line">                 ByteArrayOutputStream baos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">                 <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                     <span class="keyword">int</span> bytes = zipInputStream.read();</span><br><span class="line">                     <span class="keyword">if</span> (bytes == -<span class="number">1</span>) &#123;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                     &#125;</span><br><span class="line">                     baos.write(bytes);</span><br><span class="line">                 &#125;</span><br><span class="line">                 baos.close();</span><br><span class="line">                 System.out.println(String.format(<span class="string">&quot;Name:%s,Content:%s&quot;</span>, name, <span class="keyword">new</span> String(baos.toByteArray())));</span><br><span class="line">             &#125; <span class="keyword">else</span> &#123; <span class="comment">// ZipEntry的size正常     </span></span><br><span class="line">                 <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[(<span class="keyword">int</span>) zipEntry.getSize()];</span><br><span class="line">                 zipInputStream.read(bytes, <span class="number">0</span>, (<span class="keyword">int</span>) zipEntry.getSize());</span><br><span class="line">                 System.out.println(String.format(<span class="string">&quot;Name:%s,Content:%s&quot;</span>, name, <span class="keyword">new</span> String(bytes)));</span><br><span class="line">             &#125;</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (zipEntry.getName().endsWith(<span class="string">&quot;xlxs&quot;</span>)) &#123;               <span class="comment">//do other things      </span></span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="keyword">return</span>;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件提交后台"><a href="#文件提交后台" class="headerlink" title="文件提交后台"></a>文件提交后台</h2><p>是提交后天后文件并不是在本地,网上之前有提供zipfile后读取在我这边是不可能实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">while ((ze &#x3D; zin.getNextEntry()) !&#x3D; null) &#123;</span><br><span class="line">               BufferedReader bufferedReader &#x3D; new BufferedReader(new InputStreamReader(zin));</span><br><span class="line">               BufferedReader reader &#x3D; new BufferedReader(new InputStreamReader(file.getInputStream()));</span><br><span class="line">               String str;</span><br><span class="line">               while ((str &#x3D; reader.readLine()) !&#x3D; null) &#123;</span><br><span class="line">                   System.out.println(str);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的读取的是整个Zip文件,和要求不符</p>
+<p><a target="_blank" rel="noopener" href="http://cxis.me/2018/03/03/%E4%B8%8A%E4%BC%A0Zip%E6%96%87%E4%BB%B6%E4%B8%8D%E8%A7%A3%E5%8E%8B%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%97%B6ZipEntry%E7%9A%84size%E4%B8%BA-1%E7%9A%84%E9%97%AE%E9%A2%98/">上传Zip文件不解压读取文件内容时ZipEntry的size为-1的问题</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-ubuntu导致不能复制剪切板" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1136,482 +1499,6 @@
 
 
   
-    <article id="post-申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/18764620.html" class="article-date">
-      <time datetime="2019-09-28T02:03:19.000Z" itemprop="datePublished">2019-09-28</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.4spaces.org/apply-edu-email/#comment-977">参考注册地址</a> 注册的学校是(Red Rocks Community College官网)注册申请时需要用到</p>
-<p><a target="_blank" rel="noopener" href="https://www.moerats.com/archives/879/">参考注册地址2</a> 国西南学院(<code>Southwestern College</code>)</p>
-<p>为什么要申请教育邮箱优点如下</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.4spaces.org/apply-edu-email/#comment-977">参考注册地址</a> 注册的学校是(Red Rocks Community College官网)注册申请时需要用到</p>
-<p><a target="_blank" rel="noopener" href="https://www.moerats.com/archives/879/">参考注册地址2</a> 国西南学院(<code>Southwestern College</code>)</p>
-<p>为什么要申请教育邮箱优点如下</p>
-<ul>
-<li><p>$ 15 <strong>Amazon AWS</strong> 优惠券</p>
-</li>
-<li><p>50美元的 <strong>Digital Ocean</strong> 优惠券。它会在添加到您的帐户（仅限新帐户）后的12个月内过期。</p>
-</li>
-<li><p><strong>Bitnami</strong>：提供为期一年的Business 3计划，通常每月收费49美元。</p>
-</li>
-<li><p><strong>Crowdflower</strong>：访问Crowdflower平台。</p>
-</li>
-<li><p><strong>DNSimple</strong>：提供两年的个人托管DNS计划，通常每月收取5美元。</p>
-</li>
-<li><p><strong>GitHub</strong>：在您还是学生时提供无限的私人存储库。通常，GitHub每月收费7美元。</p>
-</li>
-<li><p>25美元的<strong>HackHands</strong>信用， <strong>这</strong>是一项实时的编程帮助，每天24/7可用。</p>
-</li>
-<li><p>一套 <strong>Microsoft Azure云服务</strong> 和开发人员工具：学生期间，Microsoft Azure，Visual Studio社区和其他Microsoft开发人员工具。</p>
-</li>
-<li><p><strong>NameCheap.com</strong>：提供为期一年的.ME域名注册，每年费用为18.99美元–以及为期一年的SSL证书，费用为每年10美元。</p>
-</li>
-<li><p><strong>Orchestrate</strong>：当您是学生时，访问每月费用为49美元的开发者帐户。它是一个完整的数据库产品组合，包括通过API进行的搜索，时间序列事件，地理位置和图形查询。</p>
-</li>
-<li><p><strong>SendGrid</strong>：当您是学生时，每月为学生计划提供15,000封免费电子邮件。</p>
-</li>
-<li><p><strong>Travis CI</strong>：当您是学生时，访问每月收费69美元的Private版本。</p>
-</li>
-<li><h3 id="LastPass"><a href="#LastPass" class="headerlink" title="LastPass"></a><strong>LastPass</strong></h3></li>
-<li><p>Apple .EDU电子邮件地址从Apple购买产品，可以帮助您节省很多钱。</p>
-</li>
-</ul>
-<h2 id="微软-OneDrive-API-和腾讯云-SCF-免费"><a href="#微软-OneDrive-API-和腾讯云-SCF-免费" class="headerlink" title="微软 OneDrive API 和腾讯云 SCF 免费"></a>微软 OneDrive API 和腾讯云 SCF 免费</h2><p>目前可以使用onedrive 5t 使用软件搭建自己网盘</p>
-<p><a target="_blank" rel="noopener" href="https://logi.ml/back-end/scf-onedrive-filelistor.html">oneDrive搭建个人网盘</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Gnome插件安装和优化" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2127448358.html" class="article-date">
-      <time datetime="2019-09-21T22:32:53.000Z" itemprop="datePublished">2019-09-22</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2127448358.html">Gnome插件安装和优化</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y sudo apt install gnome-tweak-tool sudo apt install gnome-shell-extensions sudo apt install chrome-gnome-shell sudo apt install gtk2-engines-pixbuf sudo apt install libxml2-utils</span><br></pre></td></tr></table></figure>
-
-<p>之前一直都是安装在~/.local/share/gnome-shell/extensions 之前都是从github 下载后 手动安装</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y sudo apt install gnome-tweak-tool sudo apt install gnome-shell-extensions sudo apt install chrome-gnome-shell sudo apt install gtk2-engines-pixbuf sudo apt install libxml2-utils</span><br></pre></td></tr></table></figure>
-
-<p>之前一直都是安装在~/.local/share/gnome-shell/extensions 之前都是从github 下载后 手动安装</p>
-<p>现在有些插件安装后 优化工具一直没有显示 ,之前 使用 ~/.local/share/gnome-shell/extensions</p>
-<p>没有权限 sudo chmod 777 extensions 给予权限 不然无法使用chrome插件(GNOME Shell integration ) 来安装</p>
-<p>现在chrome插件安装 (GNOME Shell integration)</p>
-<ul>
-<li><p>对于 Google Chrome、Chromium 和 Vivaldi： <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/gnome-shell-integration/gphhapmejobijbbhgpjhcjognlahblep">Chrome Web 商店</a></p>
-</li>
-<li><p>对于 Firefox： <a target="_blank" rel="noopener" href="https://addons.mozilla.org/en/firefox/addon/gnome-shell-integration/">Mozilla Addons</a></p>
-</li>
-<li><p>对于 Opera： <a target="_blank" rel="noopener" href="https://addons.opera.com/en/extensions/details/gnome-shell-integration/">Opera Addons</a></p>
-<p><a href="../img/105330tx3hptbrx55h5i1i.jpg"><img src="../img/105330tx3hptbrx55h5i1i.jpg" alt="How to install GNOME Shell Extensions"></a></p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“尽管 GNOME Shell 集成扩展正在运行，但未检测到本地主机连接器。请参阅文档以获取有关安装连接器的信息。”sudo apt install chrome-gnome-shell</span><br></pre></td></tr></table></figure>
-
-<p>安装玩后访问 <a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension">https://extensions.gnome.org/extension</a> 就会有选择按钮了</p>
-<p><a href="../img/1569134580875.png"><img src="../img/1569134580875.png" alt="1569134580875"></a></p>
-<h3 id="农历插件"><a href="#农历插件" class="headerlink" title="农历插件"></a>农历插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update安装依赖sudo apt-get install gir1.2-lunar-date-2.0</span><br></pre></td></tr></table></figure>
-
-<p><a href="../img/1569134876250.png"><img src="../img/1569134876250.png" alt="1569134876250"></a></p>
-<h2 id="拓展的列表和"><a href="#拓展的列表和" class="headerlink" title="拓展的列表和"></a>拓展的列表和</h2><p><a href="../img/28027856634_5a328b1376_b.jpg"><img src="../img/28027856634_5a328b1376_b.jpg" alt="img"></a></p>
-<h3 id="2-1-安装-Dash-to-dock"><a href="#2-1-安装-Dash-to-dock" class="headerlink" title="2.1 安装 Dash to dock ."></a>2.1 安装 Dash to dock .</h3><ul>
-<li><strong>Hide top bar ——全屏自动隐藏顶栏,缺少这个 GNOME3 没法用</strong></li>
-<li><strong>Clipboard Indicator —— 剪切板</strong></li>
-<li><strong>Media player indicator —— 显示音乐播放器的状态</strong></li>
-<li><strong>Battery status —— 显示电池电量的百分比</strong></li>
-<li><strong>Netspeed ——在顶栏上显示网速</strong></li>
-<li><strong>Workspace indicator —— 在顶栏显示当前示工作区的序号</strong></li>
-<li><strong>Activities-configurator ——活动，顶栏颜色，透明等</strong></li>
-<li><strong>User themes ——启用自定义的 shell 主题</strong></li>
-<li><strong>Lunar Calendar ——阴历(依赖 typelib-1_0-LunarDate-2_0)</strong></li>
-<li><strong>Openweather ——天气</strong></li>
-<li><strong>System-monitor ——资源监控 (依赖 NetworkManager-devel libgtop-devel)</strong></li>
-<li>topicon plus —— 通知图标</li>
-</ul>
-<h3 id="2-2通知栏的效果"><a href="#2-2通知栏的效果" class="headerlink" title="2.2通知栏的效果"></a>2.2通知栏的效果</h3><p>[<img src="../img/2019-09-22%2014-48-58%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="1569135029991">](../img/2019-09-22 14-48-58 的屏幕截图.png)</p>
-<h2 id="3-字体"><a href="#3-字体" class="headerlink" title="3 字体"></a>3 字体</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">单独放在一个文件夹里(fonts),然后sudo cp -r 连着文件夹复制到&#x2F;usr&#x2F;share&#x2F;fonts,(sudo cp -r xxx&#x2F;fonts &#x2F;usr&#x2F;share&#x2F;fonts (xxx请换为路径))再 chmod 755 -R &#x2F;usr&#x2F;share&#x2F;fonts&#x2F;fonts , 最后依次执行:sudo mkfontscalesudo mkfontdirsudo fc-cache</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>[<a target="_blank" rel="noopener" href="https://biluohc.github.io/articles/xie-gei-ru-keng-da-xi-yi-qie-xuan-ze-gnomede-xiao-bai.html">写给入坑大蜥蜴且选择GNOME的小白]</a>)</li>
-<li><a target="_blank" rel="noopener" href="https://www.peijun.me/gnome-config.html">Gnome 配置</a></li>
-<li><a target="_blank" rel="noopener" href="https://linux.cn/article-9447-1.html">如何使用 GNOME Shell 扩展</a></li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu下安装和初始化postgres" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/18764621.html" class="article-date">
-      <time datetime="2019-09-12T17:00:06.000Z" itemprop="datePublished">2019-09-13</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/18764621.html">Ubuntu下安装和初始化postgres</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="安装postgres"><a href="#安装postgres" class="headerlink" title="安装postgres"></a>安装postgres</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get  updatesudp apt-get postgresql postgresql-contrib</span><br></pre></td></tr></table></figure>
-
-<ul>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="安装postgres"><a href="#安装postgres" class="headerlink" title="安装postgres"></a>安装postgres</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get  updatesudp apt-get postgresql postgresql-contrib</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>PostgreSQL安装完成后默认是已经启动的，但是也可以通过下面的方式来手动启动服务</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo &#x2F;etc&#x2F;init.d&#x2F;postgresql start  开启sudo &#x2F;etc&#x2F;init.d&#x2F;postgresql stop  关闭sudo &#x2F;etc&#x2F;init.d&#x2F;postgresql restart  重启</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><ul>
-<li>创建数据库用户ricky，并指定为超级用户</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres createuser --superuser username</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>配置用户的密码</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres psql  进入控制台</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>为刚创建的用户创建数据库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres createdb --owner&#x3D;dbname</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>登录数据库</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql -U username -d dbname -h 127.0.0.1 -p 5432</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改用户数据"><a href="#修改用户数据" class="headerlink" title="修改用户数据"></a>修改用户数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">修改用户密码    1.  sudo -u postgres psql    2.  ALTER USER username  WITH PASSWORD &#96;&#96;&#39;postgres&#39;&#96;&#96;;tips:        密码postgres要用引号引起来        命令最后有分号</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改linux系统postgres用户的密码"><a href="#修改linux系统postgres用户的密码" class="headerlink" title="修改linux系统postgres用户的密码"></a>修改linux系统postgres用户的密码</h3><p>PostgreSQL会创建一个默认的linux用户postgres，修改该用户密码的方法如下：</p>
-<p>步骤一：删除用户postgres的密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;sudo&#96;  &#96;passwd&#96; &#96;-d postgres&#96;</span><br></pre></td></tr></table></figure>
-
-<p>步骤二：设置用户postgres的密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;sudo&#96; &#96;-u postgres &#96;&#96;passwd&#96;</span><br></pre></td></tr></table></figure>
-
-<p>系统提示输入新的密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;Enter new UNIX password:&#96;&#96;Retype new UNIX password:&#96;&#96;passwd&#96;&#96;: password updated successfully&#96;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kaituorensheng/p/4735191.html">参考文档</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.howtoing.com/how-to-install-and-use-postgresql-on-ubuntu-18-04">参考文档</a></li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-aria2使用rpc下载百度云" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3861112470.html" class="article-date">
-      <time datetime="2019-09-05T03:30:18.000Z" itemprop="datePublished">2019-09-05</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3861112470.html">aria2使用rpc下载百度云</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="1-下载并安装"><a href="#1-下载并安装" class="headerlink" title="1.下载并安装"></a>1.下载并安装</h3><p>github地址-&gt;<a target="_blank" rel="noopener" href="https://github.com/aria2/aria2">https://github.com/aria2/aria2</a></p>
-<p>这边提供一下deb 包的下载地址 <a target="_blank" rel="noopener" href="https://ugetdm.com/go/ubuntu-64-bionic-aria2-download">https://ugetdm.com/go/ubuntu-64-bionic-aria2-download</a></p>
-<p>或者 sudo apt-get install aria2</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="1-下载并安装"><a href="#1-下载并安装" class="headerlink" title="1.下载并安装"></a>1.下载并安装</h3><p>github地址-&gt;<a target="_blank" rel="noopener" href="https://github.com/aria2/aria2">https://github.com/aria2/aria2</a></p>
-<p>这边提供一下deb 包的下载地址 <a target="_blank" rel="noopener" href="https://ugetdm.com/go/ubuntu-64-bionic-aria2-download">https://ugetdm.com/go/ubuntu-64-bionic-aria2-download</a></p>
-<p>或者 sudo apt-get install aria2</p>
-<p>可以尝试在命令行 使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aria2c  --conf-path&#x3D;&lt;配置地址&gt; -D        # aria2c -c -s 5 http:&#x2F;&#x2F;example.org&#x2F;mylinux.iso        -c : 断点续传        -s : 使用线程数        2、Download from 2 sources        # aria2c http:&#x2F;&#x2F;a&#x2F;f.iso   ftp:&#x2F;&#x2F;b&#x2F;f.iso</span><br></pre></td></tr></table></figure>
-
-<p>下载相关的命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1、Download from WEB <span class="comment"># aria2c -c -s 5 http://example.org/mylinux.iso-c : 断点续传-s : 使用线程数2、Download from 2 sources# aria2c http://a/f.iso   ftp://b/f.iso3、Download using 2 connections per host# aria2c -x2 http://a/f.iso4、BitTorrent Magnet URI# aria2c &#x27;magnet:?xt=urn:btih:248D0A1CD08284299DE78D5C1ED359BB46717D8C&#x27;5、Metalink# aria2c http://example.org/mylinux.metalink6、Download URIs found in text file# aria2c -i uris.txt7、BT# aria2c /tmp/CentOS-6.3-i386-bin-DVD1to2.torrent# aria2c http://mirrors.163.com/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.torrent</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-配置Aria2"><a href="#2-配置Aria2" class="headerlink" title="2.配置Aria2"></a>2.配置Aria2</h2><p>一般地址是在 ~/.aria2/aria2.conf</p>
-<p>rpc设置为true</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#用户名</span><br><span class="line">#rpc-user&#x3D;user</span><br><span class="line">#密码</span><br><span class="line">#rpc-passwd&#x3D;passwd</span><br><span class="line">#上面的认证方式不建议使用,建议使用下面的token方式</span><br><span class="line">#设置加密的密钥</span><br><span class="line">#rpc-secret&#x3D;token</span><br><span class="line">#允许rpc</span><br><span class="line">enable-rpc&#x3D;true</span><br><span class="line">#允许所有来源, web界面跨域权限需要</span><br><span class="line">rpc-allow-origin-all&#x3D;true</span><br><span class="line">#允许外部访问，false的话只监听本地端口</span><br><span class="line">rpc-listen-all&#x3D;true</span><br><span class="line">#RPC端口, 仅当默认端口被占用时修改</span><br><span class="line">rpc-listen-port&#x3D;6800</span><br><span class="line">#最大同时下载数(任务数), 路由建议值: 3</span><br><span class="line">max-concurrent-downloads&#x3D;5</span><br><span class="line">#断点续传</span><br><span class="line">continue&#x3D;true</span><br><span class="line">#同服务器连接数</span><br><span class="line">max-connection-per-server&#x3D;16</span><br><span class="line">#最小文件分片大小, 下载线程数上限取决于能分出多少片, 对于小文件重要</span><br><span class="line">min-split-size&#x3D;10M</span><br><span class="line">#单文件最大线程数, 路由建议值: 5</span><br><span class="line">split&#x3D;10</span><br><span class="line">#下载速度限制</span><br><span class="line">max-overall-download-limit&#x3D;0</span><br><span class="line">#单文件速度限制</span><br><span class="line">max-download-limit&#x3D;0</span><br><span class="line">#上传速度限制</span><br><span class="line">max-overall-upload-limit&#x3D;0</span><br><span class="line">#单文件速度限制</span><br><span class="line">max-upload-limit&#x3D;0</span><br><span class="line">#断开速度过慢的连接</span><br><span class="line">#lowest-speed-limit&#x3D;0</span><br><span class="line">#验证用，需要1.16.1之后的release版本</span><br><span class="line">#referer&#x3D;*</span><br><span class="line">#文件保存路径, 默认为当前启动位置</span><br><span class="line">dir&#x3D;&#x2F;home&#x2F;leek&#x2F;save&#x2F;download</span><br><span class="line">#文件缓存, 使用内置的文件缓存, 如果你不相信Linux内核文件缓存和磁盘内置缓存时使用, 需要1.16及以上版本</span><br><span class="line">#disk-cache&#x3D;0</span><br><span class="line">#另一种Linux文件缓存方式, 使用前确保您使用的内核支持此选项, 需要1.15及以上版本(?)</span><br><span class="line">#enable-mmap&#x3D;true</span><br><span class="line">#文件预分配, 能有效降低文件碎片, 提高磁盘性能. 缺点是预分配时间较长</span><br><span class="line">#所需时间 none &lt; falloc ? trunc « prealloc, falloc和trunc需要文件系统和内核支持</span><br><span class="line">file-allocation&#x3D;prealloc</span><br><span class="line">bt-tracker&#x3D;udp:&#x2F;&#x2F;62.138.0.158:6969&#x2F;announce,udp:&#x2F;&#x2F;188.241.58.209:6969&#x2F;announce,udp:&#x2F;&#x2F;93.158.213.92:1337&#x2F;announce,udp:&#x2F;&#x2F;62.210.97.59:1337&#x2F;announce,udp:&#x2F;&#x2F;151.80.120.113:2710&#x2F;announce,udp:&#x2F;&#x2F;151.80.120.113:2710&#x2F;announce,udp:&#x2F;&#x2F;165.231.0.116:80&#x2F;announce,udp:&#x2F;&#x2F;208.83.20.20:6969&#x2F;announce,udp:&#x2F;&#x2F;37.235.174.46:2710&#x2F;announce,udp:&#x2F;&#x2F;185.181.60.67:80&#x2F;announce,udp:&#x2F;&#x2F;54.37.235.149:6969&#x2F;announce,udp:&#x2F;&#x2F;89.234.156.205:451&#x2F;announce,udp:&#x2F;&#x2F;35.156.19.129:6969&#x2F;announce,udp:&#x2F;&#x2F;159.100.245.181:6969&#x2F;announce,udp:&#x2F;&#x2F;51.15.40.114:80&#x2F;announce,udp:&#x2F;&#x2F;142.44.243.4:1337&#x2F;announce,udp:&#x2F;&#x2F;176.113.71.19:6961&#x2F;announce,udp:&#x2F;&#x2F;5.206.54.49:6969&#x2F;announce,udp:&#x2F;&#x2F;184.105.151.164:6969&#x2F;announce,http:&#x2F;&#x2F;184.105.151.164:6969&#x2F;announce,udp:&#x2F;&#x2F;51.254.249.186:6969&#x2F;announce,udp:&#x2F;&#x2F;185.83.215.123:6969&#x2F;announce,udp:&#x2F;&#x2F;194.182.176.251:6969&#x2F;announce,udp:&#x2F;&#x2F;212.1.226.176:2710&#x2F;announce,udp:&#x2F;&#x2F;212.47.227.58:6969&#x2F;announce,udp:&#x2F;&#x2F;95.211.168.204:2710&#x2F;announce,udp:&#x2F;&#x2F;46.148.18.250:2710&#x2F;announce,udp:&#x2F;&#x2F;165.227.0.51:6969&#x2F;announce,udp:&#x2F;&#x2F;91.217.91.21:3218&#x2F;announce,udp:&#x2F;&#x2F;190.146.242.80:7070&#x2F;announce,udp:&#x2F;&#x2F;149.129.65.231:2710&#x2F;announce,udp:&#x2F;&#x2F;15.188.67.15:6969&#x2F;announce,udp:&#x2F;&#x2F;185.97.255.30:6969&#x2F;announce,udp:&#x2F;&#x2F;51.15.134.218:2710&#x2F;announce,udp:&#x2F;&#x2F;52.58.128.163:6969&#x2F;announce,udp:&#x2F;&#x2F;45.86.70.144:6969&#x2F;announce,udp:&#x2F;&#x2F;109.72.83.214:80&#x2F;announce,udp:&#x2F;&#x2F;217.76.183.53:80&#x2F;announce,udp:&#x2F;&#x2F;46.148.18.254:2710&#x2F;announce,udp:&#x2F;&#x2F;23.95.32.130:6969&#x2F;announce,udp:&#x2F;&#x2F;207.241.231.226:6969&#x2F;announce,udp:&#x2F;&#x2F;207.241.226.111:6969&#x2F;announce,udp:&#x2F;&#x2F;207.180.241.35:2710&#x2F;announce,https:&#x2F;&#x2F;47.240.44.4:443&#x2F;announce,http:&#x2F;&#x2F;79.133.36.244:6969&#x2F;announce,http:&#x2F;&#x2F;91.217.91.21:3218&#x2F;announce,http:&#x2F;&#x2F;93.158.213.92:1337&#x2F;announce,http:&#x2F;&#x2F;51.15.134.218:2710&#x2F;announce,http:&#x2F;&#x2F;153.92.6.117:80&#x2F;announce,http:&#x2F;&#x2F;139.99.45.37:80&#x2F;announce,http:&#x2F;&#x2F;78.30.254.12:2710&#x2F;announce,http:&#x2F;&#x2F;91.207.136.85:80&#x2F;announce,http:&#x2F;&#x2F;52.203.65.11:80&#x2F;announce,udp:&#x2F;&#x2F;95.211.168.204:2710&#x2F;announce,udp:&#x2F;&#x2F;176.113.68.67:6961&#x2F;announce,udp:&#x2F;&#x2F;104.244.79.229:6969&#x2F;announce,udp:&#x2F;&#x2F;51.15.3.74:6969&#x2F;announce,udp:&#x2F;&#x2F;218.5.42.53:2710&#x2F;announce,udp:&#x2F;&#x2F;185.83.214.123:6969&#x2F;announce,udp:&#x2F;&#x2F;80.211.26.119:9696&#x2F;announce,udp:&#x2F;&#x2F;139.99.100.97:8080&#x2F;announce,https:&#x2F;&#x2F;212.237.22.141:443&#x2F;announce,http:&#x2F;&#x2F;182.150.53.61:8080&#x2F;announce,http:&#x2F;&#x2F;95.107.48.115:80&#x2F;announce,http:&#x2F;&#x2F;37.235.174.46:2710&#x2F;announce,http:&#x2F;&#x2F;176.113.71.19:6961&#x2F;announce,http:&#x2F;&#x2F;176.113.68.67:6961&#x2F;announce,http:&#x2F;&#x2F;34.92.10.197:6789&#x2F;announce,http:&#x2F;&#x2F;95.216.171.255:6969&#x2F;announce,http:&#x2F;&#x2F;62.210.202.61:80&#x2F;announce,http:&#x2F;&#x2F;104.244.79.229:80&#x2F;announce,http:&#x2F;&#x2F;176.123.5.118:80&#x2F;announce,http:&#x2F;&#x2F;51.79.71.167:80&#x2F;announce,http:&#x2F;&#x2F;185.83.214.123:6969&#x2F;announce,http:&#x2F;&#x2F;62.210.177.88:1096&#x2F;announce,http:&#x2F;&#x2F;51.68.122.172:80&#x2F;announce</span><br><span class="line">## BT&#x2F;PT下载相关 ##</span><br><span class="line"></span><br><span class="line"># 当下载的是一个种子(以.torrent结尾)时, 自动开始BT任务, 默认:true</span><br><span class="line">#follow-torrent&#x3D;true</span><br><span class="line"># BT监听端口, 当端口被屏蔽时使用, 默认:6881-6999</span><br><span class="line">listen-port&#x3D;51413</span><br><span class="line"># 单个种子最大连接数, 默认:55</span><br><span class="line">#bt-max-peers&#x3D;55</span><br><span class="line"># 打开DHT功能, PT需要禁用, 默认:true</span><br><span class="line">enable-dht&#x3D;false</span><br><span class="line"># 打开IPv6 DHT功能, PT需要禁用</span><br><span class="line">#enable-dht6&#x3D;false</span><br><span class="line"># DHT网络监听端口, 默认:6881-6999</span><br><span class="line">#dht-listen-port&#x3D;6881-6999</span><br><span class="line"># 本地节点查找, PT需要禁用, 默认:false</span><br><span class="line">#bt-enable-lpd&#x3D;false</span><br><span class="line"># 种子交换, PT需要禁用, 默认:true</span><br><span class="line">enable-peer-exchange&#x3D;false</span><br><span class="line"># 每个种子限速, 对少种的PT很有用, 默认:50K</span><br><span class="line">#bt-request-peer-speed-limit&#x3D;50K</span><br><span class="line"># 客户端伪装, PT需要</span><br><span class="line">peer-id-prefix&#x3D;-TR2770-</span><br><span class="line">user-agent&#x3D;Transmission&#x2F;2.77</span><br><span class="line">peer-agent&#x3D;Transmission&#x2F;2.77</span><br><span class="line"># 当种子的分享率达到这个数时, 自动停止做种, 0为一直做种, 默认:1.0</span><br><span class="line">seed-ratio&#x3D;0</span><br><span class="line"># 强制保存会话, 即使任务已经完成, 默认:false</span><br><span class="line"># 较新的版本开启后会在任务完成后依然保留.aria2文件</span><br><span class="line">#force-save&#x3D;false</span><br><span class="line"># BT校验相关, 默认:true</span><br><span class="line">#bt-hash-check-seed&#x3D;true</span><br><span class="line"># 继续之前的BT任务时, 无需再次校验, 默认:false</span><br><span class="line">bt-seed-unverified&#x3D;true</span><br><span class="line"># 保存磁力链接元数据为种子文件(.torrent文件), 默认:false</span><br><span class="line">bt-save-metadata&#x3D;true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-rpc调用-下载百度云"><a href="#3-rpc调用-下载百度云" class="headerlink" title="3.rpc调用 下载百度云"></a>3.rpc调用 下载百度云</h2><p>测试 rpc可用性</p>
-<p><a target="_blank" rel="noopener" href="http://127.0.0.1:6800/jsonrpc?jsoncallback=1">http://127.0.0.1:6800/jsonrpc?jsoncallback=1</a></p>
-<p>有返回既能用否则可能是服务没有起起来</p>
-<p>使用的chrome 油猴插件 百度网盘超级助手选择pandownload -&gt; 调用baiduwp.com 的下载接口直接下载 -&gt; 点击具体文件后选择使用Aria2下载</p>
-<p><a href="../img/1567683581804.png"><img src="../img/1567683581804.png" alt="1567683581804"></a></p>
-<p>参考链接</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://ivo-wang.github.io/2019/04/18/%E5%85%B3%E4%BA%8Earia2%E6%9C%80%E5%AE%8C%E6%95%B4%E7%9A%84%E4%B8%80%E7%AF%87/">关于aria2最完整的一篇</a></li>
-<li><a target="_blank" rel="noopener" href="https://binux.blog/2012/12/aria2-examples/">https://binux.blog/2012/12/aria2-examples/</a></li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/17/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/19/">下一页 </a>
@@ -1623,7 +1510,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2024 leek
+                2016-2025 leek
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>

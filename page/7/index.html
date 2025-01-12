@@ -269,6 +269,556 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ananotation-async介绍和使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3766dac5.html" class="article-date">
+      <time datetime="2022-11-28T08:28:29.000Z" itemprop="datePublished">2022-11-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3766dac5.html">ananotation_async介绍和使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/768513">Spring中异步注解@Async的使用、原理及使用时可能导致的问题-阿里云开发者社区</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mysql-json函数使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/7c7b32f9.html" class="article-date">
+      <time datetime="2022-11-23T12:07:46.000Z" itemprop="datePublished">2022-11-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/7c7b32f9.html">mysql_json函数使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57904266/how-to-use-mysql-json-contains-with-jpa-specification">How to use mysql “json_contains” with JPA Specification - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36249828/how-to-search-json-array-in-mysql">How to search JSON array in MySQL? - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/66576018/mysql-json-extract-value-of-property-based-on-criteria">json - MySQL JSON_EXTRACT value of property based on criteria - Stack Overflow</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57904266/how-to-use-mysql-json-contains-with-jpa-specification">How to use mysql “json_contains” with JPA Specification - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36249828/how-to-search-json-array-in-mysql">How to search JSON array in MySQL? - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/66576018/mysql-json-extract-value-of-property-based-on-criteria">json - MySQL JSON_EXTRACT value of property based on criteria - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fenglailea/article/details/124687284">spring jpa function(函数) JSON_EXTRACT 复杂查询，jpa josn查询_风.foxwho的博客-CSDN博客_jpa json查询</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.docs4dev.com/docs/zh/mysql/5.7/reference/json-search-functions.html#function_json-contains">MySql 中文文档 - 12.17.3 搜索 JSON 值的函数 | Docs4dev</a></p>
+<p>json字符串搜索模糊匹配等相关的内容</p>
+<p>1.JSON_SEARCH 直接使用这个来查询还可以模糊匹配</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	SELECT</span><br><span class="line">	JSON_SEARCH(</span><br><span class="line">&#39;[&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444417&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;,&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444416&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;]&#39;,</span><br><span class="line">		&#39;all&#39;,</span><br><span class="line">		&#39;%44444%&#39;,</span><br><span class="line">	NULL,</span><br><span class="line">	&#39;$**.sticker&#39;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM incident_report WHERE (JSON_SEARCH(users,&#39;one&#39;,&#39;39717&#39;,null,&#39;$**.id&#39;) is not null)</span><br><span class="line">SELECT users FROM incident_report LIMIT 10  15890    qrCode  44444403</span><br><span class="line">SELECT JSON_SEARCH(users,&#39;one&#39;,&#39;%51230%&#39;,null,&#39;$**.qrCode&#39;) FROM incident_report LIMIT 10</span><br></pre></td></tr></table></figure>
+
+<p> 2.JSON_EXTRACT(解析json数据),使用JSON_CONTAIN来查询 解析后的JSON信息</p>
+<p>对对于是数组里面的特定对象字段譬如 下面这种,这需要进一步抽取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444417&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;,&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444416&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;]</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>JSON_CONTAINS(JSON_EXTRACT(json_field, ‘$[*].id’), 11, ‘$’)    </p>
+</blockquote>
+<pre><code>SELECT JSON_EXTRACT(users,&#39;$.id&#39;) FROM incident_report LIMIT 10
+SELECT JSON_EXTRACT(users, &#39;$[*].userTrips[*].id&#39;) FROM incident_report LIMIT 10
+SELECT users,JSON_CONTAINS(JSON_EXTRACT(users, &#39;$[*].userTrips[*].id&#39;), &#39;12689&#39;, &#39;$&#39;) FROM incident_report LIMIT 10</code></pre>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/json-search-functions.html">https://dev.mysql.com/doc/refman/5.7/en/json-search-functions.html</a>)</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-spring缓存管理Redis-本地" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/a0b38034.html" class="article-date">
+      <time datetime="2022-11-22T06:27:34.000Z" itemprop="datePublished">2022-11-22</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/a0b38034.html">spring缓存管理Redis+本地</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-multiple-cache-managers">Using Multiple Cache Managers in Spring | Baeldung</a></p>
+<p>caffice+redis</p>
+<p>```java</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-multiple-cache-managers">Using Multiple Cache Managers in Spring | Baeldung</a></p>
+<p>caffice+redis</p>
+<p>```java</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-transactionl介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/f3616705.html" class="article-date">
+      <time datetime="2022-11-21T06:03:48.000Z" itemprop="datePublished">2022-11-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/f3616705.html">transactionl介绍(转载)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><blockquote>
+<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/rvcb6xzBODqbCE03bwsKag">https://mp.weixin.qq.com/s/rvcb6xzB…</a></p>
+</blockquote>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <blockquote>
+<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/rvcb6xzBODqbCE03bwsKag">https://mp.weixin.qq.com/s/rvcb6xzB…</a></p>
+</blockquote>
+<blockquote>
+<p>⏰ 剪存时间：2022-11-21 11:52:31 (UTC+8)</p>
+</blockquote>
+<blockquote>
+<p>✂️ 本文档由 <a target="_blank" rel="noopener" href="https://www.feishu.cn/hc/zh-CN/articles/606278856233?from=in_ccm_clip_doc">飞书剪存 </a>一键生成</p>
+</blockquote>
+<p>veezean 石杉的架构笔记 <em>2022-11-16 07:50 发表于 江苏</em></p>
+<p>「 关注 “石杉的架构笔记” ，大厂架构经验 倾囊相授 」</p>
+<h2 id="文章来源：【公众号：架构悟道-】"><a href="#文章来源：【公众号：架构悟道-】" class="headerlink" title="文章来源：【公众号：架构悟道 】"></a><strong>文章来源：【公众号：架构悟道 】</strong></h2><p>在大部分涉及到数据库操作的项目里面， <strong>事务控制、事务处理都是一个无法回避的问题</strong> 。比如，需要对SQL执行过程进行事务的控制与处理的时候，其整体的处理流程会是如下的示意：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzllYTI1MTQ5ZjU1ODk1YWEwNTQ5MWNjMzljZWYyOTZfZzIzQ1pxaDR6d0ZoTDlxUVVKNnpqa01OamNiam1Kck1fVG9rZW46Ym94Y25hek01d0RUR1IwMDVqTmFNYnoxeUtiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>首先是要开启事务、然后执行具体SQL，如果执行异常则回滚事务，否则提交事务，最后关闭事务，完成整个处理过程。按照这个流程的逻辑，写一下对应的实现代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">public void testJdbcTransactional(DataSource dataSource) &#123;</span><br><span class="line">    Connection conn = null;</span><br><span class="line">    int result = 0;</span><br><span class="line">    try &#123;</span><br><span class="line">        // 获取链接</span><br><span class="line">        conn = dataSource.getConnection();</span><br><span class="line">        // 禁用自动事务提交，改为手动控制</span><br><span class="line">        conn.setAutoCommit(false);</span><br><span class="line">        // 设置事务隔离级别</span><br><span class="line">        conn.setTransactionIsolation(</span><br><span class="line">            TransactionIoslationLevel.READ_COMMITTED.getLevel()</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        // 执行SQL</span><br><span class="line">        PreparedStatement ps = </span><br><span class="line">            conn.prepareStatement(&quot;insert into user (id, name) values (?, ?)&quot;);</span><br><span class="line">        ps.setString(1, &quot;123456&quot;);</span><br><span class="line">        ps.setString(2, &quot;Tom&quot;);</span><br><span class="line">        result = ps.executeUpdate();</span><br><span class="line"></span><br><span class="line">        // 执行成功，手动提交事务</span><br><span class="line">        conn.commit();</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        // 出现异常，手动回滚事务</span><br><span class="line">        if (conn != null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                conn.rollback();</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                // write log...</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        // 执行结束，最终不管成功还是失败，都要释放资源，断开连接</span><br><span class="line">        try &#123;</span><br><span class="line">            if (conn != null &amp;&amp; !conn.isClosed()) &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">             // write log...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不难发现，上面大段的代码逻辑并不复杂，对于业务而言其实仅仅只是执行了一个insert操作而已。但是杂糅的事务控制代码，显然 <strong>干扰了业务自身的代码处理逻辑的阅读与理解</strong> 。</p>
+<p>常规项目的代码中，涉及到DB处理的场景很多，如果每个地方都有这么一段事务控制的逻辑，那么整体代码的可维护性将会比较差，想想都令人窒息。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzYwOGYwNjM2Y2JlMTVmOTJhNjY0ZmY3YjE0M2MyNjVfSWZuQXc2ZFI2UjBzZjZZY0JKZHhiOUtSWU9UcGduU09fVG9rZW46Ym94Y25MMzAxVXhmakMzRjFZUHZQTFZTTkpjXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>好在，JAVA中很多项目现在都是基于Spring框架进行构建的。得益 于 Spring框架的封装，业务代码中进行事务控制操作起来也很简单，直接加个 @Transactional注解即可，大大简化了对业务代码的 <strong>侵入性</strong> 。那么对 @Transactional事务注解了解的够全面吗？知道有哪些场景可能会导致 @Transactional注解并不会如你预期的方式生效吗？知道应该怎么使用 @Transactional才能保证对性能的影响最小化吗？</p>
+<p>下面我们一起探讨下这些问题。</p>
+<blockquote>
+<p><strong>Spring声明式事务处理机制</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>为了简化业务开发场景对事务的处理复杂度，让开发人员可以更关注于业务自身的处理逻辑， <strong>Spring</strong> 提供了声明式事务的能力支持。</p>
+<p><strong>Spring</strong> 数据库事务约定处理逻辑流程如下图所示，对比前面示例中基于 <strong><code>JDBC</code></strong> 的事务处理，Spring的事务的处理操作交给了 <strong>Spring框架</strong> 处理，开发人员仅需要实现自己的业务逻辑即可，大大简化了事务方面的处理投入。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NzMxMjNhOGRhYTE5ZDU0NjIzM2RiZmYwZDI5Y2VmZDdfcTBjVGhoRFlpSU1HMzhuR2U3dWw0VWt5dDBBYWU0VlBfVG9rZW46Ym94Y25lZGZ3ZzRZWEUwMmlKT3ZuNUpadnRoXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>基于Spring事务机制，实现上述DB操作事务控制的代码，我们的代码会变得非常的简洁：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    userDao.insertUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>与JDBC事务实现代码相比，基于Spring的方式只需要添加一个 <strong><code>@Transactional</code></strong> 注解即可，代码中只需要实现业务逻辑即可，实现了事务控制机制对业务代码的 <strong>低侵入性</strong> 。</p>
+<p>Spring支持的基于 <strong><code>Spring AOP</code></strong> 实现的 <strong>声明式事务</strong> 功能，所谓声明式事务，即使用@Transactional注解进行声明标注，告诉Spring框架在什么地方启用数据库事务控制能力。 <strong><code>@Transactional</code></strong> 注解， <em>可以添加在类或者方法上</em> 。如果其添加在类上时，表明此类中所有的 <em>public非静态方法</em> 都将启用事务控制能力。</p>
+<p>既然@Transactional注解承载了Spring框架对于事务处理的相关能力，那么接下来我们就一起看下该注解的一些可选配置以及具体使用场景。</p>
+<blockquote>
+<p><strong>@Transactional主要可选配置</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>只读事务配置</p>
+<p>通过 <strong><code>readonly</code></strong> 参数指定当前事务是否为一个只读事务。设置为true标识此事务是个只读事务，默认情况为false。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(readOnly = true)</span><br><span class="line">public DomResponse&lt;CiCdItemDetail&gt; queryCicdItemDetail(String appCode) &#123;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里涉及一个概念，叫做 <strong>只读事务</strong> ，其含义描述如下：</p>
+<blockquote>
+<p>在多条查询语句一起执行的场景里面会涉及到的概念。表示在事务设置的那一刻开始，到整个事务执行结束的过程中，其他事务所提交的写操作数据，对该事务都不可见。</p>
+</blockquote>
+<p>举个例子：</p>
+<blockquote>
+<p>现在有一个复合查询操作，包含2条SQL查询操作：先获取用户表count数，再获取用户表中所有数据。 (1) 先执行完获取用户表count数，得到结果10 (2) 在还没开始执行后一条语句的时候，另一个进程操作了DB并往用户表中插入一条新数据 (3) 复合操作的第二条SQL语句，获取用户列表的操作被执行，返回了11条记录</p>
+</blockquote>
+<p>很明显，复合操作中的两条SQL语句获取的数据结果无法匹配上。原因就是非原子性操作导致，即2条查询操作执行的间隔内，有另一个写操作修改了目标读取的数据，导致了此问题的出现。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzZhNzIwYWNhZWZkY2E1NWViMDE3MWJmYzQyZGY0YTlfV2t0R05OQXV1MmgzYlM4dUJtdnRObWRJckpqOThkQzhfVG9rZW46Ym94Y25zUTA3dkpQdmk5aXRtMXpNRWNVZURoXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>为了避免此情况的发生，可以给复合查询操作添加上只读事务，这样事务控制范围内，事务外的写操作就不可见，这样就保证了事务内多条查询语句执行结果的一致性。</p>
+<p>那为什么要设置为只读事务、而不是常规的事务呢？主要是从执行效率角度的考虑。因为这个里的操作都是一些只读操作，所以设置为只读事务，数据库会为只读事务提供一些优化手段，比如不启动回滚段、不记录回滚log之类的。</p>
+<p>回滚条件设定</p>
+<p><strong><code>@Transactional</code></strong> 有提供4个不同属性，可以支持传入不同的参数，设定需要回滚的条件：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>含义说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rollbackFor</td>
+<td>用于指定需要回滚的特定异常类型，可以指定一个或者多个。当指定 <strong><code>rollbackFor</code></strong> 或者 <strong><code>rollbackForClassName</code></strong> 之后，方法执行逻辑中只有抛出指定的异常类型，才会触发事务回滚</td>
+</tr>
+<tr>
+<td>rollbackForClassName</td>
+<td>与 <strong><code>rollbackFor</code></strong> 相同，设置字符串格式的类名</td>
+</tr>
+<tr>
+<td>noRollbackFor</td>
+<td>用于指定不需要进行回滚的异常类型，当方法中抛出指定类型的异常时，不进行事务回滚。而其余的类型的异常将会触发事务回滚。</td>
+</tr>
+<tr>
+<td>noRollbackForClassName</td>
+<td>与 <strong><code>noRollbackFor</code></strong> 相同，设置字符串格式的类名</td>
+</tr>
+</tbody></table>
+<p>其中，rollbackFor支持指定单个或者多个异常类型，只要抛出指定类型的异常，事务都将被回滚掉：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 指定单个异常</span><br><span class="line">@Transactional(rollbackFor = DemoException.class)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 指定多个异常</span><br><span class="line">@Transactional(rollbackFor = &#123;DemoException.class, DemoException2.class&#125;)</span><br><span class="line">public void insertUser2() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>rollbackFor</code></strong> 和 <strong><code>rollbackForClassName</code></strong> 作用相同，只是提供了2个不同的指定方法，允许执行Class类型或者ClassName字符串。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 指定异常名称</span><br><span class="line">@Transactional(rollbackForClassName = &#123;&quot;DemoException&quot;&#125;)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同理， <strong><code>noRollbackFor</code></strong> 和 <strong><code>noRollbackForClassName</code></strong> 的使用与上面示意的相似，只是其含义功能点是相反的。</p>
+<p>事务传播行为</p>
+<p><strong><code>propagation</code></strong> 用于指定此事务对应的传播类型。所谓的事务传播类型，即当前已经在一个事务的上下文中时，又需要开始一个事务，这个时候来处理这个将要开启的新事务的处理策略。</p>
+<p>主要有7种类型的事务传播类型：</p>
+<table>
+<thead>
+<tr>
+<th><strong>传播类型</strong></th>
+<th><strong>含义描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>REQUIRED</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务</td>
+</tr>
+<tr>
+<td>SUPPORTS</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行</td>
+</tr>
+<tr>
+<td>MANDATORY</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常</td>
+</tr>
+<tr>
+<td>REQUIRES_NEW</td>
+<td>创建一个新的事务，如果当前存在事务，则把当前事务挂起</td>
+</tr>
+<tr>
+<td>NOT_SUPPORTED</td>
+<td>以非事务方式运行，如果当前存在事务，则把当前事务挂起</td>
+</tr>
+<tr>
+<td>NEVER</td>
+<td>以非事务方式运行，如果当前存在事务，则抛出异常</td>
+</tr>
+<tr>
+<td>NESTED</td>
+<td>如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于REQUIRED</td>
+</tr>
+</tbody></table>
+<p>事务的传播行为，将会影响到事务控制的结果，比如最终是在同一事务中，一旦遇到异常，所有操作都会被回滚掉，而如果是在多个事务中，则某一个事务的回滚，不影响已提交的其余事务的回滚。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDkyMDQ1OTg4NThmYWYzOGE5YjAxOTM2ODQzMDk0ZTVfRjhQUkNjcWhYUmRwNHlIUEFMNndkb3dxb3BSSnR2Wm1fVG9rZW46Ym94Y25rNTk2YWRHSFRrd2QwMlJJVTV2TlBiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>实际编码的时候，可以通过@Transactional注解中的 <strong><code>propagation</code></strong> 参数来指定具体的传播类型，取值由 <strong><code>org.springframework.transaction.annotation.Propagation</code></strong> 枚举类提供。如果不指定，则默认取值为 <strong><code>Propagation.REQUIRED</code></strong> ，也即 <strong>如果当前存在事务，则加入该事务，如果当前没有事务，则创建一个新的事务</strong> 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * The transaction propagation type.</span><br><span class="line"> * &lt;p&gt;Defaults to &#123;@link Propagation#REQUIRED&#125;.</span><br><span class="line"> * @see org.springframework.transaction.interceptor.TransactionAttribute#getPropagationBehavior()</span><br><span class="line"> */</span><br><span class="line">Propagation propagation() default Propagation.REQUIRED;</span><br></pre></td></tr></table></figure>
+
+<p>事务超时设定</p>
+<p>可以使用 <strong><code>timeout</code></strong> 属性来设置事务的超时秒数，默认值为-1，表示永不超时。</p>
+<blockquote>
+<p><strong>@Transactional失效场景避坑</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>同一个类中方法间调用</p>
+<p>Spring的事务实现原理是AOP，而AOP的原理是动态代理。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NGNhYjZlYjJkOWIyNDFiZTI3ZWFkZjgyZmQ5YzA2NTBfdVRiRDBvQkNlZ00wWGROUmNKNW5jSEFwcldEdmkwNDVfVG9rZW46Ym94Y25HaDd6aUgxVTM2ZE1SWFk4d0F6UUVnXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p>在类内部方法之间相互调用的时候，本质上是类对象自身的调用，而不是使用代理对象去调用，也就不会触发AOP，这样其实Spring也就无法将事务控制的代码逻辑织入到调用代码流程中，所以这里的事务控制就无法生效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void insertUser() &#123;</span><br><span class="line">    writeDataIntoDb();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Transactional</span><br><span class="line">public void writeDataIntoDb() &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以遇到同一个类中多个方法之间相互调用，且调用的方法需要做事务控制的时候需要特别注意下这个问题。解决方式，可以建2个不同的类，然后将方法放到两个类中，这样跨类调用，Spring事务机制就可以生效。</p>
+<p>添加在非public方法上</p>
+<p>如果将@Transactional注解添加在protected、private修饰的方法上，虽然代码不会有任何的报错，但是实际上注解是不会生效的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line">private void writeDataIntoDb() &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法内部Try Catch吞掉相关异常</p>
+<p>这个其实很容易理解，业务代码中将所有的异常给catch并吞掉了，等同于业务代码认为被捕获的异常不需要去触发回滚。对框架而言，因为异常被捕获了，业务逻辑执行都在正常往下运行，所以也不会触发异常回滚机制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// catch了可能的异常，导致DB操作失败的时候事务不会触发回滚</span><br><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line"></span><br><span class="line">        // 直接吞掉了异常，这样不会触发事务回滚机制</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在业务处理逻辑中，如果确实需要知晓并捕获相关处理的异常进行一些额外的业务逻辑处理，如果要保证事务回滚机制生效，最后需要往外抛出 <strong><code>RuntimeException</code></strong> 异常，或者是继承RuntimeException实现的 <em>业务自定义异常</em> 。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// catch了可能的异常，对外抛出RuntimeException或者其子类,可触发事务回滚</span><br><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line"></span><br><span class="line">        // @Transactional没有指定rollbackFor，所以抛出RuntimeException或者其子类，可触发事务回滚机制</span><br><span class="line">        throw new RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，如果@Transactional注解指定了 <strong><code>rollbackFor</code></strong> 为某个具体的异常类型，则最终需要保证异常时对外抛出相匹配的异常类型，才可以触发事务处理逻辑。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// catch了指定异常，对外抛出对应类型的异常,可触发事务回滚</span><br><span class="line">@Transactional(rollbackFor = DemoException.class)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line">        // @Transactional有指定rollbackFor，抛出异常要与rollbackFor指定异常类型一致</span><br><span class="line">        throw new DemoException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应数据库引擎类型不支持事务</p>
+<p>以 <strong>MySQL</strong> 数据库而言，常见的数据库引擎有 <strong><code>InnoDB</code></strong> 和 <strong><code>Myisam</code></strong> 等类型，但是 <strong>MYISAM引擎类型是不支持事务</strong> 的。所以如果建表时设置的引擎类型设置为 <strong><code>MYISAM</code></strong> 的话，即使代码里面添加了@Transactional最终事务也不会生效的。</p>
+<blockquote>
+<p><strong>@Transactional使用策略</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<p>因为事务处理对性能会有一定的影响，所以事务也不是说任何地方都可以随便添加的。对于一些性能敏感场景，需要注意几点：</p>
+<ol>
+<li>仅在必要的场合添加事务控制</li>
+</ol>
+<blockquote>
+<p>（1）不含有DB操作相关，无需添加事务控制 （2）单条查询语句，没必要添加事务控制 （3）仅有查询操作的多条SQL执行场景，可以添加只读事务控制 （4）单条 <strong><code>insert/update/delete</code></strong> 语句，其实也不需要添加 <strong><code>@Transactional</code></strong> 事务处理，因为单条语句执行其实数据库有 <strong>隐性事务控制机制</strong> ，如果执行失败，是属于 <strong><code>SQL</code></strong> 报错，数据不会更新成功，自然也无需回滚。</p>
+</blockquote>
+<ol>
+<li>尽可能缩小事务控制的代码段处理范围</li>
+</ol>
+<blockquote>
+<p>主要从性能层面考虑，事务机制，类似于并发场景的加锁处理， <em>范围越大对性能影响越明显</em></p>
+</blockquote>
+<ol>
+<li>事务控制范围内的业务逻辑尽可能简单、避免非事务相关耗时处理逻辑</li>
+</ol>
+<blockquote>
+<p>也是从性能层面考虑，尽量将耗时的逻辑放到事务控制之外执行， <em>事务内仅保留与DB操作切实相关的逻辑</em></p>
+</blockquote>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NjY0MzY1MzdmZTQzNGEwYTgzN2MyNjk0YWZmZmZiYmJfMHlQbVBNMmdab2VjMUJaU2NNQk51dFZuWjVvbTBqb1ZfVG9rZW46Ym94Y25nT29MU0szV2xLcEhKN28wMEk1S0dmXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM0ZmRmMjFiNmEwYjc1Mzc1M2QzYmI4NjU4NTJiODRfMG1DTFJjZE1YNFJIeHBrZVBacklXcVk5UVVEaEZ0Z0tfVG9rZW46Ym94Y25nc2lqbUNpMDl6Z0tYRURtRFVTMkVkXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-一次单元测试优化的过程总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1387,406 +1937,6 @@
 
 
   
-    <article id="post-mysql相关内容" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/f0e475b6.html" class="article-date">
-      <time datetime="2022-11-01T09:19:36.000Z" itemprop="datePublished">2022-11-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/f0e475b6.html">mysql相关内容</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SHOW DATABASES                                &#x2F;&#x2F;列出 MySQL Server 数据库。</span><br><span class="line">SHOW TABLES [FROM db_name]                    &#x2F;&#x2F;列出数据库数据表。</span><br><span class="line">SHOW CREATE TABLES tbl_name                    &#x2F;&#x2F;导出数据表结构。</span><br><span class="line">SHOW TABLE STATUS [FROM db_name]              &#x2F;&#x2F;列出数据表及表状态信息。</span><br><span class="line">SHOW COLUMNS FROM tbl_name [FROM db_name]     &#x2F;&#x2F;列出资料表字段</span><br><span class="line">SHOW FIELDS FROM tbl_name [FROM db_name]，DESCRIBE tbl_name [col_name]。</span><br><span class="line">SHOW FULL COLUMNS FROM tbl_name [FROM db_name]&#x2F;&#x2F;列出字段及详情</span><br><span class="line">SHOW FULL FIELDS FROM tbl_name [FROM db_name] &#x2F;&#x2F;列出字段完整属性</span><br><span class="line">SHOW INDEX FROM tbl_name [FROM db_name]       &#x2F;&#x2F;列出表索引。</span><br><span class="line">SHOW STATUS                                  &#x2F;&#x2F;列出 DB Server 状态。</span><br><span class="line">SHOW VARIABLES                               &#x2F;&#x2F;列出 MySQL 系统环境变量。</span><br><span class="line">SHOW PROCESSLIST                             &#x2F;&#x2F;列出执行命令。</span><br><span class="line">SHOW GRANTS FOR user                         &#x2F;&#x2F;列出某用户权限</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SHOW DATABASES                                &#x2F;&#x2F;列出 MySQL Server 数据库。</span><br><span class="line">SHOW TABLES [FROM db_name]                    &#x2F;&#x2F;列出数据库数据表。</span><br><span class="line">SHOW CREATE TABLES tbl_name                    &#x2F;&#x2F;导出数据表结构。</span><br><span class="line">SHOW TABLE STATUS [FROM db_name]              &#x2F;&#x2F;列出数据表及表状态信息。</span><br><span class="line">SHOW COLUMNS FROM tbl_name [FROM db_name]     &#x2F;&#x2F;列出资料表字段</span><br><span class="line">SHOW FIELDS FROM tbl_name [FROM db_name]，DESCRIBE tbl_name [col_name]。</span><br><span class="line">SHOW FULL COLUMNS FROM tbl_name [FROM db_name]&#x2F;&#x2F;列出字段及详情</span><br><span class="line">SHOW FULL FIELDS FROM tbl_name [FROM db_name] &#x2F;&#x2F;列出字段完整属性</span><br><span class="line">SHOW INDEX FROM tbl_name [FROM db_name]       &#x2F;&#x2F;列出表索引。</span><br><span class="line">SHOW STATUS                                  &#x2F;&#x2F;列出 DB Server 状态。</span><br><span class="line">SHOW VARIABLES                               &#x2F;&#x2F;列出 MySQL 系统环境变量。</span><br><span class="line">SHOW PROCESSLIST                             &#x2F;&#x2F;列出执行命令。</span><br><span class="line">SHOW GRANTS FOR user                         &#x2F;&#x2F;列出某用户权限</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SHOW DATABASES </span><br><span class="line">SHOW TABLES FROM DB_NAME</span><br><span class="line"></span><br><span class="line">SHOW COLUMNS FROM </span><br><span class="line">select * from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39;</span><br><span class="line"></span><br><span class="line">select table_name,column_name,collation_name,character_set_name from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; </span><br><span class="line">select table_name,column_name,column_name,collation_name,character_set_name from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; and column_name like &#39;%description&#39;</span><br><span class="line">select * from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; and column_name like &#39;%description&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">select table_name,column_name,collation_name,character_set_name from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; and COLUMN_NAME like &#39;%a%&#39;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查询逻辑和相关</p>
-<h2 id="编码集"><a href="#编码集" class="headerlink" title="编码集"></a>编码集</h2>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mysql索引和锁相关的整理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2fd84806.html" class="article-date">
-      <time datetime="2022-09-25T08:34:34.000Z" itemprop="datePublished">2022-09-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2fd84806.html">mysql索引和锁相关的整理</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>ToDo</p>
-<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.7.2.1 Transaction Isolation Levels</a></p>
-<p>针对MySQL5,.7</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>ToDo</p>
-<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.7.2.1 Transaction Isolation Levels</a></p>
-<p>针对MySQL5,.7</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-spring-data-jap入门和测试用例以及介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/db9f3902.html" class="article-date">
-      <time datetime="2022-09-25T02:46:15.000Z" itemprop="datePublished">2022-09-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="springJpa介绍"><a href="#springJpa介绍" class="headerlink" title="springJpa介绍"></a>springJpa介绍</h2><p>springjpa 是springdata下面的框架用来对接数据 是门面框架定义 数据交互到数据库,很多的接口规范使用的是 JPA规范 *<em>javax.persistence.**</em> ,我们选择内部实现为habernate ,具体的实现可以选择xxxx等,</p>
-<p>下面是关于spring -orm的介绍<a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/spring-orm-framework/">Spring - ORM Framework - GeeksforGeeks</a></p>
-<p><strong>Spring-ORM</strong> is a technique or a Design Pattern used to access a relational database from an object-oriented language. ORM (Object Relation Mapping) covers many persistence technologies. They are as follows:</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="springJpa介绍"><a href="#springJpa介绍" class="headerlink" title="springJpa介绍"></a>springJpa介绍</h2><p>springjpa 是springdata下面的框架用来对接数据 是门面框架定义 数据交互到数据库,很多的接口规范使用的是 JPA规范 *<em>javax.persistence.**</em> ,我们选择内部实现为habernate ,具体的实现可以选择xxxx等,</p>
-<p>下面是关于spring -orm的介绍<a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/spring-orm-framework/">Spring - ORM Framework - GeeksforGeeks</a></p>
-<p><strong>Spring-ORM</strong> is a technique or a Design Pattern used to access a relational database from an object-oriented language. ORM (Object Relation Mapping) covers many persistence technologies. They are as follows:</p>
-<ul>
-<li><strong>JPA(Java Persistence API):</strong> It is mainly used to persist data between Java objects and relational databases. It acts as a bridge between object-oriented domain models and relational database systems.</li>
-<li><strong>JDO(Java Data Objects):</strong> It is one of the standard ways to access persistent data in databases, by using plain old Java objects (POJO) to represent persistent data.</li>
-<li><strong>Hibernate –</strong> It is a Java framework that simplifies the development of Java applications to interact with the database.</li>
-<li><strong>Oracle Toplink, and iBATIS:</strong> Oracle TopLink is a mapping and persistence framework for Java development.</li>
-</ul>
-<p>需要了解常用的注解</p>
-<ul>
-<li>支持基于 Spring 和 JPA 构建存储库</li>
-<li>支持<a target="_blank" rel="noopener" href="http://www.querydsl.com/">Querydsl</a>谓词，因此支持类型安全的 JPA 查询</li>
-<li>透明审计</li>
-<li>分页支持、动态查询执行、集成自定义数据访问代码的能力</li>
-<li><code>@Query</code>在引导时验证带注释的查询</li>
-<li>支持基于 XML 的实体映射</li>
-<li>通过引入基于 JavaConfig 的存储库配置<code>@EnableJpaRepositories</code></li>
-</ul>
-<h2 id="字段映射"><a href="#字段映射" class="headerlink" title="字段映射"></a>字段映射</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Table(name &#x3D; &quot;malfunction_report&quot;) &#x2F;&#x2F;标记表的名称</span><br><span class="line">@Entity：标识这是一个JPA的实体，当项目启动时会更具这个实体创建相应的表</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Id &#x2F;&#x2F;标记表的自增的ID</span><br><span class="line">@GeneratedValue</span><br><span class="line"></span><br><span class="line">@Column(name &#x3D; &quot;items&quot;)&#x2F;&#x2F;标记字段的对应的映射</span><br><span class="line">@Convert(converter &#x3D; JpaConverterListJson.class)&#x2F;&#x2F; 保存和查询时能解析为对应的变量</span><br><span class="line">@Enumerated(EnumType.STRING)&#x2F;&#x2F;对应枚举这种最后在数据库需要保存为你字符串</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="查询继承JpaRepository"><a href="#查询继承JpaRepository" class="headerlink" title="查询继承JpaRepository"></a>查询继承JpaRepository</h3><p>直接可以字段拼接一个简单的查询,在继承了JpaRepository后可以发现,</p>
-<h3 id="注解query"><a href="#注解query" class="headerlink" title="注解query"></a>注解query</h3><p>使用注解可以使用jpa定义的hql来查询利用对象的映射关系,而且比较存在的ORM(<em>Object-Relational Mapping</em>)逻辑,同时如果部分字段需要调用特殊的函数也支持直接写SQL,需要在SQL后用逗号分割讲native设置为true</p>
-<h3 id="查询继承JpaSpecificationExecutor的灵活查询"><a href="#查询继承JpaSpecificationExecutor的灵活查询" class="headerlink" title="查询继承JpaSpecificationExecutor的灵活查询"></a>查询继承JpaSpecificationExecutor的灵活查询</h3><p>org.springframework.data.jpa.domain.Specification 需要实现<strong>toPredicate</strong>这里需要多个学习多个对象</p>
-<ul>
-<li><p>Root<T> root</p>
-<p>主要要使用</p>
-</li>
-<li><p>CriteriaQuery&lt;?&gt; query</p>
-<p>criterialQuery ToDo</p>
-</li>
-<li><p>CriteriaBuilder criteriaBuilder</p>
-<p>CriteriaBuilder todo</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">javax.persistence.criteria.Predicate</span><br><span class="line"></span><br><span class="line">javax.persistence.criteria.Expression</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>上述对象能最大程度实现灵活的查询,加上 org.springframework.data.domain.Page可以最大程度的满足查询的需要</p>
-<h2 id="编辑和新增数据"><a href="#编辑和新增数据" class="headerlink" title="编辑和新增数据"></a>编辑和新增数据</h2><p>在自己实现的方法需要 @modify才会生效</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/pkainulainen/spring-data-jpa-examples/blob/master/tutorial-part-seven/src/test/java/net/petrikainulainen/spring/datajpa/repository/PersonSpecificationsTest.java">spring-data-jpa-examples/PersonSpecificationsTest.java at master · pkainulainen/spring-data-jpa-examples</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-seven-pagination/">Spring Data JPA Tutorial: Pagination</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.baeldung.com/mockito-java-8">Mockito’s Java 8 Features | Baeldung</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mac初始化环境配置加优化" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/ea7eedfa.html" class="article-date">
-      <time datetime="2022-09-09T09:30:35.000Z" itemprop="datePublished">2022-09-09</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ea7eedfa.html">mac初始化环境配置加优化</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>Cmd + Shift +。 （点）  显示隐藏文件</p>
-<p>fn + command + enter    insert快捷键</p>
-<p>option + cmd +l 格式化</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>Cmd + Shift +。 （点）  显示隐藏文件</p>
-<p>fn + command + enter    insert快捷键</p>
-<p>option + cmd +l 格式化</p>
-<p>ctr + option +o 除去多的导入包</p>
-<p>cmd+ + 增加</p>
-<p>cmd+ - 缩小</p>
-<p>cmd +n 新窗口</p>
-<p>cmd+t 新标签页</p>
-<p>cmd+w 退出当前页</p>
-<p>cmd+ option + p  显示当前路径</p>
-<p>ctrl+左右的箭头切换工作区</p>
-<p>三指拖移动  技术右键加移动</p>
-<p>发散手指 显示dashboard </p>
-<h2 id="gradle"><a href="#gradle" class="headerlink" title="gradle"></a>gradle</h2><p>init.gradle</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">allprojects&#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        def ALIYUN_REPOSITORY_URL &#x3D; &#39;http:&#x2F;&#x2F;maven.aliyun.com&#x2F;nexus&#x2F;content&#x2F;groups&#x2F;public&#39;</span><br><span class="line">        def ALIYUN_JCENTER_URL &#x3D; &#39;http:&#x2F;&#x2F;maven.aliyun.com&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;jcenter&#39;</span><br><span class="line">        all &#123; ArtifactRepository repo -&gt;</span><br><span class="line">            if(repo instanceof MavenArtifactRepository)&#123;</span><br><span class="line">                def url &#x3D; repo.url.toString()</span><br><span class="line">                if (url.startsWith(&#39;https:&#x2F;&#x2F;repo1.maven.org&#x2F;maven2&#39;)) &#123;</span><br><span class="line">                    project.logger.lifecycle &quot;Repository $&#123;repo.url&#125; replaced by $ALIYUN_REPOSITORY_URL.&quot;</span><br><span class="line">                    remove repo</span><br><span class="line">                &#125;</span><br><span class="line">                if (url.startsWith(&#39;https:&#x2F;&#x2F;jcenter.bintray.com&#x2F;&#39;)) &#123;</span><br><span class="line">                    project.logger.lifecycle &quot;Repository $&#123;repo.url&#125; replaced by $ALIYUN_JCENTER_URL.&quot;</span><br><span class="line">                    remove repo</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        maven &#123;</span><br><span class="line">            url ALIYUN_REPOSITORY_URL</span><br><span class="line">            url ALIYUN_JCENTER_URL</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="zshrc"><a href="#zshrc" class="headerlink" title="~/.zshrc"></a>~/.zshrc</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;Library&#x2F;Java&#x2F;JavaVirtualMachines&#x2F;zulu-11.jdk&#x2F;Contents&#x2F;Home</span><br><span class="line">export GRADLE_HOME&#x3D;&#x2F;Users&#x2F;XXX&#x2F;gradle-7.5</span><br><span class="line">export GRADLE_USER_HOME&#x3D;&#x2F;Users&#x2F;XXXX&#x2F;gradle-7.5&#x2F;repository</span><br><span class="line">export PATH&#x3D;$PATH:$GRADLE_HOME&#x2F;bin</span><br></pre></td></tr></table></figure>
-
-<p>使用 软连接python3 到python</p>
-<blockquote>
-<p>python: aliased to /usr/local/bin/python3</p>
-</blockquote>
-<h2 id="V2RayX-提供三种模式："><a href="#V2RayX-提供三种模式：" class="headerlink" title="V2RayX 提供三种模式："></a>V2RayX 提供三种模式：</h2><p><strong>全局模式：</strong>如果网络流量服从操作系统的网络规则，V2RayX 会要求 macOS 将所有互联网流量路由到 v2ray 核心。</p>
-<p><strong>PAC 模式：</strong>macOS 将根据 pac 文件确定路由，某些流量可能会路由到 v2ray 核心。</p>
-<p><strong>手动模式：</strong>V2RayX 不会修改任何 macOS 网络设置，只会启动或停止 v2ray 核心。</p>
-<p>菜单列表中的选项 Routing Rule 确定 v2ray 核心如何处理传入流量。核心路由规则适用于上述所有三种模式。</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/6/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/8/">下一页 </a>
@@ -1798,7 +1948,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2024 leek
+                2016-2025 leek
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>

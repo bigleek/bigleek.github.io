@@ -269,6 +269,439 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-synchronizer-upgrade" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3b9fc184.html" class="article-date">
+      <time datetime="2023-02-02T09:26:30.000Z" itemprop="datePublished">2023-02-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3b9fc184.html">synchronizer_upgrade</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>是一个c++类</p>
+<p>ObjectMonitor() {<br>    _header       = NULL;<br>    _count        = 0; //记录个数<br>    _waiters      = 0,<br>    _recursions   = 0;  // 线程重入次数<br>    _object       = NULL;<br>    _owner        = NULL;<br>    _WaitSet      = NULL; // 调用wait方法后的线程会被加入到_WaitSet<br>    _WaitSetLock  = 0 ;<br>    _Responsible  = NULL ;<br>    _succ         = NULL ;<br>    _cxq          = NULL ; // 阻塞队列，线程被唤醒后根据决策判读是放入cxq还是EntryList<br>    FreeNext      = NULL ;<br>    _EntryList    = NULL ; // 没有抢到锁的线程会被放到这个队列<br>    _SpinFreq     = 0 ;<br>    _SpinClock    = 0 ;<br>    OwnerIsThread = 0 ;<br>  }</p>
+<p>ObjectMonitor中有五个重要部分，分别为_ower,_WaitSet,_cxq,_EntryList和count。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>是一个c++类</p>
+<p>ObjectMonitor() {<br>    _header       = NULL;<br>    _count        = 0; //记录个数<br>    _waiters      = 0,<br>    _recursions   = 0;  // 线程重入次数<br>    _object       = NULL;<br>    _owner        = NULL;<br>    _WaitSet      = NULL; // 调用wait方法后的线程会被加入到_WaitSet<br>    _WaitSetLock  = 0 ;<br>    _Responsible  = NULL ;<br>    _succ         = NULL ;<br>    _cxq          = NULL ; // 阻塞队列，线程被唤醒后根据决策判读是放入cxq还是EntryList<br>    FreeNext      = NULL ;<br>    _EntryList    = NULL ; // 没有抢到锁的线程会被放到这个队列<br>    _SpinFreq     = 0 ;<br>    _SpinClock    = 0 ;<br>    OwnerIsThread = 0 ;<br>  }</p>
+<p>ObjectMonitor中有五个重要部分，分别为_ower,_WaitSet,_cxq,_EntryList和count。</p>
+<p>_ower 用来指向持有monitor的线程，它的初始值为NULL,表示当前没有任何线程持有monitor。当一个线程成功持有该锁之后会保存线程的ID标识，等到线程释放锁后_ower又会被重置为NULL;<br>_WaitSet 调用了锁对象的wait方法后的线程会被加入到这个队列中；<br>_cxq  是一个阻塞队列，线程被唤醒后根据决策判读是放入cxq还是EntryList;<br>_EntryList 没有抢到锁的线程会被放到这个队列；<br>count 用于记录线程获取锁的次数，成功获取到锁后count会加1，释放锁时count减1。</p>
+<p>当有一个线程获得synchronized锁后，monitor对象中的count就会被加1，并且会将这个线程的id存入到monitor的_ower中。此时，如果其他线程来尝试拿锁则会被放入到_EntryList队列中阻塞。<br>还记得上一节中我们立的一个Flag了吗？synchronized锁的是container对象，而wait和notify也是container对象的方法，这么一看我们上一节中留下的问题就有些眉目了。是不是调用wait方法的时候线程也会被加入到一个等待队列，而等到notify或者notifyAll的时候再从等待队列中将线程唤醒呢？关于这个问题在这一次，彻底搞懂Java中的synchronized关键字这篇文章中其实已经有解读了，就是调用wait方法的线程会被加入到一个_WaitSet集合中，并会将线程挂起。但是，这里要再次强调一下_WaitSet与_EntryList这两个集合。_EntryList集合中存放的是没有抢到锁，而被阻塞的线程，而_WaitSet集合中存放的是调用了wait方法后，处于等待状态的线程。**<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6977993272538955806">这一次，彻底搞懂Java并发包中的Atomic原子类 - 掘金</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6975435256111300621">这一次，彻底搞懂Java中的ReentrantLockt实现原理 - 掘金</a></p>
+<p>作者：赌一包辣条<br>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6973571891915128846">https://juejin.cn/post/6973571891915128846</a><br>来源：稀土掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ConcurrentHashMap解析-转载" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/b7c8f71.html" class="article-date">
+      <time datetime="2023-02-02T03:41:43.000Z" itemprop="datePublished">2023-02-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/09/java/hashmap-xiang-guan-lei-jie-xi/">HashMap相关类：Hashtable、LinkHashMap、TreeMap | HuanBlog</a> </p>
+<p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/07/java/shen-ru-jie-xi-concurrenthashmap-gan-shou-bing-fa-bian-cheng-zhi-hui/">深入解析ConcurrentHashMap：感受并发编程智慧 | HuanBlog</a></p>
+<p>本次先简要讨论ConcurrentHashMap 顺便讨论下HashMap,HashTable这些Map的数据的结构,线程安全,在get,put部分的业务逻辑</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/09/java/hashmap-xiang-guan-lei-jie-xi/">HashMap相关类：Hashtable、LinkHashMap、TreeMap | HuanBlog</a> </p>
+<p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/07/java/shen-ru-jie-xi-concurrenthashmap-gan-shou-bing-fa-bian-cheng-zhi-hui/">深入解析ConcurrentHashMap：感受并发编程智慧 | HuanBlog</a></p>
+<p>本次先简要讨论ConcurrentHashMap 顺便讨论下HashMap,HashTable这些Map的数据的结构,线程安全,在get,put部分的业务逻辑</p>
+<p>ConcurrentHashMap : 是线程安全的主要是通过node来加锁,同时要结构是数组+链表,但是在1.7的版本是数组加链表 使用segemen的分块锁来完成</p>
+<p>HashMap: 数据加链表 分为大概是 hash函数–hash冲突–扩容方案–线程安全的设计</p>
+<p>HashTable: 1.2版本现在使用的少,它是基于synchronize对象来加锁的</p>
+<p>fast-fail  fail-safe</p>
+<p>记录一个count在并发的操作和影响</p>
+<p>最后我把<a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/07/java/shen-ru-jie-xi-concurrenthashmap-gan-shou-bing-fa-bian-cheng-zhi-hui/">深入解析ConcurrentHashMap：感受并发编程智慧 | HuanBlog</a>的这篇文章总结下(jdk 1.8)</p>
+<h3 id="CAS与自旋锁"><a href="#CAS与自旋锁" class="headerlink" title="CAS与自旋锁"></a>CAS与自旋锁</h3><p>主要是在并发下处理</p>
+<h3 id="如何控制并发"><a href="#如何控制并发" class="headerlink" title="如何控制并发"></a>如何控制并发</h3><h3 id="添加数据：putVal"><a href="#添加数据：putVal" class="headerlink" title="添加数据：putVal()"></a>添加数据：putVal()</h3><h3 id="初始化数组：initTable"><a href="#初始化数组：initTable" class="headerlink" title="初始化数组：initTable()"></a>初始化数组：initTable()</h3><h3 id="修改节点总数：addCount"><a href="#修改节点总数：addCount" class="headerlink" title="修改节点总数：addCount()"></a>修改节点总数：addCount()</h3><h3 id="扩容方案：transfer"><a href="#扩容方案：transfer" class="headerlink" title="扩容方案：transfer()"></a>扩容方案：transfer()</h3>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-kafka小结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/88809bac.html" class="article-date">
+      <time datetime="2023-01-04T02:56:08.000Z" itemprop="datePublished">2023-01-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/88809bac.html">kafka小结</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>kafka开源流处理平台，由Scala和Java编写。该项目的目标是为处理实时数据提供一个统一、高吞吐、低延迟的平台。这是维基百科上的描述,这也是区别于rabbitmq等其他的消息队列的特点,kafka基于订阅-消费模式,自定义的协议,不同于MQTT,AMPQ,JMS等这些协议</p>
+<ul>
+<li>Provider/MessageProvider：生产者</li>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>kafka开源流处理平台，由Scala和Java编写。该项目的目标是为处理实时数据提供一个统一、高吞吐、低延迟的平台。这是维基百科上的描述,这也是区别于rabbitmq等其他的消息队列的特点,kafka基于订阅-消费模式,自定义的协议,不同于MQTT,AMPQ,JMS等这些协议</p>
+<ul>
+<li>Provider/MessageProvider：生产者</li>
+<li>Consumer/MessageConsumer：消费者</li>
+<li><strong>PTP：Point To Point，点对点通信消息模型</strong></li>
+<li><strong>Pub/Sub：Publish/Subscribe，发布订阅消息模型</strong></li>
+<li>Queue：队列，目标类型之一，和PTP结合</li>
+<li>Topic：主题，目标类型之一，和Pub/Sub结合</li>
+<li>ConnectionFactory：连接工厂，JMS用它创建连接</li>
+<li>Connnection：JMS Client到JMS Provider的连接</li>
+<li>Destination：消息目的地，由Session创建</li>
+<li>Session：会话，由Connection创建，实质上就是发送、接受消息的一个线程，因此生产者、消费者都是Session创建的</li>
+</ul>
+<p>值得注意的是 在kafka中需要注意的名词包括 broke,topic,producer,consumer,partition,replica</p>
+<p>类似的</p>
+<h2 id="图解相关的kafka概念"><a href="#图解相关的kafka概念" class="headerlink" title="图解相关的kafka概念"></a>图解相关的kafka概念</h2><p><img src="../img/kafka.drawio.png" alt="未命名绘图-第 2 页.drawio"></p>
+<h2 id="leader-follower同步过程中截断机制"><a href="#leader-follower同步过程中截断机制" class="headerlink" title="leader,follower同步过程中截断机制"></a>leader,follower同步过程中截断机制</h2><p><a target="_blank" rel="noopener" href="https://learn.lianglianglee.com/%E4%B8%93%E6%A0%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%9E%E8%B7%B5%E4%B9%8B%E8%B7%AF%EF%BC%88%E5%AE%8C%EF%BC%89/14%20%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E8%A7%A3%E8%AF%BB%20Kafka%20%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%9C%BA%E5%88%B6.md#:~:text=2.-,%E6%88%AA%E6%96%AD%E6%9C%BA%E5%88%B6,-%E5%9C%A8%E7%AC%AC%2012">kafka截断机制</a></p>
+<p>注意在消费中HW(High Watermark).LEO(Log End Offset),在ISR(in-sync replica )列表需要保持hw一致,在leader变更中需要注意leo,HW(High Watermark)是所有副本中最小的LEO。</p>
+<p><img src="../img/image-20230104112036179.png" alt="image-20230104112036179"></p>
+<h2 id="针对kafka的幂等性PID-Producer-ID-和sequence-numbers。"><a href="#针对kafka的幂等性PID-Producer-ID-和sequence-numbers。" class="headerlink" title="针对kafka的幂等性PID(Producer ID)和sequence numbers。"></a>针对kafka的幂等性PID(Producer ID)和sequence numbers。</h2><p>product会维护一个生产序列seq来表现.如果对应的seq和broke的对不上</p>
+<p>product_seq&gt;broke_seq 消息丢失</p>
+<p>product_seq&lt;broke_seq+1 重复保存</p>
+<p>参考链接:<a target="_blank" rel="noopener" href="https://juejin.cn/post/7084062283453693965">Kafka的ISR机制+日志数据清理 - 掘金</a>,<a target="_blank" rel="noopener" href="https://www.cnblogs.com/dw3306/p/14318226.html">MQ（消息队列）的使用场景以及常见的MQ - 邓维-java - 博客园</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-springAOP和bean生命周期" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/45ca8a5d.html" class="article-date">
+      <time datetime="2023-01-04T02:28:01.000Z" itemprop="datePublished">2023-01-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/45ca8a5d.html">springAOP和bean生命周期</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>Springboot是Spring的脚手架,提供的自动配置功能初始化spring的ioc容器,</p>
+<p>BeanDefinition:可以理解为定义bean</p>
+<p>bean的生命周期,大部分初始化和赋值在AbstractAutowireCapableBeanFactory.doCreateBean 下来定义的: </p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>Springboot是Spring的脚手架,提供的自动配置功能初始化spring的ioc容器,</p>
+<p>BeanDefinition:可以理解为定义bean</p>
+<p>bean的生命周期,大部分初始化和赋值在AbstractAutowireCapableBeanFactory.doCreateBean 下来定义的: </p>
+<pre><code>- 创建bean
+- 赋值和变量
+- 初始化bean 包括 BeanPostProcessor,initMethod等
+- AOP相关的内容
+- 被销毁</code></pre>
+<p><img src="../img/instantation.jpg" alt="/assets/images/bean/instantation.jpg"></p>
+<p>SpringApplicationContext:Spring的容器负责放置初始化好的bean</p>
+<p>SpringFactoriesLoader  加载 spring.factories</p>
+<p>1． 生成一个SpringApplication的对象</p>
+<ul>
+<li>1． webApplicationType ＝ 推测web应用类型（NONE、REACTIVE、SERVLET）</li>
+<li>2． 从spring．factories中获取BootstrapRegistryInitializer对象</li>
+<li>3． initializers ＝ 从spring．factories中获取ApplicationContextInitializer对象</li>
+<li>4． listeners ＝ 从spring．factories中获取ApplicationListener对象</li>
+</ul>
+<p>2． SpringApplication的对象．run（）</p>
+<ul>
+<li>1． 获取SpringApplicationRunListener—-＞EventPublishingRunListener</li>
+<li>\2. SpringApplicationRunListener.starting()</li>
+<li>3．创建一个Spring容器</li>
+<li>4． ApplicationContextInitializer—＞初始化Spring容器</li>
+<li>\5. SpringApplicationRunListener.contextPrepared()</li>
+<li>6． 把传给run方法的配置类注册成为一个Bean</li>
+<li>\7. SpringApplicationRunListener.contextLoaded()</li>
+<li>8．会解析配置类、扫描、启动Tomcat／Jetty／Undertow</li>
+<li>(AutoConfigurationImportSelector,DeferredImportSelector)</li>
+<li>\9. SpringApplicationRunListener.started() I</li>
+<li>10.</li>
+<li>\10. SpringApplicationRunListener.ready()</li>
+</ul>
+<h2 id="从注解开始说"><a href="#从注解开始说" class="headerlink" title="从注解开始说"></a>从注解开始说</h2><p>@enableSpringAutoConfig -&gt;Configeration -&gt;inportSelector-&gt; AutoConfigurationImportSelector</p>
+<p>@SpringBootConfig- mapperScan</p>
+<p>@ComponentScan</p>
+<p>autoConfigerationSelector.class 会解析 autoconfig包下面的bean.factory</p>
+<h2 id="从SpringBoot-run-说"><a href="#从SpringBoot-run-说" class="headerlink" title="从SpringBoot.run()说"></a>从SpringBoot.run()说</h2><p><img src="../img/image-20230104122503870.png" alt="image-20230104122503870"></p>
+<p>SpringApplication.run()入口</p>
+<p>AbstractApplicationContext.refresh()创建了ApplicationContext容器后刷新</p>
+<p>DefaultListableBeanFactory,deGetBean()  ApplicationContext集成了 ListableBeanFactory</p>
+<p>DefaultSingletonBeanRgistry.getSingleton() 获取单例的bean实例</p>
+<p>AbstractAutowireCapableBeanFactory.createBean();创建对应的bean对应上面的Bean的生命周期</p>
+<p>newInstance() 初始化一个bean实例</p>
+<p>在refresh()方法下对应的方法注释:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">()</span> <span class="keyword">throws</span> BeansException, IllegalStateException </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">            <span class="comment">//1:准备刷新上下文环境</span></span><br><span class="line">            prepareRefresh();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//2:获取初始化Bean工厂</span></span><br><span class="line">            ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//3:对bean工厂进行填充属性</span></span><br><span class="line">            prepareBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">//4:Spring开放接口 留给子类去实现该接口</span></span><br><span class="line">                postProcessBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//5:调用我们的bean工厂的后置处理器</span></span><br><span class="line">                invokeBeanFactoryPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//6:注册我们bean后置处理器 </span></span><br><span class="line">                registerBeanPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//7:初始化国际化资源处理器</span></span><br><span class="line">                initMessageSource();</span><br><span class="line"></span><br><span class="line">                <span class="comment">//8:初始化事件多播器</span></span><br><span class="line">                initApplicationEventMulticaster();</span><br><span class="line"></span><br><span class="line">                <span class="comment">//9:这个方法同样也是留个子类实现,其中springboot也是从这个方法进行tomcat的启动</span></span><br><span class="line">                onRefresh();</span><br><span class="line"></span><br><span class="line">                <span class="comment">//10:把我们的事件监听器注册到多播器上</span></span><br><span class="line">                registerListeners();</span><br><span class="line"></span><br><span class="line">                <span class="comment">//11:实例化所有的非懒加载的单实例bean</span></span><br><span class="line">                finishBeanFactoryInitialization(beanFactory);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//12:最后刷新容器 发布刷新事件(Spring cloud eureka也是从这里启动的)</span></span><br><span class="line">                finishRefresh();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">catch</span> (BeansException ex) &#123;</span><br><span class="line">                <span class="keyword">if</span> (logger.isWarnEnabled()) &#123;</span><br><span class="line">                    logger.warn(<span class="string">&quot;Exception encountered during context initialization - &quot;</span> +</span><br><span class="line">                            <span class="string">&quot;cancelling refresh attempt: &quot;</span> + ex);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Destroy already created singletons to avoid dangling resources.</span></span><br><span class="line">                destroyBeans();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Reset &#x27;active&#x27; flag.</span></span><br><span class="line">                cancelRefresh(ex);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Propagate exception to caller.</span></span><br><span class="line">                <span class="keyword">throw</span> ex;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">finally</span> &#123;</span><br><span class="line">                <span class="comment">// Reset common introspection caches in Spring&#x27;s core, since we</span></span><br><span class="line">                <span class="comment">// might not ever need metadata for singleton beans anymore...</span></span><br><span class="line">                resetCommonCaches();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="../img/640_spring_bean.png" alt="图片"></p>
+<h2 id="postProcessBeanFactory"><a href="#postProcessBeanFactory" class="headerlink" title="postProcessBeanFactory()"></a>postProcessBeanFactory()</h2><h2 id="invokeBeanFactoryPostProcessors"><a href="#invokeBeanFactoryPostProcessors" class="headerlink" title="invokeBeanFactoryPostProcessors()"></a>invokeBeanFactoryPostProcessors()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">processConfigBeanDefinitions的调用逻辑</span><br><span class="line"> 读取所有的自动配置类(带有<span class="meta">@Configuration</span>注解的类)</span><br><span class="line"> 相当于加载beanDefination</span><br><span class="line"> invokeBeanFactoryPostProcessors实现这两个接口可以定制</span><br><span class="line">    - BeanDefinitionRegistry对象</span><br><span class="line">    - ConfigurableListableBeanFactory对象。</span><br><span class="line">    </span><br><span class="line">    AbstractAutowireCapableBeanFactory.doCreateBean() 下的方法熟悉</span><br><span class="line">    - populateBean()</span><br><span class="line">    - initializeBean()</span><br><span class="line">    - applyBeanPostProcessorsBeforeInitialization()</span><br><span class="line">    		- processor.postProcessBeforeInitialization(result, beanName)</span><br><span class="line">    			- invokeAwareInterfaces</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<p><img src="../img/image-20230106123943743.png" alt="image-20230106123943743"></p>
+<h2 id="onRefresh"><a href="#onRefresh" class="headerlink" title="onRefresh();"></a>onRefresh();</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AbstractApplicationContext.onRefresh 是空但是AnnotationConfigServletWebServerApplicationContext是实际实现的类,下面有留言</span><br></pre></td></tr></table></figure>
+
+<p>​        /**</p>
+<p>Create a new {@link AnnotationConfigServletWebServerApplicationContext} that needs</p>
+<ul>
+<li>to be populated through {@link #register} calls and then manually</li>
+<li>{@linkplain #refresh refreshed}.<br>   */<br>AnnotationConfigServletWebServerApplicationContext 继承了ServletWebServerApplicationContext 实现实现onRefresh的类是 </li>
+</ul>
+<p><img src="../img/image-20230106124800528.png" alt="image-20230106124800528"></p>
+<p>实际会启动tomcat服务的</p>
+<p><img src="../img/image-20230106125919039.png" alt="image-20230106125919039"></p>
+<p>启动</p>
+<p><img src="../img/image-20230106131402394.png" alt="image-20230106131402394"></p>
+<p><img src="../img/image-20230106131700726.png" alt="image-20230106131700726"></p>
+<p>在探究AOP原理之前，让我们先来了解AOP的术语：</p>
+<p>Aspect（切面）：要实现的散布应用中多处的功能，例如日志记录；</p>
+<p>Joinpoint（连接点）：应用执行中可以插入切面的点，这个点可以是方法调用、异常抛出甚至是字段值修改，由于Spring AOP构建在动态代理的基础上，所以连接点只支持方法层面；</p>
+<p>Pointcut（切点）：定义了切面应该插入到哪些连接点，我们并不希望切面插入到所有的连接点，切点能让我们决定切面应该插入到哪些连接点；</p>
+<p>Weaving（织入）：把切面插入到目标对象上并生成新的代理对象的过程。我们可以在目标对象的编译期（需要特殊的编译器）、类加载期（需要特殊的类加载器）或运行期织入，由于Spring AOP构建在动态代理的基础上，所以只支持在运行期织入；</p>
+<p>Introduction（引入）：为目标对象添加新方法或新属性的过程，引入使得在不改变目标对象的情况下，让目标对象具有新的行为和状态；</p>
+<p>Advice（通知）：定义了切面何时被触发，Spring目前有5种类型的通知，分别是：BeforeAdvice（前置通知）、AfterAdvice（后置通知）、AfterReturningAdvice（返回通知）、ThrowsAdvice（异常通知）和AroundAdvice（环绕通知）。</p>
+<p><img src="../img/04170857_Aoog.jpg" alt="one-ok"></p>
+<p>参考链接:<a target="_blank" rel="noopener" href="https://juejin.cn/post/7155884227714613285">聊透Spring bean的生命周期 - 掘金</a>,<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/130309481?utm_id=0">Spring Boot详细生命周期介绍 - 知乎</a>,<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/123008720">Spring详细生命周期介绍 - 知乎</a>,<a target="_blank" rel="noopener" href="https://blog.csdn.net/java_green_hand0909/article/details/90238242">@Pointcut()的execution、@annotation等参数说明<em>Normal Developer的博客-CSDN博客</em>@annotation</a> ,<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/kKHJPehbnCeoiR_BtCxSWw">Spring IOC和Bean生命周期源码分析</a> ,<a target="_blank" rel="noopener" href="https://juejin.cn/post/7185934630116130872">Spring中Bean注入源码分析 - 掘金</a> </p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-集合相关总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -943,556 +1376,6 @@
 
 
   
-    <article id="post-ananotation-async介绍和使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3766dac5.html" class="article-date">
-      <time datetime="2022-11-28T08:28:29.000Z" itemprop="datePublished">2022-11-28</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3766dac5.html">ananotation_async介绍和使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/768513">Spring中异步注解@Async的使用、原理及使用时可能导致的问题-阿里云开发者社区</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mysql-json函数使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/7c7b32f9.html" class="article-date">
-      <time datetime="2022-11-23T12:07:46.000Z" itemprop="datePublished">2022-11-23</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/7c7b32f9.html">mysql_json函数使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57904266/how-to-use-mysql-json-contains-with-jpa-specification">How to use mysql “json_contains” with JPA Specification - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36249828/how-to-search-json-array-in-mysql">How to search JSON array in MySQL? - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/66576018/mysql-json-extract-value-of-property-based-on-criteria">json - MySQL JSON_EXTRACT value of property based on criteria - Stack Overflow</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57904266/how-to-use-mysql-json-contains-with-jpa-specification">How to use mysql “json_contains” with JPA Specification - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36249828/how-to-search-json-array-in-mysql">How to search JSON array in MySQL? - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/66576018/mysql-json-extract-value-of-property-based-on-criteria">json - MySQL JSON_EXTRACT value of property based on criteria - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fenglailea/article/details/124687284">spring jpa function(函数) JSON_EXTRACT 复杂查询，jpa josn查询_风.foxwho的博客-CSDN博客_jpa json查询</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.docs4dev.com/docs/zh/mysql/5.7/reference/json-search-functions.html#function_json-contains">MySql 中文文档 - 12.17.3 搜索 JSON 值的函数 | Docs4dev</a></p>
-<p>json字符串搜索模糊匹配等相关的内容</p>
-<p>1.JSON_SEARCH 直接使用这个来查询还可以模糊匹配</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	SELECT</span><br><span class="line">	JSON_SEARCH(</span><br><span class="line">&#39;[&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444417&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;,&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444416&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;]&#39;,</span><br><span class="line">		&#39;all&#39;,</span><br><span class="line">		&#39;%44444%&#39;,</span><br><span class="line">	NULL,</span><br><span class="line">	&#39;$**.sticker&#39;)</span><br></pre></td></tr></table></figure>
-
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM incident_report WHERE (JSON_SEARCH(users,&#39;one&#39;,&#39;39717&#39;,null,&#39;$**.id&#39;) is not null)</span><br><span class="line">SELECT users FROM incident_report LIMIT 10  15890    qrCode  44444403</span><br><span class="line">SELECT JSON_SEARCH(users,&#39;one&#39;,&#39;%51230%&#39;,null,&#39;$**.qrCode&#39;) FROM incident_report LIMIT 10</span><br></pre></td></tr></table></figure>
-
-<p> 2.JSON_EXTRACT(解析json数据),使用JSON_CONTAIN来查询 解析后的JSON信息</p>
-<p>对对于是数组里面的特定对象字段譬如 下面这种,这需要进一步抽取</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444417&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;,&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444416&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;]</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>JSON_CONTAINS(JSON_EXTRACT(json_field, ‘$[*].id’), 11, ‘$’)    </p>
-</blockquote>
-<pre><code>SELECT JSON_EXTRACT(users,&#39;$.id&#39;) FROM incident_report LIMIT 10
-SELECT JSON_EXTRACT(users, &#39;$[*].userTrips[*].id&#39;) FROM incident_report LIMIT 10
-SELECT users,JSON_CONTAINS(JSON_EXTRACT(users, &#39;$[*].userTrips[*].id&#39;), &#39;12689&#39;, &#39;$&#39;) FROM incident_report LIMIT 10</code></pre>
-<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/json-search-functions.html">https://dev.mysql.com/doc/refman/5.7/en/json-search-functions.html</a>)</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-spring缓存管理Redis-本地" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/a0b38034.html" class="article-date">
-      <time datetime="2022-11-22T06:27:34.000Z" itemprop="datePublished">2022-11-22</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/a0b38034.html">spring缓存管理Redis+本地</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-multiple-cache-managers">Using Multiple Cache Managers in Spring | Baeldung</a></p>
-<p>caffice+redis</p>
-<p>```java</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-multiple-cache-managers">Using Multiple Cache Managers in Spring | Baeldung</a></p>
-<p>caffice+redis</p>
-<p>```java</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-transactionl介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/f3616705.html" class="article-date">
-      <time datetime="2022-11-21T06:03:48.000Z" itemprop="datePublished">2022-11-21</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/f3616705.html">transactionl介绍(转载)</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><blockquote>
-<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/rvcb6xzBODqbCE03bwsKag">https://mp.weixin.qq.com/s/rvcb6xzB…</a></p>
-</blockquote>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <blockquote>
-<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/rvcb6xzBODqbCE03bwsKag">https://mp.weixin.qq.com/s/rvcb6xzB…</a></p>
-</blockquote>
-<blockquote>
-<p>⏰ 剪存时间：2022-11-21 11:52:31 (UTC+8)</p>
-</blockquote>
-<blockquote>
-<p>✂️ 本文档由 <a target="_blank" rel="noopener" href="https://www.feishu.cn/hc/zh-CN/articles/606278856233?from=in_ccm_clip_doc">飞书剪存 </a>一键生成</p>
-</blockquote>
-<p>veezean 石杉的架构笔记 <em>2022-11-16 07:50 发表于 江苏</em></p>
-<p>「 关注 “石杉的架构笔记” ，大厂架构经验 倾囊相授 」</p>
-<h2 id="文章来源：【公众号：架构悟道-】"><a href="#文章来源：【公众号：架构悟道-】" class="headerlink" title="文章来源：【公众号：架构悟道 】"></a><strong>文章来源：【公众号：架构悟道 】</strong></h2><p>在大部分涉及到数据库操作的项目里面， <strong>事务控制、事务处理都是一个无法回避的问题</strong> 。比如，需要对SQL执行过程进行事务的控制与处理的时候，其整体的处理流程会是如下的示意：</p>
-<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MzllYTI1MTQ5ZjU1ODk1YWEwNTQ5MWNjMzljZWYyOTZfZzIzQ1pxaDR6d0ZoTDlxUVVKNnpqa01OamNiam1Kck1fVG9rZW46Ym94Y25hek01d0RUR1IwMDVqTmFNYnoxeUtiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
-<p>首先是要开启事务、然后执行具体SQL，如果执行异常则回滚事务，否则提交事务，最后关闭事务，完成整个处理过程。按照这个流程的逻辑，写一下对应的实现代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">public void testJdbcTransactional(DataSource dataSource) &#123;</span><br><span class="line">    Connection conn = null;</span><br><span class="line">    int result = 0;</span><br><span class="line">    try &#123;</span><br><span class="line">        // 获取链接</span><br><span class="line">        conn = dataSource.getConnection();</span><br><span class="line">        // 禁用自动事务提交，改为手动控制</span><br><span class="line">        conn.setAutoCommit(false);</span><br><span class="line">        // 设置事务隔离级别</span><br><span class="line">        conn.setTransactionIsolation(</span><br><span class="line">            TransactionIoslationLevel.READ_COMMITTED.getLevel()</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        // 执行SQL</span><br><span class="line">        PreparedStatement ps = </span><br><span class="line">            conn.prepareStatement(&quot;insert into user (id, name) values (?, ?)&quot;);</span><br><span class="line">        ps.setString(1, &quot;123456&quot;);</span><br><span class="line">        ps.setString(2, &quot;Tom&quot;);</span><br><span class="line">        result = ps.executeUpdate();</span><br><span class="line"></span><br><span class="line">        // 执行成功，手动提交事务</span><br><span class="line">        conn.commit();</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        // 出现异常，手动回滚事务</span><br><span class="line">        if (conn != null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                conn.rollback();</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                // write log...</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        // 执行结束，最终不管成功还是失败，都要释放资源，断开连接</span><br><span class="line">        try &#123;</span><br><span class="line">            if (conn != null &amp;&amp; !conn.isClosed()) &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">             // write log...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>不难发现，上面大段的代码逻辑并不复杂，对于业务而言其实仅仅只是执行了一个insert操作而已。但是杂糅的事务控制代码，显然 <strong>干扰了业务自身的代码处理逻辑的阅读与理解</strong> 。</p>
-<p>常规项目的代码中，涉及到DB处理的场景很多，如果每个地方都有这么一段事务控制的逻辑，那么整体代码的可维护性将会比较差，想想都令人窒息。</p>
-<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzYwOGYwNjM2Y2JlMTVmOTJhNjY0ZmY3YjE0M2MyNjVfSWZuQXc2ZFI2UjBzZjZZY0JKZHhiOUtSWU9UcGduU09fVG9rZW46Ym94Y25MMzAxVXhmakMzRjFZUHZQTFZTTkpjXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
-<p>好在，JAVA中很多项目现在都是基于Spring框架进行构建的。得益 于 Spring框架的封装，业务代码中进行事务控制操作起来也很简单，直接加个 @Transactional注解即可，大大简化了对业务代码的 <strong>侵入性</strong> 。那么对 @Transactional事务注解了解的够全面吗？知道有哪些场景可能会导致 @Transactional注解并不会如你预期的方式生效吗？知道应该怎么使用 @Transactional才能保证对性能的影响最小化吗？</p>
-<p>下面我们一起探讨下这些问题。</p>
-<blockquote>
-<p><strong>Spring声明式事务处理机制</strong></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<p>为了简化业务开发场景对事务的处理复杂度，让开发人员可以更关注于业务自身的处理逻辑， <strong>Spring</strong> 提供了声明式事务的能力支持。</p>
-<p><strong>Spring</strong> 数据库事务约定处理逻辑流程如下图所示，对比前面示例中基于 <strong><code>JDBC</code></strong> 的事务处理，Spring的事务的处理操作交给了 <strong>Spring框架</strong> 处理，开发人员仅需要实现自己的业务逻辑即可，大大简化了事务方面的处理投入。</p>
-<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NzMxMjNhOGRhYTE5ZDU0NjIzM2RiZmYwZDI5Y2VmZDdfcTBjVGhoRFlpSU1HMzhuR2U3dWw0VWt5dDBBYWU0VlBfVG9rZW46Ym94Y25lZGZ3ZzRZWEUwMmlKT3ZuNUpadnRoXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
-<p>基于Spring事务机制，实现上述DB操作事务控制的代码，我们的代码会变得非常的简洁：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    userDao.insertUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>与JDBC事务实现代码相比，基于Spring的方式只需要添加一个 <strong><code>@Transactional</code></strong> 注解即可，代码中只需要实现业务逻辑即可，实现了事务控制机制对业务代码的 <strong>低侵入性</strong> 。</p>
-<p>Spring支持的基于 <strong><code>Spring AOP</code></strong> 实现的 <strong>声明式事务</strong> 功能，所谓声明式事务，即使用@Transactional注解进行声明标注，告诉Spring框架在什么地方启用数据库事务控制能力。 <strong><code>@Transactional</code></strong> 注解， <em>可以添加在类或者方法上</em> 。如果其添加在类上时，表明此类中所有的 <em>public非静态方法</em> 都将启用事务控制能力。</p>
-<p>既然@Transactional注解承载了Spring框架对于事务处理的相关能力，那么接下来我们就一起看下该注解的一些可选配置以及具体使用场景。</p>
-<blockquote>
-<p><strong>@Transactional主要可选配置</strong></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<p>只读事务配置</p>
-<p>通过 <strong><code>readonly</code></strong> 参数指定当前事务是否为一个只读事务。设置为true标识此事务是个只读事务，默认情况为false。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(readOnly = true)</span><br><span class="line">public DomResponse&lt;CiCdItemDetail&gt; queryCicdItemDetail(String appCode) &#123;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这里涉及一个概念，叫做 <strong>只读事务</strong> ，其含义描述如下：</p>
-<blockquote>
-<p>在多条查询语句一起执行的场景里面会涉及到的概念。表示在事务设置的那一刻开始，到整个事务执行结束的过程中，其他事务所提交的写操作数据，对该事务都不可见。</p>
-</blockquote>
-<p>举个例子：</p>
-<blockquote>
-<p>现在有一个复合查询操作，包含2条SQL查询操作：先获取用户表count数，再获取用户表中所有数据。 (1) 先执行完获取用户表count数，得到结果10 (2) 在还没开始执行后一条语句的时候，另一个进程操作了DB并往用户表中插入一条新数据 (3) 复合操作的第二条SQL语句，获取用户列表的操作被执行，返回了11条记录</p>
-</blockquote>
-<p>很明显，复合操作中的两条SQL语句获取的数据结果无法匹配上。原因就是非原子性操作导致，即2条查询操作执行的间隔内，有另一个写操作修改了目标读取的数据，导致了此问题的出现。</p>
-<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YzZhNzIwYWNhZWZkY2E1NWViMDE3MWJmYzQyZGY0YTlfV2t0R05OQXV1MmgzYlM4dUJtdnRObWRJckpqOThkQzhfVG9rZW46Ym94Y25zUTA3dkpQdmk5aXRtMXpNRWNVZURoXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
-<p>为了避免此情况的发生，可以给复合查询操作添加上只读事务，这样事务控制范围内，事务外的写操作就不可见，这样就保证了事务内多条查询语句执行结果的一致性。</p>
-<p>那为什么要设置为只读事务、而不是常规的事务呢？主要是从执行效率角度的考虑。因为这个里的操作都是一些只读操作，所以设置为只读事务，数据库会为只读事务提供一些优化手段，比如不启动回滚段、不记录回滚log之类的。</p>
-<p>回滚条件设定</p>
-<p><strong><code>@Transactional</code></strong> 有提供4个不同属性，可以支持传入不同的参数，设定需要回滚的条件：</p>
-<table>
-<thead>
-<tr>
-<th><strong>参数</strong></th>
-<th><strong>含义说明</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>rollbackFor</td>
-<td>用于指定需要回滚的特定异常类型，可以指定一个或者多个。当指定 <strong><code>rollbackFor</code></strong> 或者 <strong><code>rollbackForClassName</code></strong> 之后，方法执行逻辑中只有抛出指定的异常类型，才会触发事务回滚</td>
-</tr>
-<tr>
-<td>rollbackForClassName</td>
-<td>与 <strong><code>rollbackFor</code></strong> 相同，设置字符串格式的类名</td>
-</tr>
-<tr>
-<td>noRollbackFor</td>
-<td>用于指定不需要进行回滚的异常类型，当方法中抛出指定类型的异常时，不进行事务回滚。而其余的类型的异常将会触发事务回滚。</td>
-</tr>
-<tr>
-<td>noRollbackForClassName</td>
-<td>与 <strong><code>noRollbackFor</code></strong> 相同，设置字符串格式的类名</td>
-</tr>
-</tbody></table>
-<p>其中，rollbackFor支持指定单个或者多个异常类型，只要抛出指定类型的异常，事务都将被回滚掉：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 指定单个异常</span><br><span class="line">@Transactional(rollbackFor = DemoException.class)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 指定多个异常</span><br><span class="line">@Transactional(rollbackFor = &#123;DemoException.class, DemoException2.class&#125;)</span><br><span class="line">public void insertUser2() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong><code>rollbackFor</code></strong> 和 <strong><code>rollbackForClassName</code></strong> 作用相同，只是提供了2个不同的指定方法，允许执行Class类型或者ClassName字符串。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 指定异常名称</span><br><span class="line">@Transactional(rollbackForClassName = &#123;&quot;DemoException&quot;&#125;)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    // do something here</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>同理， <strong><code>noRollbackFor</code></strong> 和 <strong><code>noRollbackForClassName</code></strong> 的使用与上面示意的相似，只是其含义功能点是相反的。</p>
-<p>事务传播行为</p>
-<p><strong><code>propagation</code></strong> 用于指定此事务对应的传播类型。所谓的事务传播类型，即当前已经在一个事务的上下文中时，又需要开始一个事务，这个时候来处理这个将要开启的新事务的处理策略。</p>
-<p>主要有7种类型的事务传播类型：</p>
-<table>
-<thead>
-<tr>
-<th><strong>传播类型</strong></th>
-<th><strong>含义描述</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>REQUIRED</td>
-<td>如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务</td>
-</tr>
-<tr>
-<td>SUPPORTS</td>
-<td>如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行</td>
-</tr>
-<tr>
-<td>MANDATORY</td>
-<td>如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常</td>
-</tr>
-<tr>
-<td>REQUIRES_NEW</td>
-<td>创建一个新的事务，如果当前存在事务，则把当前事务挂起</td>
-</tr>
-<tr>
-<td>NOT_SUPPORTED</td>
-<td>以非事务方式运行，如果当前存在事务，则把当前事务挂起</td>
-</tr>
-<tr>
-<td>NEVER</td>
-<td>以非事务方式运行，如果当前存在事务，则抛出异常</td>
-</tr>
-<tr>
-<td>NESTED</td>
-<td>如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于REQUIRED</td>
-</tr>
-</tbody></table>
-<p>事务的传播行为，将会影响到事务控制的结果，比如最终是在同一事务中，一旦遇到异常，所有操作都会被回滚掉，而如果是在多个事务中，则某一个事务的回滚，不影响已提交的其余事务的回滚。</p>
-<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NDkyMDQ1OTg4NThmYWYzOGE5YjAxOTM2ODQzMDk0ZTVfRjhQUkNjcWhYUmRwNHlIUEFMNndkb3dxb3BSSnR2Wm1fVG9rZW46Ym94Y25rNTk2YWRHSFRrd2QwMlJJVTV2TlBiXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
-<p>实际编码的时候，可以通过@Transactional注解中的 <strong><code>propagation</code></strong> 参数来指定具体的传播类型，取值由 <strong><code>org.springframework.transaction.annotation.Propagation</code></strong> 枚举类提供。如果不指定，则默认取值为 <strong><code>Propagation.REQUIRED</code></strong> ，也即 <strong>如果当前存在事务，则加入该事务，如果当前没有事务，则创建一个新的事务</strong> 。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * The transaction propagation type.</span><br><span class="line"> * &lt;p&gt;Defaults to &#123;@link Propagation#REQUIRED&#125;.</span><br><span class="line"> * @see org.springframework.transaction.interceptor.TransactionAttribute#getPropagationBehavior()</span><br><span class="line"> */</span><br><span class="line">Propagation propagation() default Propagation.REQUIRED;</span><br></pre></td></tr></table></figure>
-
-<p>事务超时设定</p>
-<p>可以使用 <strong><code>timeout</code></strong> 属性来设置事务的超时秒数，默认值为-1，表示永不超时。</p>
-<blockquote>
-<p><strong>@Transactional失效场景避坑</strong></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<p>同一个类中方法间调用</p>
-<p>Spring的事务实现原理是AOP，而AOP的原理是动态代理。</p>
-<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NGNhYjZlYjJkOWIyNDFiZTI3ZWFkZjgyZmQ5YzA2NTBfdVRiRDBvQkNlZ00wWGROUmNKNW5jSEFwcldEdmkwNDVfVG9rZW46Ym94Y25HaDd6aUgxVTM2ZE1SWFk4d0F6UUVnXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
-<p>在类内部方法之间相互调用的时候，本质上是类对象自身的调用，而不是使用代理对象去调用，也就不会触发AOP，这样其实Spring也就无法将事务控制的代码逻辑织入到调用代码流程中，所以这里的事务控制就无法生效。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void insertUser() &#123;</span><br><span class="line">    writeDataIntoDb();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Transactional</span><br><span class="line">public void writeDataIntoDb() &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>所以遇到同一个类中多个方法之间相互调用，且调用的方法需要做事务控制的时候需要特别注意下这个问题。解决方式，可以建2个不同的类，然后将方法放到两个类中，这样跨类调用，Spring事务机制就可以生效。</p>
-<p>添加在非public方法上</p>
-<p>如果将@Transactional注解添加在protected、private修饰的方法上，虽然代码不会有任何的报错，但是实际上注解是不会生效的。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line">private void writeDataIntoDb() &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>方法内部Try Catch吞掉相关异常</p>
-<p>这个其实很容易理解，业务代码中将所有的异常给catch并吞掉了，等同于业务代码认为被捕获的异常不需要去触发回滚。对框架而言，因为异常被捕获了，业务逻辑执行都在正常往下运行，所以也不会触发异常回滚机制。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// catch了可能的异常，导致DB操作失败的时候事务不会触发回滚</span><br><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line"></span><br><span class="line">        // 直接吞掉了异常，这样不会触发事务回滚机制</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在业务处理逻辑中，如果确实需要知晓并捕获相关处理的异常进行一些额外的业务逻辑处理，如果要保证事务回滚机制生效，最后需要往外抛出 <strong><code>RuntimeException</code></strong> 异常，或者是继承RuntimeException实现的 <em>业务自定义异常</em> 。如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// catch了可能的异常，对外抛出RuntimeException或者其子类,可触发事务回滚</span><br><span class="line">@Transactional</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line"></span><br><span class="line">        // @Transactional没有指定rollbackFor，所以抛出RuntimeException或者其子类，可触发事务回滚机制</span><br><span class="line">        throw new RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当然，如果@Transactional注解指定了 <strong><code>rollbackFor</code></strong> 为某个具体的异常类型，则最终需要保证异常时对外抛出相匹配的异常类型，才可以触发事务处理逻辑。如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// catch了指定异常，对外抛出对应类型的异常,可触发事务回滚</span><br><span class="line">@Transactional(rollbackFor = DemoException.class)</span><br><span class="line">public void insertUser() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        UserEntity user = new UserEntity();</span><br><span class="line">        user.setWorkId(&quot;123456&quot;);</span><br><span class="line">        user.setUserName(&quot;王小二&quot;);</span><br><span class="line">        userRepository.save(user);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;failed to create user&quot;);</span><br><span class="line">        // @Transactional有指定rollbackFor，抛出异常要与rollbackFor指定异常类型一致</span><br><span class="line">        throw new DemoException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>对应数据库引擎类型不支持事务</p>
-<p>以 <strong>MySQL</strong> 数据库而言，常见的数据库引擎有 <strong><code>InnoDB</code></strong> 和 <strong><code>Myisam</code></strong> 等类型，但是 <strong>MYISAM引擎类型是不支持事务</strong> 的。所以如果建表时设置的引擎类型设置为 <strong><code>MYISAM</code></strong> 的话，即使代码里面添加了@Transactional最终事务也不会生效的。</p>
-<blockquote>
-<p><strong>@Transactional使用策略</strong></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<p>因为事务处理对性能会有一定的影响，所以事务也不是说任何地方都可以随便添加的。对于一些性能敏感场景，需要注意几点：</p>
-<ol>
-<li>仅在必要的场合添加事务控制</li>
-</ol>
-<blockquote>
-<p>（1）不含有DB操作相关，无需添加事务控制 （2）单条查询语句，没必要添加事务控制 （3）仅有查询操作的多条SQL执行场景，可以添加只读事务控制 （4）单条 <strong><code>insert/update/delete</code></strong> 语句，其实也不需要添加 <strong><code>@Transactional</code></strong> 事务处理，因为单条语句执行其实数据库有 <strong>隐性事务控制机制</strong> ，如果执行失败，是属于 <strong><code>SQL</code></strong> 报错，数据不会更新成功，自然也无需回滚。</p>
-</blockquote>
-<ol>
-<li>尽可能缩小事务控制的代码段处理范围</li>
-</ol>
-<blockquote>
-<p>主要从性能层面考虑，事务机制，类似于并发场景的加锁处理， <em>范围越大对性能影响越明显</em></p>
-</blockquote>
-<ol>
-<li>事务控制范围内的业务逻辑尽可能简单、避免非事务相关耗时处理逻辑</li>
-</ol>
-<blockquote>
-<p>也是从性能层面考虑，尽量将耗时的逻辑放到事务控制之外执行， <em>事务内仅保留与DB操作切实相关的逻辑</em></p>
-</blockquote>
-<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NjY0MzY1MzdmZTQzNGEwYTgzN2MyNjk0YWZmZmZiYmJfMHlQbVBNMmdab2VjMUJaU2NNQk51dFZuWjVvbTBqb1ZfVG9rZW46Ym94Y25nT29MU0szV2xLcEhKN28wMEk1S0dmXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
-<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM0ZmRmMjFiNmEwYjc1Mzc1M2QzYmI4NjU4NTJiODRfMG1DTFJjZE1YNFJIeHBrZVBacklXcVk5UVVEaEZ0Z0tfVG9rZW46Ym94Y25nc2lqbUNpMDl6Z0tYRURtRFVTMkVkXzE2NjkwMTA2NTM6MTY2OTAxNDI1M19WNA" alt="img"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/7/">下一页 </a>
@@ -1504,7 +1387,7 @@ SELECT users,JSON_CONTAINS(JSON_EXTRACT(users, &#39;$[*].userTrips[*].id&#39;), 
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2024 leek
+                2016-2025 leek
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>

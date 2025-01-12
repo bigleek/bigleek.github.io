@@ -269,6 +269,473 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-对象池及其学习common-pool2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/d3e6d00c.html" class="article-date">
+      <time datetime="2024-07-14T06:18:05.000Z" itemprop="datePublished">2024-07-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/d3e6d00c.html">对象池及其学习common-pool2</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>关于使用 Apache 下的 commons-pools 可以实现对象的池化对于经常需要重复使用不想重复创建的对象,同时提供自动调用和维护的方法来维持对象的存活,它通过使用对象池来提高性能和资源利用率，特别是在需要频繁创建和销毁对象的场景中。</p>
+<p>对于当前很多需要使用一些 SDK 来对接的一些服务来说就很方便对于对象存储的 SDK 来说其实对于的 SDK 提供了保活,只需要根据对接的服务来调用已经创建的客户端实例就可以,但是本次项目需要对接 SFTP,FTP的数据源,都是偏底层的服务,在使用过程中,需要使用客户端来创建 session 来进行通讯,而且创建 session 的过程。s</p>
+<p>相对较为耗时，为了提高整体系统性能，我们需要使用对象池来管理这些客户端实例,这样一来，我们可以显著减少客户端实例的创建和销毁次数，从而提高系统的响应速度和资源利用率。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>关于使用 Apache 下的 commons-pools 可以实现对象的池化对于经常需要重复使用不想重复创建的对象,同时提供自动调用和维护的方法来维持对象的存活,它通过使用对象池来提高性能和资源利用率，特别是在需要频繁创建和销毁对象的场景中。</p>
+<p>对于当前很多需要使用一些 SDK 来对接的一些服务来说就很方便对于对象存储的 SDK 来说其实对于的 SDK 提供了保活,只需要根据对接的服务来调用已经创建的客户端实例就可以,但是本次项目需要对接 SFTP,FTP的数据源,都是偏底层的服务,在使用过程中,需要使用客户端来创建 session 来进行通讯,而且创建 session 的过程。s</p>
+<p>相对较为耗时，为了提高整体系统性能，我们需要使用对象池来管理这些客户端实例,这样一来，我们可以显著减少客户端实例的创建和销毁次数，从而提高系统的响应速度和资源利用率。</p>
+<h2 id="对象池的其他使用场景"><a href="#对象池的其他使用场景" class="headerlink" title="对象池的其他使用场景"></a>对象池的其他使用场景</h2><p>除了管理 SFTP、FTP 等底层服务的客户端实例，对象池在以下场景中也非常有用：</p>
+<ol>
+<li><strong>数据库连接池</strong>：通过池化数据库连接，可以减少连接建立和关闭的开销，提高数据库操作的性能。</li>
+<li><strong>线程池</strong>：线程池用于管理工作线程，避免频繁创建和销毁线程，从而提高并发处理能力。</li>
+<li><strong>缓存对象池</strong>：在高频率访问的场景中，通过池化缓存对象可以减少内存分配和垃圾回收的压力。</li>
+<li><strong>网络连接池</strong>：池化网络连接可以提高网络通信的效率，特别是在高并发访问的场景中。</li>
+</ol>
+<h2 id="常见问题及解决方案"><a href="#常见问题及解决方案" class="headerlink" title="常见问题及解决方案"></a>常见问题及解决方案</h2><p>虽然对象池可以显著提高性能，但在使用过程中也可能遇到一些问题：</p>
+<h3 id="1-对象泄漏"><a href="#1-对象泄漏" class="headerlink" title="1. 对象泄漏"></a>1. 对象泄漏</h3><p>如果某些对象没有归还到池中，就会导致对象泄漏，从而影响池的可用性。解决方法是确保在任何情况下都能正确归还对象，最好使用 <code>try-finally</code> 或者 <code>try-with-resources</code> 语句来管理对象的借用和归还。</p>
+<h3 id="2-对象池配置不当"><a href="#2-对象池配置不当" class="headerlink" title="2. 对象池配置不当"></a>2. 对象池配置不当</h3><p>不合理的池配置可能会导致资源浪费或不足。例如，池的最大对象数设置过大可能会占用过多的内存，而设置过小则可能无法满足高并发需求。解决方法是根据实际需求和性能测试结果来调整配置参数。</p>
+<h3 id="3-对象的有效性"><a href="#3-对象的有效性" class="headerlink" title="3. 对象的有效性"></a>3. 对象的有效性</h3><p>池化的对象在借用和归还之间可能会失效，例如网络连接中断等。解决方法是实现对象的验证逻辑，在每次借用对象时进行有效性检查，如果对象无效则重新创建。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="如何使用-commons-pool2"><a href="#如何使用-commons-pool2" class="headerlink" title="如何使用 commons-pool2"></a>如何使用 commons-pool2</h2><p>要使用 commons-pool2，首先需要在项目中添加相关的依赖。对于使用 Maven 的项目，可以在 <code>pom.xml</code> 文件中添加以下依赖项：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-pool2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.11.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建对象池"><a href="#创建对象池" class="headerlink" title="创建对象池"></a>创建对象池</h3><p>接下来，需要创建一个对象池。以下是一个简单的示例，展示了如何创建一个字符串对象池：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.pool2.PooledObject;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.pool2.PooledObjectFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.pool2.impl.DefaultPooledObject;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.pool2.impl.GenericObjectPool;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.pool2.impl.GenericObjectPoolConfig;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StringFactory</span> <span class="keyword">implements</span> <span class="title">PooledObjectFactory</span>&lt;<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PooledObject&lt;String&gt; <span class="title">makeObject</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DefaultPooledObject&lt;&gt;(<span class="keyword">new</span> String(<span class="string">&quot;Pooled String&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroyObject</span><span class="params">(PooledObject&lt;String&gt; p)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// No specific destruction needed for String</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">validateObject</span><span class="params">(PooledObject&lt;String&gt; p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> p.getObject() != <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">activateObject</span><span class="params">(PooledObject&lt;String&gt; p)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// No activation needed for String</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">passivateObject</span><span class="params">(PooledObject&lt;String&gt; p)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// No passivation needed for String</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PoolExample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        GenericObjectPoolConfig&lt;String&gt; config = <span class="keyword">new</span> GenericObjectPoolConfig&lt;&gt;();</span><br><span class="line">        config.setMaxTotal(<span class="number">10</span>); <span class="comment">// 设置池中最多可存在的对象数</span></span><br><span class="line">        GenericObjectPool&lt;String&gt; pool = <span class="keyword">new</span> GenericObjectPool&lt;&gt;(<span class="keyword">new</span> StringFactory(), config);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            String pooledString = pool.borrowObject();</span><br><span class="line">            System.out.println(pooledString);</span><br><span class="line">            pool.returnObject(pooledString);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            pool.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置对象池"><a href="#配置对象池" class="headerlink" title="配置对象池"></a>配置对象池</h3><p>commons-pool2 提供了多种配置选项，可以根据具体需求进行调整。例如，可以设置池中对象的最大数目、最小空闲数目、最大空闲数目、对象的最大存活时间等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GenericObjectPoolConfig&lt;String&gt; config = <span class="keyword">new</span> GenericObjectPoolConfig&lt;&gt;();</span><br><span class="line">config.setMaxTotal(<span class="number">10</span>);</span><br><span class="line">config.setMinIdle(<span class="number">2</span>);</span><br><span class="line">config.setMaxIdle(<span class="number">5</span>);</span><br><span class="line">config.setMaxWaitMillis(<span class="number">3000</span>); <span class="comment">// 最大等待时间</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="处理池中的对象"><a href="#处理池中的对象" class="headerlink" title="处理池中的对象"></a>处理池中的对象</h3><p>从对象池中借用和归还对象时，应该始终使用 <code>borrowObject</code> 和 <code>returnObject</code> 方法。这有助于确保对象的正确管理，并避免资源泄漏。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String pooledString = pool.borrowObject();</span><br><span class="line"><span class="comment">// 使用对象</span></span><br><span class="line">pool.returnObject(pooledString);</span><br></pre></td></tr></table></figure>
+
+<p>通过合理配置和使用 commons-pool2，可以显著提高应用程序的性能和资源利用率，特别是在高并发和频繁对象创建的场景中。</p>
+<p>ftp 的操作示例: <a target="_blank" rel="noopener" href="https://commons.apache.org/proper/commons-net/apidocs/org/apache/commons/net/ftp/FTPClient.html">https://commons.apache.org/proper/commons-net/apidocs/org/apache/commons/net/ftp/FTPClient.html</a>,</p>
+<p>sftp使用jsch 来链接 首先</p>
+<blockquote>
+<p>JSch jsch = new JSch();<br> Session session = jsch.getSession(username, host, port);<br>session.setPassword(password);<br>session.setConfig(“StrictHostKeyChecking”, “no”);<br>session.connect();</p>
+<p>ChannelSftp channelSftp = null;</p>
+<p>Channel channel = session.openChannel(“sftp”);<br> channel.connect();<br>channelSftp = (ChannelSftp) channel;</p>
+<p>return channelSftp;</p>
+</blockquote>
+<p>Tips:注意事项</p>
+<ul>
+<li>ftpclient的客户端底层是利用 socket 来通讯的,所以如果读取文件流需要调用 <a target="_blank" rel="noopener" href="https://commons.apache.org/proper/commons-net/apidocs/org/apache/commons/net/ftp/FTPClient.html#completePendingCommand()">completePendingCommand</a>()</li>
+<li>sftp我们需要池化的是 session 每次下载文件的时候需要重新创建 session.</li>
+<li></li>
+</ul>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-google算法更新" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/aae323f9.html" class="article-date">
+      <time datetime="2024-05-27T01:11:44.000Z" itemprop="datePublished">2024-05-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/aae323f9.html">google算法更新</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://uuzi.net/google-algorithm-updates-shake-up-internet-independent-websites-struggle/">谷歌算法更新引发互联网巨变，独立网站何去何从？ - 兔哥博客</a></p>
+<p>大家好，我是兔哥！最近，谷歌对搜索算法进行了一系列重大更新，这不仅可能彻底改变互联网生态，更引发了人们对网络未来的担忧。让我们来看看这次更新会带来哪些影响。</p>
+<h2 id="HouseFresh-com-遭重创"><a href="#HouseFresh-com-遭重创" class="headerlink" title="HouseFresh.com 遭重创"></a>HouseFresh.com 遭重创</h2><p>以HouseFresh.com为例，这个专注于空气净化器评测的网站受到了毁灭性打击。曾经能带来大量流量的搜索关键词，现在却把用户引向那些不实测评的生活杂志，错误信息百出。在2023年9月和2024年3月两次算法更新后，网站日访问量从过去的成千上万锐减到仅几百人，不得不裁员维持运营。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://uuzi.net/google-algorithm-updates-shake-up-internet-independent-websites-struggle/">谷歌算法更新引发互联网巨变，独立网站何去何从？ - 兔哥博客</a></p>
+<p>大家好，我是兔哥！最近，谷歌对搜索算法进行了一系列重大更新，这不仅可能彻底改变互联网生态，更引发了人们对网络未来的担忧。让我们来看看这次更新会带来哪些影响。</p>
+<h2 id="HouseFresh-com-遭重创"><a href="#HouseFresh-com-遭重创" class="headerlink" title="HouseFresh.com 遭重创"></a>HouseFresh.com 遭重创</h2><p>以HouseFresh.com为例，这个专注于空气净化器评测的网站受到了毁灭性打击。曾经能带来大量流量的搜索关键词，现在却把用户引向那些不实测评的生活杂志，错误信息百出。在2023年9月和2024年3月两次算法更新后，网站日访问量从过去的成千上万锐减到仅几百人，不得不裁员维持运营。</p>
+<h2 id="谷歌力推-AI-概览"><a href="#谷歌力推-AI-概览" class="headerlink" title="谷歌力推 AI 概览"></a>谷歌力推 AI 概览</h2><p>谷歌的发言人声称，公司在改动算法前会严格测试，并提供反馈机会。但实际上，独立网站难以承受这些变化带来的冲击。上周,，谷歌CEO桑达尔·皮查伊宣布将推出”AI概览”功能，由AI直接生成搜索答案，谷歌搜索将成为”生成式AI”。</p>
+<h2 id="谷歌意在解决网络弊端"><a href="#谷歌意在解决网络弊端" class="headerlink" title="谷歌意在解决网络弊端"></a>谷歌意在解决网络弊端</h2><p>谷歌这些变革是为了解决网络上的”搜索引擎优化”弊端。SEO技术旨在调整内容以获得更好的搜索识别，有些网站滥用SEO制作取悦算法而非用户的内容。</p>
+<h2 id="有用内容更新的影响"><a href="#有用内容更新的影响" class="headerlink" title="有用内容更新的影响"></a>有用内容更新的影响</h2><p>为解决低质量搜索结果，谷歌在2022年推出了”有用内容更新”，并在2023年9月和2024年3月再次调整算法。据谷歌称，低质量、非原创内容在搜索中的比例下降了45%。</p>
+<h2 id="意外后果-知名网站流量大减"><a href="#意外后果-知名网站流量大减" class="headerlink" title="意外后果:知名网站流量大减"></a>意外后果:知名网站流量大减</h2><p>然而，这些更新也带来意想不到的后果。数据显示，纽约杂志、GQ等知名网站在过去半年内，谷歌搜索流量出现32%、26%的大幅下降；Urban Dictionary、OprahDaily.com等网站流量也锐减一半以上。</p>
+<h2 id="Reddit等用户平台大涨"><a href="#Reddit等用户平台大涨" class="headerlink" title="Reddit等用户平台大涨"></a>Reddit等用户平台大涨</h2><p>与此形成鲜明对比的是，Reddit等用户内容平台从谷歌获得的流量大幅增长。Reddit最新一季度收益同比增长48%，达2.43亿美元。分析师认为，这反映了人们越来越希望从他人真实经验中获取内容。</p>
+<h2 id="出版商网站遭”重击”"><a href="#出版商网站遭”重击”" class="headerlink" title="出版商网站遭”重击”"></a>出版商网站遭”重击”</h2><p>对此，专家直言不讳地表示，谷歌的算法似乎在”对出版商网站发动战争”。大量独立博客和小网站所有者反映，他们的一切都”被完全抹去”。分析显示，谷歌倾斜于已建立的大型品牌网站，而远离小型独立网站。</p>
+<h2 id="优质内容求生存"><a href="#优质内容求生存" class="headerlink" title="优质内容求生存"></a>优质内容求生存</h2><p>Ready Steady Cut等英国娱乐新闻网站主编表示，他们不得不大幅裁员以维持运营，原因正是谷歌算法变革导致网站流量减半。面对这种严峻形势，独立网站迫切需要更多支持和关注，优质内容才能生存下来。</p>
+<h2 id="谷歌辩护-打击垃圾内容-提供恢复之路"><a href="#谷歌辩护-打击垃圾内容-提供恢复之路" class="headerlink" title="谷歌辩护:打击垃圾内容 提供恢复之路"></a>谷歌辩护:打击垃圾内容 提供恢复之路</h2><p>一位谷歌发言人表示，公司最近的算法更新对垃圾、非原创内容造成重大打击，并密切关注滥用搜索结果的行为。在更新后，谷歌向网站所有者提供了建议，并表示有一条恢复之路。</p>
+<p>不过，身陷困境的网站主编哈特对此深感无助。他说:”我浪费了过去8个月的时间试图遵循谷歌的建议，但一切都没有帮助。” 尽管他们是一个拥有真实第一手经验和专业背景的网站，努力还是付诸东流，这令人心碎。</p>
+<h2 id="AI概览真的有利于网站吗"><a href="#AI概览真的有利于网站吗" class="headerlink" title="AI概览真的有利于网站吗?"></a>AI概览真的有利于网站吗?</h2><p>谷歌声称，搜索结果中的 AI 概述实际上会增加流向网站的流量，并会继续努力支持发布商和创作者。但这一说法缺乏数据支持，业内担心会产生相反效果。</p>
+<p>网站所有者贝瑞担心，如果谷歌AI直接回答问题，用户可能会中止搜索，导致流量进一步下降。她说AI给出的”肤浚且不准确的答案”可能无法满足用户需求。</p>
+<p>旅行作家莱特的文章也遭到AI答案的替代，且AI给出的信息存在严重错误。尽管链接被保留，但被深埋在底部，很难获得足够曝光。</p>
+<h2 id="内容或遭非法抓取"><a href="#内容或遭非法抓取" class="headerlink" title="内容或遭非法抓取?"></a>内容或遭非法抓取?</h2><p>谷歌承认AI工具可能给出不准确信息，但表示会持续改进。不过，一旦AI模型抓取了网站内容，可能无法将这些数据彻底删除，引发版权争议。</p>
+<h2 id="反垄断诉讼待决"><a href="#反垄断诉讼待决" class="headerlink" title="反垄断诉讼待决"></a>反垄断诉讼待决</h2><p>除了网站所有者的质疑，谷歌同时还面临多起反垄断诉讼，控诉其在搜索引擎行业滥用垄断地位。如果输掉官司，谷歌可能面临高额罚款甚至被迫分拆。</p>
+<h2 id="独立网站仍需关注"><a href="#独立网站仍需关注" class="headerlink" title="独立网站仍需关注"></a>独立网站仍需关注</h2><p>面对重重阻力，独立网站和内容创作者的处境艰难。HouseFresh创始人纳瓦罗感叹：”也许认为我们制作优质内容就能获得成功是太天真了。”</p>
+<p>纳瓦罗甚至考虑过完全离开在线世界，转而在现实中开个小店经营。这反映出独立网站在如今的互联网生态中求生存的严峻形势。</p>
+<p>因此，这些独立网站迫切需要更多支持和关注。只有让更多优质内容被公平对待，才能让互联网生态保持活力，继续为用户提供有价值的内容。</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-MacBook电池管理建议" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/c1b88394.html" class="article-date">
+      <time datetime="2024-05-21T10:37:58.000Z" itemprop="datePublished">2024-05-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/c1b88394.html">MacBook电池管理建议(转载)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>转载链接 <a target="_blank" rel="noopener" href="https://uuzi.net/tips-maximize-macbook-battery-lifespan/">10个实用技巧让MacBook电池寿命更持久 - 兔哥博客</a></p>
+<p>无论你是MacBook新手还是老手，保养好电池都是延长笔记本使用寿命的关键。今天和大家分享10个实用小技巧，助你的MacBook电池在未来数年内持续保持优秀的电力续航。</p>
+<p><img src="https://uuzi.net/wp-content/uploads/2024/05/The-Guide-to-the-Cheapest-Membership-Subscriptions-2_11zon.webp" alt="img"></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>转载链接 <a target="_blank" rel="noopener" href="https://uuzi.net/tips-maximize-macbook-battery-lifespan/">10个实用技巧让MacBook电池寿命更持久 - 兔哥博客</a></p>
+<p>无论你是MacBook新手还是老手，保养好电池都是延长笔记本使用寿命的关键。今天和大家分享10个实用小技巧，助你的MacBook电池在未来数年内持续保持优秀的电力续航。</p>
+<p><img src="https://uuzi.net/wp-content/uploads/2024/05/The-Guide-to-the-Cheapest-Membership-Subscriptions-2_11zon.webp" alt="img"></p>
+<p>首先，我们要明确两个关于可充电池的重要概念：</p>
+<ul>
+<li>电池续航时间：指单次充电后，设备可使用的时间长度。</li>
+<li>电池寿命：指电池在被判废报废并需要更换之前，可使用的年限或电池循环周期数。比如，如果你的MacBook电池循环数已超过1000周期，每次充电就会明显感到续航时间变短。</li>
+</ul>
+<p>无论你如何使用，电池终归有其寿命限制。不过，只要遵循一些简单的使用习惯，就能最大程度延长电池的使用寿命，让你的MacBook在未来数年内持续保持出色的电力续航表现。</p>
+<p><strong>1. 不要关闭优化电池充电</strong></p>
+<p>“优化电池充电”功能在macOS Big Sur及更高版本的新Mac上是默认开启的。它会根据你的充电和使用习惯，自动采取以下措施来延长电池寿命：</p>
+<ul>
+<li>只在你需要使用MacBook时,才将电池充至100%</li>
+<li>当笔记本插上电源时，只将电池充至80%</li>
+<li>即使插了电源，也会先将电池放电至90%左右，再重新充电</li>
+</ul>
+<p>除非你有特别的理由，否则请不要在”系统设置” &gt; “电池” &gt; “电池健康状况”选项中关闭这个功能。</p>
+<p><img src="https://uuzi.net/wp-content/uploads/2024/05/iShot_2024-05-14_19.55.23.webp" alt="img"></p>
+<p><strong>2. 使用苹果原装或优质充电器</strong></p>
+<p>偶尔使用其他品牌的充电器暂时应急倒无大碍，但日常使用时，你仍然应尽量选用MacBook出厂时随附的原装苹果充电器，或其他同等质量的充电设备。</p>
+<p><strong>3. 避免快速充电</strong></p>
+<p>MacBook Air (M1和M2型号)出厂时随机都是30W或35W的电源适配器，你可以使用MacBook Pro的60W+适配器为其快速充电。不过出于保护电池的考虑，还是应当节制使用快充，只在确有需求时方可这么做。</p>
+<p><strong>4. 防止MacBook暴露在极热或极冷环境中</strong></p>
+<p>直射阳光暴晒或将电脑放置在阳光直射的车内，都是锂电池最大的”克星”。同理，极度低温环境同样应当避免。所以，无论炎热还是严寒，都要注意给MacBook一个适宜的使用环境。</p>
+<p><img src="https://uuzi.net/wp-content/uploads/2024/05/iShot_2024-05-14_19.58.35.webp" alt="img"></p>
+<p><strong>5. 不要长期将MacBook插在电源上</strong></p>
+<p>将MacBook长期保持插电状态也会加速电池老化。所以，我们应当在插电和电池供电之间适当切换使用。</p>
+<p><strong>6. 避免电池充满电或电量过低</strong></p>
+<p>努力不让MacBook电池充至100%的确挺难，因为即便你在桌前短暂使用了一两个小时，插着电源的笔记本很快就会充至满电状态。与此同时，MacBook目前还无法像iPhone 15那样，设置仅充电至80%就停止充电。</p>
+<p>所以我们要尽量避免将电池电量消耗到极低，比如5%或10%以下。当电量降至30-40%时，就应该考虑插上电源给笔记本充电。</p>
+<p><strong>7. 给其他设备充电时也为MacBook同步充电</strong></p>
+<p>偶尔将MacBook当做移动电源为iPhone、AirPods等其他设备充电倒无大碍。但如果你经常这么做，反而会加速MacBook电池的老化。所以，还是另外准备一个专门的移动电源更加合适。</p>
+<p>如果你实在需要利用MacBook为其他设备充电，请务必同时也为笔记本本身插上电源。这样一来，你的MacBook电池就不会因为给其他设备充电而剧烈消耗。</p>
+<p><strong>8. 优化MacBook内部设置</strong></p>
+<p>过于频繁地将MacBook电量消耗殆尽后再充电，会加快电池循环周期的耗尽。为此，你应当采取一些措施，比如关闭无用的应用程序和后台进程，以延长单次充电的使用时间。这样一来，你就无需频繁插电为笔记本充电，从而延长了电池的整体使用寿命。</p>
+<p><strong>9. 保持系统软件的更新</strong></p>
+<p>为了确保设备和电池的良好运作，苹果会不时进行系统优化和改进。比如最近，他们就发布了一个iOS更新，将iPhone 15的电池循环寿命延长了一倍。</p>
+<p>同理，Mac系统也会在后台进行电池相关的优化升级。所以，你应当及时将MacBook升级至最新的macOS系统版本，以获得这些改进。</p>
+<p><strong>10. 长期存放前将电量控制在50%左右</strong></p>
+<p>如果你计划一段时间内不使用MacBook，那么最好在电量约50%的状态下，将电脑存放在阴凉、避潮的环境中。切记不要在电量满电或完全耗尽的状态下长期存放，那样会严重损害电池寿命。</p>
+<p>如果你需要存放MacBook超过6个月的时间，那么应当每6个月为电池充电一次至50%左右的电量，以保证电池的健康状态。</p>
+<p><strong>总的来说，正确使用和保养MacBook电池，可以最大限度延长电池的使用周期和寿命。通过上述10个技巧，相信你一定能享受到笔记本出色的电力续航，助力高效工作和生活，绝不会被”没电”这个小问题所打扰。这不仅环保节约，更能让你的MacBook电脑陪伴左右，高性价比地服务更多年份。</strong></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="wrap-启动" class="article article-type-wrap" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/undefined.html" class="article-date">
+      <time datetime="2024-05-02T04:20:01.000Z" itemprop="datePublished">2024-05-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/undefined.html">使用 cloudflare对于 WARP订阅</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://github.com/vvbbnn00/WARP-Clash-API">vvbbnn00/WARP-Clash-API: 该项目可以让你通过订阅的方式使用Cloudflare WARP+，自动获取流量。.</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/cmliu/edgetunnel">cmliu/edgetunnel: 在原版的基础上修改了显示 VLESS 配置信息转换为订阅内容。使用该脚本，你可以方便地将 VLESS 配置信息使用在线配置转换到 Clash 或 Singbox 等工具中。</a></p>
+<p>docker-compose up -d</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://github.com/vvbbnn00/WARP-Clash-API">vvbbnn00/WARP-Clash-API: 该项目可以让你通过订阅的方式使用Cloudflare WARP+，自动获取流量。.</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/cmliu/edgetunnel">cmliu/edgetunnel: 在原版的基础上修改了显示 VLESS 配置信息转换为订阅内容。使用该脚本，你可以方便地将 VLESS 配置信息使用在线配置转换到 Clash 或 Singbox 等工具中。</a></p>
+<p>docker-compose up -d</p>
+<p>下面是安装 docker-compose </p>
+<ol>
+<li><strong>卸载旧版本的 Docker Compose</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>下载最新版本</strong></li>
+</ol>
+<p>目前最新版本是 2.18.1 (截至 2023 年 5 月),下载命令如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L &quot;https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;v2.18.1&#x2F;docker-compose-$(uname -s)-$(uname -m)&quot; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+<p>如果速度起不来可以使用这个镜像</p>
+<blockquote>
+<p>sudo curl -L “<a target="_blank" rel="noopener" href="https://dl.ghpig.top/https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$">https://dl.ghpig.top/https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$</a>(uname -s)-$(uname -m)” -o /usr/local/bin/docker-compose</p>
+</blockquote>
+<ol>
+<li><strong>设置执行权限</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>创建软链接 (可选)</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose &#x2F;usr&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>验证安装</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
+
+<p>它应该显示 <code>docker-compose version v2.18.1</code></p>
+<p>注意以下几点:</p>
+<ul>
+<li>需要有 root 或 sudo 权限执行上述命令</li>
+<li>上面的下载链接会自动根据您的系统架构获取合适的二进制文件</li>
+<li>如果下载链接发生改变,可访问 <a target="_blank" rel="noopener" href="https://github.com/docker/compose/releases">https://github.com/docker/compose/releases</a> 获取最新下载链接</li>
+<li>Docker Compose 2.x 版本需要 Docker 17.12.0 或更高版本</li>
+</ul>
+<p>按照以上步骤,您就可以成功将 Docker Compose 升级到最新的 2.18.1 版本了。升级后最好查看一下新版本的文档,了解新增的语法和功能变化。</p>
+<p><img src="../img/image-20240502130357242.png" alt="image-20240502130357242"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-macbook软件配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -800,744 +1267,6 @@
 
 
   
-    <article id="apple-安装和相关软件推荐" class="article article-type-apple" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/undefined.html" class="article-date">
-      <time datetime="2023-11-12T11:15:07.000Z" itemprop="datePublished">2023-11-12</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/undefined.html">appletv安装和相关软件推荐</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://appfigures.com/top-apps/apple-tv/hong-kong/top-overall">https://appfigures.com/top-apps/apple-tv/hong-kong/top-overall</a>  apple tv 应用排行榜</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/fanmingming/live">https://github.com/fanmingming/live</a>  m3u 在线地址</p>
-<h2 id="国际版的爱优腾"><a href="#国际版的爱优腾" class="headerlink" title="国际版的爱优腾"></a>国际版的爱优腾</h2><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/iqiyi-video/id1190755526">iQIYI Video on the App Store</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://appfigures.com/top-apps/apple-tv/hong-kong/top-overall">https://appfigures.com/top-apps/apple-tv/hong-kong/top-overall</a>  apple tv 应用排行榜</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/fanmingming/live">https://github.com/fanmingming/live</a>  m3u 在线地址</p>
-<h2 id="国际版的爱优腾"><a href="#国际版的爱优腾" class="headerlink" title="国际版的爱优腾"></a>国际版的爱优腾</h2><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/iqiyi-video/id1190755526">iQIYI Video on the App Store</a></p>
-<p><a target="_blank" rel="noopener" href="https://apps.apple.com/au/app/wetv-asian-local-dramas/id1441531611">WeTV Asian &amp; Local Dramas on the App Store</a></p>
-<h2 id="vod类播放器"><a href="#vod类播放器" class="headerlink" title="vod类播放器"></a>vod类播放器</h2><h3 id="Syncnext-三角播放器-需内购"><a href="#Syncnext-三角播放器-需内购" class="headerlink" title="Syncnext(三角播放器 需内购)"></a>Syncnext(三角播放器 需内购)</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/syncnext/id1591770603">Syncnext on the App Store</a></p>
-<h3 id="XPTV"><a href="#XPTV" class="headerlink" title="XPTV"></a>XPTV</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/xptv/id6459409368">XPTV on the App Store</a></p>
-<p>XPTV 是一款支持VOD、M3U、IPTV等协议的多功能播放器</p>
-<h2 id="CMSPlayer"><a href="#CMSPlayer" class="headerlink" title="CMSPlayer"></a>CMSPlayer</h2><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/cmsplayer/id6450680262">CMSPlayer on the App Store</a></p>
-<h2 id="音乐流媒体"><a href="#音乐流媒体" class="headerlink" title="音乐流媒体"></a>音乐流媒体</h2><h3 id="Musify-已下架"><a href="#Musify-已下架" class="headerlink" title="Musify(已下架)"></a>Musify(已下架)</h3><p>支持 网易云音乐</p>
-<p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/musify/id6470739879">Connecting to Apple Music.</a></p>
-<h3 id="Spotify-Music-and-Podcasts"><a href="#Spotify-Music-and-Podcasts" class="headerlink" title="Spotify - Music and Podcasts"></a>Spotify - Music and Podcasts</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/spotify-music-and-podcasts/id324684580">Spotify - Music and Podcasts on the App Store</a></p>
-<h2 id="B站三方客户端"><a href="#B站三方客户端" class="headerlink" title="B站三方客户端"></a>B站三方客户端</h2><h2 id="Cheers"><a href="#Cheers" class="headerlink" title="Cheers"></a>Cheers</h2><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/cheers-danmu-player/id1643375332">Cheers - Danmu Player on the App Store</a></p>
-<h2 id="Miao-Project"><a href="#Miao-Project" class="headerlink" title="Miao Project"></a>Miao Project</h2><p>已经从应用商店下架</p>
-<h3 id="弹幕播放器-danmuBox"><a href="#弹幕播放器-danmuBox" class="headerlink" title="弹幕播放器 danmuBox"></a>弹幕播放器 danmuBox</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/%E5%BC%B9%E5%B9%95%E6%92%AD%E6%94%BE%E5%99%A8-danmubox/id6458593076">弹幕播放器 danmuBox on the App Store</a></p>
-<h2 id="投屏类"><a href="#投屏类" class="headerlink" title="投屏类"></a>投屏类</h2><p>主要用于类似于安卓乐播投屏，目前在安卓盒子里面当贝投屏是优化最好的没有广告，appleTV 原生支持 airplay，需要额外支持DLNA。</p>
-<h3 id="推荐-1-DLNA"><a href="#推荐-1-DLNA" class="headerlink" title="推荐 1 DLNA"></a>推荐 1 DLNA</h3><p><img src="../img/image-20240316083903879.jpg" alt="image-20240316083903879"></p>
-<h3 id="推荐-2-Unplay"><a href="#推荐-2-Unplay" class="headerlink" title="推荐 2 Unplay"></a>推荐 2 Unplay</h3><p>网上可以搜索到</p>
-<p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/unplay/id6450034641">UnPlay on the App Store</a></p>
-<h2 id="播放器"><a href="#播放器" class="headerlink" title="播放器"></a>播放器</h2><h3 id="Alplayer"><a href="#Alplayer" class="headerlink" title="Alplayer"></a>Alplayer</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/alplayer/id1660917007">Alplayer on the App Store</a></p>
-<p>原生支持阿里，夸克</p>
-<h3 id="VidHub-免费"><a href="#VidHub-免费" class="headerlink" title="VidHub(免费)"></a>VidHub(免费)</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/vidhub-video-library-player/id1659622164">VidHub -Video Library &amp; Player on the App Store</a></p>
-<h3 id="Fileball"><a href="#Fileball" class="headerlink" title="Fileball"></a>Fileball</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/fileball/id1558391784">Fileball on the App Store</a></p>
-<h2 id="电视直播类"><a href="#电视直播类" class="headerlink" title="电视直播类"></a>电视直播类</h2><h3 id="APTV-免费"><a href="#APTV-免费" class="headerlink" title="APTV(免费)"></a>APTV(免费)</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/aptv/id1630403500">APTV on the App Store</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-空间大数据处理框架" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/c243b492.html" class="article-date">
-      <time datetime="2023-11-07T11:38:03.000Z" itemprop="datePublished">2023-11-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/c243b492.html">空间大数据处理框架</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h1 id="大数据计算框架简介"><a href="#大数据计算框架简介" class="headerlink" title="大数据计算框架简介"></a>大数据计算框架简介</h1><p>Hadoop，Spark、Flink是目前重要的三大分布式计算系统</p>
-<ul>
-<li>Hadoop用于离线复杂大数据处理</li>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h1 id="大数据计算框架简介"><a href="#大数据计算框架简介" class="headerlink" title="大数据计算框架简介"></a>大数据计算框架简介</h1><p>Hadoop，Spark、Flink是目前重要的三大分布式计算系统</p>
-<ul>
-<li>Hadoop用于离线复杂大数据处理</li>
-<li>Spark用于离线快速的大数据处理</li>
-<li>Flink用于在线实时的大数据处理</li>
-</ul>
-<h2 id="1-1-Hadoop"><a href="#1-1-Hadoop" class="headerlink" title="1.1. Hadoop"></a>1.1. Hadoop</h2><p>Hadoop是一个由Apache基金会所开发的分布式系统基础架构，主要解决海量数据的存储和分析计算问题。</p>
-<p>广义上来说，Hadoop通常是指一个更广泛的概念——Haddop生态圈。</p>
-<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-23-47.png?version=1&modificationDate=1690788227000&api=v2" alt="img"></p>
-<p><strong>1) Hadoop分布式文件系统(HDFS)</strong></p>
-<p>HDFS (Hadoop Distributed File System) ，它是一个<strong>文件系统</strong>，用来存储文件，通过目录树来定位文件，其次，它是<strong>分布式</strong>的，由很多服务器联合起来实现其功能，集群中的服务器有各自的角色。</p>
-<p>使用场景：HDFS适合<strong>一次写入，多次读出</strong>的场景，且不支持文件的修改，适合用来做数据分析，并不适合用来做网盘应用。</p>
-<p><strong>2) Hadoop MapReduce引擎</strong></p>
-<p>MapReduce是一种<strong>并行程序设计模型与方法</strong>，用于大规模数据集的并行运算。概念”Map（映射）”和”Reduce（归约）”是它们的主要思想。</p>
-<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-30-30.png?version=1&modificationDate=1690788630000&api=v2" alt="img"></p>
-<h2 id="1-2-Spark"><a href="#1-2-Spark" class="headerlink" title="1.2. Spark"></a>1.2. Spark</h2><p>Apache Spark是专为大规模数据处理而设计的快速通用的计算引擎。Spark是类Hadoop MapReduce的通用并行框架。Spark拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是，Job中间的输出结果可以保存在内存中，从而不再需要读写HDFS，因此Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。</p>
-<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-31_15-35-39.png?version=1&modificationDate=1690788939000&api=v2" alt="img"></p>
-<h2 id="1-3-Flink"><a href="#1-3-Flink" class="headerlink" title="1.3. Flink"></a>1.3. Flink</h2><p>Apache Flink是一个框架和分布式处理引擎，用于对无界和有界数据流进行有状态计算。Flink 被设计在所有常见的集群环境中运行，以内存执行速度和任意规模来执行计算。</p>
-<p><strong>流数据：</strong>在自然环境中，数据的产生原本就是流式的。但是当你分析数据时，可以围绕 有界流（bounded）或 无界流（unbounded）两种模型来组织处理数据，当然，选择不同的模型，程序的执行和处理方式也都会不同。</p>
-<p><strong>离线计算的代表spark和flink的对比</strong></p>
-<p>在spark中，一切都是由批次组成的，离线数据是一个大批次，而实时数据是由一个一个无限的小批次组成的。而在flink中，一切都是由流组成的，离线数据是有界限的流，实时数据是一个没有界限的流。</p>
-<p><strong>有界流\</strong>：****数据有时间的界限，比如我们长说某天的数据、某月的数据。</p>
-<p><strong>无界流：</strong>数据没有时间的界限，所处理的数据是持续不断的输入的。因此程序必须持续不断地对到达的数据进行处理。</p>
-<h1 id="2-Spark简介"><a href="#2-Spark简介" class="headerlink" title="2. Spark简介"></a>2. Spark简介</h1><h2 id="2-1-Saprk相关概念"><a href="#2-1-Saprk相关概念" class="headerlink" title="2.1. Saprk相关概念"></a>2.1. Saprk相关概念</h2><p><strong>RDD（Resilient Distributed Dataset）</strong>：弹性分布式数据集，是Spark的核心部分，可以理解为一个<strong>分布式</strong>数据结构的封装，并在此基础上提供了各种数据操作的API。其中，数据操作可以分成<strong>转换（**</strong>transformation**<strong>）</strong>和<strong>行动（**</strong>action**<strong>）</strong>两类，<strong>转换构建各**</strong>RDD**<strong>之间的依赖关系，但不会实际执行，只有遇到行动操作后才会实际提交作业触发执行</strong>。RDD之间的依赖关系构成了RDD的<strong>血缘</strong>，当RDD丢失时可以通过血缘关系重新执行生成，保证了RDD的容错性。</p>
-<p>举例：</p>
-<table>
-<thead>
-<tr>
-<th align="left">数据集</th>
-<th align="left">map</th>
-<th align="left">reduce</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">{x: x∈N+, x&lt;10 }</td>
-<td align="left">{x: f(x)}</td>
-<td align="left">{x: ∑f(x)}、{x: Πf(x)}等</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="left">类别</th>
-<th align="left">函数名</th>
-<th align="left">解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">转换算子</td>
-<td align="left">map</td>
-<td align="left">将处理的数据逐条进行映射转换，这里的转换可以是类型的转换，也可以是值的转换</td>
-</tr>
-<tr>
-<td align="left">mapPartitions</td>
-<td align="left">将待处理的数据以分区为单位发送到计算节点进行处理，这里的处理是指可以进行任意的处理，包括过滤</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">mapPartitionsWithindex</td>
-<td align="left">将待处理的数据以分区为单位发送到计算节点进行处理，这里的处理是指可以进行任意的处理，包括过滤，在处理同时可以获取当前分区的索引</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">flatMap</td>
-<td align="left">将处理的数据进行扁平化后再进行映射处理，所以算子也称之为扁平映射</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">glom</td>
-<td align="left">将同一个分区的数据直接转换为相同类型的内存数组进行处理，分区不变</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">groupBy</td>
-<td align="left">将数据根据指定的规则进行分组，分区默认不变，但是数据会被打乱重新组合，我们将这样的操作称之为shuffle，极限情况下，数据可能被分到同一个分区中</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">filter</td>
-<td align="left">将数据根据执行的规则进行筛选过滤，符合规则的数据保留，不符合规则的数据丢弃。当数据进行筛选过滤后，分区不变，但是分区内的数据可能不均衡，生产环境下，可能出现数据倾斜</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">sample</td>
-<td align="left">根据指定的规则聪数据中抽取数据</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">coalesce</td>
-<td align="left">根据数据量进行缩减分区，用于大数据集过滤后，提高小数据集的执行效率，减少任务调度成本</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">distinct</td>
-<td align="left">将数据集中的重复数据进行去重</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">repartitions</td>
-<td align="left">调整分区数量</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">sortBy</td>
-<td align="left">可以根据指定的规则对数据源中的数据进行排序</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">intersection</td>
-<td align="left">对源RDD和参数RDD求交集后返回一个新的RDD</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">union</td>
-<td align="left">对源RDD和参数RDD求并集后返回一个新的RDD</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">subtract</td>
-<td align="left">对源RDD和参数RDD求差集后返回一个新的RDD</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">zip</td>
-<td align="left">相同位置的数据拉取到一块</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">partitionBy</td>
-<td align="left">将数据按照指定Partitioner重新进行分区</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">reduceByKey</td>
-<td align="left">将相同的key进行分组，将value聚合</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">groupByKey</td>
-<td align="left">将分区的数据直接转换为相同类型的内存数组进行后续处理</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">aggregateByKey</td>
-<td align="left">将数据根据不同规则进行分区内计算和分区间计算</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">flodByKey</td>
-<td align="left">foldByKey就是aggregateByKey的简化版本，当aggregateByKey的第二个参数计算逻辑相同时就可以用foldByKey</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">combineByKey</td>
-<td align="left">需要三个参数  1.将相同key的第一个数据进行结构的转换，实现操作 2.分区内计算规则 3.分区间计算规则</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">join</td>
-<td align="left">在类型为(K,V)和(K,W)的RDD上调用，返回一个相同的key对应的所有元素连接在一起的（K,(v,w)）的RDD</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">leftOuterJoin</td>
-<td align="left">类似于sql的左外连接</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">rightOuterJoin</td>
-<td align="left">类似于sql的右外连接</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">cogroup</td>
-<td align="left">在类型(K,V)和(K,W)的RDD上调用，返回一个(K,(Iterable<V>,Iterable<W>))类型的RDD</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">…</td>
-<td align="left">…</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">行动算子</td>
-<td align="left">reduce</td>
-<td align="left">聚集RDD中的所有元素，先聚合分区内数据，再聚合分区间数</td>
-</tr>
-<tr>
-<td align="left">collect</td>
-<td align="left">方法会将不同分区的数据按照分区顺序采集到Driver端内存中，形成数组</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">count</td>
-<td align="left">数据源中数据的个数</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">first</td>
-<td align="left">数据源中数据的第一个</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">take</td>
-<td align="left">获取n个数据</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">takeOrdered</td>
-<td align="left">数据排序后取n个数据</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">aggregate</td>
-<td align="left">分区的数据通过初始值和分区内的数据进行聚合，然后再和初始值进行分区间的数据聚合</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">fold</td>
-<td align="left">折叠操作,aggregate的简化版操作</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">countByKey</td>
-<td align="left">统计每种key的个数</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">…</td>
-<td align="left">…</td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<p><strong>Partition</strong>：数据分区，即RDD进行数据划分的单元，也是Spark数据处理的单元，任务的数量由分区数量确定，一个任务处理一个分区的数据。</p>
-<p><strong>Dependency</strong>：RDD之间的依赖关系。分为窄依赖（NarrowDependency）和Shuffle依赖。前者表示子RDD中的分区依赖于父RDD中固定数量的分区，包括依赖一个分区的OneToOneDependency和一定范围内多个分区的RangeDependency；后者也称为宽依赖，子RDD中的分区可能对父RDD中所有的分区产生依赖，具体依赖关系取决于分区器partitioner。</p>
-<p><strong>Job</strong>：Spark中的作业，<strong>对**</strong>RDD**<strong>的一个行动操作对应一个作业</strong>。每个作业包括了该RDD的行动操作以及构成当前RDD血缘关系的所有转换操作，一个Spark应用可以包含多个作业。</p>
-<p><strong>Stage</strong>：在每个作业中，Spark会<strong>根据**</strong>shuffle**<strong>依赖将作业划分成多个阶段</strong>。从最后一个触发行动操作的RDD开始（最后一个属于ResultStage），对RDD的依赖进行回溯，如果遇到shuffle依赖，则将shuffle之前的RDD视为一个阶段（ShuffleMapStage），shuffle之后的RDD到回溯起点之间所有的RDD视为一个阶段，接着从shuffle之前的RDD开始继续回溯，直到回溯至与外部数据源相关的RDD为止，如图1所示。</p>
-<p><strong>Task</strong>：每个阶段中，Spark会<strong>根据**</strong>RDD**<strong>的分区数量，创建相同数量的任务</strong>，每个任务处理一个分区的数据。其中，ShuffleMapStage中的任务为ShuffleMapTask，ResultStage中的任务为ResultTask。</p>
-<p>下图为Spark中Stage的划分方式</p>
-<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-7-26_14-43-6.png?version=1&modificationDate=1690353785000&api=v2" alt="img"></p>
-<h2 id="2-2-Spark核心模块"><a href="#2-2-Spark核心模块" class="headerlink" title="2.2. Spark核心模块"></a>2.2. Spark核心模块</h2><p>Spark的模块组成包括核心模块Spark Core以及建立在核心模块之上的扩展模块Spark SQL、Spark Streaming、GraphX、MLlib。Spark核心模块提供了Spark中最基础最核心的功能，包括：</p>
-<p><strong>基础设施</strong>：分为负责参数配置的SparkConf，负责Spark跨节点组件之间通信的基于netty实现的RPC框架，负责SparkContext内部组件间通信的事件总线ListenerBus，负责监控各个组件运行期状态的度量系统；</p>
-<p><strong>SparkContext：</strong>作为Spark所有功能的集成者和用户程序开发的接口，其内部封装了网络通信、消息通信、存储体系、计算引擎、度量系统、WebUI等内容，这些功能对开发人员来说都是透明的；</p>
-<p><strong>SparkEnv</strong>：是Spark执行环境，任务运行所必需的组件，由RpcEnv、序列化管理器、BroadcastManager、MapOutputTracker、存储体系、度量系统、OutputCommitCoordinator等组件组成；</p>
-<p><strong>存储体系：</strong>分为内存存储管理和磁盘存储管理，Spark的内存空间提供了Tungsten的实现，对堆外内存进行管理。此外，Spark的内存存储空间和计算存储空间之间的边界是“软”边界，当一方资源不够时可向另一方借用，提高了资源利用率；</p>
-<p><strong>调度体系：</strong>分为DAGScheduler和TaskScheduler，内置在SparkContext中。DAGScheduler负责解析RDD之间的依赖，按照shuffle操作划分阶段，根据阶段创建TaskSet，TaskScheduler负责按照FAIR或FIFO调度算法对TaskSet进行调度，为每个任务分配可执行的Executor，并将序列化后的任务发送到指定的Executor上执行；</p>
-<p><strong>计算引擎：</strong>由内存管理器、Tungsten、任务内存管理器、外部排序器、Shuffle管理器等组成，其中外部排序器用于在map端或者reduce端对ShuffleMapTask计算得到的中间结果进行排序、聚合等操作，Shuffle管理器用于将各个分区对应的ShuffleMapTask产生的中间结果持久化到磁盘，并在reduce端按照分区远程拉取生成的中间结果。</p>
-<h2 id="2-3-Spark集群架构"><a href="#2-3-Spark集群架构" class="headerlink" title="2.3. Spark集群架构"></a>2.3. Spark集群架构</h2><p>从集群部署的角度来看，Spark集群由集群管理器（Cluster Manager）、工作节点（Worker）、执行器（Executor）、驱动器（Driver）、应用程序（Application）等部分组成。<br><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-8-1_14-20-30.png?version=1&modificationDate=1690870831000&api=v2" alt="img"></p>
-<h3 id="2-3-1-Driver"><a href="#2-3-1-Driver" class="headerlink" title="2.3.1. Driver"></a>2.3.1. Driver</h3><p>用于运行Spark程序的 main 方法，创建SparkContext对象</p>
-<p>Driver在spark作业执行时主要负责：</p>
-<p>1）启动SparkContext或SparkSession，将用户程序转化为作业（Job）；</p>
-<p>2）在Executor之间调度任务（Task）；</p>
-<p>3）跟踪Executor的执行情况；</p>
-<p>4）通过UI展示查询运行情况。</p>
-<h3 id="2-3-2-Cluster-Manager"><a href="#2-3-2-Cluster-Manager" class="headerlink" title="2.3.2. Cluster Manager"></a>2.3.2. Cluster Manager</h3><p><strong>在YARN部署模式下为ResourceManager</strong></p>
-<p>负责对整个集群资源的分配与管理，不负责对Executor的资源的分配。</p>
-<p>常见的集群管理工具有<strong>Yarn</strong>、Mesos、Kubernetes、Standalone。</p>
-<h3 id="2-3-3-Worker"><a href="#2-3-3-Worker" class="headerlink" title="2.3.3. Worker"></a>2.3.3. Worker</h3><p><strong>在YARN部署模式下为NodeManager</strong></p>
-<p>负责启动和管理Executor，将Executor状态信息同步给Cluster Manager。</p>
-<h3 id="2-3-4-Executor"><a href="#2-3-4-Executor" class="headerlink" title="2.3.4. Executor"></a>2.3.4. Executor</h3><p>负责执行Spark作业中具体的任务，任务彼此之间相互独立。</p>
-<p>Executor 有两个核心功能：</p>
-<p>1）向Driver认领属于自己的任务，接收任务后负责运行Spark Task，并将结果返回给Driver。</p>
-<p>2）通过自身的Block Manager为用户程序中要求缓存的RDD提供内存式存储。RDD 的数据是直接缓存在 Executor 进程内的，因此任务可以在运行时充分利用缓存数据加速运算。</p>
-<h2 id="2-4-Spark任务提交过程"><a href="#2-4-Spark任务提交过程" class="headerlink" title="2.4. Spark任务提交过程"></a>2.4. Spark任务提交过程</h2><p>当用户通过SparkContext提交应用程序时，分为以下几步：</p>
-<p>1）首先通过RpcEnv<strong>向ClusterManager注册应用并申请资源</strong>。</p>
-<p>2）Cluster Manager根据应用的需求，将<strong>对应的Executor分配给应用程序</strong>，并在Worker上启动Executor后台进程，该进程通过RpcEnv向Driver注册Executor资源信息，Driver中的TaskScheduler保存Executor的地址、内存以及核数等信息；</p>
-<p>3）SparkContext根据RDD的转换操作，<strong>构建RDD的血缘关系</strong>，并在遇到行动操作的时候，<strong>将构建的依赖关系提交给DAGScheduler</strong>，DAGScheduler对依赖关系进行解析，生成TaskSet，将TaskSet保存至任务池，TaskScheduler从任务池中取出TaskSet后按照FAIR或FIFO算法进行调度，给任务分配Executor资源，并将序列化后的任务发送至Executor执行。</p>
-<h2 id="2-5-Spark性能调优"><a href="#2-5-Spark性能调优" class="headerlink" title="2.5. Spark性能调优"></a>2.5. Spark性能调优</h2><h3 id="2-5-1-参数调优"><a href="#2-5-1-参数调优" class="headerlink" title="2.5.1. 参数调优"></a>2.5.1. 参数调优</h3><h4 id="2-5-1-1-num-executors"><a href="#2-5-1-1-num-executors" class="headerlink" title="2.5.1.1. num-executors"></a>2.5.1.1. num-executors</h4><p>该参数用于设计Spark作业总的Executor进程的个数。YARN集群管理器会尽可能根据num-executor设置在工作节点上启动Executor。</p>
-<h4 id="2-5-1-2-executor-memory"><a href="#2-5-1-2-executor-memory" class="headerlink" title="2.5.1.2. executor-memory"></a>2.5.1.2. executor-memory</h4><p>该参数用于设置每个Executor 进程的内存，Executor内存的大小，很多程度上直接决定了Spark作业的性能，而且跟很常见的Java中的虚拟机内存溢出异常(OOM)也有关系。</p>
-<h4 id="2-5-1-3-executor-core"><a href="#2-5-1-3-executor-core" class="headerlink" title="2.5.1.3. executor-core"></a>2.5.1.3. executor-core</h4><p>该参数用于设置每个Executor进程的CPU core 数量。</p>
-<h4 id="2-5-1-4-driver-memory"><a href="#2-5-1-4-driver-memory" class="headerlink" title="2.5.1.4. driver-memory"></a>2.5.1.4. driver-memory</h4><p>该参数用于设置Driver进程的内存，这个参数通常不设置。但是要注意的一点是，使用collect算子时，一定要保证Driver内存足够大，否则会出现内存溢出的错误。</p>
-<h4 id="2-5-1-5-Spark-default-parallelism"><a href="#2-5-1-5-Spark-default-parallelism" class="headerlink" title="2.5.1.5. Spark.default.parallelism"></a>2.5.1.5. Spark.default.parallelism</h4><p>该参数用于设置每个Stage默认的task数量。</p>
-<h4 id="2-5-1-6-Spark-Shuffle-memoryFraction"><a href="#2-5-1-6-Spark-Shuffle-memoryFraction" class="headerlink" title="2.5.1.6. Spark.Shuffle.memoryFraction"></a>2.5.1.6. Spark.Shuffle.memoryFraction</h4><p>该参数用于设置Shuffle过程中一个task拉取到上个Stage的task的输出后，进行聚合操作时能够使用的Executor内存的比例，默认是0.2。也就是说，Executor默认只有20%的内存用来进行该操作。shuffle操作在进行聚合时，如果发现使用的内存超出了这个20%的限制，那么多余的数据就会溢写到磁盘文件中去，此时就会极大地降低性能。建议：如果Spark作业中的RDD持久化操作较少，shuffle操作较多时，建议降低持久化操作的内存占比，提高shuffle操作的内存占比比例，避免shuffle过程中数据过多时内存不够用，必须溢写到磁盘上，降低了性能。此外，如果发现作业由于频繁的gc导致运行缓慢，意味着task执行用户代码的内存不够用，那么同样建议调低这个参数的值。</p>
-<h3 id="2-5-2-代码重构调优"><a href="#2-5-2-代码重构调优" class="headerlink" title="2.5.2. 代码重构调优"></a>2.5.2. 代码重构调优</h3><h4 id="2-5-2-1-尽可能复用一个RDD"><a href="#2-5-2-1-尽可能复用一个RDD" class="headerlink" title="2.5.2.1. 尽可能复用一个RDD"></a>2.5.2.1. 尽可能复用一个RDD</h4><p>在对不同的数据执行算子操作时应该尽量复用一个RDD。例如，当RDD A的数据格式是key-value类型的，RDD B的数据格式是value类型的，但是这两个RDD的value数据完全相同；那么，RDD A包含了RDD B中的所有信息，理论上来说RDD B可以被替代，而实际开发中也应该尽量减少多个RDD数据有重复或者包含的情况，这样可以尽可能减少RDD的数量从而减少算子执行的次数。</p>
-<h4 id="2-5-2-2-对多次使用的RDD进行持久化"><a href="#2-5-2-2-对多次使用的RDD进行持久化" class="headerlink" title="2.5.2.2. 对多次使用的RDD进行持久化"></a>2.5.2.2. 对多次使用的RDD进行持久化</h4><p>RDD的持有化有几种不同的级别，分别是：MEMORY_ONLY、MEMORY_AND_DISK、MEMORY_ONLY_SER、MEMORY_AND_DISK_SER、DISK_ONLY、MEMORY_ONLY_2 等，这几种持久化级别使用的优先级排序如下：</p>
-<ol>
-<li>MEMORY_ONLY性能最高，直接将RDD存储在内存中，省去了序列化及反序列化、从磁盘读取的时间，但是对于内存的容量有较高的要求；</li>
-<li>MEMORY_ONLY_SER会将数据序列化后保存在内存中，通过序列化压缩了RDD的大小，但是相较于MEMORY_ONLY多出了序列化及反序列化的时间；</li>
-<li>MEMORY_AND_DISK_SER优先将RDD缓存在内存中，内存缓存不下时才会存在磁盘中;</li>
-<li>DISK_ONLY和后缀为_2的级别通常不建议使用，完全基于磁盘文件的读写会导致性能的极具降低；后缀为2的级别会将所有数据都复制一份副本到其他节点上，数据复制及网络传输会导致较大的性能开销。</li>
-</ol>
-<h4 id="2-5-2-3-尽量避免使用Shuffle算子"><a href="#2-5-2-3-尽量避免使用Shuffle算子" class="headerlink" title="2.5.2.3. 尽量避免使用Shuffle算子"></a>2.5.2.3. 尽量避免使用Shuffle算子</h4><p>Spark作业最消耗性能的部分就是Shuffle过程，应尽量避免使用Shuffle算子。Shuffle过程就是将分布在集群中多个节点上的同一个 key，拉取到同一个节点上，进行聚合或者join操作，在操作过程中可能会因为一个节点上处理的key过多导致数据溢出到磁盘。由此可见，Shuffle过程可能会发生大量的磁盘文件读写的 IO 操作，以及数据的网络传输操作。</p>
-<p>Shuffle类算子有：<strong>distinct、groupByKey、reduceByKey、aggregateByKey、join、cogroup、repartition</strong>等，编写Spark作业程序时，<strong>应该尽量使用map类算子替代Shuffle算子</strong>。</p>
-<h4 id="2-5-2-4-使用高性能算子"><a href="#2-5-2-4-使用高性能算子" class="headerlink" title="2.5.2.4. 使用高性能算子"></a>2.5.2.4. 使用高性能算子</h4><ol>
-<li>使用reduceByKey/aggregateByKey替代groupByKey</li>
-<li>使用mapPartitions替代普通map Transformation算子</li>
-<li>使用foreachPartitions替代foreach Action算子</li>
-<li>使用filter之后进行coalesce操作</li>
-<li>repartition:coalesce(numPartitions，true)增多分区使用这个</li>
-<li>coalesce(numPartitions，false)减少分区，没有shuffle只是合并partition</li>
-</ol>
-<h4 id="2-5-2-5-使用Kryo优化序列化性能"><a href="#2-5-2-5-使用Kryo优化序列化性能" class="headerlink" title="2.5.2.5. 使用Kryo优化序列化性能"></a>2.5.2.5. 使用Kryo优化序列化性能</h4><p>Spark支持使用Kryo序列化机制。这种序列化机制，比默认的Java序列化机制速度要快，序列化后的数据更小。所以Kryo序列化优化以后，可以让网络传输的数据变少，在集群中耗费的内存资源大大减少。</p>
-<h4 id="2-5-2-6-优化数据结构"><a href="#2-5-2-6-优化数据结构" class="headerlink" title="2.5.2.6. 优化数据结构"></a>2.5.2.6. 优化数据结构</h4><p>在Java中有三种类型比较耗费内存</p>
-<ul>
-<li>对象：每个Java对象都有对象头、引用等额外的信息，因此比较占用内存空间。</li>
-<li>字符串：每个字符串内部都有一个字符数组以及长度等额外信息。</li>
-<li>集合类型：比如HashMap、LinkedList等，因为集合类型内部通常会使用一些内部类来封装集合元素，比如Map.Entry。</li>
-</ul>
-<p>因此Spark编码时应尽量不要使用以上三种数据结构，尽量使用字符串代替对象，使用原始类型（比如 Int、Long）替代字符串，使用数组替代集合类型，这样尽可能地减少内存占用，降低垃圾回收的频率提高性能。</p>
-<h4 id="2-5-2-7-广播大变量"><a href="#2-5-2-7-广播大变量" class="headerlink" title="2.5.2.7. 广播大变量"></a>2.5.2.7. 广播大变量</h4><p>开发过程中，会遇到需要在算子函数中使用外部变量的场景(尤其是大变量，比如100M以上的大集合)，那么此时就应该使用Spark的广播(Broadcast)功能来提升性能；<strong>函数中使用到外部变量时，默认情况下，Spark会将该变量复制多个副本，通过网络传输到task中，此时每个task都有一个变量副本</strong>。如果变量本身比较大的话(比如100M，甚至1G)，那么大量的变量副本在网络中传输的性能开销，以及在各个节点的Executor中占用过多内存导致的频繁GC(垃圾回收)，都会极大地影响性能； 如果使用的外部变量比较大，建议使用Spark的广播功能，对该变量进行广播。<strong>广播后的变量，会保证每个Executor的内存中，只驻留一份变量副本，而Executor中的 task执行时共享该Executor中的那份变量副本</strong>。这样的话，可以大大减少变量副本的数量，从而减少网络传输的性能开销，并减少对Executor内存的占用开销，降低 GC的频率。</p>
-<p><img src="https://rd.dtdream.com/download/attachments/44586449/image2023-8-1_16-8-4.png?version=1&modificationDate=1690877284000&api=v2" alt="img"></p>
-<h1 id="3-空间大数据计算框架简介"><a href="#3-空间大数据计算框架简介" class="headerlink" title="3. 空间大数据计算框架简介"></a>3. 空间大数据计算框架简介</h1><h2 id="3-1-Sedona-GeoSpark-简介"><a href="#3-1-Sedona-GeoSpark-简介" class="headerlink" title="3.1. Sedona(GeoSpark)简介"></a>3.1. Sedona(GeoSpark)简介</h2><p><a target="_blank" rel="noopener" href="https://rd.dtdream.com/pages/viewpage.action?pageId=44138042">4.1.2.3 sedona(geospark)</a></p>
-<h2 id="3-2-扩展——SQL-MM简介"><a href="#3-2-扩展——SQL-MM简介" class="headerlink" title="3.2. 扩展——SQL/MM简介"></a>3.2. 扩展——SQL/MM简介</h2><p><a target="_blank" rel="noopener" href="https://rd.dtdream.com/pages/viewpage.action?pageId=44589787">1.4.2 SQL/MM</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-空间关系" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3c685723.html" class="article-date">
-      <time datetime="2023-11-07T11:32:52.000Z" itemprop="datePublished">2023-11-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3c685723.html">空间关系</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="1-Hole-Outside-Shell"><a href="#1-Hole-Outside-Shell" class="headerlink" title="1.Hole Outside Shell"></a>1.Hole Outside Shell</h2><p>Indicates that a hole of a polygon lies partially or completely in the exterior of the shell.</p>
-<p><strong><img src="https://rd.dtdream.com/download/thumbnails/26605662/hole%20outside%20shell.png?version=1&modificationDate=1665470888000&api=v2" alt="img"></strong></p>
-<h2 id="2-Nested-Holes"><a href="#2-Nested-Holes" class="headerlink" title="2.Nested Holes"></a>2.Nested Holes</h2><p>Indicates that a hole lies in the interior of another hole in the same polygon.</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="1-Hole-Outside-Shell"><a href="#1-Hole-Outside-Shell" class="headerlink" title="1.Hole Outside Shell"></a>1.Hole Outside Shell</h2><p>Indicates that a hole of a polygon lies partially or completely in the exterior of the shell.</p>
-<p><strong><img src="https://rd.dtdream.com/download/thumbnails/26605662/hole%20outside%20shell.png?version=1&modificationDate=1665470888000&api=v2" alt="img"></strong></p>
-<h2 id="2-Nested-Holes"><a href="#2-Nested-Holes" class="headerlink" title="2.Nested Holes"></a>2.Nested Holes</h2><p>Indicates that a hole lies in the interior of another hole in the same polygon.</p>
-<p><img src="https://rd.dtdream.com/download/attachments/26605662/nested%20holes.png?version=1&modificationDate=1665471020000&api=v2" alt="img"></p>
-<h2 id="3-Disconnected-Interior"><a href="#3-Disconnected-Interior" class="headerlink" title="3.Disconnected Interior"></a>3.Disconnected Interior</h2><p>Indicates that the interior of a polygon is disjoint.(often caused by set of contiguous holes splitting the polygon into two parts)</p>
-<p><img src="https://rd.dtdream.com/download/attachments/26605662/disconnected%20interior.jpg?version=1&modificationDate=1665471561000&api=v2" alt="img"></p>
-<h2 id="4-Self-Intersection"><a href="#4-Self-Intersection" class="headerlink" title="4.Self Intersection"></a>4.Self Intersection</h2><p>Indicates that two rings of a polygonal geometry intersect.</p>
-<p><img src="https://rd.dtdream.com/download/thumbnails/26605662/self%20intersection.png?version=1&modificationDate=1665471807000&api=v2" alt="img"></p>
-<h2 id="5-Ring-Self-Intersection"><a href="#5-Ring-Self-Intersection" class="headerlink" title="5.Ring Self Intersection"></a>5.Ring Self Intersection</h2><p>Indicates that a ring self-intersects.</p>
-<p><img src="https://rd.dtdream.com/download/thumbnails/26605662/self-intersects.png?version=1&modificationDate=1665472261000&api=v2" alt="img"><img src="https://rd.dtdream.com/download/thumbnails/26605662/ring%20self%20intersection.png?version=1&modificationDate=1665472213000&api=v2" alt="img"></p>
-<h2 id="6-Nested-Shells"><a href="#6-Nested-Shells" class="headerlink" title="6.Nested Shells"></a>6.Nested Shells</h2><p>Indicates that a polygon component of a MultiPolygon lies inside another polygonal component.</p>
-<p><img src="https://rd.dtdream.com/download/thumbnails/26605662/nested%20shells.jpg?version=1&modificationDate=1665472572000&api=v2" alt="img"></p>
-<h2 id="7-Duplicate-Rings"><a href="#7-Duplicate-Rings" class="headerlink" title="7.Duplicate Rings"></a>7.Duplicate Rings</h2><p>Indicates that a polygonal geometry contains two rings which are identical.</p>
-<p>也就是说，多边形中包含了两个相同的环，此处不加图片示意了。</p>
-<h2 id="8-Too-Few-Points"><a href="#8-Too-Few-Points" class="headerlink" title="8.Too Few Points"></a>8.Too Few Points</h2><p>Indicates that either:<br>1)A LineString contains a single point;<br>2)A LinearRing contains 2 or 3 points.</p>
-<p>即组成形状的节点太少了。此处不加图片示意了。</p>
-<h2 id="9-invalid-coordinate"><a href="#9-invalid-coordinate" class="headerlink" title="9.invalid coordinate"></a>9.invalid coordinate</h2><p>Indicates that the X or Y ordinate of a Coordinate is not a valid numeric value.</p>
-<p>即不合法的坐标。</p>
-<p>比如说，在地理坐标系中，经度的范围为[-180, 180]，纬度的范围为[-90, 90]，超出这个范围的坐标即为invalid coordinate。此处不加图片示意了。</p>
-<h2 id="10-Ring-Not-Closed"><a href="#10-Ring-Not-Closed" class="headerlink" title="10.Ring Not Closed"></a>10.Ring Not Closed</h2><p><em>Indicates that a ring is not correctly closed.(the first and the last coordinate are different)</em></p>
-<p>即多边形没有合上。正确的polygon应该是首尾相连的，若不相连即出现此错误。此处不加图片示意了</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-jd-cookie在青龙上操作" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/d3bcc396.html" class="article-date">
-      <time datetime="2023-11-02T12:49:07.000Z" itemprop="datePublished">2023-11-02</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>安装docker</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#安装docker</span><br><span class="line">sudo yum check-update</span><br><span class="line">curl -sSL https:&#x2F;&#x2F;get.daocloud.io&#x2F;docker | sh</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl status docker</span><br><span class="line">sudo systemctl enable docker</span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>安装docker</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#安装docker</span><br><span class="line">sudo yum check-update</span><br><span class="line">curl -sSL https:&#x2F;&#x2F;get.daocloud.io&#x2F;docker | sh</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl status docker</span><br><span class="line">sudo systemctl enable docker</span><br></pre></td></tr></table></figure>
-
-
-
-<p>如果已经安装docker 删除qinglong的镜像和服务 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker stop $(docker ps -a -q) &#x2F;&#x2F;  stop停止所有容器 </span><br><span class="line">docker rm $(docker ps -a -q) &#x2F;&#x2F;   remove删除所有容器</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="安装qinglong"><a href="#安装qinglong" class="headerlink" title="安装qinglong"></a>安装qinglong</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker  run -dit \</span><br><span class="line">  -v $PWD&#x2F;ql:&#x2F;ql&#x2F;data  \</span><br><span class="line">  -p 5700:5700 \</span><br><span class="line">  -p 5701:5701 \</span><br><span class="line">  -e ENABLE_WEB_PANEL&#x3D;true \</span><br><span class="line">  -e ENABLE_HANGUP&#x3D;true \</span><br><span class="line">  -e QlPort&#x3D;&quot;5700&quot; \</span><br><span class="line">  --name qinglong \</span><br><span class="line">  --hostname qinglong \</span><br><span class="line">  --restart unless-stopped \</span><br><span class="line">  whyour&#x2F;qinglong:latest</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## ql为容器名 本文机器容器名为qinglong</span><br><span class="line">docker exec -it qinglong bash</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装ninja插件"><a href="#安装ninja插件" class="headerlink" title="安装ninja插件"></a>安装ninja插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;gh-proxy.com&#x2F;https:&#x2F;&#x2F;github.com&#x2F;shufflewzc&#x2F;Waikiki_ninja.git  &#x2F;ql&#x2F;ninja</span><br><span class="line">cd &#x2F;ql&#x2F;ninja&#x2F;backend</span><br><span class="line">pnpm install</span><br><span class="line">pm2 start</span><br></pre></td></tr></table></figure>
-
-<h3 id="打开青龙configs文件夹的extra-sh文件"><a href="#打开青龙configs文件夹的extra-sh文件" class="headerlink" title="打开青龙configs文件夹的extra.sh文件"></a>打开青龙configs文件夹的extra.sh文件</h3><p>将以下内容粘贴进去。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;ql&#x2F;ninja&#x2F;backend </span><br><span class="line">pm2 start</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="安装签到脚本"><a href="#安装签到脚本" class="headerlink" title="安装签到脚本"></a>安装签到脚本</h3>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https:&#x2F;&#x2F;ghproxy.com&#x2F;https:&#x2F;&#x2F;github.com&#x2F;shufflewzc&#x2F;faker3.git &quot;jd_|jx_|gua_|jddj_|jdCookie&quot; &quot;activity|backUp&quot; &quot;^jd[^_]|USER|function|utils|sendNotify|ZooFaker_Necklace.js|JDJRValidator_|sign_graphics_validate|ql|JDSignValidator|magic|depend|h5sts&quot; &quot;main&quot;    # fake2</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com&#x2F;6dylan6&#x2F;jdpro   # 6dy</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com&#x2F;leafTheFish&#x2F;DeathNote</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
-<li>重启后务必执行一次 <code>ql extra</code> 保证 Ninja 配置成功。</li>
-<li>更新 Ninja 只需要在容器中 <code>ninja/backend</code> 目录执行 <code>git pull</code> 然后 <code>pm2 start</code></li>
-<li>Qinglong 需要在登录状态（<code>auth.json</code> 中有 token）</li>
-</ul>
-<h2 id="获取cookie"><a href="#获取cookie" class="headerlink" title="获取cookie"></a>获取cookie</h2><p>以前大家都是获取jd的cookie来操作现在 cookie非常容易过期,现在推荐使用 <strong>wskey</strong>,需要在移动客户端抓包,下面介绍使用安卓客户端的操作,先安装</p>
-<ol>
-<li><p> app：VNET（抓包用）、京东；</p>
-</li>
-<li><p><strong>VNET抓包wskey:</strong></p>
-</li>
-<li><p><strong>青龙面板使用wskey转换脚本</strong></p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ql repo https:&#x2F;&#x2F;e.coding.net&#x2F;HelloDNS&#x2F;sign&#x2F;wskey.git &quot;wskey&quot;  # 国内外</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="安装青龙的依赖"><a href="#安装青龙的依赖" class="headerlink" title="安装青龙的依赖"></a>安装青龙的依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https:&#x2F;&#x2F;gh-proxy.com&#x2F;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;FlechazoPh&#x2F;QLDependency&#x2F;main&#x2F;Shell&#x2F;QLOneKeyDependency.sh | sh</span><br></pre></td></tr></table></figure>
-
-
-
-<p>设置环境变量 QL_LOG_AUTO_INSTALL_DEPEND=ture</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>参考链接</p>
-<p><a target="_blank" rel="noopener" href="https://thin-hill-428.notion.site/Faker-1c598629675145988b43a37998a1604a">青龙Faker仓库教程合集</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yekui6254/article/details/121511771">安卓抓取JD wskey + 添加脚本自动转换JD cookie_jd_wsck-CSDN博客</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/"> 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/3/">下一页 </a>
@@ -1549,7 +1278,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2024 leek
+                2016-2025 leek
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>

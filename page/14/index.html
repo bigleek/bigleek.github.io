@@ -269,6 +269,447 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-log-drive一次 java.io.IOException Connection reset by peer 故障排查" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/f85e694a.html" class="article-date">
+      <time datetime="2021-03-14T00:29:46.000Z" itemprop="datePublished">2021-03-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>转载地址: <a target="_blank" rel="noopener" href="https://mengkang.net/1118.html">https://mengkang.net/1118.html</a></p>
+<p>我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Connection reset by peer</span><br><span class="line">  at sun.nio.ch.FileDispatcherImpl.read0(Native Method)</span><br><span class="line">  at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)</span><br><span class="line">  at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)</span><br><span class="line">  at sun.nio.ch.IOUtil.read(IOUtil.java:192)</span><br><span class="line">  at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)</span><br><span class="line">  at io.netty.buffer.PooledUnsafeDirectByteBuf.setBytes(PooledUnsafeDirectByteBuf.java:311)</span><br><span class="line">  at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:853)</span><br><span class="line">  at io.netty.buffer.WrappedByteBuf.writeBytes(WrappedByteBuf.java:641)</span><br><span class="line">  at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:240)</span><br><span class="line">  at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:115)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)</span><br><span class="line">  at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>转载地址: <a target="_blank" rel="noopener" href="https://mengkang.net/1118.html">https://mengkang.net/1118.html</a></p>
+<p>我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Connection reset by peer</span><br><span class="line">  at sun.nio.ch.FileDispatcherImpl.read0(Native Method)</span><br><span class="line">  at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)</span><br><span class="line">  at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)</span><br><span class="line">  at sun.nio.ch.IOUtil.read(IOUtil.java:192)</span><br><span class="line">  at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)</span><br><span class="line">  at io.netty.buffer.PooledUnsafeDirectByteBuf.setBytes(PooledUnsafeDirectByteBuf.java:311)</span><br><span class="line">  at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:853)</span><br><span class="line">  at io.netty.buffer.WrappedByteBuf.writeBytes(WrappedByteBuf.java:641)</span><br><span class="line">  at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:240)</span><br><span class="line">  at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:115)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)</span><br><span class="line">  at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/netty/netty/issues/5936">https://github.com/netty/netty/issues/5936</a><br><code>Connection reset by peer</code> is typically a result of your peer sending a TCP RST to you.</p>
+</blockquote>
+<h1 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h1><p>既然是网络故障，tcpdump 是否可用呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sudo netstat -lnp|grep 8657</span><br><span class="line">tcp        0      0 0.0.0.0:443                 0.0.0.0:*                   LISTEN      8657&#x2F;java</span><br></pre></td></tr></table></figure>
+
+<p>没有列出全部的 socket 连接，从当前进程监听的端口入手试试。<code>ifconfig</code>可以看到这台机器有两个网卡（eth0 内网 ip，eth1 公网 ip）。</p>
+<h2 id="tcpdump-下的-tcp-ip-协议解析"><a href="#tcpdump-下的-tcp-ip-协议解析" class="headerlink" title="tcpdump 下的 tcp/ip 协议解析"></a>tcpdump 下的 tcp/ip 协议解析</h2><p>先看下 tcpdump 输出tcp/ip 数据的大致格式</p>
+<blockquote>
+<p>参考 <a target="_blank" rel="noopener" href="http://www.tcpdump.org/tcpdump_man.html">http://www.tcpdump.org/tcpdump_man.html</a> 中关于 tcp 协议的描述，我整理了下格式</p>
+</blockquote>
+<p>The general format of a TCP protocol line is</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src &gt; dst: Flags [tcpflags], seq data-seqno, ack ackno, win window, urg urgent, options [opts], length len</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>src</code> and <code>dst</code> are the source and destination IP addresses and ports.</li>
+<li><code>tcpflags</code> are some combination of <code>S</code> (SYN), <code>F</code> (FIN), <code>P</code> (PUSH), <code>R</code> (RST), <code>U</code> (URG), <code>W</code> (ECN CWR), <code>E</code> (ECN-Echo) or <code>.</code> (ACK), or <code>none</code> if no flags are set.</li>
+<li><code>data-seqno</code> describes the portion of sequence space covered by the data in this packet.</li>
+<li><code>ackno</code> is sequence number of the next data expected the other direction on this connection.</li>
+<li><code>window</code> is the number of bytes of receive buffer space available the other direction on this connection.</li>
+<li><code>urg</code> indicates there is <code>urgent</code> data in the packet.</li>
+<li><code>opts</code> are TCP options (e.g., mss 1024).</li>
+<li><code>len</code> is the length of payload data.</li>
+</ol>
+<h2 id="抓包数据"><a href="#抓包数据" class="headerlink" title="抓包数据"></a>抓包数据</h2><p>通过<code>tcpdump</code>查看下443 端口的网络情况。与上面的格式略有不同。因为我有两个网卡，请求是从 eth0 进，从 eth1 出，我尝试使用<code>tcpdump -i any</code> 发现第三次握手输出的 askno 数据不对。（<strong>为什么会这样呢，还不知道，谁知道请告知下</strong>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$sudo tcpdump -i any -nn port 443</span><br><span class="line"></span><br><span class="line">16:18:41.553460 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: S 806033:806033(0) win 14600 &lt;mss 1460,sackOK,timestamp 2230744217 0,nop,wscale 8&gt;</span><br><span class="line">16:18:41.553483 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.110.5745: S 1720728675:1720728675(0) ack 806034 win 14480 &lt;mss 1460,sackOK,timestamp 2425389802 2230744217,nop,wscale 7&gt;</span><br><span class="line">16:18:41.553647 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: . ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br><span class="line">16:18:41.553677 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: R 1:1(0) ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>但是如果你要导出<code>*.pcap</code>文件然后用<code>wireshark</code>来查看，还是得将两个网卡的流量合并到一起才行。</p>
+</blockquote>
+<p>两个网卡分开抓</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 合并到一起写</span><br><span class="line">$sudo tcpdump -i eth0 -nn port 443</span><br><span class="line">$sudo tcpdump -i eth1 -nn port 443</span><br><span class="line"></span><br><span class="line">16:51:16.073956 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: S 2659415794:2659415794(0) win 14600 &lt;mss 1460,sackOK,timestamp 2328745293 0,nop,wscale 8&gt;</span><br><span class="line">16:51:16.073985 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.2.61835: S 955422999:955422999(0) ack 2659415795 win 14480 &lt;mss 1460,sackOK,timestamp 2427344323 2328745293,nop,wscale 7&gt;</span><br><span class="line">16:51:16.074147 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: . ack 955423000 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br><span class="line">16:51:16.074192 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: R 0:0(0) ack 1 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面的握手比较简单对应着</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">时间 协议 src &gt; dst tcpflags data-seqno ack ackno win window &lt;opts&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="握手逻辑"><a href="#握手逻辑" class="headerlink" title="握手逻辑"></a>握手逻辑</h2><p>一次连接建立的三次握手的步骤：</p>
+<ol>
+<li>Caller sends SYN</li>
+<li>Recipient responds with SYN, ACK</li>
+<li>Caller sends ACK</li>
+</ol>
+<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><ol>
+<li>src 发送的 tcpflags = S，也就是说发送的SYN请求，随机产生一个值 data-seqno = J(<code>2659415794</code>)，并将该数据包发送给 dst</li>
+<li>dst 发送的 tcpflags = S，实际发送的时候 SYN 和 ACK 标志位都置1了，返回一个 ackno=<code>J</code> + 1，也就是<code>2659415795</code>，然后随机生成一个新的 data-seqno = K(<code>955422999</code>) 发送给 src</li>
+<li>src 检查收到的 ackno 是不是等于<code>J</code>+<code>1</code>，然后再发送一个 ackno = <code>K</code>+1，也就是<code>955423000</code>，前面的文档中说道<code>tcpflags</code>为<code>.</code>的时候也表示<code>ACK</code></li>
+<li>src 最后为什么又给 dst 发送一个 tcpflags = R 的请求呢？</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://mengkang.net/upload/image/2017/1221/1513846681114601.png"><img src="https://mengkang.net/upload/image/2017/1221/1513846681114601.png" alt="一次 java.io.IOException: Connection reset by peer 故障排查"></a></p>
+<h2 id="为什么会出现-RST"><a href="#为什么会出现-RST" class="headerlink" title="为什么会出现 RST"></a>为什么会出现 RST</h2><p>因为具有周期性，我大概猜到了，是 lvs 对我的后端服务的健康检查导致的，联系了网络运营服务客服人员，我把<code>.pcap</code>给他们</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i any port 443 -c 3 -w log.pcap</span><br></pre></td></tr></table></figure>
+
+<p>他们确认源地址就是LVS的local地址。<br>健康检查的机制就是建立成功后就 RST 掉，就不占用 session 了。这是公司的规范，问题算是定位了。既然公司的规范，那么我们这边需要定制修改下，针对 vip 发送的 RST 不处理。</p>
+<p>其他参考</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/netty/netty/issues/6029">https://github.com/netty/netty/issues/6029</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc793">https://tools.ietf.org/html/rfc793</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/costaxu/blog/127394">https://my.oschina.net/costaxu/blog/127394</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ambari-server中postgress启动" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/466081a0.html" class="article-date">
+      <time datetime="2021-03-10T07:59:20.000Z" itemprop="datePublished">2021-03-10</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/466081a0.html">ambari-server中postgress启动</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><img src="../img/image-20210310160022213.png" alt="image-20210310160022213"></p>
+<p> Unable to start PostgreSQL server. Status stopped. . Exiting</p>
+<p>bin  pg_ctl status </p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><img src="../img/image-20210310160022213.png" alt="image-20210310160022213"></p>
+<p> Unable to start PostgreSQL server. Status stopped. . Exiting</p>
+<p>bin  pg_ctl status </p>
+<p> systemctl start  postgresql.service</p>
+<p><img src="../img/image-20210310160212137.png" alt="image-20210310160212137"></p>
+<p>FATAL:  could not write lock file “postmaster.pid”: No space left on device</p>
+<p> df -h</p>
+<p><img src="../img/image-20210310160232827.png" alt="image-20210310160232827"></p>
+<p>systemctl start  postgresql.service</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-docker搭建单机kafka" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/4225d45e.html" class="article-date">
+      <time datetime="2021-03-07T04:36:44.000Z" itemprop="datePublished">2021-03-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="搭建单机kafka选型"><a href="#搭建单机kafka选型" class="headerlink" title="搭建单机kafka选型"></a>搭建单机kafka选型</h1><ul>
+<li><p>选择docker容器内集成 kafka,zookeeper 的容器 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 找到的这个 容器设置了 kafka的hostname和 zookeeper的ip ,</span></span><br><span class="line"> docker run -d -e ADVERTISED_HOSTNAME=$(hostname -f)  -e KAFKA_ADVERTISED_HOST_NAME=192.168.248.128 -e ZOOKEEPER_IP=192.168.248.128 -p 9092:9092 -p 2181:2181 --restart=always jrottenberg/kafka-standalone</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="搭建单机kafka选型"><a href="#搭建单机kafka选型" class="headerlink" title="搭建单机kafka选型"></a>搭建单机kafka选型</h1><ul>
+<li><p>选择docker容器内集成 kafka,zookeeper 的容器 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 找到的这个 容器设置了 kafka的hostname和 zookeeper的ip ,</span></span><br><span class="line"> docker run -d -e ADVERTISED_HOSTNAME=$(hostname -f)  -e KAFKA_ADVERTISED_HOST_NAME=192.168.248.128 -e ZOOKEEPER_IP=192.168.248.128 -p 9092:9092 -p 2181:2181 --restart=always jrottenberg/kafka-standalone</span><br></pre></td></tr></table></figure>
+
+<p>基于上面的容器是可以运行 获取到了zookeeper的broker 但是kafka是连接不上 </p>
+</li>
+<li><p>docker-composer 来执行</p>
+<p>参考第 <a target="_blank" rel="noopener" href="https://github.com/conduktor/kafka-stack-docker-compose">https://github.com/conduktor/kafka-stack-docker-compose</a> </p>
+<p>但是还有有个问题,我搭建的环境是离线的,尽量还是以 docker命令来执行减少安装其他软件</p>
+</li>
+<li><p>原始的 kafka,zookeeper 分开安装,在设置环境变量(选用的方案)</p>
+</li>
+</ul>
+<h1 id="前置需要安装的软件"><a href="#前置需要安装的软件" class="headerlink" title="前置需要安装的软件"></a>前置需要安装的软件</h1><p>prettyZoo 查看zookeeper很方便</p>
+<p>cmak (kafka manage) kafka监控软件</p>
+<h1 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h1><p><a target="_blank" rel="noopener" href="https://ioccc.cc/2018/12/12/zookeeper-kafka/">https://ioccc.cc/2018/12/12/zookeeper-kafka/</a>   改部分参考该篇博文</p>
+<h2 id="运行zookeeper"><a href="#运行zookeeper" class="headerlink" title="运行zookeeper"></a>运行zookeeper</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name zookeeper --publish 2181:2181 \</span><br><span class="line"> --volume &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime \</span><br><span class="line"> zookeeper:latest</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行kafka"><a href="#运行kafka" class="headerlink" title="运行kafka"></a>运行kafka</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name kafka --publish 9092:9092 \</span><br><span class="line"> --link zookeeper \</span><br><span class="line"> --env KAFKA_ZOOKEEPER_CONNECT&#x3D;zookeeper:2181 \</span><br><span class="line"> --env KAFKA_ADVERTISED_HOST_NAME&#x3D;HOST_IP \</span><br><span class="line"> --env KAFKA_ADVERTISED_PORT&#x3D;9092 \</span><br><span class="line"> --volume &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime \</span><br><span class="line"> wurstmeister&#x2F;kafka:latest</span><br></pre></td></tr></table></figure>
+
+<p>进去容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker  exec -it  &lt;ID&gt; &#x2F;bash&#x2F;sh</span><br><span class="line"></span><br><span class="line">cd &#x2F;opt&#x2F;kafka**&#x2F;bin</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="创建topic-名为test"><a href="#创建topic-名为test" class="headerlink" title="创建topic 名为test"></a>创建topic 名为test</h3><p> kafka-topics.sh –create –zookeeper zookeeper:2181 –replication-factor 1 –partitions 1 –topic test</p>
+<h3 id="列出所有的topic"><a href="#列出所有的topic" class="headerlink" title="列出所有的topic"></a>列出所有的topic</h3><p> kafka-topics.sh –list –zookeeper zookeeper:2181</p>
+<h3 id="创建生产者输入测试信息"><a href="#创建生产者输入测试信息" class="headerlink" title="创建生产者输入测试信息"></a>创建生产者输入测试信息</h3><p> kafka-console-producer.sh –broker-list localhost:9092 –topic test</p>
+<p> kafka-console-consumer.sh –bootstrap-server localhost:9092 –topic test –from-beginning</p>
+<h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><p>需要将  KAFKA_ADVERTISED_HOST_NAME=<strong>HOST_IP</strong> 改为 docker所在的ip</p>
+<p>在cmak中是看不到 topic.需要 用3.3.1 的命令去创建</p>
+<p><img src="file://E:/blog/source/img/image-20210307132400145.png?lastModify=1615094706" alt="image-20210307132400145"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-github action 示例" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/50c36cff.html" class="article-date">
+      <time datetime="2021-03-03T12:00:21.000Z" itemprop="datePublished">2021-03-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/50c36cff.html">github的action上实例操作</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16876.html">https://51.ruyo.net/16876.html</a>  -&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/UnicomTask">https://github.com/bigleek/UnicomTask</a></p>
+<p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16050.html">https://51.ruyo.net/16050.html</a>  -&gt;&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/Cloud189Checkin-Actions">https://github.com/bigleek/Cloud189Checkin-Actions</a></p>
+<p>github action是github提供的自动化工具能对你参考的代码解析编译构建操作，也可以衍生出其他服务，之前是pro用户才能使用，在GitHub被微软收购后财大气粗的放出的重量级服务，期间很多人滥用action的虚拟机的环境去挖矿</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16876.html">https://51.ruyo.net/16876.html</a>  -&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/UnicomTask">https://github.com/bigleek/UnicomTask</a></p>
+<p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16050.html">https://51.ruyo.net/16050.html</a>  -&gt;&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/Cloud189Checkin-Actions">https://github.com/bigleek/Cloud189Checkin-Actions</a></p>
+<p>github action是github提供的自动化工具能对你参考的代码解析编译构建操作，也可以衍生出其他服务，之前是pro用户才能使用，在GitHub被微软收购后财大气粗的放出的重量级服务，期间很多人滥用action的虚拟机的环境去挖矿</p>
+<p>创建了workflow后在仓库会有个**.github/workflows** 的文件夹，里面可以将敏感信息写到下面的环境变量中</p>
+<p>设置action的环境变量的位置</p>
+<p><img src="../img/image-20220409204154682.png" alt="image-20220409204154682"></p>
+<p>笔者目前对github action有两个用途</p>
+<p>1、主要是定时任务和提醒</p>
+<p>2、主要是不是GitHub仓库的静态资源到腾讯的cloudbase中</p>
+<p>现在先讨论第一种的使用方法</p>
+<p>首先创建GitHub的任意仓库并</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/TencentCloudBase/cloudbase-action">TencentCloudBase/cloudbase-action: 云开发 Tencent CloudBase Github Action 可以将 Github 项目自动部署到云开发环境，基于 CloudBase Framework，支持静态网站、云函数、云托管、小程序等项目</a></p>
+<p>创建对应的用户并设置权限</p>
+<p><img src="../img/image-20220409210624384.png" alt="image-20220409210624384"></p>
+<p>授予文件类的权限否则用该用户上传文件时GitHub action会报没有权限</p>
+<p><img src="../img/image-20220409210755155.png" alt="image-20220409210755155"></p>
+<p><img src="../img/image-20220409210455374.png" alt="image-20220409210455374"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-分布式事务" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -2409,450 +2850,6 @@
 
 
   
-    <article id="post-docker容器导入导出和配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/aba1fef8.html" class="article-date">
-      <time datetime="2021-01-18T02:19:41.000Z" itemprop="datePublished">2021-01-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/aba1fef8.html">docker容器导入导出和配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h1 id="镜像导入导出"><a href="#镜像导入导出" class="headerlink" title="镜像导入导出"></a><strong>镜像导入导出</strong></h1><p>目前的导入导出是 sava/load,export/import ,前者有完整的数据,后者类似于容器的快照,开始搭建时,想直接复制我们服务器中运行的容器,导出后在docker中运行后 一直报</p>
-<p>No command specified” from re-imported docker image/container</p>
-<p>后面有了解 sava/load 会有完整的数据 但是 export的tar包这个命令将导入镜像文件和参数</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h1 id="镜像导入导出"><a href="#镜像导入导出" class="headerlink" title="镜像导入导出"></a><strong>镜像导入导出</strong></h1><p>目前的导入导出是 sava/load,export/import ,前者有完整的数据,后者类似于容器的快照,开始搭建时,想直接复制我们服务器中运行的容器,导出后在docker中运行后 一直报</p>
-<p>No command specified” from re-imported docker image/container</p>
-<p>后面有了解 sava/load 会有完整的数据 但是 export的tar包这个命令将导入镜像文件和参数</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="关于-gdal容器"><a href="#关于-gdal容器" class="headerlink" title="关于 gdal容器"></a>关于 gdal容器</h2><p>目前使用的gdal的容器是  osgeo/gdal:ubuntu-small-3.2.1</p>
-<blockquote>
-<p>docker run -itd –privileged -v /usr/local/gdal/data/:/home    <br>–name gdal_python osgeo/gdal:ubuntu-small-3.2.1</p>
-</blockquote>
-<ul>
-<li>容器的名称需要和上面 application-boot.yml的关联上,需要通过容器的主机 ssh 控制 docker 下的容器</li>
-<li>需要复制 shp2pg.py 到  /usr/local/gdal/data/</li>
-</ul>
-<p>后面的版本是有添加 gdal的环境</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> osgeo/gdal:ubuntu-small-<span class="number">3.2</span>.<span class="number">1</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> gdallikedemo</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> add-apt-repository ppa:openjdk-r/ppa &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get clean;</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> NAME.jar /home/NAME.jar</span></span><br><span class="line"><span class="comment"># RUN nohup java -jar /home/NAME.jar &gt;/dev/null 2&gt;&amp;1 &amp;</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/home/NAME.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="搭建pgsql集群"><a href="#搭建pgsql集群" class="headerlink" title="搭建pgsql集群"></a><strong>搭建pgsql集群</strong></h1><p>搭建集群 可以参考之前的文档 我这边只是列出清单</p>
-<table>
-<thead>
-<tr>
-<th align="left">集群名称</th>
-<th align="left"></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">pg_master</td>
-<td align="left">pg_hba.conf( 配置网络和集群的IP,注意配置 所有从服务器的IP),postgresql.conf(配置数据库自己的服务和资源使用)</td>
-</tr>
-<tr>
-<td align="left">pg_slaver1</td>
-<td align="left">同上,recovery.conf(设置恢复和通信)</td>
-</tr>
-<tr>
-<td align="left">pg_slaver2</td>
-<td align="left">同上,recovery.conf(设置恢复和通信)</td>
-</tr>
-</tbody></table>
-<p>tips:</p>
-<ul>
-<li>建议在postgresql.conf 中的日志打开,日志的配置</li>
-</ul>
-<p>logging_collector =on        # Enable capturing of stderr and csvlog</p>
-<p>日志会在本地的/data/postgresql/data 启动时挂载的点,会有log目录可以找到异常信息</p>
-<ul>
-<li>尽量选择复制配置文件,像postgresql.conf这种<strong>标准配置文件主从有区别要注意</strong></li>
-</ul>
-<h1 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a><strong>nginx</strong></h1><p>拉取 nginx镜像后</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx -p 80:80 --restart&#x3D;always -v \</span><br><span class="line"></span><br><span class="line">&#x2F;data&#x2F;nginx&#x2F;html:&#x2F;etc&#x2F;nginx&#x2F;html&#x2F;   \</span><br><span class="line"></span><br><span class="line">-v &#x2F;data&#x2F;nginx&#x2F;conf&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf \</span><br><span class="line"></span><br><span class="line">-v &#x2F;data&#x2F;nginx&#x2F;conf.d&#x2F;default.conf:&#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;default.conf \</span><br><span class="line"></span><br><span class="line">nginx:1.19.6</span><br></pre></td></tr></table></figure>
-
-
-
-<p>一个要注意的是 网上都是nginx默认的挂载是/usr/share/nginx/html ,使用依照了 官方docker版本我挂载了数据,一直都有是404 ,后面看日志是</p>
-<blockquote>
-<p>2021/01/13 21:56:42 [error] 21#21: *1 “/etc/nginx/html/index.html” is not found (2: No such file or directory), client: 172.17.0.1, server: localhost, request: “GET / HTTP/1.1”, host: “127.0.0.1”</p>
-<p>172.17.0.1 - - [13/Jan/2021:21:56:42 +0000] “GET / HTTP/1.1” 404 153 “-“ “curl/7.29.0”</p>
-</blockquote>
-<p>这边关联到/etc/nginx/html/ 后正常可以看到 welcome nginx的页面</p>
-<h1 id="geoserver"><a href="#geoserver" class="headerlink" title="geoserver"></a>geoserver</h1><p>目前使用的是官方的 geoserver的集群 主要 是要导出 yaml 的文件</p>
-<p>将本地的geoserver 镜像导入 harber的私服中然后再 配置 k8s挂载卷然后编辑</p>
-<ol>
-<li>挂载卷</li>
-<li>harber的远程地址</li>
-</ol>
-<h2 id="推送镜像到harber"><a href="#推送镜像到harber" class="headerlink" title="推送镜像到harber"></a>推送镜像到harber</h2><p>首先 使用命令  docker tag  IMAGE_ID NAME:TAG</p>
-<p>将load 的镜像设置对应的标签方便后面使用k8s导入的配置文件好找到</p>
-<p>push_im.sh文件中的 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 发布最终版本</span><br><span class="line"># 版本号</span><br><span class="line">version&#x3D;latest</span><br><span class="line"># 打包镜像</span><br><span class="line">docker build -t NAME:$version .</span><br><span class="line"># 配置标签</span><br><span class="line">docker tag NAME:$version 192.168.7.120&#x2F;public&#x2F;NAME:$version</span><br><span class="line"># 推送镜像</span><br><span class="line">docker push 192.168.7.120&#x2F;public&#x2F;NAME:$version</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>version 对应的字段要有 ,同时 harber 地址要改的</p>
-<p>上面的这个 <strong>docker build -t NAME:$version .</strong>   是有个点的, 需要dockerfile文件的</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-gis初入门" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/6a9c1835.html" class="article-date">
-      <time datetime="2021-01-08T06:24:30.000Z" itemprop="datePublished">2021-01-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/6a9c1835.html">gis初入门</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>参考链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015674238">https://segmentfault.com/a/1190000015674238</a></p>
-<p>GIS是一个设计用来捕获、存储、操作（manipulate）、分析、管理和展示空间或图像数据的系统。</p>
-<p><strong>GIS 应用</strong> = <strong>基础底图</strong> + <strong>操作图层</strong> + <strong>任务</strong></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>参考链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015674238">https://segmentfault.com/a/1190000015674238</a></p>
-<p>GIS是一个设计用来捕获、存储、操作（manipulate）、分析、管理和展示空间或图像数据的系统。</p>
-<p><strong>GIS 应用</strong> = <strong>基础底图</strong> + <strong>操作图层</strong> + <strong>任务</strong></p>
-<ul>
-<li><strong>基础底图</strong>：可以简单地理解为就是地图，并且要求是一个不会频繁改变的地图。</li>
-<li><strong>操作图层</strong>：用户使用的主要图层，承载主要的待<strong>编辑、展示和分析</strong>的信息数据。</li>
-<li><strong>任务</strong>：如导航、地址编码等计算量比较大的分析任务。</li>
-</ul>
-<h2 id="GIS-数据和协议"><a href="#GIS-数据和协议" class="headerlink" title="GIS 数据和协议"></a>GIS 数据和协议</h2><p>由于 ArcGIS 在行业内的龙头地位，其指定的一系列数据格式和交换协议，成为 GIS 业界的标准协议。目前制定 GIS 协议的标准化组织为<a target="_blank" rel="noopener" href="http://www.opengeospatial.org/">开放地理空间协会（OGC）</a>，其制定的规范称为 <strong>OpenGIS</strong>（Open Geodata Interoperation Specification）。</p>
-<p>相关的接口和协议非常多，以后再一一补齐。目前大部分 demo 系统，导入的数据格式为 shp 文件，往往是由甲方直接提供、或者是网上的公开 GIS 服务提供商可提供下载的，不需要我们自行转换数据格式。ArcGIS 可以直接识别并导入，入库后也使用标准接口协议开放服务，比如 WMS（网络地图服务）和 WFS（网络要素服务）。</p>
-<h2 id="免费开源-GIS-软件"><a href="#免费开源-GIS-软件" class="headerlink" title="免费开源 GIS 软件"></a>免费开源 GIS 软件</h2><p>开源 GIS 软件，从大类来分，包含服务器版和桌面版（即桌面版）。显然我们最关注的是服务器版的 GIS 软件 / 组件。</p>
-<p>服务器版的部署架构和 ArcGIS 基本类似，也是分 web、GIS Server、database 三大模块，并且可以分开部署。</p>
-<p>参考链接<a target="_blank" rel="noopener" href="https://blog.csdn.net/sxausgyy/article/details/8151019">https://blog.csdn.net/sxausgyy/article/details/8151019</a></p>
-<p><strong>要素模型(Feature)</strong><br>要素是GeoTools中的核心术语，它是描述地理空间数据对<br>象的基本单位，它描述了一个现实世界中的客观地理实体，如:一条河流、一座桥梁都<br>可以理解为要素。</p>
-<p><strong>栅格数据</strong><br>栅格数据是从上向下拍摄的地球照片，使用离散单元存储其值，图片的每个像素点都有一个指定值<br>服务器本身存储，传输速度快，服务器压力小，多为png,jpg,gif<br>数据量大，更新慢</p>
-<p><strong>矢量数据</strong><br>矢量数据是仅仅存储节点，比如箭头，线条，点等。存储的是对象的轮廓，而栅格数据适合表达对象的内容。<br>矢量数据类型有点，线和多边形。<br>数量小，数据更新快<br>服务器压力大，技术要求高</p>
-<p><img src="../img/1334284682_7917.jpg" alt="1334284682_7917"></p>
-<p>在gist环境下回有图层的概念</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-dockerfile使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2ba9cf6c.html" class="article-date">
-      <time datetime="2021-01-08T05:46:19.000Z" itemprop="datePublished">2021-01-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2ba9cf6c.html">dockerfile使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>目前需要创建docker容器 之前用的是基于 Java环境的镜像 构件的,当前开发都后期需要gdal和其他的环境,仅仅基于java的 命令是远远不够用户的</p>
-<p>首先gdal 官方提供了源,但是这个源没有java环境需要我们安装,他提供了多个Linux发行版本 包括Ubuntu和alpine ,起初基于Ubuntu small来搭建的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM osgeo&#x2F;gdal:ubuntu-small-3.2.1</span><br><span class="line">MAINTAINER gdallikedemo</span><br><span class="line">RUN add-apt-repository ppa:openjdk-r&#x2F;ppa &amp;&amp; \</span><br><span class="line">    apt-get update &amp;&amp; \</span><br><span class="line">    apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span><br><span class="line">    apt-get clean;</span><br><span class="line">COPY MY_JAR.jar  &#x2F;home&#x2F;MY_JAR.jar</span><br><span class="line"># RUN nohup  java -jar &#x2F;home&#x2F;MY_JAR.jar  &gt;&#x2F;dev&#x2F;null  2&gt;&amp;1 &amp;</span><br><span class="line">CMD [&quot;java&quot;,&quot;-jar&quot;,&quot;&#x2F;home&#x2F;MY_JAR.jar&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>目前需要创建docker容器 之前用的是基于 Java环境的镜像 构件的,当前开发都后期需要gdal和其他的环境,仅仅基于java的 命令是远远不够用户的</p>
-<p>首先gdal 官方提供了源,但是这个源没有java环境需要我们安装,他提供了多个Linux发行版本 包括Ubuntu和alpine ,起初基于Ubuntu small来搭建的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM osgeo&#x2F;gdal:ubuntu-small-3.2.1</span><br><span class="line">MAINTAINER gdallikedemo</span><br><span class="line">RUN add-apt-repository ppa:openjdk-r&#x2F;ppa &amp;&amp; \</span><br><span class="line">    apt-get update &amp;&amp; \</span><br><span class="line">    apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span><br><span class="line">    apt-get clean;</span><br><span class="line">COPY MY_JAR.jar  &#x2F;home&#x2F;MY_JAR.jar</span><br><span class="line"># RUN nohup  java -jar &#x2F;home&#x2F;MY_JAR.jar  &gt;&#x2F;dev&#x2F;null  2&gt;&amp;1 &amp;</span><br><span class="line">CMD [&quot;java&quot;,&quot;-jar&quot;,&quot;&#x2F;home&#x2F;MY_JAR.jar&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<p>,但是在添加源的时候又依赖于命令 add-resportiy 添加源,如果用 Ubuntu-full后可以看到文件明显增大到1g,明显不符合要求,我就换了alpine  ,看网上介绍路由器和小型设备的,看了后就在这个版本上添加</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> osgeo/gdal:alpine-normal-<span class="number">3.2</span>.<span class="number">0</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> gdallikedemo</span><br><span class="line"><span class="comment"># 添加命令 安装java</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk add  --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community &amp;&amp; \</span></span><br><span class="line"><span class="bash">    apk add openjdk8 ;</span></span><br><span class="line"><span class="comment"># 声明端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">11003</span></span><br><span class="line"><span class="comment"># 复制指定文件</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> MY_JAR.jar  /home/MY_JAR.jar</span></span><br><span class="line"><span class="comment"># RUN nohup  java -jar /home/MY_JAR.jar  &gt;/dev/null  2&gt;&amp;1 &amp;</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/home/MY_JAR.jar&quot;</span>]</span></span><br><span class="line">                                     </span><br></pre></td></tr></table></figure>
-
-<p>如果需要后面的服务也可以</p>
-<p>参考该要求<a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/basic_concept/image/#%E5%88%86%E5%B1%82%E5%AD%98%E5%82%A8">分层存储</a></p>
-<p>镜像构建时，会一层层构建，前一层是后一层的基础。每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层。比如，删除前一层文件的操作，实际不是真的删除前一层的文件，而是仅在当前层标记为该文件已删除。在最终容器运行的时候，虽然不会看到这个文件，但是实际上该文件会一直跟随镜像。因此，在构建镜像的时候，需要额外小心，每一层尽量只包含该层需要添加的东西，任何额外的东西应该在该层构建结束前清理掉。</p>
-<p>Dockerfile 中每一个指令都会建立一层，<code>RUN</code> 也不例外。每一个 <code>RUN</code> 的行为，就和刚才我们手工建立镜像的过程一样：新建立一层，在其上执行这些命令，执行结束后，<code>commit</code> 这一层的修改，构成新的镜像。</p>
-<p>一定要注一个实现 不要多次run,尽量集合在一起执行</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-编写Linux启动文件并设置为自启动使用systemctl" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3e75944c.html" class="article-date">
-      <time datetime="2020-11-29T08:54:38.000Z" itemprop="datePublished">2020-11-29</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="编写Linux启动文件并设置为自启动使用systemctl"><a href="#编写Linux启动文件并设置为自启动使用systemctl" class="headerlink" title="编写Linux启动文件并设置为自启动使用systemctl"></a>编写Linux启动文件并设置为自启动使用systemctl</h2><p>常见使用的格式模板</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Sakura Frp Client Service</span><br><span class="line">After&#x3D;network.target syslog.target</span><br><span class="line">Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">ExecStart&#x3D; 执行步骤</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="编写Linux启动文件并设置为自启动使用systemctl"><a href="#编写Linux启动文件并设置为自启动使用systemctl" class="headerlink" title="编写Linux启动文件并设置为自启动使用systemctl"></a>编写Linux启动文件并设置为自启动使用systemctl</h2><p>常见使用的格式模板</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Sakura Frp Client Service</span><br><span class="line">After&#x3D;network.target syslog.target</span><br><span class="line">Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">ExecStart&#x3D; 执行步骤</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
-
-<p>可以使用 下面的步骤的</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[Unit]</span></span><br><span class="line"><span class="string">    Description=Sakura Frp Client Service</span></span><br><span class="line"><span class="string">    After=network.target syslog.target</span></span><br><span class="line"><span class="string">    Wants=network.target</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    [Service]</span></span><br><span class="line"><span class="string">    Type=simple</span></span><br><span class="line"><span class="string">    Restart=on-failure</span></span><br><span class="line"><span class="string">    RestartSec=5s</span></span><br><span class="line"><span class="string">    ExecStart=<span class="variable">$&#123;FRP_EXEC_DIR&#125;</span><span class="variable">$&#123;FRP_EXEC&#125;</span> -f <span class="variable">$&#123;FRP_KEY&#125;</span>:<span class="variable">$&#123;FRP_TID&#125;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    [Install]</span></span><br><span class="line"><span class="string">    WantedBy=multi-user.target</span></span><br><span class="line"><span class="string">    &quot;</span> &gt; /lib/systemd/system/frpc.service</span><br></pre></td></tr></table></figure>
-
-<p>后面可以使用</p>
-<p>systemctl daemon-reload</p>
-<h3 id="启动-frpc-服务"><a href="#启动-frpc-服务" class="headerlink" title="启动 frpc 服务"></a>启动 frpc 服务</h3><p>systemctl enable frpc<br>systemctl start  frpc</p>
-<p>还有一些其他的systemctl 的 命令 像 status 类似</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;</span><br><span class="line">Wants&#x3D;network-online.target</span><br><span class="line">After&#x3D;network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart&#x3D;</span><br><span class="line">User&#x3D;</span><br><span class="line">WorkingDirectory&#x3D;</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;3</span><br><span class="line">StartLimitBurst&#x3D;10</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/13/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/15/">下一页 </a>
@@ -2864,7 +2861,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2024 leek
+                2016-2025 leek
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>

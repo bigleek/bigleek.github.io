@@ -269,6 +269,406 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-mysql相关内容" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/f0e475b6.html" class="article-date">
+      <time datetime="2022-11-01T09:19:36.000Z" itemprop="datePublished">2022-11-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/f0e475b6.html">mysql相关内容</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SHOW DATABASES                                &#x2F;&#x2F;列出 MySQL Server 数据库。</span><br><span class="line">SHOW TABLES [FROM db_name]                    &#x2F;&#x2F;列出数据库数据表。</span><br><span class="line">SHOW CREATE TABLES tbl_name                    &#x2F;&#x2F;导出数据表结构。</span><br><span class="line">SHOW TABLE STATUS [FROM db_name]              &#x2F;&#x2F;列出数据表及表状态信息。</span><br><span class="line">SHOW COLUMNS FROM tbl_name [FROM db_name]     &#x2F;&#x2F;列出资料表字段</span><br><span class="line">SHOW FIELDS FROM tbl_name [FROM db_name]，DESCRIBE tbl_name [col_name]。</span><br><span class="line">SHOW FULL COLUMNS FROM tbl_name [FROM db_name]&#x2F;&#x2F;列出字段及详情</span><br><span class="line">SHOW FULL FIELDS FROM tbl_name [FROM db_name] &#x2F;&#x2F;列出字段完整属性</span><br><span class="line">SHOW INDEX FROM tbl_name [FROM db_name]       &#x2F;&#x2F;列出表索引。</span><br><span class="line">SHOW STATUS                                  &#x2F;&#x2F;列出 DB Server 状态。</span><br><span class="line">SHOW VARIABLES                               &#x2F;&#x2F;列出 MySQL 系统环境变量。</span><br><span class="line">SHOW PROCESSLIST                             &#x2F;&#x2F;列出执行命令。</span><br><span class="line">SHOW GRANTS FOR user                         &#x2F;&#x2F;列出某用户权限</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SHOW DATABASES                                &#x2F;&#x2F;列出 MySQL Server 数据库。</span><br><span class="line">SHOW TABLES [FROM db_name]                    &#x2F;&#x2F;列出数据库数据表。</span><br><span class="line">SHOW CREATE TABLES tbl_name                    &#x2F;&#x2F;导出数据表结构。</span><br><span class="line">SHOW TABLE STATUS [FROM db_name]              &#x2F;&#x2F;列出数据表及表状态信息。</span><br><span class="line">SHOW COLUMNS FROM tbl_name [FROM db_name]     &#x2F;&#x2F;列出资料表字段</span><br><span class="line">SHOW FIELDS FROM tbl_name [FROM db_name]，DESCRIBE tbl_name [col_name]。</span><br><span class="line">SHOW FULL COLUMNS FROM tbl_name [FROM db_name]&#x2F;&#x2F;列出字段及详情</span><br><span class="line">SHOW FULL FIELDS FROM tbl_name [FROM db_name] &#x2F;&#x2F;列出字段完整属性</span><br><span class="line">SHOW INDEX FROM tbl_name [FROM db_name]       &#x2F;&#x2F;列出表索引。</span><br><span class="line">SHOW STATUS                                  &#x2F;&#x2F;列出 DB Server 状态。</span><br><span class="line">SHOW VARIABLES                               &#x2F;&#x2F;列出 MySQL 系统环境变量。</span><br><span class="line">SHOW PROCESSLIST                             &#x2F;&#x2F;列出执行命令。</span><br><span class="line">SHOW GRANTS FOR user                         &#x2F;&#x2F;列出某用户权限</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SHOW DATABASES </span><br><span class="line">SHOW TABLES FROM DB_NAME</span><br><span class="line"></span><br><span class="line">SHOW COLUMNS FROM </span><br><span class="line">select * from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39;</span><br><span class="line"></span><br><span class="line">select table_name,column_name,collation_name,character_set_name from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; </span><br><span class="line">select table_name,column_name,column_name,collation_name,character_set_name from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; and column_name like &#39;%description&#39;</span><br><span class="line">select * from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; and column_name like &#39;%description&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">select table_name,column_name,collation_name,character_set_name from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; and COLUMN_NAME like &#39;%a%&#39;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查询逻辑和相关</p>
+<h2 id="编码集"><a href="#编码集" class="headerlink" title="编码集"></a>编码集</h2>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mysql索引和锁相关的整理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2fd84806.html" class="article-date">
+      <time datetime="2022-09-25T08:34:34.000Z" itemprop="datePublished">2022-09-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2fd84806.html">mysql索引和锁相关的整理</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>ToDo</p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.7.2.1 Transaction Isolation Levels</a></p>
+<p>针对MySQL5,.7</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>ToDo</p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.7.2.1 Transaction Isolation Levels</a></p>
+<p>针对MySQL5,.7</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-spring-data-jap入门和测试用例以及介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/db9f3902.html" class="article-date">
+      <time datetime="2022-09-25T02:46:15.000Z" itemprop="datePublished">2022-09-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="springJpa介绍"><a href="#springJpa介绍" class="headerlink" title="springJpa介绍"></a>springJpa介绍</h2><p>springjpa 是springdata下面的框架用来对接数据 是门面框架定义 数据交互到数据库,很多的接口规范使用的是 JPA规范 *<em>javax.persistence.**</em> ,我们选择内部实现为habernate ,具体的实现可以选择xxxx等,</p>
+<p>下面是关于spring -orm的介绍<a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/spring-orm-framework/">Spring - ORM Framework - GeeksforGeeks</a></p>
+<p><strong>Spring-ORM</strong> is a technique or a Design Pattern used to access a relational database from an object-oriented language. ORM (Object Relation Mapping) covers many persistence technologies. They are as follows:</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="springJpa介绍"><a href="#springJpa介绍" class="headerlink" title="springJpa介绍"></a>springJpa介绍</h2><p>springjpa 是springdata下面的框架用来对接数据 是门面框架定义 数据交互到数据库,很多的接口规范使用的是 JPA规范 *<em>javax.persistence.**</em> ,我们选择内部实现为habernate ,具体的实现可以选择xxxx等,</p>
+<p>下面是关于spring -orm的介绍<a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/spring-orm-framework/">Spring - ORM Framework - GeeksforGeeks</a></p>
+<p><strong>Spring-ORM</strong> is a technique or a Design Pattern used to access a relational database from an object-oriented language. ORM (Object Relation Mapping) covers many persistence technologies. They are as follows:</p>
+<ul>
+<li><strong>JPA(Java Persistence API):</strong> It is mainly used to persist data between Java objects and relational databases. It acts as a bridge between object-oriented domain models and relational database systems.</li>
+<li><strong>JDO(Java Data Objects):</strong> It is one of the standard ways to access persistent data in databases, by using plain old Java objects (POJO) to represent persistent data.</li>
+<li><strong>Hibernate –</strong> It is a Java framework that simplifies the development of Java applications to interact with the database.</li>
+<li><strong>Oracle Toplink, and iBATIS:</strong> Oracle TopLink is a mapping and persistence framework for Java development.</li>
+</ul>
+<p>需要了解常用的注解</p>
+<ul>
+<li>支持基于 Spring 和 JPA 构建存储库</li>
+<li>支持<a target="_blank" rel="noopener" href="http://www.querydsl.com/">Querydsl</a>谓词，因此支持类型安全的 JPA 查询</li>
+<li>透明审计</li>
+<li>分页支持、动态查询执行、集成自定义数据访问代码的能力</li>
+<li><code>@Query</code>在引导时验证带注释的查询</li>
+<li>支持基于 XML 的实体映射</li>
+<li>通过引入基于 JavaConfig 的存储库配置<code>@EnableJpaRepositories</code></li>
+</ul>
+<h2 id="字段映射"><a href="#字段映射" class="headerlink" title="字段映射"></a>字段映射</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Table(name &#x3D; &quot;malfunction_report&quot;) &#x2F;&#x2F;标记表的名称</span><br><span class="line">@Entity：标识这是一个JPA的实体，当项目启动时会更具这个实体创建相应的表</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Id &#x2F;&#x2F;标记表的自增的ID</span><br><span class="line">@GeneratedValue</span><br><span class="line"></span><br><span class="line">@Column(name &#x3D; &quot;items&quot;)&#x2F;&#x2F;标记字段的对应的映射</span><br><span class="line">@Convert(converter &#x3D; JpaConverterListJson.class)&#x2F;&#x2F; 保存和查询时能解析为对应的变量</span><br><span class="line">@Enumerated(EnumType.STRING)&#x2F;&#x2F;对应枚举这种最后在数据库需要保存为你字符串</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="查询继承JpaRepository"><a href="#查询继承JpaRepository" class="headerlink" title="查询继承JpaRepository"></a>查询继承JpaRepository</h3><p>直接可以字段拼接一个简单的查询,在继承了JpaRepository后可以发现,</p>
+<h3 id="注解query"><a href="#注解query" class="headerlink" title="注解query"></a>注解query</h3><p>使用注解可以使用jpa定义的hql来查询利用对象的映射关系,而且比较存在的ORM(<em>Object-Relational Mapping</em>)逻辑,同时如果部分字段需要调用特殊的函数也支持直接写SQL,需要在SQL后用逗号分割讲native设置为true</p>
+<h3 id="查询继承JpaSpecificationExecutor的灵活查询"><a href="#查询继承JpaSpecificationExecutor的灵活查询" class="headerlink" title="查询继承JpaSpecificationExecutor的灵活查询"></a>查询继承JpaSpecificationExecutor的灵活查询</h3><p>org.springframework.data.jpa.domain.Specification 需要实现<strong>toPredicate</strong>这里需要多个学习多个对象</p>
+<ul>
+<li><p>Root<T> root</p>
+<p>主要要使用</p>
+</li>
+<li><p>CriteriaQuery&lt;?&gt; query</p>
+<p>criterialQuery ToDo</p>
+</li>
+<li><p>CriteriaBuilder criteriaBuilder</p>
+<p>CriteriaBuilder todo</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">javax.persistence.criteria.Predicate</span><br><span class="line"></span><br><span class="line">javax.persistence.criteria.Expression</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上述对象能最大程度实现灵活的查询,加上 org.springframework.data.domain.Page可以最大程度的满足查询的需要</p>
+<h2 id="编辑和新增数据"><a href="#编辑和新增数据" class="headerlink" title="编辑和新增数据"></a>编辑和新增数据</h2><p>在自己实现的方法需要 @modify才会生效</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pkainulainen/spring-data-jpa-examples/blob/master/tutorial-part-seven/src/test/java/net/petrikainulainen/spring/datajpa/repository/PersonSpecificationsTest.java">spring-data-jpa-examples/PersonSpecificationsTest.java at master · pkainulainen/spring-data-jpa-examples</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-seven-pagination/">Spring Data JPA Tutorial: Pagination</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.baeldung.com/mockito-java-8">Mockito’s Java 8 Features | Baeldung</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mac初始化环境配置加优化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/ea7eedfa.html" class="article-date">
+      <time datetime="2022-09-09T09:30:35.000Z" itemprop="datePublished">2022-09-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/ea7eedfa.html">mac初始化环境配置加优化</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>Cmd + Shift +。 （点）  显示隐藏文件</p>
+<p>fn + command + enter    insert快捷键</p>
+<p>option + cmd +l 格式化</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>Cmd + Shift +。 （点）  显示隐藏文件</p>
+<p>fn + command + enter    insert快捷键</p>
+<p>option + cmd +l 格式化</p>
+<p>ctr + option +o 除去多的导入包</p>
+<p>cmd+ + 增加</p>
+<p>cmd+ - 缩小</p>
+<p>cmd +n 新窗口</p>
+<p>cmd+t 新标签页</p>
+<p>cmd+w 退出当前页</p>
+<p>cmd+ option + p  显示当前路径</p>
+<p>ctrl+左右的箭头切换工作区</p>
+<p>三指拖移动  技术右键加移动</p>
+<p>发散手指 显示dashboard </p>
+<h2 id="gradle"><a href="#gradle" class="headerlink" title="gradle"></a>gradle</h2><p>init.gradle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">allprojects&#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        def ALIYUN_REPOSITORY_URL &#x3D; &#39;http:&#x2F;&#x2F;maven.aliyun.com&#x2F;nexus&#x2F;content&#x2F;groups&#x2F;public&#39;</span><br><span class="line">        def ALIYUN_JCENTER_URL &#x3D; &#39;http:&#x2F;&#x2F;maven.aliyun.com&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;jcenter&#39;</span><br><span class="line">        all &#123; ArtifactRepository repo -&gt;</span><br><span class="line">            if(repo instanceof MavenArtifactRepository)&#123;</span><br><span class="line">                def url &#x3D; repo.url.toString()</span><br><span class="line">                if (url.startsWith(&#39;https:&#x2F;&#x2F;repo1.maven.org&#x2F;maven2&#39;)) &#123;</span><br><span class="line">                    project.logger.lifecycle &quot;Repository $&#123;repo.url&#125; replaced by $ALIYUN_REPOSITORY_URL.&quot;</span><br><span class="line">                    remove repo</span><br><span class="line">                &#125;</span><br><span class="line">                if (url.startsWith(&#39;https:&#x2F;&#x2F;jcenter.bintray.com&#x2F;&#39;)) &#123;</span><br><span class="line">                    project.logger.lifecycle &quot;Repository $&#123;repo.url&#125; replaced by $ALIYUN_JCENTER_URL.&quot;</span><br><span class="line">                    remove repo</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        maven &#123;</span><br><span class="line">            url ALIYUN_REPOSITORY_URL</span><br><span class="line">            url ALIYUN_JCENTER_URL</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="zshrc"><a href="#zshrc" class="headerlink" title="~/.zshrc"></a>~/.zshrc</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;Library&#x2F;Java&#x2F;JavaVirtualMachines&#x2F;zulu-11.jdk&#x2F;Contents&#x2F;Home</span><br><span class="line">export GRADLE_HOME&#x3D;&#x2F;Users&#x2F;XXX&#x2F;gradle-7.5</span><br><span class="line">export GRADLE_USER_HOME&#x3D;&#x2F;Users&#x2F;XXXX&#x2F;gradle-7.5&#x2F;repository</span><br><span class="line">export PATH&#x3D;$PATH:$GRADLE_HOME&#x2F;bin</span><br></pre></td></tr></table></figure>
+
+<p>使用 软连接python3 到python</p>
+<blockquote>
+<p>python: aliased to /usr/local/bin/python3</p>
+</blockquote>
+<h2 id="V2RayX-提供三种模式："><a href="#V2RayX-提供三种模式：" class="headerlink" title="V2RayX 提供三种模式："></a>V2RayX 提供三种模式：</h2><p><strong>全局模式：</strong>如果网络流量服从操作系统的网络规则，V2RayX 会要求 macOS 将所有互联网流量路由到 v2ray 核心。</p>
+<p><strong>PAC 模式：</strong>macOS 将根据 pac 文件确定路由，某些流量可能会路由到 v2ray 核心。</p>
+<p><strong>手动模式：</strong>V2RayX 不会修改任何 macOS 网络设置，只会启动或停止 v2ray 核心。</p>
+<p>菜单列表中的选项 Routing Rule 确定 v2ray 核心如何处理传入流量。核心路由规则适用于上述所有三种模式。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-程序员梗百科" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1260,486 +1660,6 @@
 
 
   
-    <article id="post-gdal使用和环境初始化在Windows和linux下的介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/54871149.html" class="article-date">
-      <time datetime="2022-05-14T05:06:11.000Z" itemprop="datePublished">2022-05-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>gdal是用c语言编写的服务能解析地理信息服务中的各种解析服务</p>
-<p>在Windows中可以使用别人编译打包好的服务，里面以后各种依赖的DLL和jar包，可以提供个java调用，同时也支持其他语言。</p>
-<p>我下载的版本<a target="_blank" rel="noopener" href="https://www.gisinternals.com/query.html?content=filelist&file=release-1911-x64-gdal-3-0-4-mapserver-7-4-3.zip">release-1911-x64-gdal-3-0-4-mapserver-7-4-3.zip</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>gdal是用c语言编写的服务能解析地理信息服务中的各种解析服务</p>
-<p>在Windows中可以使用别人编译打包好的服务，里面以后各种依赖的DLL和jar包，可以提供个java调用，同时也支持其他语言。</p>
-<p>我下载的版本<a target="_blank" rel="noopener" href="https://www.gisinternals.com/query.html?content=filelist&file=release-1911-x64-gdal-3-0-4-mapserver-7-4-3.zip">release-1911-x64-gdal-3-0-4-mapserver-7-4-3.zip</a></p>
-<p>1.配置gdal的环境</p>
-<p><a target="_blank" rel="noopener" href="https://gis.stackexchange.com/questions/228190/gdal-java-bindings-gdal-2-0-0-in-eclipse">GDAL Java bindings GDAL 2.0.0 in Eclipse - Geographic Information Systems Stack Exchange</a></p>
-<p>否则会包下列错误:</p>
-<p><strong>UnsatisfiedLinkError: E:\jdk\jdk-12.0.2\bin\gdalalljni.dll: Can’t find dependent libraries</strong></p>
-<p>如果是默认安装的路径在C:\Program Files (x86)\GDAL\ 下需要修改</p>
-<table>
-<thead>
-<tr>
-<th>创建路径</th>
-<th>变量的名称</th>
-<th>路径</th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>CREATE</td>
-<td>GDAL_DATA</td>
-<td>C:\gdal\bin\gdal-data</td>
-<td>必须</td>
-</tr>
-<tr>
-<td>CREATE</td>
-<td>GDAL_DRIVER_PATH</td>
-<td>C:\gdal\bin\gdal\plugins</td>
-<td>必须</td>
-</tr>
-<tr>
-<td>APPEND</td>
-<td>PATH</td>
-<td>C:\gdal\bin</td>
-<td>必须</td>
-</tr>
-<tr>
-<td>APPEND</td>
-<td>PATH</td>
-<td>C:\gdal\bin\gdal\apps</td>
-<td>可选</td>
-</tr>
-</tbody></table>
-<p>同时将压缩包内</p>
-<p>配置完成是命令行输入 gdalinfo –version看是否能正常调用</p>
-<p>如果出现ogr_MSSQLSpatial.dl加载不了的情况不用理会,在github上貌似Windows系统的集成问题如果觉得看着难受可以 直接重命名  ogr_MSSQLSpatial.dll.bak</p>
-<p>参考文章: <a target="_blank" rel="noopener" href="https://blog.csdn.net/l2931050/article/details/124688681">Gdal环境配置（Windows系统）_gdal配置环境变量_魔希达的博客-CSDN博客</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-springsecurity入门介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/329899c5.html" class="article-date">
-      <time datetime="2022-05-01T06:53:48.000Z" itemprop="datePublished">2022-05-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/329899c5.html">springsecurity入门介绍</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6934503341380599822">Spring Security系列之一 简单介绍和实战 - 掘金</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.1024sou.com/article/56472.html">20210902#_【项目实践】一文带你搞定Spring Security + JWT - 1024搜-程序员专属的搜索引擎</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.springcloud.cc/spring-session.html">Spring Session 中文文档 参考手册 中文版</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6934503341380599822">Spring Security系列之一 简单介绍和实战 - 掘金</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.1024sou.com/article/56472.html">20210902#_【项目实践】一文带你搞定Spring Security + JWT - 1024搜-程序员专属的搜索引擎</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.springcloud.cc/spring-session.html">Spring Session 中文文档 参考手册 中文版</a></p>
-<p>springsecurity和shiro都是权限和认证的框架，目前公司有基于springsecurity开发集成包，目前使用结合使用过程梳理一下springsecurity的特性和注意事项和集成的要点</p>
-<p>目前引入的springsecurity的</p>
-<p>springsecurity -outh 2.2.2.6 和需要和session打交道的session-core和session-data-redis2.4.1</p>
-<p>利用session-redis来存储session</p>
-<p>Web系统中登录认证（Authentication）的核心就是<strong>凭证</strong>机制，无论是<code>Session</code>还是<code>JWT</code>，都是在用户成功登录时返回给用户一个凭证，后续用户访问接口需携带凭证来标明自己的身份。后端会对需要进行认证的接口进行安全判断，若凭证没问题则代表已登录就放行接口，若凭证有问题则直接拒绝请求。这个安全判断<strong>都是放在过滤器里统一处理的</strong>：</p>
-<p>一般需要实现 </p>
-<h3 id="需要实现UserDetails"><a href="#需要实现UserDetails" class="headerlink" title="需要实现UserDetails"></a>需要实现UserDetails</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AuthUser extends User UserDetails, CredentialsContainer</span><br></pre></td></tr></table></figure>
-
-<h3 id="实现loadUserByUsername"><a href="#实现loadUserByUsername" class="headerlink" title="实现loadUserByUsername"></a>实现loadUserByUsername</h3><p>org.springframework.security.core.userdetails.UserDetailsService.loadUserByUsername</p>
-<h3 id="PasswordEncoder-密码的认证"><a href="#PasswordEncoder-密码的认证" class="headerlink" title="PasswordEncoder 密码的认证"></a><strong>PasswordEncoder</strong> 密码的认证</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Bean</span><br><span class="line">public PasswordEncoder passwordEncoder() &#123;</span><br><span class="line">    &#x2F;&#x2F; 这里我们使用bcrypt加密算法，安全性比较高</span><br><span class="line">    return new BCryptPasswordEncoder();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="继承WebSecurityConfigurerAdapter"><a href="#继承WebSecurityConfigurerAdapter" class="headerlink" title="继承WebSecurityConfigurerAdapter"></a>继承WebSecurityConfigurerAdapter</h3><p>org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter</p>
-<blockquote>
-<p>由 authenticationManager() 的默认实现用来尝试获取 AuthenticationManager。如果被覆盖，应该使用 AuthenticationManagerBuilder 来指定 AuthenticationManager。<br>authenticationManagerBean() 方法可用于将生成的 AuthenticationManager 公开为 Bean。 userDetailsServiceBean() 可用于公开使用 AuthenticationManagerBuilder 作为 Bean 创建的最后填充的 UserDetailsService。 UserDetailsService 也将自动填充到 HttpSecurity.getSharedObject(Class) 以与其他 SecurityContextConfigurer （即 RememberMeConfigurer ）一起使用<br>例如，以下配置可用于在内存中注册身份验证，以公开内存中的 UserDetailsService：<br>UserDetailsService:<br>       @Override<br>       protected void configure(AuthenticationManagerBuilder auth) {<br>           auth<br>           // enable in memory based authentication with a user named<br>           // “user” and “admin”<br>           .inMemoryAuthentication().withUser(“user”).password(“password”).roles(“USER”).and()<br>                   .withUser(“admin”).password(“password”).roles(“USER”, “ADMIN”);<br>       }</p>
-<pre><code>   // Expose the UserDetailsService as a Bean
-   @Bean
-   @Override
-   public UserDetailsService userDetailsServiceBean() throws Exception &#123;
-       return super.userDetailsServiceBean();
-   &#125;</code></pre>
-</blockquote>
-<p>目前使用的方式设置认证的方式和控制那些需要被权限管理</p>
-<h3 id="继承SecurityMetadataSource"><a href="#继承SecurityMetadataSource" class="headerlink" title="继承SecurityMetadataSource"></a>继承SecurityMetadataSource</h3><p>org.springframework.security.access.SecurityMetadataSource</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实现动态的权限验证，当然要先要获取对应的资源，然后再将他们对应哪些角色可以访问的关系表示出来</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-spring知识回顾" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/d8ed5f9d.html" class="article-date">
-      <time datetime="2022-05-01T03:53:25.000Z" itemprop="datePublished">2022-05-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/d8ed5f9d.html">spring知识回顾</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>spring的利用的面向切面编程（AOP），动态代理（反射）和filter，intercept，</p>
-<p>ApplicationContent</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Qualifier</span><br><span class="line">Roucese</span><br><span class="line">Autowired</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>spring的利用的面向切面编程（AOP），动态代理（反射）和filter，intercept，</p>
-<p>ApplicationContent</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Qualifier</span><br><span class="line">Roucese</span><br><span class="line">Autowired</span><br></pre></td></tr></table></figure>
-
-<h2 id="拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据"><a href="#拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据" class="headerlink" title="拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据"></a>拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Interceptor 前置&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Interceptor 处理中&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Interceptor 后置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="过滤器利用原始servlet来进行操作主要可用于鉴权和"><a href="#过滤器利用原始servlet来进行操作主要可用于鉴权和" class="headerlink" title="过滤器利用原始servlet来进行操作主要可用于鉴权和"></a>过滤器利用原始servlet来进行操作主要可用于鉴权和</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Filter 前置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Filter 处理中&quot;</span>);</span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Filter 后置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Aspect</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Pointcut(&quot;@annotation(com.HasAuth)&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pointCut</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Around(&quot;pointCut()&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">around</span><span class="params">(ProceedingJoinPoint point)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        Object[] args = point.getArgs();</span><br><span class="line">       <span class="comment">/* if (StringUtil.IsEmpty(args[0])) &#123;</span></span><br><span class="line"><span class="comment">            args[0] = &quot;default&quot;;</span></span><br><span class="line"><span class="comment">        &#125;*/</span></span><br><span class="line">        <span class="keyword">return</span> point.proceed(args);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//标注该方法体为后置通知，当目标方法执行成功后执行该方法体  </span></span><br><span class="line">    <span class="meta">@AfterReturning(&quot;within(com.abchina.irms..*) &amp;&amp; @annotation(rl)&quot;)</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLogSuccess</span><span class="params">(JoinPoint jp, rmpfLog rl)</span></span>&#123;  </span><br><span class="line">        Object[] parames = jp.getArgs();<span class="comment">//获取目标方法体参数  </span></span><br><span class="line">        String params = parseParames(parames); <span class="comment">//解析目标方法体的参数  </span></span><br><span class="line">        String className = jp.getTarget().getClass().toString();<span class="comment">//获取目标类名  </span></span><br><span class="line">        className = className.substring(className.indexOf(<span class="string">&quot;com&quot;</span>));  </span><br><span class="line">        String signature = jp.getSignature().toString();<span class="comment">//获取目标方法签名  </span></span><br><span class="line">        String methodName = signature.substring(signature.lastIndexOf(<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>, signature.indexOf(<span class="string">&quot;(&quot;</span>));  </span><br><span class="line">        String modelName = getModelName(className); <span class="comment">//根据类名获取所属的模块  </span></span><br><span class="line">          </span><br><span class="line">      ...</span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//标注该方法体为异常通知，当目标方法出现异常时，执行该方法体  </span></span><br><span class="line">    <span class="meta">@AfterThrowing(pointcut=&quot;within(com.abchina.irms..*) &amp;&amp; @annotation(rl)&quot;, throwing=&quot;ex&quot;)</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLog</span><span class="params">(JoinPoint jp, rmpfLog rl, BusinessException ex)</span></span>&#123;  </span><br><span class="line">       ...</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="不加载特定的bean"><a href="#不加载特定的bean" class="headerlink" title="不加载特定的bean"></a>不加载特定的bean</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span> <span class="meta">@EnableSpringConfigured</span></span><br><span class="line"><span class="meta">@ComponentScan(basePackages = &#123;&quot;com.example&quot;&#125;, </span></span><br><span class="line"><span class="meta">               excludeFilters=&#123;@ComponentScan.Filter(type = FilterType.REGEX, pattern = &quot;org.xxx.yyy.*&quot;),</span></span><br><span class="line"><span class="meta">  @ComponentScan.Filter(type=FilterType.ASSIGNABLE_TYPE, value=Foo.class)&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySpringConfiguration</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h2 id="stream-自定义function"><a href="#stream-自定义function" class="headerlink" title="stream  自定义function"></a>stream  自定义function</h2>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-这些科技将在2022年改变你的生活内容（华尔街日报转载）" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/a683129.html" class="article-date">
-      <time datetime="2022-04-16T13:45:36.000Z" itemprop="datePublished">2022-04-16</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>Facebook公司更名？全球芯片荒？数字艺术品卖出天价？没有哪个水晶球準确预测了2021年的科技业景象。这也正是这项一年一度的活动有意思和令人兴奋的地方之一——我们团队每年都会集思广益，对接下来一年科技圈会发生些什么进行预测。可就算我们对当前趋势作了最为详尽的分析，以及请来行业专家和占卜工具加持，也依然无法精确预测未来。</p>
-<p>有一点可以确定的是，2022年将充满新技术带来的惊喜（参见：混合现实和家用机器人），人们将继续讨论科技对世界带来的影响（参见：社交媒体和可持续性），同时还会有许多意想不到的事情发生，因为最近时常会有一些令你大呼意外的时刻。</p>
-<p>以下是我们对2022年科技行业的预测：</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>Facebook公司更名？全球芯片荒？数字艺术品卖出天价？没有哪个水晶球準确预测了2021年的科技业景象。这也正是这项一年一度的活动有意思和令人兴奋的地方之一——我们团队每年都会集思广益，对接下来一年科技圈会发生些什么进行预测。可就算我们对当前趋势作了最为详尽的分析，以及请来行业专家和占卜工具加持，也依然无法精确预测未来。</p>
-<p>有一点可以确定的是，2022年将充满新技术带来的惊喜（参见：混合现实和家用机器人），人们将继续讨论科技对世界带来的影响（参见：社交媒体和可持续性），同时还会有许多意想不到的事情发生，因为最近时常会有一些令你大呼意外的时刻。</p>
-<p>以下是我们对2022年科技行业的预测：</p>
-<h2 id="电动车价格更亲民"><a href="#电动车价格更亲民" class="headerlink" title="电动车价格更亲民"></a>电动车价格更亲民</h2><p>人们购买电动车时选择为数不多的局面成为过去。到2022年底时，可供美国消费者挑选的电动车车型将超过100款。而且，许多即将面世的车型要比一两年前的那些价格更亲民。</p>
-<p>电动车在美国乘用车保有量中的佔比仍不到3%，研究显示，若想让更多人选择电动车，价格是一大关键因素。（另一个关键因素是基础设施。美国目前的公共快速充电桩数量远远达不到专家估计的需求量。）</p>
-<p>为企业提供咨询服务的Guidehouse公司首席研究分析师斯科特·谢帕德（Scott Shepard）指出，从全球范围看，2015年至2020年间，尽管电动车的平均续航里程增加了45%，但平均定价下降了30%。他预计2022年这一趋势将得以延续，届时至少还有四款价格在4万美元以下的电动车登陆美国。</p>
-<p>福特F-150「闪电」电动皮卡（Ford F-150 Lightning，制造商建议零售价39,974美元起）的表现或许可以给我们一点启发。该公司在接到近20万辆F-150「闪电」的订单后，不得不关闭了预购服务；福特最新的业绩报告显示，有75%的买家是头一次购买福特品牌的汽车。</p>
-<p>与此同时，日产汽车（Nissan）将早年投放市场的聆风（Leaf）电动车的起售价从32,620美元大幅下调至28,375美元。聆风降价后（以及购车时享受7,500美元的稅收抵免后）在同档次的汽车中，价格会低于2022年款本田思域（Honda Civic）燃油掀背车。除此之外，还有许多电动汽车车型的起售价都在4万美元以下，如雪佛兰（Chevrolet）、现代（Hyundai）、起亚（Kia）、马自达（Mazda）、Mini和大众（Volkswagen）的一些车型，它们有的已经上市，有的不久便会投放市场。</p>
-<h2 id="可持续性继续受关注"><a href="#可持续性继续受关注" class="headerlink" title="可持续性继续受关注"></a>可持续性继续受关注</h2><p>微软（Microsoft）利用回收的海洋塑胶垃圾做了一款鼠标。苹果（Apple）的最新款iPhone和iPad都含有回收材料。亚马逊（Amazon）的新款Echo智能喇叭的显示屏同样用到了回收塑胶，而且在待机状态下十分节能。2021年每一场重要的科技主题演讲中，都会包含应对气候变化的环节，2022年这一现象只会有增无减。</p>
-<p>可以说，科技业留下的碳足迹比航空业更大，眼下科技公司正在努力改变这一现状，实现可持续发展。无论是从手机、平板还是电脑的设计中，都可以看到它们这方面的努力。</p>
-<p>可持续性还意味着，你的同一部电子设备可以用得更久。加州大学洛杉矶分校（University of California, Los Angeles）管理学教授马加利·德尔马斯（Magali Delmas）说，「真正的问题在于科技业研发的产品使用壽命太短，而且很难维修，接着就被扔进垃圾填埋场。」</p>
-<p>电子设备制造商也在尝试解决这一问题。苹果将在2022年初推出一项自助维修计划，按照该计划，用户和独立技术人员可以利用正版苹果零部件自主维修设备，这也是倡导「维修权」的人士一直以来都在游说的一项举措。戴尔公司（Dell）近日展示了概念性笔记本电脑Luna，它使用的螺丝更少，而且没有风扇，从而最大限度地提高了可维修性。</p>
-<h2 id="社交媒体加大力度保护未成年人"><a href="#社交媒体加大力度保护未成年人" class="headerlink" title="社交媒体加大力度保护未成年人"></a>社交媒体加大力度保护未成年人</h2><p>2021年我们意识到，社交媒体类应用程式——尤其是Instagram和TikTok——在阻止年轻用户观看不良内容以及防止他们沉迷方面做得不够。2022年我们会看到，美国国会议员和社交媒体公司将加大对儿童的保护力度。</p>
-<p>针对目前主要由算法驱动的内容展示方式，Instagram已承诺在2022年初推出替代方案。按照现有方式，用户基本无法控制自己可以看到哪些内容。Instagram负责人亚当·莫塞里（Adam Mosseri）在12月向美国参议院一个下属委员会表示，该公司2022年将推出更多针对青少年的家长控制功能，包括从3月开始，允许家长设定时间限制。</p>
-<p>TikTok则表示，它已开始调整算法，这样人们看到的内容中就不会充斥著大量有关紊乱饮食、抑郁症和其他涉及不良话题的影片。该公司发言人说，它将继续依据用户年龄对功能作出限制，同时也会为家长提供工具。</p>
-<p>然而，由于不相信这些企业会自己做出必要的改变，议员们跨党派合作，著手制定新的法律。马萨诸塞州民主党参议员埃德·马基（Ed Markey）和路易斯安那州共和党参议员比尔·卡西迪（Bill Cassidy）提出了新版本的《儿童和青少年网络私隐保护法》（Children and Teens’ Online Privacy Protection Act, 简称：Coppa 2.0），提议将目前的私隐保护对象扩大到13至15岁的用户，同时禁止针对儿童的个性化广告，等等。康涅狄格州民主党参议员理查德·布卢门塔尔（Richard Blumenthal）和田纳西州共和党参议员玛莎·布莱克本（Marsha Blackburn）也在推动立法，要求提高社交媒体算法的透明度。</p>
-<h2 id="芯片！芯片！"><a href="#芯片！芯片！" class="headerlink" title="芯片！芯片！"></a>芯片！芯片！</h2><p>从2020年初开始，全球随处可见的疫情「封锁令」使得人们对许多搭载微芯片的东西有了更大的需求——与外界联系需要的智能手机、居家办公和学习需要的笔记本电脑和台式电脑，以及代替公共交通工具的私家车。</p>
-<p>受此影响，2020年及2021年整个上半年，人们对芯片的需求达到了前所未有的程度。有迹象显示，芯片需求已开始回落。作为全球最大的智能手机市场，中国2021年第三季度智能手机销量较上年同期下滑9%。（不过苹果表示iPhone的需求依然强劲，预计公司2021年利润将创下纪录新高。）</p>
-<p>没有人确切知道芯片供应何时才能完全满足需求，一些分析师说，这可能要等到2023年，届时从亚利桑那州到北京，将有更多的芯片制造产能投产。但鉴於人们对电子设备的需求将终于得以满足，加之过去18个月内芯片制造商一直开足马力生产，供不应求局面结束的日子或许指日可待。</p>
-<p>二手芯片制造设备交易公司SDI Fabsurplus的斯蒂芬·豪伊（Stephen Howe）说，回首2000年时，芯片厂经营者曾预计，芯片需求将一直旺盛，高增长态势也将持续。「可你瞧，到了2000年6月，整个市场经历了断崖式下跌，我敢肯定，这一幕还会重演。」他说。</p>
-<h2 id="机器人在哪儿，哪儿就是家"><a href="#机器人在哪儿，哪儿就是家" class="headerlink" title="机器人在哪儿，哪儿就是家"></a>机器人在哪儿，哪儿就是家</h2><p>能照顾孩子、能洗碗，还能疏通马桶的全能型家用机器人在2022年还不会出现，但比立式智能喇叭、扫地机器人再能干一点的家用机器人会在今年走进人们的视野——而且它或许还会提供陪伴功能。</p>
-<p>亚马逊基於智能喇叭Alexa打造的家用机器人Astro可以利用传感器在家中自由移动。它不仅具备了Alexa的基本功能（如播放音乐、回答问题等），还带有监控功能，当你不在家时，可以通过自带摄像头替你「看家」。如果一位年长亲人的家中有Astro，你还可以通过「Alexa Together」功能与亲人远程互动。</p>
-<p>亚马逊负责设备与服务业务的副总裁大卫·林普（David Limp）说，Astro代表着向「环境智能」（AMI）的转变 ，有了这种技术，我们的电脑将退至幕后，让我们「在现实世界中互动，而不是把头埋在手机里。」</p>
-<p>亚马逊从2021年12月开始，向一小批受邀测试者递送了这款售价1,000美元的机器人。林普说，提出测试申请的人数比他当初的预期高出了许多倍，目前公司正在努力增加2022年的库存。</p>
-<p>此外，老年伴侣机器人ElliQ等类似设备正在65岁及以上的独居老人中接受测试。厂商计划2022年扩展ElliQ的功能，增加管家服务，让用户可以通过ElliQ订购食品杂货等。</p>
-<h2 id="「混合现实」成为现实"><a href="#「混合现实」成为现实" class="headerlink" title="「混合现实」成为现实"></a>「混合现实」成为现实</h2><p>我们知道，过去大约五年来，有些人一直在说虚拟现实（VR）将改变我们的生活。但我们向你保证，2022年VR技术将取得重大进展，增强现实（AR）也会带来更好的体验。（记住，VR是把你带入一个虚拟世界，AR是在现实世界中加入数位化元素，二者合称混合现实，即Mixed Reality，但我们不会将其简称为MR。）</p>
-<p>Meta（即过去的Facebook）计划发布一款头戴式设备，其功能比目前的Quest 2更先进，价格也更贵。设备中的新传感器和改进后的光学元件会让虚拟世界中的你与在现实中有更高的相似度（项目代号「坎布里亚计划」（Project Cambria））。你的一颦一笑也会体现在虚拟场景中。另外，这款头显能够显示你所处的真实空间，但会加入一些数位化功能——比如在真实的桌子上方投射出一张巨大的虚拟萤幕。这些都是Meta构建元宇宙目标中的一砖一瓦——在这个虚拟世界中，我们可以工作、购物、閒逛，还可以做很多事情。</p>
-<p>在这场「元宇宙」竞赛中，不会只有Meta一名选手。有报导称，苹果可能会在2022年晚些时候推出一款混合现实头戴式设备。据天风国际证券（TF International Securities）研究苹果公司的分析师郭明錤说，这款头显将搭载苹果自己的芯片（就像苹果MacBook里的芯片），而且同时具有VR和AR功能。苹果发言人拒绝置评。</p>
-<h2 id="不拘於手腕之上的健康传感器"><a href="#不拘於手腕之上的健康传感器" class="headerlink" title="不拘於手腕之上的健康传感器"></a>不拘於手腕之上的健康传感器</h2><p>近十年来，健康追踪器一直都是戴在我们的手腕上，如今它们开始挣脱这种束缚。智能戒指Oura虽然没有显示器，但它配备了迷你传感器，可以监测心率、血氧水平和皮肤温度。Whoop卖的是文胸、紧身裤等服装，但追踪器被巧妙地置于这些服饰中。Google（Google）的Nest Hub智能屏不带摄像头，它利用雷达来监测使用者的睡眠情况。除此之外，Sleep Number、Eight Sleep等公司的智能床垫也可以记录睡眠状态。</p>
-<p>Oura首席产品官克里斯·贝赫勒（Chris Becherer）说，「这不涉及什么新技术，也不是什么新型传感器。」他还说，硬件制造商正在寻找更多方法来简化追踪方式。</p>
-<p>下一个重要的健康设备可能是你的耳塞。据《华尔街日报》（Wall Street Journal）报导，苹果正在研究利用AirPods来读取体温和监测身体姿势的可行性。据熟悉这些计划的人告诉我们的同事，这类耳塞会从耳朵内部测量佩戴者的核心体温，并依靠运动传感器来监测用户是否驼背。《华尔街日报》报导，苹果还在研发有助於检测抑郁症的iPhone功能。</p>
-<h2 id="更亮的显示屏"><a href="#更亮的显示屏" class="headerlink" title="更亮的显示屏"></a>更亮的显示屏</h2><p>如果你发现，你的手机或是智能手表的显示屏比笔记本电脑、电视或是汽车仪表盘的显示屏更亮，对比度也要更高，那么你就已经见证了显示屏技术近年来最大的进化式飞跃之一。</p>
-<p>自iPhone X之后，苹果的高端iPhone一直都在使用有机发光二极管（OLED）萤幕，这种技术与液晶显示屏（LCD）的区別在于其中的每个像素可以独立发光，而无需另外的光源。使用OLED的好处是，不仅显示屏可以做得更薄（甚至可以折叠），而且对比度和能效也更高。</p>
-<p>三星（Samsung）在手机上应用OLED的时间更早——这家韩国电子产品巨头是OLED技术的先驱之一。以往你可能见过一些OLED电视，但它们的价格异常昂贵。现在，这项技术的制造成本正变得越来越低。2021年，配备OLED显示屏的笔记本电脑开始出现，2022年将有更多类似机型面世。对平板电脑和电视来说也是如此。</p>
-<p>微发光二极管（MicroLED）是另一种先进的显示屏技术，有朝一日或许会走进寻常百姓家，成为更多人负担得起的「OLED继任者」。三星已利用这些微小的自发光像素研制出了影片墙，但成本却是天文数字。在2022年1月举行的国际消费电子展CES上，智能眼镜生产商Vuzix计划展示带有微型MicroLED立体显示屏的智能眼镜， 可适用于工作场合的AR场景。</p>
-<h2 id="密码登录渐行渐远"><a href="#密码登录渐行渐远" class="headerlink" title="密码登录渐行渐远"></a>密码登录渐行渐远</h2><p>密码有时会成为「雷区」。它们会被人猜中，或是被盗。於是为了防止骇客入侵，我们用上了密码管理软体，利用它们为每一种服务创造独一无二的随机密码。此时此刻，我们当中有许多人甚至都不知道自己的密码！谢天谢地，不需要以密码登录的服务正变得越来越多。</p>
-<p>例如，你可以通过往电子邮箱里发送一个特殊链接来登录《华尔街日报》的网站（WSJ.com）。登录工作协同平台Slack和支付平台PayPal也可以采取同样的方式。支付系统Shopify和订座软体Resy会向你的手机发送验证码。微软最近允许用户跳过密码，转而通过应用程式Microsoft Authenticator生成的验证码进行身份验证，这串代码类似通过手机或电子邮箱发送的安全密钥或是验证码。</p>
-<p>致力於保护用户身份的科技公司Transmit Security通过一项研究发现，如果一项服务可以用生物特征识別方式来验证身份，那么消费者订购的概率会增加44%；而如果有密码之外的其他登录方式，消费者订购的概率会增加35%。「2022年不会标志著密码时代的终结，但在密码走向消亡的过程中，我们会看到一些具有转折意义的事件。」行业组织FIDO Alliance执行董事安德鲁·希基亚（Andrew Shikiar）说，该组织提倡通过安全密钥、人脸识別、指纹或语音密码来验证身份。</p>
-<h2 id="网络提速"><a href="#网络提速" class="headerlink" title="网络提速"></a>网络提速</h2><p>再见，3G。感谢你为老版本的Kindle电子阅读器以及奶奶的翻盖手机提供了联网功能。2022年，美国运营商将淘汰老旧的第三代蜂窝网络，为超高速的第五代移动通信（5G）腾出更多空间。没错，这意味着那些3G设备很快就会变成一堆废铁。（美国电话电报公司AT&amp;T的3G服务结束日期为2022年2月，T-Mobile和Verizon分別为7月和12月。）</p>
-<p>这些电信公司计划在未来一年扩大网络。T-Mobile说，到2022年年底时，它的服务将再覆盖5,000万美国人。享受5G服务的不仅只有手机。移动运营商正在固话运营商无法提供宽带的地方，利用5G网络提供家用互联网服务。2021年9月，T-Mobile将业务扩展到佛罗里达州和北卡罗来纳州的一些城市，Verizon则将加州佛里蒙特（Fremont）和纽约州尼亚加拉瀑布城（Niagara Falls）纳入了自己的5G家用网络。</p>
-<p>不管是家用网络还是移动端网络，我们的网速都很有可能变得更快，尽管这当中也会有一些「减速带」。美国总统拜登（Biden）的基建法案已於2021年11月获得通过，虽然其中包括了用于扩大农村地区宽带接入的650亿美元资金，但各州若想拿到这笔钱，还需经过漫长的申请过程。此外，AT&amp;T和Verizon近日在铺设5G网络的过程中也遇到了阻碍，因为美国航空管理局（Federal Aviation Administration，简称FAA）担心驾驶舱安全系统可能受到干扰。</p>
-<h2 id="加密货币不再小众"><a href="#加密货币不再小众" class="headerlink" title="加密货币不再小众"></a>加密货币不再小众</h2><p>当人们谈论加密货币和非同质化代币（NFT）时，你表面上点头附和，其实心里在想，关于去中心化网络和区块链的种种讨论都会是过眼云烟。抱歉，你想错了。事实上在2022年，你已在使用的应用程式、服务和游戏中会出现购买、出售和转账数字货币及代币的工具，如此一来，你或许已经置身其间了。</p>
-<p>目前，PayPal的应用程式Venmo和支付公司Block（前身为Square）旗下Cash App都提供了便捷的加密货币购买及转账方式。Cash App最近还新增了一项简易功能，可以通过借记卡向任意美国用户提供比特币。越来越多的购物场所也将开始接受你最喜爱的加密货币。眼下，特斯拉（Tesla）的某些特定商品就可以接受狗狗币支付。</p>
-<p>你会加入像DeSo这样由区块链技术支撑的去中心化社交媒体网站吗？也许不会，但现有的社交媒体应用程式可能会开始拥抱这个世界。Instagram负责人莫塞里说，Instagram正在「积极探索NFT，以及我们如何才能让更广泛的受众更容易接触到它们。」</p>
-<h2 id="无人机送货"><a href="#无人机送货" class="headerlink" title="无人机送货"></a>无人机送货</h2><p>今年你可能会头一次收到由无人机投送的包裹，不过这取决於你所在的区域。</p>
-<p>以色列初创公司Flytrex在北卡罗来纳州运营有三个配送站，它刚刚获得FAA批准，可以在方圆1英里（约1.6公里）左右的范围内利用无人机送货。该公司说，获得此项授权后，它可以为包括沃尔玛（Walmart）在内的多家零售商，面向1万多户家庭提供送货服务。Google母公司Alphabet Inc.旗下Wing Aviation去年10月表示，它正在对无人机送货进行测试，预计2022年将在人口稠密的城市地区——达拉斯-沃斯堡（Dallas-Ft. Worth）——首次推出商用无人机送货服务。</p>
-<p>与此同时，未来一年中，综合医疗服务提供商与产品生产商嘉德诺（Cardinal Health）将通过一种特殊的无人机——Zipline制造的小型固定翼飞机——向北卡罗来纳州坎纳波利斯（Kannapolis）一处配送中心方圆10英里（约16公里）内的药店提供补给。Zipline说，它还在沃尔玛总部所在地阿肯色州本顿维尔（Bentonville）为该公司提供送货上门服务。</p>
-<p>根据FAA的规定，所有这些无人机将继续由人类操控。</p>
-<p>随着FAA发放的许可越来越多，加之亚马逊、联合包裹速递服务公司（UPS）及其他十余家公司的无人机也都跃跃欲试，2022年可能会有更多企业竞相跟进。</p>
-<p>英文原文：<a target="_blank" rel="noopener" href="https://www.wsj.com/articles/tech-that-will-change-your-life-in-2022-11640613604?mod=flipboard">Tech That Will Change Your Life in 2022</a></p>
-<p>原文链接：<a target="_blank" rel="noopener" href="https://theinitium.com/article/20220116-wsj-tech-that-will-change-your-life-in-2022/">https://theinitium.com/article/20220116-wsj-tech-that-will-change-your-life-in-2022/</a></p>
-<p>端传媒：<a target="_blank" rel="noopener" href="https://theinitium.com/misc/about/">https://theinitium.com/misc/about/</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/repost/" rel="tag">repost</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/7/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/9/">下一页 </a>
@@ -1751,7 +1671,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2024 leek
+                2016-2025 leek
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>

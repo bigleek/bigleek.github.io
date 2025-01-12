@@ -269,10 +269,383 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-pgsql-json-function" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/fd4a70cc.html" class="article-date">
+      <time datetime="2021-07-08T07:41:36.000Z" itemprop="datePublished">2021-07-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/fd4a70cc.html">常见的postgresql的函数</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="http://www.postgres.cn/docs/10/functions-json.html">http://www.postgres.cn/docs/10/functions-json.html</a>   命令</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 通过 数据函数来操作 字符串属性</span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>,<span class="string">&#x27;&#123;addition,z&#125;&#x27;</span>,<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">UPDATE</span> snspdw_position <span class="keyword">SET</span> <span class="keyword">content</span>= (jsonb_set(<span class="keyword">content</span>::jsonb,<span class="string">&#x27;&#123;directorytypecode&#125;&#x27;</span>,<span class="string">&#x27;&quot;947998009457774691&quot;&#x27;</span>::jsonb))</span><br><span class="line"></span><br><span class="line">//updata 字符串数据</span><br><span class="line"><span class="keyword">UPDATE</span> biz_object <span class="keyword">set</span> confjson = (jsonb_set(confjson::jsonb,<span class="string">&#x27;&#123;directorytypecode&#125;&#x27;</span>,<span class="string">&#x27;&quot;947998009457774691&quot;&#x27;</span>::jsonb)),directorytypecode = <span class="string">&#x27;947998009457774691&#x27;</span></span><br><span class="line">	<span class="keyword">where</span> modelcode = <span class="string">&#x27;829609839767532682&#x27;</span> <span class="keyword">and</span> objectcode = <span class="string">&#x27;948118654552248419&#x27;</span>;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 根据 官网提供的实例测试</span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;a&quot;:[null,&#123;&quot;b&quot;:[1,2]&#125;]&#125;&#x27;</span>, <span class="string">&#x27;&#123;a,1,b,1000&#125;&#x27;</span>, jsonb <span class="string">&#x27;3&#x27;</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">version</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>, <span class="string">&#x27;$.payFundAcc.addition.z&#x27;</span>, <span class="string">&#x27;3&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;<span class="string">&quot;tel&quot;</span>: <span class="number">13249872314</span>, <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Mike&quot;</span>, <span class="string">&quot;address&quot;</span>: <span class="string">&quot;Guangzhou&quot;</span>&#125;  json_set(<span class="keyword">data</span>,<span class="string">&quot;&#123;address&#125;&quot;</span>,<span class="string">&quot;Guangzhou&quot;</span>) </span><br><span class="line"> <span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;tel&quot;: 13249872314, &quot;name&quot;: &quot;Mike&quot;, &quot;address&quot;: &quot;Guangzhou&quot;&#125;&#x27;</span>,<span class="string">&#x27;&#123;address&#125;&#x27;</span>,<span class="string">&#x27;&quot;hahah&quot;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"> <span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>,<span class="string">&#x27;&#123;addition,z&#125;&#x27;</span>,<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">SELECT</span> <span class="string">&#x27;&#123;&quot;tel&quot;: 13249872314, &quot;name&quot;: &quot;Mike&quot;, &quot;address&quot;: &quot;Guangzhou&quot;&#125;&#x27;</span>::jsonb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="http://www.postgres.cn/docs/10/functions-json.html">http://www.postgres.cn/docs/10/functions-json.html</a>   命令</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 通过 数据函数来操作 字符串属性</span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>,<span class="string">&#x27;&#123;addition,z&#125;&#x27;</span>,<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">UPDATE</span> snspdw_position <span class="keyword">SET</span> <span class="keyword">content</span>= (jsonb_set(<span class="keyword">content</span>::jsonb,<span class="string">&#x27;&#123;directorytypecode&#125;&#x27;</span>,<span class="string">&#x27;&quot;947998009457774691&quot;&#x27;</span>::jsonb))</span><br><span class="line"></span><br><span class="line">//updata 字符串数据</span><br><span class="line"><span class="keyword">UPDATE</span> biz_object <span class="keyword">set</span> confjson = (jsonb_set(confjson::jsonb,<span class="string">&#x27;&#123;directorytypecode&#125;&#x27;</span>,<span class="string">&#x27;&quot;947998009457774691&quot;&#x27;</span>::jsonb)),directorytypecode = <span class="string">&#x27;947998009457774691&#x27;</span></span><br><span class="line">	<span class="keyword">where</span> modelcode = <span class="string">&#x27;829609839767532682&#x27;</span> <span class="keyword">and</span> objectcode = <span class="string">&#x27;948118654552248419&#x27;</span>;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 根据 官网提供的实例测试</span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;a&quot;:[null,&#123;&quot;b&quot;:[1,2]&#125;]&#125;&#x27;</span>, <span class="string">&#x27;&#123;a,1,b,1000&#125;&#x27;</span>, jsonb <span class="string">&#x27;3&#x27;</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">version</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>, <span class="string">&#x27;$.payFundAcc.addition.z&#x27;</span>, <span class="string">&#x27;3&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;<span class="string">&quot;tel&quot;</span>: <span class="number">13249872314</span>, <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Mike&quot;</span>, <span class="string">&quot;address&quot;</span>: <span class="string">&quot;Guangzhou&quot;</span>&#125;  json_set(<span class="keyword">data</span>,<span class="string">&quot;&#123;address&#125;&quot;</span>,<span class="string">&quot;Guangzhou&quot;</span>) </span><br><span class="line"> <span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;tel&quot;: 13249872314, &quot;name&quot;: &quot;Mike&quot;, &quot;address&quot;: &quot;Guangzhou&quot;&#125;&#x27;</span>,<span class="string">&#x27;&#123;address&#125;&#x27;</span>,<span class="string">&#x27;&quot;hahah&quot;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"> <span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>,<span class="string">&#x27;&#123;addition,z&#125;&#x27;</span>,<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">SELECT</span> <span class="string">&#x27;&#123;&quot;tel&quot;: 13249872314, &quot;name&quot;: &quot;Mike&quot;, &quot;address&quot;: &quot;Guangzhou&quot;&#125;&#x27;</span>::jsonb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ue4-pack-android" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/54f728db.html" class="article-date">
+      <time datetime="2021-07-07T08:15:57.000Z" itemprop="datePublished">2021-07-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/54f728db.html">ue4安卓打包</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="ue4安卓预制环境"><a href="#ue4安卓预制环境" class="headerlink" title="ue4安卓预制环境"></a>ue4安卓预制环境</h2><p>硬件要求</p>
+<h3 id="支持的最低GPU"><a href="#支持的最低GPU" class="headerlink" title="支持的最低GPU"></a>支持的最低GPU</h3><p>自4.25版起，以下GPU满足ES3.1的上述要求：</p>
+<ul>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="ue4安卓预制环境"><a href="#ue4安卓预制环境" class="headerlink" title="ue4安卓预制环境"></a>ue4安卓预制环境</h2><p>硬件要求</p>
+<h3 id="支持的最低GPU"><a href="#支持的最低GPU" class="headerlink" title="支持的最低GPU"></a>支持的最低GPU</h3><p>自4.25版起，以下GPU满足ES3.1的上述要求：</p>
+<ul>
+<li>Adreno 4xx</li>
+<li>Mali T6xx和更高版本</li>
+<li>Mali G71和更高版本</li>
+<li>PowerVR Rogue G6100</li>
+</ul>
+<p>下载安装安装开发SDK</p>
+<p><a target="_blank" rel="noopener" href="https://developer.nvidia.com/codeworks-android-archive">https://developer.nvidia.com/codeworks-android-archive</a></p>
+<p>选择 CodeWorks-1R7-windows_b166.exe 版本来实现</p>
+<p><img src="../img/image-20210707111300230.png" alt="image-20210707111300230"></p>
+<p>创建好的服务</p>
+<p><img src="../img/image-20210707103723169.png" alt="image-20210707103723169"></p>
+<p>配置安卓服务</p>
+<p><img src="../img/image-20210707103812966.png" alt="image-20210707103812966"></p>
+<p>设置层级为安卓</p>
+<p><img src="../img/image-20210707103855145.png" alt="image-20210707103855145"></p>
+<p>安装安卓sdk</p>
+<p><img src="../img/image-20210707124854167.png" alt="image-20210707124854167"></p>
+<p>ERROR: Android toolchain NDK r15c not supported; please use NDK r21 to NDK r23 (NDK r21b recommended)</p>
+<p>UATHelper: Packaging (Android (ETC2)): &gt; Task :app:compileDebugJavaWithJavac FAILED<br>UATHelper: Packaging (Android (ETC2)): The following annotation processors are not incremental: compiler-1.1.1.jar (android.arch.lifecycle:compiler:1.1.1).<br>UATHelper: Packaging (Android (ETC2)): Make sure all annotation processors are incremental to improve your build speed.<br>UATHelper: Packaging (Android (ETC2)): Z:\app\src\main\java\com\epicgames\ue4\GameActivity.java:3531: ����: �Ҳ�������<br>UATHelper: Packaging (Android (ETC2)):             powerManager.addThermalStatusListener(getMainExecutor(), new PowerManager.OnThermalStatusChangedListener() {<br>UATHelper: Packaging (Android (ETC2)): 32 actionable tasks: 3 executed, 29 up-to-date<br>UATHelper: Packaging (Android (ETC2)):                                                                                      ^<br>UATHelper: Packaging (Android (ETC2)):   ����:   �� OnThermalStatusChangedListener<br>UATHelper: Packaging (Android (ETC2)):   λ��: �� PowerManager<br>UATHelper: Packaging (Android (ETC2)): ע: ĳЩ�����ļ�ʹ�û򸲸����ѹ�ʱ�� API��<br>UATHelper: Packaging (Android (ETC2)): ע: �й���ϸ��Ϣ, ��ʹ�� -Xlint:deprecation ���±��롣<br>UATHelper: Packaging (Android (ETC2)): 1 ������<br>UATHelper: Packaging (Android (ETC2)): FAILURE: Build failed with an exception.<br>UATHelper: Packaging (Android (ETC2)): * What went wrong:<br>UATHelper: Packaging (Android (ETC2)): Execution failed for task ‘:app:compileDebugJavaWithJavac’.<br>UATHelper: Packaging (Android (ETC2)): &gt; Compilation failed; see the compiler error output for details.<br>UATHelper: Packaging (Android (ETC2)): * Try:<br>UATHelper: Packaging (Android (ETC2)): Run with –stacktrace option to get the stack trace. Run with –info or –debug option to get more log output. Run with –scan to get full insights.<br>UATHelper: Packaging (Android (ETC2)): * Get more help at <a target="_blank" rel="noopener" href="https://help.gradle.org/">https://help.gradle.org</a><br>UATHelper: Packaging (Android (ETC2)): BUILD FAILED in 8s</p>
+<p>需要安装Android_studio同时安装sdk</p>
+<p><img src="../img/image-20210707161238758.png" alt="image-20210707161238758"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-sublime-shortcut" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/29702c78.html" class="article-date">
+      <time datetime="2021-07-04T01:24:36.000Z" itemprop="datePublished">2021-07-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/29702c78.html">sublime_shortcut</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>link: <a target="_blank" rel="noopener" href="https://blog.csdn.net/lol_IP/article/details/82416020">https://blog.csdn.net/lol_IP/article/details/82416020</a><br>第一步：选中全部内容</p>
+<p>ctrl+A<br>第二步：进入待操作状态</p>
+<p>ctrl+shift+L<br>第三步：通过←和→控制光标的位置</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>link: <a target="_blank" rel="noopener" href="https://blog.csdn.net/lol_IP/article/details/82416020">https://blog.csdn.net/lol_IP/article/details/82416020</a><br>第一步：选中全部内容</p>
+<p>ctrl+A<br>第二步：进入待操作状态</p>
+<p>ctrl+shift+L<br>第三步：通过←和→控制光标的位置</p>
+<p>第四步：在光标处添加内容</p>
+<p>注：也可以只对多行进行操作，对多行进行操作只需在第一步选择相应的行就可以了</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-python-download-offline-html" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1a58ae58.html" class="article-date">
+      <time datetime="2021-06-23T14:29:34.000Z" itemprop="datePublished">2021-06-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>先上代码 本代码有参考</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gorquanwu/article/details/81739589">https://blog.csdn.net/gorquanwu/article/details/81739589</a> 这篇文章去实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># author: leek</span></span><br><span class="line"><span class="comment"># date：2021-6-23</span></span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup <span class="keyword">as</span> bs</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    用来爬取网站网页  gitbook 页面 离线下载到本地</span></span><br><span class="line"><span class="string">    实现功能：url深度抓取，保存每个页面的css、html、js等文件</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 深度爬取当前页面子网站子网站</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_urls</span>(<span class="params">url, baseurl, urls</span>):</span></span><br><span class="line">    <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        <span class="comment"># link = bs(data).find_all(&#x27;a&#x27;)</span></span><br><span class="line">        link = bs(data).find(<span class="string">&quot;nav&quot;</span>).find_all(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> link:</span><br><span class="line">            suffix = i.get(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">            <span class="comment"># 设置排除写入的子连接</span></span><br><span class="line">            <span class="keyword">if</span> suffix == <span class="string">&#x27;#&#x27;</span> <span class="keyword">or</span> suffix == <span class="string">&#x27;#carousel-example-generic&#x27;</span> <span class="keyword">or</span> <span class="string">&#x27;javascript:void(0)&#x27;</span> <span class="keyword">in</span> suffix:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 构建urls</span></span><br><span class="line">                childurl = baseurl +<span class="string">&quot;/&quot;</span>+ suffix</span><br><span class="line">                <span class="keyword">if</span> childurl <span class="keyword">not</span> <span class="keyword">in</span> urls:</span><br><span class="line">                    urls.append(childurl)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取每个页面代码以及获取页面上的css，js，img路径</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_source</span>(<span class="params">url, path</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> f:</span><br><span class="line">            html_source = f.read().decode()</span><br><span class="line">            <span class="comment"># 添加时间截以区分文件夹名字</span></span><br><span class="line">            timeStr = <span class="built_in">str</span>(<span class="built_in">int</span>(time.time()))</span><br><span class="line">            pattertitile = <span class="string">&#x27;&lt;title&gt;(.*?)&lt;/title&gt;&#x27;</span></span><br><span class="line">            patternimg = <span class="string">&#x27;&lt;img src=&quot;(.*?)&quot;&#x27;</span></span><br><span class="line">            titleStr = re.<span class="built_in">compile</span>(pattertitile, re.S).findall(html_source)[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;|&#x27;</span> <span class="keyword">in</span> titleStr:</span><br><span class="line">                title = (titleStr.split(<span class="string">&quot;|&quot;</span>)[<span class="number">1</span>]).split(<span class="string">&#x27; &#x27;</span>)[<span class="number">1</span>] + timeStr</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                title = titleStr + timeStr</span><br><span class="line"></span><br><span class="line">            path11 = path + <span class="string">&#x27;/&#x27;</span> + title</span><br><span class="line">            arrayurl= url.split(<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">            htmlFile = path</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>, <span class="built_in">len</span>(arrayurl)):</span><br><span class="line">                htmlFile  +=(<span class="string">&quot;/&quot;</span>+arrayurl[x])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 获取css，js，img地址</span></span><br><span class="line">            imgHref = re.<span class="built_in">compile</span>(patternimg, re.S).findall(html_source)</span><br><span class="line">            <span class="comment"># 创建文件路径下的父节点</span></span><br><span class="line">            os.makedirs(os.path.abspath(htmlFile + os.path.sep + <span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">            <span class="comment"># 读取并保存html</span></span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(htmlFile, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(html_source)</span><br><span class="line">            print(htmlFile+ <span class="string">&quot;文件保存成功&quot;</span>)</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(url + <span class="string">&quot;保存html文件时报错&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存js文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_css_js</span>(<span class="params">path</span>):</span></span><br><span class="line">        url = <span class="string">&quot;http://sdk.g-bim.cn&quot;</span></span><br><span class="line">        filename = path</span><br><span class="line">        <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> total_html:</span><br><span class="line">            html_source = total_html.read().decode()</span><br><span class="line">            jsHref = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;script src=&quot;(.*?)&quot;&#x27;</span>, re.S).findall(html_source)</span><br><span class="line">            cssHref = re.<span class="built_in">compile</span>( <span class="string">&#x27;&lt;link rel=&quot;stylesheet&quot; href=&quot;(.*?)&quot;&#x27;</span>, re.S).findall(html_source)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> jsHref :</span><br><span class="line">               <span class="keyword">try</span>:</span><br><span class="line">                   <span class="keyword">with</span> request.urlopen(url+<span class="string">&quot;/&quot;</span>+j) <span class="keyword">as</span> ww:</span><br><span class="line">                       js_source = ww.read().decode()</span><br><span class="line">                       <span class="comment"># filename =(path+&#x27;\\&#x27;+ j).replace(&#x27;/&#x27;,&#x27;\\&#x27;) os.getcwd()</span></span><br><span class="line">                       filename =path+j</span><br><span class="line">                       os.makedirs(os.path.abspath(filename+os.path.sep+<span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">                       <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                           f.write(js_source)</span><br><span class="line">                       print(j.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件保存成功&quot;</span>)</span><br><span class="line">                       time.sleep(<span class="number">1</span>)</span><br><span class="line">               <span class="keyword">except</span>:</span><br><span class="line">                   print(<span class="string">&quot;该&quot;</span> + j.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件无法下载&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> cssHref:</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    <span class="keyword">with</span> request.urlopen(url+<span class="string">&quot;/&quot;</span>+k) <span class="keyword">as</span> vv:</span><br><span class="line">                        filename = path+ k</span><br><span class="line">                        js_source = vv.read().decode()</span><br><span class="line">                        os.makedirs(os.path.abspath(filename + os.path.sep + <span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">                        <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                            f.write(js_source)</span><br><span class="line">                        print(k.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件保存成功&quot;</span>)</span><br><span class="line">                        time.sleep(<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">except</span>:</span><br><span class="line">                    print(<span class="string">&quot;该&quot;</span> + k.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件无法下载&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存img文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_img</span>(<span class="params">href, path</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(href)):</span><br><span class="line">        url = <span class="string">&quot;http://sdk.g-bim.cn&quot;</span> + href[i]</span><br><span class="line">        filename = path + <span class="string">&#x27;\\&#x27;</span> + href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> w:</span><br><span class="line">                img_source = w.read()</span><br><span class="line">                <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(img_source)</span><br><span class="line">                print(href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; 图像文件保存成功&quot;</span>)</span><br><span class="line">                time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">&quot;该&quot;</span> + href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; 图像无法下载&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 抓取网址</span></span><br><span class="line">    url = <span class="string">&#x27;http://sdk.g-bim.cn&#x27;</span></span><br><span class="line">    <span class="comment"># 相对路径地址</span></span><br><span class="line">    baseurl = <span class="string">&#x27;http://sdk.g-bim.cn&#x27;</span></span><br><span class="line">    <span class="comment"># 文件保存位置</span></span><br><span class="line">    basedir = <span class="string">r&#x27;C:\Users\Administrator\Desktop\HTML_bak&#x27;</span></span><br><span class="line">    urls = []</span><br><span class="line">    <span class="comment"># 获取所有地址</span></span><br><span class="line">    get_urls(url, baseurl, urls)</span><br><span class="line">    <span class="comment"># save_css_js(r&#x27;../html_bak/&#x27;)</span></span><br><span class="line">    <span class="comment"># 获取代码</span></span><br><span class="line">    <span class="keyword">for</span> u <span class="keyword">in</span> urls:</span><br><span class="line">        get_source(u,<span class="string">r&#x27;../html_bak&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>先上代码 本代码有参考</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gorquanwu/article/details/81739589">https://blog.csdn.net/gorquanwu/article/details/81739589</a> 这篇文章去实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># author: leek</span></span><br><span class="line"><span class="comment"># date：2021-6-23</span></span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup <span class="keyword">as</span> bs</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    用来爬取网站网页  gitbook 页面 离线下载到本地</span></span><br><span class="line"><span class="string">    实现功能：url深度抓取，保存每个页面的css、html、js等文件</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 深度爬取当前页面子网站子网站</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_urls</span>(<span class="params">url, baseurl, urls</span>):</span></span><br><span class="line">    <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        <span class="comment"># link = bs(data).find_all(&#x27;a&#x27;)</span></span><br><span class="line">        link = bs(data).find(<span class="string">&quot;nav&quot;</span>).find_all(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> link:</span><br><span class="line">            suffix = i.get(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">            <span class="comment"># 设置排除写入的子连接</span></span><br><span class="line">            <span class="keyword">if</span> suffix == <span class="string">&#x27;#&#x27;</span> <span class="keyword">or</span> suffix == <span class="string">&#x27;#carousel-example-generic&#x27;</span> <span class="keyword">or</span> <span class="string">&#x27;javascript:void(0)&#x27;</span> <span class="keyword">in</span> suffix:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 构建urls</span></span><br><span class="line">                childurl = baseurl +<span class="string">&quot;/&quot;</span>+ suffix</span><br><span class="line">                <span class="keyword">if</span> childurl <span class="keyword">not</span> <span class="keyword">in</span> urls:</span><br><span class="line">                    urls.append(childurl)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取每个页面代码以及获取页面上的css，js，img路径</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_source</span>(<span class="params">url, path</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> f:</span><br><span class="line">            html_source = f.read().decode()</span><br><span class="line">            <span class="comment"># 添加时间截以区分文件夹名字</span></span><br><span class="line">            timeStr = <span class="built_in">str</span>(<span class="built_in">int</span>(time.time()))</span><br><span class="line">            pattertitile = <span class="string">&#x27;&lt;title&gt;(.*?)&lt;/title&gt;&#x27;</span></span><br><span class="line">            patternimg = <span class="string">&#x27;&lt;img src=&quot;(.*?)&quot;&#x27;</span></span><br><span class="line">            titleStr = re.<span class="built_in">compile</span>(pattertitile, re.S).findall(html_source)[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;|&#x27;</span> <span class="keyword">in</span> titleStr:</span><br><span class="line">                title = (titleStr.split(<span class="string">&quot;|&quot;</span>)[<span class="number">1</span>]).split(<span class="string">&#x27; &#x27;</span>)[<span class="number">1</span>] + timeStr</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                title = titleStr + timeStr</span><br><span class="line"></span><br><span class="line">            path11 = path + <span class="string">&#x27;/&#x27;</span> + title</span><br><span class="line">            arrayurl= url.split(<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">            htmlFile = path</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>, <span class="built_in">len</span>(arrayurl)):</span><br><span class="line">                htmlFile  +=(<span class="string">&quot;/&quot;</span>+arrayurl[x])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 获取css，js，img地址</span></span><br><span class="line">            imgHref = re.<span class="built_in">compile</span>(patternimg, re.S).findall(html_source)</span><br><span class="line">            <span class="comment"># 创建文件路径下的父节点</span></span><br><span class="line">            os.makedirs(os.path.abspath(htmlFile + os.path.sep + <span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">            <span class="comment"># 读取并保存html</span></span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(htmlFile, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(html_source)</span><br><span class="line">            print(htmlFile+ <span class="string">&quot;文件保存成功&quot;</span>)</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(url + <span class="string">&quot;保存html文件时报错&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存js文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_css_js</span>(<span class="params">path</span>):</span></span><br><span class="line">        url = <span class="string">&quot;http://sdk.g-bim.cn&quot;</span></span><br><span class="line">        filename = path</span><br><span class="line">        <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> total_html:</span><br><span class="line">            html_source = total_html.read().decode()</span><br><span class="line">            jsHref = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;script src=&quot;(.*?)&quot;&#x27;</span>, re.S).findall(html_source)</span><br><span class="line">            cssHref = re.<span class="built_in">compile</span>( <span class="string">&#x27;&lt;link rel=&quot;stylesheet&quot; href=&quot;(.*?)&quot;&#x27;</span>, re.S).findall(html_source)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> jsHref :</span><br><span class="line">               <span class="keyword">try</span>:</span><br><span class="line">                   <span class="keyword">with</span> request.urlopen(url+<span class="string">&quot;/&quot;</span>+j) <span class="keyword">as</span> ww:</span><br><span class="line">                       js_source = ww.read().decode()</span><br><span class="line">                       <span class="comment"># filename =(path+&#x27;\\&#x27;+ j).replace(&#x27;/&#x27;,&#x27;\\&#x27;) os.getcwd()</span></span><br><span class="line">                       filename =path+j</span><br><span class="line">                       os.makedirs(os.path.abspath(filename+os.path.sep+<span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">                       <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                           f.write(js_source)</span><br><span class="line">                       print(j.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件保存成功&quot;</span>)</span><br><span class="line">                       time.sleep(<span class="number">1</span>)</span><br><span class="line">               <span class="keyword">except</span>:</span><br><span class="line">                   print(<span class="string">&quot;该&quot;</span> + j.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件无法下载&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> cssHref:</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    <span class="keyword">with</span> request.urlopen(url+<span class="string">&quot;/&quot;</span>+k) <span class="keyword">as</span> vv:</span><br><span class="line">                        filename = path+ k</span><br><span class="line">                        js_source = vv.read().decode()</span><br><span class="line">                        os.makedirs(os.path.abspath(filename + os.path.sep + <span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">                        <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                            f.write(js_source)</span><br><span class="line">                        print(k.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件保存成功&quot;</span>)</span><br><span class="line">                        time.sleep(<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">except</span>:</span><br><span class="line">                    print(<span class="string">&quot;该&quot;</span> + k.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件无法下载&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存img文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_img</span>(<span class="params">href, path</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(href)):</span><br><span class="line">        url = <span class="string">&quot;http://sdk.g-bim.cn&quot;</span> + href[i]</span><br><span class="line">        filename = path + <span class="string">&#x27;\\&#x27;</span> + href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> w:</span><br><span class="line">                img_source = w.read()</span><br><span class="line">                <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(img_source)</span><br><span class="line">                print(href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; 图像文件保存成功&quot;</span>)</span><br><span class="line">                time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">&quot;该&quot;</span> + href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; 图像无法下载&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 抓取网址</span></span><br><span class="line">    url = <span class="string">&#x27;http://sdk.g-bim.cn&#x27;</span></span><br><span class="line">    <span class="comment"># 相对路径地址</span></span><br><span class="line">    baseurl = <span class="string">&#x27;http://sdk.g-bim.cn&#x27;</span></span><br><span class="line">    <span class="comment"># 文件保存位置</span></span><br><span class="line">    basedir = <span class="string">r&#x27;C:\Users\Administrator\Desktop\HTML_bak&#x27;</span></span><br><span class="line">    urls = []</span><br><span class="line">    <span class="comment"># 获取所有地址</span></span><br><span class="line">    get_urls(url, baseurl, urls)</span><br><span class="line">    <span class="comment"># save_css_js(r&#x27;../html_bak/&#x27;)</span></span><br><span class="line">    <span class="comment"># 获取代码</span></span><br><span class="line">    <span class="keyword">for</span> u <span class="keyword">in</span> urls:</span><br><span class="line">        get_source(u,<span class="string">r&#x27;../html_bak&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>期间有些问题</p>
+<h3 id="读取文件是出现UnicodeDecodeError"><a href="#读取文件是出现UnicodeDecodeError" class="headerlink" title="读取文件是出现UnicodeDecodeError"></a>读取文件是出现UnicodeDecodeError</h3><p>UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0x89 in position 14: illegal</p>
+<p>open(‘order.log’,’r’, encoding=’UTF-8’) 尽量指定u8目前HTML的编码一般都是它避免乱码</p>
+<h3 id="在python环境下window和Linux分隔符的区别"><a href="#在python环境下window和Linux分隔符的区别" class="headerlink" title="在python环境下window和Linux分隔符的区别"></a>在python环境下window和Linux分隔符的区别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">path&#x3D;r&#39;..&#x2F;html_bak&#x2F;&#39;</span><br><span class="line"> with open(path, &#39;w&#39;, encoding&#x3D;&#39;UTF-8&#39;) as f:</span><br><span class="line"> </span><br><span class="line"> \\windows平台但是 加上r后 自动加 不用管全部用&#x2F;即可 在打开文件时会自动管理</span><br><span class="line"> https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_29831163&#x2F;article&#x2F;details&#x2F;106263729</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<h3 id="读取指定文件路径下父文件夹如果不存在着直接新建"><a href="#读取指定文件路径下父文件夹如果不存在着直接新建" class="headerlink" title="读取指定文件路径下父文件夹如果不存在着直接新建"></a>读取指定文件路径下父文件夹如果不存在着直接新建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.makedirs(os.path.abspath(filename+os.path.sep+&quot;..&quot;), exist_ok&#x3D;True)</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-geomesa-input-error" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/Infinity.html" class="article-date">
+      <a href="/null.html" class="article-date">
       <time datetime="2021-06-22T07:44:29.000Z" itemprop="datePublished">2021-06-22</time>
 </a>
 
@@ -288,7 +661,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Infinity.html">geomesa-input-error</a>
+      <a class="article-title" href="/null.html">geomesa-input-error</a>
     </h1>
   
 
@@ -2328,447 +2701,6 @@
 
 
   
-    <article id="post-log-drive一次 java.io.IOException Connection reset by peer 故障排查" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/f85e694a.html" class="article-date">
-      <time datetime="2021-03-14T00:29:46.000Z" itemprop="datePublished">2021-03-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>转载地址: <a target="_blank" rel="noopener" href="https://mengkang.net/1118.html">https://mengkang.net/1118.html</a></p>
-<p>我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Connection reset by peer</span><br><span class="line">  at sun.nio.ch.FileDispatcherImpl.read0(Native Method)</span><br><span class="line">  at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)</span><br><span class="line">  at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)</span><br><span class="line">  at sun.nio.ch.IOUtil.read(IOUtil.java:192)</span><br><span class="line">  at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)</span><br><span class="line">  at io.netty.buffer.PooledUnsafeDirectByteBuf.setBytes(PooledUnsafeDirectByteBuf.java:311)</span><br><span class="line">  at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:853)</span><br><span class="line">  at io.netty.buffer.WrappedByteBuf.writeBytes(WrappedByteBuf.java:641)</span><br><span class="line">  at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:240)</span><br><span class="line">  at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:115)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)</span><br><span class="line">  at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>转载地址: <a target="_blank" rel="noopener" href="https://mengkang.net/1118.html">https://mengkang.net/1118.html</a></p>
-<p>我的弹幕服务，代码换了个环境运行，虽然服务可用，但是发现出现了如下情况，基本1秒输出来一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Connection reset by peer</span><br><span class="line">  at sun.nio.ch.FileDispatcherImpl.read0(Native Method)</span><br><span class="line">  at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)</span><br><span class="line">  at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)</span><br><span class="line">  at sun.nio.ch.IOUtil.read(IOUtil.java:192)</span><br><span class="line">  at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)</span><br><span class="line">  at io.netty.buffer.PooledUnsafeDirectByteBuf.setBytes(PooledUnsafeDirectByteBuf.java:311)</span><br><span class="line">  at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:853)</span><br><span class="line">  at io.netty.buffer.WrappedByteBuf.writeBytes(WrappedByteBuf.java:641)</span><br><span class="line">  at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:240)</span><br><span class="line">  at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:115)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)</span><br><span class="line">  at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)</span><br><span class="line">  at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)</span><br><span class="line">  at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/netty/netty/issues/5936">https://github.com/netty/netty/issues/5936</a><br><code>Connection reset by peer</code> is typically a result of your peer sending a TCP RST to you.</p>
-</blockquote>
-<h1 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h1><p>既然是网络故障，tcpdump 是否可用呢？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sudo netstat -lnp|grep 8657</span><br><span class="line">tcp        0      0 0.0.0.0:443                 0.0.0.0:*                   LISTEN      8657&#x2F;java</span><br></pre></td></tr></table></figure>
-
-<p>没有列出全部的 socket 连接，从当前进程监听的端口入手试试。<code>ifconfig</code>可以看到这台机器有两个网卡（eth0 内网 ip，eth1 公网 ip）。</p>
-<h2 id="tcpdump-下的-tcp-ip-协议解析"><a href="#tcpdump-下的-tcp-ip-协议解析" class="headerlink" title="tcpdump 下的 tcp/ip 协议解析"></a>tcpdump 下的 tcp/ip 协议解析</h2><p>先看下 tcpdump 输出tcp/ip 数据的大致格式</p>
-<blockquote>
-<p>参考 <a target="_blank" rel="noopener" href="http://www.tcpdump.org/tcpdump_man.html">http://www.tcpdump.org/tcpdump_man.html</a> 中关于 tcp 协议的描述，我整理了下格式</p>
-</blockquote>
-<p>The general format of a TCP protocol line is</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src &gt; dst: Flags [tcpflags], seq data-seqno, ack ackno, win window, urg urgent, options [opts], length len</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><code>src</code> and <code>dst</code> are the source and destination IP addresses and ports.</li>
-<li><code>tcpflags</code> are some combination of <code>S</code> (SYN), <code>F</code> (FIN), <code>P</code> (PUSH), <code>R</code> (RST), <code>U</code> (URG), <code>W</code> (ECN CWR), <code>E</code> (ECN-Echo) or <code>.</code> (ACK), or <code>none</code> if no flags are set.</li>
-<li><code>data-seqno</code> describes the portion of sequence space covered by the data in this packet.</li>
-<li><code>ackno</code> is sequence number of the next data expected the other direction on this connection.</li>
-<li><code>window</code> is the number of bytes of receive buffer space available the other direction on this connection.</li>
-<li><code>urg</code> indicates there is <code>urgent</code> data in the packet.</li>
-<li><code>opts</code> are TCP options (e.g., mss 1024).</li>
-<li><code>len</code> is the length of payload data.</li>
-</ol>
-<h2 id="抓包数据"><a href="#抓包数据" class="headerlink" title="抓包数据"></a>抓包数据</h2><p>通过<code>tcpdump</code>查看下443 端口的网络情况。与上面的格式略有不同。因为我有两个网卡，请求是从 eth0 进，从 eth1 出，我尝试使用<code>tcpdump -i any</code> 发现第三次握手输出的 askno 数据不对。（<strong>为什么会这样呢，还不知道，谁知道请告知下</strong>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$sudo tcpdump -i any -nn port 443</span><br><span class="line"></span><br><span class="line">16:18:41.553460 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: S 806033:806033(0) win 14600 &lt;mss 1460,sackOK,timestamp 2230744217 0,nop,wscale 8&gt;</span><br><span class="line">16:18:41.553483 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.110.5745: S 1720728675:1720728675(0) ack 806034 win 14480 &lt;mss 1460,sackOK,timestamp 2425389802 2230744217,nop,wscale 7&gt;</span><br><span class="line">16:18:41.553647 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: . ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br><span class="line">16:18:41.553677 IP xxx.xxx.238.110.5745 &gt; xxx.xxx.198.40.443: R 1:1(0) ack 1 win 58 &lt;nop,nop,timestamp 2230744217 2425389802&gt;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>但是如果你要导出<code>*.pcap</code>文件然后用<code>wireshark</code>来查看，还是得将两个网卡的流量合并到一起才行。</p>
-</blockquote>
-<p>两个网卡分开抓</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 合并到一起写</span><br><span class="line">$sudo tcpdump -i eth0 -nn port 443</span><br><span class="line">$sudo tcpdump -i eth1 -nn port 443</span><br><span class="line"></span><br><span class="line">16:51:16.073956 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: S 2659415794:2659415794(0) win 14600 &lt;mss 1460,sackOK,timestamp 2328745293 0,nop,wscale 8&gt;</span><br><span class="line">16:51:16.073985 IP xxx.xxx.198.40.443 &gt; xxx.xxx.238.2.61835: S 955422999:955422999(0) ack 2659415795 win 14480 &lt;mss 1460,sackOK,timestamp 2427344323 2328745293,nop,wscale 7&gt;</span><br><span class="line">16:51:16.074147 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: . ack 955423000 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br><span class="line">16:51:16.074192 IP xxx.xxx.238.2.61835 &gt; xxx.xxx.198.40.443: R 0:0(0) ack 1 win 58 &lt;nop,nop,timestamp 2328745293 2427344323&gt;</span><br></pre></td></tr></table></figure>
-
-<p>上面的握手比较简单对应着</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">时间 协议 src &gt; dst tcpflags data-seqno ack ackno win window &lt;opts&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="握手逻辑"><a href="#握手逻辑" class="headerlink" title="握手逻辑"></a>握手逻辑</h2><p>一次连接建立的三次握手的步骤：</p>
-<ol>
-<li>Caller sends SYN</li>
-<li>Recipient responds with SYN, ACK</li>
-<li>Caller sends ACK</li>
-</ol>
-<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><ol>
-<li>src 发送的 tcpflags = S，也就是说发送的SYN请求，随机产生一个值 data-seqno = J(<code>2659415794</code>)，并将该数据包发送给 dst</li>
-<li>dst 发送的 tcpflags = S，实际发送的时候 SYN 和 ACK 标志位都置1了，返回一个 ackno=<code>J</code> + 1，也就是<code>2659415795</code>，然后随机生成一个新的 data-seqno = K(<code>955422999</code>) 发送给 src</li>
-<li>src 检查收到的 ackno 是不是等于<code>J</code>+<code>1</code>，然后再发送一个 ackno = <code>K</code>+1，也就是<code>955423000</code>，前面的文档中说道<code>tcpflags</code>为<code>.</code>的时候也表示<code>ACK</code></li>
-<li>src 最后为什么又给 dst 发送一个 tcpflags = R 的请求呢？</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://mengkang.net/upload/image/2017/1221/1513846681114601.png"><img src="https://mengkang.net/upload/image/2017/1221/1513846681114601.png" alt="一次 java.io.IOException: Connection reset by peer 故障排查"></a></p>
-<h2 id="为什么会出现-RST"><a href="#为什么会出现-RST" class="headerlink" title="为什么会出现 RST"></a>为什么会出现 RST</h2><p>因为具有周期性，我大概猜到了，是 lvs 对我的后端服务的健康检查导致的，联系了网络运营服务客服人员，我把<code>.pcap</code>给他们</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i any port 443 -c 3 -w log.pcap</span><br></pre></td></tr></table></figure>
-
-<p>他们确认源地址就是LVS的local地址。<br>健康检查的机制就是建立成功后就 RST 掉，就不占用 session 了。这是公司的规范，问题算是定位了。既然公司的规范，那么我们这边需要定制修改下，针对 vip 发送的 RST 不处理。</p>
-<p>其他参考</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/netty/netty/issues/6029">https://github.com/netty/netty/issues/6029</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc793">https://tools.ietf.org/html/rfc793</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/costaxu/blog/127394">https://my.oschina.net/costaxu/blog/127394</a></p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ambari-server中postgress启动" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/466081a0.html" class="article-date">
-      <time datetime="2021-03-10T07:59:20.000Z" itemprop="datePublished">2021-03-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/466081a0.html">ambari-server中postgress启动</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><img src="../img/image-20210310160022213.png" alt="image-20210310160022213"></p>
-<p> Unable to start PostgreSQL server. Status stopped. . Exiting</p>
-<p>bin  pg_ctl status </p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><img src="../img/image-20210310160022213.png" alt="image-20210310160022213"></p>
-<p> Unable to start PostgreSQL server. Status stopped. . Exiting</p>
-<p>bin  pg_ctl status </p>
-<p> systemctl start  postgresql.service</p>
-<p><img src="../img/image-20210310160212137.png" alt="image-20210310160212137"></p>
-<p>FATAL:  could not write lock file “postmaster.pid”: No space left on device</p>
-<p> df -h</p>
-<p><img src="../img/image-20210310160232827.png" alt="image-20210310160232827"></p>
-<p>systemctl start  postgresql.service</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-docker搭建单机kafka" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/4225d45e.html" class="article-date">
-      <time datetime="2021-03-07T04:36:44.000Z" itemprop="datePublished">2021-03-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h1 id="搭建单机kafka选型"><a href="#搭建单机kafka选型" class="headerlink" title="搭建单机kafka选型"></a>搭建单机kafka选型</h1><ul>
-<li><p>选择docker容器内集成 kafka,zookeeper 的容器 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 找到的这个 容器设置了 kafka的hostname和 zookeeper的ip ,</span></span><br><span class="line"> docker run -d -e ADVERTISED_HOSTNAME=$(hostname -f)  -e KAFKA_ADVERTISED_HOST_NAME=192.168.248.128 -e ZOOKEEPER_IP=192.168.248.128 -p 9092:9092 -p 2181:2181 --restart=always jrottenberg/kafka-standalone</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h1 id="搭建单机kafka选型"><a href="#搭建单机kafka选型" class="headerlink" title="搭建单机kafka选型"></a>搭建单机kafka选型</h1><ul>
-<li><p>选择docker容器内集成 kafka,zookeeper 的容器 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 找到的这个 容器设置了 kafka的hostname和 zookeeper的ip ,</span></span><br><span class="line"> docker run -d -e ADVERTISED_HOSTNAME=$(hostname -f)  -e KAFKA_ADVERTISED_HOST_NAME=192.168.248.128 -e ZOOKEEPER_IP=192.168.248.128 -p 9092:9092 -p 2181:2181 --restart=always jrottenberg/kafka-standalone</span><br></pre></td></tr></table></figure>
-
-<p>基于上面的容器是可以运行 获取到了zookeeper的broker 但是kafka是连接不上 </p>
-</li>
-<li><p>docker-composer 来执行</p>
-<p>参考第 <a target="_blank" rel="noopener" href="https://github.com/conduktor/kafka-stack-docker-compose">https://github.com/conduktor/kafka-stack-docker-compose</a> </p>
-<p>但是还有有个问题,我搭建的环境是离线的,尽量还是以 docker命令来执行减少安装其他软件</p>
-</li>
-<li><p>原始的 kafka,zookeeper 分开安装,在设置环境变量(选用的方案)</p>
-</li>
-</ul>
-<h1 id="前置需要安装的软件"><a href="#前置需要安装的软件" class="headerlink" title="前置需要安装的软件"></a>前置需要安装的软件</h1><p>prettyZoo 查看zookeeper很方便</p>
-<p>cmak (kafka manage) kafka监控软件</p>
-<h1 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h1><p><a target="_blank" rel="noopener" href="https://ioccc.cc/2018/12/12/zookeeper-kafka/">https://ioccc.cc/2018/12/12/zookeeper-kafka/</a>   改部分参考该篇博文</p>
-<h2 id="运行zookeeper"><a href="#运行zookeeper" class="headerlink" title="运行zookeeper"></a>运行zookeeper</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name zookeeper --publish 2181:2181 \</span><br><span class="line"> --volume &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime \</span><br><span class="line"> zookeeper:latest</span><br></pre></td></tr></table></figure>
-
-<h2 id="运行kafka"><a href="#运行kafka" class="headerlink" title="运行kafka"></a>运行kafka</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name kafka --publish 9092:9092 \</span><br><span class="line"> --link zookeeper \</span><br><span class="line"> --env KAFKA_ZOOKEEPER_CONNECT&#x3D;zookeeper:2181 \</span><br><span class="line"> --env KAFKA_ADVERTISED_HOST_NAME&#x3D;HOST_IP \</span><br><span class="line"> --env KAFKA_ADVERTISED_PORT&#x3D;9092 \</span><br><span class="line"> --volume &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime \</span><br><span class="line"> wurstmeister&#x2F;kafka:latest</span><br></pre></td></tr></table></figure>
-
-<p>进去容器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker  exec -it  &lt;ID&gt; &#x2F;bash&#x2F;sh</span><br><span class="line"></span><br><span class="line">cd &#x2F;opt&#x2F;kafka**&#x2F;bin</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h3 id="创建topic-名为test"><a href="#创建topic-名为test" class="headerlink" title="创建topic 名为test"></a>创建topic 名为test</h3><p> kafka-topics.sh –create –zookeeper zookeeper:2181 –replication-factor 1 –partitions 1 –topic test</p>
-<h3 id="列出所有的topic"><a href="#列出所有的topic" class="headerlink" title="列出所有的topic"></a>列出所有的topic</h3><p> kafka-topics.sh –list –zookeeper zookeeper:2181</p>
-<h3 id="创建生产者输入测试信息"><a href="#创建生产者输入测试信息" class="headerlink" title="创建生产者输入测试信息"></a>创建生产者输入测试信息</h3><p> kafka-console-producer.sh –broker-list localhost:9092 –topic test</p>
-<p> kafka-console-consumer.sh –bootstrap-server localhost:9092 –topic test –from-beginning</p>
-<h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><p>需要将  KAFKA_ADVERTISED_HOST_NAME=<strong>HOST_IP</strong> 改为 docker所在的ip</p>
-<p>在cmak中是看不到 topic.需要 用3.3.1 的命令去创建</p>
-<p><img src="file://E:/blog/source/img/image-20210307132400145.png?lastModify=1615094706" alt="image-20210307132400145"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-github action 示例" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/50c36cff.html" class="article-date">
-      <time datetime="2021-03-03T12:00:21.000Z" itemprop="datePublished">2021-03-03</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/50c36cff.html">github的action上实例操作</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16876.html">https://51.ruyo.net/16876.html</a>  -&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/UnicomTask">https://github.com/bigleek/UnicomTask</a></p>
-<p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16050.html">https://51.ruyo.net/16050.html</a>  -&gt;&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/Cloud189Checkin-Actions">https://github.com/bigleek/Cloud189Checkin-Actions</a></p>
-<p>github action是github提供的自动化工具能对你参考的代码解析编译构建操作，也可以衍生出其他服务，之前是pro用户才能使用，在GitHub被微软收购后财大气粗的放出的重量级服务，期间很多人滥用action的虚拟机的环境去挖矿</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16876.html">https://51.ruyo.net/16876.html</a>  -&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/UnicomTask">https://github.com/bigleek/UnicomTask</a></p>
-<p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16050.html">https://51.ruyo.net/16050.html</a>  -&gt;&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/Cloud189Checkin-Actions">https://github.com/bigleek/Cloud189Checkin-Actions</a></p>
-<p>github action是github提供的自动化工具能对你参考的代码解析编译构建操作，也可以衍生出其他服务，之前是pro用户才能使用，在GitHub被微软收购后财大气粗的放出的重量级服务，期间很多人滥用action的虚拟机的环境去挖矿</p>
-<p>创建了workflow后在仓库会有个**.github/workflows** 的文件夹，里面可以将敏感信息写到下面的环境变量中</p>
-<p>设置action的环境变量的位置</p>
-<p><img src="../img/image-20220409204154682.png" alt="image-20220409204154682"></p>
-<p>笔者目前对github action有两个用途</p>
-<p>1、主要是定时任务和提醒</p>
-<p>2、主要是不是GitHub仓库的静态资源到腾讯的cloudbase中</p>
-<p>现在先讨论第一种的使用方法</p>
-<p>首先创建GitHub的任意仓库并</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/TencentCloudBase/cloudbase-action">TencentCloudBase/cloudbase-action: 云开发 Tencent CloudBase Github Action 可以将 Github 项目自动部署到云开发环境，基于 CloudBase Framework，支持静态网站、云函数、云托管、小程序等项目</a></p>
-<p>创建对应的用户并设置权限</p>
-<p><img src="../img/image-20220409210624384.png" alt="image-20220409210624384"></p>
-<p>授予文件类的权限否则用该用户上传文件时GitHub action会报没有权限</p>
-<p><img src="../img/image-20220409210755155.png" alt="image-20220409210755155"></p>
-<p><img src="../img/image-20220409210455374.png" alt="image-20220409210455374"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/12/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/14/">下一页 </a>
@@ -2780,7 +2712,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2024 leek
+                2016-2025 leek
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>

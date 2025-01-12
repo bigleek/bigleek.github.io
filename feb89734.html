@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="【提效】docker镜像构建优化-提速10倍【提效】docker镜像构建优化-提速10倍 本文主要记录了自己通过查阅相关资料，一步步排查问题，最后通过优化Docerfile文件将docker镜像构建从十几分钟降低到1分钟左右，效率提高了10倍左右。 一、概述 最近在开发python应用程序，在部署应用的时候发现构建镜像过程十分缓慢，极大影响开发效率。既然遇到了问题就不要逃避，而应该尝试解决一下。本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker构建镜像优化(转发)">
+<meta property="og:url" content="https://imlike.cc/feb89734.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="【提效】docker镜像构建优化-提速10倍【提效】docker镜像构建优化-提速10倍 本文主要记录了自己通过查阅相关资料，一步步排查问题，最后通过优化Docerfile文件将docker镜像构建从十几分钟降低到1分钟左右，效率提高了10倍左右。 一、概述 最近在开发python应用程序，在部署应用的时候发现构建镜像过程十分缓慢，极大影响开发效率。既然遇到了问题就不要逃避，而应该尝试解决一下。本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwW7EbabdqX5mRpjowC1SSoQFWuRrO78UnRuibr3MuibmyGMsaF56xuBeg/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw1wFLaW9SpAdIcXPo8ZIRPiay3lictqcSibtv8dib7cuGDXiaqdKZEluRhLw/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwBibgLcwtI0kj8ZU4XHMchicORhOS6JoHprzA6XH6Vq1QhyOR2Mrwl1icw/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwyZicC9BnblubsjmQUFXTDCm4sf6CERD2icG3EWoVkyibI8GJ3rLRpiboXg/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw5j5Ce8cib0UoKXtmGyGgvb6rn6jXvTOd7EasIvbbEcPsibHq1EI64Z3Q/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwKE4kQVC1dAycm4RwMRNQ8ubfniaFTGHNvxsXeZuW6y5gDYybiblhMqlQ/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwf6aF8M9Fg6zgZ9ljzzWOiclxrV0OCHwryGq56uCZ2by0kHOyCOcnG2w/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw6EQnRfL2L6wevSWBcnibeaEF5Mib3yiaK6xkXPpU6Anqb8IaiaUnzTiak3Q/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwQ9lwO3KffE9KfhTN0IINiakS1Xe2v9BnZicEGIvpWCBWm62hn2BQD6eQ/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw6ibUJ9WCfrMm6uhGtWmaqGCIDfSsXTicELPBKIxYc02zzDbtfmKjkSdw/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw4ricI85f1LicDrJ8oIXlsIRZGfId681icMLtHWphmiaOLOwnD8AUIhPXqw/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw2HdfcwLP5SYvyUdWPK7Tz02zQTcHVR93wickBHT5ic9xOEee5KAs7Nzw/640?wx_fmt=other&from=appmsg">
+<meta property="og:image" content="https://mp.weixin.qq.com/s/qU6dSiMuH7xDHhTDCcLMhw">
+<meta property="og:image" content="https://mp.weixin.qq.com/mp/qrcode?scene=10000004&size=102&__biz=MzIzOTU0NTQ0MA==&mid=2247542200&idx=1&sn=6fa4cd3773c34c1b193ff2843f773b04&send_time=">
+<meta property="article:published_time" content="2024-12-30T05:32:21.000Z">
+<meta property="article:modified_time" content="2024-12-30T05:33:27.864Z">
+<meta property="article:author" content="leek">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwW7EbabdqX5mRpjowC1SSoQFWuRrO78UnRuibr3MuibmyGMsaF56xuBeg/640?wx_fmt=other&from=appmsg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>docker构建镜像优化(转发) | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-docker构建镜像优化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/feb89734.html" class="article-date">
+      <time datetime="2024-12-30T05:32:21.000Z" itemprop="datePublished">2024-12-30</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      docker构建镜像优化(转发)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!--  -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E3%80%90%E6%8F%90%E6%95%88%E3%80%91docker%E9%95%9C%E5%83%8F%E6%9E%84%E5%BB%BA%E4%BC%98%E5%8C%96-%E6%8F%90%E9%80%9F10%E5%80%8D"><span class="toc-number">1.</span> <span class="toc-text">【提效】docker镜像构建优化-提速10倍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-1"><span class="toc-number">3.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-2"><span class="toc-number">4.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-3"><span class="toc-number">5.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-4"><span class="toc-number">6.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#-5"><span class="toc-number">6.1.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-6"><span class="toc-number">6.2.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-7"><span class="toc-number">6.3.</span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-8"><span class="toc-number">7.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#-9"><span class="toc-number">7.1.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-1-%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB%E5%8E%9F%E5%88%99"><span class="toc-number">7.1.1.</span> <span class="toc-text">5.1.1. 动静分离原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-2-%E5%A4%9A%E9%98%B6%E6%AE%B5%E6%9E%84%E5%BB%BA"><span class="toc-number">7.1.2.</span> <span class="toc-text">5.1.2. 多阶段构建</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-10"><span class="toc-number">7.2.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-1-%E6%9E%84%E5%BB%BA%E8%80%97%E6%97%B6%E4%BC%98%E5%8C%96"><span class="toc-number">7.2.1.</span> <span class="toc-text">5.2.1. 构建耗时优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-2-%E9%95%9C%E5%83%8F%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96"><span class="toc-number">7.2.2.</span> <span class="toc-text">5.2.2. 镜像体积优化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-11"><span class="toc-number">8.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#-12"><span class="toc-number">8.1.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-13"><span class="toc-number">8.2.</span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-14"><span class="toc-number">9.</span> <span class="toc-text"></span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <h1 id="【提效】docker镜像构建优化-提速10倍"><a href="#【提效】docker镜像构建优化-提速10倍" class="headerlink" title="【提效】docker镜像构建优化-提速10倍"></a>【提效】docker镜像构建优化-提速10倍</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/qU6dSiMuH7xDHhTDCcLMhw">【提效】docker镜像构建优化-提速10倍</a></p>
+<p>本文主要记录了自己通过查阅相关资料，一步步排查问题，最后通过优化Docerfile文件将docker镜像构建从十几分钟降低到1分钟左右，效率提高了10倍左右。</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>一、概述</p>
+<h1 id="-1"><a href="#-1" class="headerlink" title=""></a></h1><p>最近在开发python应用程序，在部署应用的时候发现构建镜像过程十分缓慢，极大影响开发效率。既然遇到了问题就不要逃避，而应该尝试解决一下。本文主要记录了自己通过查阅相关资料，一步步排查问题，最后通过优化Docerfile文件将docker镜像构建从十几分钟降低到1分钟左右，效率提高了10倍左右。</p>
+<p>本文通过如下几个部分进行介绍：</p>
+<ul>
+<li>现状：简单介绍一下未优化前的情况；</li>
+<li>优化效果：简单介绍优化后的情况；</li>
+<li>分析过程：介绍如何分析镜像构建存在的问题；</li>
+<li>优化过程：介绍如何通过优化Dockerfile提高镜像构建效率；</li>
+<li>优化总结：最后总结镜像构建的几个优化方法；</li>
+</ul>
+<p>通过本文的学习，你将有如下收获：</p>
+<p>1.了解镜像构建优化的过程。</p>
+<p>2.了解一些常用的镜像构建优化的技巧。</p>
+<p>二、优化前效果</p>
+<h1 id="-2"><a href="#-2" class="headerlink" title=""></a></h1><p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwW7EbabdqX5mRpjowC1SSoQFWuRrO78UnRuibr3MuibmyGMsaF56xuBeg/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>未优化前可以看到镜像构建耗时<strong>16分钟</strong>，构建完成后<strong>镜像大小约8G</strong>，使用的Dockerfile文件如下：</p>
+<ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FROM reg.docker.alibaba-inc.com&#x2F;aci-images&#x2F;python-service:3.8.0-63928922</span><br><span class="line"># init folderRUN mkdir -p &#x2F;home&#x2F;admin&#x2F;logs &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;bin &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;conf &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;nginx &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env</span><br><span class="line"># install zetaRUN pushd &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env &amp;&amp; \    wget https:&#x2F;&#x2F;artifacts.antgroup-inc.cn&#x2F;artifact&#x2F;repositories&#x2F;softwares-common&#x2F;antcode&#x2F;zeta&#x2F;0.7.9&#x2F;zeta-linux-amd64-0.7.9.sh -O zeta-release.sh &amp;&amp; \    chmod +x zeta-release.sh &amp;&amp; \    .&#x2F;zeta-release.sh --prefix&#x3D;&#x2F;usr&#x2F;local &amp;&amp; \    popd</span><br><span class="line"># init env and install softwareCOPY conf&#x2F;docker&#x2F;build.yaml &#x2F;root&#x2F;RUN python3.10 -m pip install -U antimgbuilder -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple &amp;&amp; \    python3.10 -m antimgbuilder --config-file &#x2F;root&#x2F;build.yaml</span><br><span class="line"># copy source file# COPY --chown&#x3D;admin:admin mydemo &#x2F;home&#x2F;admin&#x2F;release&#x2F;mydemoCOPY --chown&#x3D;admin:admin aml_core &#x2F;home&#x2F;admin&#x2F;release&#x2F;aml_coreCOPY --chown&#x3D;admin:admin backend &#x2F;home&#x2F;admin&#x2F;release&#x2F;backend</span><br><span class="line"># install  requirements.txtCOPY --chown&#x3D;admin:admin requirements.txt &#x2F;home&#x2F;admin&#x2F;release&#x2F;RUN python3.10 -m venv &#x2F;home&#x2F;admin&#x2F;run &amp;&amp; \    . &#x2F;home&#x2F;admin&#x2F;run&#x2F;bin&#x2F;activate &amp;&amp; \    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple-remote --upgrade pip &amp;&amp;\    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple -r &#x2F;home&#x2F;admin&#x2F;release&#x2F;requirements.txt</span><br><span class="line"># copy scriptsCOPY --chown&#x3D;admin:admin conf&#x2F;docker&#x2F;scripts&#x2F;admin &#x2F;home&#x2F;adminCOPY --chown&#x3D;admin:admin conf&#x2F;nginx &#x2F;home&#x2F;admin&#x2F;nginx</span><br><span class="line"># 最后确保admin目录下文件权限RUN chown admin:admin -R &#x2F;home&#x2F;admin</span><br><span class="line">RUN chmod a+xw &#x2F;home&#x2F;admin&#x2F;bin&#x2F;fetch_ollama.sh &#x2F;tmp</span><br></pre></td></tr></table></figure>
+
+
+
+<p>三、优化后效果</p>
+<h1 id="-3"><a href="#-3" class="headerlink" title=""></a></h1><p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw1wFLaW9SpAdIcXPo8ZIRPiay3lictqcSibtv8dib7cuGDXiaqdKZEluRhLw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>优化后可以看到镜像构建时间为1分钟左右，镜像大小约5G，使用的Dockerfile如下：</p>
+<ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 第一阶段：下载依赖FROM reg.docker.alibaba-inc.com&#x2F;antfin-sqa&#x2F;amlregservermodel-dev:20241016125401_b0296dab as builder</span><br><span class="line"># install  requirements.txtCOPY --chown&#x3D;admin:admin requirements.txt &#x2F;home&#x2F;admin&#x2F;release&#x2F;RUN python3.10 -m venv &#x2F;home&#x2F;admin&#x2F;run &amp;&amp; \    . &#x2F;home&#x2F;admin&#x2F;run&#x2F;bin&#x2F;activate &amp;&amp; \    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple-remote --upgrade pip &amp;&amp;\    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple -r &#x2F;home&#x2F;admin&#x2F;release&#x2F;requirements.txt --no-cache-dir</span><br><span class="line"></span><br><span class="line"># 第二阶段：构建应用程序镜像FROM reg.docker.alibaba-inc.com&#x2F;aci-images&#x2F;python-service:3.8.0-63928922</span><br><span class="line"># init folderRUN mkdir -p &#x2F;home&#x2F;admin&#x2F;logs &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;bin &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;conf &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;nginx &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env</span><br><span class="line"># install zetaRUN pushd &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env &amp;&amp; \    wget https:&#x2F;&#x2F;artifacts.antgroup-inc.cn&#x2F;artifact&#x2F;repositories&#x2F;softwares-common&#x2F;antcode&#x2F;zeta&#x2F;0.7.9&#x2F;zeta-linux-amd64-0.7.9.sh -O zeta-release.sh &amp;&amp; \    chmod +x zeta-release.sh &amp;&amp; \    .&#x2F;zeta-release.sh --prefix&#x3D;&#x2F;usr&#x2F;local &amp;&amp; \    rm -f zeta-release.sh &amp;&amp; \    popd</span><br><span class="line"># install virtualenv and uvicornRUN python3.10 -m venv &#x2F;home&#x2F;admin&#x2F;run &amp;&amp; \    . &#x2F;home&#x2F;admin&#x2F;run&#x2F;bin&#x2F;activate &amp;&amp; \    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple-remote --upgrade pip &amp;&amp;\    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple uvicorn --no-cache-dir</span><br><span class="line"># init env and install softwareCOPY conf&#x2F;docker&#x2F;build.yaml &#x2F;root&#x2F;RUN python3.10 -m pip install -U antimgbuilder -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple &amp;&amp; \    python3.10 -m antimgbuilder --config-file &#x2F;root&#x2F;build.yaml</span><br><span class="line"></span><br><span class="line"># copy scriptsCOPY --chown&#x3D;admin:admin conf&#x2F;docker&#x2F;scripts&#x2F;admin &#x2F;home&#x2F;adminCOPY --chown&#x3D;admin:admin conf&#x2F;nginx &#x2F;home&#x2F;admin&#x2F;nginxCOPY --chown&#x3D;admin:admin aml_core &#x2F;home&#x2F;admin&#x2F;release&#x2F;aml_core</span><br><span class="line">RUN chmod a+xw &#x2F;home&#x2F;admin&#x2F;bin&#x2F;fetch_ollama.sh &#x2F;tmp</span><br><span class="line"># 从第一阶段复制下载的依赖到第二阶段COPY --from&#x3D;builder &#x2F;home&#x2F;admin&#x2F;run&#x2F;lib&#x2F;python3.10&#x2F;site-packages&#x2F; &#x2F;home&#x2F;admin&#x2F;run&#x2F;lib&#x2F;python3.10&#x2F;site-packages&#x2F;</span><br><span class="line"># copy source fileCOPY --chown&#x3D;admin:admin backend &#x2F;home&#x2F;admin&#x2F;release&#x2F;backend</span><br></pre></td></tr></table></figure>
+
+
+
+<p>四、分析过程</p>
+<h1 id="-4"><a href="#-4" class="headerlink" title=""></a></h1><p><strong>4.1. 镜像构建耗时分析</strong></p>
+<h2 id="-5"><a href="#-5" class="headerlink" title=""></a></h2><p>分析优化前的镜像构建构成，找到最耗时的阶段，进入镜像构建任务详情页：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwBibgLcwtI0kj8ZU4XHMchicORhOS6JoHprzA6XH6Vq1QhyOR2Mrwl1icw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>点击 image-build-3 找到耗时最长的指令：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwyZicC9BnblubsjmQUFXTDCm4sf6CERD2icG3EWoVkyibI8GJ3rLRpiboXg/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>可以看到在指令：</p>
+<p>COPY –chown=admin:admin conf/docker/scripts/admin /home/admin</p>
+<p>的前一步耗时达到了 10 分钟左右，对照着 Dockerfile 文件可以看到，是下面下载依赖比较耗时。</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw5j5Ce8cib0UoKXtmGyGgvb6rn6jXvTOd7EasIvbbEcPsibHq1EI64Z3Q/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>由于构建出来的镜像比较大，导致推送镜像耗时约：4分钟</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwKE4kQVC1dAycm4RwMRNQ8ubfniaFTGHNvxsXeZuW6y5gDYybiblhMqlQ/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>镜像构建耗时分析总结：</p>
+<p>1.从构建的日志中可以看到是下载依赖比较耗时约：10 分钟。</p>
+<p>2.并且前面的指令缓存失效， 则随后指令构建的镜像都不再使用缓存导致耗时增加。</p>
+<p>3.构建出来的镜像比较大，导致推送镜像耗时约：4分钟。</p>
+<p><strong>4.2. 镜像构建体积较大分析</strong></p>
+<h2 id="-6"><a href="#-6" class="headerlink" title=""></a></h2><p>从前面的Dockfile文件中可以看到，使用的基础镜像是：</p>
+<p>reg.docker.alibaba-inc.com/aci-images/python-service:3.8.0-63928922，拉取该镜像，查看基础镜像的体积：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwf6aF8M9Fg6zgZ9ljzzWOiclxrV0OCHwryGq56uCZ2by0kHOyCOcnG2w/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>可以看到该镜像的大小是：2.33G</p>
+<p>我们进入Docker容器，查看下载依赖的大小以及缓存的大小，下载依赖的缓存目录一般是 /root/.cache/pip：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw6EQnRfL2L6wevSWBcnibeaEF5Mib3yiaK6xkXPpU6Anqb8IaiaUnzTiak3Q/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>镜像构建体积较大分析总结：</p>
+<p>1.基础镜像体积较大：2.33G。</p>
+<p>2.安装的依赖较大，并且下载依赖时默认开启了缓存，导致占用更多的内存空间约：3.1G（包括下载的依赖和缓存占用：2.6G + 729M ）。</p>
+<blockquote>
+<p>为什么使用 pip install 安装依赖时没有添加 –no-cache-dir 参数会导致占用的内存更多？</p>
+<p>如果在使用 pip install 安装依赖时没有添加 –no-cache-dir 参数，会导致缓存目录中的文件不断增加，占用更多的内存空间。每次使用 pip install 安装依赖时，pip 会默认将下载的依赖包保存在缓存目录 /root/.cache/pip 中，如果没有添加 –no-cache-dir 参数，pip 会在安装依赖时从缓存目录中检查已有的依赖包，如果有相同的包就会直接使用缓存中的包，而不是重新下载。因此，随着时间的推移，缓存目录中会存放越来越多的依赖包，占用更多的内存空间。</p>
+<p>为了避免占用更多的内存空间，可以在使用 pip install 安装依赖时添加 –no-cache-dir 参数，这样将禁用缓存，使得每次安装依赖都会重新下载依赖包，从而避免占用更多的内存空间。</p>
+</blockquote>
+<p><strong>4.3. 使用 docker history 分析</strong></p>
+<h2 id="-7"><a href="#-7" class="headerlink" title=""></a></h2><p>接下来我们使用 docker history 进行分析。</p>
+<p>docker history ：用于查看 Docker 镜像的构建历史，显示每一层的提交信息，包括镜像 ID、创建人、创建时间和指令。这个命令可以帮助用户理解镜像是如何构建的，了解每个操作对镜像大小的影响，以及对镜像进行优化和精简。通过查看镜像的构建历史，用户可以更好地理解和管理镜像，提高镜像的性能和安全性。</p>
+<p>下载镜像到本地或者在本地构建未优化的Dockerfile镜像，使用下面的命令构建镜像：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -f conf&#x2F;docker&#x2F;Dockerfile  -t amlservermodel:latest .</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>使用下面的命令分析镜像，可以看到各个操作对镜像大小的影响如下：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker history amlservermodel:latest</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwQ9lwO3KffE9KfhTN0IINiakS1Xe2v9BnZicEGIvpWCBWm62hn2BQD6eQ/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>使用 docker history 分析镜像总结，占用镜像体积较大的两个层是：</p>
+<p>1.下载依赖占用约：3.18G（包括下载的依赖和缓存）。</p>
+<p>2.给目录设置权限：</p>
+<blockquote>
+<p>在构建docker镜像时，Dockerfile文件中使用指令：RUN chown admin:admin -R /home/admin，为什么会导致镜像体积变大？</p>
+<p>这条指令会导致镜像体积变大的原因是，每一条指令在Dockerfile中都会创建一个新的镜像层。当在Dockerfile中使用RUN chown命令时，会创建一个新的镜像层，其中包含了文件权限的更改。这意味着原本的文件和目录仍然存在于之前的镜像层中，而新的镜像层只是在其基础上进行了更改。因此，即使在新的镜像层中删除了一些文件或更改了文件权限，但之前的镜像层仍然包含了这些文件，导致镜像体积变大。</p>
+<p>为了避免镜像体积变大，可以在Dockerfile中尽量减少使用RUN指令，或者在同一条RUN指令中一次性执行多个操作，以减少创建的镜像层数。也可以在构建镜像的过程中清理不必要的文件和缓存，以减小镜像的体积。</p>
+</blockquote>
+<p>五、优化过程</p>
+<h1 id="-8"><a href="#-8" class="headerlink" title=""></a></h1><p><strong>5.1. 优化方案</strong></p>
+<h2 id="-9"><a href="#-9" class="headerlink" title=""></a></h2><p>在进行优化之前，我们需要了解一些docker镜像的构建原则：</p>
+<h3 id="5-1-1-动静分离原则"><a href="#5-1-1-动静分离原则" class="headerlink" title="5.1.1. 动静分离原则"></a>5.1.1. 动静分离原则</h3><p>我们应该把变化最少的部分放在 Dockerfile 的前面，这样可以充分利用镜像缓存。</p>
+<p>1.每条指令只要前面的指令缓存失效， 则随后指令构建的镜像都不再使用缓存。</p>
+<p>2.对应COPY和ADD文件会检验文件的校验和， 如果发现改变则缓存失效。</p>
+<h3 id="5-1-2-多阶段构建"><a href="#5-1-2-多阶段构建" class="headerlink" title="5.1.2. 多阶段构建"></a>5.1.2. 多阶段构建</h3><p>Docker多阶段构建镜像的原理是利用多个Docker容器来处理不同的构建阶段，并将最终构建产物传递给下一个容器。每个阶段可以定义自己的基础镜像、依赖和构建执行环境，使得镜像的构建过程更加灵活和高效。</p>
+<p>多阶段构建镜像可以降低最终镜像的体积的原因包括以下几点：</p>
+<p>1.优化构建产物：多阶段构建可以在不同的阶段处理不同的构建任务，比如编译、打包、测试等，从而避免将构建产物暴露给最终镜像，减小了最终镜像的体积。</p>
+<p>2.移除构建环境：多阶段构建可以将构建时用到的工具、依赖等移除，只将必要的产物传递到最终镜像中，避免了构建环境对最终镜像的影响，减小了最终镜像的体积。</p>
+<p>3.优化基础镜像：多阶段构建可以根据需要选择不同的基础镜像，每个阶段可以选择适合自己需求的基础镜像，从而避免了不必要的依赖和工具被打包到最终镜像中，减小了最终镜像的体积。</p>
+<p>综上所述，多阶段构建镜像可以将构建过程分解成多个阶段，根据需要进行优化，避免了不必要的依赖和工具被打包到最终镜像中，从而降低了最终镜像的体积。</p>
+<p><strong>5.2. 优化分析</strong></p>
+<h2 id="-10"><a href="#-10" class="headerlink" title=""></a></h2><p>通过前面的分析，我们做出如下优化：</p>
+<h3 id="5-2-1-构建耗时优化"><a href="#5-2-1-构建耗时优化" class="headerlink" title="5.2.1. 构建耗时优化"></a>5.2.1. 构建耗时优化</h3><p>通过多阶段构建的方式，可以并行的处理不同阶段的构建，只将必要的产物传递到最终镜像，为了提高下载依赖的效率，我们还可以将项目中使用的依赖提前下载好，构建在第一阶段或者基础镜像中，避免每次重新下载全部依赖。我的优化方案如下：</p>
+<p>使用多阶段构建，第一阶段下载依赖，第二阶段构建应用程序镜像。</p>
+<p>对于第一阶段下载依赖，我将应用程序需要的依赖构建在基础镜像中，避免重新下载全部依赖，如果依赖文件 requirements.txt有变化，则会重新下载依赖，并且和第二阶段的构建是并行进行，任然是可以提高构建效率的，我的修改如下：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw6ibUJ9WCfrMm6uhGtWmaqGCIDfSsXTicELPBKIxYc02zzDbtfmKjkSdw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>最后将下载的依赖从第一阶段复制到第二阶段，因为应用程序会频繁修改，所以将应用程序的代码放在了Dockerfile文件的最后，将不经常变化的内容放在Dockerfile文件前面，可以充分利用镜像的缓存提高效率，修改后的Dockerfile文件如下：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw4ricI85f1LicDrJ8oIXlsIRZGfId681icMLtHWphmiaOLOwnD8AUIhPXqw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>我们查看优化后的构建过程如下：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw2HdfcwLP5SYvyUdWPK7Tz02zQTcHVR93wickBHT5ic9xOEee5KAs7Nzw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<h3 id="5-2-2-镜像体积优化"><a href="#5-2-2-镜像体积优化" class="headerlink" title="5.2.2. 镜像体积优化"></a>5.2.2. 镜像体积优化</h3><p>针对前面的分析，当前案例中镜像体积较大的原因有如下几点：</p>
+<p>1.基础镜像较大；</p>
+<p>2.安装的依赖较大，并且开启了缓存；</p>
+<p>3.使用RUN chown 指令导致镜像较大；</p>
+<p>4.由于镜像构建中发现有很多指令，构建了很多层，导致镜像体积变大；</p>
+<p>针对的优化方案</p>
+<p>1.基础镜像较大我们可以选择较小的基础镜像，可以在 蚂蚁的基础镜像中查找对应的基础镜像；</p>
+<p>2.安装依赖时使用 pip install –no-cache-dir 关闭缓存；</p>
+<p>3.移除 RUN chown指令，因为在这里可以针对特定的文件或者文件夹指定就行，不需要对所有的目录修改权限；</p>
+<p>4.合并多个RUN指令，减少镜像的层数，进而减少镜像的体积；</p>
+<p>最后通过针对性的优化，镜像体积减小到原来的一半，本来想找一个体积更小的基础镜像，但是在基础镜像库中没有找到合适的版本，并且通过前面的一系列优化，镜像的构建时间以及可以达到秒级了，所以后续有需要再自定义一个合适的基础镜像。﻿</p>
+<p>六、构建缓存失效</p>
+<h1 id="-11"><a href="#-11" class="headerlink" title=""></a></h1><p>构建镜像时，Docker 会逐步执行 Dockerfile 中的指令，并按指定的顺序执行每条指令。对于每条指令， 构建器都会检查是否可以重用构建缓存中的指令。</p>
+<p><strong>6.1. 一般规则</strong>﻿</p>
+<h2 id="-12"><a href="#-12" class="headerlink" title=""></a></h2><p>构建缓存失效的基本规则如下：</p>
+<ul>
+<li>构建器首先检查基础镜像是否已缓存。随后的每个指令都会与缓存的层进行比较，如果没有缓存的层与指令完全匹配，则缓存将失效。</li>
+<li>在大多数情况下，将 Dockerfile 指令与相应的缓存层进行比较就足够了，但是有些指令需要额外的检查和解释。</li>
+<li>对于ADD和COPY指令以及RUN带有绑定挂载的指令（RUN –mount=type=bind），构建器会根据文件元数据计算缓存校验和，以确定缓存是否有效。在缓存查找期间，如果涉及的任何文件的文件元数据发生更改，则缓存将失效。计算缓存校验和时不考虑文件的修改时间（mtime），如果只有复制的文件的 mtime发生了更改，则缓存不会失效。</li>
+<li>除了ADD和COPY命令之外，缓存检查不会查看容器中的文件来确定缓存匹配。例如，在处理命令时，RUN apt-get -y update不会检查容器中更新的文件来确定是否存在缓存命中。在这种情况下，只使用命令字符串本身来查找匹配项。</li>
+</ul>
+<p>一旦缓存失效，所有后续的 Dockerfile 命令都会生成新的图像，并且不会使用缓存。</p>
+<p>如果构建的镜像包含多个层，并且想要确保构建缓存可重复使用，请尽可能按从更改频率较低的顺序排列指令。</p>
+<p><strong>6.2. RUN 指令</strong>﻿</p>
+<h2 id="-13"><a href="#-13" class="headerlink" title=""></a></h2><p>指令缓存RUN不会在构建之间自动失效。假设您的 Dockerfile 中有一步要安装curl：</p>
+<ul>
+<li></li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FROM alpine:3.20 AS installRUN apk add curl</span><br></pre></td></tr></table></figure>
+
+<p>这并不意味着curl在镜像中的版本始终是最新的，一周后重建镜像仍将获得与之前相同的软件包，如果要强制重新执行该RUN指令，可以：</p>
+<ul>
+<li>确保之前的一个层已经改变；</li>
+<li>使用以下方法在构建之前清除构建缓存 docker builder prune﻿；</li>
+<li>使用–no-cache或–no-cache-filter选项；</li>
+</ul>
+<p>该–no-cache-filter选项允许您指定特定的构建阶段以使缓存无效：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker build --no-cache-filter install .</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>如果要使RUN指令的缓存失效，可以传递一个构建参数，该参数带有变化的值，构建参数确实会导致缓存失效，因为RUN指令是<strong>使用命令字符串本身来查找匹配缓存的。</strong></p>
+<p>七、优化总结</p>
+<h1 id="-14"><a href="#-14" class="headerlink" title=""></a></h1><p>要对镜像进行优化和精简，你可以采取以下步骤：</p>
+<p>1.使用多阶段构建：使用多阶段构建可以减少镜像的大小，因为你可以在不同的镜像中执行不同的构建步骤，并在最终镜像中只保留必要的文件和依赖。</p>
+<p>2.清理不需要的文件和依赖：在Dockerfile中，你可以使用一系列命令来清理不需要的文件和依赖，例如使用rm命令删除不需要的文件，使用–no-cache选项来清理缓存等。</p>
+<p>3.使用轻量的基础镜像：选择一个轻量的基础镜像作为你的镜像的基础，这样可以减少镜像的大小。</p>
+<p>4.合并镜像层：在Dockerfile中，你可以使用多个命令来合并多个操作，这样可以减少镜像的层数和大小。</p>
+<p>5.我们应该把变化最少的部分放在 Dockerfile 的前面，将经常变化的内容放在最后面，这样可以充分利用镜像缓存。</p>
+<p>通过以上步骤，你可以对镜像进行优化和精简，减少其大小并提高性能。</p>
+<p>Dockerfile 编码规约：</p>
+<table>
+<thead>
+<tr>
+<th>规约项</th>
+<th>Level</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dockerfile指令不应超过20条</td>
+<td>WARN</td>
+<td>层数过多</td>
+</tr>
+<tr>
+<td>不应该超过3条连续RUN命令</td>
+<td>WARN</td>
+<td>层数过多</td>
+</tr>
+<tr>
+<td>CMD/ENTRYPOINT/EXPOSE/LABEL指令位置应在COPY/RUN之前</td>
+<td>INFO</td>
+<td>动静分离原则</td>
+</tr>
+<tr>
+<td>RUN 指令应在COPY主包指令之前</td>
+<td>ERROR</td>
+<td>动静分离原则</td>
+</tr>
+<tr>
+<td>RUN yum指令后应以yum clean all收尾</td>
+<td>WARN</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>RUN pip install应该加–no-cache-dir参数</td>
+<td>ERROR</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>RUN npm install指令应加–no-cache参数</td>
+<td>ERROR</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>单层镜像最大的编译时间不应超过80秒</td>
+<td>WARN</td>
+<td>构建效率过低</td>
+</tr>
+<tr>
+<td>单层镜像体积不应超过500M</td>
+<td>WARN</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>构建时发生变化的层不应该超过3层</td>
+<td>INFO</td>
+<td>动静分离</td>
+</tr>
+<tr>
+<td>base镜像体积不应超过2G</td>
+<td>WARN</td>
+<td>最小原则</td>
+</tr>
+</tbody></table>
+<p>最后在网上找到一些其他的优化手段，在这里汇总一下：</p>
+<ul>
+<li>编写.dockerignore 文件</li>
+<li>容器只运行单个应用</li>
+<li>将多个 RUN 指令合并为一个</li>
+<li>基础镜像的标签不要用 latest</li>
+<li>每个 RUN 指令后删除多余文件</li>
+<li>选择合适的基础镜像(alpine 版本最好)</li>
+<li>设置 WORKDIR 和 CMD</li>
+<li>使用 ENTRYPOINT (可选)</li>
+<li>在 entrypoint 脚本中使用 exec</li>
+<li>COPY 与 ADD 优先使用前者</li>
+<li>合理调整 COPY 与 RUN 的顺序</li>
+<li>设置默认的环境变量，映射端口和数据卷</li>
+<li>使用 LABEL 设置镜像元数据</li>
+<li>添加 HEALTHCHECK</li>
+</ul>
+<p><strong>参考文档</strong></p>
+<p>﻿Building best practices﻿：<a target="_blank" rel="noopener" href="https://docs.docker.com/build/building/best-practices/">https://docs.docker.com/build/building/best-practices/</a></p>
+<p><img src="https://mp.weixin.qq.com/s/qU6dSiMuH7xDHhTDCcLMhw" alt="赞赏二维码"></p>
+<p>11月技术文章大赏22</p>
+<p>11月技术文章大赏 · 目录</p>
+<p>上一篇一文彻底搞定Redis与MySQL的数据同步下一篇如何才能在Java中优雅的操纵时间？</p>
+<p><img src="https://mp.weixin.qq.com/mp/qrcode?scene=10000004&size=102&__biz=MzIzOTU0NTQ0MA==&mid=2247542200&idx=1&sn=6fa4cd3773c34c1b193ff2843f773b04&send_time=" alt="img"></p>
+<p>微信扫一扫<br>关注该公众号</p>
+<p>剪存为飞书云文档</p>
+
+              
+              <!-- 
+              
+              <h1 id="【提效】docker镜像构建优化-提速10倍"><a href="#【提效】docker镜像构建优化-提速10倍" class="headerlink" title="【提效】docker镜像构建优化-提速10倍"></a>【提效】docker镜像构建优化-提速10倍</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/qU6dSiMuH7xDHhTDCcLMhw">【提效】docker镜像构建优化-提速10倍</a></p>
+<p>本文主要记录了自己通过查阅相关资料，一步步排查问题，最后通过优化Docerfile文件将docker镜像构建从十几分钟降低到1分钟左右，效率提高了10倍左右。</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>一、概述</p>
+<h1 id="-1"><a href="#-1" class="headerlink" title=""></a></h1><p>最近在开发python应用程序，在部署应用的时候发现构建镜像过程十分缓慢，极大影响开发效率。既然遇到了问题就不要逃避，而应该尝试解决一下。本文主要记录了自己通过查阅相关资料，一步步排查问题，最后通过优化Docerfile文件将docker镜像构建从十几分钟降低到1分钟左右，效率提高了10倍左右。</p>
+<p>本文通过如下几个部分进行介绍：</p>
+<ul>
+<li>现状：简单介绍一下未优化前的情况；</li>
+<li>优化效果：简单介绍优化后的情况；</li>
+<li>分析过程：介绍如何分析镜像构建存在的问题；</li>
+<li>优化过程：介绍如何通过优化Dockerfile提高镜像构建效率；</li>
+<li>优化总结：最后总结镜像构建的几个优化方法；</li>
+</ul>
+<p>通过本文的学习，你将有如下收获：</p>
+<p>1.了解镜像构建优化的过程。</p>
+<p>2.了解一些常用的镜像构建优化的技巧。</p>
+<p>二、优化前效果</p>
+<h1 id="-2"><a href="#-2" class="headerlink" title=""></a></h1><p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwW7EbabdqX5mRpjowC1SSoQFWuRrO78UnRuibr3MuibmyGMsaF56xuBeg/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>未优化前可以看到镜像构建耗时<strong>16分钟</strong>，构建完成后<strong>镜像大小约8G</strong>，使用的Dockerfile文件如下：</p>
+<ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FROM reg.docker.alibaba-inc.com&#x2F;aci-images&#x2F;python-service:3.8.0-63928922</span><br><span class="line"># init folderRUN mkdir -p &#x2F;home&#x2F;admin&#x2F;logs &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;bin &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;conf &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;nginx &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env</span><br><span class="line"># install zetaRUN pushd &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env &amp;&amp; \    wget https:&#x2F;&#x2F;artifacts.antgroup-inc.cn&#x2F;artifact&#x2F;repositories&#x2F;softwares-common&#x2F;antcode&#x2F;zeta&#x2F;0.7.9&#x2F;zeta-linux-amd64-0.7.9.sh -O zeta-release.sh &amp;&amp; \    chmod +x zeta-release.sh &amp;&amp; \    .&#x2F;zeta-release.sh --prefix&#x3D;&#x2F;usr&#x2F;local &amp;&amp; \    popd</span><br><span class="line"># init env and install softwareCOPY conf&#x2F;docker&#x2F;build.yaml &#x2F;root&#x2F;RUN python3.10 -m pip install -U antimgbuilder -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple &amp;&amp; \    python3.10 -m antimgbuilder --config-file &#x2F;root&#x2F;build.yaml</span><br><span class="line"># copy source file# COPY --chown&#x3D;admin:admin mydemo &#x2F;home&#x2F;admin&#x2F;release&#x2F;mydemoCOPY --chown&#x3D;admin:admin aml_core &#x2F;home&#x2F;admin&#x2F;release&#x2F;aml_coreCOPY --chown&#x3D;admin:admin backend &#x2F;home&#x2F;admin&#x2F;release&#x2F;backend</span><br><span class="line"># install  requirements.txtCOPY --chown&#x3D;admin:admin requirements.txt &#x2F;home&#x2F;admin&#x2F;release&#x2F;RUN python3.10 -m venv &#x2F;home&#x2F;admin&#x2F;run &amp;&amp; \    . &#x2F;home&#x2F;admin&#x2F;run&#x2F;bin&#x2F;activate &amp;&amp; \    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple-remote --upgrade pip &amp;&amp;\    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple -r &#x2F;home&#x2F;admin&#x2F;release&#x2F;requirements.txt</span><br><span class="line"># copy scriptsCOPY --chown&#x3D;admin:admin conf&#x2F;docker&#x2F;scripts&#x2F;admin &#x2F;home&#x2F;adminCOPY --chown&#x3D;admin:admin conf&#x2F;nginx &#x2F;home&#x2F;admin&#x2F;nginx</span><br><span class="line"># 最后确保admin目录下文件权限RUN chown admin:admin -R &#x2F;home&#x2F;admin</span><br><span class="line">RUN chmod a+xw &#x2F;home&#x2F;admin&#x2F;bin&#x2F;fetch_ollama.sh &#x2F;tmp</span><br></pre></td></tr></table></figure>
+
+
+
+<p>三、优化后效果</p>
+<h1 id="-3"><a href="#-3" class="headerlink" title=""></a></h1><p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw1wFLaW9SpAdIcXPo8ZIRPiay3lictqcSibtv8dib7cuGDXiaqdKZEluRhLw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>优化后可以看到镜像构建时间为1分钟左右，镜像大小约5G，使用的Dockerfile如下：</p>
+<ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 第一阶段：下载依赖FROM reg.docker.alibaba-inc.com&#x2F;antfin-sqa&#x2F;amlregservermodel-dev:20241016125401_b0296dab as builder</span><br><span class="line"># install  requirements.txtCOPY --chown&#x3D;admin:admin requirements.txt &#x2F;home&#x2F;admin&#x2F;release&#x2F;RUN python3.10 -m venv &#x2F;home&#x2F;admin&#x2F;run &amp;&amp; \    . &#x2F;home&#x2F;admin&#x2F;run&#x2F;bin&#x2F;activate &amp;&amp; \    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple-remote --upgrade pip &amp;&amp;\    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple -r &#x2F;home&#x2F;admin&#x2F;release&#x2F;requirements.txt --no-cache-dir</span><br><span class="line"></span><br><span class="line"># 第二阶段：构建应用程序镜像FROM reg.docker.alibaba-inc.com&#x2F;aci-images&#x2F;python-service:3.8.0-63928922</span><br><span class="line"># init folderRUN mkdir -p &#x2F;home&#x2F;admin&#x2F;logs &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;bin &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;conf &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;nginx &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env</span><br><span class="line"># install zetaRUN pushd &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env &amp;&amp; \    wget https:&#x2F;&#x2F;artifacts.antgroup-inc.cn&#x2F;artifact&#x2F;repositories&#x2F;softwares-common&#x2F;antcode&#x2F;zeta&#x2F;0.7.9&#x2F;zeta-linux-amd64-0.7.9.sh -O zeta-release.sh &amp;&amp; \    chmod +x zeta-release.sh &amp;&amp; \    .&#x2F;zeta-release.sh --prefix&#x3D;&#x2F;usr&#x2F;local &amp;&amp; \    rm -f zeta-release.sh &amp;&amp; \    popd</span><br><span class="line"># install virtualenv and uvicornRUN python3.10 -m venv &#x2F;home&#x2F;admin&#x2F;run &amp;&amp; \    . &#x2F;home&#x2F;admin&#x2F;run&#x2F;bin&#x2F;activate &amp;&amp; \    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple-remote --upgrade pip &amp;&amp;\    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple uvicorn --no-cache-dir</span><br><span class="line"># init env and install softwareCOPY conf&#x2F;docker&#x2F;build.yaml &#x2F;root&#x2F;RUN python3.10 -m pip install -U antimgbuilder -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple &amp;&amp; \    python3.10 -m antimgbuilder --config-file &#x2F;root&#x2F;build.yaml</span><br><span class="line"></span><br><span class="line"># copy scriptsCOPY --chown&#x3D;admin:admin conf&#x2F;docker&#x2F;scripts&#x2F;admin &#x2F;home&#x2F;adminCOPY --chown&#x3D;admin:admin conf&#x2F;nginx &#x2F;home&#x2F;admin&#x2F;nginxCOPY --chown&#x3D;admin:admin aml_core &#x2F;home&#x2F;admin&#x2F;release&#x2F;aml_core</span><br><span class="line">RUN chmod a+xw &#x2F;home&#x2F;admin&#x2F;bin&#x2F;fetch_ollama.sh &#x2F;tmp</span><br><span class="line"># 从第一阶段复制下载的依赖到第二阶段COPY --from&#x3D;builder &#x2F;home&#x2F;admin&#x2F;run&#x2F;lib&#x2F;python3.10&#x2F;site-packages&#x2F; &#x2F;home&#x2F;admin&#x2F;run&#x2F;lib&#x2F;python3.10&#x2F;site-packages&#x2F;</span><br><span class="line"># copy source fileCOPY --chown&#x3D;admin:admin backend &#x2F;home&#x2F;admin&#x2F;release&#x2F;backend</span><br></pre></td></tr></table></figure>
+
+
+
+<p>四、分析过程</p>
+<h1 id="-4"><a href="#-4" class="headerlink" title=""></a></h1><p><strong>4.1. 镜像构建耗时分析</strong></p>
+<h2 id="-5"><a href="#-5" class="headerlink" title=""></a></h2><p>分析优化前的镜像构建构成，找到最耗时的阶段，进入镜像构建任务详情页：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwBibgLcwtI0kj8ZU4XHMchicORhOS6JoHprzA6XH6Vq1QhyOR2Mrwl1icw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>点击 image-build-3 找到耗时最长的指令：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwyZicC9BnblubsjmQUFXTDCm4sf6CERD2icG3EWoVkyibI8GJ3rLRpiboXg/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>可以看到在指令：</p>
+<p>COPY –chown=admin:admin conf/docker/scripts/admin /home/admin</p>
+<p>的前一步耗时达到了 10 分钟左右，对照着 Dockerfile 文件可以看到，是下面下载依赖比较耗时。</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw5j5Ce8cib0UoKXtmGyGgvb6rn6jXvTOd7EasIvbbEcPsibHq1EI64Z3Q/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>由于构建出来的镜像比较大，导致推送镜像耗时约：4分钟</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwKE4kQVC1dAycm4RwMRNQ8ubfniaFTGHNvxsXeZuW6y5gDYybiblhMqlQ/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>镜像构建耗时分析总结：</p>
+<p>1.从构建的日志中可以看到是下载依赖比较耗时约：10 分钟。</p>
+<p>2.并且前面的指令缓存失效， 则随后指令构建的镜像都不再使用缓存导致耗时增加。</p>
+<p>3.构建出来的镜像比较大，导致推送镜像耗时约：4分钟。</p>
+<p><strong>4.2. 镜像构建体积较大分析</strong></p>
+<h2 id="-6"><a href="#-6" class="headerlink" title=""></a></h2><p>从前面的Dockfile文件中可以看到，使用的基础镜像是：</p>
+<p>reg.docker.alibaba-inc.com/aci-images/python-service:3.8.0-63928922，拉取该镜像，查看基础镜像的体积：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwf6aF8M9Fg6zgZ9ljzzWOiclxrV0OCHwryGq56uCZ2by0kHOyCOcnG2w/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>可以看到该镜像的大小是：2.33G</p>
+<p>我们进入Docker容器，查看下载依赖的大小以及缓存的大小，下载依赖的缓存目录一般是 /root/.cache/pip：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw6EQnRfL2L6wevSWBcnibeaEF5Mib3yiaK6xkXPpU6Anqb8IaiaUnzTiak3Q/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>镜像构建体积较大分析总结：</p>
+<p>1.基础镜像体积较大：2.33G。</p>
+<p>2.安装的依赖较大，并且下载依赖时默认开启了缓存，导致占用更多的内存空间约：3.1G（包括下载的依赖和缓存占用：2.6G + 729M ）。</p>
+<blockquote>
+<p>为什么使用 pip install 安装依赖时没有添加 –no-cache-dir 参数会导致占用的内存更多？</p>
+<p>如果在使用 pip install 安装依赖时没有添加 –no-cache-dir 参数，会导致缓存目录中的文件不断增加，占用更多的内存空间。每次使用 pip install 安装依赖时，pip 会默认将下载的依赖包保存在缓存目录 /root/.cache/pip 中，如果没有添加 –no-cache-dir 参数，pip 会在安装依赖时从缓存目录中检查已有的依赖包，如果有相同的包就会直接使用缓存中的包，而不是重新下载。因此，随着时间的推移，缓存目录中会存放越来越多的依赖包，占用更多的内存空间。</p>
+<p>为了避免占用更多的内存空间，可以在使用 pip install 安装依赖时添加 –no-cache-dir 参数，这样将禁用缓存，使得每次安装依赖都会重新下载依赖包，从而避免占用更多的内存空间。</p>
+</blockquote>
+<p><strong>4.3. 使用 docker history 分析</strong></p>
+<h2 id="-7"><a href="#-7" class="headerlink" title=""></a></h2><p>接下来我们使用 docker history 进行分析。</p>
+<p>docker history ：用于查看 Docker 镜像的构建历史，显示每一层的提交信息，包括镜像 ID、创建人、创建时间和指令。这个命令可以帮助用户理解镜像是如何构建的，了解每个操作对镜像大小的影响，以及对镜像进行优化和精简。通过查看镜像的构建历史，用户可以更好地理解和管理镜像，提高镜像的性能和安全性。</p>
+<p>下载镜像到本地或者在本地构建未优化的Dockerfile镜像，使用下面的命令构建镜像：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -f conf&#x2F;docker&#x2F;Dockerfile  -t amlservermodel:latest .</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>使用下面的命令分析镜像，可以看到各个操作对镜像大小的影响如下：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker history amlservermodel:latest</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwQ9lwO3KffE9KfhTN0IINiakS1Xe2v9BnZicEGIvpWCBWm62hn2BQD6eQ/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>使用 docker history 分析镜像总结，占用镜像体积较大的两个层是：</p>
+<p>1.下载依赖占用约：3.18G（包括下载的依赖和缓存）。</p>
+<p>2.给目录设置权限：</p>
+<blockquote>
+<p>在构建docker镜像时，Dockerfile文件中使用指令：RUN chown admin:admin -R /home/admin，为什么会导致镜像体积变大？</p>
+<p>这条指令会导致镜像体积变大的原因是，每一条指令在Dockerfile中都会创建一个新的镜像层。当在Dockerfile中使用RUN chown命令时，会创建一个新的镜像层，其中包含了文件权限的更改。这意味着原本的文件和目录仍然存在于之前的镜像层中，而新的镜像层只是在其基础上进行了更改。因此，即使在新的镜像层中删除了一些文件或更改了文件权限，但之前的镜像层仍然包含了这些文件，导致镜像体积变大。</p>
+<p>为了避免镜像体积变大，可以在Dockerfile中尽量减少使用RUN指令，或者在同一条RUN指令中一次性执行多个操作，以减少创建的镜像层数。也可以在构建镜像的过程中清理不必要的文件和缓存，以减小镜像的体积。</p>
+</blockquote>
+<p>五、优化过程</p>
+<h1 id="-8"><a href="#-8" class="headerlink" title=""></a></h1><p><strong>5.1. 优化方案</strong></p>
+<h2 id="-9"><a href="#-9" class="headerlink" title=""></a></h2><p>在进行优化之前，我们需要了解一些docker镜像的构建原则：</p>
+<h3 id="5-1-1-动静分离原则"><a href="#5-1-1-动静分离原则" class="headerlink" title="5.1.1. 动静分离原则"></a>5.1.1. 动静分离原则</h3><p>我们应该把变化最少的部分放在 Dockerfile 的前面，这样可以充分利用镜像缓存。</p>
+<p>1.每条指令只要前面的指令缓存失效， 则随后指令构建的镜像都不再使用缓存。</p>
+<p>2.对应COPY和ADD文件会检验文件的校验和， 如果发现改变则缓存失效。</p>
+<h3 id="5-1-2-多阶段构建"><a href="#5-1-2-多阶段构建" class="headerlink" title="5.1.2. 多阶段构建"></a>5.1.2. 多阶段构建</h3><p>Docker多阶段构建镜像的原理是利用多个Docker容器来处理不同的构建阶段，并将最终构建产物传递给下一个容器。每个阶段可以定义自己的基础镜像、依赖和构建执行环境，使得镜像的构建过程更加灵活和高效。</p>
+<p>多阶段构建镜像可以降低最终镜像的体积的原因包括以下几点：</p>
+<p>1.优化构建产物：多阶段构建可以在不同的阶段处理不同的构建任务，比如编译、打包、测试等，从而避免将构建产物暴露给最终镜像，减小了最终镜像的体积。</p>
+<p>2.移除构建环境：多阶段构建可以将构建时用到的工具、依赖等移除，只将必要的产物传递到最终镜像中，避免了构建环境对最终镜像的影响，减小了最终镜像的体积。</p>
+<p>3.优化基础镜像：多阶段构建可以根据需要选择不同的基础镜像，每个阶段可以选择适合自己需求的基础镜像，从而避免了不必要的依赖和工具被打包到最终镜像中，减小了最终镜像的体积。</p>
+<p>综上所述，多阶段构建镜像可以将构建过程分解成多个阶段，根据需要进行优化，避免了不必要的依赖和工具被打包到最终镜像中，从而降低了最终镜像的体积。</p>
+<p><strong>5.2. 优化分析</strong></p>
+<h2 id="-10"><a href="#-10" class="headerlink" title=""></a></h2><p>通过前面的分析，我们做出如下优化：</p>
+<h3 id="5-2-1-构建耗时优化"><a href="#5-2-1-构建耗时优化" class="headerlink" title="5.2.1. 构建耗时优化"></a>5.2.1. 构建耗时优化</h3><p>通过多阶段构建的方式，可以并行的处理不同阶段的构建，只将必要的产物传递到最终镜像，为了提高下载依赖的效率，我们还可以将项目中使用的依赖提前下载好，构建在第一阶段或者基础镜像中，避免每次重新下载全部依赖。我的优化方案如下：</p>
+<p>使用多阶段构建，第一阶段下载依赖，第二阶段构建应用程序镜像。</p>
+<p>对于第一阶段下载依赖，我将应用程序需要的依赖构建在基础镜像中，避免重新下载全部依赖，如果依赖文件 requirements.txt有变化，则会重新下载依赖，并且和第二阶段的构建是并行进行，任然是可以提高构建效率的，我的修改如下：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw6ibUJ9WCfrMm6uhGtWmaqGCIDfSsXTicELPBKIxYc02zzDbtfmKjkSdw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>最后将下载的依赖从第一阶段复制到第二阶段，因为应用程序会频繁修改，所以将应用程序的代码放在了Dockerfile文件的最后，将不经常变化的内容放在Dockerfile文件前面，可以充分利用镜像的缓存提高效率，修改后的Dockerfile文件如下：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw4ricI85f1LicDrJ8oIXlsIRZGfId681icMLtHWphmiaOLOwnD8AUIhPXqw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>我们查看优化后的构建过程如下：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw2HdfcwLP5SYvyUdWPK7Tz02zQTcHVR93wickBHT5ic9xOEee5KAs7Nzw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<h3 id="5-2-2-镜像体积优化"><a href="#5-2-2-镜像体积优化" class="headerlink" title="5.2.2. 镜像体积优化"></a>5.2.2. 镜像体积优化</h3><p>针对前面的分析，当前案例中镜像体积较大的原因有如下几点：</p>
+<p>1.基础镜像较大；</p>
+<p>2.安装的依赖较大，并且开启了缓存；</p>
+<p>3.使用RUN chown 指令导致镜像较大；</p>
+<p>4.由于镜像构建中发现有很多指令，构建了很多层，导致镜像体积变大；</p>
+<p>针对的优化方案</p>
+<p>1.基础镜像较大我们可以选择较小的基础镜像，可以在 蚂蚁的基础镜像中查找对应的基础镜像；</p>
+<p>2.安装依赖时使用 pip install –no-cache-dir 关闭缓存；</p>
+<p>3.移除 RUN chown指令，因为在这里可以针对特定的文件或者文件夹指定就行，不需要对所有的目录修改权限；</p>
+<p>4.合并多个RUN指令，减少镜像的层数，进而减少镜像的体积；</p>
+<p>最后通过针对性的优化，镜像体积减小到原来的一半，本来想找一个体积更小的基础镜像，但是在基础镜像库中没有找到合适的版本，并且通过前面的一系列优化，镜像的构建时间以及可以达到秒级了，所以后续有需要再自定义一个合适的基础镜像。﻿</p>
+<p>六、构建缓存失效</p>
+<h1 id="-11"><a href="#-11" class="headerlink" title=""></a></h1><p>构建镜像时，Docker 会逐步执行 Dockerfile 中的指令，并按指定的顺序执行每条指令。对于每条指令， 构建器都会检查是否可以重用构建缓存中的指令。</p>
+<p><strong>6.1. 一般规则</strong>﻿</p>
+<h2 id="-12"><a href="#-12" class="headerlink" title=""></a></h2><p>构建缓存失效的基本规则如下：</p>
+<ul>
+<li>构建器首先检查基础镜像是否已缓存。随后的每个指令都会与缓存的层进行比较，如果没有缓存的层与指令完全匹配，则缓存将失效。</li>
+<li>在大多数情况下，将 Dockerfile 指令与相应的缓存层进行比较就足够了，但是有些指令需要额外的检查和解释。</li>
+<li>对于ADD和COPY指令以及RUN带有绑定挂载的指令（RUN –mount=type=bind），构建器会根据文件元数据计算缓存校验和，以确定缓存是否有效。在缓存查找期间，如果涉及的任何文件的文件元数据发生更改，则缓存将失效。计算缓存校验和时不考虑文件的修改时间（mtime），如果只有复制的文件的 mtime发生了更改，则缓存不会失效。</li>
+<li>除了ADD和COPY命令之外，缓存检查不会查看容器中的文件来确定缓存匹配。例如，在处理命令时，RUN apt-get -y update不会检查容器中更新的文件来确定是否存在缓存命中。在这种情况下，只使用命令字符串本身来查找匹配项。</li>
+</ul>
+<p>一旦缓存失效，所有后续的 Dockerfile 命令都会生成新的图像，并且不会使用缓存。</p>
+<p>如果构建的镜像包含多个层，并且想要确保构建缓存可重复使用，请尽可能按从更改频率较低的顺序排列指令。</p>
+<p><strong>6.2. RUN 指令</strong>﻿</p>
+<h2 id="-13"><a href="#-13" class="headerlink" title=""></a></h2><p>指令缓存RUN不会在构建之间自动失效。假设您的 Dockerfile 中有一步要安装curl：</p>
+<ul>
+<li></li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FROM alpine:3.20 AS installRUN apk add curl</span><br></pre></td></tr></table></figure>
+
+<p>这并不意味着curl在镜像中的版本始终是最新的，一周后重建镜像仍将获得与之前相同的软件包，如果要强制重新执行该RUN指令，可以：</p>
+<ul>
+<li>确保之前的一个层已经改变；</li>
+<li>使用以下方法在构建之前清除构建缓存 docker builder prune﻿；</li>
+<li>使用–no-cache或–no-cache-filter选项；</li>
+</ul>
+<p>该–no-cache-filter选项允许您指定特定的构建阶段以使缓存无效：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker build --no-cache-filter install .</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>如果要使RUN指令的缓存失效，可以传递一个构建参数，该参数带有变化的值，构建参数确实会导致缓存失效，因为RUN指令是<strong>使用命令字符串本身来查找匹配缓存的。</strong></p>
+<p>七、优化总结</p>
+<h1 id="-14"><a href="#-14" class="headerlink" title=""></a></h1><p>要对镜像进行优化和精简，你可以采取以下步骤：</p>
+<p>1.使用多阶段构建：使用多阶段构建可以减少镜像的大小，因为你可以在不同的镜像中执行不同的构建步骤，并在最终镜像中只保留必要的文件和依赖。</p>
+<p>2.清理不需要的文件和依赖：在Dockerfile中，你可以使用一系列命令来清理不需要的文件和依赖，例如使用rm命令删除不需要的文件，使用–no-cache选项来清理缓存等。</p>
+<p>3.使用轻量的基础镜像：选择一个轻量的基础镜像作为你的镜像的基础，这样可以减少镜像的大小。</p>
+<p>4.合并镜像层：在Dockerfile中，你可以使用多个命令来合并多个操作，这样可以减少镜像的层数和大小。</p>
+<p>5.我们应该把变化最少的部分放在 Dockerfile 的前面，将经常变化的内容放在最后面，这样可以充分利用镜像缓存。</p>
+<p>通过以上步骤，你可以对镜像进行优化和精简，减少其大小并提高性能。</p>
+<p>Dockerfile 编码规约：</p>
+<table>
+<thead>
+<tr>
+<th>规约项</th>
+<th>Level</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dockerfile指令不应超过20条</td>
+<td>WARN</td>
+<td>层数过多</td>
+</tr>
+<tr>
+<td>不应该超过3条连续RUN命令</td>
+<td>WARN</td>
+<td>层数过多</td>
+</tr>
+<tr>
+<td>CMD/ENTRYPOINT/EXPOSE/LABEL指令位置应在COPY/RUN之前</td>
+<td>INFO</td>
+<td>动静分离原则</td>
+</tr>
+<tr>
+<td>RUN 指令应在COPY主包指令之前</td>
+<td>ERROR</td>
+<td>动静分离原则</td>
+</tr>
+<tr>
+<td>RUN yum指令后应以yum clean all收尾</td>
+<td>WARN</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>RUN pip install应该加–no-cache-dir参数</td>
+<td>ERROR</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>RUN npm install指令应加–no-cache参数</td>
+<td>ERROR</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>单层镜像最大的编译时间不应超过80秒</td>
+<td>WARN</td>
+<td>构建效率过低</td>
+</tr>
+<tr>
+<td>单层镜像体积不应超过500M</td>
+<td>WARN</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>构建时发生变化的层不应该超过3层</td>
+<td>INFO</td>
+<td>动静分离</td>
+</tr>
+<tr>
+<td>base镜像体积不应超过2G</td>
+<td>WARN</td>
+<td>最小原则</td>
+</tr>
+</tbody></table>
+<p>最后在网上找到一些其他的优化手段，在这里汇总一下：</p>
+<ul>
+<li>编写.dockerignore 文件</li>
+<li>容器只运行单个应用</li>
+<li>将多个 RUN 指令合并为一个</li>
+<li>基础镜像的标签不要用 latest</li>
+<li>每个 RUN 指令后删除多余文件</li>
+<li>选择合适的基础镜像(alpine 版本最好)</li>
+<li>设置 WORKDIR 和 CMD</li>
+<li>使用 ENTRYPOINT (可选)</li>
+<li>在 entrypoint 脚本中使用 exec</li>
+<li>COPY 与 ADD 优先使用前者</li>
+<li>合理调整 COPY 与 RUN 的顺序</li>
+<li>设置默认的环境变量，映射端口和数据卷</li>
+<li>使用 LABEL 设置镜像元数据</li>
+<li>添加 HEALTHCHECK</li>
+</ul>
+<p><strong>参考文档</strong></p>
+<p>﻿Building best practices﻿：<a target="_blank" rel="noopener" href="https://docs.docker.com/build/building/best-practices/">https://docs.docker.com/build/building/best-practices/</a></p>
+<p><img src="https://mp.weixin.qq.com/s/qU6dSiMuH7xDHhTDCcLMhw" alt="赞赏二维码"></p>
+<p>11月技术文章大赏22</p>
+<p>11月技术文章大赏 · 目录</p>
+<p>上一篇一文彻底搞定Redis与MySQL的数据同步下一篇如何才能在Java中优雅的操纵时间？</p>
+<p><img src="https://mp.weixin.qq.com/mp/qrcode?scene=10000004&size=102&__biz=MzIzOTU0NTQ0MA==&mid=2247542200&idx=1&sn=6fa4cd3773c34c1b193ff2843f773b04&send_time=" alt="img"></p>
+<p>微信扫一扫<br>关注该公众号</p>
+<p>剪存为飞书云文档</p>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/feb89734.html">docker构建镜像优化(转发)</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2024-12-30, 13:32:21</p>
+        <p><span>最后更新:</span>2024-12-30, 13:33:27</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/feb89734.html" title="docker构建镜像优化(转发)">https://imlike.cc/feb89734.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/feb89734.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/undefined.html">
+                    数据结构算法学习
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/4a4297b9.html">
+                    pg主从复制容器部署
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: 'docker构建镜像优化(转发)',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/undefined.html" title="上一篇: 数据结构算法学习">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/4a4297b9.html" title="下一篇: pg主从复制容器部署">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/afee6eb0.html">从头到尾说一说Java时间日期体系的前世今生(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">多线程下使用threadlocal隐藏问题</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">数据结构算法学习</a></li><li class="post-list-item"><a class="post-list-link" href="/feb89734.html">docker构建镜像优化(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/undefined.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/null.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2025 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
