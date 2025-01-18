@@ -269,6 +269,1064 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-树莓派nginx代理转发到本机端口" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/981520166.html" class="article-date">
+      <time datetime="2020-04-03T16:09:12.000Z" itemprop="datePublished">2020-04-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/981520166.html">树莓派nginx代理转发到本机端口</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>sudo apt-get update</p>
+<p>sudo apt-get install nginx</p>
+<p>安装成功后 sudo /etc/init.d/nginx start 启动一下访问树莓派的IP能访问成功就可以了</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>sudo apt-get update</p>
+<p>sudo apt-get install nginx</p>
+<p>安装成功后 sudo /etc/init.d/nginx start 启动一下访问树莓派的IP能访问成功就可以了</p>
+<p>选择/etc/nginx/nginx.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line"></span><br><span class="line">   server&#123;</span><br><span class="line">            listen 80;</span><br><span class="line">            server_name yun.imlike.cc;</span><br><span class="line">             location &#x2F; &#123;</span><br><span class="line">             # 一些基本反向代理配置以及获取请求真是IP地址</span><br><span class="line">                    proxy_redirect off;</span><br><span class="line">                    proxy_set_header Host $host;</span><br><span class="line">                    proxy_set_header X-Real-Ip $remote_addr;</span><br><span class="line">                    proxy_set_header X-Forwarded-For $remote_addr;</span><br><span class="line">                    proxy_pass http:&#x2F;&#x2F;192.168.2.189:8001;</span><br><span class="line">            &#125;</span><br><span class="line">           # access_log &#x2F;home&#x2F;wwwlogs&#x2F;git.aboutme.ink.log;</span><br><span class="line">    &#125;</span><br><span class="line">       server&#123;</span><br><span class="line">            listen 80;</span><br><span class="line">            server_name portal.imlike.cc;</span><br><span class="line">             location &#x2F; &#123;</span><br><span class="line">             # 一些基本反向代理配置以及获取请求真是IP地址</span><br><span class="line">                    proxy_redirect off;</span><br><span class="line">                    proxy_set_header Host $host;</span><br><span class="line">                    proxy_set_header X-Real-Ip $remote_addr;</span><br><span class="line">                    proxy_set_header X-Forwarded-For $remote_addr;</span><br><span class="line">                    proxy_pass http:&#x2F;&#x2F;192.168.2.189:9000;</span><br><span class="line">            &#125;</span><br><span class="line">           # access_log &#x2F;home&#x2F;wwwlogs&#x2F;git.aboutme.ink.log;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>sudo /etc/init.d/nginx restart 重启一下</p>
+<h3 id="优化访问"><a href="#优化访问" class="headerlink" title="优化访问"></a>优化访问</h3><p>目前是已经知道树莓派的IP的有两种优化的</p>
+<ol>
+<li><p>使用host改本地访问</p>
+<p>目前我将host改为</p>
+<p>192.168.2.189 yun.imlike.cc<br>192.168.2.189 portal.imlike.cc</p>
+<p>这样这两个域名将会解析到192.168.2.189IP上,由于由于nginx上面的配置会解析 server_name对应的yun.imlike.cc,portal.imlike.cc效果如下</p>
+<p><a href="../img/1586076685372.png"><img src="../img/1586076685372.png" alt="1586076685372"></a></p>
+</li>
+<li><p>使用路由器改变DNS解析,使其解析到树莓派IP</p>
+<p>该方式还没实现,原理是一样的</p>
+</li>
+</ol>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-树莓派docker搭建配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1469044090.html" class="article-date">
+      <time datetime="2020-04-02T23:42:52.000Z" itemprop="datePublished">2020-04-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1469044090.html">树莓派docker搭建配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="搭建docker环境"><a href="#搭建docker环境" class="headerlink" title="搭建docker环境"></a>搭建docker环境</h3><p>如果你过去安装过 docker，先删掉:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="搭建docker环境"><a href="#搭建docker环境" class="headerlink" title="搭建docker环境"></a>搭建docker环境</h3><p>如果你过去安装过 docker，先删掉:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io</span><br></pre></td></tr></table></figure>
+
+<p>首先安装依赖:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common</span><br></pre></td></tr></table></figure>
+
+<p>信任 Docker 的 GPG 公钥:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;debian&#x2F;gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+
+<p>如果你是树莓派或其它ARM架构计算机，请运行:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [arch&#x3D;armhf] https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;docker-ce&#x2F;linux&#x2F;debian \     $(lsb_release -cs) stable&quot; | \    sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;docker.list</span><br></pre></td></tr></table></figure>
+
+<p>最后安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get updatesudo apt-get install docker-ce</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用脚本自动安装"><a href="#使用脚本自动安装" class="headerlink" title="使用脚本自动安装"></a>使用脚本自动安装</h2><p>在测试或开发环境中 Docker 官方为了简化安装流程，提供了一套便捷的安装脚本，Raspbian 系统上可以使用这套脚本安装，另外可以通过 <code>--mirror</code> 选项使用国内源进行安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ curl -fsSL get.docker.com -o get-docker.sh</span><br><span class="line">$ sudo sh get-docker.sh --mirror Aliyun#</span><br><span class="line">$ sudo sh get-docker.sh --mirror AzureChinaCloud</span><br></pre></td></tr></table></figure>
+
+<p>执行这个命令后，脚本就会自动的将一切准备工作做好，并且把 Docker CE 的稳定(stable)版本安装在系统中。</p>
+<h2 id="启动-Docker-CE"><a href="#启动-Docker-CE" class="headerlink" title="启动 Docker CE"></a>启动 Docker CE</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl enable docker$ sudo systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<h2 id="建立-docker-用户组"><a href="#建立-docker-用户组" class="headerlink" title="建立 docker 用户组"></a>建立 docker 用户组</h2><p>默认情况下，<code>docker</code> 命令会使用 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Unix_domain_socket">Unix socket</a> 与 Docker 引擎通讯。而只有 <code>root</code> 用户和 <code>docker</code> 组的用户才可以访问 Docker 引擎的 Unix socket。出于安全考虑，一般 Linux 系统上不会直接使用 <code>root</code> 用户。因此，更好地做法是将需要使用 <code>docker</code> 的用户加入 <code>docker</code> 用户组。</p>
+<p>建立 <code>docker</code> 组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo groupadd docker</span><br></pre></td></tr></table></figure>
+
+<p>将当前用户加入 <code>docker</code> 组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo usermod -aG docker $USER</span><br></pre></td></tr></table></figure>
+
+<p><strong>退出当前终端并重新登录，进行如下测试。</strong></p>
+<h3 id="测试-Docker-是否安装正确"><a href="#测试-Docker-是否安装正确" class="headerlink" title="测试 Docker 是否安装正确"></a>测试 Docker 是否安装正确</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run hello-worldUnable to find image &#39;hello-world:latest&#39; locallylatest: Pulling from library&#x2F;hello-world4ee5c797bcd7: Pull complete Digest: sha256:f9dfddf63636d84ef479d645ab5885156ae030f611a56f3a7ac7f2fdd86d7e4eStatus: Downloaded newer image for hello-world:latestHello from Docker!This message shows that your installation appears to be working correctly.To generate this message, Docker took the following steps:1. The Docker client contacted the Docker daemon.2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.   (arm32v7)3. The Docker daemon created a new container from that image which runs the   executable that produces the output you are currently reading.4. The Docker daemon streamed that output to the Docker client, which sent it   to your terminal.To try something more ambitious, you can run an Ubuntu container with: $ docker run -it ubuntu bashShare images, automate workflows, and more with a free Docker ID: https:&#x2F;&#x2F;hub.docker.com&#x2F;For more examples and ideas, visit: https:&#x2F;&#x2F;docs.docker.com&#x2F;get-started&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="docker-compose的安装"><a href="#docker-compose的安装" class="headerlink" title="docker-compose的安装"></a>docker-compose的安装</h3><p>开始是找的国内的镜像,但是下载一直是8k的文件不能执行打开就是文件下载失败这种内容,可能是我这个网络问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https:&#x2F;&#x2F;get.daocloud.io&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.25.4&#x2F;docker-compose-&#96;uname -s&#96;-&#96;uname -m&#96; &gt; &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-composechmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+
+<p>后面我找到别的资源</p>
+<p>至此Docker就安装好了，再安装docker compose。<br>先看有没有pip或pip3，有就直接卸了。然后安装：</p>
+<p>Bash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get remove python-pip python3-pip</span><br><span class="line">$ wget https:&#x2F;&#x2F;bootstrap.pypa.io&#x2F;get-pip.py$ python get-pip.py$ python3 get-pip.py</span><br></pre></td></tr></table></figure>
+
+<p>然后安装一些依赖库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install python-dev python3-dev libevent-dev python-scipy libssl-dev libffi-devapt install apt-transport-https ca-certificates curl gnupg2 software-properties-commonpip install cryptography</span><br></pre></td></tr></table></figure>
+
+<p>查看pip版本:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# pip3 --versionpip 19.1.1 from &#x2F;usr&#x2F;local&#x2F;lib&#x2F;python3.5&#x2F;dist-packages&#x2F;pip (python 3.5)root@raspberrypi:~#</span><br></pre></td></tr></table></figure>
+
+<p>安装docker compose<br>这里通过pip的方式安装，所以先安装pip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip3 install docker-compose</span><br></pre></td></tr></table></figure>
+
+<p>如果你报了什么</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TypeError: unsupported operand type(s) for -&#x3D;: &#39;Retry&#39; and &#39;int&#39;</span><br></pre></td></tr></table></figure>
+
+<p>这样的错误，多半是用了上古时代的pip，参考上述方式卸载重装，然后重启一下。如果是下面这样的错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host&#x3D;&#39;www.piwheels.org&#39;, port&#x3D;443): Read timed out.</span><br></pre></td></tr></table></figure>
+
+<p><strong>是由于网络连接超时，重新执行命令就好，或者用国内镜像下载。可以多试几次</strong></p>
+<p>安装好了查看版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# docker-compose --versiondocker-compose version 1.24.1, build 4667896root@raspberrypi:~#</span><br></pre></td></tr></table></figure>
+
+<p>sudo pip3 install docker-compose</p>
+<h3 id="设置docker镜像"><a href="#设置docker镜像" class="headerlink" title="设置docker镜像"></a>设置docker镜像</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p &#x2F;etc&#x2F;docker</span><br><span class="line">sudo tee &#x2F;etc&#x2F;docker&#x2F;daemon.json &lt;&lt;-&#39;EOF&#39;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https:&#x2F;&#x2F;1nj0zren.mirror.aliyuncs.com&quot;,</span><br><span class="line">        &quot;https:&#x2F;&#x2F;docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">        &quot;http:&#x2F;&#x2F;f1361db2.m.daocloud.io&quot;,</span><br><span class="line">        &quot;https:&#x2F;&#x2F;registry.docker-cn.com&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>镜像加速器 镜像加速器地址 专属加速器？ 其它加速？</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Docker 中国官方镜像    <a target="_blank" rel="noopener" href="https://registry.docker-cn.com/">https://registry.docker-cn.com</a></td>
+</tr>
+<tr>
+<td>Docker Hub DaoCloud 镜像站    <a target="_blank" rel="noopener" href="http://f1361db2.m.daocloud.io/">http://f1361db2.m.daocloud.io</a> 可登录，系统分配</td>
+</tr>
+<tr>
+<td>Docker Hub Azure 中国镜像   <a target="_blank" rel="noopener" href="https://dockerhub.azk8s.cn/">https://dockerhub.azk8s.cn</a></td>
+</tr>
+<tr>
+<td>Docker Hub、GCR、Quay 科大镜像站    <a target="_blank" rel="noopener" href="https://docker.mirrors.ustc.edu.cn/">https://docker.mirrors.ustc.edu.cn</a></td>
+</tr>
+<tr>
+<td>Docker Hub、GCR、Quay 阿里云     https://<your_code>.mirror.aliyuncs.com 需登录，系统分配</td>
+</tr>
+<tr>
+<td>Docker Hub 七牛云     <a target="_blank" rel="noopener" href="https://reg-mirror.qiniu.com/">https://reg-mirror.qiniu.com</a></td>
+</tr>
+<tr>
+<td>Docker Hub、GCR、Quay 网易云      <a target="_blank" rel="noopener" href="https://hub-mirror.c.163.com/">https://hub-mirror.c.163.com</a></td>
+</tr>
+<tr>
+<td>Docker Hub 腾讯云     <a target="_blank" rel="noopener" href="https://mirror.ccs.tencentyun.com/">https://mirror.ccs.tencentyun.com</a></td>
+</tr>
+</tbody></table>
+<p>作者：y0ngb1n链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/5cd2cf01f265da0374189441%E6%9D%A5%E6%BA%90%EF%BC%9A%E6%8E%98%E9%87%91%E8%91%97%E4%BD%9C%E6%9D%83%E5%BD%92%E4%BD%9C%E8%80%85%E6%89%80%E6%9C%89%E3%80%82%E5%95%86%E4%B8%9A%E8%BD%AC%E8%BD%BD%E8%AF%B7%E8%81%94%E7%B3%BB%E4%BD%9C%E8%80%85%E8%8E%B7%E5%BE%97%E6%8E%88%E6%9D%83%EF%BC%8C%E9%9D%9E%E5%95%86%E4%B8%9A%E8%BD%AC%E8%BD%BD%E8%AF%B7%E6%B3%A8%E6%98%8E%E5%87%BA%E5%A4%84%E3%80%82">https://juejin.im/post/5cd2cf01f265da0374189441来源：掘金著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</a></p>
+<p>### docker命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#查看 Docker 版本</span><br><span class="line">docker -&#96;&#96;vsudo</span><br><span class="line"># 仓库&#x2F;镜像:版本（留空的话默认为 latest）</span><br><span class="line">docker pull</span><br><span class="line">sudo docker run     </span><br><span class="line"># 加参数，用来创建容器查看运行容器</span><br><span class="line">sudo docker ps     </span><br><span class="line">#查看所有下载的镜像</span><br><span class="line">sudo docker images  </span><br><span class="line">#进入容器终端</span><br><span class="line">sudo docker exec -i -t ha &#x2F;bin&#x2F;bash   </span><br><span class="line">#实时查看10行的 ha 日志</span><br><span class="line">sudo docker logs -f -t --tail 10 ha </span><br><span class="line">#重启</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">#设置 Docker 开机启动</span><br><span class="line">sudo systemctl enable  docker</span><br><span class="line">#开启 Docker 服务</span><br><span class="line">sudo systemctl start docker</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="常用配置和工具命令"><a href="#常用配置和工具命令" class="headerlink" title="常用配置和工具命令"></a>常用配置和工具命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#查看 Docker 版本docker -vsudo docker pull 仓库&#x2F;镜像:版本（留空的话默认为 latest）</span><br><span class="line">sudo docker run </span><br><span class="line">加参数，用来创建容器#查看运行容器</span><br><span class="line">sudo docker ps</span><br><span class="line">#查看所有下载的镜像</span><br><span class="line">sudo docker images</span><br><span class="line">#进入容器终端</span><br><span class="line">sudo docker exec -i -t ha &#x2F;bin&#x2F;bash</span><br><span class="line">#实时查看10行的 ha 日志</span><br><span class="line">sudo docker logs -f -t --tail 10 ha</span><br><span class="line">#重启 systemctl 守护进程</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">#设置 Docker 开机启动</span><br><span class="line">sudo systemctl enable docker</span><br><span class="line">#开启 Docker 服务</span><br><span class="line">sudo systemctl start docker </span><br><span class="line">#下载 Docker 图形化界面 portainer</span><br><span class="line">sudo docker pull portainer&#x2F;portainer</span><br><span class="line">#创建 portainer 容器</span><br><span class="line">sudo docker volume create portainer_data</span><br><span class="line">#运行portainer</span><br><span class="line">sudo docker run -d -p 9000:9000 --name portainer --restart always -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run</span><br></pre></td></tr></table></figure>
+
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>docker images,docker ps</p>
+<p>docker pull nextcloud</p>
+<p>docker pull portainer/portainer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -ti -d --name kevin-portainer -p 9000:9000 --restart&#x3D;always -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock  portainer&#x2F;portainerdocker run -d -p 9000:9000 -p 8000:8000 --name portainer --restart unless-stopped -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock  portainer&#x2F;portainer</span><br></pre></td></tr></table></figure>
+
+<p><a href="../img/1585911408361.png"><img src="../img/1585911408361.png" alt="1585911408361"></a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> docker volume create portainer_data</span><br><span class="line"> docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer</span><br><span class="line">该容器命名为my_portainer，将容器中portainer默认端口9000，映射到宿主机端口9000，使用socket映射 /var/run/docker.sock:/var/run/docker.sock，指定volume映射（即将portainer_volume对应的宿主机目录挂载到容器的/data目录），容器基于portainer/portainer镜像启动</span><br></pre></td></tr></table></figure>
+
+<p><a href="../img/1585911501671.png"><img src="../img/1585911501671.png" alt="1585911501671"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;home&#x2F;nextclouddocker run --name nextcloud -p 8080:80   -v &#x2F;home&#x2F;nextcloud:&#x2F;var&#x2F;www&#x2F;html&#x2F;data -d nextcloud</span><br><span class="line">参数说明：–name：设定容器名称为nextcloud-p 8080:80 ：端口映射，将宿主机8080端口映射到容器中的80端口-v &#x2F;data&#x2F;nextcloud:&#x2F;var&#x2F;www&#x2F;html&#x2F;data将容器中项目的data目录映射到本地&#x2F;data&#x2F;nextcloud目录下方便配置和数据保存-d 是以后台形式启动</span><br></pre></td></tr></table></figure>
+
+<p><a href="../img/1585911463432.png"><img src="../img/1585911463432.png" alt="1585911463432"></a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1371476">https://cloud.tencent.com/developer/article/1371476</a></p>
+<p>中间找不文件就选择下面这个命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;var&#x2F;lib&#x2F;find . -name &quot;config.php&quot;</span><br></pre></td></tr></table></figure>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-树莓派设置用户和ssh,VN连接" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2385605860.html" class="article-date">
+      <time datetime="2020-04-02T21:38:17.000Z" itemprop="datePublished">2020-04-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>启动后的树莓派页面</p>
+<p><a href="../img/1585892445445.png"><img src="../img/1585892445445.png" alt="1585892445445"></a></p>
+<h2 id="ssh-连接使用private-key"><a href="#ssh-连接使用private-key" class="headerlink" title="ssh 连接使用private-key"></a>ssh 连接使用private-key</h2><p>首先是需要你已经生成了本地的秘钥,然后将本地的公钥加入到对方的authorized_keys中ssh-copy-id传过去</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>启动后的树莓派页面</p>
+<p><a href="../img/1585892445445.png"><img src="../img/1585892445445.png" alt="1585892445445"></a></p>
+<h2 id="ssh-连接使用private-key"><a href="#ssh-连接使用private-key" class="headerlink" title="ssh 连接使用private-key"></a>ssh 连接使用private-key</h2><p>首先是需要你已经生成了本地的秘钥,然后将本地的公钥加入到对方的authorized_keys中ssh-copy-id传过去</p>
+<p>否则可以直接用用户和密码登陆</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~&#x2F;.ssh&#x2F;id_rsa.pub | ssh  USERNAME@IP-ADDRESS &#39;cat &gt;&gt; .ssh&#x2F;authorized_keys&#39;ssh-copy-id YOU-USERNAME@IP-ADDRESS</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置国内源"><a href="#设置国内源" class="headerlink" title="设置国内源"></a>设置国内源</h3><p><a target="_blank" rel="noopener" href="https://mirror.tuna.tsinghua.edu.cn/help/raspbian/">https://mirror.tuna.tsinghua.edu.cn/help/raspbian/</a></p>
+<p>树莓派选择Debian 10 (buster)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 编辑 &#96;&#x2F;etc&#x2F;apt&#x2F;sources.list&#96; 文件，删除原文件所有内容，用以下内容取代：</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspbian&#x2F;raspbian&#x2F; buster main non-free contribdeb-src http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspbian&#x2F;raspbian&#x2F; buster main non-free contrib</span><br><span class="line"># 编辑 &#96;&#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;raspi.list&#96; 文件，删除原文件所有内容，用以下内容取代：</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspberrypi&#x2F; buster main ui</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置期间的问题"><a href="#设置期间的问题" class="headerlink" title="设置期间的问题"></a>设置期间的问题</h3><ol>
+<li><p>sudo root 报su: 鉴定故障</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">entos7 su 鉴定故障解决方法Linux(fedora\centos\ubuntu等)终端窗口运行 su 输入密码，提示鉴定失败。根据网上查询的原因是：安装linux时，未输入ROOT密码；或新建用户，勾选“设为管理员”，仅为新用户设置密码。未设置ROOT密码，系统检测失败。亲测解决方法如下：打开终端 ：sudo passwd root输入当前用户密码，然后输入设置的root密码。(重新设置root密码）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sudo chmod -777 /home</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo: &#x2F;etc&#x2F;sudoers 可被任何人写sudo: 没有找到有效的 sudoers 资源，退出sudo: 无法初始化策略插件</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;sudoers下面的权限修改回去需要直接修改说不定就直接出什么问题了sudo su - chmod 777 &#x2F;etc&#x2F;sudoers echo &#39;username  ALL&#x3D;(ALL)    ALL&#39; &gt;&gt; &#x2F;etc&#x2F;sudoers</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Ubuntu vi 上下左右变ABCD问题解决方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">一.执行命令 sudo apt-get remove vim-common 二 .  sudo apt-get install vimcp &#x2F;etc&#x2F;vim&#x2F;vimrc ~&#x2F;.vimrc  &#x2F;&#x2F;没网用这个</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-vue和element-ui初步使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3181160514.html" class="article-date">
+      <time datetime="2020-04-01T21:13:13.000Z" itemprop="datePublished">2020-04-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3181160514.html">vue和element-ui初步使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>是一套用于构建用户界面的<strong>渐进式框架</strong>。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/guide/single-file-components.html">现代化的工具链</a>以及各种<a target="_blank" rel="noopener" href="https://github.com/vuejs/awesome-vue#libraries--plugins">支持类库</a>结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。是一种 MVVM (Model-View-ViewModel)</p>
+<ol>
+<li><h3 id="使用vue首先是需要导入vue-js-下面就是简单的vue对象"><a href="#使用vue首先是需要导入vue-js-下面就是简单的vue对象" class="headerlink" title="使用vue首先是需要导入vue.js,下面就是简单的vue对象"></a>使用vue首先是需要导入vue.js,下面就是简单的vue对象</h3></li>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>是一套用于构建用户界面的<strong>渐进式框架</strong>。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/guide/single-file-components.html">现代化的工具链</a>以及各种<a target="_blank" rel="noopener" href="https://github.com/vuejs/awesome-vue#libraries--plugins">支持类库</a>结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。是一种 MVVM (Model-View-ViewModel)</p>
+<ol>
+<li><h3 id="使用vue首先是需要导入vue-js-下面就是简单的vue对象"><a href="#使用vue首先是需要导入vue-js-下面就是简单的vue对象" class="headerlink" title="使用vue首先是需要导入vue.js,下面就是简单的vue对象"></a>使用vue首先是需要导入vue.js,下面就是简单的vue对象</h3></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![processInstance](&#x2F;home&#x2F;leek&#x2F;桌面&#x2F;processInstance.png)&lt;div id&#x3D;&quot;app&quot;&gt;    &lt;h2&gt;&#123;&#123;name&#125;&#125; 显示&lt;&#x2F;h2&gt;&lt;&#x2F;div&gt;&lt;script src&#x3D;&quot;.&#x2F;node_modules&#x2F;vue&#x2F;dist&#x2F;vue.js&quot;&gt;&lt;&#x2F;script&gt;&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;    &#x2F;&#x2F; 生成一个Vue实例    var app &#x3D; new Vue(&#123;        el:&quot;#app&quot;, &#x2F;&#x2F; el,即element。要渲染的的页面元素        data:&#123; &#x2F;&#x2F; 数据            name:&quot;like&quot;        &#125;    &#125;)&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><h3 id="标签绑定数据"><a href="#标签绑定数据" class="headerlink" title="标签绑定数据"></a>标签绑定数据</h3></li>
+</ol>
+<p>常见数据绑定的熟悉是</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-text">v-text</a> 绑定的值直接显示不解析</li>
+<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-html">v-html</a> <strong>内容按普通 HTML 插入 - 不会作为 Vue 模板进行编译</strong></li>
+<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-show">v-show</a> 是否显示</li>
+<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-if">v-if</a> <strong>内容按普通 HTML 插入 - 不会作为 Vue 模板进行编译</strong></li>
+<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-for">v-for</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-for&#x3D;&quot;(item, index) in items&quot;&gt;&lt;&#x2F;div&gt;&lt;div v-for&#x3D;&quot;(val, key) in object&quot;&gt;&lt;&#x2F;div&gt; &lt;div v-for&#x3D;&quot;(val, name, index) in object&quot;&gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-on">v-on</a> 可以用@缩写@click,@node-click</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#v-bind">v-bind</a> 可以用:缩写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.prop - 作为一个 DOM property 绑定而不是作为 attribute 绑定。(差别在哪里？).camel - (2.1.0+) 将 kebab-case 特性名转换为 camelCase. (从 2.1.0 开始支持).sync (2.3.0+) 语法糖，会扩展成一个更新父组件绑定值的 v-on 侦听器。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li><h3 id="vue的声明周期"><a href="#vue的声明周期" class="headerlink" title="vue的声明周期"></a>vue的声明周期</h3></li>
+</ol>
+<p><a href="../img/lifecycle.png"><img src="../img/lifecycle.png" alt="lifecycle"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; new Vue(&#123;    el: &quot;#app&quot;,    data: &#123;        num: 0    &#125;,    beforeCreate() &#123;        console.log(&quot;创建前&quot;)    &#125;,    created() &#123;        console.log(&quot;创建&quot;)    &#125;,    beforeMount() &#123;        console.log(&quot;计数前&quot;)    &#125;,    mounted() &#123;        console.log(&quot;计数了&quot;)    &#125;,&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="element-UI相关的"><a href="#element-UI相关的" class="headerlink" title="element-UI相关的"></a>element-UI相关的</h2><ol>
+<li><h3 id="element-UI"><a href="#element-UI" class="headerlink" title="element-UI"></a>element-UI</h3><p>网站快速成型工具:一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库 <a target="_blank" rel="noopener" href="https://element.eleme.cn/#/zh-CN/component/container">网站</a></p>
+</li>
+<li><h3 id="element-UI-目前我看到的标签-表格"><a href="#element-UI-目前我看到的标签-表格" class="headerlink" title="element-UI 目前我看到的标签(表格,)"></a>element-UI 目前我看到的标签(表格,)</h3><h4 id="标签1-gt-el-pagination-用于分页-下面是它的相关参数"><a href="#标签1-gt-el-pagination-用于分页-下面是它的相关参数" class="headerlink" title="标签1-&gt;el-pagination 用于分页 下面是它的相关参数"></a>标签1-&gt;el-pagination 用于分页 下面是它的相关参数</h4><p>Attributes</p>
+<p>| 参数 | 说明 | 类型 | 可选值 | 默认值 |<br>| ——————- | ———————————————————— | ——– | ———————————————————— | ————————————– |<br>| small | 是否使用小型分页样式 | boolean | — | false |<br>| background | 是否为分页按钮添加背景色 | boolean | — | false |<br>| page-size | 每页显示条目个数，支持 .sync 修饰符 | number | — | 10 |<br>| total | 总条目数 | number | — | — |<br>| page-count | 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；如果要支持 page-sizes 的更改，则需要使用 total 属性 | Number | — | — |<br>| pager-count | 页码按钮的数量，当总页数超过该值时会折叠 | number | 大于等于 5 且小于等于 21 的奇数 | 7 |<br>| current-page | 当前页数，支持 .sync 修饰符 | number | — | 1 |<br>| layout | 组件布局，子组件名用逗号分隔 | String | <code>sizes</code>, <code>prev</code>, <code>pager</code>, <code>next</code>, <code>jumper</code>, <code>-&gt;</code>, <code>total</code>, <code>slot</code> | ‘prev, pager, next, jumper, -&gt;, total’ |<br>| page-sizes | 每页显示个数选择器的选项设置 | number[] | — | [10, 20, 30, 40, 50, 100] |<br>| popper-class | 每页显示个数选择器的下拉框类名 | string | — | — |<br>| prev-text | 替代图标显示的上一页文字 | string | — | — |<br>| next-text | 替代图标显示的下一页文字 | string | — | — |<br>| disabled | 是否禁用 | boolean | — | false |<br>| hide-on-single-page | 只有一页时是否隐藏 | boolean | — | - |</p>
+<h3 id="¶-Events"><a href="#¶-Events" class="headerlink" title="¶ Events"></a><a target="_blank" rel="noopener" href="https://element.eleme.cn/#/zh-CN/component/pagination#events">¶</a> Events</h3><p>| 事件名称 | 说明 | 回调参数 |<br>| ————– | ———————————- | ——– |<br>| size-change | pageSize 改变时会触发 | 每页条数 |<br>| current-change | currentPage 改变时会触发 | 当前页 |<br>| prev-click | 用户点击上一页按钮改变当前页后触发 | 当前页 |<br>| next-click | 用户点击下一页按钮改变当前页后触发 | 当前页 |</p>
+<h4 id="标签2-gt-el-tooltip-用于显示提示"><a href="#标签2-gt-el-tooltip-用于显示提示" class="headerlink" title="标签2-&gt;el-tooltip 用于显示提示"></a>标签2-&gt;el-tooltip 用于显示提示</h4></li>
+</ol>
+<p>Attributes</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">说明</th>
+<th align="center">类型</th>
+<th align="center">可选值</th>
+<th align="center">默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">effect</td>
+<td align="center">默认提供的主题</td>
+<td align="center">String</td>
+<td align="center">dark/light</td>
+<td align="center">dark</td>
+</tr>
+<tr>
+<td align="center">content</td>
+<td align="center">显示的内容，也可以通过 <code>slot#content</code> 传入 DOM</td>
+<td align="center">String</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">placement</td>
+<td align="center">Tooltip 的出现位置</td>
+<td align="center">String</td>
+<td align="center">top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end</td>
+<td align="center">bottom</td>
+</tr>
+<tr>
+<td align="center">value / v-model</td>
+<td align="center">状态是否可见</td>
+<td align="center">Boolean</td>
+<td align="center">—</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">disabled</td>
+<td align="center">Tooltip 是否可用</td>
+<td align="center">Boolean</td>
+<td align="center">—</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">offset</td>
+<td align="center">出现位置的偏移量</td>
+<td align="center">Number</td>
+<td align="center">—</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">transition</td>
+<td align="center">定义渐变动画</td>
+<td align="center">String</td>
+<td align="center">—</td>
+<td align="center">el-fade-in-linear</td>
+</tr>
+<tr>
+<td align="center">visible-arrow</td>
+<td align="center">是否显示 Tooltip 箭头，更多参数可见<a target="_blank" rel="noopener" href="https://github.com/element-component/vue-popper">Vue-popper</a></td>
+<td align="center">Boolean</td>
+<td align="center">—</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="center">popper-options</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://popper.js.org/documentation.html">popper.js</a> 的参数</td>
+<td align="center">Object</td>
+<td align="center">参考 <a target="_blank" rel="noopener" href="https://popper.js.org/documentation.html">popper.js</a> 文档</td>
+<td align="center">{ boundariesElement: ‘body’, gpuAcceleration: false }</td>
+</tr>
+<tr>
+<td align="center">open-delay</td>
+<td align="center">延迟出现，单位毫秒</td>
+<td align="center">Number</td>
+<td align="center">—</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">manual</td>
+<td align="center">手动控制模式，设置为 true 后，mouseenter 和 mouseleave 事件将不会生效</td>
+<td align="center">Boolean</td>
+<td align="center">—</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">popper-class</td>
+<td align="center">为 Tooltip 的 popper 添加类名</td>
+<td align="center">String</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">enterable</td>
+<td align="center">鼠标是否可进入到 tooltip 中</td>
+<td align="center">Boolean</td>
+<td align="center">—</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="center">hide-after</td>
+<td align="center">Tooltip 出现后自动隐藏延时，单位毫秒，为 0 则不会自动隐藏</td>
+<td align="center">number</td>
+<td align="center">—</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">tabindex</td>
+<td align="center">Tooltip 组件的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex">tabindex</a></td>
+<td align="center">number</td>
+<td align="center">—</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<h4 id="标签3-gt-el-table-用于显示表格-目前主要是用这个"><a href="#标签3-gt-el-table-用于显示表格-目前主要是用这个" class="headerlink" title="标签3-&gt;el-table 用于显示表格,目前主要是用这个"></a>标签3-&gt;el-table 用于显示表格,目前主要是用这个</h4><p>Table Attributes</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">说明</th>
+<th align="center">类型</th>
+<th align="center">可选值</th>
+<th align="center">默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">data</td>
+<td align="center">显示的数据</td>
+<td align="center">array</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">height</td>
+<td align="center">Table 的高度，默认为自动高度。如果 height 为 number 类型，单位 px；如果 height 为 string 类型，则这个高度会设置为 Table 的 style.height 的值，Table 的高度会受控于外部样式。</td>
+<td align="center">string/number</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">max-height</td>
+<td align="center">Table 的最大高度。合法的值为数字或者单位为 px 的高度。</td>
+<td align="center">string/number</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">stripe</td>
+<td align="center">是否为斑马纹 table</td>
+<td align="center">boolean</td>
+<td align="center">—</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">border</td>
+<td align="center">是否带有纵向边框</td>
+<td align="center">boolean</td>
+<td align="center">—</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">size</td>
+<td align="center">Table 的尺寸</td>
+<td align="center">string</td>
+<td align="center">medium / small / mini</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">fit</td>
+<td align="center">列的宽度是否自撑开</td>
+<td align="center">boolean</td>
+<td align="center">—</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="center">show-header</td>
+<td align="center">是否显示表头</td>
+<td align="center">boolean</td>
+<td align="center">—</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="center">highlight-current-row</td>
+<td align="center">是否要高亮当前行</td>
+<td align="center">boolean</td>
+<td align="center">—</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">current-row-key</td>
+<td align="center">当前行的 key，只写属性</td>
+<td align="center">String,Number</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">row-class-name</td>
+<td align="center">行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。</td>
+<td align="center">Function({row, rowIndex})/String</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">row-style</td>
+<td align="center">行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。</td>
+<td align="center">Function({row, rowIndex})/Object</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">cell-class-name</td>
+<td align="center">单元格的 className 的回调方法，也可以使用字符串为所有单元格设置一个固定的 className。</td>
+<td align="center">Function({row, column, rowIndex, columnIndex})/String</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">cell-style</td>
+<td align="center">单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有单元格设置一样的 Style。</td>
+<td align="center">Function({row, column, rowIndex, columnIndex})/Object</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">header-row-class-name</td>
+<td align="center">表头行的 className 的回调方法，也可以使用字符串为所有表头行设置一个固定的 className。</td>
+<td align="center">Function({row, rowIndex})/String</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">header-row-style</td>
+<td align="center">表头行的 style 的回调方法，也可以使用一个固定的 Object 为所有表头行设置一样的 Style。</td>
+<td align="center">Function({row, rowIndex})/Object</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">header-cell-class-name</td>
+<td align="center">表头单元格的 className 的回调方法，也可以使用字符串为所有表头单元格设置一个固定的 className。</td>
+<td align="center">Function({row, column, rowIndex, columnIndex})/String</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">header-cell-style</td>
+<td align="center">表头单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有表头单元格设置一样的 Style。</td>
+<td align="center">Function({row, column, rowIndex, columnIndex})/Object</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">row-key</td>
+<td align="center">行数据的 Key，用来优化 Table 的渲染；在使用 reserve-selection 功能与显示树形数据时，该属性是必填的。类型为 String 时，支持多层访问：<code>user.info.id</code>，但不支持 <code>user.info[0].id</code>，此种情况请使用 <code>Function</code>。</td>
+<td align="center">Function(row)/String</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">empty-text</td>
+<td align="center">空数据时显示的文本内容，也可以通过 <code>slot=&quot;empty&quot;</code> 设置</td>
+<td align="center">String</td>
+<td align="center">—</td>
+<td align="center">暂无数据</td>
+</tr>
+<tr>
+<td align="center">default-expand-all</td>
+<td align="center">是否默认展开所有行，当 Table 包含展开行存在或者为树形表格时有效</td>
+<td align="center">Boolean</td>
+<td align="center">—</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">expand-row-keys</td>
+<td align="center">可以通过该属性设置 Table 目前的展开行，需要设置 row-key 属性才能使用，该属性为展开行的 keys 数组。</td>
+<td align="center">Array</td>
+<td align="center">—</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">default-sort</td>
+<td align="center">默认的排序列的 prop 和顺序。它的<code>prop</code>属性指定默认的排序的列，<code>order</code>指定默认排序的顺序</td>
+<td align="center">Object</td>
+<td align="center"><code>order</code>: ascending, descending</td>
+<td align="center">如果只指定了<code>prop</code>, 没有指定<code>order</code>, 则默认顺序是ascending</td>
+</tr>
+<tr>
+<td align="center">tooltip-effect</td>
+<td align="center">tooltip <code>effect</code> 属性</td>
+<td align="center">String</td>
+<td align="center">dark/light</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">show-summary</td>
+<td align="center">是否在表尾显示合计行</td>
+<td align="center">Boolean</td>
+<td align="center">—</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">sum-text</td>
+<td align="center">合计行第一列的文本</td>
+<td align="center">String</td>
+<td align="center">—</td>
+<td align="center">合计</td>
+</tr>
+<tr>
+<td align="center">summary-method</td>
+<td align="center">自定义的合计计算方法</td>
+<td align="center">Function({ columns, data })</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">span-method</td>
+<td align="center">合并行或列的计算方法</td>
+<td align="center">Function({ row, column, rowIndex, columnIndex })</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">select-on-indeterminate</td>
+<td align="center">在多选表格中，当仅有部分行被选中时，点击表头的多选框时的行为。若为 true，则选中所有行；若为 false，则取消选择所有行</td>
+<td align="center">Boolean</td>
+<td align="center">—</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="center">indent</td>
+<td align="center">展示树形数据时，树节点的缩进</td>
+<td align="center">Number</td>
+<td align="center">—</td>
+<td align="center">16</td>
+</tr>
+<tr>
+<td align="center">lazy</td>
+<td align="center">是否懒加载子节点数据</td>
+<td align="center">Boolean</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">load</td>
+<td align="center">加载子节点数据的函数，lazy 为 true 时生效，函数第二个参数包含了节点的层级信息</td>
+<td align="center">Function(row, treeNode, resolve)</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">tree-props</td>
+<td align="center">渲染嵌套数据的配置选项</td>
+<td align="center">Object</td>
+<td align="center">—</td>
+<td align="center">{ hasChildren: ‘hasChildren’, children: ‘children’ }</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://element.eleme.cn/#/zh-CN/component/table#table-events">¶</a> Table Events</p>
+<table>
+<thead>
+<tr>
+<th align="center">事件名</th>
+<th align="center">说明</th>
+<th align="center">参数</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">select</td>
+<td align="center">当用户手动勾选数据行的 Checkbox 时触发的事件</td>
+<td align="center">selection, row</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">select-all</td>
+<td align="center">当用户手动勾选全选 Checkbox 时触发的事件</td>
+<td align="center">selection</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">selection-change</td>
+<td align="center">当选择项发生变化时会触发该事件</td>
+<td align="center">selection</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">cell-mouse-enter</td>
+<td align="center">当单元格 hover 进入时会触发该事件</td>
+<td align="center">row, column, cell, event</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">cell-mouse-leave</td>
+<td align="center">当单元格 hover 退出时会触发该事件</td>
+<td align="center">row, column, cell, event</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">cell-click</td>
+<td align="center">当某个单元格被点击时会触发该事件</td>
+<td align="center">row, column, cell, event</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">cell-dblclick</td>
+<td align="center">当某个单元格被双击击时会触发该事件</td>
+<td align="center">row, column, cell, event</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">row-click</td>
+<td align="center">当某一行被点击时会触发该事件</td>
+<td align="center">row, column, event</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">row-contextmenu</td>
+<td align="center">当某一行被鼠标右键点击时会触发该事件</td>
+<td align="center">row, column, event</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">row-dblclick</td>
+<td align="center">当某一行被双击时会触发该事件</td>
+<td align="center">row, column, event</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">header-click</td>
+<td align="center">当某一列的表头被点击时会触发该事件</td>
+<td align="center">column, event</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">header-contextmenu</td>
+<td align="center">当某一列的表头被鼠标右键点击时触发该事件</td>
+<td align="center">column, event</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">sort-change</td>
+<td align="center">当表格的排序条件发生变化的时候会触发该事件</td>
+<td align="center">{ column, prop, order }</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">filter-change</td>
+<td align="center">当表格的筛选条件发生变化的时候会触发该事件，参数的值是一个对象，对象的 key 是 column 的 columnKey，对应的 value 为用户选择的筛选条件的数组。</td>
+<td align="center">filters</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">current-change</td>
+<td align="center">当表格的当前行发生变化的时候会触发该事件，如果要高亮当前行，请打开表格的 highlight-current-row 属性</td>
+<td align="center">currentRow, oldCurrentRow</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">header-dragend</td>
+<td align="center">当拖动表头改变了列的宽度的时候会触发该事件</td>
+<td align="center">newWidth, oldWidth, column, event</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">expand-change</td>
+<td align="center">当用户对某一行展开或者关闭的时候会触发该事件（展开行时，回调的第二个参数为 expandedRows；树形表格时第二参数为 expanded）</td>
+<td align="center">row, (expandedRows \</td>
+<td>expanded)</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://element.eleme.cn/#/zh-CN/component/table#table-methods">¶</a> Table Methods</p>
+<table>
+<thead>
+<tr>
+<th align="center">方法名</th>
+<th align="center">说明</th>
+<th align="center">参数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">clearSelection</td>
+<td align="center">用于多选表格，清空用户的选择</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">toggleRowSelection</td>
+<td align="center">用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）</td>
+<td align="center">row, selected</td>
+</tr>
+<tr>
+<td align="center">toggleAllSelection</td>
+<td align="center">用于多选表格，切换所有行的选中状态</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">toggleRowExpansion</td>
+<td align="center">用于可展开表格与树形表格，切换某一行的展开状态，如果使用了第二个参数，则是设置这一行展开与否（expanded 为 true 则展开）</td>
+<td align="center">row, expanded</td>
+</tr>
+<tr>
+<td align="center">setCurrentRow</td>
+<td align="center">用于单选表格，设定某一行为选中行，如果调用时不加参数，则会取消目前高亮行的选中状态。</td>
+<td align="center">row</td>
+</tr>
+<tr>
+<td align="center">clearSort</td>
+<td align="center">用于清空排序条件，数据会恢复成未排序的状态</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">clearFilter</td>
+<td align="center">不传入参数时用于清空所有过滤条件，数据会恢复成未过滤的状态，也可传入由columnKey组成的数组以清除指定列的过滤条件</td>
+<td align="center">columnKey</td>
+</tr>
+<tr>
+<td align="center">doLayout</td>
+<td align="center">对 Table 进行重新布局。当 Table 或其祖先元素由隐藏切换为显示时，可能需要调用此方法</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">sort</td>
+<td align="center">手动对 Table 进行排序。参数<code>prop</code>属性指定排序列，<code>order</code>指定排序顺序。</td>
+<td align="center">prop: string, order: string</td>
+</tr>
+</tbody></table>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-VUE初级教程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -988,520 +2046,9 @@
 
 
   
-    <article id="post-activiti数据库的分类" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2197510555.html" class="article-date">
-      <time datetime="2020-02-14T00:10:04.000Z" itemprop="datePublished">2020-02-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2197510555.html">activiti数据库的分类</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>Activiti数据库表结构</p>
-<p> Activiti工作流总共包含23张数据表，所有的表名默认以“<strong>ACT_</strong>”开头。</p>
-<p>并且表名的第二部分用两个字母表明表的用例，而这个用例也基本上跟Service API匹配。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>Activiti数据库表结构</p>
-<p> Activiti工作流总共包含23张数据表，所有的表名默认以“<strong>ACT_</strong>”开头。</p>
-<p>并且表名的第二部分用两个字母表明表的用例，而这个用例也基本上跟Service API匹配。</p>
-<ul>
-<li><p> <strong>ACT_GE_*</strong> : “GE”代表“General”（通用），用在各种情况下；</p>
-</li>
-<li><p> <strong>ACT_HI_*</strong> : “HI”代表“History”（历史），这些表中保存的都是历史数据，比如执行过的流程实例、变量、任务，等等。Activit默认提供了4种历史级别：</p>
-</li>
-<li><p><strong>none</strong>: 不保存任何历史记录，可以提高系统性能；</p>
-</li>
-<li><p> <strong>activity</strong>：保存所有的流程实例、任务、活动信息；</p>
-</li>
-<li><p> <strong>audit</strong>：也是Activiti的<strong>默认</strong>级别，保存所有的流程实例、任务、活动、表单属性；</p>
-</li>
-<li><p> <strong>full</strong>：最完整的历史记录，除了包含<strong>audit</strong>级别的信息之外还能保存详细，例如：流程变量。</p>
-</li>
-</ul>
-<p>对于几种级别根据对功能的要求选择，如果需要日后跟踪详细可以开启<strong>full</strong>。</p>
-<ul>
-<li><p> <strong>ACT_ID_*</strong> : “ID”代表“Identity”（身份），这些表中保存的都是身份信息，如用户和组以及两者之间的关系。如果Activiti被集成在某一系统当中的话，这些表可以不用，可以直接使用现有系统中的用户或组信息；</p>
-</li>
-<li><p> <strong>ACT_RE_*</strong> : “RE”代表“Repository”（仓库），这些表中保存一些‘静态’信息，如流程定义和流程资源（如图片、规则等）；</p>
-</li>
-<li><p><strong>ACT_RU_*</strong> : “RU”代表“Runtime”（运行时），这些表中保存一些流程实例、用户任务、变量等的运行时数据。Activiti只保存流程实例在执行过程中的运行时数据，并且当流程结束后会立即移除这些数据，这是为了保证运行时表尽量的小并运行的足够快；</p>
-</li>
-</ul>
-<h3 id="Activiti数据表清单"><a href="#Activiti数据表清单" class="headerlink" title="Activiti数据表清单:"></a>Activiti数据表清单:</h3><table>
-<thead>
-<tr>
-<th align="center"><strong>表分类</strong></th>
-<th align="center"><strong>表名</strong></th>
-<th align="center"><strong>解释</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">一般数据</td>
-<td align="center">ACT_GE_BYTEARRAY</td>
-<td align="center">通用的流程定义和流程资源</td>
-</tr>
-<tr>
-<td align="center">ACT_GE_PROPERTY</td>
-<td align="center">系统相关属性</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">流程历史记录</td>
-<td align="center">ACT_HI_ACTINST</td>
-<td align="center">历史的流程实例</td>
-</tr>
-<tr>
-<td align="center">ACT_HI_ATTACHMENT</td>
-<td align="center">历史的流程附件</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_HI_COMMENT</td>
-<td align="center">历史的说明性信息</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_HI_DETAIL</td>
-<td align="center">历史的流程运行中的细节信息</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_HI_IDENTITYLINK</td>
-<td align="center">历史的流程运行过程中用户关系</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_HI_PROCINST</td>
-<td align="center">历史的流程实例</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_HI_TASKINST</td>
-<td align="center">历史的任务实例</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_HI_VARINST</td>
-<td align="center">历史的流程运行中的变量信息</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">用户用户组表</td>
-<td align="center">ACT_ID_GROUP</td>
-<td align="center">身份信息-组信息</td>
-</tr>
-<tr>
-<td align="center">ACT_ID_INFO</td>
-<td align="center">身份信息-组信息</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_ID_MEMBERSHIP</td>
-<td align="center">身份信息-用户和组关系的中间表</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_ID_USER</td>
-<td align="center">身份信息-用户信息</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">流程定义表</td>
-<td align="center">ACT_RE_DEPLOYMENT</td>
-<td align="center">部署单元信息</td>
-</tr>
-<tr>
-<td align="center">ACT_RE_MODEL</td>
-<td align="center">模型信息</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_RE_PROCDEF</td>
-<td align="center">已部署的流程定义</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">运行实例表</td>
-<td align="center">ACT_RU_EVENT_SUBSCR</td>
-<td align="center">运行时事件</td>
-</tr>
-<tr>
-<td align="center">ACT_RU_EXECUTION</td>
-<td align="center">运行时流程执行实例</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_RU_IDENTITYLINK</td>
-<td align="center">运行时用户关系信息</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_RU_JOB</td>
-<td align="center">运行时作业</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_RU_TASK</td>
-<td align="center">运行时任务</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">ACT_RU_VARIABLE</td>
-<td align="center">运行时变量表</td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-虚拟机内部连vpn" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/571302738.html" class="article-date">
-      <time datetime="2020-02-03T17:22:27.000Z" itemprop="datePublished">2020-02-04</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/571302738.html">虚拟机内部连vpn</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p> 最近由于众所周知的原因,目前只能在家里远程办公,由于目前主力系统是Ubuntu,使用vmware horizon client 连接公司Windows虚拟主机会闪退,地址 : <strong>/tmp/vmware-USERNAME/vmware-horizon-client-xxxx.log</strong>,网上搜了一下看不到解决方案,那就只有退而求其次在虚拟机上连接.</p>
-<p> 使用虚拟机一直创建vpn一直报619错误,我之前本地主机连接是没问题的,现在连不上以为我用的win7系统的某些服务是不是没开启,看了一下都开启</p>
-<p><a href="../img/windows_services_list.png"><img src="../img/windows_services_list.png" alt="1580780841225"></a> 后面是我本地主机连上vpn,然后虚拟主机使用这个连接vmware horizon client,同时我发现可能是我VMware workspace软件配置的网卡有问题,所以将网卡由NAT转为桥接</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p> 最近由于众所周知的原因,目前只能在家里远程办公,由于目前主力系统是Ubuntu,使用vmware horizon client 连接公司Windows虚拟主机会闪退,地址 : <strong>/tmp/vmware-USERNAME/vmware-horizon-client-xxxx.log</strong>,网上搜了一下看不到解决方案,那就只有退而求其次在虚拟机上连接.</p>
-<p> 使用虚拟机一直创建vpn一直报619错误,我之前本地主机连接是没问题的,现在连不上以为我用的win7系统的某些服务是不是没开启,看了一下都开启</p>
-<p><a href="../img/windows_services_list.png"><img src="../img/windows_services_list.png" alt="1580780841225"></a> 后面是我本地主机连上vpn,然后虚拟主机使用这个连接vmware horizon client,同时我发现可能是我VMware workspace软件配置的网卡有问题,所以将网卡由NAT转为桥接</p>
-<p><a href="../img/1580781244753.png"><img src="../img/1580781244753.png" alt="1580781244753"></a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yang5726685/article/details/78566213">参考链接</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ZUUL转发后导致文件乱码" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/230759535.html" class="article-date">
-      <time datetime="2020-01-01T04:09:50.000Z" itemprop="datePublished">2020-01-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/230759535.html">ZUUL转发后导致文件乱码</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://github.com/Netflix/zuul/wiki/How-it-Works">spring zuul how it works</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.wangqi.love/articles/Spring-Cloud/Zuul%E6%8E%A2%E7%A9%B6(%E4%BA%8C)%E2%80%94%E2%80%94Zuul%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.html">Zuul探究(二——Zuul的工作原理</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.okcode.net/article/37549">ZuulServlet的执行流程分析</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://github.com/Netflix/zuul/wiki/How-it-Works">spring zuul how it works</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.wangqi.love/articles/Spring-Cloud/Zuul%E6%8E%A2%E7%A9%B6(%E4%BA%8C)%E2%80%94%E2%80%94Zuul%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.html">Zuul探究(二——Zuul的工作原理</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.okcode.net/article/37549">ZuulServlet的执行流程分析</a></p>
-<p><a target="_blank" rel="noopener" href="https://taccisum.github.io/source/zuul/architecture.html">zuul源码解析 —— zuul整体架构</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5c2db228e51d451be35e74da">Spring Cloud Netflix Zuul源码分析之请求处理篇-上</a></p>
-<p>dispatcherservlet -&gt; doDispatch( -&gt; getHandler(HandlerExecutionChain) {</p>
-<p>该过程会通过getHandlerInternal方法根据 lookupPath(请求路径)、request(请求)调用ZuulHandlerMapping.lookupHandler方法查找匹配的handler。如果没有</p>
-<p>} ) -&gt;doService</p>
-<p>SimpleControllerHandlerAdapter.handle</p>
-<p>zuulcontroller .handleRequest</p>
-<p>ZuulServlet.service{<br>//Zuul的主要流程发生在ZuulServlet中，它的调用流程如下：</p>
-<p>DispatcherServlet.doService<br>DispatcherServlet.doDispatch<br>SimpleControllerHandlerAdapter.handle<br>ZuulController.handleRequest<br>ServletWrappingController.handleRequestInternal<br>ZuulServlet.service</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RibbonRoutingFilterpublic Object run() &#123;		RequestContext context &#x3D; RequestContext.getCurrentContext();		this.helper.addIgnoredHeaders();		try &#123;			RibbonCommandContext commandContext &#x3D; buildCommandContext(context);			ClientHttpResponse response &#x3D; forward(commandContext);			setResponse(response);			return response;		&#125;		catch (ZuulException ex) &#123;			throw new ZuulRuntimeException(ex);		&#125;		catch (Exception ex) &#123;			throw new ZuulRuntimeException(ex);		&#125;	&#125;</span><br></pre></td></tr></table></figure>
-
-<p>栈信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Thread.State: RUNNABLE	  at org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter.getRequestBody(RibbonRoutingFilter.java:199)	  at org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter.buildCommandContext(RibbonRoutingFilter.java:126)	  at org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter.run(RibbonRoutingFilter.java:105)	  at com.netflix.zuul.ZuulFilter.runFilter(ZuulFilter.java:112)	  at com.netflix.zuul.FilterProcessor.processZuulFilter(FilterProcessor.java:193)	  at com.netflix.zuul.FilterProcessor.runFilters(FilterProcessor.java:157)	  at com.netflix.zuul.FilterProcessor.route(FilterProcessor.java:118)	  at com.netflix.zuul.ZuulRunner.route(ZuulRunner.java:96)	  at com.netflix.zuul.http.ZuulServlet.route(ZuulServlet.java:116)	  at com.netflix.zuul.http.ZuulServlet.service(ZuulServlet.java:81)	  at org.springframework.web.servlet.mvc.ServletWrappingController.handleRequestInternal(ServletWrappingController.java:157)	  at org.springframework.cloud.netflix.zuul.web.ZuulController.handleRequest(ZuulController.java:44)	  at org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:50)	  at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)	  at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:897)	  at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970)	  at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:872)	  at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)	  at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)	  at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:230)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.boot.web.filter.ApplicationContextHeaderFilter.doFilterInternal(ApplicationContextHeaderFilter.java:55)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.boot.actuate.trace.WebRequestTraceFilter.doFilterInternal(WebRequestTraceFilter.java:108)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at cn.com.betasoft.dxm.sso.ext.client.filter.SessionValidationFilter.doFilter(SessionValidationFilter.java:98)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.util.AssertionThreadLocalFilter.doFilter(AssertionThreadLocalFilter.java:54)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.util.HttpServletRequestWrapperFilter.doFilter(HttpServletRequestWrapperFilter.java:75)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.authentication.AuthenticationFilter.doFilter(AuthenticationFilter.java:107)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.validation.AbstractTicketValidationFilter.doFilter(AbstractTicketValidationFilter.java:201)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.session.SingleSignOutFilter.doFilter(SingleSignOutFilter.java:76)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at cn.com.betasoft.btrm.common.serviceconfig.ServiceAssertionConfig$1.doFilter(ServiceAssertionConfig.java:53)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:105)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:81)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.boot.actuate.autoconfigure.MetricsFilter.doFilterInternal(MetricsFilter.java:106)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:96)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)	  at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)	  at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:474)	  at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)	  at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)	  at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)	  at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:349)	  at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:783)	  at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)	  at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:798)	  at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1434)	  at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)	  - locked &lt;0x2a0d&gt; (a org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper)	  at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)	  at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)	  at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)	  at java.lang.Thread.run(Thread.java:748)</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-springboot 读取外部文件" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1470057129.html" class="article-date">
-      <time datetime="2020-01-01T04:09:50.000Z" itemprop="datePublished">2020-01-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1470057129.html">springboot 读取外部文件</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51883955/how-to-specify-external-location-for-image-store-in-spring-boot-2-0-web-app">external location for image store in Spring Boot 2.0 web app?</a></p>
-<p>之前有个需求是需要有个urlpatren像 staticFiles/xxx.pdf 请求的url 对应服务器端的某个文件夹可以直接访问,</p>
-<p>WebMvcConfigurer 需要实现或者继承WebMvcConfigurerAdapter</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51883955/how-to-specify-external-location-for-image-store-in-spring-boot-2-0-web-app">external location for image store in Spring Boot 2.0 web app?</a></p>
-<p>之前有个需求是需要有个urlpatren像 staticFiles/xxx.pdf 请求的url 对应服务器端的某个文件夹可以直接访问,</p>
-<p>WebMvcConfigurer 需要实现或者继承WebMvcConfigurerAdapter</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Configurationpublic class MvcConfig extends WebMvcConfigurerAdapter  &#123;    @Override    public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;       registry               .addResourceHandler(&quot;&#x2F;btrm&#x2F;framework&#x2F;item&#x2F;static&#x2F;**&quot;)               .addResourceLocations(&quot;file:D:\\SVNCODE\\btrm\\&quot;)               .setCachePeriod(200);        super.addResourceHandlers(registry);    &#125;&#125;</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/17/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/19/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/17/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/19/">下一页 </a>
     </nav>
   
 </div>

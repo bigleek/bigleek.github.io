@@ -269,6 +269,522 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3414469055.html" class="article-date">
+      <time datetime="2020-10-11T07:15:20.000Z" itemprop="datePublished">2020-10-11</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>平时时不时遇到数据库，CPU飚到100%，或者数据库突然查询时间变长，看不出来，或者无从下手的时候可以看一下下面转载的文章，也有优化的方向</p>
+<p>目前来说，pgsql 这种数据对吧千万级的数据，如果不是特别复杂的查询，或者全表搜索这种，应该是最多2~3s</p>
+<p><a href="https://imlike.cc/segmentfault.com/a/1190000013672421">链接的原始地址</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>平时时不时遇到数据库，CPU飚到100%，或者数据库突然查询时间变长，看不出来，或者无从下手的时候可以看一下下面转载的文章，也有优化的方向</p>
+<p>目前来说，pgsql 这种数据对吧千万级的数据，如果不是特别复杂的查询，或者全表搜索这种，应该是最多2~3s</p>
+<p><a href="https://imlike.cc/segmentfault.com/a/1190000013672421">链接的原始地址</a></p>
+<h2 id="一、什么影响了数据库查询速度"><a href="#一、什么影响了数据库查询速度" class="headerlink" title="一、什么影响了数据库查询速度"></a>一、什么影响了数据库查询速度</h2><h3 id="1-1-影响数据库查询速度的四个因素"><a href="#1-1-影响数据库查询速度的四个因素" class="headerlink" title="1.1 影响数据库查询速度的四个因素"></a>1.1 影响数据库查询速度的四个因素</h3><p><a href="https://imlike.cc/img/java4-1575116694.png"><img src="https://imlike.cc/img/java4-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h3 id="1-2-风险分析"><a href="#1-2-风险分析" class="headerlink" title="1.2 风险分析"></a>1.2 风险分析</h3><p><strong>QPS：*</strong>Queries Per Second* 意思是“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。</p>
+<p><strong>TPS：</strong>是<em>TransactionsPerSecond</em>的缩写，也就是事务数/秒。它是软件测试结果的测量单位。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。</p>
+<blockquote>
+<p>Tips：最好不要在主库上数据库备份，大型活动前取消这样的计划。</p>
+</blockquote>
+<ul>
+<li><strong>效率低下的sql：</strong>超高的QPS与TPS。</li>
+<li><strong>大量的并发：</strong>数据连接数被占满（max_connection默认100，一般把连接数设置得大一些）。<br><strong>并发量：</strong>同一时刻数据库服务器处理的请求数量</li>
+<li><strong>超高的CPU使用率：</strong>CPU资源耗尽出现宕机。</li>
+<li><strong>磁盘IO：</strong>磁盘IO性能突然下降、大量消耗磁盘性能的计划任务。解决：更快磁盘设备、调整计划任务、做好磁盘维护。</li>
+</ul>
+<h3 id="1-3-网卡流量：如何避免无法连接数据库的情况"><a href="#1-3-网卡流量：如何避免无法连接数据库的情况" class="headerlink" title="1.3 网卡流量：如何避免无法连接数据库的情况"></a>1.3 网卡流量：如何避免无法连接数据库的情况</h3><ul>
+<li>减少从服务器的数量（从服务器会从主服务器复制日志）</li>
+<li>进行分级缓存（避免前端大量缓存失效）</li>
+<li>避免使用select * 进行查询</li>
+<li>分离业务网络和服务器网络</li>
+</ul>
+<h3 id="1-4-大表带来的问题（重要）"><a href="#1-4-大表带来的问题（重要）" class="headerlink" title="1.4 大表带来的问题（重要）"></a>1.4 大表带来的问题（重要）</h3><h4 id="1-4-1-大表的特点"><a href="#1-4-1-大表的特点" class="headerlink" title="1.4.1 大表的特点"></a>1.4.1 大表的特点</h4><ul>
+<li>记录行数巨大，单表超千万</li>
+<li>表数据文件巨大，超过10个G</li>
+</ul>
+<h4 id="1-4-2-大表的危害"><a href="#1-4-2-大表的危害" class="headerlink" title="1.4.2 大表的危害"></a>1.4.2 大表的危害</h4><p><strong>1.慢查询：很难在短时间内过滤出需要的数据</strong></p>
+<p>查询字区分度低 -&gt; 要在大数据量的表中筛选出来其中一部分数据会产生大量的磁盘io -&gt; 降低磁盘效率</p>
+<p><strong>2.对DDL影响：</strong></p>
+<p>建立索引需要很长时间：</p>
+<ul>
+<li>MySQL -v&lt;5.5 建立索引会锁表</li>
+<li>MySQL -v&gt;=5.5 建立索引会造成主从延迟（mysql建立索引，先在组上执行，再在库上执行）</li>
+</ul>
+<p><strong>修改表结构需要长时间的锁表：</strong>会造成长时间的主从延迟(‘480秒延迟’)</p>
+<h4 id="1-4-3-如何处理数据库上的大表"><a href="#1-4-3-如何处理数据库上的大表" class="headerlink" title="1.4.3 如何处理数据库上的大表"></a>1.4.3 如何处理数据库上的大表</h4><p>分库分表把一张大表分成多个小表</p>
+<p>难点：</p>
+<ul>
+<li>分表主键的选择</li>
+<li>分表后跨分区数据的查询和统计</li>
+</ul>
+<h3 id="1-5-大事务带来的问题（重要）"><a href="#1-5-大事务带来的问题（重要）" class="headerlink" title="1.5 大事务带来的问题（重要）"></a>1.5 大事务带来的问题（重要）</h3><h4 id="1-5-1-什么是事务"><a href="#1-5-1-什么是事务" class="headerlink" title="1.5.1 什么是事务"></a>1.5.1 什么是事务</h4><p><a href="https://imlike.cc/img/java10-1575116694.png"><img src="https://imlike.cc/img/java10-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h4 id="1-5-2事务的ACID属性"><a href="#1-5-2事务的ACID属性" class="headerlink" title="1.5.2事务的ACID属性"></a>1.5.2事务的ACID属性</h4><p><strong>1、原子性（atomicity)：</strong>全部成功，全部回滚失败。银行存取款。</p>
+<p><strong>2、一致性（consistent)：</strong>银行转账的总金额不变。</p>
+<p><strong>3、隔离性（isolation)：</strong></p>
+<p>隔离性等级：</p>
+<ul>
+<li><strong>未提交读(READ UNCOMMITED)</strong> 脏读,两个事务之间互相可见；</li>
+<li>**已提交读(READ COMMITED)**符合隔离性的基本概念,一个事务进行时，其它已提交的事物对于该事务是可见的，即可以获取其它事务提交的数据。</li>
+<li><strong>可重复读(REPEATABLE READ)</strong> InnoDB的默认隔离等级。事务进行时，其它所有事务对其不可见，即多次执行读，得到的结果是一样的！</li>
+<li><strong>可串行化（SERIALIZABLE）</strong>在读取的每一行数据上都加锁，会造成大量的锁超时和锁征用，严格数据一致性且没有并发是可使用。</li>
+</ul>
+<blockquote>
+<p>查看系统的事务隔离级别：show variables like ‘%iso%’;<br>开启一个新事务：begin;<br>提交一个事务：commit;<br>修改事物的隔离级别：set session tx_isolation=’read-committed’;</p>
+</blockquote>
+<p><strong>4、持久性(DURABILITY)：</strong>从数据库的角度的持久性，磁盘损坏就不行了</p>
+<p><a href="https://imlike.cc/img/java9-1575116694.png"><img src="https://imlike.cc/img/java9-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<p>redo log机制保证事务更新的一致性和持久性</p>
+<h4 id="1-5-3-大事务"><a href="#1-5-3-大事务" class="headerlink" title="1.5.3 大事务"></a>1.5.3 大事务</h4><p>运行时间长，操作数据比较多的事务；</p>
+<p>风险：<strong>锁定数据太多，回滚时间长，执行时间长。</strong></p>
+<ul>
+<li>锁定太多数据，造成大量阻塞和锁超时；</li>
+<li>回滚时所需时间比较长，且数据仍然会处于锁定；</li>
+<li>如果执行时间长，将造成主从延迟，因为只有当主服务器全部执行完写入日志时，从服务器才会开始进行同步，造成延迟。</li>
+</ul>
+<p><strong>解决思路：</strong></p>
+<ul>
+<li>避免一次处理太多数据，可以分批次处理；</li>
+<li>移出不必要的SELECT操作，保证事务中只有必要的写操作。</li>
+</ul>
+<h2 id="二、什么影响了MySQL性能（非常重要）"><a href="#二、什么影响了MySQL性能（非常重要）" class="headerlink" title="二、什么影响了MySQL性能（非常重要）"></a>二、什么影响了MySQL性能<strong>（非常重要）</strong></h2><h3 id="2-1-影响性能的几个方面"><a href="#2-1-影响性能的几个方面" class="headerlink" title="2.1 影响性能的几个方面"></a>2.1 影响性能的几个方面</h3><ul>
+<li>服务器硬件。</li>
+<li>服务器系统（系统参数优化）。</li>
+<li>存储引擎。</li>
+<li><ul>
+<li>MyISAM：不支持事务，表级锁。</li>
+<li>InnoDB: 支持事务，支持行级锁，事务ACID。</li>
+</ul>
+</li>
+<li>数据库参数配置。</li>
+<li>数据库结构设计和SQL语句。（重点优化）</li>
+</ul>
+<h3 id="2-2-MySQL体系结构"><a href="#2-2-MySQL体系结构" class="headerlink" title="2.2 MySQL体系结构"></a>2.2 MySQL体系结构</h3><p>分三层：客户端-&gt;服务层-&gt;存储引擎</p>
+<p><a href="https://imlike.cc/img/java2-1575116694.png"><img src="https://imlike.cc/img/java2-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<ul>
+<li>MySQL是插件式的存储引擎，其中存储引擎分很多种。只要实现符合mysql存储引擎的接口，可以开发自己的存储引擎!</li>
+<li>所有跨存储引擎的功能都是在服务层实现的。</li>
+<li>MySQL的存储引擎是针对表的，不是针对库的。也就是说在一个数据库中可以使用不同的存储引擎。但是不建议这样做。</li>
+</ul>
+<h3 id="2-3-InnoDB存储引擎"><a href="#2-3-InnoDB存储引擎" class="headerlink" title="2.3 InnoDB存储引擎"></a>2.3 InnoDB存储引擎</h3><p>MySQL5.5及之后版本默认的存储引擎：InnoDB。</p>
+<h4 id="2-3-1-InnoDB使用表空间进行数据存储。"><a href="#2-3-1-InnoDB使用表空间进行数据存储。" class="headerlink" title="2.3.1 InnoDB使用表空间进行数据存储。"></a>2.3.1 InnoDB使用表空间进行数据存储。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &#39;innodb_file_per_table</span><br></pre></td></tr></table></figure>
+
+<p>如果innodb_file_per_table 为 ON 将建立独立的表空间，文件为tablename.ibd；</p>
+<p>如果innodb_file_per_table 为 OFF 将数据存储到系统的共享表空间，文件为ibdataX（X为从1开始的整数）；</p>
+<p>.frm ：是服务器层面产生的文件，类似服务器层的数据字典，<strong>记录表结构。</strong></p>
+<h4 id="2-3-2-MySQL5-5默认-系统表空间与-MySQL5-6及以后默认-独立表空间"><a href="#2-3-2-MySQL5-5默认-系统表空间与-MySQL5-6及以后默认-独立表空间" class="headerlink" title="2.3.2 (MySQL5.5默认)系统表空间与(MySQL5.6及以后默认)独立表空间"></a>2.3.2 (MySQL5.5默认)系统表空间与(MySQL5.6及以后默认)独立表空间</h4><ul>
+<li>系统表空间无法简单的收缩文件大小，造成空间浪费，并会产生大量的磁盘碎片。</li>
+<li>独立表空间可以通过optimeze table 收缩系统文件，不需要重启服务器也不会影响对表的正常访问。</li>
+<li>如果对多个表进行刷新时，实际上是顺序进行的，会产生IO瓶颈。</li>
+<li>独立表空间可以同时向多个文件刷新数据。</li>
+</ul>
+<p><strong>强烈建议对Innodb 使用独立表空间，优化什么的更方便，可控。</strong></p>
+<h4 id="2-3-3-系统表空间的表转移到独立表空间中的方法"><a href="#2-3-3-系统表空间的表转移到独立表空间中的方法" class="headerlink" title="2.3.3 系统表空间的表转移到独立表空间中的方法"></a>2.3.3 系统表空间的表转移到独立表空间中的方法</h4><p>1、使用mysqldump 导出所有数据库数据（存储过程、触发器、计划任务一起都要导出 ）可以在从服务器上操作。</p>
+<p>2、停止MYsql 服务器，修改参数（my.cnf加入innodb_file_per_table），并删除Inoodb相关文件（可以重建Data目录）。</p>
+<p>3、重启MYSQL，并重建Innodb系统表空间。</p>
+<p>4、 重新导入数据。</p>
+<p>或者 Alter table 同样可以的转移，但是无法回收系统表空间中占用的空间。</p>
+<h3 id="2-4-InnoDB存储引擎的特性"><a href="#2-4-InnoDB存储引擎的特性" class="headerlink" title="2.4 InnoDB存储引擎的特性"></a>2.4 InnoDB存储引擎的特性</h3><h4 id="2-4-1-特性一：事务性存储引擎及两个特殊日志类型：Redo-Log-和-Undo-Log"><a href="#2-4-1-特性一：事务性存储引擎及两个特殊日志类型：Redo-Log-和-Undo-Log" class="headerlink" title="2.4.1 特性一：事务性存储引擎及两个特殊日志类型：Redo Log 和 Undo Log"></a>2.4.1 特性一：事务性存储引擎及两个特殊日志类型：Redo Log 和 Undo Log</h4><ul>
+<li>Innodb 是一种事务性存储引擎。</li>
+<li>完全支持事务的ACID特性。</li>
+<li>支持事务所需要的两个特殊日志类型：Redo Log 和Undo Log</li>
+</ul>
+<blockquote>
+<p>Redo Log：实现事务的持久性(已提交的事务)。<br>Undo Log：未提交的事务，独立于表空间，需要随机访问，可以存储在高性能io设备上。</p>
+</blockquote>
+<p>Undo日志记录某数据被修改前的值，可以用来在事务失败时进行rollback；Redo日志记录某数据块被修改后的值，可以用来恢复未写入data file的已成功事务更新的数据。</p>
+<p>InnoDB小知识点：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI4Njc5NjM1NQ==&mid=2247490339&idx=2&sn=03dcec83524fd3aaa2bab57dac2763a2&chksm=ebd6240fdca1ad19a6aa3548e299a1cc9749a52f9191481fe3831e3f10150ed992f44fe4d84a&scene=21#wechat_redirect">InnoDB一棵B+树可以存放多少行数据？</a></p>
+<h4 id="2-4-2-特性二：支持行级锁"><a href="#2-4-2-特性二：支持行级锁" class="headerlink" title="2.4.2 特性二：支持行级锁"></a>2.4.2 特性二：支持行级锁</h4><ul>
+<li>InnoDB支持行级锁。</li>
+<li>行级锁可以最大程度地支持并发。</li>
+<li>行级锁是由存储引擎层实现的。</li>
+</ul>
+<h3 id="2-5-什么是锁"><a href="#2-5-什么是锁" class="headerlink" title="2.5 什么是锁"></a>2.5 什么是锁</h3><h4 id="2-5-1-锁"><a href="#2-5-1-锁" class="headerlink" title="2.5.1 锁"></a>2.5.1 锁</h4><p><a target="_blank" rel="noopener" href="https://www.javazhiyin.com/wp-content/uploads/2019/11/java6-1575116694.png"><img src="https://www.javazhiyin.com/wp-content/uploads/2019/11/java6-1575116694.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h4 id="2-5-2-锁类型"><a href="#2-5-2-锁类型" class="headerlink" title="2.5.2 锁类型"></a>2.5.2 锁类型</h4><p><a href="https://imlike.cc/img/java3-1575116695.png"><img src="https://imlike.cc/img/java3-1575116695.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<h4 id="2-5-3-锁的粒度"><a href="#2-5-3-锁的粒度" class="headerlink" title="2.5.3 锁的粒度"></a>2.5.3 锁的粒度</h4><p>MySQL的事务支持不是绑定在MySQL服务器本身，而是<strong>与存储引擎相关</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.javazhiyin.com/wp-content/uploads/2019/11/java2-1575116695.png"><img src="https://www.javazhiyin.com/wp-content/uploads/2019/11/java2-1575116695.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<p>将table_name加表级锁命令：lock table table_name write; 写锁会阻塞其它用户对该表的‘读写’操作，直到写锁被释放：unlock tables；</p>
+<ul>
+<li>锁的开销越大，粒度越小，并发度越高。</li>
+<li>表级锁通常是在服务器层实现的。</li>
+<li>行级锁是存储引擎层实现的。innodb的锁机制，服务器层是不知道的</li>
+</ul>
+<h4 id="2-5-4-阻塞和死锁"><a href="#2-5-4-阻塞和死锁" class="headerlink" title="2.5.4 阻塞和死锁"></a>2.5.4 阻塞和死锁</h4><p>1.阻塞是由于资源不足引起的排队等待现象。</p>
+<p>2.死锁是由于两个对象在拥有一份资源的情况下申请另一份资源，而另一份资源恰好又是这两对象正持有的，导致两对象无法完成操作，且所持资源无法释放。</p>
+<p>关于MySQL锁的详解：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI4Njc5NjM1NQ==&mid=2247490303&idx=2&sn=d2c2c4830ba8d4a2e89619f025b54a10&chksm=ebd625d3dca1acc56a86c895a7a4819b91c182a1d24ac6b48a2bea017cfa9c3ee0cbdf734961&scene=21#wechat_redirect">学会MySQL中的索引和锁</a></p>
+<h3 id="2-6-如何选择正确的存储引擎"><a href="#2-6-如何选择正确的存储引擎" class="headerlink" title="2.6 如何选择正确的存储引擎"></a>2.6 如何选择正确的存储引擎</h3><p>参考条件：</p>
+<ul>
+<li>事务</li>
+<li>备份(Innobd免费在线备份)</li>
+<li>崩溃恢复</li>
+<li>存储引擎的特有特性</li>
+</ul>
+<p>总结:Innodb大法好。</p>
+<p><strong>注意：尽量别使用混合存储引擎，比如回滚会出问题在线热备问题。</strong></p>
+<h3 id="2-7-配置参数"><a href="#2-7-配置参数" class="headerlink" title="2.7 配置参数"></a>2.7 配置参数</h3><h4 id="2-7-1-内存配置相关参数"><a href="#2-7-1-内存配置相关参数" class="headerlink" title="2.7.1 内存配置相关参数"></a>2.7.1 内存配置相关参数</h4><p>确定可以使用的内存上限。</p>
+<p><strong>内存的使用上限不能超过物理内存，否则容易造成内存溢出；**</strong>（对于32位操作系统，MySQL只能使用3G以下的内存。*<strong>*）</strong></p>
+<p>确定MySQL的每个连接单独使用的内存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort_buffer_size #定义了每个线程排序缓存区的大小，MySQL在有查询、需要做排序操作时才会为每个缓冲区分配内存（直接分配该参数的全部内存）；join_buffer_size #定义了每个线程所使用的连接缓冲区的大小，如果一个查询关联了多张表，MySQL会为每张表分配一个连接缓冲，导致一个查询产生了多个连接缓冲；read_buffer_size #定义了当对一张MyISAM进行全表扫描时所分配读缓冲池大小，MySQL有查询需要时会为其分配内存，其必须是4k的倍数；read_rnd_buffer_size #索引缓冲区大小，MySQL有查询需要时会为其分配内存，只会分配需要的大小。</span><br></pre></td></tr></table></figure>
+
+<p>注意：以上四个参数是为一个线程分配的，如果有100个连接，那么需要×100。</p>
+<p><strong>MySQL数据库实例：</strong></p>
+<p>①MySQL是单进程多线程（而oracle是多进程），也就是说MySQL实例在系统上表现就是一个服务进程，即进程；</p>
+<p>②MySQL实例是线程和内存组成，实例才是真正用于操作数据库文件的；</p>
+<p>一般情况下一个实例操作一个或多个数据库；集群情况下多个实例操作一个或多个数据库。</p>
+<p><strong>如何为缓存池分配内存：</strong></p>
+<p>Innodb_buffer_pool_size，定义了Innodb所使用缓存池的大小，对其性能十分重要，必须足够大，但是过大时，使得Innodb 关闭时候需要更多时间把脏页从缓冲池中刷新到磁盘中；</p>
+<p><em>总内存-（每个线程所需要的内存\</em>连接数）-系统保留内存*</p>
+<p>key_buffer_size，定义了MyISAM所使用的缓存池的大小，由于数据是依赖存储操作系统缓存的，所以要为操作系统预留更大的内存空间；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sum(index_length) from information_schema.talbes where engine&#x3D;&#39;myisam&#39;</span><br></pre></td></tr></table></figure>
+
+<p>注意：即使开发使用的表全部是Innodb表，也要为MyISAM预留内存，因为MySQL系统使用的表仍然是MyISAM表。</p>
+<p>max_connections 控制允许的最大连接数，一般2000更大。</p>
+<p><strong>不要使用外键约束保证数据的完整性。</strong></p>
+<h3 id="2-8-性能优化顺序"><a href="#2-8-性能优化顺序" class="headerlink" title="2.8 性能优化顺序"></a>2.8 性能优化顺序</h3><p>从上到下：</p>
+<p><a target="_blank" rel="noopener" href="https://www.javazhiyin.com/wp-content/uploads/2019/11/java0-1575116695.png"><img src="https://www.javazhiyin.com/wp-content/uploads/2019/11/java0-1575116695.png" alt="经验：什么影响了数据库查询速度、什么影响了MySQL性能"></a></p>
+<p><strong>END</strong></p>
+<p><a href="javascript:;">赏加个鸡腿<img src="https://imlike.cc/pics/weixin.png" alt="img">支付宝<img src="https://imlike.cc/pics/alipay.jpg" alt="img">微信</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-es索引生命周期维护" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2302551430.html" class="article-date">
+      <time datetime="2020-09-08T07:14:34.000Z" itemprop="datePublished">2020-09-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2302551430.html">es索引生命周期维护</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>keyword text</p>
+<p><strong>hot-warm-cold</strong>架构将索引数据切分成hot/warm/cold的索引。<code>hot索引</code>负责最新数据的读写，可使用内存存储；<code>warm索引</code>负责较旧数据的读取，可使用内存或SSD存储；<code>cold索引</code>很少被读取，可使用大容量磁盘存储。随着时间的推移，数据不断从hot索引-&gt;warm索引-&gt;cold索引迁移。针对不同阶段的索引我们还可以调整索引的主分片数，副本数，单分片的segment数等等，更好的利用机器资源。</p>
+<p><strong>索引生命周期管理（Index Lifecycle Management ，简称ILM</strong>)<br>作者：Monica2333<br>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844904131262431246">https://juejin.im/post/6844904131262431246</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>keyword text</p>
+<p><strong>hot-warm-cold</strong>架构将索引数据切分成hot/warm/cold的索引。<code>hot索引</code>负责最新数据的读写，可使用内存存储；<code>warm索引</code>负责较旧数据的读取，可使用内存或SSD存储；<code>cold索引</code>很少被读取，可使用大容量磁盘存储。随着时间的推移，数据不断从hot索引-&gt;warm索引-&gt;cold索引迁移。针对不同阶段的索引我们还可以调整索引的主分片数，副本数，单分片的segment数等等，更好的利用机器资源。</p>
+<p><strong>索引生命周期管理（Index Lifecycle Management ，简称ILM</strong>)<br>作者：Monica2333<br>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844904131262431246">https://juejin.im/post/6844904131262431246</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm&#x2F;policy&#x2F;my_policy</span><br><span class="line">&#123;</span><br><span class="line">  &quot;policy&quot;: &#123;</span><br><span class="line">    &quot;phases&quot;: &#123;</span><br><span class="line">      &quot;hot&quot;: &#123;</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;rollover&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover前距离索引的创建时间最大为7天</span><br><span class="line">            &quot;max_age&quot;: &quot;7d&quot;,</span><br><span class="line">&#x2F;&#x2F;rollover前索引的最大大小不超过50G</span><br><span class="line">            &quot;max_size&quot;: &quot;50G&quot;,</span><br><span class="line">&#x2F;&#x2F;rollover前索引的最大文档数不超过1个（测试用）</span><br><span class="line">            &quot;max_docs&quot;: 1,</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;warm&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入warm阶段的时间不小于30天</span><br><span class="line">        &quot;min_age&quot;: &quot;30d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;forcemerge&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;强制分片merge到segment为1</span><br><span class="line">            &quot;max_num_segments&quot;: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;shrink&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;收缩分片数为1</span><br><span class="line">            &quot;number_of_shards&quot;: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;allocate&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;副本数为2</span><br><span class="line">            &quot;number_of_replicas&quot;: 2</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;cold&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入cold阶段的时间不小于60天</span><br><span class="line">        &quot;min_age&quot;: &quot;60d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;allocate&quot;: &#123;</span><br><span class="line">            &quot;require&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;分配到cold 节点，ES可根据机器资源配置不同类型的节点</span><br><span class="line">              &quot;type&quot;: &quot;cold&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;delete&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入cold阶段的时间不小于60天</span><br><span class="line">        &quot;min_age&quot;: &quot;90d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;delete&quot;: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">作者：Monica2333</span><br><span class="line">链接：https:&#x2F;&#x2F;juejin.im&#x2F;post&#x2F;6844904131262431246</span><br><span class="line">来源：掘金</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ubuntu给外接设备修改分辨率" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2232115083.html" class="article-date">
+      <time datetime="2020-08-18T07:13:33.000Z" itemprop="datePublished">2020-08-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
+<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
+<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
+
+<p>cvt 2560 1440 来看分辨率的最优设置</p>
+<p>编辑 ~/.profile的文件来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo xrandr --newmode &quot;2560x1440_74.97&quot;  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync</span><br><span class="line">sudo xrandr --newmode &quot;2560x1440_60.00&quot;  312.25  2560 2752 3024 3488  1440 1443 1448 1493 -hsync +vsync</span><br><span class="line"></span><br><span class="line">sudo xrandr --addmode DP-1 &quot;2560x1440_74.97&quot;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://imlike.cc/img/1597749619474.png"><img src="../img/1597749619474.png" alt="1597749619474"></a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Jenkins的遇到的坑" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1581320389.html" class="article-date">
+      <time datetime="2020-08-04T07:12:38.000Z" itemprop="datePublished">2020-08-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1581320389.html">Jenkins的遇到的坑</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p>
+<h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p>
+<ol>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p>
+<h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p>
+<ol>
+<li>网上看到的是配置没到到 jenkins_home/workspace 下面的project,</li>
+</ol>
+<p>但是我看Jenkins的配置是对的,在对应的文件夹下面是有配置</p>
+<ol>
+<li>网上给的Jenkins迁移job的问题我看了不是这个问题</li>
+</ol>
+<h4 id="我遇到的是job下面的config-xml-maven2-module失败导致的"><a href="#我遇到的是job下面的config-xml-maven2-module失败导致的" class="headerlink" title="我遇到的是job下面的config.xml maven2-module失败导致的"></a>我遇到的是job下面的config.xml maven2-module失败导致的</h4><p>最后解决方案是重启tomcat不是Jenkins是,重启Jenkins是 <code>URL/jenkins/restart</code>, 看到tomcat的日志出现解析 jobs下面的各个job下面的config.xml 出问题 <strong><code>maven2-module</code></strong> ,对于非maven的项目就可以直接解析, 原来是 Maven Integration 插件不存在导致,原有的maven项目不能解析和显示</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-树莓派下面搭建pgsql" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -980,673 +1496,9 @@
 
 
   
-    <article id="post-ubuntu软件的配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3494110652.html" class="article-date">
-      <time datetime="2020-05-10T12:55:01.000Z" itemprop="datePublished">2020-05-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3494110652.html">ubuntu软件的配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><ul>
-<li><p>nginx</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123; listen 80; server_name localhost [www.example.com](http://www.example.com/);</span><br><span class="line">    root /Users/yangyi/www;  #全局定义，表示在该server下web的根目录 </span><br><span class="line">    client_max_body_size 100M; </span><br><span class="line">    keepalive_timeout 20; </span><br><span class="line">    index index.php index.html index.htm;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    access_log logs/host.access.log main; #用来指定此虚拟主机的访问日志存放路径，输出格式为main。</span><br><span class="line">    error_log logs/host.error.log error; #错误日志存放路径，输出格式为error。</span><br><span class="line">    error_page 404 /404.html;    #状态码为404时的时候的网页地址,还可定义500,502之类的 ....</span><br><span class="line"> &#125; 以上一些配置为在该server下具有全局性，例如</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <ul>
-<li><p>nginx</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123; listen 80; server_name localhost [www.example.com](http://www.example.com/);</span><br><span class="line">    root /Users/yangyi/www;  #全局定义，表示在该server下web的根目录 </span><br><span class="line">    client_max_body_size 100M; </span><br><span class="line">    keepalive_timeout 20; </span><br><span class="line">    index index.php index.html index.htm;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    access_log logs/host.access.log main; #用来指定此虚拟主机的访问日志存放路径，输出格式为main。</span><br><span class="line">    error_log logs/host.error.log error; #错误日志存放路径，输出格式为error。</span><br><span class="line">    error_page 404 /404.html;    #状态码为404时的时候的网页地址,还可定义500,502之类的 ....</span><br><span class="line"> &#125; 以上一些配置为在该server下具有全局性，例如</span><br></pre></td></tr></table></figure>
-
-<p>nginx允许跨域配置:return 204;上是针对预检请求（preflight request）,后面add_header 是应对的CROS浏</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;  </span><br><span class="line">     if ($request_method &#x3D; &#39;OPTIONS&#39;) &#123;</span><br><span class="line">            return 204;</span><br><span class="line">        &#125;</span><br><span class="line">    add_header Access-Control-Allow-Origin *;</span><br><span class="line">    add_header Access-Control-Allow-Methods &#39;GET, POST, OPTIONS&#39;;</span><br><span class="line">    add_header Access-Control-Allow-Headers &#39;DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization&#39;;</span><br><span class="line"></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>docker</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 80:8001 --name kodexplorer -v &lt;path&#x2F;to&#x2F;data&gt;:&#x2F;var&#x2F;www&#x2F;html xaljer&#x2F;kodexplorer</span><br><span class="line">docker run -d -p 8001:8001 --name   yangxuan8282&#x2F;kodexplorer -v &quot;$PWD&quot;:&#x2F;var&#x2F;www&#x2F;html yangxuan8282&#x2F;kodexplorer</span><br><span class="line">docker run --name&#x3D;my_portainer -d -p 80:8001 -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock</span><br><span class="line">docker run --name&#x3D;kodexplorer -d -p 8001:8001 -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock</span><br><span class="line"></span><br><span class="line">docker run --privileged&#x3D;true -d  -p 8001:80  --name kod-dockerfile-1  kod:v8</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>npm</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cnpm intall hexo-generator-search --save</span><br><span class="line">cnpm intall  hexo-prism-plugin --save</span><br><span class="line">cnpm install hexo-all-minifier --save</span><br><span class="line">cnpm i -S hexo-prism-plugin --save</span><br><span class="line"></span><br><span class="line">npm config set proxy http:&#x2F;&#x2F;127.0.0.1:7890</span><br><span class="line">npm config list</span><br><span class="line">npm config set  registry </span><br><span class="line"> npm install --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>postgresql</p>
-<blockquote>
-<p><strong>1. 修改postgresql.conf</strong></p>
-<p>postgresql.conf存放位置在/etc/postgresql/9.x/main下，这里的x取决于你安装PostgreSQL的版本号，编辑或添加下面一行，使PostgreSQL可以接受来自任意IP的连接请求。</p>
-<p>listen_addresses = ‘*’ </p>
-<p><strong>2. 修改pg_hba.conf</strong></p>
-<p>pg_hba.conf，位置与postgresql.conf相同，虽然上面配置允许任意地址连接PostgreSQL，但是这在pg中还不够，我们还需在pg_hba.conf中配置服务端允许的认证方式。任意编辑器打开该文件，编辑或添加下面一行。</p>
-<p># TYPE  DATABASE  USER  CIDR-ADDRESS  METHOD host  all  all 0.0.0.0/0 md5</p>
-</blockquote>
-</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-navigation" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2974411664.html" class="article-date">
-      <time datetime="2020-05-09T23:49:23.000Z" itemprop="datePublished">2020-05-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2974411664.html">网站推荐</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><table>
-<thead>
-<tr>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <table>
-<thead>
-<tr>
-<th>## 导航类</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://adzhp.cn/mian-fei-shi-pin.html">免费视频网站、APP和高清电影下载合集爱达杂货铺</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://jubtnet.github.io/jubt/">聚BT - 聚合最优质的BT、磁力资源BT搜索 磁力搜索 云盘搜索 影视APP 在线影视 磁力影视 种子搜索</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://hao.su/531/?from=dalao.ru">免费的在线影视网站汇总 - 不死鸟 - 分享为王</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://ilxdh.com/">龙轩导航-做个有用的导航</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.btmoo.com/#">BT磁力搜索网址_BTMOO</a></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>## 临时文件传输(少用百度云)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://cowtransfer.com/">奶牛快传</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.lanzou.com/">蓝奏云</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://send.firefox.com/">Firefox Send</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.wenshushu.cn/">文叔叔</a></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>## bt磁力网站</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://hao.su/908/">bt 磁力搜索网站</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://sourl.cn/PePJ7m">比特球云盘</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://btfox0.org/?from=hao.su">btfox</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.mahuazy.net/">麻花影视采集</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.juhuitv.com/">剧汇 TV</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://sourl.cn/meKnEp">萝莉岛 APP</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.xiacoo.com/article/ajhu.html">bt 磁力网站大全</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://hao.su/1492/">网页在线工具</a></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>##  资讯类</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://tophub.today/">今日热榜官网</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://tophub.fun/main/home/hot/0">鱼塘热榜</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.williamlong.info/">月光博客-关注互联网和搜索引擎的IT科技博客</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.solidot.org/">Solidot: 奇客的资讯，重要的东西</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/">阮一峰的网络日志</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.ftchinese.com/">FT中文网 - 全球财经精粹</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.cnbc.com/world/?region=world">International Business, World News &amp; Global Stock Market Analysis–CNBC</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.scmp.com/">HK, China, Asia news &amp; opinion from SCMP’s global editionSouth China Morning Post 南华早报</a></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>##  视频播放和vip解析</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="http://ddrk.me/">低端影视</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.dililitv.com/">渧渧哩哩</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://爱看电影.xyz/">速影TV - 免费快速在线电影网</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.duboku.tv/">独播库</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.yunbtv.com/">云播TV-云播,云影院,云播放,云点播,最新电影,最新电视剧</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.dybee.tv/">电影蜜蜂-高清电影资源最新电影下载</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.wanmeikk.me/">完美看看-海量高清电影、电视剧、动漫免费在线观看</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://kiwi8.top/mov/s?url=https://m.mgtv.com/b/337284/8002740.html">kiwi视频解析</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="http://www.guandianzhiku.com/v/s/?url=https://www.iqiyi.com/v_19rr575vxk.html">搜搜GIF - 解析尽在掌握</a></td>
-</tr>
-</tbody></table>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-acitiviti的NativeQuery" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2572672426.html" class="article-date">
-      <time datetime="2020-05-03T09:06:08.000Z" itemprop="datePublished">2020-05-03</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2572672426.html">acitiviti的NativeQuery</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="有写过activiti-activiti数据库的分类"><a href="#有写过activiti-activiti数据库的分类" class="headerlink" title="有写过activiti  activiti数据库的分类 "></a>有写过activiti <a href="2197510555.html"> activiti数据库的分类 </a></h3><p>​          之前有<strong>Query接口</strong>但是自定义程度太低,针对复杂的查询还是需要**NativeQuery **还是需要用下面是我转载的一篇文章 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lyh421/p/6474392.html">2017.2.21 activiti实战–第十三章–流量数据查询与跟踪（一）查询接口介绍及运行时数据查询</a></p>
-<p><strong>第十三章 流量数据查询与跟踪</strong></p>
-<p>本章讲解运行时与历史数据的查询方法。主要包含三种：标准查询，Native查询，CustomSql查询。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="有写过activiti-activiti数据库的分类"><a href="#有写过activiti-activiti数据库的分类" class="headerlink" title="有写过activiti  activiti数据库的分类 "></a>有写过activiti <a href="2197510555.html"> activiti数据库的分类 </a></h3><p>​          之前有<strong>Query接口</strong>但是自定义程度太低,针对复杂的查询还是需要**NativeQuery **还是需要用下面是我转载的一篇文章 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lyh421/p/6474392.html">2017.2.21 activiti实战–第十三章–流量数据查询与跟踪（一）查询接口介绍及运行时数据查询</a></p>
-<p><strong>第十三章 流量数据查询与跟踪</strong></p>
-<p>本章讲解运行时与历史数据的查询方法。主要包含三种：标准查询，Native查询，CustomSql查询。</p>
-<p><strong>13.1 Query API</strong></p>
-<p>Activiti的查询API分为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 标准查询</span><br><span class="line">  以Java对象的方式，创建一个指定类型的Query对象，然后链式编程查询。</span><br><span class="line">  缺点：不支持复杂的查询。</span><br><span class="line">2 Nativit查询</span><br><span class="line">  采用标准SQL的方式查询，因此支持复杂的查询。</span><br><span class="line">  缺点：仅支持部分对象的查询。</span><br></pre></td></tr></table></figure>
-
-<p><strong>（1）Query接口与NativeQuery</strong></p>
-<p>Query接口：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 （I）Query&lt;...&gt;</span><br><span class="line">2       asc()                    T</span><br><span class="line">3       desc()                   T</span><br><span class="line">4       count()                  long</span><br><span class="line">5       singleResult()           U</span><br><span class="line">6       list()                   List&lt;U&gt;</span><br><span class="line">7       listPage(int,int)        List&lt;U&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>NativeQuery接口（可以看到与Query无区别）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 （I）NativeQuery&lt;...&gt;</span><br><span class="line">2       asc()                    T</span><br><span class="line">3       desc()                   T</span><br><span class="line">4       count()                  long</span><br><span class="line">5       singleResult()           U</span><br><span class="line">6       list()                   List&lt;U&gt;</span><br><span class="line">7       listPage(int,int)        List&lt;U&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>Query接口的子接口：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> 1 UserQuery</span><br><span class="line"> 2 GroupQuery</span><br><span class="line"> 3</span><br><span class="line"> 4 JobQuery</span><br><span class="line"> 5 ProcessDefinitionQuery</span><br><span class="line"> 6 DeploymentQuery</span><br><span class="line"> 7 ModelQuery</span><br><span class="line"> 8 TaskQuery</span><br><span class="line"> 9 ExecutionQuery</span><br><span class="line">10 ProcessInstanceQuery</span><br><span class="line">11</span><br><span class="line">12 HistroricProcessInstanceQuery</span><br><span class="line">13 HistroricTaskInstanceQuery</span><br><span class="line">14 HistroricActivityInstanceQuery</span><br><span class="line">15 HistroricDetailQuery</span><br><span class="line">16 HistroricVariableInstanceQuery</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>NativeQuery接口的子接口（正如前面所说，NativeQuery只支持部分流程对象）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> 1 UserQuery</span><br><span class="line"> 2 GroupQuery</span><br><span class="line"> 3</span><br><span class="line"> 4 JobQuery</span><br><span class="line"> 5 ProcessDefinitionQuery</span><br><span class="line"> 6 DeploymentQuery</span><br><span class="line"> 7 ModelQuery</span><br><span class="line"> 8 NativeTaskQuery</span><br><span class="line"> 9 NativeExecutionQuery</span><br><span class="line">10 NativeProcessInstanceQuery</span><br><span class="line">11</span><br><span class="line">12 NativeHistroricProcessInstanceQuery</span><br><span class="line">13 NativeHistroricTaskInstanceQuery</span><br><span class="line">14 NativeHistroricActivityInstanceQuery</span><br><span class="line">15 HistroricDetailQuery</span><br><span class="line">16 HistroricVariableInstanceQuery</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><strong>（2）使用xxxService创建查询</strong></p>
-<p>运行时与历史数据涉及到的Service有：RuntimeService，TaskService，HistoryService。</p>
-<p>这里以TaskService为例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 （I）TaskService</span><br><span class="line">2    createTaskQuery（）             TaskQuery</span><br><span class="line">3    createNativeTaskQuery（）       NativeTaskQuery</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>13.2 运行时数据查询</strong></p>
-<p>运行时涉及到的Service是：RuntimeService，TaskService。</p>
-<p><strong>（1）流程对象对应的数据库表</strong></p>
-<p>Activiti提供了通过流程对象获取对应表名的接口，比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 String tableName &#x3D; managementService.getTableName(Task.Class)</span><br><span class="line">&#x2F;&#x2F;此时返回的tableName &#x3D; &quot;ACT_RU_TASK&quot;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>下面列出流程对象对应的数据库表名。</p>
-<table>
-<thead>
-<tr>
-<th>类名</th>
-<th>表名</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>**.task.Task</td>
-<td>ACT_RU_TASK</td>
-</tr>
-<tr>
-<td>**.runtime.Job</td>
-<td>ACT_RU_JOB</td>
-</tr>
-<tr>
-<td>**.runtime.Execution</td>
-<td>ACT_RU_EXECUTION</td>
-</tr>
-<tr>
-<td>**.runtime.ProcessInstance</td>
-<td>ACT_RU_<strong>EXECUTION</strong></td>
-</tr>
-<tr>
-<td>**.repository.ProcessDefinition</td>
-<td>ACT_RE_PROCDEF</td>
-</tr>
-<tr>
-<td>**.repository.Deployment</td>
-<td>ACT_RE_DEPLOYMENT</td>
-</tr>
-<tr>
-<td>**.history.HistoricProcessInstance</td>
-<td>ACT_HI_PROCINST</td>
-</tr>
-<tr>
-<td>**.history.HistoricActivityInstance</td>
-<td>ACT_HI_ACTINST</td>
-</tr>
-<tr>
-<td>**.history.HistoricDetail</td>
-<td>ACT_HI_<strong>DETAIL</strong></td>
-</tr>
-<tr>
-<td>**.history.HistoricVariableUpdate</td>
-<td>ACT_HI_<strong>DETAIL</strong></td>
-</tr>
-<tr>
-<td>**.history.HistoricFormProperty</td>
-<td>ACT_HI_<strong>DETAIL</strong></td>
-</tr>
-<tr>
-<td>**.history.HistoricTaskInstance</td>
-<td>ACT_HI_TASKINST</td>
-</tr>
-<tr>
-<td>**.history.HistoricVariableInstance</td>
-<td>ACT_HI_VARINST</td>
-</tr>
-</tbody></table>
-<p><strong>（2）任务查询</strong></p>
-<p>任务查询的时候，一般都需要满足<strong>分页查询</strong>的要求。所以标准查询无法做到，采用Native查询。从前面的接口介绍中可以看出，<strong>Native</strong>TaskQuery是有的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1 List&lt;Task&gt; tasks &#x3D; taskService.createNativeTaskQuery()</span><br><span class="line">2                    .sql(&quot;SELECT * FROM ACT_RU_TASK T WHERE T.NAME_ &#x3D; #&#123;taskName&#125;&quot; ) &#x2F;&#x2F;此处的表明也可通过managementService.getTableName(Task.Class)获得</span><br><span class="line">3                    .parameter(&quot;taskName&quot;,&quot;人事审批&quot;)</span><br><span class="line">4                    .listPage()；&#x2F;&#x2F;使用list()则不分页</span><br></pre></td></tr></table></figure>
-
-
-
-<p>如果不需要分页，采用标准查询也可以完成task的查询功能。</p>
-<p>如果要条件查询，只需要修改sql语句，把 = 换做 like 即可。</p>
-<p><strong>（2）查询参与的流程</strong></p>
-<p>需求：查询已经办理过的流程，以及跟踪流程的办理情况。</p>
-<p>使用标准查询：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1 &#x2F;&#x2F;第9章时已经介绍过ProcessInstance与Execution的关系为一对多</span><br><span class="line">2 List&lt;ProcessInstance&gt; processInstanceList &#x3D; runtimeService.createProcessInstanceQuery().list();</span><br><span class="line">3</span><br><span class="line">4 List&lt;Execution&gt; executionList &#x3D; runtimeService.createExecutionQuery().list();</span><br></pre></td></tr></table></figure>
-
-
-
-<p>但是ProcessInstanceQuery与ExecutionQuery均没有提供”查询某个用户相关的流程”这个接口。所以这时需要用到Native查询。</p>
-<p>native查询的用法前面已经讲过。sql语句如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1 --用于native查询的sql语句</span><br><span class="line">2 SELECT RES.* FROM ACT_RU_EXECUTION RES</span><br><span class="line">3 LEFT JOIN ACT_HI_TASKINST ART</span><br><span class="line">4 ON ART.PROC_INST_ID_ &#x3D; RES.PROC_INST_ID_</span><br><span class="line">5 WHERE ART.ASSIGNEE_ &#x3D; #&#123;userId&#125;</span><br><span class="line">6 AND ACT_ID_ IS NOT NULL</span><br><span class="line">7 AND IS_ACTIVE_ &#x3D; &#39;TRUE&#39;</span><br><span class="line">8 ORDER BY START_TIME_ DESC</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ubuntu目前经常用到的命令" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1501012444.html" class="article-date">
-      <time datetime="2020-04-25T07:55:33.000Z" itemprop="datePublished">2020-04-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1501012444.html">ubuntu目前经常用到的命令</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="最近常用的方法"><a href="#最近常用的方法" class="headerlink" title="最近常用的方法"></a>最近常用的方法</h3><ul>
-<li><p>Linux下软链接</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/node-v12.16.2-linux-x64/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/node-v12.16.2-linux-x64/npm /usr/<span class="built_in">local</span>/bin/npm</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export PATH=&quot;/usr/local/node-v12.16.2-linux-x64/bin:$PATH&quot;&#x27;</span> &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">sudo chown  -R leek node-v12.16.2-linux-x64  更改用户权限</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="最近常用的方法"><a href="#最近常用的方法" class="headerlink" title="最近常用的方法"></a>最近常用的方法</h3><ul>
-<li><p>Linux下软链接</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/node-v12.16.2-linux-x64/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/node-v12.16.2-linux-x64/npm /usr/<span class="built_in">local</span>/bin/npm</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export PATH=&quot;/usr/local/node-v12.16.2-linux-x64/bin:$PATH&quot;&#x27;</span> &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">sudo chown  -R leek node-v12.16.2-linux-x64  更改用户权限</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>终端走代理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:7890   </span><br><span class="line">export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:7891</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/15/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/17/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/15/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/17/">下一页 </a>
     </nav>
   
 </div>

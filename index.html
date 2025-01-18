@@ -269,6 +269,387 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-如何找出Java进程占用CPU高的元凶" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/129d01fc.html" class="article-date">
+      <time datetime="2025-01-18T07:04:12.000Z" itemprop="datePublished">2025-01-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/129d01fc.html">如何找出Java进程占用CPU高的元凶(转发)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>转发: <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&mid=2247543282&idx=1&sn=b0b3d858b70c49c996221d265fa0fecf&chksm=e86b7b221aface2870c9b4217eeffd4e8e0c953937bf8492e7f83fb102260f922a39c2f11da1&mpshare=1&scene=24&srcid=12059mpwWmSG7Rse36RT6hp5&sharer_shareinfo=788a814db98d7ed844f50438fa229815&sharer_shareinfo_first=788a814db98d7ed844f50438fa229815#rd">如何找出Java进程占用CPU高的元凶</a></p>
+<p>开发的时候登录OSS控制台预发机器，发现Java进程CPU占用率其高，按道理预发机器只是内部开发及产品会使用，根本不可能占用这么大的资源，第一反应就是，进程在某个地方死循环了。</p>
+<p><img src="../img/640.webp" alt="图片"></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>转发: <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&mid=2247543282&idx=1&sn=b0b3d858b70c49c996221d265fa0fecf&chksm=e86b7b221aface2870c9b4217eeffd4e8e0c953937bf8492e7f83fb102260f922a39c2f11da1&mpshare=1&scene=24&srcid=12059mpwWmSG7Rse36RT6hp5&sharer_shareinfo=788a814db98d7ed844f50438fa229815&sharer_shareinfo_first=788a814db98d7ed844f50438fa229815#rd">如何找出Java进程占用CPU高的元凶</a></p>
+<p>开发的时候登录OSS控制台预发机器，发现Java进程CPU占用率其高，按道理预发机器只是内部开发及产品会使用，根本不可能占用这么大的资源，第一反应就是，进程在某个地方死循环了。</p>
+<p><img src="../img/640.webp" alt="图片"></p>
+<p>二、调查</p>
+<p>猜测归猜测，还是要用事实说话。</p>
+<p>第一步：top -Hp 15057 查看下进程中的线程资源占用情况</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naLbC5OYRrb96ib9NtMYx13mBXNRQ4Wo5qgtqRX3aGuGP5F3S2tylTgOIkZ0oAKib5S95rCHT5dndtLw/640?wx_fmt=other&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>由上图可见，CPU时间片主要是被15393 这个线程给吃掉了， 所以目标锁定在 15393。</p>
+<p>执行 printf “%x\n” 15393，计算出线程ID对应的16进制。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naLbC5OYRrb96ib9NtMYx13mB1qn6Mibf92Gdo9tTVV1fIY17TLhZZ8lpO7BblibVJYxZAic33hUrAUJzQ/640?wx_fmt=other&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>第二步：执行 sudo -u www jstack 15057，获取当前进程中各线程的调用栈</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naLbC5OYRrb96ib9NtMYx13mBpQZSuJsBib6ic8L3YDZgibNp7XcCITDrzpH85yTWYqZKjOJjfb1PLoib3A/640?wx_fmt=other&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>对比之前计算出来的二进制id：3c21，找到占用CPU资源最高的线程堆栈，如上图所示。</p>
+<p>看样子是在LoguUtil的255行出了问题，赶紧定位到这一行看看：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naLbC5OYRrb96ib9NtMYx13mBbW0MKG09EfsWlprtvrSvxOF8gLCaibwfSL75iaCp9AIHv7icKB6PMmuibw/640?wx_fmt=other&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>这里写了一个死循环，并在255行调用了阻塞队列的poll（），很明显，方法调用错了，poll（）在队列会空的时候会直接返回null，并不会阻塞等待，所以造成进程一直在这儿死循环。</p>
+<p>那么为什么测试的时候没有发现呢？因为只要有日志，代码很难走到255行，之所以能发现这个问题，是因为我登录机器这段时间是在深夜，刚好没有日志。</p>
+<p>三、验证</p>
+<p>将代码修改提交部署后，在登录机器看看CPU占用情况：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naLbC5OYRrb96ib9NtMYx13mB6LbLXY614icHcFic4UkmrhQOibcxGJe9mZgOcwYSgynahzOHhjecmoQHQ/640?wx_fmt=other&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>此时Java进程的CPU占用已经恢复正常了。</p>
+<p>四、总结</p>
+<p>平时开发需求，除了验证基本的功能完整性之外，一定要注意对性能的影响，及时发现并解决问题。</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mysql连接问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/22281c22.html" class="article-date">
+      <time datetime="2025-01-18T06:52:45.000Z" itemprop="datePublished">2025-01-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/22281c22.html">mysql连接问题</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>在使用 bitnami 的镜像来搭建 mysql 的集群环境,但是突然驱动出现了问题,进入容器对于的那台机器查询对于的命令</p>
+<blockquote>
+<p>/opt/bitnami/mysql/bin/mysqld –defaults-file=/opt/bitnami/mysql/conf/my.cnf –basedir=/opt/bitnami/mysql –datadir=/ bitnami/mysql/data –socket=/opt/bitnami/mysql/tmp/mysql.sock –bind-address=127.0.0.1 –skip-slave-start –upgrade=force</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>在使用 bitnami 的镜像来搭建 mysql 的集群环境,但是突然驱动出现了问题,进入容器对于的那台机器查询对于的命令</p>
+<blockquote>
+<p>/opt/bitnami/mysql/bin/mysqld –defaults-file=/opt/bitnami/mysql/conf/my.cnf –basedir=/opt/bitnami/mysql –datadir=/ bitnami/mysql/data –socket=/opt/bitnami/mysql/tmp/mysql.sock –bind-address=127.0.0.1 –skip-slave-start –upgrade=force</p>
+</blockquote>
+<p><img src="../img/image.png"></p>
+<p>研究了一通是因为  –upgrade=force ,目前由于我们是bitnami集群时[<a target="_blank" rel="noopener" href="https://github.com/bitnami/containers/issues/44854">bitnami/mysql] installed in the k8s cluster keeps prompting that the upgrade fails after restarting · Issue #44854 · bitnami/containers</a></p>
+<p>同时在容器中常见的命令地址如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;opt&#x2F;bitnami&#x2F;scripts&#x2F;mysql&#x2F;entrypoint.sh </span><br><span class="line">&#x2F;opt&#x2F;bitnami&#x2F;scripts&#x2F;mysql&#x2F;run.sh</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-java线程池注意事项" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/8a4449c5.html" class="article-date">
+      <time datetime="2025-01-18T06:46:39.000Z" itemprop="datePublished">2025-01-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/8a4449c5.html">java线程池注意事项</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>java 线程池使用的人很多,通常情况下为了不注册当前的线程的执行,同时提升执行的效率</p>
+<p>但是需要有时候使用不当回出现意想不到的问题,不如下面这种问题</p>
+<p><a target="_blank" rel="noopener" href="https://javaguide.cn/java/concurrent/java-thread-pool-best-practices.html#spring-%E5%86%85%E9%83%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%9D%91">Java 线程池最佳实践 | JavaGuide</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>java 线程池使用的人很多,通常情况下为了不注册当前的线程的执行,同时提升执行的效率</p>
+<p>但是需要有时候使用不当回出现意想不到的问题,不如下面这种问题</p>
+<p><a target="_blank" rel="noopener" href="https://javaguide.cn/java/concurrent/java-thread-pool-best-practices.html#spring-%E5%86%85%E9%83%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%9D%91">Java 线程池最佳实践 | JavaGuide</a></p>
+<p><a target="_blank" rel="noopener" href="https://javaguide.cn/java/concurrent/java-thread-pool-best-practices.html#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%92%8C-threadlocal-%E5%85%B1%E7%94%A8%E7%9A%84%E5%9D%91">线程池和 ThreadLocal 共用的坑</a></p>
+<p>在线程池中使用了比如 springMVC中设置了 ThreadLocal方便其他的线程使用,但是有几个问题,上一次设置的ThreadLocal 变量可能会被覆盖导致,拿不到想要的值.</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-quartz使用问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/81077f05.html" class="article-date">
+      <time datetime="2025-01-18T06:32:13.000Z" itemprop="datePublished">2025-01-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/81077f05.html">quartz使用问题</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>接手公司的代码在使用 quartz 中使用了,最近在开发新功能,突然任务都阻塞的,后面发现是是因为改动了一部分代码导致执行了这部分代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trigger &#x3D; TriggerBuilder.newTrigger().withIdentity(jobName, TRIGGER_GROUP_NAME).startAt(startTime).endAt(endTime).build(); </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>接手公司的代码在使用 quartz 中使用了,最近在开发新功能,突然任务都阻塞的,后面发现是是因为改动了一部分代码导致执行了这部分代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trigger &#x3D; TriggerBuilder.newTrigger().withIdentity(jobName, TRIGGER_GROUP_NAME).startAt(startTime).endAt(endTime).build(); </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>远程访问线程后显示我没有设置withSchedule 导致一直访问</p>
+<blockquote>
+<p>SELECT * FROM T_QRTZ_LOCKS WHERE SCHED_NAME = ‘quartzScheduler_dq’ AND LOCK_NAME = ‘TRIGGER_ACCESS’ FOR UPDATE</p>
+</blockquote>
+<p>研究了一下在 Quartz 调度框架中，触发器（Trigger）是用于定义任务的启动、结束时间、重复执行间隔等细节的。当没有设置 <code>withSchedule</code> 时，Quartz 默认的行为是认为这个触发器是一个“一次性”触发器，即在 <code>startAt</code> 指定的时间启动，并且不会重复执行。</p>
+<p>然而，<code>T_QRTZ_LOCKS</code> 表格是 Quartz 用来管理锁和调度状态的数据库表，<code>LOCK_NAME = &#39;TRIGGER_ACCESS&#39;</code> 说明当前 Quartz 调度器正在尝试获取对某个资源的锁，可能是在创建或执行触发器时遇到了并发问题。具体来说，这种情况可能是由于以下原因导致的：</p>
+<ol>
+<li>锁的竞争：创建的触发器没有明确的调度计划（例如，没有设置 <code>withSchedule</code>），可能导致 Quartz 试图获取资源的锁，而该锁在其他地方已经被占用。Quartz 会用数据库表 <code>T_QRTZ_LOCKS</code> 来保证分布式环境中不同调度器的协调，防止重复执行。正在尝试访问的锁是 <code>TRIGGER_ACCESS</code>，Quartz 在执行时检查并锁定资源，以防止多个实例同时执行同一个任务。</li>
+<li>没有指定调度计划（Schedule）：如果没有设置 <code>withSchedule</code>，Quartz 会认为这个任务没有重复执行的计划，这意味着每次启动时，Quartz 可能会频繁地访问锁，造成资源竞争。</li>
+</ol>
+<h3 id="目前解决方案："><a href="#目前解决方案：" class="headerlink" title="目前解决方案："></a>目前解决方案：</h3><ul>
+<li><p>设置触发器的调度计划：可以使用 <code>withSchedule</code> 来设置触发器的调度计划</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trigger &#x3D; TriggerBuilder.newTrigger().withIdentity(jobName, TRIGGER_GROUP_NAME).startAt(startTime).withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(60)  &#x2F;&#x2F; 每60秒执行一次.repeatForever())  &#x2F;&#x2F; 重复执行.build();&#96;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li>检查并发执行：如果系统是分布式的，确保 Quartz 实例之间的锁定机制正常工作。Quartz 通过数据库锁来防止多个调度器同时处理同一个任务，确保任务的唯一执行。</li>
+</ul>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-从头到尾说一说Java时间日期体系的前世今生" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1150,379 +1531,9 @@
 
 
   
-    <article id="post-缓存使用和角色定位" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/e9b39bb2.html" class="article-date">
-      <time datetime="2024-08-03T05:52:37.000Z" itemprop="datePublished">2024-08-03</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/e9b39bb2.html">缓存使用和角色定位</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://x.com/bytebytego/status/1756559741004997046/photo/1">https://x.com/bytebytego/status/1756559741004997046/photo/1</a></p>
-<p> Read Strategies: </p>
-<p>Cache aside  z</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://x.com/bytebytego/status/1756559741004997046/photo/1">https://x.com/bytebytego/status/1756559741004997046/photo/1</a></p>
-<p> Read Strategies: </p>
-<p>Cache aside  z</p>
-<p>Read through</p>
-<p>分别指缓存未命中时主动加载数据到缓存，以及直接通过缓存层读取数据。</p>
-<p> Write Strategies: </p>
-<p>Write around </p>
-<p>Write back </p>
-<p>Write through</p>
-<ul>
-<li>写策略中的 “Write around” 指直接写入数据库而非缓存，以减少缓存无效化的开销；“Write back” 指先写入缓存后定期写入数据库，以提高性能；“Write through” 指同时写入缓存和数据库，以保证数据的一致性。</li>
-<li>不同的缓存策略可以根据实际需求组合使用，以达到最佳的性能和数据一致性平衡。</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-记录这段时间账号异常" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/c65c8915.html" class="article-date">
-      <time datetime="2024-08-03T00:44:45.000Z" itemprop="datePublished">2024-08-03</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/c65c8915.html">记录这段时间账号异常</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <p><img src="../img/image-20240803084457424.png" alt="image-20240803084457424"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mybtatis对应typehandler的操作" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/a29432cf.html" class="article-date">
-      <time datetime="2024-07-14T06:19:23.000Z" itemprop="datePublished">2024-07-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/a29432cf.html">Mybatis对应typehandler的操作</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>Mybatis在操作 非基础的 Java 对象的时候提供 Type handle 转换类似于字符串转换成 Java 对象,类似 JPA 的 ORM</p>
-<p>TypeHandler 是 MyBatis 中用于处理 Java 类型和数据库类型之间转换的接口。通过自定义 TypeHandler，可以实现特定类型的转换逻辑，从而使得 MyBatis 在处理复杂类型时更加灵活。</p>
-<p>TypeHandler 是 MyBatis 中用于处理 Java 类型和数据库类型之间转换的接口。通过自定义 TypeHandler，可以实现特定类型的转换逻辑，从而使得 MyBatis 在处理复杂类型时更加灵活。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>Mybatis在操作 非基础的 Java 对象的时候提供 Type handle 转换类似于字符串转换成 Java 对象,类似 JPA 的 ORM</p>
-<p>TypeHandler 是 MyBatis 中用于处理 Java 类型和数据库类型之间转换的接口。通过自定义 TypeHandler，可以实现特定类型的转换逻辑，从而使得 MyBatis 在处理复杂类型时更加灵活。</p>
-<p>TypeHandler 是 MyBatis 中用于处理 Java 类型和数据库类型之间转换的接口。通过自定义 TypeHandler，可以实现特定类型的转换逻辑，从而使得 MyBatis 在处理复杂类型时更加灵活。</p>
-<h2 id="如何自定义-TypeHandler"><a href="#如何自定义-TypeHandler" class="headerlink" title="如何自定义 TypeHandler"></a>如何自定义 TypeHandler</h2><p>创建自定义 TypeHandler 的步骤如下：</p>
-<ol>
-<li><strong>实现 TypeHandler 接口</strong>：首先创建一个类并实现 <code>org.apache.ibatis.type.TypeHandler</code> 接口。</li>
-<li><strong>重写接口方法</strong>：你需要实现四个方法：<code>setParameter</code>、<code>getResult</code> (有三个重载形式)。</li>
-<li><strong>注册 TypeHandler</strong>：在 MyBatis 配置文件中注册自定义的 TypeHandler，或者在 Mapper 文件中指定使用该 TypeHandler。</li>
-</ol>
-<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p>下面是一个简单的示例，展示如何将字符串类型转换为自定义的 Java 对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomTypeHandler</span> <span class="keyword">implements</span> <span class="title">TypeHandler</span>&lt;<span class="title">CustomType</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setParameter</span><span class="params">(PreparedStatement ps, <span class="keyword">int</span> i, CustomType parameter, JdbcType jdbcType)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        ps.setString(i, parameter.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CustomType <span class="title">getResult</span><span class="params">(ResultSet rs, String columnName)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        String columnValue = rs.getString(columnName);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CustomType(columnValue);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CustomType <span class="title">getResult</span><span class="params">(ResultSet rs, <span class="keyword">int</span> columnIndex)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        String columnValue = rs.getString(columnIndex);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CustomType(columnValue);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CustomType <span class="title">getResult</span><span class="params">(CallableStatement cs, <span class="keyword">int</span> columnIndex)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        String columnValue = cs.getString(columnIndex);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CustomType(columnValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="在-MyBatis-配置文件中注册"><a href="#在-MyBatis-配置文件中注册" class="headerlink" title="在 MyBatis 配置文件中注册"></a>在 MyBatis 配置文件中注册</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">typeHandlers</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">typeHandler</span> <span class="attr">handler</span>=<span class="string">&quot;com.example.CustomTypeHandler&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">typeHandlers</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="在-configBean下配置"><a href="#在-configBean下配置" class="headerlink" title="在 configBean下配置"></a>在 configBean下配置</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">通过配置注入我们设定的类型处理</span><br></pre></td></tr></table></figure>
-
-<p>通过以上步骤，你可以实现自定义的 TypeHandler，并在 MyBatis 中灵活地处理复杂类型的数据转换。</p>
-<p>但是对于 Map&lt;K,V&gt;这种格式的数据需要单独配置后解析所有的 map</p>
-<p>需要定义一个</p>
-<p>private final Type MAP_TYPE;</p>
-<p>public MybatisMapTypeHandler() {</p>
-<p>​    this.MAP_TYPE = new TypeToken&lt;Map&lt;K, V&gt;&gt;() {</p>
-<p>​    }.getType();</p>
-<p>}</p>
-<p>否则建了多个 map的 typehand会报错,如果不用 </p>
-<p>private final Type MAP_TYPE; 来接可能对于复杂的的 map&lt;key,value&lt;List<Clazz11>&gt;&gt;这种可能会解析的不一样,</p>
-<p>这里我使用 gson 来解析.</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="url-流式读取支持拓展" class="article article-type-url" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/undefined.html" class="article-date">
-      <time datetime="2024-07-14T06:18:25.000Z" itemprop="datePublished">2024-07-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/undefined.html">流式读取支持拓展</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>在 Java 中有 URL 这个类原生支持读取 HTTP,HTTPS,FTP 的链接数据</p>
-<p>，但有时候我们需要支持更多协议，比如 SFTP 或者自定义的协议。</p>
-<h1 id="URL-流式读取支持拓展"><a href="#URL-流式读取支持拓展" class="headerlink" title="URL 流式读取支持拓展"></a>URL 流式读取支持拓展</h1><p>在 Java 中有 URL 这个类原生支持读取 HTTP, HTTPS, FTP 的链接数据，但有时候我们需要支持更多协议，比如 SFTP 或者自定义的协议。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>在 Java 中有 URL 这个类原生支持读取 HTTP,HTTPS,FTP 的链接数据</p>
-<p>，但有时候我们需要支持更多协议，比如 SFTP 或者自定义的协议。</p>
-<h1 id="URL-流式读取支持拓展"><a href="#URL-流式读取支持拓展" class="headerlink" title="URL 流式读取支持拓展"></a>URL 流式读取支持拓展</h1><p>在 Java 中有 URL 这个类原生支持读取 HTTP, HTTPS, FTP 的链接数据，但有时候我们需要支持更多协议，比如 SFTP 或者自定义的协议。</p>
-<h2 id="自定义协议处理器"><a href="#自定义协议处理器" class="headerlink" title="自定义协议处理器"></a>自定义协议处理器</h2><p>为了支持更多协议，我们可以创建自定义的 URLStreamHandler。Java 提供了 URLStreamHandler 类，我们可以通过继承这个类并实现它的抽象方法来处理自定义协议。</p>
-<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
-<li><strong>创建自定义的 URLStreamHandler</strong>: 继承 URLStreamHandler 类并实现 openConnection 方法。</li>
-<li><strong>注册自定义的 URLStreamHandler</strong>: 在系统属性中注册我们的自定义协议处理器。</li>
-<li><strong>使用自定义协议</strong>: 现在我们可以像使用普通的 URL 一样来使用自定义的协议。</li>
-</ol>
-<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p>以下是一个简单的例子，展示如何创建和使用自定义的 URLStreamHandler 来处理 SFTP 协议。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.net.URLConnection;</span><br><span class="line"><span class="keyword">import</span> java.net.URLStreamHandler;</span><br><span class="line"><span class="keyword">import</span> java.net.URLStreamHandlerFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SFTPHandler</span> <span class="keyword">extends</span> <span class="title">URLStreamHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> URLConnection <span class="title">openConnection</span><span class="params">(URL url)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">// 在这里实现 SFTP 连接逻辑</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SFTPURLConnection(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 注册自定义的 URLStreamHandler</span></span><br><span class="line">        URL.setURLStreamHandlerFactory(<span class="keyword">new</span> URLStreamHandlerFactory() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> URLStreamHandler <span class="title">createURLStreamHandler</span><span class="params">(String protocol)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="string">&quot;sftp&quot;</span>.equals(protocol)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> SFTPHandler();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用自定义的 SFTP 协议</span></span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;sftp://example.com/path/to/file&quot;</span>);</span><br><span class="line">        URLConnection connection = url.openConnection();</span><br><span class="line">        <span class="comment">// 继续处理连接...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li><strong>线程安全</strong>: 确保自定义的 URLStreamHandler 是线程安全的。</li>
-<li><strong>错误处理</strong>: 在实现自定义协议时，处理可能出现的各种异常情况。</li>
-<li><strong>性能考虑</strong>: 优化连接和数据传输的性能，尤其是在处理大型文件或高并发场景时。</li>
-<li>对于引入了 springmvc模块的服务,需要注意 tomcat 实现了这个方法需要我们处理下URL.setURLStreamHandlerFactory</li>
-</ol>
-<p>通过以上步骤，我们可以方便地扩展 Java 的 URL 支持，让其能够处理更多的协议类型，满足更复杂的需求。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/2/">下一页 </a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/2/">下一页 </a>
     </nav>
   
 </div>

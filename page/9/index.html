@@ -269,6 +269,782 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-http-rpc的区别和介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/224b9f31.html" class="article-date">
+      <time datetime="2022-06-30T06:39:45.000Z" itemprop="datePublished">2022-06-30</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/224b9f31.html">http-rpc的区别和介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>参考内容 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/41609070/answer/1030913797">既然有 HTTP 请求，为什么还要用 RPC 调用？ - 知乎</a></p>
+<h2 id="http介绍"><a href="#http介绍" class="headerlink" title="http介绍"></a>http介绍</h2><p>​        说到http 其实开发过接口的都很少熟悉，目前最流行的是HTTPS，其实无论是OSI的<del>5层</del>七层还是TCP/IP五层模型，http都是属于上层封装偏向于应用的部分，主要是浏览器和一些客户端通信用的协议，通常请求会有特定请求头而且是长连接，占用服务器的连接资源，</p>
+<p>​        通常情况下浏览器会存储cookie 在服务端会存储session来确定连接的情况，如果是restful风格的http请求是无状态的，服务器是不知道这次请求的数据。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>参考内容 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/41609070/answer/1030913797">既然有 HTTP 请求，为什么还要用 RPC 调用？ - 知乎</a></p>
+<h2 id="http介绍"><a href="#http介绍" class="headerlink" title="http介绍"></a>http介绍</h2><p>​        说到http 其实开发过接口的都很少熟悉，目前最流行的是HTTPS，其实无论是OSI的<del>5层</del>七层还是TCP/IP五层模型，http都是属于上层封装偏向于应用的部分，主要是浏览器和一些客户端通信用的协议，通常请求会有特定请求头而且是长连接，占用服务器的连接资源，</p>
+<p>​        通常情况下浏览器会存储cookie 在服务端会存储session来确定连接的情况，如果是restful风格的http请求是无状态的，服务器是不知道这次请求的数据。</p>
+<p>下面是附带的7层协议</p>
+<p>第一层 物理层  网卡 网口</p>
+<p>第二层  数据链路层 网关交换器</p>
+<p>第三层 网络层  </p>
+<p>第四层 传输层 tcp,udp</p>
+<p>第五层 会话层  dns.smtp</p>
+<p>第六层表示层 telnet,snmp</p>
+<p>第七层 应用层 http,rtsp,imap</p>
+<p>上面是我大脑能列出来的第一反应</p>
+<p>​        对于HTTPS是结合了http+<strong>SSL/TLS</strong>的混合，传统的http是明文传输的在互联网中网关和每个转发节点都能知道里面的内容，但是如果在http上包裹一层ssl那么传输者只知道传给谁但是具体的内容是不清楚的，ssl的非对称加密的，网站的拥有方需要去申请免费提供的let entry ，发送的证书是分别为公钥和私钥，他们拿私钥加密，我们客户端拿到数据用公钥解析内容，同时需要注意</p>
+<p>具体的内容在网上搜索具体的介绍</p>
+<p>RPC介绍</p>
+<p>​        为什么会需要rpc，主要是服务的解耦，当整个系统越来越复杂后处于维护和迭代的需要，通常会将服务组件拆分，单独提供，譬如单独的订单服务，查询服务，认证服务，搜索服务等，但是当一个请求需要涉及到几个服务的功能的时候就会遇到 A服务 需要B服务，C服务的数据或者行动后A服务才能执行后续内容。</p>
+<p>​        此时需要RPC来调用别人的服务服务，这个过程同时还设计到分布式事务，我们目前只考虑数据的使用，但是在调用过程中由于不同语言，和调用方能是接受的语法等限制通常需要跨平台的库来实现比较有名的是 <a target="_blank" rel="noopener" href="https://dubbo.apache.org/zh/blog/2019/01/07/%E6%B5%85%E8%B0%88-rpc/">浅谈 RPC | Apache Dubbo</a>,<a target="_blank" rel="noopener" href="https://grpc.io/">gRPC</a> 等来实现。</p>
+<p>​        </p>
+<p><img src="https://segmentfault.com/img/remote/1460000037470064" alt="img"></p>
+<p>对应目前</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-浅谈文件传输共享协议(转载)" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/bce5fd0b.html" class="article-date">
+      <time datetime="2022-06-16T11:20:54.000Z" itemprop="datePublished">2022-06-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://hellodk.cn/post/1051">浅谈文件传输/共享协议｜内网共享文件协议选择｜自建公网文件管理同步和共享方案推荐 - Allen Hua 的网络博客</a></p>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>关于文件传输协议/文件共享协议，可以拿出来介绍的可以有很多，本文列举了一些通用的基础的发展较早的协议详细的介绍（当然了，没有深入的原理，咱也不会啊 :笑），一些较新的作了简单陈述，没有深究原理和实现。</p>
+<p>本文主要分为三个部分</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://hellodk.cn/post/1051">浅谈文件传输/共享协议｜内网共享文件协议选择｜自建公网文件管理同步和共享方案推荐 - Allen Hua 的网络博客</a></p>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>关于文件传输协议/文件共享协议，可以拿出来介绍的可以有很多，本文列举了一些通用的基础的发展较早的协议详细的介绍（当然了，没有深入的原理，咱也不会啊 :笑），一些较新的作了简单陈述，没有深究原理和实现。</p>
+<p>本文主要分为三个部分</p>
+<ol>
+<li>基础的文件传输/共享协议，更加推荐在内网使用的，不允许也不推荐暴露到公网。使用建议 <a target="_blank" rel="noopener" href="https://hellodk.cn/post/1051#cl-21">点我</a></li>
+<li>个人公网文件管理方案</li>
+<li>实践: 在内网自建一个 seafile server, 并通过 frp 暴露在公网 serving，实现内外网都可以上传、下载、同步、分享。如何食用？<a target="_blank" rel="noopener" href="https://hellodk.cn/post/1051#cl-23">点我</a></li>
+</ol>
+<h2 id="2-总览"><a href="#2-总览" class="headerlink" title="2. 总览"></a>2. 总览</h2><ol>
+<li>SMB/CIFS/SAMBA</li>
+<li>FTP/FTPS/TFTP</li>
+<li>SCP/SFTP</li>
+<li>WebDAV/WebDAVS</li>
+<li>NFS</li>
+<li>DLNA+UPnP</li>
+<li>HTTP/HTTPS</li>
+<li>rsync</li>
+<li>AFP</li>
+<li>MTP</li>
+<li>others (列举了一些非常规的协议)</li>
+</ol>
+<hr>
+<h2 id="3-正片"><a href="#3-正片" class="headerlink" title="3. 正片"></a>3. 正片</h2><h3 id="3-1-SMB-CIFS-SAMBA"><a href="#3-1-SMB-CIFS-SAMBA" class="headerlink" title="3.1 SMB/CIFS/SAMBA"></a>3.1 SMB/CIFS/SAMBA</h3><p>SMB(Server Message Block) 通信协议是微软和英特尔在 1987 年制定的协议，主要是作为 Microsoft 网络的通讯协议，它是当今世上网络文件系统协议两极之一的存在。</p>
+<p>SMB 使用了 NetBIOS 的 API。另外，它是一个开放性的协议，允许了协议扩展，这使得它可以变得更大而且复杂；大约有 65 个最上层的作业，而每个作业都超过 120 个函数，甚至 Windows NT 自己也没有全部支持到，后来<del>著名的微软改名部门</del>又把 SMB 重新设计了一套新的实现: CIFS(Common Internet File System) 协议，并且加入了许多新的特色功能。</p>
+<p>一开始微软设计的 SMB 不支持在 Linux 上运行，著名黑客、技术大牛安德鲁·垂鸠 (Andrew Tridgell) 通过逆向工程，于 1992 年在澳洲国立大学（ANU）开发了第一版的 Samba Unix 软件，实现了 SMB/CIFS 兼容协议，并命名为 <code>Samba</code>，通过该程序实现了 Windows 和 Linux 之间的文件共享。 Debian 上的软件包名称就是 <code>samba</code>，OpenWrt 中一般有 <code>samba36-server</code> 和 <code>samba4-server</code> (版本 4，性能更强，更新的一个版本)。</p>
+<p>SMB 是 C/S (Client and Server) 类型协议，客户机可以访问服务器上的共享文件系统、打印机及其他资源。更进阶一点，通过设置 “NetBIOS over TCP/IP”，Samba 不但能与局域网络主机分享资源，还能与全世界的电脑分享资源，但一般很少这样使用。</p>
+<p>SMB 的优点之一是兼容性特别好，在各平台都获得了广泛支持，包括 Windows、Linux、macOS、Android、iOS、iPadOS，甚至一些嵌入式系统比如 OpenWrt，挂载访问都很方便。另外 SMB 也是各种电视、电视盒子默认支持的协议，这些电视和盒子通过 SMB 访问服务器端的资源可以达到播放电影、音乐、访问图片和预览普通文件的目的。</p>
+<p>另外 SMB 提供端到端加密、安全性高，配置选项丰富，支持 ACL(Access Control List) 并支持多种用户认证方式。</p>
+<p>不过 SMB 的缺点也是最令极客们诟病的，是传输效率稍低，速度不太稳定，受机器网络和硬件资源波动较大。</p>
+<p>简而言之，SMB 协议是在局域网上用于服务器文件访问和打印的协议。CIFS 可以看做是应用程序协议如文件传输协议和超文本传输协议的一个实现。</p>
+<p>关于传输端口， SMB/CIFS 传输端口是 139 或 445，具体是 TCP port 139 over NetBIOS，TCP port 445 over IP。TCP 445 是基于 IP 的 SMB，这是较新的版本，可以在 IP 网络上正常使用 SMB，也就是公网使用 SMB。</p>
+<p><em>ps: samba 最新稳定版是 version 4.x.x</em></p>
+<h3 id="3-2-FTP-TFTP-FTPS"><a href="#3-2-FTP-TFTP-FTPS" class="headerlink" title="3.2 FTP/TFTP/FTPS"></a>3.2 FTP/TFTP/FTPS</h3><p>FTP(File Transfer Protocol) 我们都很熟悉，它是 TCP/IP 协议簇中的一员，是 1971 年发展起来的文件传输协议，作为标准网络协议出现它包含两个部分实现，一个是 FTP Server，一个是 FTP Client，其中 Server 用来存储文件，Client 供客户机使用以访问远程资源。</p>
+<p>现在暴露在公网的 FTP 站点已经越来越少，找了半天只发现 GNU 的 FTP 站点 <a href="ftp://ftp.gnu.org/">ftp://ftp.gnu.org/</a> 目前还能匿名访问。Windows 可在 <code>Windows Explorer</code> 的 address bar 上直接键入地址然后回车即可以匿名身份访问。</p>
+<p>默认情况下，FTP 使用 TCP 20 和 TCP 21 两个端口传输数据，TCP 20 用于数据传输，TCP 21 用于控制信息传输。而是否使用 20 端口传输数据与 FTP 传输模式有关，如果 FTP 主动模式，那么数据传输端口就是 20，如果采用的被动模式，那最终传输数据的端口由 FTP 的服务器和客户机协商决定。</p>
+<p><strong>FTP 的两种数据传输模式: Standard(主动) 和 Passive(被动)。</strong></p>
+<ol>
+<li><p>Standard 模式</p>
+<p>FTP 客户端首先和服务器的 TCP 21 建立连接并发送指令，客户端需要接收数据的时候在这个通道上发送 PORT 命令。 PORT 命令包含了客户端用什么端口接收数据。在传输数据的时候，服务器通过自己的 TCP 20 连接到客户端的指定端口发送数据。FTP Server 必须和 Client 建立一个新的连接用来传输数据。</p>
+</li>
+<li><p>Passive 模式</p>
+<p>建立控制通道和 Standard 模式类似，但建立连接后发送的是 PASV 命令，服务端收到 PASV 命令后打开一个临时端口 tempPort (<code>1023 &lt; tempPort &lt; 65535</code>) 并且通知客户端在这个端口上传送数据，客户端连接 FTP 服务端的此端口，然后服务端将会通过此端口 serving.</p>
+<p>很多防火墙在设置的时候都是不允许接受外部发起的连接的，所以许多位于防火墙后或内网的 FTP 服务器不支持 Passive 模式，因为客户端无法穿过防火墙打开 FTP 服务器的高端端口；而许多内网的客户端不能用 Standard 模式登陆 FTP 服务器，因为从服务器的 TCP 20 无法和内部网络的客户端建立一个新的连接，造成无法工作。</p>
+</li>
+</ol>
+<p><strong>FTP 传输数据也有两种方式：ASCII 和 二进制。</strong></p>
+<ol>
+<li><p>ASCII 传输方式</p>
+<p>假定用户正在拷贝的文件包含的简单 ASCII 码文本(plain text)，如果在远程机器上运行的不是 UNIX，当文件传输时 FTP 通常会自动地调整文件的内容以便于把文件解释成另外那台计算机存储文本文件的格式。</p>
+<p>但是常常有一些“特殊”情况，用户正在传输的文件包含的不是文本文件，它们可能是可执行程序、电影、音乐、数据库或者压缩文件。在拷贝任何非文本文件之前，用 binary 命令告诉 FTP 逐字拷贝。</p>
+</li>
+<li><p>二进制传输方式</p>
+<p>在二进制传输中，保存文件的位序，以便原始和拷贝的是逐位一一对应的。即使目的机器上包含位序列的文件是没意义的。例如，macintosh (早期的 macOS 叫法) 以二进制方式传送可执行文件到 Windows 系统，在对方系统上，此文件不能执行。</p>
+</li>
+</ol>
+<p>时间已经来到了 2022 年，FTP 已经很少被应用在生产环境下，通过 http 传输文件的高效更能替代这个使用场景。它的优点不足以掩盖众多缺点，优点比如说能同时传输多个目录，自动备份等等，但是缺点众多，其他协议也支持它的优点，所以必然会被时代淘汰。</p>
+<p>FTP 的缺点：数据传输模式不够合理，工作方式设计不合理，与防火墙工作不协调，安全认证策略不完善，相对而言整个传输过程效率也低下。此部分就不展开了，详情可见下面文章</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ixidof/article/details/8119017">文件传输协议（FTP）的缺点</a></li>
+<li><a target="_blank" rel="noopener" href="https://content.jianguoyun.com/28197.html">FTP文件传输的优势与不足对比分析</a></li>
+</ul>
+<p>通过上面的描述，可以感受到 FTP 的复杂性，1981 年在 RFC 783 中定义了一个简化的文件传输协议 TFTP(Trivial File Transfer Protocol)，称作简单文件传输协议，也称小型/琐碎文件传输协议。TFTP 比 FTP 简单得多，并且执行客户端和服务器进程之间的文件传输。但是，它不提供 FTP 所支持的用户身份验证和其他有用的功能。FTP 使用 TCP 时，TFTP 使用 UDP，这使得它成为了不可靠的文件传输协议。由于简单，透过少量存储器就能轻松实现，在计算机发展早期还是有用处的，例如从一台网络主机或服务器引导一个远程 X Window System 终端或其他的瘦客户端。由于小型文件传输协议缺少安全性，在公网传输非常危险，所以普遍仅仅用于私有网络。</p>
+<p>对于 FTP 在安全上的不足，后面发展了 FTPS。</p>
+<p>FTPS(FTP over SSL/TLS)，是一种安全的 FTP，添加了传输层安全（TLS）和安全套接层（SSL）的加密协议。尽管在数据传输方面加固了安全，但 FTP 的底层设计依然还是没有改变，所以直到现在应用也不够广泛。偶尔在内网中会有部署的 FTP 服务，但大家也更倾向于使用 samba, nfs, http, webdav 这些协议共享文件。</p>
+<h3 id="3-3-SCP-SFTP"><a href="#3-3-SCP-SFTP" class="headerlink" title="3.3 SCP/SFTP"></a>3.3 SCP/SFTP</h3><p>SCP(Secure CoPy) 和 SFTP(Secure File Transfer Protocol) 都基于 SSH(Secure SHell) 协议，OpenSSH 是 SSH 协议的一个开源实现，一些嵌入式设备可以通过 dropbear 建立 ssh 连接，dropbear 也实现了 SSH 协议的基础功能。</p>
+<p>SCP 用来进行远程文件复制，并且整个复制过程是加密的。数据传输使用 ssh tunnel，并且使用和 ssh 相同的认证方式，提供相同的安全保证。密码认证或密钥对 (key-pair)验证。</p>
+<p>SFTP 与 FTP 有着几乎一样的语法和功能。SFTP 为 SSH 的一部分，是一种传输文件到服务器的安全方式。在 SSH 软件包中，已经包含了一个叫作 SFTP 的安全文件传输子系统，SFTP 本身没有单独的守护进程，它必须使用 sshd 守护进程（端口号默认是22）来完成相应的连接操作，所以从某种意义上来说，SFTP 并不像一个服务器程序，而更像是一个客户端程序。SFTP 同样是使用加密传输认证信息和传输的数据，所以，使用 SFTP 是安全的。但是，正由于这种传输方式使用了加密/解密技术，所以比起普通 FTP，开销大得多，传输效率低得多。如果用户对网络安全性要求更高，则可以使用 SFTP 代替 FTP。</p>
+<p>目前最新的 OpenSSH 稳定版本是 9.0，<a target="_blank" rel="noopener" href="https://www.openssh.com/">OpenSSH 9.0 released April 8, 2022</a>，服务端配置文件 <code>/etc/ssh/sshd_config</code> 中有一行 sftp 配置就是配置这个文件传输子系统的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># override default of no subsystems</span><br><span class="line">Subsystem       sftp    &#x2F;usr&#x2F;lib&#x2F;openssh&#x2F;sftp-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="SCP-和-SFTP-的比较"><a href="#SCP-和-SFTP-的比较" class="headerlink" title="SCP 和 SFTP 的比较"></a>SCP 和 SFTP 的比较</h4><p>两者都基于 SSH，但是传输效率和安全性上也有区别。</p>
+<ul>
+<li>SCP 不支持断点续传，一次 timeout 就得重来，而 SFTP 支持</li>
+<li>SCP 单次传输不支持 4Gib 以上文件，SFTP 支持</li>
+<li>SCP 不检查传输的数据包，效率更高但安全性更低</li>
+</ul>
+<p><strong>简单总结：SCP 适合小文件传输，速度更快。SFTP 适合更大文件，安全性更高的传输场景。</strong></p>
+<p>另外上文所述的 FTPS 不应与基于 SSH 的 SCP 和 SFTP 混淆。</p>
+<p>Windows 端经典强大的开源程序 <code>WinSCP</code> 就实现了 SSH 的 SCP 和 SFTP 功能，界面直观非常易于使用。</p>
+<h3 id="3-4-WebDAV-WebDAVS"><a href="#3-4-WebDAV-WebDAVS" class="headerlink" title="3.4 WebDAV/WebDAVS"></a>3.4 WebDAV/WebDAVS</h3><p>WebDAV(WEb-Based Distributed Authoring and Versioning) 一种基于 HTTP 1.1 协议的通信协议。它扩展了 HTTP 1.1，在 GET、POST、HEAD、PUT、DELETE、PATCH 等 HTTP 标准方法以外添加了一些新的方法，使应用程序可对 Web Server 直接读写，并支持写文件锁定 (Locking) 及解锁 (Unlock)，还支持文件的版本控制。</p>
+<p>简单而言，WebDAV 就是在服务器上划出一块存储空间，使用它扩展的一套 HTTP method 来管理文件，可以将磁盘映射到本地磁盘使用，对文件的每次改动都是一个 HTTP 请求。遗憾的是，目前只有用户名和密码的认证方式，安全性上有所欠缺。</p>
+<p>WebDAV 为实现远程文件管理，向 HTTP/1.1 中追加了以下这些方法</p>
+<ul>
+<li>PROPFIND：获取属性</li>
+<li>PROPPATCH：修改属性</li>
+<li>MKCOL：创建集合</li>
+<li>COPY：复制资源及属性</li>
+<li>MOVE：移动资源</li>
+<li>LOCK：资源加锁</li>
+<li>UNLOCK：资源解锁</li>
+</ul>
+<p>HTTP status code 也随之扩展</p>
+<ul>
+<li>102 Processing：可正常处理请求， 但目前是处理中状态</li>
+<li>207 Multi-Status：存在多种状态</li>
+<li>422 Unprocessible Entity：格式正确， 内容有误</li>
+<li>423 Locked：资源已被加锁</li>
+<li>424 Failed Dependency：处理与某请求关联的请求失败， 因此不再维持依赖关系</li>
+<li>507 Insufficient Storage：保存空间不足</li>
+</ul>
+<p>由于 WebDAV 是基于 HTTP 的，所以具有 HTTP 的所有优点，包括容易穿越防火墙、使用 HTTPS 来传输数据，因此在很多方面可以替代 FTP。通过 Nginx 或 Apache 或 Caddy 等 web server（也有其他实现，比如 Golang 实现的 webdav <a target="_blank" rel="noopener" href="https://github.com/hacdias/webdav">https://github.com/hacdias/webdav</a> ） 非常容易就能搭建一个 WebDAV 服务。</p>
+<p>WebDAVS(WebDAV over SSL/TLS) 就是加了一层 SSL/TLS ，数据安全更能得到保障，不过一般的使用场景多是 WebDAV + 配合 SSL 的 web server 实现 http 流量的加密，这样反而开销更小。</p>
+<h3 id="3-5-NFS"><a href="#3-5-NFS" class="headerlink" title="3.5 NFS"></a>3.5 NFS</h3><p>NFS(Network File System)，即网络文件系统，是 FreeBSD 支持的文件系统中的一种。NFS 允许一个系统在网络上与它人共享目录和文件。通过使用 NFS，用户和程序可以像访问本地文件一样访问远端系统上的文件。它由 Sun 公司（已被 Oracle 收购）开发，于 1984 年发布，最新版本 NFSv4.2 于 2016 年发布。NFS 基于开放网络运算远程过程调用（ONC RPC）协议：一个开放、标准的 RFC 协议，任何人或组织都可以依据标准实现它。</p>
+<p>NFS 通常使用在 Unix 操作系统上（比如 Solaris、AIX 及 HP-UX）和其他类 Unix 操作系统（例如 Linux 及 FreeBSD），同时在 macOS 和 Windows 系统也提供了 NFS 实现。不过在 Windows 系统上挂载 NFS 共享目录时，由于 Windows 自带的 NFS 客户端长久以来不支持 UTF-8，会致中文文件和目录显示为乱码。有解决方法但有代价，请见 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/46254792">一个小设置，让Win10 NFS正常显示中文UTF-8</a></p>
+<p>NFS 的优点是 kernel 直接支持，部署简单、运行稳定，协议简单、传输效率高。</p>
+<p>NFS 的缺点是没有加密授权等功能，仅依靠 IP 地址或主机名来决定用户能否挂载共享目录，对具体目录和文件无法进行 ACL 控制（NFSv4 以前）。通常的做法是通过 Kerberos 对 NFS 进行认证及加密，不过部署配置比较麻烦。</p>
+<h3 id="3-6-DLNA-UPnP"><a href="#3-6-DLNA-UPnP" class="headerlink" title="3.6 DLNA+UPnP"></a>3.6 DLNA+UPnP</h3><p>DLNA(Digital Living Network Alliance, 数字生活网络联盟)，其前身是 DHWG（Digital Home Working Group，数字家庭工作组），成立于 2003 年 6 月 24 日， 是由索尼、英特尔、微软等发起成立的一个非营利性的、合作性质的商业组织。</p>
+<p>DLNA 旨在解决个人 PC，消费电器，移动设备在内的无线网络和有线网络的互联互通，使得数字媒体和内容服务的无限制的共享和增长成为可能。DLNA 的口号是 Enjoy your music, photos and videos, anywhere anytime。</p>
+<p>DLNA 将其整个应用规定成 5 个功能组件。从下到上依次为：网络互连，网络协议，媒体传输，设备的发现控制和管理，媒体格式。</p>
+<p><img src="https://pic3.zhimg.com/80/ac96a32309b15d9099b70bca2a204cd8_720w.jpg" alt="DLNA"></p>
+<blockquote>
+<p>DLNA 架构图 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/22362647/answer/43637899">image source</a></p>
+</blockquote>
+<p>UPnP(Universal Plug and Play) 通用即插即用协议，官方的解释太过理论。微软的说法是</p>
+<blockquote>
+<p>通用即插即用 （UPnP） 是一种用于 PC 机和智能设备（或仪器）的常见对等网络连接的体系结构，尤其是在家庭中。UPnP 以 Internet 标准和技术（例如 TCP/IP、HTTP 和 XML）为基础，使这样的设备彼此可自动连接和协同工作，从而使网络（尤其是家庭网络）对更多的人成为可能。</p>
+</blockquote>
+<p>实际上，普通用户理解 UPnP 可以理解为基于 TCP/IP 上的自动端口映射，一般路由器在 NAT 的工作模式下可以打开此功能，自动处理局域网内设备中的各个软件的 UPnP 请求。</p>
+<p>DLNA 可以高效的访问服务器中的各种类型资源，由 DLNA 服务器帮用户索引好离线文件。比如图片，音乐专辑，电影，电视剧集，适合多媒体的场景使用。</p>
+<h3 id="3-7-HTTP-HTTPS"><a href="#3-7-HTTP-HTTPS" class="headerlink" title="3.7 HTTP/HTTPS"></a>3.7 HTTP/HTTPS</h3><p>HTTP(HyperText Transfer Protocol)即超文本传输协议，我们都不陌生了，通过 http 共享文件可以很简单，比如使用 nginx 标准模块 <code>Auto Index</code> 可以很快创建一个可以共享的文件服务器，效率也非常之高。</p>
+<p>比如在 nginx 创建一个共享本地文件夹的配置文件 <code>/etc/nginx/sites-enabled/files-sharing.conf</code> ，内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> </span><br><span class="line">    listen 82;</span><br><span class="line">    server_name 192.168.10.10;</span><br><span class="line">    charset gbk,utf-8;</span><br><span class="line"> </span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        root &#x2F;home&#x2F;xxx&#x2F;nginx-static-files&#x2F;; </span><br><span class="line">        index index.html index.htm;</span><br><span class="line">        autoindex on;</span><br><span class="line">        autoindex_exact_size on;</span><br><span class="line">        autoindex_localtime on;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问 <a target="_blank" rel="noopener" href="http://192.168.10.10:82/">http://192.168.10.10:82</a> (a fake address) 后的效果</p>
+<p><img src="https://image.940304.xyz/i/2022/06/16/62aabb96789e4.png" alt="20220616131149"></p>
+<p>HTTPS(HTTP over SSL/TLS)，加密后的 http 流量，目前正是主流 web 交互的方式。</p>
+<h3 id="3-8-rsync"><a href="#3-8-rsync" class="headerlink" title="3.8 rsync"></a>3.8 rsync</h3><p>rsync 全称 remote synchronize，即”远程同步”，是 Liunx/Unix 下的一个远程数据同步工具。它可通过 LAN/WAN 快速同步多台主机间的文件和目录，并适当利用 rsync 算法（差分编码）以减少数据的传输，即可做到增量传输/备份。严格来说，rsync 算不上底层的文件传输/共享协议，但是本文为了介绍的尽量全面还是提一下。</p>
+<p>在常驻模式（daemon mode）下，rsync 默认监听 TCP 端口 873，以原生 rsync 传输协议或者透过远程 shell 如 RSH 或者 SSH 提供文件。SSH 模式下，rsync 客户端执行程序必须同时在本地和远程机器上安装。</p>
+<p>rsync 首度发布于 1996 年 6 月 19 日。原始作者为安德鲁·垂鸠（Andrew Tridgell）<em>（很巧的是，又是这个大神）</em>与保罗·麦可拉斯（Paul Mackerras）。</p>
+<p>rsync 现在应用广泛，使用起来也非常方便易用，效率也高，最初设计就是替代 SCP 的。既能在本地用于数据拷贝、移动（可用来替代 Linux <code>cp</code> 和 <code>mv</code> 命令），也能做增量备份存储。通过 SSH 实现远程复制也非常好用。</p>
+<p>关于 rsync 的基础用法和高级用法可以看看阮一峰的 <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2020/08/rsync.html">rsync 用法教程</a> , 写得易懂且全面。</p>
+<p>其实类似于 rsync 的工具，还有 <code>rclone</code>、<code>robocopy</code>、<code>freefilesync</code> 等，这里就不做过多介绍了。</p>
+<h3 id="3-9-AFP"><a href="#3-9-AFP" class="headerlink" title="3.9 AFP"></a>3.9 AFP</h3><p>AFP(Apple Filing Protocol)，是一种专门为 MAC OS X(现名: macOS) 系统提供文件共享服务的协议，通过开源的 Netatalk 实现 AFP 共享。主要应用是苹果笔记本的 Time Machine 时间机器系统备份，macOS 物理接口是 type-c，并有微软的雷电 Thunderbolt 授权，协议就是 AFP 。但是这东西不够完善，复杂使用场景下都有 bug，现在连苹果自己都很少用。</p>
+<h3 id="3-10-MTP"><a href="#3-10-MTP" class="headerlink" title="3.10 MTP"></a>3.10 MTP</h3><p>MTP(Media Transfer Protocol) 媒体传输协议，是基于 PTP(Picture Transfer Protocol) 协议的扩展，主要用于传输媒体文件，其中有价值的应用就是同步 DRM 文件的 license。</p>
+<p>MTP 既可以实现在 USB 协议上，也可以实现在 TCP/IP 协议上，它属于上层的应用协议，而不关心底层传输协议。目前大部分设备的应用都是基于 USB 协议。在 Android 设备上应用广泛，使用 USB A cable 连接 Windows PC 和 Android 设备，默认的文件传输协议就是 MTP，但除此之外，内网文件的传输很少应用到此协议。</p>
+<h3 id="3-11-others"><a href="#3-11-others" class="headerlink" title="3.11 others"></a>3.11 others</h3><p>我把他们归为一类，不够通用，具有一定的专用性，主要是为企业服务的。</p>
+<h4 id="AS2-AS3-AS4"><a href="#AS2-AS3-AS4" class="headerlink" title="AS2/AS3/AS4"></a>AS2/AS3/AS4</h4><p>AS2(Applicability Statement 2)，下同。</p>
+<p>AS2，AS3 和 AS4 都是用来发送和保护关键文件传输的流行协议。</p>
+<p>AS2 用于在因特网上安全可靠地传输敏感数据。AS2 利用数字证书和加密标准来保护在系统、网络和位置之间传输的关键信息。AS2 消息可以通过安全的 SSL 隧道进行压缩、签名、加密和发送。</p>
+<p>AS3 是一个标准，几乎可以用来传输任何文件类型。它通过数字签名和数据加密为数据传输提供了一层安全性。它最初是为了传输数据文件而创建的，如 XML 和 EDI 商业对企业数据的文件。与 AS2 不同，AS2 是一种定义的传输协议，AS3 是一种消息标准，它侧重于在从服务器发送到服务器时应该如何格式化消息。一旦 AS3 消息被合成，它就可以通过任何其他协议(FTP、SFTP、HTTPS 等)传输。只要双方能够访问已放置消息的位置。</p>
+<p>AS4 是一种协议，允许企业与其合作伙伴安全地交换数据。它建立在最初由 AS2 设置的基础上，但与 Web 服务一起工作，并提供改进的交付通知。作为企业对企业的标准，AS4 有助于使在互联网上进行文件交换变得安全和简单。</p>
+<blockquote>
+<p>see also <a target="_blank" rel="noopener" href="https://www.goanywhere.com/blog/whats-the-difference-between-as2-as3-and-as4">What’s the Difference Between AS2, AS3, and AS4?</a></p>
+</blockquote>
+<h4 id="OFTP（Odette-文件传输协议）"><a href="#OFTP（Odette-文件传输协议）" class="headerlink" title="OFTP（Odette 文件传输协议）"></a>OFTP（Odette 文件传输协议）</h4><p>OFTP(Odette FTP)，另一种专为 EDI 设计的文件传输协议 OFTP。OFTP 在欧洲应用非常普遍。OFTP 和 AS2 本质上都是安全的，甚至支持电子交付收据，使它们非常适合 B2B 交易。</p>
+<h4 id="AFTP"><a href="#AFTP" class="headerlink" title="AFTP"></a>AFTP</h4><p>AFTP(Accelerated FTP)，是 JSCAPE 开发的一种文件传输协议（中文：加速文件传输协议），旨在进行 WAN 环境下的文件传输，尤其是远距离下的文件传输，但很容易受到延迟和数据包丢失等不良网络条件的影响，从而导致吞吐量大幅下降。AFTP 是一种 TCP-UDP 混合体，它使文件传输几乎不受这些网络条件的影响，理想情况下能比 FTP 传输快 100 倍。属于企业级应用协议。</p>
+<h4 id="raysync"><a href="#raysync" class="headerlink" title="raysync"></a>raysync</h4><p>镭速文件传输协议 FTP 加速产品是专为企业定制开发的一款完全替代现有文件传输协议 FTP 的高效传输软件，能够在现有结构的基础上实现文件的高速传输，使用镭速文件传输协议 FTP 加速后，文件传输协议 FTP 传输速度可提升 10-100 倍。</p>
+<p>这是国产深圳的一个公司的商业化产品。</p>
+<h4 id="PeSIT"><a href="#PeSIT" class="headerlink" title="PeSIT"></a>PeSIT</h4><p>PeSIT, short for Protocol d’Echanges pour un Systeme Interbancaire de Telecompensation (Protocol for data Exchange within the French Systems for Interbank Tele-clearance) 协议是一种端到端文件传输协议，由法国银行间电信系统经济利益集团 (GSIT) 开发。它在北美应用较少，主要用于满足欧洲银行标准，以及向欧洲银行和从欧洲银行转移通信。</p>
+<blockquote>
+<p>see also <a target="_blank" rel="noopener" href="https://www.goanywhere.com/blog/what-is-pesit">What is PeSIT?</a></p>
+</blockquote>
+<h3 id="内网文件共享选择协议建议"><a href="#内网文件共享选择协议建议" class="headerlink" title="内网文件共享选择协议建议"></a>内网文件共享选择协议建议</h3><p><img src="https://image.940304.xyz/i/2022/06/16/62aad5af2f7a7.png" alt="20220616150310"></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.92nas.com/forum.php?mod=viewthread&tid=352">image source</a></p>
+</blockquote>
+<ul>
+<li><strong>samba 对于大多数人绝对是最优最优的选择，适配日常使用的所有平台，没有各种乱码问题，兼容性极佳。目前的 samba3 samba4 性能也不错</strong></li>
+<li><strong>对于 Linux 用户可以优选 NFS，效能比起 samba 还是高</strong></li>
+<li><strong>平常使用 Linux 传送一些小文件可以直接使用 scp 命令行，或者使用 WinSCP 这些工具（或者更推荐使用 rsync）</strong></li>
+<li><strong>如果是内网磁盘想要暴露到公网，推荐 WebDAV + nginx + SSL，可以方便的将家里的磁盘暴露到公网(不过强烈建议使用 strong strong password)</strong></li>
+<li><strong>DLNA 这种，偶尔使用多媒体还行，但如果是重度用户建议搭建 Plex、Emby、Jellyfin 服务端</strong> （诶我怎么歪题了）</li>
+<li><strong>其实内网的文件共享需求和 nas 上文件共享需求不谋而合</strong></li>
+<li><strong>FTP, SFTP 不是很推荐</strong></li>
+<li><strong>HTTP 配合 nginx 搭建一个存储文件的静态 public 站点还是不错的</strong></li>
+</ul>
+<p>引用一段 V2EX 网友的评论 来自帖子 <a target="_blank" rel="noopener" href="https://www.v2ex.com/t/818478">https://www.v2ex.com/t/818478</a></p>
+<blockquote>
+<p>奉劝一句，别瞎折腾。最完善的远程文件访问协议就是 SMB 。macOS 下 Finder 中协议语法为“SMB://”。在群晖、威联通中打开 SMB 协议访问即可。<br>别玩苹果自身的 AFP ，macOS 间互访都有 bug ，苹果默认都不用这个，默认用的是 SMB （我家里有 3 台苹果电脑，6 台不同的 NAS 设备，足够验证这个）。群晖启用 AFP 也有 bug ，反倒是威联通的 AFP 比较完善。<br>也别冲 WebDAV ，这个居然自身没搞定文件名编码方案（当然我猜测实际上应该是搞定了，我说的没搞定是默认配置下没搞定，估计需要用户各种场景测试然后通过命令行什么的指定编码方案）。我的一些小姐姐影片 NAS 间同步后文件名就变了。<br>FTP 这些完全是闹着玩的，首次配置好能用，过一段时间登录就有问题。<br>截至今日，世界上使用最广的操作系统依然是 windows ，至今依然是 windows 自己的远程文件访问协议其他厂商支持 /测试的最完善，那就是 SMB （ Samba ）。其他的各种协议，不同操作系统中要么不自带需要安装第三方软件，即使带了默认可能也没启用需要用户自己启用甚至配置。考虑到家用环境的复杂性，iOS 设备、安卓设备、电视、windows 、macos 、NAS 、甚至可能还有监控摄像头存储，这些不同操作系统要同时支持 /验证某个文件互访协议，想想都能明白有多麻烦。</p>
+</blockquote>
+<p><strong>结合我自身的各种协议的使用经验，我的整体评价也是，samba 保你用户体验，一般情况下 samba 就够了，需要公网映射就加上 WebDAV。</strong></p>
+<h2 id="4-个人公网文件管理方案"><a href="#4-个人公网文件管理方案" class="headerlink" title="4. 个人公网文件管理方案"></a>4. 个人公网文件管理方案</h2><p>我们可以用各种大公司的云产品，比如百度云盘，阿里云盘，夸克网盘等等，这些是面向普通用户的产品。还有一些面向开发者、企业的云产品等等不在本文讨论范围。我们想要知道的是普通用户如何建立起属于自己的公网网盘。我搜集了一些开源产品。见下表</p>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="center">开源仓库</th>
+<th align="left">优缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">NextCloud (其前身是 OwnCloud)</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/nextcloud">https://github.com/nextcloud</a></td>
+<td align="left">- 功能极其强大，具备丰富的 extensions - 后端核心程序使用 php 开发，效率并不算优</td>
+</tr>
+<tr>
+<td align="left">Seafile</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/haiwen/seafile">https://github.com/haiwen/seafile</a></td>
+<td align="left">- 功能稍微单一，但是后端核心程序使用 C 语言编写，文件传输高效</td>
+</tr>
+<tr>
+<td align="left">Cloudreve</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/cloudreve/Cloudreve">https://github.com/cloudreve/Cloudreve</a></td>
+<td align="left">- Material-UI 个人认为简洁美观 - 支持本机、从机、七牛、阿里云 OSS、腾讯云 COS、又拍云、OneDrive (包括世纪互联版) 作为存储端 - 后端原本是 php 编写，而后使用了 Golang 重构</td>
+</tr>
+<tr>
+<td align="left">ZFile</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/haiwen/seafile">https://github.com/haiwen/seafile</a></td>
+<td align="left">- 基于 Java 的在线网盘程序，支持对接 S3、OneDrive、SharePoint、又拍云、本地存储、FTP 等存储源，支持在线浏览图片、播放音视频，文本文件等文件类型</td>
+</tr>
+<tr>
+<td align="left">KodExplorer(可道云)</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/kalcaddle/KodExplorer">https://github.com/kalcaddle/KodExplorer</a></td>
+<td align="left">- 类似于群晖桌面式 ui，适合对于计算机操作不熟悉的用户使用 - 他们发布了新产品 kodbox <a target="_blank" rel="noopener" href="https://github.com/kalcaddle/kodbox">https://github.com/kalcaddle/kodbox</a></td>
+</tr>
+</tbody></table>
+<p>我目前几乎是 <em>我全都要.gif</em>，但是最终留下了 <code>Seafile</code> 和 <code>Nextcloud</code> 和 <code>Cloudreve</code> 三款产品。</p>
+<p>下文我将介绍在局域网搭建一个 Seafile Server，然后通过一台具备公网 IP 的机器将其服务暴露到公网 serving.</p>
+<h2 id="5-自建-Seafile-Server-并使用-frp-暴露到公网"><a href="#5-自建-Seafile-Server-并使用-frp-暴露到公网" class="headerlink" title="5. 自建 Seafile Server 并使用 frp 暴露到公网"></a>5. 自建 Seafile Server 并使用 frp 暴露到公网</h2><p>我简而言之。</p>
+<h3 id="5-1-使用-docker-compose-安装-Seafile-Server"><a href="#5-1-使用-docker-compose-安装-Seafile-Server" class="headerlink" title="5.1 使用 docker-compose 安装 Seafile Server"></a>5.1 使用 docker-compose 安装 Seafile Server</h3><p>compose file 参考官网的 <a target="_blank" rel="noopener" href="https://docs.seafile.com/d/cb1d3f97106847abbf31/files/?p=/docker/docker-compose.yml">https://docs.seafile.com/d/cb1d3f97106847abbf31/files/?p=/docker/docker-compose.yml</a></p>
+<p>也可以参考 <a target="_blank" rel="noopener" href="https://cloud.seafile.com/published/seafile-manual-cn/docker/%E7%94%A8Docker%E9%83%A8%E7%BD%B2Seafile.md">https://cloud.seafile.com/published/seafile-manual-cn/docker/%E7%94%A8Docker%E9%83%A8%E7%BD%B2Seafile.md</a></p>
+<p>创建 <code>/your/path/seafile-compose.yml</code>，内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">version: &#39;2.0&#39;</span><br><span class="line">services:</span><br><span class="line">  db:</span><br><span class="line">    image: mariadb:10.5</span><br><span class="line">    container_name: seafile-mysql</span><br><span class="line">    environment:</span><br><span class="line">      - MYSQL_ROOT_PASSWORD&#x3D;123456 # Requested, set the root&#39;s password of MySQL service.</span><br><span class="line">      - MYSQL_LOG_CONSOLE&#x3D;true</span><br><span class="line">    volumes:</span><br><span class="line">      - .&#x2F;seafile-mysql&#x2F;db:&#x2F;var&#x2F;lib&#x2F;mysql  # Requested, specifies the path to MySQL data persistent store.</span><br><span class="line">    networks:</span><br><span class="line">      - seafile-net</span><br><span class="line"> </span><br><span class="line">  memcached:</span><br><span class="line">    image: memcached:1.6</span><br><span class="line">    container_name: seafile-memcached</span><br><span class="line">    entrypoint: memcached -m 256</span><br><span class="line">    networks:</span><br><span class="line">      - seafile-net</span><br><span class="line"> </span><br><span class="line">  seafile:</span><br><span class="line">    image: seafileltd&#x2F;seafile-mc:latest</span><br><span class="line">    container_name: seafile</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;8088:80&quot;</span><br><span class="line">#      - &quot;443:443&quot;  # If https is enabled, cancel the comment.</span><br><span class="line">    volumes:</span><br><span class="line">      - .&#x2F;seafile-data:&#x2F;shared   # Requested, specifies the path to Seafile data persistent store.</span><br><span class="line">    environment:</span><br><span class="line">      - DB_HOST&#x3D;db</span><br><span class="line">      - DB_ROOT_PASSWD&#x3D;123456  # Requested, the value shuold be root&#39;s password of MySQL service.</span><br><span class="line">      - TIME_ZONE&#x3D;Asia&#x2F;Shanghai # Optional, default is UTC. Should be uncomment and set to your local time zone.</span><br><span class="line">      - SEAFILE_ADMIN_EMAIL&#x3D;email@example.com # Specifies Seafile admin user, default is &#39;me@example.com&#39;.</span><br><span class="line">      - SEAFILE_ADMIN_PASSWORD&#x3D;123456     # Specifies Seafile admin password, default is &#39;asecret&#39;.</span><br><span class="line">      - SEAFILE_SERVER_LETSENCRYPT&#x3D;false   # Whether use letsencrypt to generate cert.</span><br><span class="line">      - SEAFILE_SERVER_HOSTNAME&#x3D;seafile.example.com # Specifies your host name.</span><br><span class="line">    depends_on:</span><br><span class="line">      - db</span><br><span class="line">      - memcached</span><br><span class="line">    networks:</span><br><span class="line">      - seafile-net</span><br><span class="line"> </span><br><span class="line">networks:</span><br><span class="line">  seafile-net:</span><br><span class="line"># 启动一个 docker stack, 建立三个容器</span><br><span class="line"># docker-compose -f .&#x2F;seafile-compose.yml up -d</span><br></pre></td></tr></table></figure>
+
+<p>默认 WebDAV 是关闭的，我们将它打开</p>
+<p><code>docker exec -it seafile bash</code> 进入容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 下面这是在容器中</span><br><span class="line"> </span><br><span class="line"># vim &#x2F;shared&#x2F;seafile&#x2F;conf&#x2F;seafdav.conf</span><br><span class="line"> </span><br><span class="line"># 将 [WEBDAV] enabled 由 false 改成 true</span><br><span class="line"> </span><br><span class="line"># 然后重启 seafile 服务</span><br><span class="line"> </span><br><span class="line"># cd &#x2F;opt&#x2F;seafile&#x2F;seafile-server-9.0.4 #读者操作的时候 latest 镜像版本应该比这个更新</span><br><span class="line"> </span><br><span class="line"># .&#x2F;seafile.sh restart</span><br><span class="line"> </span><br><span class="line">Stopping seafile server ...</span><br><span class="line">Starting seafile server, please wait ...</span><br><span class="line">** Message: 20:02:59.972: seafile-controller.c(621): No seafevents.</span><br><span class="line"> </span><br><span class="line">Seafile server started</span><br><span class="line"> </span><br><span class="line">Done.</span><br></pre></td></tr></table></figure>
+
+<p>Seafile Server 基本就部署好了。</p>
+<h3 id="5-2-在公网机器上安装-frps"><a href="#5-2-在公网机器上安装-frps" class="headerlink" title="5.2 在公网机器上安装 frps"></a>5.2 在公网机器上安装 frps</h3><p>FRP 是一个非常优秀的内网穿透程序，GitHub 链接: <a target="_blank" rel="noopener" href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a> ，其在 GitHub 上拥有 57.2k 个 star（截止 2022-06-15）。很多用户家里的网络 NAT 类型都是 Symmetric 对称型，我们一般称之为 NAT type 4，是一种最难穿透的类型。要想 nat 穿越成功，如果用户没法提升 nat 类型（最高 nat 1，叫做 FullCone 全锥形），那就必须要使用一台公网服务器中转，但这其实也是一种最高效的方式（花钱就行）。</p>
+<p>如何搭建 frps 这一部分互联网上已经有太多教程了，我简单综述一下。</p>
+<ol>
+<li>frp 是 go 写的，搭建 frp 环境需要一台具备公网的 VPS 或者国内叫轻量应用服务器，云服务器之类的</li>
+<li>在公网机器上运行 frps（binary, Linux 可执行文件），需配合 <code>frps.ini</code> 配置文件</li>
+<li>在内网机器（Seafile Server 所在机器）运行 frpc，需配合 <code>frpc.ini</code> 配置文件</li>
+</ol>
+<p>比如拉取 frp x86_64 0.39.0 版本的源程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget -O &#x2F;home&#x2F;xxx&#x2F;temp&#x2F;frp_0.39.0_linux_arm64.tar.gz https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp&#x2F;releases&#x2F;download&#x2F;v0.39.0&#x2F;frp_0.39.0_linux_arm64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>配置一下 <code>/usr/local/frp/frps.ini</code> 配置文件，以下所有端口都使用了 12345 代替</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># [common] is integral section</span><br><span class="line">[common]</span><br><span class="line"># A literal address or host name for IPv6 must be enclosed</span><br><span class="line"># in square brackets, as in &quot;[::1]:80&quot;, &quot;[ipv6-host]:http&quot; or &quot;[ipv6-host%zone]:80&quot;</span><br><span class="line">bind_addr &#x3D; 0.0.0.0</span><br><span class="line">bind_port &#x3D; 12345</span><br><span class="line"># udp port used for kcp protocol, it can be same with &#39;bind_port&#39;</span><br><span class="line"># if not set, kcp is disabled in frps</span><br><span class="line">kcp_bind_port &#x3D; 12345</span><br><span class="line"># bind udp port</span><br><span class="line">bind_udp_port &#x3D; 12345</span><br><span class="line"># if you want to configure or reload frps by dashboard, dashboard_port must be set</span><br><span class="line">dashboard_port &#x3D; 12345</span><br><span class="line"># dashboard assets directory(only for debug mode)</span><br><span class="line">dashboard_user &#x3D; YOUR_USERNAME</span><br><span class="line">dashboard_pwd &#x3D; YOUR_PASSWORD</span><br><span class="line"># assets_dir &#x3D; .&#x2F;static</span><br><span class="line">vhost_http_port &#x3D; 12345</span><br><span class="line">vhost_https_port &#x3D; 12345</span><br><span class="line"># console or real logFile path like .&#x2F;frps.log</span><br><span class="line">log_file &#x3D; &#x2F;var&#x2F;log&#x2F;frp&#x2F;frps.log</span><br><span class="line"># debug, info, warn, error</span><br><span class="line">log_level &#x3D; info</span><br><span class="line">log_max_days &#x3D; 3</span><br><span class="line"># auth token</span><br><span class="line">token &#x3D; A_STRONG_PASSWORD</span><br><span class="line"># only allow frpc to bind ports you list, if you set nothing, there won&#39;t be any limit</span><br><span class="line">#allow_ports &#x3D; 1-65535</span><br><span class="line"># pool_count in each proxy will change to max_pool_count if they exceed the maximum value</span><br><span class="line">max_pool_count &#x3D; 50</span><br><span class="line"># if tcp stream multiplexing is used, default is true</span><br><span class="line">tcp_mux &#x3D; true</span><br></pre></td></tr></table></figure>
+
+<p>Systemd 是 Linux 系统工具，用来启动守护进程，现已成为大多数发行版的标准配置。我们也用 systemd 管理 frps 和 frpc。创建文件 <code>/lib/systemd/system/frps.service</code> 内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D; Frps Service Daemon</span><br><span class="line">After&#x3D;network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;local&#x2F;frp&#x2F;frps -c &#x2F;usr&#x2F;local&#x2F;frp&#x2F;frps.ini</span><br><span class="line">KillSignal&#x3D;SIGQUIT</span><br><span class="line">TimeoutStopSec&#x3D;5</span><br><span class="line">KillMode&#x3D;process</span><br><span class="line">PrivateTmp&#x3D;true</span><br><span class="line">StandardOutput&#x3D;syslog</span><br><span class="line">StandardError&#x3D;inherit</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>启用开机自启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># systemctl enable frps</span><br></pre></td></tr></table></figure>
+
+<p>启动程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># systemctl start frps</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3-在内网机器上安装-frpc"><a href="#5-3-在内网机器上安装-frpc" class="headerlink" title="5.3 在内网机器上安装 frpc"></a>5.3 在内网机器上安装 frpc</h3><p>和 5.2 类似，我们需要 <code>frpc</code> 可执行程序和 <code>frpc.ini</code> 配置文件。</p>
+<p>创建配置文件 <code>/etc/frp/frpc.ini</code>，内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">log_file &#x3D; &#x2F;tmp&#x2F;frpc.log</span><br><span class="line">log_level &#x3D; info</span><br><span class="line">log_max_days &#x3D; 3</span><br><span class="line">login_fail_exit &#x3D; false</span><br><span class="line">protocol &#x3D; tcp</span><br><span class="line">server_addr &#x3D; example.com</span><br><span class="line">server_port &#x3D; 12345</span><br><span class="line">tcp_mux &#x3D; true</span><br><span class="line">token &#x3D; A_STRONG_PASSWORD</span><br><span class="line">user &#x3D; YOUR_USERNAME</span><br><span class="line"></span><br><span class="line">[second-n1-seafile]</span><br><span class="line">type &#x3D; http</span><br><span class="line">custom_domains &#x3D; seafile.example.com</span><br><span class="line">local_ip &#x3D; x.x.x.x</span><br><span class="line">local_port &#x3D; 8088</span><br><span class="line">remote_port &#x3D; 12345</span><br><span class="line">use_compression &#x3D; true</span><br><span class="line">use_encryption &#x3D; true</span><br></pre></td></tr></table></figure>
+
+<p>frpc 这边也使用 systemd 管理程序。创建 <code>/lib/systemd/system/frpc.service</code>，内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;FRPC Client Daemon</span><br><span class="line">After&#x3D;network.target</span><br><span class="line">Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;frpc -c &#x2F;etc&#x2F;frp&#x2F;frpc.ini</span><br><span class="line">Restart&#x3D;always</span><br><span class="line">RestartSec&#x3D;20s</span><br><span class="line">User&#x3D;xxx</span><br><span class="line">Group&#x3D;xxx</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>设置开机自启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># systemctl enable frpc</span><br></pre></td></tr></table></figure>
+
+<p>启动 frpc 程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># systemctl start frpc</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-4-其他事项"><a href="#5-4-其他事项" class="headerlink" title="5.4 其他事项"></a>5.4 其他事项</h3><p>域名相关的东西我就不说了。</p>
+<p>配置的时候注意可执行文件、配置文件的权限，和文件拥有者和所在组。</p>
+<p>还有防火墙。除了 Linux distro 自身安装的各种防火墙程序之外，类似良心云这种厂商在虚拟化的应用服务器之外还有一层硬件级别的防火墙，如果配置后发现不能访问可以优先往这些方面排查。</p>
+<p>下面我们在 VPS 上使用 nginx 反代 seafile 服务，并使用 SSL/TLS 加密（在最外层套 SSL）。得先准备好申请好的证书和私钥。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 比如 nginx 配置中的证书和私钥形式如下</span><br><span class="line"> </span><br><span class="line">ssl_certificate    &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;example.com&#x2F;fullchain.pem;</span><br><span class="line">ssl_certificate_key    &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;example.com&#x2F;privkey.pem;</span><br></pre></td></tr></table></figure>
+
+<p>创建 nginx 配置文件 <code>/etc/nginx/sites-enabled/seafile-home.conf</code> 内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  seafile.example.com;</span><br><span class="line">        rewrite ^ https:&#x2F;&#x2F;$http_host$request_uri? permanent;    # Forced redirect from HTTP to HTTPS</span><br><span class="line">        server_tokens off;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 443 ssl http2;</span><br><span class="line">        ssl_certificate    &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;example.com&#x2F;fullchain.pem;</span><br><span class="line">        ssl_certificate_key    &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;example.com&#x2F;privkey.pem;</span><br><span class="line">        server_name seafile.example.com;</span><br><span class="line">        server_tokens off;</span><br><span class="line"> </span><br><span class="line">        # HSTS for protection against man-in-the-middle-attacks</span><br><span class="line">        add_header Strict-Transport-Security &quot;max-age&#x3D;31536000; includeSubDomains&quot;;</span><br><span class="line"> </span><br><span class="line">        ssl_protocols TLSv1.2 TLSv1.3;</span><br><span class="line">        ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;</span><br><span class="line">        ssl_prefer_server_ciphers off;</span><br><span class="line"> </span><br><span class="line">        ssl_session_timeout 5m;</span><br><span class="line"> </span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">                proxy_pass         http:&#x2F;&#x2F;127.0.0.1:12345;</span><br><span class="line">                proxy_set_header   X-Real-IP $remote_addr;</span><br><span class="line">                proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">                proxy_set_header   X-Forwarded-Host $server_name;</span><br><span class="line">                proxy_set_header   X-Forwarded-Proto https;</span><br><span class="line">                proxy_set_header   Host $host:$server_port;</span><br><span class="line"> </span><br><span class="line">                access_log      &#x2F;var&#x2F;log&#x2F;nginx&#x2F;seahub.access.log;</span><br><span class="line">                error_log       &#x2F;var&#x2F;log&#x2F;nginx&#x2F;seahub.error.log;</span><br><span class="line"> </span><br><span class="line">                proxy_read_timeout  1200s;</span><br><span class="line"> </span><br><span class="line">                client_max_body_size 0;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>检查 nginx 语法并重载 nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># nginx -t &amp;&amp; nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以通过 <a target="_blank" rel="noopener" href="https://seafile.example.com/">https://seafile.example.com</a> 访问属于自己的 seafile 服务。</p>
+<hr>
+<p><img src="https://hellodk.cn/usr/uploads/spot_loading.gif" alt="20220616144938"></p>
+<blockquote>
+<p>进入后台管理页面，可以随意切换公网和内网访问，大部分时候还是使用公网的域名访问配置</p>
+</blockquote>
+<p><img src="https://hellodk.cn/usr/uploads/spot_loading.gif" alt="20220616144704"></p>
+<blockquote>
+<p>跑到了 100MiB/s，但是没有截到图 🤣</p>
+</blockquote>
+<p><img src="https://hellodk.cn/usr/uploads/spot_loading.gif" alt="20220616145227"></p>
+<blockquote>
+<p>切换到内网，打开浏览器上传的速度，受限于机器性能，比如我的 Phicomm N1 最多只能跑到 50MiB/s</p>
+</blockquote>
+<p>全文完。</p>
+<h2 id="6-引用与致谢"><a href="#6-引用与致谢" class="headerlink" title="6. 引用与致谢"></a>6. 引用与致谢</h2><ul>
+<li>各个协议的 wikipedia 简体中文页面</li>
+<li>各个开源项目</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/411161467">NFS、FTP、SMB、WebDav、DLNA协议，傻傻分不清？</a></li>
+<li><a target="_blank" rel="noopener" href="https://post.smzdm.com/p/ar6k932q/">SMB、FTP、WebDAV协议，傻傻分不清？5000字教程，教你快速上手</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.lategege.com/?p=466">nas各种共享访问协议的使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.raysync.cn/news/post-id-864">13 种适用于企业的文件传输协议</a></li>
+</ul>
+<p>end.</p>
+<p>打赏: <img src="https://img.gejiba.com/images/6e24e0daffd9f056c2488ba1810b0711.png" alt="微信收款二维码">微信, <img src="https://img.gejiba.com/images/3f53c114d523608679ec81d24e4c2a3a.jpg" alt="支付宝收款二维码">支付宝</p>
+<p>标签: <a target="_blank" rel="noopener" href="https://hellodk.cn/tag/Linux/">Linux</a>, <a target="_blank" rel="noopener" href="https://hellodk.cn/tag/%E7%BD%91%E7%BB%9C/">网络</a></p>
+<p>本作品采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可。</p>
+<h3 id="添加新评论"><a href="#添加新评论" class="headerlink" title="添加新评论"></a>添加新评论</h3><p>OωO表情</p>
+<p><img src="https://hellodk.cn/action/captcha" alt="captcha"><br><strong>请输入验证码：</strong> </p>
+<p>提交评论</p>
+<ul>
+<li>上一篇: <a target="_blank" rel="noopener" href="https://hellodk.cn/post/1048">解决 webdav 连接 seafile 无法重命名文件等操作造成的 SeafDAV: MOVE returns 502 Bad Gateway 错误</a></li>
+<li>下一篇: 没有了</li>
+</ul>
+<p>Copyright © 2017 - 2022 by hellodk.cn | Proudly Powered by <a target="_blank" rel="noopener" href="http://www.typecho.org/">Typecho</a> &amp; <a target="_blank" rel="noopener" href="https://www.offodd.com/17.html">Initial </a>&amp; <a target="_blank" rel="noopener" href="https://hellodk.cn/">❤.</a></p>
+<p><a target="_blank" rel="noopener" href="https://hellodk.cn/archives">Archives | </a><a target="_blank" rel="noopener" href="https://hellodk.cn/sitemap.xml">SiteMap | </a><a target="_blank" rel="noopener" href="https://hellodk.cn/about">About</a></p>
+<p>Site has been running for 3 year(s) 71 days 11 hours.</p>
+<p>小破站总访问量才 792276 次，要加油鸭！</p>
+<p>页面加载用时: 524 ms</p>
+<ul>
+<li></li>
+<li></li>
+</ul>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-硬件相关知识" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/814126a1.html" class="article-date">
+      <time datetime="2022-06-15T13:58:19.000Z" itemprop="datePublished">2022-06-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/814126a1.html">计算机硬件相关知识</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>主板 上有各种芯片 南桥,北桥,接口芯片连接总线</p>
+<p>CPU 频率,核心,架构</p>
+<p>GPU 专用矢量渲染,并行能力强,算力丰富</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>主板 上有各种芯片 南桥,北桥,接口芯片连接总线</p>
+<p>CPU 频率,核心,架构</p>
+<p>GPU 专用矢量渲染,并行能力强,算力丰富</p>
+<p>目前显卡 消费端就是 gtx,gnx 生产端 tesla</p>
+<table>
+<thead>
+<tr>
+<th><strong>通用并行运算</strong></th>
+<th><strong>显示的api</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cude</td>
+<td>directx</td>
+</tr>
+<tr>
+<td>opencl</td>
+<td>opengl()</td>
+</tr>
+<tr>
+<td></td>
+<td>vulkan逐渐替代</td>
+</tr>
+<tr>
+<td></td>
+<td>webgl(浏览器基于opengl 封装的api 包括cesuim 等很多js 三维基于这个 来进一步封装和集成)</td>
+</tr>
+</tbody></table>
+<p>实时画面渲染 可能是GPU集群来实现 一方面是处理速度网络是有延时的</p>
+<p>主板上多GPU功能主要需要使用NVIDIA上面的SLI来实现目前pci-e 主板来实现目前ue4官方并不支持多GPU</p>
+<p>对应运行gpu算力的部分 一般是用 NVIDIA-smi来实现集中接口调用 类似于 opencl</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-gdal镜像集成和dockerfile使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/59cba8fc.html" class="article-date">
+      <time datetime="2022-06-13T07:01:28.000Z" itemprop="datePublished">2022-06-13</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="gdal介绍"><a href="#gdal介绍" class="headerlink" title="gdal介绍"></a>gdal介绍</h2><p>gdal的一个用c++语言编写的库，用于处理地理信息相关的数据包括转换，识别数据，格式化数据以及解析</p>
+<p>同时提供第三方语言的SDK包括python，java上述需要编译后使用 java是需要使用jni接口调用实现方法在window平台是DLL文件，在linux平台是so文件，最后需要使用和初始化服务。</p>
+<h3 id="gdal命令使用"><a href="#gdal命令使用" class="headerlink" title="gdal命令使用"></a>gdal命令使用</h3><p>1、ogrinfo</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="gdal介绍"><a href="#gdal介绍" class="headerlink" title="gdal介绍"></a>gdal介绍</h2><p>gdal的一个用c++语言编写的库，用于处理地理信息相关的数据包括转换，识别数据，格式化数据以及解析</p>
+<p>同时提供第三方语言的SDK包括python，java上述需要编译后使用 java是需要使用jni接口调用实现方法在window平台是DLL文件，在linux平台是so文件，最后需要使用和初始化服务。</p>
+<h3 id="gdal命令使用"><a href="#gdal命令使用" class="headerlink" title="gdal命令使用"></a>gdal命令使用</h3><p>1、ogrinfo</p>
+<p>orginfo –version</p>
+<p>ogrinfo –help</p>
+<p>2、ogr2ogr</p>
+<blockquote>
+<ul>
+<li>ogr2ogr postgis转shp 并执行SQL</li>
+</ul>
+<p>ogr2ogr -f  “ESRI Shapefile” file1.shp    PG:”host=’192.168.7.11’ port=’5432’ dbname=’postgres’ user=’postgres’ password=’1111’” -sql “select * from like_fff_xztc”   -dialect PostgreSQL</p>
+<ul>
+<li>ogr2ogr postgis转化为shp文件且指定SQL执行</li>
+</ul>
+<p>ogr2ogr -f  “ESRI Shapefile” /app/tmp/result_like_fff_xztc/result_like_fff_xztc.shp PG:”host=’192.168.7.11’ port=’5432’ dbname=’postgres’ user=’postgres’ password=’1111’” -sql “select fid,objectid,bsm,dlmc,qsdwmc,zldwmc,f_xzqhmc,f_year,f_month,partitionno,se_anno_cad_data,tbdlmj,ysdm,dlbm,qsxz,qsdwdm,zldwdm,xzgdlx,zldj,f_xzqhdm,f_diccode,f_fileid,tbbh,shape_length,shape_area,st_transForm(geom,4490) as geom  from like_fff_xztc where ST_Intersects(geom,st_transform(st_geomFromText(‘MULTIPOLYGON(((112.973570327973 30.634569982416,112.973501343979 30.6344597898424,112.973423613701 30.6344687491655)))’,4490),4490))” -dialect PostgreSQL  –config SHAPE_ENCODING ‘UTF-8’</p>
+<ul>
+<li>ogr2ogr shp导入shp 命令</li>
+</ul>
+<p>ogr2ogr   -f  “PostgreSQL” PG:”host=’192.168.7.11’ port=’5432’ dbname=’test’ user=’postgres’ password=’1111’” C:\Users\Administrator\Desktop\ceshi\old\Water_region.shp -progress  -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=fid  -overwrite -nln ‘like_test_update’  -unsetFieldWidth  –config SHAPE_ENCODING ‘utf-8’</p>
+<ul>
+<li>ogr2ogr mdb导入shp命令</li>
+</ul>
+<p>ogr2ogr -f “PostgreSQL” PG:”host=’192.168.7.11’ port=’5432’ dbname=’test_new_app’ user=’postgres’ password=’1111’” /app/laohekou.mdb  -progress  -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=fid  -overwrite -nln ‘test_mdb_001’</p>
+<ul>
+<li>ogr2ogr shp转入postgis</li>
+</ul>
+<p>ogr2ogr -f “PostgreSQL” PG:”host=xxx user=xxx password=xxx dbname=cxxxhina”  -nlt GEOMETRY 省级行政区.shp</p>
+</blockquote>
+<p>3、</p>
+<h2 id="官方gdal的dockerfile简介"><a href="#官方gdal的dockerfile简介" class="headerlink" title="官方gdal的dockerfile简介"></a>官方gdal的dockerfile简介</h2><p><a target="_blank" rel="noopener" href="https://github.com/OSGeo/gdal/tree/01490692487cb436bb4b10740cd2aabb403531fe/docker"><a target="_blank" rel="noopener" href="https://github.com/OSGeo/gdal/tree/master/docker">gdal/docker at master · OSGeo/gdal</a></a></p>
+<blockquote>
+<h1 id="Alpine-based"><a href="#Alpine-based" class="headerlink" title="Alpine based"></a>Alpine based</h1><p>Alpine version:</p>
+<ul>
+<li>3.15 for 3.5</li>
+<li>3.16 for GDAL 3.6dev</li>
+</ul>
+<h2 id="Small-osgeo-gdal-alpine-small-latest"><a href="#Small-osgeo-gdal-alpine-small-latest" class="headerlink" title="Small: osgeo/gdal:alpine-small-latest"></a>Small: <code>osgeo/gdal:alpine-small-latest</code></h2><ul>
+<li>Image size: ~ 59 MB</li>
+<li>Raster drivers: ultrasmall + built-in + SQLite-based ones + network-based ones</li>
+<li>Vector drivers: ultrasmall + built-in + most XML-based ones + network-based ones + PostgreSQL</li>
+<li>Using internal libtiff and libgeotiff</li>
+<li>External libraries enabled: ultrasmall + libexpat, libpq, libssl</li>
+<li><em>No</em> GDAL Python</li>
+<li>Base PROJ grid package (<a target="_blank" rel="noopener" href="http://download.osgeo.org/proj/proj-datumgrid-1.8.zip">http://download.osgeo.org/proj/proj-datumgrid-1.8.zip</a>)</li>
+<li>Overall licensing terms of the GDAL build: permissive (MIT, BSD style, Apache, etc..)</li>
+</ul>
+<p>See <a target="_blank" rel="noopener" href="https://github.com/OSGeo/gdal/blob/master/docker/alpine-small/Dockerfile">alpine-small/Dockerfile</a></p>
+<h2 id="Normal-osgeo-gdal-alpine-normal-latest"><a href="#Normal-osgeo-gdal-alpine-normal-latest" class="headerlink" title="Normal: osgeo/gdal:alpine-normal-latest"></a>Normal: <code>osgeo/gdal:alpine-normal-latest</code></h2><ul>
+<li>Image size: ~ 277 MB</li>
+<li>Raster drivers: small + netCDF, HDF5, BAG</li>
+<li>Vector drivers: small + Spatialite, XLS</li>
+<li>Using internal libtiff and libgeotiff</li>
+<li>External libraries enabled: small + libgeos, libhdf5, libhdf5, libkea, libnetcdf, libfreexl, libspatialite, libxml2, libpoppler, openexr, libheif, libdeflate, libparquet</li>
+<li>GDAL Python</li>
+<li>Base PROJ grid package (<a target="_blank" rel="noopener" href="http://download.osgeo.org/proj/proj-datumgrid-1.8.zip">http://download.osgeo.org/proj/proj-datumgrid-1.8.zip</a>)</li>
+<li>Overall licensing terms of the GDAL build: copy-left (GPL) + LGPL + permissive</li>
+</ul>
+<p>See <a target="_blank" rel="noopener" href="https://github.com/OSGeo/gdal/blob/master/docker/alpine-normal/Dockerfile">alpine-normal/Dockerfile</a></p>
+<h1 id="Ubuntu-based"><a href="#Ubuntu-based" class="headerlink" title="Ubuntu based"></a>Ubuntu based</h1><p>Ubuntu version:</p>
+<ul>
+<li>20.04 for GDAL 3.4 and 3.5</li>
+<li>22.04 for GDAL 3.6dev</li>
+</ul>
+<h2 id="Small-osgeo-gdal-ubuntu-small-latest"><a href="#Small-osgeo-gdal-ubuntu-small-latest" class="headerlink" title="Small: osgeo/gdal:ubuntu-small-latest"></a>Small: <code>osgeo/gdal:ubuntu-small-latest</code></h2><ul>
+<li>Image size: ~ 385 MB</li>
+<li>Raster drivers: all built-in + JPEG + PNG + JP2OpenJPEG + WEBP +SQLite-based ones + network-based ones</li>
+<li>Vector drivers: all built-in + XML based ones + SQLite-based ones + network-based ones + PostgreSQL</li>
+<li>Using internal libtiff and libgeotiff</li>
+<li>External libraries enabled: libsqlite3, libproj, libcurl, libjpeg, libpng, libwebp, libzstd, libexpat, libxerces-c, libpq, libssl, libgeos, libspatialite</li>
+<li>GDAL Python (Python 3.8 for Ubuntu 20.04, Python 3.10 for Ubuntu 22.04)</li>
+<li>Base PROJ grid package (<a target="_blank" rel="noopener" href="http://download.osgeo.org/proj/proj-datumgrid-1.8.zip">http://download.osgeo.org/proj/proj-datumgrid-1.8.zip</a>)</li>
+<li>Overall licensing terms of the GDAL build: LGPL + permissive (MIT, BSD style, Apache, etc..)</li>
+</ul>
+<p>See <a target="_blank" rel="noopener" href="https://github.com/OSGeo/gdal/blob/master/docker/ubuntu-small/Dockerfile">ubuntu-small/Dockerfile</a></p>
+<h2 id="Full-osgeo-gdal-ubuntu-full-latest-aliased-to-osgeo-gdal"><a href="#Full-osgeo-gdal-ubuntu-full-latest-aliased-to-osgeo-gdal" class="headerlink" title="Full: osgeo/gdal:ubuntu-full-latest (aliased to osgeo/gdal)"></a>Full: <code>osgeo/gdal:ubuntu-full-latest</code> (aliased to <code>osgeo/gdal</code>)</h2><ul>
+<li>Image size: ~ 1.48 GB</li>
+<li>Raster drivers: all based on almost all possible free and open-source dependencies</li>
+<li>Vector drivers: all based on almost all possible free and open-source dependencies</li>
+<li>Using internal libtiff and libgeotiff</li>
+<li>External libraries enabled: small + libnetcdf, libhdf4, libhdf5, libtiledb, libkea, mongocxx 3.4, libspatialite, unixodbc, libxml2, libcfitsio, libmysqlclient, libkml, libpoppler, pdfium, openexr, libheif, libdeflate, libparquet</li>
+<li>GDAL Python (Python 3.8 for Ubuntu 20.04, Python 3.10 for Ubuntu 22.04)</li>
+<li><em>All</em> PROJ grid packages (equivalent of latest of proj-data-X.zip from <a target="_blank" rel="noopener" href="http://download.osgeo.org/proj/">http://download.osgeo.org/proj/</a> at time of generation, &gt; 500 MB)</li>
+<li>Overall licensing terms of the GDAL build: copy-left (GPL) + LGPL + permissive</li>
+</ul>
+</blockquote>
+<p>点击进入后可以看到介绍，目前分别在两个linux发行版本上进行镜像文件创建，分别是Ubuntu，和alpine</p>
+<p>alpine是精简的服务目前不包括第三方的拓展目前在linux上不支持pgeo（改数据源可以读取mdb和其他格式数据的支持）</p>
+<p>ubuntu是完整版是提供全量的服务，支持pgeo</p>
+<p>介绍</p>
+<p>linux下面读取微软的软件word，Excel，PPT是有平台和驱动，但是像access这种个人数据库需要ODBC这个开源平台来读取这类数据，gdal在linux平台通过ODBC接口来读取access个人数据库，同时对数据解析，我们需要利用这个解析工具来读取数据被我们java读取，或者通过ogr2ogr命令来转换数据</p>
+<p>ODBC</p>
+<p>是linux平台的数据的解析</p>
+<p>ogrinfo 能识别</p>
+<p>odbcinst -j  表示odbc正确安装</p>
+<h2 id="方法一osgeo-gdal-ubuntu-full基础上安装-unixODBC-mdbtools"><a href="#方法一osgeo-gdal-ubuntu-full基础上安装-unixODBC-mdbtools" class="headerlink" title="方法一osgeo/gdal:ubuntu-full基础上安装(unixODBC,mdbtools)"></a>方法一osgeo/gdal:ubuntu-full基础上安装(unixODBC,mdbtools)</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">FROM</span>  osgeo/gdal:ubuntu-full-<span class="number">3.0</span>.<span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> cp  /etc/apt/sources.list  /etc/apt/sources.list.bak</span></span><br><span class="line"><span class="comment"># RUN echo  &#x27;deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse \ndeb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse\ndeb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse \ndeb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse \ndeb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse\n&#x27; &gt; /etc/apt/sources.list</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; cat /etc/apt/sources.list &amp;&amp; apt-get  -y --fix-missing --no-install-recommends install  gcc make g++  bison flex gawk unixodbc-dev libgdal-java</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> ./unixODBC-2.3.11   /usr/unixODBC-2.3.11</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> ./mdbtools-1.0.0   /usr/mdbtools-1.0.0</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> chmod -R 777 /usr/unixODBC-2.3.11/ &amp;&amp; chmod -R 777 /usr/mdbtools-1.0.0</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">   <span class="built_in">cd</span> /usr/unixODBC-2.3.11/ &amp;&amp; ./configure --prefix=/usr/unixODBC-2.3.11 --includedir=/usr/include --libdir=/usr/lib --bindir=/usr/bin --sysconfdir=/etc</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  <span class="built_in">cd</span> /usr/unixODBC-2.3.11/ &amp;&amp; make</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  <span class="built_in">cd</span> /usr/unixODBC-2.3.11/ &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  <span class="built_in">cd</span>  /usr/mdbtools-1.0.0 &amp;&amp; ./configure --with-unixodbc=/usr/unixODBC-2.3.11</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">cd</span>  /usr/mdbtools-1.0.0 &amp;&amp; make</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">cd</span>  /usr/mdbtools-1.0.0 &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># RUN echo &quot;export LD_LIBRARY_PATH_LIKE=/usr/local/lib&quot; &gt;&gt; /etc/profile &amp;&amp; source /etc/profile</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> ./odbcinst.ini  /etc</span></span><br><span class="line"><span class="keyword">ENV</span> LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib</span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  cp /usr/share/java/gdal.jar  /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/</span></span><br><span class="line"><span class="comment"># 指定时区</span></span><br><span class="line"><span class="keyword">ENV</span> TZ=Asia/Shanghai</span><br><span class="line"><span class="comment"># 设定工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash">  config /app/config</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash">  ./shp2pg.py /app/py/shp2pg.py	</span></span><br><span class="line"><span class="comment"># 声明端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">11002</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> uts-stg.jar /app/uts-stg.jar</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-Djava.security.egd=file:/dev/./urandom&quot;</span>,<span class="string">&quot;-Djava.library.path=/usr/lib/jni&quot;</span>, <span class="string">&quot;-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 &quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/app/uts-stg.jar&quot;</span>]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-gdal使用和环境初始化在Windows和linux下的介绍" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1039,577 +1815,9 @@
 
 
   
-    <article id="post-cloudflare的DNS解析和page服务以及转发到指定ip地址" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/a4faf5d1.html" class="article-date">
-      <time datetime="2022-04-09T14:16:10.000Z" itemprop="datePublished">2022-04-09</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <p><img src="../img/image-20220409221655871.png" alt="image-20220409221655871"></p>
-<p><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/ssl/origin-configuration/origin-ca/#:~:text=Some%20origin%20web%20servers%20require%20upload%20of%20the%20Cloudflare%20Origin%20CA%20root%20certificate.%20Click%20a%20link%20below%20to%20download%20either%20an%20RSA%20and%20ECC%20version%20of%20the%20Cloudflare%20Origin%20CA%20root%20certificate%3A">Origin CA certificates · Cloudflare SSL docs</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-安卓推送消息" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/514a98ba.html" class="article-date">
-      <time datetime="2022-04-05T08:45:32.000Z" itemprop="datePublished">2022-04-05</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/514a98ba.html">安卓推送消息</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>目前想给自己的手机客户端推送消息和提醒，之前一直用的是 <a target="_blank" rel="noopener" href="https://wxpusher.zjiecode.com/docs/#/">WxPusher微信推送服务</a>,</p>
-<p><a target="_blank" rel="noopener" href="https://sct.ftqq.com/">Server酱·Turbo版</a>，通过关注指定的微信公众号来实现微信提醒，原理图如下</p>
-<p><img src="../img/20210205122635.png" alt="img"></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>目前想给自己的手机客户端推送消息和提醒，之前一直用的是 <a target="_blank" rel="noopener" href="https://wxpusher.zjiecode.com/docs/#/">WxPusher微信推送服务</a>,</p>
-<p><a target="_blank" rel="noopener" href="https://sct.ftqq.com/">Server酱·Turbo版</a>，通过关注指定的微信公众号来实现微信提醒，原理图如下</p>
-<p><img src="../img/20210205122635.png" alt="img"></p>
-<p>但是微信始终有缺陷，我一直在考虑有没有一直利用现有的安卓和苹果推送的壳APP，然后调用接口推送消息到客户端。</p>
-<p><a target="_blank" rel="noopener" href="http://pushdeer.com/">pushdeer.com</a></p>
-<h3 id="设置设备"><a href="#设置设备" class="headerlink" title="设置设备"></a>设置设备</h3><p><img src="../img/image-20220405171122231.png" alt="image-20220405171122231"></p>
-<h3 id="设置key"><a href="#设置key" class="headerlink" title="设置key"></a>设置key</h3><p><img src="../img/image-20220405171137973.png" alt="image-20220405171137973"></p>
-<h3 id="开启APP的通知权限"><a href="#开启APP的通知权限" class="headerlink" title="开启APP的通知权限"></a>开启APP的通知权限</h3><p><img src="../img/9608ca3e7a10e6c41f8ee7ae86c67100.jpg" alt="9608ca3e7a10e6c41f8ee7ae86c67100"></p>
-<h3 id="输入推送消息"><a href="#输入推送消息" class="headerlink" title="输入推送消息"></a>输入推送消息</h3><p><img src="../img/image-20220405171059460.png" alt="image-20220405171059460"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-nginx详细的配置和用途" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2474801124.html" class="article-date">
-      <time datetime="2022-03-23T18:51:11.000Z" itemprop="datePublished">2022-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2474801124.html">nginx详细的配置和用途</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>2022-03-23补充————<br>后置代理和从定向</p>
-<p> location /api/test.html {</p>
-<h1 id="return-301-http-8-136-132-68-8081-404-html"><a href="#return-301-http-8-136-132-68-8081-404-html" class="headerlink" title="return 301 http://8.136.132.68:8081/404.html;"></a>return 301 <a target="_blank" rel="noopener" href="http://8.136.132.68:8081/404.html">http://8.136.132.68:8081/404.html</a>;</h1><pre><code>return 301 $scheme://$host:$server_port/404.html;
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>2022-03-23补充————<br>后置代理和从定向</p>
-<p> location /api/test.html {</p>
-<h1 id="return-301-http-8-136-132-68-8081-404-html"><a href="#return-301-http-8-136-132-68-8081-404-html" class="headerlink" title="return 301 http://8.136.132.68:8081/404.html;"></a>return 301 <a target="_blank" rel="noopener" href="http://8.136.132.68:8081/404.html">http://8.136.132.68:8081/404.html</a>;</h1><pre><code>return 301 $scheme://$host:$server_port/404.html;
-&#125;</code></pre>
-<p>location /stg/swagger-ui.html {<br>            proxy_pass  http://$host:$server_port/404.html;</p>
-<p>}</p>
-<p>2022-1-20———————</p>
-<p><a target="_blank" rel="noopener" href="https://mincong.io/cn/nginx-subdomains/">在 Nginx 中配置二级域名 - Mincong Huang</a></p>
-<p>目前ss证书都是<strong>Let’s Encrypt</strong> 和cloudflare</p>
-<p>,<img src="../img/image-20220123144802723.png" alt="image-20220123144802723"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">  # 配置证书地址</span><br><span class="line">  ssl_certificate      &#x2F;etc&#x2F;nginx&#x2F;imlike.cc.pem;</span><br><span class="line">  ssl_certificate_key  &#x2F;etc&#x2F;nginx&#x2F;imlike.cc.key;</span><br><span class="line">     server&#123;</span><br><span class="line">              listen       443 ssl http2;</span><br><span class="line">              listen       [::]:443 ssl http2;</span><br><span class="line">              server_name  _;</span><br><span class="line">               location &#x2F; &#123;</span><br><span class="line">               # 一些基本反向代理配置以及获取请求真是IP地址</span><br><span class="line">                      proxy_redirect off;</span><br><span class="line">                      proxy_set_header Host $host;</span><br><span class="line">                      proxy_set_header X-Real-Ip $remote_addr;</span><br><span class="line">                      proxy_set_header X-Forwarded-For $remote_addr;</span><br><span class="line">                      proxy_pass http:&#x2F;&#x2F;8.136.132.68:5212&#x2F;;</span><br><span class="line">              &#125;</span><br><span class="line">             # access_log &#x2F;home&#x2F;wwwlogs&#x2F;git.aboutme.ink.log;</span><br><span class="line">       &#125;</span><br><span class="line">   # 监听80端口,提供本地静态服务</span><br><span class="line">  server &#123;</span><br><span class="line">      listen       80;</span><br><span class="line">      server_name  localhost;</span><br><span class="line"></span><br><span class="line">      #charset koi8-r;</span><br><span class="line"></span><br><span class="line">      #access_log  logs&#x2F;host.access.log  main;</span><br><span class="line"></span><br><span class="line">      location &#x2F; &#123;</span><br><span class="line">          root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span><br><span class="line">          index  index.html index.htm;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line"># 监听80的配置 跳转到对应HTTPS</span><br><span class="line">server &#123;</span><br><span class="line">  listen       80;</span><br><span class="line">  server_name  _;</span><br><span class="line">  return       301 https:&#x2F;&#x2F;$host$request_uri;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>如果出现下图的问题,需要看看后置代理的服务是否有问题和nginx日志</p>
-<p><img src="../img/image-20220120172354834.png" alt="image-20220120172354834"></p>
-<blockquote>
-<p>curl -iL file.imlike.cc</p>
-</blockquote>
-<p>2021-12-31补充</p>
-<p><img src="../img/image-20211231134646924.png" alt="image-20211231134646924"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gzip on;  #是否开启gzip模块 on表示开启 off表示关闭</span><br><span class="line">    gzip_static on;</span><br><span class="line">gzip_buffers 4 16k;  #设置压缩所需要的缓冲区大小</span><br><span class="line">gzip_comp_level 6;  #压缩级别1-9，数字越大压缩的越好，也越占用CPU时间</span><br><span class="line">gzip_min_length 1k;  #设置允许压缩的最小字节</span><br><span class="line">gzip_http_version 1.0;  #设置压缩http协议的版本,默认是1.1</span><br><span class="line">gzip_types text&#x2F;plain application&#x2F;x-javascript text&#x2F;css text&#x2F;javascript application&#x2F;x-httpd-php image&#x2F;jpeg image&#x2F;gif image&#x2F;png application&#x2F;octet-stream application&#x2F;javascript;  #设置压缩的文件类型</span><br><span class="line">gzip_vary     on;  #加上http头信息Vary: Accept-Encoding给后端代理服务器识别是否启用 gzip 压缩</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<p>2021-12-17补充使用nginx来代理并替换内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;uu&#x2F; &#123;</span><br><span class="line"># 添加gzip的支持 否则geoserver返回的内容不能被替换</span><br><span class="line"> proxy_set_header Accept-Encoding &quot;&quot;;</span><br><span class="line"> # 你想要代理的地址</span><br><span class="line">     proxy_pass http:&#x2F;&#x2F;192.168.11.20:8080&#x2F;geoserver&#x2F;;</span><br><span class="line"></span><br><span class="line">   # sub_filter_types text&#x2F;html;</span><br><span class="line">   # 参数分别为 on(一次),off(全部替换)</span><br><span class="line">      sub_filter_once off;</span><br><span class="line">      # 需要替换的内容,就是网页的内容 </span><br><span class="line">     sub_filter &#39;http:&#x2F;&#x2F;127.0.0.1&#x2F;geoserver&#x2F;&#39; &#39;http:&#x2F;&#x2F;127.0.0.1:8088&#x2F;uu&#x2F;&#39;;</span><br><span class="line">		</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      proxy_redirect     default;</span><br><span class="line"></span><br><span class="line">       # 返回重定向的</span><br><span class="line">        # proxy_set_header   Host $host;</span><br><span class="line">        # proxy_set_header Host $host:$server_port;</span><br><span class="line">        # proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>tips</p>
-<ul>
-<li>nginx -V 查看是否支持 http_sub_module 否则不会替换</li>
-<li>sub_filter 只支持替换,不支持正则表达式,复杂的需要使用第三方的库</li>
-<li>{IP}:{PORT}/uu/ 才能被识别 但是geoserver通常访问是 xxx/geoserver/web 所以代理后是 xxx/uu/web/ 否则跳转不过去</li>
-</ul>
-<p>2021-08-20 补充nginx使用和配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">重定向后找不到 host&#x2F;uu&#x2F;geoserver -&gt; host&#x2F;uu&#x2F;geoserver&#x2F;web&#x2F; -&gt;  host&#x2F;uu&#x2F;geoserver&#x2F;index.html</span><br><span class="line">&#x2F; 是相对路径 没有 &#x2F; 绝对路径</span><br><span class="line"></span><br><span class="line">配置文件</span><br><span class="line">    location &#x2F;uts&#x2F; &#123;</span><br><span class="line">          proxy_pass http:&#x2F;&#x2F;192.168.11.20:90&#x2F;uu&#x2F;;</span><br><span class="line">          proxy_redirect default;</span><br><span class="line">          proxy_set_header   Host $host;</span><br><span class="line">        &#125;</span><br><span class="line">        location &#x2F;uu&#x2F; &#123;</span><br><span class="line"></span><br><span class="line">         sub_filter_once off;</span><br><span class="line">         # sub_filter_types text&#x2F;html;</span><br><span class="line">          sub_filter &quot;http:&#x2F;&#x2F;192.168.11.20:8080&#x2F;geoserver&#x2F;&quot; &quot;http:&#x2F;&#x2F;127.0.0.1&#x2F;uu&#x2F;&quot;;</span><br><span class="line"></span><br><span class="line">          proxy_pass http:&#x2F;&#x2F;192.168.11.20:8080&#x2F;geoserver&#x2F;;</span><br><span class="line">          proxy_redirect     default;</span><br><span class="line"></span><br><span class="line">          # 返回重定向的</span><br><span class="line">           # proxy_set_header   Host $host;</span><br><span class="line">           # proxy_set_header Host $proxy_host;</span><br><span class="line">           # proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">           # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">location &#x2F;uts &#123;</span><br><span class="line">  proxy_host 192.168.11.20:8080</span><br><span class="line">&#125; http:&#x2F;&#x2F;127.0.0.1&#x2F;uts&#x2F;  &#x2F;uts&#x2F;   http:&#x2F;&#x2F;127.0.0.1&#x2F;uts&#x2F;configDetail     &#x2F;uts&#x2F;configDetail</span><br><span class="line"></span><br><span class="line">location &#x2F;uts&#x2F; &#123;</span><br><span class="line">  proxy_host 192.168.11.20:8080&#x2F;</span><br><span class="line">&#125;  http:&#x2F;&#x2F;127.0.0.1&#x2F;uts&#x2F;  &#x2F;   http:&#x2F;&#x2F;127.0.0.1&#x2F;uts&#x2F;configDetail    configDetail</span><br><span class="line"></span><br><span class="line">location &#x2F;uts&#x2F; &#123;</span><br><span class="line">  proxy_host 192.168.11.20:8080&#x2F;ss&#x2F;</span><br><span class="line">&#125;  http:&#x2F;&#x2F;127.0.0.1&#x2F;uts&#x2F;  &#x2F;   http:&#x2F;&#x2F;127.0.0.1&#x2F;uts&#x2F;configDetail    configDetail</span><br><span class="line"></span><br><span class="line">location &#x2F;uts&#x2F; &#123;</span><br><span class="line">  proxy_host 192.168.11.20:8080</span><br><span class="line">&#125; http:&#x2F;&#x2F;127.0.0.1&#x2F;uts&#x2F;  &#x2F;uts&#x2F;   http:&#x2F;&#x2F;127.0.0.1&#x2F;uts&#x2F;configDetail    &#x2F;uts&#x2F;configDetail</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">location &#x2F;uts &#123;</span><br><span class="line">  proxy_host 192.168.11.20:8080&#x2F;</span><br><span class="line">&#125; http:&#x2F;&#x2F;127.0.0.1&#x2F;uts&#x2F;  &#x2F;&#x2F;   http:&#x2F;&#x2F;127.0.0.1&#x2F;uts&#x2F;configDetail    &#x2F;&#x2F;configDetail</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-<p>2021-7-29补充</p>
-<p>root alias区别</p>
-<p>同样配置nginx目录</p>
-<p>alias的路径只用于 url 不会根据这个去,    其配置的文件夹来找寻具体目录地址,同时如果在alias的根路径下还会显示 路径下所有文件.相当于 alias设置虚拟目录</p>
-<p>但是root不是它会匹配,同样的如果root配置的location对应 文件夹不存在那就会包404</p>
-<p>借鉴下面博文<a target="_blank" rel="noopener" href="https://www.cnblogs.com/kevingrace/p/6187482.html">https://www.cnblogs.com/kevingrace/p/6187482.html</a></p>
-<blockquote>
-<p>1）alias指定的目录是准确的，即location匹配访问的path目录下的文件直接是在alias目录下查找的；<br>2）root指定的目录是location匹配访问的path目录的上一级目录,这个path目录一定要是真实存在root指定目录下的；<br>3）使用alias标签的目录块中不能使用rewrite的break（具体原因不明）；另外，alias指定的目录后面必须要加上”/“符号！！<br>4）alias虚拟目录配置中，location匹配的path目录如果后面不带”/“，那么访问的url地址中这个path目录后面加不加”/“不影响访问，访问时它会自动加上”/“；<br>  但是如果location匹配的path目录后面加上”/“，那么访问的url地址中这个path目录必须要加上”/“，访问时它不会自动加上”/“。如果不加上”/“，访问就会失败！<br>5）root目录配置中，location匹配的path目录后面带不带”/“，都不会影响访问。</p>
-<p>举例说明（比如nginx配置的域名是<a href="http://www.wangshibo.com）：">www.wangshibo.com）：</a><br>示例一<br>location /huan/ {<br>   alias /home/www/huan/;<br>}</p>
-<p>在上面alias虚拟目录配置下，访问<a target="_blank" rel="noopener" href="http://www.wangshibo.com/huan/a.html%E5%AE%9E%E9%99%85%E6%8C%87%E5%AE%9A%E7%9A%84%E6%98%AF/home/www/huan/a.html%E3%80%82">http://www.wangshibo.com/huan/a.html实际指定的是/home/www/huan/a.html。</a><br>注意：alias指定的目录后面必须要加上”/“，即/home/www/huan/不能改成/home/www/huan</p>
-<p>上面的配置也可以改成root目录配置，如下，这样nginx就会去/home/www/huan下寻找<a target="_blank" rel="noopener" href="http://www.wangshibo.com/huan%E7%9A%84%E8%AE%BF%E9%97%AE%E8%B5%84%E6%BA%90%EF%BC%8C%E4%B8%A4%E8%80%85%E9%85%8D%E7%BD%AE%E5%90%8E%E7%9A%84%E8%AE%BF%E9%97%AE%E6%95%88%E6%9E%9C%E6%98%AF%E4%B8%80%E6%A0%B7%E7%9A%84%EF%BC%81">http://www.wangshibo.com/huan的访问资源，两者配置后的访问效果是一样的！</a><br>location /huan/ {<br>    root /home/www/;<br>}</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="http://blackwolfsec.cc/2018/05/23/Nginx_alias_misconfig_path_traversle/">http://blackwolfsec.cc/2018/05/23/Nginx_alias_misconfig_path_traversle/</a> 借鉴下</p>
-<p><img src="../img/20190418163927-79fddd08-61b5-1.png" alt="img"></p>
-<p>补充域名相关的知识</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">www.xxx.com&#96; ,&#96;www.zzz.xxx.com&#96;,&#96;www.xxx.com&#x2F;getName</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>www: World Wide Web 万维网</p>
-<p>xxx: 注册的名称</p>
-<p>zzz: 子域名(Second-level domain；英文缩写：SLD)</p>
-<p>com:顶级域名(Top-level domains)是org,</p>
-<p>URL: <a target="_blank" rel="noopener" href="http://www.example.net/index.html,www.xxx.com/getName">http://www.example.net/index.html,www.xxx.com/getName</a></p>
-</blockquote>
-<p>对于第三个需要配置 server-&gt;多个location配置</p>
-<p>对于第二中需要配置多个server,或者server-&gt;server_name</p>
-<p>转载地址<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/36148885">nginx 常用配置记录-知乎专栏</a></p>
-<hr>
-<h3 id="server模块"><a href="#server模块" class="headerlink" title="server模块"></a><strong>server模块</strong></h3><p>server模块是http的子模块，它用来定义一个虚拟主机</p>
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen      80;</span><br><span class="line">    server_name localhost www.example.com;</span><br><span class="line">    root        &#x2F;Users&#x2F;yangyi&#x2F;www;# 全局定义，表示在该server下web的根目录</span><br><span class="line">    client_max_body_size 100M;</span><br><span class="line">    keepalive_timeout 20;</span><br><span class="line">    index       index.php index.html index.htm; </span><br><span class="line">    charset     utf-8;</span><br><span class="line">    access_log  logs&#x2F;host.access.log  main; #用来指定此虚拟主机的访问日志存放路径，输出格式为main。</span><br><span class="line">    error_log   logs&#x2F;host.error.log  error; #错误日志存放路径，输出格式为error。</span><br><span class="line">    error_page  404  &#x2F;404.html; #状态码为404时的时候的网页地址,还可定义500,502之类的</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上一些配置为在该server下具有全局性，例如 root，可在location中重新定义root</p>
-<h2 id="关于server-name"><a href="#关于server-name" class="headerlink" title="关于server_name"></a>关于server_name</h2><blockquote>
-<p>用来指定IP地址或者域名，多个域名之间用空格分开</p>
-</blockquote>
-<p>当我们想定义多个server监听同一个端口但访问的host不一样时，server_name就派上用场了。nginx会根据HTTP请求的header Host选择nginx配置文件里符合条件的server_name的server配置</p>
-<p>匹配顺序如下</p>
-<ol>
-<li>完全匹配的server_name;</li>
-<li>后缀匹配: *.example.com;</li>
-<li>前缀匹配: <a target="_blank" rel="noopener" href="http://www.example.*/">www.example.*</a>;</li>
-<li>正则匹配: ~\w+.com;</li>
-<li>listen指令里配置了default或default_server的server;如｀listen 80 default｀</li>
-<li>第一个匹配上listen的server。</li>
-</ol>
-<p>所以当我们监听的的端口只有一个server配置的时候，server_name 可以不填</p>
-<h2 id="关于root和alias的区别"><a href="#关于root和alias的区别" class="headerlink" title="关于root和alias的区别"></a>关于root和alias的区别</h2><p>两者作用差不多，区别在于最终映射的地址不同，例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;request_path&#x2F;image&#x2F; &#123;</span><br><span class="line">    # 如果现在访问 &#x2F;request_path&#x2F;image&#x2F;a&#x2F;b.jpg,root映</span><br><span class="line">    # 射的地址为&#x2F;local_path&#x2F;image&#x2F;request_path&#x2F;image&#x2F;a&#x2F;b.jpg,</span><br><span class="line">    # 而alias为&#x2F;local_path&#x2F;image&#x2F;a&#x2F;b.jpg</span><br><span class="line">    root    &#x2F;local_path&#x2F;image&#x2F;;</span><br><span class="line">    alias   &#x2F;local_path&#x2F;image&#x2F;; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="关于error-page"><a href="#关于error-page" class="headerlink" title="关于error_page"></a>关于error_page</h2><p>语法：error_page code … [=[response]] uri<br>使用字段: http, server, location, if in location</p>
-<p>产生的效果为内部跳转(internal redirect)，即用户页面地址不变，但内容实际上为设置的uri对应的内容<br>我们也可以自定义设置返回的状态码，如：<br>error_page 502 503 =200 /50x.html;<br>这样用户访问产生502 、503的时候给用户的返回状态是200，内容是50x.html。<br>还有一种写法是 <code>=</code> 后面不带状态码，是针对相应的内容不是一个静态的页面，最终返回的状态码取决于对应url服务返回的状态码。</p>
-<h2 id="location模块"><a href="#location模块" class="headerlink" title="location模块"></a>location模块</h2><blockquote>
-<p>最主要和最复杂的配置，通过定位和解析url，判断该选择什么配置，支持正则和条件判断；</p>
-</blockquote>
-<p>简单例子，匹配所有请求</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">    root   &#x2F;home&#x2F;www&#x2F;html;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>一个正则匹配的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 匹配.php结尾的请求</span><br><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>一个反向代理的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 匹配到&#x2F;api开头的路由时候，将请求转发到http:&#x2F;&#x2F;192.168.0.1，但是通常不是直接填写地址，而是设置一个&#96;upstream&#96;配置，后面会提到</span><br><span class="line">location &#x2F;api &#123;</span><br><span class="line">    proxy_pass  http:&#x2F;&#x2F;192.168.0.1; #请求转向地址192.168.0.1</span><br><span class="line">    #不修改被代理服务器返回的响应头中的location头</span><br><span class="line">    proxy_redirect off;</span><br><span class="line">    #使用nginx反向代理后，如果要使服务获取真实的用户信息，用以下的设置</span><br><span class="line">    proxy_set_header Host $host;</span><br><span class="line">    proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>vue-router、react-router等路由框架要开启history模式可以选择的nginx配置的例子</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">  alias     static&#x2F;;</span><br><span class="line">  try_files $uri $uri&#x2F; &#x2F;index.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>location的匹配规则和顺序</strong></p>
-<ol>
-<li>第一种是 <strong>=</strong> 类型，表示精确匹配，优先级最高，一旦匹配到忽略之后的正则匹配</li>
-<li><strong>^~</strong> 类型，表示前缀匹配，是字符串开头匹配而非正则匹配，当匹配到该规则时，停止往下面的搜索，所以如果存在两个<strong>^~</strong> 匹配的时候要注意有顺序之分。优先级比正则高。</li>
-<li><code>~</code> 和 <code>~*</code>,正则匹配，两者区别是后者不区分大小写。有顺序之分，匹配到第一个正则停止搜索。</li>
-<li><code>/uri</code>,普通字符串匹配，无顺序之分，会选择匹配长度最长的配置。</li>
-<li><code>/</code> 通用匹配，匹配所有请求</li>
-</ol>
-<p>还有一种特殊匹配类型 <code>@url</code>，只用于nginx内部跳转，例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">    root &#x2F;var&#x2F;www&#x2F;html;</span><br><span class="line">    error_page 404 @40x;</span><br><span class="line">&#125;</span><br><span class="line">location @40x &#123;</span><br><span class="line">  root &#x2F;var&#x2F;www&#x2F;errors&#x2F;40x.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="upstream模块"><a href="#upstream模块" class="headerlink" title="upstream模块"></a>upstream模块</h2><blockquote>
-<p>upstream后端服务器提供简单的负载均衡（轮循调度和客户端 IP）。</p>
-</blockquote>
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">upstream backend  &#123;</span><br><span class="line">  server backend1.example.com weight&#x3D;5;</span><br><span class="line">  server backend2.example.com:8080;</span><br><span class="line">  server unix:&#x2F;tmp&#x2F;backend3;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">server &#123;</span><br><span class="line">  location &#x2F; &#123;</span><br><span class="line">    proxy_pass  http:&#x2F;&#x2F;backend;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>有常用两种负载均衡支持调度算法，分别是 <strong>weight</strong> 和 <strong>ip_hash</strong> 。weight 模式下可以为每个 server 设置weight值，weight值越大，分配到的访问机率越高，ip_hash 为同一个ip的<br>分配同一个后端服务器，这样我们不用解决session共享问题。</p>
-<h2 id="include"><a href="#include" class="headerlink" title="include"></a>include</h2><blockquote>
-<p>include指令 使nginx配置更加灵活，将部分配置直接拆分出来,分成不同的配置文件</p>
-</blockquote>
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http &#123;    include mime.types;    include vhost&#x2F;*.conf; # 虚拟主机配置&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="关于-mime-types："><a href="#关于-mime-types：" class="headerlink" title="关于 mime.types："></a>关于 mime.types：</h2><p>mime type 和 文件扩展名的对应关系一般放在 mime.types 里，然后 用 <code>include mime.types</code>;<br>mime.types作用：通过文件的扩展名设置了Content-Type，Nginx如果没找到对应文件的扩展名的话，就使用默认的Type，默认Type通用 <code>default_type</code> 定义，比如 default_type application/octet-stream ;<br>完整的 mime.types 配置：<a href="https://link.zhihu.com/?target=https://github.com/h5bp/server-configs-nginx/blob/master/mime.types">https://github.com/h5bp/server-configs-nginx/blob/master/mime.types</a></p>
-<h2 id="关于-vhost-conf"><a href="#关于-vhost-conf" class="headerlink" title="关于 vhost/*.conf :"></a>关于 vhost/*.conf :</h2><p>一个虚拟主机对一个文件配置，放到vhost文件夹下面，然后通过include指令包含进来，这样更便于维护和管理</p>
-<h2 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h2><blockquote>
-<p>gzip 压缩，用来对静态资源进行压缩，需要客户端同时支持才有效。</p>
-</blockquote>
-<p>配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    #开启gzip压缩</span><br><span class="line">    gzip  on;</span><br><span class="line">    #IE6的某些版本对gzip的压缩支持很不好,故关闭</span><br><span class="line">    gzip_disable &quot;MSIE [1-6]\.(?!.*SV1)&quot;;</span><br><span class="line">    #HTTP1.0以上的版本都启动gzip</span><br><span class="line">    gzip_http_version 1.0；</span><br><span class="line">    #指定哪些类型的相应才启用gzip压缩，多个用空格分隔</span><br><span class="line">    gzip_types </span><br><span class="line">    application&#x2F;javascript </span><br><span class="line">    application&#x2F;json </span><br><span class="line">    text&#x2F;css </span><br><span class="line">    text&#x2F;plain;</span><br><span class="line">    # 压缩等级，可选1-9，值越大压缩时间越长压缩率越高，</span><br><span class="line">    # 通常选5，能压缩到原来的1&#x2F;4</span><br><span class="line">    gzip_comp_level 5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="rewrite模块（ngx-http-rewrite-mode）"><a href="#rewrite模块（ngx-http-rewrite-mode）" class="headerlink" title="rewrite模块（ngx_http_rewrite_mode）"></a>rewrite模块（ngx_http_rewrite_mode）</h2><p>rewrite模块配合很多模块一起使用，包含几个指令：</p>
-<ol>
-<li>break</li>
-<li>if</li>
-<li>return</li>
-<li>rewrite</li>
-<li>rewrite_log</li>
-<li>set</li>
-<li>uninitialized_variable_warn</li>
-</ol>
-<p>这里简单介绍下break、if、return，重点介绍 rewrite</p>
-<h2 id="break"><a href="#break" class="headerlink" title="break"></a>break</h2><p>语法: break;<br>使用字段: server, location, if<br>此指令的意思是停止执行当前虚拟主机的后续rewrite指令集</p>
-<p>例子</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 如果访问的文件名不存在，反向代理到localhost 。这里的break也是停止rewrite检查</span><br><span class="line">if (!-f $request_filename) &#123;</span><br><span class="line">    break;</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;127.0.0.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><p>语法: if (condition) { … }<br>使用字段: server, location<br>if 判断一个条件，如果条件成立，则后面的大括号内的语句将执行，相关配置从上级继承。</p>
-<p>条件(conditon)可以是如下任何操作：</p>
-<ol>
-<li>当表达式只是一个变量时，如果值为空或任何以0开头的字符串都会当做false；</li>
-<li>使用“=”和“!=”比较一个变量和字符串；</li>
-<li>使用“<del>”做正则表达式匹配，“</del>*”做不区分大小写的正则匹配，“!~”做区分大小写的正则不匹配；</li>
-<li>使用“-f”和“!-f” 检查一个文件是否存在；</li>
-<li>使用“-d”和“!-d”检查一个目录是否存在；</li>
-<li>使用“-e”和“!-e”检查一个文件、目录、符号链接是否存在；</li>
-<li>使用“-x”和“ !-x”检查一个文件是否可执行；</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 如果提交方法为POST，则返回状态405（Method not allowed）</span><br><span class="line">if ($request_method &#x3D; POST) &#123;</span><br><span class="line">    return 405;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="return"><a href="#return" class="headerlink" title="return"></a>return</h2><p>语法: return code [text];<br>return code URL;<br>return URL;<br>使用字段: server, location, if<br>停止处理并为客户端返回状态码，非标准的444状态码将关闭连接，不发送任何响应头。可以使用的状态码有：204，400，402-406，408，410, 411, 413, 416与500-504。如果状态码附带文字段落，该文本将被放置在响应主体。相反，如果状态码后面是一个URL，该URL将成为location头部值。没有状态码的URL将被视为一个302状态码，这种情况下URL需要以“http://”, “https://”, 或者 “$scheme”开头。</p>
-<h2 id="rewrite"><a href="#rewrite" class="headerlink" title="rewrite"></a>rewrite</h2><p>语法: rewrite regex replacement [flag];<br>使用字段: server, location, if<br>使用nginx提供的全局变量或自己设置的变量，然后结合正则表达式和标志位实现url重写以及重定向。多条 rewrite 顺序靠前且匹配的优先执行。可以通过设置 flag 停止继续处理。如果replacement 以“http://”, “https://”, 或者 “$scheme”开头，那么将立即停止处理并临时重定向给客户端。</p>
-<p>flag可以是如下参数：</p>
-<ul>
-<li>last，完成该rewrite规则的执行后，停止处理后续rewrite指令集；然后查找匹配改变后URI的新location；</li>
-<li>break，完成该rewrite规则的执行后，停止处理后续rewrite指令集，并不再重新查找；但是当前location内剩余非rewrite语句和location外的的非rewrite语句可以执行；</li>
-<li>redirect，返回302临时重定向，地址栏会显示跳转后的地址；</li>
-<li>permanent，返回301永久重定向，地址栏会显示跳转后的地址；即表示如果客户端不清理浏览器缓存，那么返回的结果将永久保存在客户端浏览器中了。</li>
-</ul>
-<p>因为301和302不能简单的只返回状态码，还必须有重定向的URL，这就是return指令无法返回301,302的原因了。两种重定向的方式对客户端来说是一样的，就是重新加载另外一个url。我们在实际设置中推荐只使用永久重定向，因为临时重定向可能造成在url为A页面，但显示的是B页面的内容，造成网址劫持。</p>
-<p>比较难以理解的是 last 和 break，让我们先了解 nginx 运行的11个阶段，注意到第四阶段：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">typedef enum &#123;  </span><br><span class="line">    NGX_HTTP_POST_READ_PHASE &#x3D; 0,   &#x2F;&#x2F;读取请求头  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_SERVER_REWRITE_PHASE,   &#x2F;&#x2F;执行rewrite  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_FIND_CONFIG_PHASE,  &#x2F;&#x2F;根据uri替换location  </span><br><span class="line">    NGX_HTTP_REWRITE_PHASE,      &#x2F;&#x2F;根据替换结果继续执行rewrite  </span><br><span class="line">    NGX_HTTP_POST_REWRITE_PHASE, &#x2F;&#x2F;执行rewrite后处理  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_PREACCESS_PHASE,    &#x2F;&#x2F;认证预处理   请求限制，连接限制  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_ACCESS_PHASE,       &#x2F;&#x2F;认证处理  </span><br><span class="line">    NGX_HTTP_POST_ACCESS_PHASE,  &#x2F;&#x2F;认证后处理， 认证不通过， 丢包  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_TRY_FILES_PHASE,    &#x2F;&#x2F;尝试try标签  </span><br><span class="line">    NGX_HTTP_CONTENT_PHASE,      &#x2F;&#x2F;内容处理  </span><br><span class="line">  </span><br><span class="line">    NGX_HTTP_LOG_PHASE           &#x2F;&#x2F;日志处理  </span><br><span class="line">&#125; ngx_http_phases;  </span><br></pre></td></tr></table></figure>
-
-<p>所以我们再来理解last与break的区别：<br>last： 停止当前这个请求，并根据rewrite匹配的规则重新发起一个请求。新请求又从第一阶段开始执行…<br>break：相对last，break并不会重新发起一个请求，只是跳过当前的rewrite阶段，并执行本请求后续的执行阶段…</p>
-<p>通过实例会更加清晰的理解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    server_name dcshi.com;</span><br><span class="line">    root www;</span><br><span class="line"></span><br><span class="line">    location &#x2F;break&#x2F; &#123;</span><br><span class="line">        rewrite ^&#x2F;break&#x2F;(.*) &#x2F;test&#x2F;$1 break;</span><br><span class="line">        echo &quot;break page&quot;;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    location &#x2F;last&#x2F; &#123;</span><br><span class="line">         rewrite ^&#x2F;last&#x2F;(.*) &#x2F;test&#x2F;$1 last;</span><br><span class="line">         echo &quot;last page&quot;;</span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line">    location &#x2F;test&#x2F; &#123;</span><br><span class="line">       echo &quot;test page&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>请求:<a href="https://link.zhihu.com/?target=http://dcshi.com/break/">http://dcshi.com/break/</a>***<br>输出: break page<br>分析：正如上面讨论所说，break是跳过当前请求的rewrite阶段，并继续执行本请求的其他阶段，很明显，对于/foo 对应的content阶段的输出为 echo “break page”; (content阶段，可以简单理解为产生数据输出的阶段，如返回静态页面内容也是在content阶段；echo指令也是运行在content阶段，一般情况下content阶段只能对应一个输出指令，如同一个location配置两个echo，最终只会有一个echo指令被执行)；当然如果你把/break/里的echo 指令注释，然后再次访问/break/xx会报404，这也跟我们预期一样：虽然/break/xx被重定向到/test/xx,但是break指令不会重新开启一个新的请求继续匹配，所以nginx是不会匹配到下面的/test/这个location；在echo指令被注释的情况下，/break/ 这location里只能执行nginx默认的content指令，即尝试找/test/xx这个html页面并输出起内容，事实上，这个页面不存在，所以会报404的错误。</p>
-<p>请求: <a href="https://link.zhihu.com/?target=http://dcshi.com/last/">http://dcshi.com/last/</a>***<br>输出: test page<br>分析: last与break最大的不同是，last会重新发起一个新请求，并重新匹配location，所以对于/last,重新匹配请求以后会匹配到/test/,所以最终对应的content阶段的输出是test page;</p>
-<p>解释完了 last 和 break ，我们再写一个实例用来说明 rewrite 可以做什么事情。通过rewrite将不带www的请求统一转向为www：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    # ........</span><br><span class="line">    server_name www.abc.com ;&#x2F;&#x2F;只留一个</span><br><span class="line">    # ......</span><br><span class="line">｝</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">  server_name  abc.com;</span><br><span class="line">  rewrite ^(.*)$ http:&#x2F;&#x2F;www.abc.com$1 permanent; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>或者是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">   listen 80;</span><br><span class="line">   server_name abc.com www.abc.com;</span><br><span class="line">   if ( $host !&#x3D; &#39;www.abc.com&#39;  ) &#123;</span><br><span class="line">       rewrite ^&#x2F;(.*) http:&#x2F;&#x2F;www.abc.com&#x2F;$1 permanent;</span><br><span class="line">   &#125;</span><br><span class="line">   location &#x2F; &#123;</span><br><span class="line">       root &#x2F;data&#x2F;www&#x2F;www;</span><br><span class="line">       index index.html index.htm;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>参考：</p>
-<p><a href="https://link.zhihu.com/?target=http://tool.oschina.net/apidocs/apidoc?api=nginx-zh">在线文档-nginx-zh</a></p>
-<p><a href="https://link.zhihu.com/?target=https://www.jianshu.com/p/bed000e1830b">WEB请求处理二：Nginx请求反向代理</a></p>
-<p><a href="https://link.zhihu.com/?target=http://blog.sina.com.cn/s/blog_4f9fc6e10102ux0w.html">http://blog.sina.com.cn/s/blog_4f9fc6e10102ux0w.html</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-distriubte-file-description" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/ce67ced3.html" class="article-date">
-      <time datetime="2022-03-10T07:33:12.000Z" itemprop="datePublished">2022-03-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ce67ced3.html">分布式文件服务介绍</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.ibm.com/cloud/blog/object-vs-file-vs-block-storage">对象、文件和块存储：有什么区别？ | IBM</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.netapp.com/data-storage/storagegrid/what-is-object-storage/">什么是对象存储？ - 对象 vs. 文件 vs. 块 | NetApp</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.redhat.com/en/topics/data-storage/file-block-object-storage">文件存储、块存储还是对象存储？</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.ibm.com/cloud/blog/object-vs-file-vs-block-storage">对象、文件和块存储：有什么区别？ | IBM</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.netapp.com/data-storage/storagegrid/what-is-object-storage/">什么是对象存储？ - 对象 vs. 文件 vs. 块 | NetApp</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.redhat.com/en/topics/data-storage/file-block-object-storage">文件存储、块存储还是对象存储？</a></p>
-<p>对象存储 </p>
-<p>没有结构的文件可以是图片，日志，视频，音频。所有的对象处于同一层级，没有文件存储那个月的文件夹或者子目录，此外，对象存储不会将所有数据一起存储在一个文件中。对象还包含元数据，这是有关有助于处理和可用性的文件的信息。用户可以使用对象存储设置固定键元数据的值，或者他们可以为与对象关联的自定义元数据创建键和值。</p>
-<p>文件存储 role,group,user,promession</p>
-<p>文件存储就是原始的，将数据一起保存单个文件中，文件拓展名内心有创建文件和文件类型确定，文件可以存储在NAS(网络附加存储)设备上</p>
-<p>块存储</p>
-<p>将数据拆分为固定的数据块，使用唯一标识符单独存储，这些块可以存储在不同的环境中，当用户检索一个块时存储系统将这些块重新组合成一个单元，块存储是硬盘驱动器 </p>
-<p>对象存储在维基百科上的部分介绍</p>
-<blockquote>
-<h3 id="云存储-编辑"><a href="#云存储-编辑" class="headerlink" title="云存储[编辑]"></a>云存储[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Object_storage&action=edit&section=9">编辑</a>]</h3><p>主条目：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cloud_storage">云存储</a></p>
-<p>市场上可用的绝大多数云存储都是对象存储架构。一些值得注意的例子是2006 年 3 月首次亮相的<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/AWS_S3">Amazon Web Services S3</a>、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Microsoft_Azure">Microsoft Azure</a> Blob Storage、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Rackspace">Rackspace</a> Files（其代码于 2010 年捐赠给 Openstack 项目并以<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/OpenStack#Swift">OpenStack Swift</a>的形式发布）和2010 年 5 月发布的<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Google_Cloud_Storage">Google Cloud Storage</a>。</p>
-<h3 id="基于对象的文件系统-编辑"><a href="#基于对象的文件系统-编辑" class="headerlink" title="基于对象的文件系统[编辑]"></a>基于对象的文件系统[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Object_storage&action=edit&section=10">编辑</a>]</h3><p>一些分布式文件系统使用基于对象的架构，其中文件元数据存储在元数据服务器中，文件数据存储在对象存储服务器中。文件系统客户端软件与不同的服务器交互，并将它们抽象为用户和应用程序呈现完整的文件系统。</p>
-<h3 id="对象存储系统-编辑"><a href="#对象存储系统-编辑" class="headerlink" title="对象存储系统[编辑]"></a>对象存储系统[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Object_storage&action=edit&section=11">编辑</a>]</h3><p>对象存储的一些早期版本被用于归档，因为实现是针对数据服务进行优化的，比如不变性，而不是性能。<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Content-addressable_storage">EMC Centera</a>和 Hitachi HCP（以前称为 HCAP）是两种常用的归档对象存储产品。另一个例子是 Quantum Lattus 对象存储平台。</p>
-<p>更多通用的对象存储系统在 2008 年左右进入市场。在雅虎邮箱等 Web 应用程序中“专属”存储系统的惊人增长以及云存储的早期成功的诱惑下，对象存储系统承诺了云的规模和功能存储，能够在企业内或有抱负的云存储服务提供商处部署系统。</p>
-<h3 id="混合存储-编辑"><a href="#混合存储-编辑" class="headerlink" title="混合存储[编辑]"></a>混合存储[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Object_storage&action=edit&section=12">编辑</a>]</h3><p>一些对象存储系统支持统一文件和对象 (UFO) 存储，允许一些客户端将对象存储在存储系统上，同时其他客户端将文件存储在同一存储系统上。虽然由于与混合旋转磁盘和闪存存储混淆，“混合存储”不是这个概念被广泛接受的术语，但在某些对象存储产品中可以使用 [<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object_storage#cite_note-Crump-16">16]对同一组数据的互操作接口。</a></p>
-<h3 id="“俘虏”对象存储-编辑"><a href="#“俘虏”对象存储-编辑" class="headerlink" title="“俘虏”对象存储[编辑]"></a>“俘虏”对象存储[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Object_storage&action=edit&section=13">编辑</a>]</h3><p>当对象存储产品没有商用或用例非常具体时，一些大型互联网公司开发了自己的软件。Facebook 著名地发明了他们自己的对象存储软件，代号为 Haystack，以有效地满足他们特殊的大规模照片管理需求。[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object_storage#cite_note-haystack-17">17]</a></p>
-<h3 id="基于对象的存储设备-编辑"><a href="#基于对象的存储设备-编辑" class="headerlink" title="基于对象的存储设备[编辑]"></a>基于对象的存储设备[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Object_storage&action=edit&section=14">编辑</a>]</h3><p>协议和设备层的对象存储是 20 年前提出的[*<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Wikipedia:Please_clarify">模糊</a><em>] ，并在近 10 年前被批准用于<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/SCSI">SCSI命令集</a>[*<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Wikipedia:Please_clarify">模糊</a></em>]，称为“基于对象的存储设备命令”（OSD），[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object_storage#cite_note-18">18]</a>然而，它有直到希捷 Kinetic 开放式存储平台开发后才投入生产。[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object_storage#cite_note-19">19] </a>[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object_storage#cite_note-20">20]</a>对象存储设备 的<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/SCSI">SCSI</a>命令集是由 SNIA 的一个工作组为<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/International_Committee_for_Information_Technology_Standards">国际信息技术标准委员会</a>(INCITS) 的 T10 委员会开发的。[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object_storage#cite_note-21">21]</a> T10 负责所有 SCSI 标准。</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.quobyte.com/storage-explained/what-is-kubernetes-storage">如何选择最佳 Kubernetes 存储？</a></p>
-<p><a target="_blank" rel="noopener" href="https://medium.com/devops-mojo/kubernetes-storage-options-overview-persistent-volumes-pv-claims-pvc-and-storageclass-sc-k8s-storage-df71ca0fccc3">Kubernetes — Storage Overview — PV, PVC and Storage Classo | Medium</a><br><a target="_blank" rel="noopener" href="https://www.modb.pro/db/15181">目前流行开源分布式存储系统的优劣对比分析 - 墨天轮</a></p>
-<p>分布式服务的简单理解</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/YpRQa9YguOqJygJbdRZ-nA">数据库存储选型经验总结</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/396341725">主流分布式文件系统选型，写得太好了！ - 知乎</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/Bp7uvBNb7dbGdk2gTxL9">分布式文件系统架构对比_架构_Davies_InfoQ精选文章</a></p>
-<p><a target="_blank" rel="noopener" href="http://blog.zollty.com/b/archive/relations-among-object-file-and-block-storage.html">对象存储、文件存储、块存储的区别和联系 | Zollty’s Blog</a></p>
-<p>目前文件服务器分为原生云大数据之前和之后，原生云主要是应对当前大量非结构数据存储的需求，同时支持的对象存储（oss,amazon s3），文件存储实现((posix),块存储()</p>
-<p>原生云之前的fastdfs,</p>
-<p>目前排除hdfs原因如下</p>
-<p>1 HDFS的块状存在机制，其实是不太适合小文件的，但文件服务器和网盘的场景，很大程度上会出现大量的小文件，那么HDFS在IO这块并不是优势，这样效率会很低，并且会消耗大量的主节点内存，致命伤。</p>
-<p>2 HDFS并不支持随机写，这对于文件存储模型来说也是不适合的。 </p>
-<p>3 HDFS的优势并不在高吞吐，所以如果是频繁读写的文件存储场景，对于他来说也是不适合的。 其实Hadoop的HDFS之所以出名，并不是单独作为文件系统而出名的，而是在于Hadoop的整套解决方案。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/8/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/10/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/8/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/10/">下一页 </a>
     </nav>
   
 </div>

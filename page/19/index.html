@@ -269,6 +269,517 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-activiti数据库的分类" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2197510555.html" class="article-date">
+      <time datetime="2020-02-14T00:10:04.000Z" itemprop="datePublished">2020-02-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2197510555.html">activiti数据库的分类</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>Activiti数据库表结构</p>
+<p> Activiti工作流总共包含23张数据表，所有的表名默认以“<strong>ACT_</strong>”开头。</p>
+<p>并且表名的第二部分用两个字母表明表的用例，而这个用例也基本上跟Service API匹配。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>Activiti数据库表结构</p>
+<p> Activiti工作流总共包含23张数据表，所有的表名默认以“<strong>ACT_</strong>”开头。</p>
+<p>并且表名的第二部分用两个字母表明表的用例，而这个用例也基本上跟Service API匹配。</p>
+<ul>
+<li><p> <strong>ACT_GE_*</strong> : “GE”代表“General”（通用），用在各种情况下；</p>
+</li>
+<li><p> <strong>ACT_HI_*</strong> : “HI”代表“History”（历史），这些表中保存的都是历史数据，比如执行过的流程实例、变量、任务，等等。Activit默认提供了4种历史级别：</p>
+</li>
+<li><p><strong>none</strong>: 不保存任何历史记录，可以提高系统性能；</p>
+</li>
+<li><p> <strong>activity</strong>：保存所有的流程实例、任务、活动信息；</p>
+</li>
+<li><p> <strong>audit</strong>：也是Activiti的<strong>默认</strong>级别，保存所有的流程实例、任务、活动、表单属性；</p>
+</li>
+<li><p> <strong>full</strong>：最完整的历史记录，除了包含<strong>audit</strong>级别的信息之外还能保存详细，例如：流程变量。</p>
+</li>
+</ul>
+<p>对于几种级别根据对功能的要求选择，如果需要日后跟踪详细可以开启<strong>full</strong>。</p>
+<ul>
+<li><p> <strong>ACT_ID_*</strong> : “ID”代表“Identity”（身份），这些表中保存的都是身份信息，如用户和组以及两者之间的关系。如果Activiti被集成在某一系统当中的话，这些表可以不用，可以直接使用现有系统中的用户或组信息；</p>
+</li>
+<li><p> <strong>ACT_RE_*</strong> : “RE”代表“Repository”（仓库），这些表中保存一些‘静态’信息，如流程定义和流程资源（如图片、规则等）；</p>
+</li>
+<li><p><strong>ACT_RU_*</strong> : “RU”代表“Runtime”（运行时），这些表中保存一些流程实例、用户任务、变量等的运行时数据。Activiti只保存流程实例在执行过程中的运行时数据，并且当流程结束后会立即移除这些数据，这是为了保证运行时表尽量的小并运行的足够快；</p>
+</li>
+</ul>
+<h3 id="Activiti数据表清单"><a href="#Activiti数据表清单" class="headerlink" title="Activiti数据表清单:"></a>Activiti数据表清单:</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>表分类</strong></th>
+<th align="center"><strong>表名</strong></th>
+<th align="center"><strong>解释</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">一般数据</td>
+<td align="center">ACT_GE_BYTEARRAY</td>
+<td align="center">通用的流程定义和流程资源</td>
+</tr>
+<tr>
+<td align="center">ACT_GE_PROPERTY</td>
+<td align="center">系统相关属性</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">流程历史记录</td>
+<td align="center">ACT_HI_ACTINST</td>
+<td align="center">历史的流程实例</td>
+</tr>
+<tr>
+<td align="center">ACT_HI_ATTACHMENT</td>
+<td align="center">历史的流程附件</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_COMMENT</td>
+<td align="center">历史的说明性信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_DETAIL</td>
+<td align="center">历史的流程运行中的细节信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_IDENTITYLINK</td>
+<td align="center">历史的流程运行过程中用户关系</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_PROCINST</td>
+<td align="center">历史的流程实例</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_TASKINST</td>
+<td align="center">历史的任务实例</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_VARINST</td>
+<td align="center">历史的流程运行中的变量信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">用户用户组表</td>
+<td align="center">ACT_ID_GROUP</td>
+<td align="center">身份信息-组信息</td>
+</tr>
+<tr>
+<td align="center">ACT_ID_INFO</td>
+<td align="center">身份信息-组信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_ID_MEMBERSHIP</td>
+<td align="center">身份信息-用户和组关系的中间表</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_ID_USER</td>
+<td align="center">身份信息-用户信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">流程定义表</td>
+<td align="center">ACT_RE_DEPLOYMENT</td>
+<td align="center">部署单元信息</td>
+</tr>
+<tr>
+<td align="center">ACT_RE_MODEL</td>
+<td align="center">模型信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RE_PROCDEF</td>
+<td align="center">已部署的流程定义</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">运行实例表</td>
+<td align="center">ACT_RU_EVENT_SUBSCR</td>
+<td align="center">运行时事件</td>
+</tr>
+<tr>
+<td align="center">ACT_RU_EXECUTION</td>
+<td align="center">运行时流程执行实例</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_IDENTITYLINK</td>
+<td align="center">运行时用户关系信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_JOB</td>
+<td align="center">运行时作业</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_TASK</td>
+<td align="center">运行时任务</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_VARIABLE</td>
+<td align="center">运行时变量表</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-虚拟机内部连vpn" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/571302738.html" class="article-date">
+      <time datetime="2020-02-03T17:22:27.000Z" itemprop="datePublished">2020-02-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/571302738.html">虚拟机内部连vpn</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p> 最近由于众所周知的原因,目前只能在家里远程办公,由于目前主力系统是Ubuntu,使用vmware horizon client 连接公司Windows虚拟主机会闪退,地址 : <strong>/tmp/vmware-USERNAME/vmware-horizon-client-xxxx.log</strong>,网上搜了一下看不到解决方案,那就只有退而求其次在虚拟机上连接.</p>
+<p> 使用虚拟机一直创建vpn一直报619错误,我之前本地主机连接是没问题的,现在连不上以为我用的win7系统的某些服务是不是没开启,看了一下都开启</p>
+<p><a href="../img/windows_services_list.png"><img src="../img/windows_services_list.png" alt="1580780841225"></a> 后面是我本地主机连上vpn,然后虚拟主机使用这个连接vmware horizon client,同时我发现可能是我VMware workspace软件配置的网卡有问题,所以将网卡由NAT转为桥接</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p> 最近由于众所周知的原因,目前只能在家里远程办公,由于目前主力系统是Ubuntu,使用vmware horizon client 连接公司Windows虚拟主机会闪退,地址 : <strong>/tmp/vmware-USERNAME/vmware-horizon-client-xxxx.log</strong>,网上搜了一下看不到解决方案,那就只有退而求其次在虚拟机上连接.</p>
+<p> 使用虚拟机一直创建vpn一直报619错误,我之前本地主机连接是没问题的,现在连不上以为我用的win7系统的某些服务是不是没开启,看了一下都开启</p>
+<p><a href="../img/windows_services_list.png"><img src="../img/windows_services_list.png" alt="1580780841225"></a> 后面是我本地主机连上vpn,然后虚拟主机使用这个连接vmware horizon client,同时我发现可能是我VMware workspace软件配置的网卡有问题,所以将网卡由NAT转为桥接</p>
+<p><a href="../img/1580781244753.png"><img src="../img/1580781244753.png" alt="1580781244753"></a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yang5726685/article/details/78566213">参考链接</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ZUUL转发后导致文件乱码" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/230759535.html" class="article-date">
+      <time datetime="2020-01-01T04:09:50.000Z" itemprop="datePublished">2020-01-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/230759535.html">ZUUL转发后导致文件乱码</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://github.com/Netflix/zuul/wiki/How-it-Works">spring zuul how it works</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.wangqi.love/articles/Spring-Cloud/Zuul%E6%8E%A2%E7%A9%B6(%E4%BA%8C)%E2%80%94%E2%80%94Zuul%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.html">Zuul探究(二——Zuul的工作原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.okcode.net/article/37549">ZuulServlet的执行流程分析</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://github.com/Netflix/zuul/wiki/How-it-Works">spring zuul how it works</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.wangqi.love/articles/Spring-Cloud/Zuul%E6%8E%A2%E7%A9%B6(%E4%BA%8C)%E2%80%94%E2%80%94Zuul%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.html">Zuul探究(二——Zuul的工作原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.okcode.net/article/37549">ZuulServlet的执行流程分析</a></p>
+<p><a target="_blank" rel="noopener" href="https://taccisum.github.io/source/zuul/architecture.html">zuul源码解析 —— zuul整体架构</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5c2db228e51d451be35e74da">Spring Cloud Netflix Zuul源码分析之请求处理篇-上</a></p>
+<p>dispatcherservlet -&gt; doDispatch( -&gt; getHandler(HandlerExecutionChain) {</p>
+<p>该过程会通过getHandlerInternal方法根据 lookupPath(请求路径)、request(请求)调用ZuulHandlerMapping.lookupHandler方法查找匹配的handler。如果没有</p>
+<p>} ) -&gt;doService</p>
+<p>SimpleControllerHandlerAdapter.handle</p>
+<p>zuulcontroller .handleRequest</p>
+<p>ZuulServlet.service{<br>//Zuul的主要流程发生在ZuulServlet中，它的调用流程如下：</p>
+<p>DispatcherServlet.doService<br>DispatcherServlet.doDispatch<br>SimpleControllerHandlerAdapter.handle<br>ZuulController.handleRequest<br>ServletWrappingController.handleRequestInternal<br>ZuulServlet.service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RibbonRoutingFilterpublic Object run() &#123;		RequestContext context &#x3D; RequestContext.getCurrentContext();		this.helper.addIgnoredHeaders();		try &#123;			RibbonCommandContext commandContext &#x3D; buildCommandContext(context);			ClientHttpResponse response &#x3D; forward(commandContext);			setResponse(response);			return response;		&#125;		catch (ZuulException ex) &#123;			throw new ZuulRuntimeException(ex);		&#125;		catch (Exception ex) &#123;			throw new ZuulRuntimeException(ex);		&#125;	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>栈信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Thread.State: RUNNABLE	  at org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter.getRequestBody(RibbonRoutingFilter.java:199)	  at org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter.buildCommandContext(RibbonRoutingFilter.java:126)	  at org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter.run(RibbonRoutingFilter.java:105)	  at com.netflix.zuul.ZuulFilter.runFilter(ZuulFilter.java:112)	  at com.netflix.zuul.FilterProcessor.processZuulFilter(FilterProcessor.java:193)	  at com.netflix.zuul.FilterProcessor.runFilters(FilterProcessor.java:157)	  at com.netflix.zuul.FilterProcessor.route(FilterProcessor.java:118)	  at com.netflix.zuul.ZuulRunner.route(ZuulRunner.java:96)	  at com.netflix.zuul.http.ZuulServlet.route(ZuulServlet.java:116)	  at com.netflix.zuul.http.ZuulServlet.service(ZuulServlet.java:81)	  at org.springframework.web.servlet.mvc.ServletWrappingController.handleRequestInternal(ServletWrappingController.java:157)	  at org.springframework.cloud.netflix.zuul.web.ZuulController.handleRequest(ZuulController.java:44)	  at org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:50)	  at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)	  at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:897)	  at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970)	  at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:872)	  at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)	  at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)	  at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:230)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.boot.web.filter.ApplicationContextHeaderFilter.doFilterInternal(ApplicationContextHeaderFilter.java:55)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.boot.actuate.trace.WebRequestTraceFilter.doFilterInternal(WebRequestTraceFilter.java:108)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at cn.com.betasoft.dxm.sso.ext.client.filter.SessionValidationFilter.doFilter(SessionValidationFilter.java:98)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.util.AssertionThreadLocalFilter.doFilter(AssertionThreadLocalFilter.java:54)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.util.HttpServletRequestWrapperFilter.doFilter(HttpServletRequestWrapperFilter.java:75)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.authentication.AuthenticationFilter.doFilter(AuthenticationFilter.java:107)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.validation.AbstractTicketValidationFilter.doFilter(AbstractTicketValidationFilter.java:201)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.jasig.cas.client.session.SingleSignOutFilter.doFilter(SingleSignOutFilter.java:76)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)	  at cn.com.betasoft.btrm.portal.config.ExcludeSupportFilter.doFilter(ExcludeSupportFilter.java:21)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at cn.com.betasoft.btrm.common.serviceconfig.ServiceAssertionConfig$1.doFilter(ServiceAssertionConfig.java:53)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:105)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:81)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.boot.actuate.autoconfigure.MetricsFilter.doFilterInternal(MetricsFilter.java:106)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:96)	  at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)	  at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:192)	  at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165)	  at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)	  at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)	  at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:474)	  at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)	  at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)	  at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)	  at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:349)	  at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:783)	  at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)	  at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:798)	  at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1434)	  at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)	  - locked &lt;0x2a0d&gt; (a org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper)	  at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)	  at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)	  at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)	  at java.lang.Thread.run(Thread.java:748)</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-springboot 读取外部文件" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1470057129.html" class="article-date">
+      <time datetime="2020-01-01T04:09:50.000Z" itemprop="datePublished">2020-01-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1470057129.html">springboot 读取外部文件</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51883955/how-to-specify-external-location-for-image-store-in-spring-boot-2-0-web-app">external location for image store in Spring Boot 2.0 web app?</a></p>
+<p>之前有个需求是需要有个urlpatren像 staticFiles/xxx.pdf 请求的url 对应服务器端的某个文件夹可以直接访问,</p>
+<p>WebMvcConfigurer 需要实现或者继承WebMvcConfigurerAdapter</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51883955/how-to-specify-external-location-for-image-store-in-spring-boot-2-0-web-app">external location for image store in Spring Boot 2.0 web app?</a></p>
+<p>之前有个需求是需要有个urlpatren像 staticFiles/xxx.pdf 请求的url 对应服务器端的某个文件夹可以直接访问,</p>
+<p>WebMvcConfigurer 需要实现或者继承WebMvcConfigurerAdapter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Configurationpublic class MvcConfig extends WebMvcConfigurerAdapter  &#123;    @Override    public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;       registry               .addResourceHandler(&quot;&#x2F;btrm&#x2F;framework&#x2F;item&#x2F;static&#x2F;**&quot;)               .addResourceLocations(&quot;file:D:\\SVNCODE\\btrm\\&quot;)               .setCachePeriod(200);        super.addResourceHandlers(registry);    &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1092,453 +1603,9 @@
 
 
   
-    <article id="post-免费短信接码网站" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/124395117.html" class="article-date">
-      <time datetime="2019-08-28T04:18:12.000Z" itemprop="datePublished">2019-08-28</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/124395117.html">免费短信接码网站</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="国内平台展开目录"><a href="#国内平台展开目录" class="headerlink" title="国内平台展开目录"></a>国内平台展开目录</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.pdflibr.com/">https://www.pdflibr.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.visitorsms.com/cn">https://www.visitorsms.com/cn</a></li>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="国内平台展开目录"><a href="#国内平台展开目录" class="headerlink" title="国内平台展开目录"></a>国内平台展开目录</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.pdflibr.com/">https://www.pdflibr.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.visitorsms.com/cn">https://www.visitorsms.com/cn</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.becmd.com/">https://www.becmd.com</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.114sim.com/">http://www.114sim.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://yunduanxin.net/">https://yunduanxin.net</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.smszk.com/">http://www.smszk.com</a></li>
-<li><a target="_blank" rel="noopener" href="http://z-sms.com/">http://z-sms.com</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.shejiinn.com/">http://www.shejiinn.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://sms.cngrok.com/">https://sms.cngrok.com</a></li>
-</ul>
-<h2 id="国外平台展开目录"><a href="#国外平台展开目录" class="headerlink" title="国外平台展开目录"></a>国外平台展开目录</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://ch.freephonenum.com/">https://ch.freephonenum.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://smsreceivefree.com/">https://smsreceivefree.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.mytrashmobile.com/">https://zh.mytrashmobile.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.receive-sms-online.info/">https://www.receive-sms-online.info</a></li>
-<li><a target="_blank" rel="noopener" href="https://receiveasms.com/">https://receiveasms.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://sms-online.co/receive-free-sms">https://sms-online.co/receive-free-sms</a></li>
-<li><a target="_blank" rel="noopener" href="https://receive-sms.com/">https://receive-sms.com</a></li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://hao.su/2495/?from=dalao.ru">引用链接</a></p>
-<h2 id="在线邮箱展开目录"><a href="#在线邮箱展开目录" class="headerlink" title="在线邮箱展开目录"></a>在线邮箱展开目录</h2><blockquote>
-<p>9em</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://9em.org/">https://9em.org</a></p>
-<p>9em.org 来自不死鸟微信群内大佬，这是一个 10 分钟邮箱服务，邮箱后缀为 [<code>@9em.org](mailto:</code>@9em.org)` 9em 取自 九条命 Email</p>
-<p>在屏幕右上角输入一个你想要的邮箱前缀，就能收取邮件需要注意的是这个邮箱对所有人都是公开的，并且邮件仅在服务器保存十分钟，十分钟后会自动删除</p>
-<blockquote>
-<p>maildrop</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://maildrop.cc/">https://maildrop.cc</a></p>
-<p>打开 maildrop 会自动生成一个临时的邮箱，如果你不想更改地址，可以直接点右上角的 Go 进入收件箱页面，也可以在右上角修改邮箱前缀地址，在进入临时收件箱页面。</p>
-<blockquote>
-<p>bccto</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="http://bccto.me/">http://bccto.me</a></p>
-<p>10 分钟邮箱，可以自定义也可以随机申请的 10 分钟临时邮箱，支持自定义域名，可以将自己的域名绑定 bccto 服务。</p>
-<blockquote>
-<p>10minutemail</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://10minutemail.net/">https://10minutemail.net</a></p>
-<p>一个 10 分钟邮箱</p>
-<blockquote>
-<p>10minutemail</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://10minutemail.com/">https://10minutemail.com</a></p>
-<p>10 分钟邮箱，老牌网站 07 年稳定至今。 小部分网站网站封锁了 10minutemail 的域名，可能无法接收，可以当作备用。</p>
-<blockquote>
-<p>666 临时邮箱</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.666email.com/">https://www.666email.com/</a></p>
-<p>UI 很简洁，提供了 2 个域名选择，可以自定义也可以随机生成。</p>
-<blockquote>
-<p>anyalias</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://anyalias.com/">https://anyalias.com</a><br>anyalias 是一个可以保护隐私的邮箱服务，可以生成一个自定义的邮箱然后转发给你的真实邮箱，从而达到保护隐私的效果，更多介绍查看 <a target="_blank" rel="noopener" href="https://hao.su/1474/">anyalias.com：无限制的免费电子邮件地址</a></p>
-<blockquote>
-<p>eskiimo</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://eskiimo.com/">https://eskiimo.com</a></p>
-<p>匿名发送邮件给任何人</p>
-<h2 id="在线办公展开目录"><a href="#在线办公展开目录" class="headerlink" title="在线办公展开目录"></a>在线办公展开目录</h2><p><a target="_blank" rel="noopener" href="https://shimo.im/">https://shimo.im</a></p>
-<p>石墨文档</p>
-<p><a target="_blank" rel="noopener" href="https://www.notion.so/">https://www.notion.so</a></p>
-<p>notion</p>
-<p><a target="_blank" rel="noopener" href="https://yuque.com/">https://yuque.com</a></p>
-<p>语雀</p>
-<p><a target="_blank" rel="noopener" href="https://docs.qq.com/">https://docs.qq.com</a></p>
-<p>腾讯文档</p>
-<p><a target="_blank" rel="noopener" href="https://tableconvert.com/">https://tableconvert.com</a></p>
-<p>一个免费的在线表格转换工具 TableConvert</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu开发软件安装" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1625103035.html" class="article-date">
-      <time datetime="2019-08-08T06:07:34.000Z" itemprop="datePublished">2019-08-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1625103035.html">Ubuntu开发软件安装</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><ul>
-<li>2020-06</li>
-</ul>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <ul>
-<li>2020-06</li>
-</ul>
-<p>  <img src="../img/1592125467902.png" alt="1592125467902"></p>
-<ul>
-<li><p>2020-05-10</p>
-<blockquote>
-<p>sudo apt install fonts-wqy-microhei</p>
-</blockquote>
-<p><img src="../img/1589077114622.png" alt="1589077114622"></p>
-</li>
-<li><p>2020-03-20 Ubuntu开发软件安装</p>
-</li>
-</ul>
-<p> <strong>kchmviewer</strong>是用与 查看 chm,Windows下是有各种软件Linux下下载过几个软件不是对中文支持不好或者就是容易崩溃的</p>
-<p> DbVisualizer Pro 10.0.26 [Build #3028]是用与数据库连接客户端,相比比较dbevaer是各个自定义功能和方法还方便很多,就是显示信息也是很方便,免费版就是不能直接在表里编辑数据其他完全够用,需要激活我用的最新版找了好久<a target="_blank" rel="noopener" href="https://github.com/xiaguliuxiang/dbvisualizer-agent">链接地址</a></p>
-<p> ZSH这真的是个神器,在终端上编辑和检测输入语法会非常方便,各种插件自定义后完全可以发现全新的世界,同时可以考虑.</p>
-<p> 酸酸乳ssr,v2ray连接工具之前用的是Qv2ray.v2.1.2.linux-x64.qt5.13.2.AppImage 好用非常方便用过的最好的连接工具了</p>
-<hr>
-<h3 id="Linux-版SecureCRT-SecureFX-8-5-4"><a href="#Linux-版SecureCRT-SecureFX-8-5-4" class="headerlink" title="Linux 版SecureCRT/SecureFX 8.5.4"></a>Linux 版SecureCRT/SecureFX 8.5.4</h3><p>1）下载secureCRT和secureFX**<br>官网下载地址：<a target="_blank" rel="noopener" href="https://www.vandyke.com/download/index.html">https://www.vandyke.com/download/index.html</a><br>scrt-sfx-8.5.4-1942.ubuntu16-64.x86_64.deb secureCRT和secureFX 前面是ssh连接 后面是FTP的连接</p>
-<p><strong>2）进行安装</strong></p>
-<p>sudo dpkg -i scrt-sfx-8.5.4-1942.ubuntu16-64.x86_64.deb<br>如果安装过程中因为缺少依赖而安装失败，只需要通过命令：<strong>apt-get install -f</strong>即可完成依赖的安装</p>
-<p><strong>3）secureCRT和secureFX的License破解</strong><br><strong>破解文件下载：<a target="_blank" rel="noopener" href="https://share.weiyun.com/5Mc38uB">https://share.weiyun.com/5Mc38uB</a> 密码：yetp32</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**sudo  perl securecrt_forgeek_crack.pl &#x2F;usr&#x2F;bin&#x2F;SecureCRT**启动SecureCRT，根据执行结果填写license信息即可3.1) 运行破解secureFX脚本**sudo perl securefx_forgeek_crack.pl &#x2F;usr&#x2F;bin&#x2F;SecureFX**启动SecureFX，根据执行结果填写license信息即可</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1000970-1-1.html">参考连接</a> 找了好久我这个算是比较新的 网上的大部分都不行 用的一个是都激活不了secureFX 现在可以</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Hexo提交百度和Google收录站点" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3423376587.html" class="article-date">
-      <time datetime="2019-08-06T05:27:50.000Z" itemprop="datePublished">2019-08-06</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3423376587.html">Hexo提交百度和Google收录站点</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="使用sitemap-提交网站"><a href="#使用sitemap-提交网站" class="headerlink" title="使用sitemap 提交网站"></a>使用sitemap 提交网站</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">安装插件</span><br><span class="line">npm install hexo-generator-baidu-sitemap --save</span><br><span class="line">npm install hexo-generator-sitemap --save</span><br><span class="line">l# 自动生成_config.ym</span><br><span class="line">sitemapsitemap:  path: sitemap.xml</span><br><span class="line">baidusitemap:  path: baidusitemap.xml</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-百度提交"><a href="#1-百度提交" class="headerlink" title="1 百度提交"></a>1 百度提交</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;ziyuan.baidu.com&#x2F;linksubmit&#x2F;index浏览器打开   your-url&#x2F;baidusitemap.xml   看下有没有文件</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="使用sitemap-提交网站"><a href="#使用sitemap-提交网站" class="headerlink" title="使用sitemap 提交网站"></a>使用sitemap 提交网站</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">安装插件</span><br><span class="line">npm install hexo-generator-baidu-sitemap --save</span><br><span class="line">npm install hexo-generator-sitemap --save</span><br><span class="line">l# 自动生成_config.ym</span><br><span class="line">sitemapsitemap:  path: sitemap.xml</span><br><span class="line">baidusitemap:  path: baidusitemap.xml</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-百度提交"><a href="#1-百度提交" class="headerlink" title="1 百度提交"></a>1 百度提交</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;ziyuan.baidu.com&#x2F;linksubmit&#x2F;index浏览器打开   your-url&#x2F;baidusitemap.xml   看下有没有文件</span><br></pre></td></tr></table></figure>
-
-<p><a href="../img/1565098183259.png"><img src="../img/1565098183259.png" alt="1565098183259"></a></p>
-<h3 id="2-Google提交"><a href="#2-Google提交" class="headerlink" title="2 Google提交"></a>2 Google提交</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;search.google.com&#x2F;search-console&#x2F;sitemaps浏览器打开</span><br><span class="line">your-url&#x2F;sitemap.xml  看下有没有文件提交站点地图</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用-hexo-baidu-url-submit-自动提交"><a href="#使用-hexo-baidu-url-submit-自动提交" class="headerlink" title="使用 hexo-baidu-url-submit 自动提交"></a>使用 hexo-baidu-url-submit 自动提交</h2><p> <a target="_blank" rel="noopener" href="https://github.com/huiwang/hexo-baidu-url-submit">github地址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-baidu-url-submit --save</span><br><span class="line">baidu_url_submit:  count: 1000 </span><br><span class="line">## 提交最新的一个链接  </span><br><span class="line">host: alili.tech</span><br><span class="line">## 在百度站长平台中注册的域名  </span><br><span class="line">token: xxxxx </span><br><span class="line">## 请注意这是您的秘钥， 所以请不要把博客源代码发布在公众仓库里! </span><br><span class="line">path: baidu_urls.txt </span><br><span class="line">## 文本文档的地址， 新链接会保存在此文本文档里deploy 配置</span><br><span class="line">deploy:- type: baidu_url_submitter </span><br><span class="line"># 百度在上面的图片点击自动提交 接口调用地址： http:&#x2F;&#x2F;data.zz.baidu.com&#x2F;urls?site&#x3D;XXX &amp;token&#x3D;XXX前面XXX是你的网站 后面XXX是token的值</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Linux命令记录" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2125313135.html" class="article-date">
-      <time datetime="2019-08-05T00:08:58.000Z" itemprop="datePublished">2019-08-05</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2125313135.html">Linux命令记录</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>最近常用的Linux 命令</p>
-<h3 id="查询相关"><a href="#查询相关" class="headerlink" title="查询相关"></a>查询相关</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find .|xargs grep -ri <span class="string">&quot;XXX&quot;</span> -l    </span><br><span class="line">查找目录下的所有文件中包含某个字符串 XXX 1   lsof  -i:端口号 	</span><br><span class="line"><span class="comment"># lsof -i:8000        COMMAND   PID USER   FD   TYPE   DEVICE SIZE/OFF NODE NAME        nodejs  26993 root   10u  IPv4 37999514      0t0  TCP *:8000 (LISTEN)        2  netstat -tunlp | grep 端口号            -t (tcp) 仅显示tcp相关选项            -u (udp)仅显示udp相关选项            -n 拒绝显示别名，能显示数字的全部转化为数字            -l 仅列出在Listen(监听)的服务状态            -p 显示建立相关链接的程序名</span></span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>最近常用的Linux 命令</p>
-<h3 id="查询相关"><a href="#查询相关" class="headerlink" title="查询相关"></a>查询相关</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find .|xargs grep -ri <span class="string">&quot;XXX&quot;</span> -l    </span><br><span class="line">查找目录下的所有文件中包含某个字符串 XXX 1   lsof  -i:端口号 	</span><br><span class="line"><span class="comment"># lsof -i:8000        COMMAND   PID USER   FD   TYPE   DEVICE SIZE/OFF NODE NAME        nodejs  26993 root   10u  IPv4 37999514      0t0  TCP *:8000 (LISTEN)        2  netstat -tunlp | grep 端口号            -t (tcp) 仅显示tcp相关选项            -u (udp)仅显示udp相关选项            -n 拒绝显示别名，能显示数字的全部转化为数字            -l 仅列出在Listen(监听)的服务状态            -p 显示建立相关链接的程序名</span></span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/18/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/20/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/18/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/20/">下一页 </a>
     </nav>
   
 </div>

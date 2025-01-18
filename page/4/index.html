@@ -269,6 +269,813 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-redis介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1a32b04.html" class="article-date">
+      <time datetime="2023-10-14T06:35:26.000Z" itemprop="datePublished">2023-10-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1a32b04.html">redis介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>Redis是一个开源的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。以下是它的主要特点和原理：</p>
+<ul>
+<li>内存存储：将所有数据存储在内存中，以实现快速读写访问。同时，它支持多种数据结构，如字<strong>符串、哈希、列表、集合和有序集合</strong>。</li>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>Redis是一个开源的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。以下是它的主要特点和原理：</p>
+<ul>
+<li>内存存储：将所有数据存储在内存中，以实现快速读写访问。同时，它支持多种数据结构，如字<strong>符串、哈希、列表、集合和有序集合</strong>。</li>
+<li>持久性：Redis支持将数据持久化到磁盘上，以实现数据的可靠存储和恢复。它提供两种不同的持久化选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，以实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现横向扩展和高性能。</li>
+<li>事务和Lua脚本：重新支持事务和Lua脚本，以实现原子操作和自定义命令。</li>
+</ul>
+<h1 id="1-Redis的单线程和Linux的ePoll特性"><a href="#1-Redis的单线程和Linux的ePoll特性" class="headerlink" title="1. Redis的单线程和Linux的ePoll特性"></a>1. Redis的单线程和Linux的ePoll特性</h1><p>Redis是单线程的，这意味着它使用一个主线程来处理所有客户端请求。它的性能非常高，因为它不需要线程切换的开销，并且可以使用非常少的内存来处理大量的并发连接。另外，Redis使用Linux的ePoll特性来实现异步I/O操作，这使得Redis能够在高负载情况下保持高性能。</p>
+<p>在**redis中会有epoll模型是基于异步的io来实现的,**在该模型下每个连接都会有个FileDscript的文件来标示连接情况,连接的客户端有相关的io才会唤醒redis的线程来进行操作</p>
+<h2 id="1-1-缓存数据存储和持久化"><a href="#1-1-缓存数据存储和持久化" class="headerlink" title="1.1. 缓存数据存储和持久化"></a>1.1. 缓存数据存储和持久化</h2><ol>
+<li><p>RDB（Redis Database）：</p>
+<ul>
+<li>RDB 是 Redis 数据的非常紧凑的单文件时间点表示形式。 RDB 文件非常适合备份。 例如，您可能希望在最近 24 小时内每小时归档一次 RDB 文件，并在 30 天内每天保存一个 RDB 快照。 这使您可以在发生灾难时轻松恢复不同版本的数据集。<br>RDB 非常适合灾难恢复，它是一个紧凑的文件，可以传输到远程数据中心或 Amazon S3（可能是加密的）。<br>RDB 最大限度地提高了 Redis 的性能，因为 Redis 父进程为了持久化需要做的唯一工作就是派生一个子进程，该子进程将完成其余所有工作。 父进程永远不会执行磁盘 I/O 等操作。<br>与 AOF 相比，RDB 允许更快地重新启动大数据集。<br>在副本上，RDB 支持重启和故障转移后的部分重新同步。</li>
+</ul>
+</li>
+<li><p>AOF日志（Append-Only File）：</p>
+<ul>
+<li><p>AOF日志以追加方式记录Redis服务器所执行的写命令，以文本格式保存在一个文件中。</p>
+</li>
+<li><p>AOF日志允许Redis将写操作追加到文件的末尾，以保持数据的完整性。</p>
+</li>
+<li><p>AOF日志可以通过配置文件中的appendonly选项来启用和配置。</p>
+</li>
+<li><p>AOF日志的优点是可以提供更高的数据安全性和持久性，但相比于快照有一定的性能开销。</p>
+</li>
+<li><p>可以通过配置AOF重写来压缩和优化AOF日志的大小。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="2-Redis支持的常见结构"><a href="#2-Redis支持的常见结构" class="headerlink" title="2. Redis支持的常见结构"></a>2. Redis支持的常见结构</h1><h2 id="2-1-数据结构"><a href="#2-1-数据结构" class="headerlink" title="2.1. 数据结构"></a>2.1. 数据结构</h2><h3 id="2-1-1-字符串（String）："><a href="#2-1-1-字符串（String）：" class="headerlink" title="2.1.1. .字符串（String）："></a>2.1.1. .字符串（String）：</h3><p>Redis的字符串是一个简单的键值对结构，键是一个字符串，值可以是任意二进制数据。<br>常用操作：设置值、获取值、增加或减少数值、追加字符串、获取子字符串等。<br>适用场景：缓存、计数器、分布式锁等。</p>
+<h3 id="2-1-2-哈希（Hash）："><a href="#2-1-2-哈希（Hash）：" class="headerlink" title="2.1.2. 哈希（Hash）："></a>2.1.2. 哈希（Hash）：</h3><p>Redis的哈希是一个键值对集合，其中键是一个字符串，值是一个字段-值对的映射表。<br>常用操作：设置字段值、获取字段值、获取所有字段与值、删除字段等。<br>适用场景：存储对象、存储用户信息、存储配置信息等。</p>
+<h3 id="2-1-3-列表（List）："><a href="#2-1-3-列表（List）：" class="headerlink" title="2.1.3. 列表（List）："></a>2.1.3. 列表（List）：</h3><p>Redis的列表是一个有序的字符串元素集合，它可以在两端进行插入、删除和查询操作。<br>常用操作：从列表的左端或右端插入元素、从左端或右端弹出元素、获取指定索引位置的元素等。<br>适用场景：消息队列、实现最新消息推送、记录操作日志等。</p>
+<h3 id="2-1-4-集合（Set）："><a href="#2-1-4-集合（Set）：" class="headerlink" title="2.1.4. 集合（Set）："></a>2.1.4. 集合（Set）：</h3><p>Redis的集合是一个无序的字符串元素集合，它不允许重复的元素存在。<br>常用操作：添加元素、移除元素、判断元素是否存在、求交集、求并集等。<br>适用场景：标签系统、好友关系、计算共同喜好等。</p>
+<h3 id="2-1-5-有序集合（Sorted-Set）："><a href="#2-1-5-有序集合（Sorted-Set）：" class="headerlink" title="2.1.5. 有序集合（Sorted Set）："></a>2.1.5. 有序集合（Sorted Set）：</h3><p>Redis的有序集合是一个排序的字符串元素集合，每个元素都会关联一个分数，通过分数可以进行排序。<br>常用操作：添加元素、移除元素、根据分数范围获取元素等。<br>适用场景：排行榜、优先级队列、范围查询等。</p>
+<h2 id="2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash"><a href="#2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash" class="headerlink" title="2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash"></a>2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash</h2><p>除了支持字符串、哈希、列表、集合和排序集等常见数据结构外，Redis还支持在某些用例中有用的几种专用数据类型。</p>
+<h3 id="2-2-1-布隆过滤器-Bloom-filter"><a href="#2-2-1-布隆过滤器-Bloom-filter" class="headerlink" title="2.2.1. 布隆过滤器(Bloom filter)"></a>2.2.1. 布隆过滤器(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/bloom-filter/">Bloom filter</a>)</h3><p>布隆过滤器是一种概率数据结构，可用于确定元素是否可能存在于集合中。它们在误报（表示元素不在集合中时）是可以接受的，但误报（表示元素不在集合中时）不是可以接受的情况下特别有用。Redis中的布隆过滤器是使用<code>BF. ADD</code>、<code>BF.EXISTS</code>和<code>BF.MADD</code>命令实现的。</p>
+<h3 id="2-2-2-HyperLogLog-HyperLogLog"><a href="#2-2-2-HyperLogLog-HyperLogLog" class="headerlink" title="2.2.2. HyperLogLog(HyperLogLog)"></a>2.2.2. HyperLogLog(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/hyperloglogs/">HyperLogLog</a>)</h3><p>HyperLogLog是一种用于估计集合基数的概率算法。它为存储集合本身提供了一种节省空间的替代方案，可用于高精度估计非常大的集合中唯一元素的数量。Redis中的HyperLogLog使用<code>PFADD</code>、<code>PFCOUNT</code>和<code>PFMERGE</code>命令实现。</p>
+<h3 id="2-2-3-布谷鸟算法-Cuckoo-filter"><a href="#2-2-3-布谷鸟算法-Cuckoo-filter" class="headerlink" title="2.2.3. 布谷鸟算法(Cuckoo filter)"></a>2.2.3. 布谷鸟算法(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/cuckoo-filter/">Cuckoo filter</a>)</h3><p>检测特定集合是否存在是否存在</p>
+<h3 id="2-2-4-空间类型-geospatial"><a href="#2-2-4-空间类型-geospatial" class="headerlink" title="2.2.4. 空间类型 geospatial"></a>2.2.4. 空间类型 <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/geospatial/">geospatial</a></h3><p>地理散列是一种以保留接近度的方式将地理坐标编码为字符串的技术。它可用于对一组坐标执行空间查询，例如查找给定点一定半径内的所有坐标。Redis支持通过<code>GEOADD</code>、<code>GEODIST</code>、<code>GEOHASH</code>、<code>GEOPOS</code>和<code>GEORADIUS</code>命令进行地理散列。<br>通过为这些专门的数据类型提供支持，Redis使开发人员能够凭借其强大的内存数据存储和处理能力解决更广泛的问题。</p>
+<h3 id="2-2-5-BitMap类型"><a href="#2-2-5-BitMap类型" class="headerlink" title="2.2.5. BitMap类型 "></a>2.2.5. <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/bitmaps/">BitMap类型 </a></h3><p>Bitmap，即位图，是一串连续的二进制数组（0和1），可以通过偏移量（offset）定位元素。BitMap通过最小的单位bit来进行<code>0|1</code>的设置，表示某个元素的值或者状态，时间复杂度为O(1)。由于bit是计算机中最小的单位，使用它进行储存将非常节省空间，特别适合一些数据量大且使用二值统计的场景。</p>
+<p>使用示例 位移值和0|1 存储值,例如是否在线,考勤是否打卡</p>
+<h1 id="3-Redis淘汰策略"><a href="#3-Redis淘汰策略" class="headerlink" title="3. Redis淘汰策略"></a>3. Redis淘汰策略</h1><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-44-47.png?version=1&modificationDate=1696920288000&api=v2" alt="img"></p>
+<p>Redis的淘汰策略，根据是否会进行数据淘汰可以把它们分成两类：</p>
+<ul>
+<li>不进行数据淘汰的策略，只有 noeviction 这一种。</li>
+<li>会进行淘汰的 7 种其他策略。</li>
+</ul>
+<p>会进行淘汰的 7 种策略，我们可以再进一步根据淘汰候选数据集的范围把它们分成两类：</p>
+<ul>
+<li>在设置了过期时间的数据中进行淘汰，包括 volatile-random、volatile-ttl、volatile-lru、volatile-lfu（Redis 4.0 后新增）四种。</li>
+<li>在所有数据范围内进行淘汰，包括 allkeys-lru、allkeys-random、allkeys-lfu（Redis 4.0 后新增）三种。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7027067417469648926">Redis的八种淘汰策略（五） - 掘金</a></p>
+<p>volatile-random、volatile-ttl、volatile-lru、volatile-lfu 四种策略是针对已经设置了过期时间的键值对。到键值对的到期时间到了或者Redis内存使用量达到了<code>maxmemory</code>阈值，Redis会根据这些策略对键值对进行淘汰；</p>
+<ul>
+<li>volatile-ttl 在筛选时，会针对设置了过期时间的键值对，根据过期时间的先后进行删除，越早过期的越先被删除。</li>
+<li>volatile-random 就像它的名称一样，在设置了过期时间的键值对中，进行随机删除。</li>
+<li>volatile-lru 会使用 LRU (最近最少使用淘汰算法（Least Recently Used）) 算法筛选设置了过期时间的键值对。</li>
+<li>volatile-lfu 会使用 LFU 最不经常使用淘汰算法（Least Frequently Used）选择设置了过期时间的键值对。</li>
+</ul>
+<p>备注:</p>
+<p>LRU，即：最近最少使用淘汰算法（Least Recently Used）。LRU是淘汰最长时间没有被使用的页面。</p>
+<p>LFU，即：最不经常使用淘汰算法（Least Frequently Used）。LFU是淘汰一段时间内，使用次数最少的页面</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fengzheng/p/13296082.html">动手实现 LRU 算法，以及 Caffeine 和 Redis 中的缓存淘汰策略 - 风的姿态 - 博客园</a></p>
+<h1 id="4-Redis集群"><a href="#4-Redis集群" class="headerlink" title="4. Redis集群"></a>4. Redis集群</h1><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022028642">一文掌握Redis的三种集群方案 - 个人文章 - SegmentFault 思否</a></p>
+<h2 id="4-1-主从复制"><a href="#4-1-主从复制" class="headerlink" title="4.1. 主从复制"></a>4.1. 主从复制</h2><p><img src="https://image-static.segmentfault.com/124/529/1245298177-5e6ed603a6d8b_articlex" alt="redis-master-slave"></p>
+<h3 id="4-1-1-主从复制的优缺点"><a href="#4-1-1-主从复制的优缺点" class="headerlink" title="4.1.1. 主从复制的优缺点"></a>4.1.1. 主从复制的优缺点</h3><p>优点：</p>
+<ol>
+<li>master能自动将数据同步到slave，可以进行读写分离，分担master的读压力</li>
+<li>master、slave之间的同步是以非阻塞的方式进行的，同步期间，客户端仍然可以提交查询或更新请求</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>不具备自动容错与恢复功能，master或slave的宕机都可能导致客户端请求失败，需要等待机器重启或手动切换客户端IP才能恢复</li>
+<li>master宕机，如果宕机前数据没有同步完，则切换IP后会存在数据不一致的问题</li>
+<li>难以支持在线扩容，Redis的容量受限于单机配置</li>
+</ol>
+<h2 id="4-2-哨兵模式"><a href="#4-2-哨兵模式" class="headerlink" title="4.2. 哨兵模式"></a>4.2. 哨兵模式</h2><p><img src="https://image-static.segmentfault.com/423/790/4237905659-5e6ed60450b11_articlex" alt="redis-sentinel"></p>
+<p>优点：</p>
+<ol>
+<li>哨兵模式基于主从复制模式，所以主从复制模式有的优点，哨兵模式也有</li>
+<li>哨兵模式下，master挂掉可以自动进行切换，系统可用性更高</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>同样也继承了主从模式难以在线扩容的缺点，Redis的容量受限于单机配置</li>
+<li>需要额外的资源来启动sentinel进程，实现相对复杂一点，同时slave节点作为备份节点不提供服务</li>
+</ol>
+<h2 id="4-3-Cluster模式"><a href="#4-3-Cluster模式" class="headerlink" title="4.3. Cluster模式"></a>4.3. Cluster模式</h2><p><img src="https://image-static.segmentfault.com/965/514/965514528-5e6ed605ee5db_articlex" alt="redis-cluster"></p>
+<p>　　Redis Cluster 采用虚拟哈希槽分区，所有的键根据哈希函数映射到 0 ~ 16383 整数槽内，计算公式：<code>HASH_SLOT = CRC16(key) % 16384</code>。每一个节点负责维护一部分槽以及槽所映射的键值数据。</p>
+<h1 id="5-Redis中的缓存雪崩和缓存击穿问题"><a href="#5-Redis中的缓存雪崩和缓存击穿问题" class="headerlink" title="5. Redis中的缓存雪崩和缓存击穿问题"></a>5. Redis中的缓存雪崩和缓存击穿问题</h1><p><img src="https://cdn.xiaolincoding.com//mysql/other/61781cd6d82e4a0cc5f7521333049f0d.png" alt="图片"></p>
+<h2 id="5-1-缓存雪崩"><a href="#5-1-缓存雪崩" class="headerlink" title="5.1. 缓存雪崩"></a>5.1. 缓存雪崩</h2><p>缓存雪崩是指在同一时间，缓存中大量的缓存数据失效，导致大量的请求直接打到了后端数据库上，使得数据库瞬间达到峰值负载，甚至直接宕机。这种情况通常发生在缓存中的数据同时过期时间设置相同，同时失效的情况下。<br>为了避免缓存雪崩问题，可以采取以下措施：</p>
+<ul>
+<li>给缓存数据的过期时间加上随机值，避免同时失效。</li>
+<li>将缓存数据的过期时间分散开来，比如一部分设置为5分钟，一部分设置为10分钟，一部分设置为15分钟，以此类推。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<h2 id="5-2-缓存击穿"><a href="#5-2-缓存击穿" class="headerlink" title="5.2. 缓存击穿"></a>5.2. 缓存击穿</h2><p>缓存击穿是指某个热点key在缓存过期的同时，有大量的请求访问该key的时候，这些请求直接穿透到后端数据库，导致数据库瞬间达到峰值负载，甚至直接宕机。<br>为了避免缓存击穿问题，可以采取以下措施：</p>
+<ul>
+<li>在缓存数据不存在时，不直接去查询后端数据库，而是先将该key设置为一个特殊的值（如null），在一段时间内（如5秒）不再查询后端数据库，从而避免瞬间大量请求打到数据库上。</li>
+<li>设置热点数据永不过期，或者过期时间非常长，例如一天、一周、一个月等。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<p>在使用Redis时需要注意缓存雪崩和缓存击穿问题，采取相应的措施可以避免这些问题的发生，提高系统的稳定性和可靠性。<br>在Redis中，缓存失效可能有以下几种情况：</p>
+<ol>
+<li>过期时间到期：当设置了缓存的过期时间后，到期后缓存将会失效。</li>
+<li>主动删除：使用<code>DEL</code>命令或者程序中的<code>delete</code>方法，主动删除缓存。</li>
+<li>内存空间不足：当Rediss内存空间不足时，Rediss会优先淘汰赛掉内存占用较大，使用较少的缓存，以腾出更多的内存空间。</li>
+<li>内存泄漏：当程序中出现内存泄漏时，会导致缓存失效。</li>
+<li>Redis重启：当Redis服务重启时，缓存也会失效。</li>
+</ol>
+<p>为了避免缓存失效，我们可以设置合适的缓存过期时间，定期检查和清理过期缓存，优化Redis的内存使用，以及避免内存泄漏等问题。</p>
+<h1 id="6-在Spring-Boot中使用Redis"><a href="#6-在Spring-Boot中使用Redis" class="headerlink" title="6. 在Spring Boot中使用Redis"></a>6. 在Spring Boot中使用Redis</h1><p>Redis是一个流行的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。在本文中，我们将介绍如何在Spring Boot应用程序中使用Redis。</p>
+<h2 id="6-1-添加Redis依赖"><a href="#6-1-添加Redis依赖" class="headerlink" title="6.1. .添加Redis依赖"></a>6.1. .添加Redis依赖</h2><p>要在Spring Boot应用程序中使用Redis，我们首先需要添加Redis依赖，在Maven项目中，我们可以在pom. xml文件中添加以下依赖项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-配置Redis连接"><a href="#6-2-配置Redis连接" class="headerlink" title="6.2. 配置Redis连接"></a>6.2. 配置Redis连接</h2><p>在我们可以使用Redis之前，我们需要配置Redis连接.在Spring Boot应用程序中，我们可以在application.properties文件中添加以下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=localhost</span><br><span class="line">spring.redis.port=6379</span><br></pre></td></tr></table></figure>
+
+
+<p>这将配置Redis连接到本地主机的默认端口6379。</p>
+<h2 id="6-3-使用RedisTemplate"><a href="#6-3-使用RedisTemplate" class="headerlink" title="6.3. 使用RedisTemplate"></a>6.3. 使用RedisTemplate</h2><p>Spring Boot提供了一个RedisTemplate类，它是一个用于与Redis交互的高级API。我们可以使用RedisTemplate来执行Redis操作，如存储、检索和删除数据。以下是一个使用RedisTemplate执行Redis操作的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private RedisTemplate&lt;String, Object&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">public void setValue(String key, Object value) &#123;</span><br><span class="line">    redisTemplate.opsForValue().set(key, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public Object getValue(String key) &#123;</span><br><span class="line">    return redisTemplate.opsForValue().get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们注入了一个RedisTemplate对象，并使用它来存储和检索数据。我们使用opsForValue()方法来访问Redis值操作，如设置和获取值。</p>
+<h1 id="7-使用注解"><a href="#7-使用注解" class="headerlink" title="7. 使用注解"></a>7. 使用注解</h1><p>除了使用RedisTemplate之外，Spring Boot还提供了一些注解，可以更轻松地使用Redis。例如，我们可以使用@Cacheable注解将方法的结果缓存到Redis中，从而加快方法的执行速度。以下是一个使用@Cacheable注解的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Cacheable(value = &quot;users&quot;, key = &quot;#userId&quot;)</span><br><span class="line">public User getUserById(String userId) &#123;</span><br><span class="line">    // 获取用户信息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们使用@Cache able注解将User By Id方法的结果缓存到名为”user”的Red is缓存中，缓存键为rId参数。</p>
+<h2 id="7-1-常见客户端比较-lettuce-redisson-jedis"><a href="#7-1-常见客户端比较-lettuce-redisson-jedis" class="headerlink" title="7.1. 常见客户端比较 lettuce ,redisson,jedis"></a>7.1. 常见客户端比较 lettuce ,redisson,jedis</h2><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-14-16.png?version=1&modificationDate=1695096856000&api=v2" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">Lettuce</th>
+<th align="left">Redisson</th>
+<th align="left">Jedis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">完整性</td>
+<td align="left">Lettuce 是一个可扩展的线程安全 Redis 客户端，适用于同步、异步和反应式使用。 如果多个线程避免阻塞和事务性操作（例如 BLPOP 和 MULTI/EXEC），则它们可以共享一个连接。 Lettuce是用netty构建的。 支持高级 Redis 功能，例如 Sentinel、集群、管道、自动重新连接和 Redis 数据模型。</td>
+<td align="left">Redisson提供了完整的Redis协议支持,基于<a target="_blank" rel="noopener" href="http://netty.io/">Netty</a> 框架，并在其基础上封装了更丰富的特性，如分布式锁、分布式集合等.线程安全的实现 支持Redis复制、Redis集群、Redis哨兵、Redis主从、Redis单机、Redis代理、Redis多集群设置</td>
+<td align="left">Jedis提供了基本的Redis协议支持，但支持高级功能如Pipelining、Miscellaneous、Cluster、Pub/Sub等。Redis 官方推荐的Java客户端</td>
+</tr>
+<tr>
+<td align="left">连接管理</td>
+<td align="left">支持连接池和连接自动恢复机制，具有更好的连接管理能力。</td>
+<td align="left">支持连接池和连接自动恢复机制，具有较好的连接管理能力。</td>
+<td align="left">支持连接池，但没有连接自动恢复机制，</td>
+</tr>
+<tr>
+<td align="left">异步操作</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">不支持异步操作，只能使用同步方式进行操作。</td>
+</tr>
+<tr>
+<td align="left">分布式功能</td>
+<td align="left">支持Redis Sentinel和Redis Cluster，可以使用Lettuce进行分布式部署。</td>
+<td align="left">提供了丰富的分布式功能，如分布式锁、分布式集合、分布式对象等。</td>
+<td align="left">不支持Redis Sentinel和Redis Cluster，不适用于分布式部署。</td>
+</tr>
+<tr>
+<td align="left">扩展性</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接池实现等。</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接管理器等。</td>
+<td align="left">较难进行扩展，功能相对固定。</td>
+</tr>
+<tr>
+<td align="left">社区活跃度</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有较为活跃的开源社区，但相对于Lettuce和Redisson稍显不足。</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/lettuce-io/lettuce-core%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E6%98%AF">https://github.com/lettuce-io/lettuce-core最新版本是</a></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redisson/redisson">https://github.com/redisson/redisson</a> 最新版是 3.23.4</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redis/jedis">https://github.com/redis/jedis</a> 最近版本是5.0.0</td>
+</tr>
+</tbody></table>
+<h1 id="8-结论"><a href="#8-结论" class="headerlink" title="8. 结论"></a>8. 结论</h1><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-50-12.png?version=1&modificationDate=1696920612000&api=v2" alt="img"></p>
+<p>Redis是一个开源的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。以下是它的主要特点和原理：</p>
+<ul>
+<li>内存存储：将所有数据存储在内存中，以实现快速读写访问。同时，它支持多种数据结构，如字<strong>符串、哈希、列表、集合和有序集合</strong>。</li>
+<li>持久性：Redis支持将数据持久化到磁盘上，以实现数据的可靠存储和恢复。它提供两种不同的持久化选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，以实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现横向扩展和高性能。</li>
+<li>事务和Lua脚本：重新支持事务和Lua脚本，以实现原子操作和自定义命令。</li>
+</ul>
+<h1 id="1-Redis的单线程和Linux的ePoll特性-1"><a href="#1-Redis的单线程和Linux的ePoll特性-1" class="headerlink" title="1. Redis的单线程和Linux的ePoll特性"></a>1. Redis的单线程和Linux的ePoll特性</h1><p>Redis是单线程的，这意味着它使用一个主线程来处理所有客户端请求。它的性能非常高，因为它不需要线程切换的开销，并且可以使用非常少的内存来处理大量的并发连接。另外，Redis使用Linux的ePoll特性来实现异步I/O操作，这使得Redis能够在高负载情况下保持高性能。</p>
+<p>在**redis中会有epoll模型是基于异步的io来实现的,**在该模型下每个连接都会有个FileDscript的文件来标示连接情况,连接的客户端有相关的io才会唤醒redis的线程来进行操作</p>
+<h2 id="1-1-缓存数据存储和持久化-1"><a href="#1-1-缓存数据存储和持久化-1" class="headerlink" title="1.1. 缓存数据存储和持久化"></a>1.1. 缓存数据存储和持久化</h2><ol>
+<li><p>RDB（Redis Database）：</p>
+<ul>
+<li>RDB 是 Redis 数据的非常紧凑的单文件时间点表示形式。 RDB 文件非常适合备份。 例如，您可能希望在最近 24 小时内每小时归档一次 RDB 文件，并在 30 天内每天保存一个 RDB 快照。 这使您可以在发生灾难时轻松恢复不同版本的数据集。<br>RDB 非常适合灾难恢复，它是一个紧凑的文件，可以传输到远程数据中心或 Amazon S3（可能是加密的）。<br>RDB 最大限度地提高了 Redis 的性能，因为 Redis 父进程为了持久化需要做的唯一工作就是派生一个子进程，该子进程将完成其余所有工作。 父进程永远不会执行磁盘 I/O 等操作。<br>与 AOF 相比，RDB 允许更快地重新启动大数据集。<br>在副本上，RDB 支持重启和故障转移后的部分重新同步。</li>
+</ul>
+</li>
+<li><p>AOF日志（Append-Only File）：</p>
+<ul>
+<li><p>AOF日志以追加方式记录Redis服务器所执行的写命令，以文本格式保存在一个文件中。</p>
+</li>
+<li><p>AOF日志允许Redis将写操作追加到文件的末尾，以保持数据的完整性。</p>
+</li>
+<li><p>AOF日志可以通过配置文件中的appendonly选项来启用和配置。</p>
+</li>
+<li><p>AOF日志的优点是可以提供更高的数据安全性和持久性，但相比于快照有一定的性能开销。</p>
+</li>
+<li><p>可以通过配置AOF重写来压缩和优化AOF日志的大小。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="2-Redis支持的常见结构-1"><a href="#2-Redis支持的常见结构-1" class="headerlink" title="2. Redis支持的常见结构"></a>2. Redis支持的常见结构</h1><h2 id="2-1-数据结构-1"><a href="#2-1-数据结构-1" class="headerlink" title="2.1. 数据结构"></a>2.1. 数据结构</h2><h3 id="2-1-1-字符串（String）：-1"><a href="#2-1-1-字符串（String）：-1" class="headerlink" title="2.1.1. .字符串（String）："></a>2.1.1. .字符串（String）：</h3><p>Redis的字符串是一个简单的键值对结构，键是一个字符串，值可以是任意二进制数据。<br>常用操作：设置值、获取值、增加或减少数值、追加字符串、获取子字符串等。<br>适用场景：缓存、计数器、分布式锁等。</p>
+<h3 id="2-1-2-哈希（Hash）：-1"><a href="#2-1-2-哈希（Hash）：-1" class="headerlink" title="2.1.2. 哈希（Hash）："></a>2.1.2. 哈希（Hash）：</h3><p>Redis的哈希是一个键值对集合，其中键是一个字符串，值是一个字段-值对的映射表。<br>常用操作：设置字段值、获取字段值、获取所有字段与值、删除字段等。<br>适用场景：存储对象、存储用户信息、存储配置信息等。</p>
+<h3 id="2-1-3-列表（List）：-1"><a href="#2-1-3-列表（List）：-1" class="headerlink" title="2.1.3. 列表（List）："></a>2.1.3. 列表（List）：</h3><p>Redis的列表是一个有序的字符串元素集合，它可以在两端进行插入、删除和查询操作。<br>常用操作：从列表的左端或右端插入元素、从左端或右端弹出元素、获取指定索引位置的元素等。<br>适用场景：消息队列、实现最新消息推送、记录操作日志等。</p>
+<h3 id="2-1-4-集合（Set）：-1"><a href="#2-1-4-集合（Set）：-1" class="headerlink" title="2.1.4. 集合（Set）："></a>2.1.4. 集合（Set）：</h3><p>Redis的集合是一个无序的字符串元素集合，它不允许重复的元素存在。<br>常用操作：添加元素、移除元素、判断元素是否存在、求交集、求并集等。<br>适用场景：标签系统、好友关系、计算共同喜好等。</p>
+<h3 id="2-1-5-有序集合（Sorted-Set）：-1"><a href="#2-1-5-有序集合（Sorted-Set）：-1" class="headerlink" title="2.1.5. 有序集合（Sorted Set）："></a>2.1.5. 有序集合（Sorted Set）：</h3><p>Redis的有序集合是一个排序的字符串元素集合，每个元素都会关联一个分数，通过分数可以进行排序。<br>常用操作：添加元素、移除元素、根据分数范围获取元素等。<br>适用场景：排行榜、优先级队列、范围查询等。</p>
+<h2 id="2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash-1"><a href="#2-2-Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash-1" class="headerlink" title="2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash"></a>2.2. Redis支持其他类型：布隆过滤器、HyperLogLog和Geohash</h2><p>除了支持字符串、哈希、列表、集合和排序集等常见数据结构外，Redis还支持在某些用例中有用的几种专用数据类型。</p>
+<h3 id="2-2-1-布隆过滤器-Bloom-filter-1"><a href="#2-2-1-布隆过滤器-Bloom-filter-1" class="headerlink" title="2.2.1. 布隆过滤器(Bloom filter)"></a>2.2.1. 布隆过滤器(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/bloom-filter/">Bloom filter</a>)</h3><p>布隆过滤器是一种概率数据结构，可用于确定元素是否可能存在于集合中。它们在误报（表示元素不在集合中时）是可以接受的，但误报（表示元素不在集合中时）不是可以接受的情况下特别有用。Redis中的布隆过滤器是使用<code>BF. ADD</code>、<code>BF.EXISTS</code>和<code>BF.MADD</code>命令实现的。</p>
+<h3 id="2-2-2-HyperLogLog-HyperLogLog-1"><a href="#2-2-2-HyperLogLog-HyperLogLog-1" class="headerlink" title="2.2.2. HyperLogLog(HyperLogLog)"></a>2.2.2. HyperLogLog(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/hyperloglogs/">HyperLogLog</a>)</h3><p>HyperLogLog是一种用于估计集合基数的概率算法。它为存储集合本身提供了一种节省空间的替代方案，可用于高精度估计非常大的集合中唯一元素的数量。Redis中的HyperLogLog使用<code>PFADD</code>、<code>PFCOUNT</code>和<code>PFMERGE</code>命令实现。</p>
+<h3 id="2-2-3-布谷鸟算法-Cuckoo-filter-1"><a href="#2-2-3-布谷鸟算法-Cuckoo-filter-1" class="headerlink" title="2.2.3. 布谷鸟算法(Cuckoo filter)"></a>2.2.3. 布谷鸟算法(<a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/probabilistic/cuckoo-filter/">Cuckoo filter</a>)</h3><p>检测特定集合是否存在是否存在</p>
+<h3 id="2-2-4-空间类型-geospatial-1"><a href="#2-2-4-空间类型-geospatial-1" class="headerlink" title="2.2.4. 空间类型 geospatial"></a>2.2.4. 空间类型 <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/geospatial/">geospatial</a></h3><p>地理散列是一种以保留接近度的方式将地理坐标编码为字符串的技术。它可用于对一组坐标执行空间查询，例如查找给定点一定半径内的所有坐标。Redis支持通过<code>GEOADD</code>、<code>GEODIST</code>、<code>GEOHASH</code>、<code>GEOPOS</code>和<code>GEORADIUS</code>命令进行地理散列。<br>通过为这些专门的数据类型提供支持，Redis使开发人员能够凭借其强大的内存数据存储和处理能力解决更广泛的问题。</p>
+<h3 id="2-2-5-BitMap类型-1"><a href="#2-2-5-BitMap类型-1" class="headerlink" title="2.2.5. BitMap类型 "></a>2.2.5. <a target="_blank" rel="noopener" href="https://redis.io/docs/data-types/bitmaps/">BitMap类型 </a></h3><p>Bitmap，即位图，是一串连续的二进制数组（0和1），可以通过偏移量（offset）定位元素。BitMap通过最小的单位bit来进行<code>0|1</code>的设置，表示某个元素的值或者状态，时间复杂度为O(1)。由于bit是计算机中最小的单位，使用它进行储存将非常节省空间，特别适合一些数据量大且使用二值统计的场景。</p>
+<p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-26-33.png?version=1&modificationDate=1695097593000&api=v2" alt="img"></p>
+<p>使用示例 位移值和0|1 存储值,例如是否在线,考勤是否打卡</p>
+<p><img src="https://rd.dtdream.com/download/attachments/45221264/1280X1280.PNG?version=1&modificationDate=1695099341000&api=v2" alt="img"></p>
+<h1 id="3-Redis淘汰策略-1"><a href="#3-Redis淘汰策略-1" class="headerlink" title="3. Redis淘汰策略"></a>3. Redis淘汰策略</h1><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-10-10_14-44-47.png?version=1&modificationDate=1696920288000&api=v2" alt="img"></p>
+<p>Redis的淘汰策略，根据是否会进行数据淘汰可以把它们分成两类：</p>
+<ul>
+<li>不进行数据淘汰的策略，只有 noeviction 这一种。</li>
+<li>会进行淘汰的 7 种其他策略。</li>
+</ul>
+<p>会进行淘汰的 7 种策略，我们可以再进一步根据淘汰候选数据集的范围把它们分成两类：</p>
+<ul>
+<li>在设置了过期时间的数据中进行淘汰，包括 volatile-random、volatile-ttl、volatile-lru、volatile-lfu（Redis 4.0 后新增）四种。</li>
+<li>在所有数据范围内进行淘汰，包括 allkeys-lru、allkeys-random、allkeys-lfu（Redis 4.0 后新增）三种。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7027067417469648926">Redis的八种淘汰策略（五） - 掘金</a></p>
+<p>volatile-random、volatile-ttl、volatile-lru、volatile-lfu 四种策略是针对已经设置了过期时间的键值对。到键值对的到期时间到了或者Redis内存使用量达到了<code>maxmemory</code>阈值，Redis会根据这些策略对键值对进行淘汰；</p>
+<ul>
+<li>volatile-ttl 在筛选时，会针对设置了过期时间的键值对，根据过期时间的先后进行删除，越早过期的越先被删除。</li>
+<li>volatile-random 就像它的名称一样，在设置了过期时间的键值对中，进行随机删除。</li>
+<li>volatile-lru 会使用 LRU (最近最少使用淘汰算法（Least Recently Used）) 算法筛选设置了过期时间的键值对。</li>
+<li>volatile-lfu 会使用 LFU 最不经常使用淘汰算法（Least Frequently Used）选择设置了过期时间的键值对。</li>
+</ul>
+<p>备注:</p>
+<p>LRU，即：最近最少使用淘汰算法（Least Recently Used）。LRU是淘汰最长时间没有被使用的页面。</p>
+<p>LFU，即：最不经常使用淘汰算法（Least Frequently Used）。LFU是淘汰一段时间内，使用次数最少的页面</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fengzheng/p/13296082.html">动手实现 LRU 算法，以及 Caffeine 和 Redis 中的缓存淘汰策略 - 风的姿态 - 博客园</a></p>
+<h1 id="4-Redis集群-1"><a href="#4-Redis集群-1" class="headerlink" title="4. Redis集群"></a>4. Redis集群</h1><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022028642">一文掌握Redis的三种集群方案 - 个人文章 - SegmentFault 思否</a></p>
+<h2 id="4-1-主从复制-1"><a href="#4-1-主从复制-1" class="headerlink" title="4.1. 主从复制"></a>4.1. 主从复制</h2><p><img src="https://image-static.segmentfault.com/124/529/1245298177-5e6ed603a6d8b_articlex" alt="redis-master-slave"></p>
+<h3 id="4-1-1-主从复制的优缺点-1"><a href="#4-1-1-主从复制的优缺点-1" class="headerlink" title="4.1.1. 主从复制的优缺点"></a>4.1.1. 主从复制的优缺点</h3><p>优点：</p>
+<ol>
+<li>master能自动将数据同步到slave，可以进行读写分离，分担master的读压力</li>
+<li>master、slave之间的同步是以非阻塞的方式进行的，同步期间，客户端仍然可以提交查询或更新请求</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>不具备自动容错与恢复功能，master或slave的宕机都可能导致客户端请求失败，需要等待机器重启或手动切换客户端IP才能恢复</li>
+<li>master宕机，如果宕机前数据没有同步完，则切换IP后会存在数据不一致的问题</li>
+<li>难以支持在线扩容，Redis的容量受限于单机配置</li>
+</ol>
+<h2 id="4-2-哨兵模式-1"><a href="#4-2-哨兵模式-1" class="headerlink" title="4.2. 哨兵模式"></a>4.2. 哨兵模式</h2><p><img src="https://image-static.segmentfault.com/423/790/4237905659-5e6ed60450b11_articlex" alt="redis-sentinel"></p>
+<p>优点：</p>
+<ol>
+<li>哨兵模式基于主从复制模式，所以主从复制模式有的优点，哨兵模式也有</li>
+<li>哨兵模式下，master挂掉可以自动进行切换，系统可用性更高</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>同样也继承了主从模式难以在线扩容的缺点，Redis的容量受限于单机配置</li>
+<li>需要额外的资源来启动sentinel进程，实现相对复杂一点，同时slave节点作为备份节点不提供服务</li>
+</ol>
+<h2 id="4-3-Cluster模式-1"><a href="#4-3-Cluster模式-1" class="headerlink" title="4.3. Cluster模式"></a>4.3. Cluster模式</h2><p><img src="https://image-static.segmentfault.com/965/514/965514528-5e6ed605ee5db_articlex" alt="redis-cluster"></p>
+<p>　　Redis Cluster 采用虚拟哈希槽分区，所有的键根据哈希函数映射到 0 ~ 16383 整数槽内，计算公式：<code>HASH_SLOT = CRC16(key) % 16384</code>。每一个节点负责维护一部分槽以及槽所映射的键值数据。</p>
+<h1 id="5-Redis中的缓存雪崩和缓存击穿问题-1"><a href="#5-Redis中的缓存雪崩和缓存击穿问题-1" class="headerlink" title="5. Redis中的缓存雪崩和缓存击穿问题"></a>5. Redis中的缓存雪崩和缓存击穿问题</h1><p><img src="https://cdn.xiaolincoding.com//mysql/other/61781cd6d82e4a0cc5f7521333049f0d.png" alt="图片"></p>
+<h2 id="5-1-缓存雪崩-1"><a href="#5-1-缓存雪崩-1" class="headerlink" title="5.1. 缓存雪崩"></a>5.1. 缓存雪崩</h2><p>缓存雪崩是指在同一时间，缓存中大量的缓存数据失效，导致大量的请求直接打到了后端数据库上，使得数据库瞬间达到峰值负载，甚至直接宕机。这种情况通常发生在缓存中的数据同时过期时间设置相同，同时失效的情况下。<br>为了避免缓存雪崩问题，可以采取以下措施：</p>
+<ul>
+<li>给缓存数据的过期时间加上随机值，避免同时失效。</li>
+<li>将缓存数据的过期时间分散开来，比如一部分设置为5分钟，一部分设置为10分钟，一部分设置为15分钟，以此类推。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<h2 id="5-2-缓存击穿-1"><a href="#5-2-缓存击穿-1" class="headerlink" title="5.2. 缓存击穿"></a>5.2. 缓存击穿</h2><p>缓存击穿是指某个热点key在缓存过期的同时，有大量的请求访问该key的时候，这些请求直接穿透到后端数据库，导致数据库瞬间达到峰值负载，甚至直接宕机。<br>为了避免缓存击穿问题，可以采取以下措施：</p>
+<ul>
+<li>在缓存数据不存在时，不直接去查询后端数据库，而是先将该key设置为一个特殊的值（如null），在一段时间内（如5秒）不再查询后端数据库，从而避免瞬间大量请求打到数据库上。</li>
+<li>设置热点数据永不过期，或者过期时间非常长，例如一天、一周、一个月等。</li>
+<li>设置本地缓存，当缓存失效时，先从本地缓存中获取数据，如果本地缓存没有，则去后端数据库取数据，并将数据再次缓存到本地缓存中。</li>
+</ul>
+<p>在使用Redis时需要注意缓存雪崩和缓存击穿问题，采取相应的措施可以避免这些问题的发生，提高系统的稳定性和可靠性。<br>在Redis中，缓存失效可能有以下几种情况：</p>
+<ol>
+<li>过期时间到期：当设置了缓存的过期时间后，到期后缓存将会失效。</li>
+<li>主动删除：使用<code>DEL</code>命令或者程序中的<code>delete</code>方法，主动删除缓存。</li>
+<li>内存空间不足：当Rediss内存空间不足时，Rediss会优先淘汰赛掉内存占用较大，使用较少的缓存，以腾出更多的内存空间。</li>
+<li>内存泄漏：当程序中出现内存泄漏时，会导致缓存失效。</li>
+<li>Redis重启：当Redis服务重启时，缓存也会失效。</li>
+</ol>
+<p>为了避免缓存失效，我们可以设置合适的缓存过期时间，定期检查和清理过期缓存，优化Redis的内存使用，以及避免内存泄漏等问题。</p>
+<h1 id="6-在Spring-Boot中使用Redis-1"><a href="#6-在Spring-Boot中使用Redis-1" class="headerlink" title="6. 在Spring Boot中使用Redis"></a>6. 在Spring Boot中使用Redis</h1><p>Redis是一个流行的内存数据存储解决方案，它可以用作缓存、数据库和消息代理。在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。在本文中，我们将介绍如何在Spring Boot应用程序中使用Redis。</p>
+<h2 id="6-1-添加Redis依赖-1"><a href="#6-1-添加Redis依赖-1" class="headerlink" title="6.1. .添加Redis依赖"></a>6.1. .添加Redis依赖</h2><p>要在Spring Boot应用程序中使用Redis，我们首先需要添加Redis依赖，在Maven项目中，我们可以在pom. xml文件中添加以下依赖项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-配置Redis连接-1"><a href="#6-2-配置Redis连接-1" class="headerlink" title="6.2. 配置Redis连接"></a>6.2. 配置Redis连接</h2><p>在我们可以使用Redis之前，我们需要配置Redis连接.在Spring Boot应用程序中，我们可以在application.properties文件中添加以下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=localhost</span><br><span class="line">spring.redis.port=6379</span><br></pre></td></tr></table></figure>
+
+
+<p>这将配置Redis连接到本地主机的默认端口6379。</p>
+<h2 id="6-3-使用RedisTemplate-1"><a href="#6-3-使用RedisTemplate-1" class="headerlink" title="6.3. 使用RedisTemplate"></a>6.3. 使用RedisTemplate</h2><p>Spring Boot提供了一个RedisTemplate类，它是一个用于与Redis交互的高级API。我们可以使用RedisTemplate来执行Redis操作，如存储、检索和删除数据。以下是一个使用RedisTemplate执行Redis操作的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private RedisTemplate&lt;String, Object&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">public void setValue(String key, Object value) &#123;</span><br><span class="line">    redisTemplate.opsForValue().set(key, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public Object getValue(String key) &#123;</span><br><span class="line">    return redisTemplate.opsForValue().get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们注入了一个RedisTemplate对象，并使用它来存储和检索数据。我们使用opsForValue()方法来访问Redis值操作，如设置和获取值。</p>
+<h1 id="7-使用注解-1"><a href="#7-使用注解-1" class="headerlink" title="7. 使用注解"></a>7. 使用注解</h1><p>除了使用RedisTemplate之外，Spring Boot还提供了一些注解，可以更轻松地使用Redis。例如，我们可以使用@Cacheable注解将方法的结果缓存到Redis中，从而加快方法的执行速度。以下是一个使用@Cacheable注解的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Cacheable(value = &quot;users&quot;, key = &quot;#userId&quot;)</span><br><span class="line">public User getUserById(String userId) &#123;</span><br><span class="line">    // 获取用户信息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们使用@Cache able注解将User By Id方法的结果缓存到名为”user”的Red is缓存中，缓存键为rId参数。</p>
+<h2 id="7-1-常见客户端比较-lettuce-redisson-jedis-1"><a href="#7-1-常见客户端比较-lettuce-redisson-jedis-1" class="headerlink" title="7.1. 常见客户端比较 lettuce ,redisson,jedis"></a>7.1. 常见客户端比较 lettuce ,redisson,jedis</h2><p><img src="https://rd.dtdream.com/download/attachments/45221264/image2023-9-19_12-14-16.png?version=1&modificationDate=1695096856000&api=v2" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">Lettuce</th>
+<th align="left">Redisson</th>
+<th align="left">Jedis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">完整性</td>
+<td align="left">Lettuce 是一个可扩展的线程安全 Redis 客户端，适用于同步、异步和反应式使用。 如果多个线程避免阻塞和事务性操作（例如 BLPOP 和 MULTI/EXEC），则它们可以共享一个连接。 Lettuce是用netty构建的。 支持高级 Redis 功能，例如 Sentinel、集群、管道、自动重新连接和 Redis 数据模型。</td>
+<td align="left">Redisson提供了完整的Redis协议支持,基于<a target="_blank" rel="noopener" href="http://netty.io/">Netty</a> 框架，并在其基础上封装了更丰富的特性，如分布式锁、分布式集合等.线程安全的实现 支持Redis复制、Redis集群、Redis哨兵、Redis主从、Redis单机、Redis代理、Redis多集群设置</td>
+<td align="left">Jedis提供了基本的Redis协议支持，但支持高级功能如Pipelining、Miscellaneous、Cluster、Pub/Sub等。Redis 官方推荐的Java客户端</td>
+</tr>
+<tr>
+<td align="left">连接管理</td>
+<td align="left">支持连接池和连接自动恢复机制，具有更好的连接管理能力。</td>
+<td align="left">支持连接池和连接自动恢复机制，具有较好的连接管理能力。</td>
+<td align="left">支持连接池，但没有连接自动恢复机制，</td>
+</tr>
+<tr>
+<td align="left">异步操作</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">提供完善的异步操作接口和功能，支持Reactive编程模型。</td>
+<td align="left">不支持异步操作，只能使用同步方式进行操作。</td>
+</tr>
+<tr>
+<td align="left">分布式功能</td>
+<td align="left">支持Redis Sentinel和Redis Cluster，可以使用Lettuce进行分布式部署。</td>
+<td align="left">提供了丰富的分布式功能，如分布式锁、分布式集合、分布式对象等。</td>
+<td align="left">不支持Redis Sentinel和Redis Cluster，不适用于分布式部署。</td>
+</tr>
+<tr>
+<td align="left">扩展性</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接池实现等。</td>
+<td align="left">提供了较好的扩展性，用户可以自定义编解码器、连接管理器等。</td>
+<td align="left">较难进行扩展，功能相对固定。</td>
+</tr>
+<tr>
+<td align="left">社区活跃度</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有活跃的开源社区，稳定更新并提供技术支持。</td>
+<td align="left">拥有较为活跃的开源社区，但相对于Lettuce和Redisson稍显不足。</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/lettuce-io/lettuce-core%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E6%98%AF">https://github.com/lettuce-io/lettuce-core最新版本是</a></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redisson/redisson">https://github.com/redisson/redisson</a> 最新版是 3.23.4</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/redis/jedis">https://github.com/redis/jedis</a> 最近版本是5.0.0</td>
+</tr>
+</tbody></table>
+<h1 id="8-结论-1"><a href="#8-结论-1" class="headerlink" title="8. 结论"></a>8. 结论</h1><p><img src="../img/7c19b433-91f4-4575-9536-8fd9050da6d4.gif" alt="7c19b433-91f4-4575-9536-8fd9050da6d4"><br>在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。我们可以使用RedisTemplate类来执行Redis操作，也可以使用注解来更轻松地使用Redis。无论是存储会话数据还是缓存结果，Redis都是一个强大的解决方案。如果您正在使用Spring Boot，请考虑在应用程序中使用Redis。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。</p>
+<h2 id="8-1-常见的用途"><a href="#8-1-常见的用途" class="headerlink" title="8.1. 常见的用途"></a>8.1. 常见的用途</h2><ol>
+<li>同步session</li>
+<li>分布式事务锁或者是 lock</li>
+<li>注册中心</li>
+<li>缓存中间件</li>
+<li>触发器,订阅-触发的同步机制</li>
+</ol>
+<p>在Spring Boot应用程序中使用Redis可以提高应用程序的性能和可扩展性。我们可以使用RedisTemplate类来执行Redis操作，也可以使用注解来更轻松地使用Redis。无论是存储会话数据还是缓存结果，Redis都是一个强大的解决方案。如果您正在使用Spring Boot，请考虑在应用程序中使用Redis。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。<br>Redis是一种开源内存数据存储解决方案，可用作缓存、数据库和消息代理，其主要特点和原理包括：</p>
+<ul>
+<li>内存存储： Redis将所有数据存储在内存中，以便快速读写访问。它还支持各种数据结构，例如字符串、哈希、列表、集合和排序集合。</li>
+<li>持久化：Redis支持将数据持久化到磁盘，以实现可靠的存储和恢复。 它提供两种不同的持久性选项：快照和日志。</li>
+<li>高可用性：Redis支持主从复制和哨兵机制，实现高可用性和故障点转移。</li>
+<li>分布式：Redis Cluster可以将数据分布在多个节点上，以实现水平扩展和高性能。</li>
+<li>事务和Lua脚本： Redis支持原子操作和自定义命令的事务和Lua脚本。</li>
+</ul>
+<p>总体而言，Redis的主要特点是速度、可靠性和可扩展性.广泛应用于缓存、会话存储、消息队列、计数器、排行榜等各种应用场景。<br>与MongoDB相比，Redis是一种专门的内存数据存储，而MongoDB是一种通用的面向文档的数据库。对于读取密集型工作负载，Redis比MongoDB更快，而MongoDB更适合写入密集型工作负载。Redis由于依赖内存，存储容量有限，而MongoDB可以水平扩展以处理大量数据。<br>与常见的关系数据库和图数据库相比，Redis由于其内存存储和简单的数据结构，在读写性能上更快。<br>Redis的一些优点包括速度，简单性和灵活性.它易于使用，可用于广泛的数据存储和处理任务.它的一些缺点包括对内存的依赖，存储容量有限以及缺乏对复杂查询和连接的支持。</p>
+<h2 id="8-1-常见的用途-1"><a href="#8-1-常见的用途-1" class="headerlink" title="8.1. 常见的用途"></a>8.1. 常见的用途</h2><ol>
+<li>同步session</li>
+<li>分布式事务锁或者是 lock</li>
+<li>注册中心</li>
+<li>缓存中间件</li>
+<li>触发器,订阅-触发的同步机制</li>
+</ol>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-es查询和简要介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/7d305c2e.html" class="article-date">
+      <time datetime="2023-10-09T09:24:15.000Z" itemprop="datePublished">2023-10-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/7d305c2e.html">es查询和简要介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-shade打包后对于META-INF-services数据丢失" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/fa86f8b.html" class="article-date">
+      <time datetime="2023-09-15T10:00:33.000Z" itemprop="datePublished">2023-09-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>GeoTools 中的 ReferencingFactoryFinder 类用于查找和获取 CRS（坐标参考系统）工厂类实例，其主要查找路径和实现机制如下：</p>
+<ol>
+<li>它会查找所有 META-INF/services/目录下名为 org.opengis.referencing.Factory 的文件。</li>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>GeoTools 中的 ReferencingFactoryFinder 类用于查找和获取 CRS（坐标参考系统）工厂类实例，其主要查找路径和实现机制如下：</p>
+<ol>
+<li>它会查找所有 META-INF/services/目录下名为 org.opengis.referencing.Factory 的文件。</li>
+<li>这些文件通过 java.util.ServiceLoader 机制存放着可 plug-in 的坐标系统工厂类名。</li>
+<li>GeoTools 会默认在其 jar 包中添加一些内置的坐标系统工厂类到这个文件中。</li>
+<li>用户也可以通过放入额外的 jar 包，在自己的 META-INF/services 中新增工厂类。</li>
+<li>ReferencingFactoryFinder 会加载这些工厂类，并缓存到内部的工厂 Map 中。</li>
+<li>获取工厂时，则直接从 Map 返回，不需要重新扫描。</li>
+<li>如果工厂类不存在，会抛出 FactoryNotFoundException 异常。</li>
+</ol>
+<p>使用特定访问</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-thymeleaf渲染" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/201304a.html" class="article-date">
+      <time datetime="2023-09-15T09:47:31.000Z" itemprop="datePublished">2023-09-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/201304a.html">thymeleaf渲染</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="解决Thymeleaf模板引擎中的自定义属性和XML命名空间问题"><a href="#解决Thymeleaf模板引擎中的自定义属性和XML命名空间问题" class="headerlink" title="解决Thymeleaf模板引擎中的自定义属性和XML命名空间问题"></a>解决Thymeleaf模板引擎中的自定义属性和XML命名空间问题</h1><p>Thymeleaf是一个流行的模板引擎，常用于生成HTML页面。在使用Thymeleaf时，我们可能会遇到自定义属性和XML命名空间的问题。这篇文章将介绍如何使用Thymeleaf来解决这些问题，并提供了一些实际示例。</p>
+<h2 id="前情介绍"><a href="#前情介绍" class="headerlink" title="前情介绍"></a>前情介绍</h2><p>在使用Thymeleaf时，有两个常见问题需要解决：</p>
+<ol>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="解决Thymeleaf模板引擎中的自定义属性和XML命名空间问题"><a href="#解决Thymeleaf模板引擎中的自定义属性和XML命名空间问题" class="headerlink" title="解决Thymeleaf模板引擎中的自定义属性和XML命名空间问题"></a>解决Thymeleaf模板引擎中的自定义属性和XML命名空间问题</h1><p>Thymeleaf是一个流行的模板引擎，常用于生成HTML页面。在使用Thymeleaf时，我们可能会遇到自定义属性和XML命名空间的问题。这篇文章将介绍如何使用Thymeleaf来解决这些问题，并提供了一些实际示例。</p>
+<h2 id="前情介绍"><a href="#前情介绍" class="headerlink" title="前情介绍"></a>前情介绍</h2><p>在使用Thymeleaf时，有两个常见问题需要解决：</p>
+<ol>
+<li>如何添加自定义的HTML属性。</li>
+<li>如何在XML命名空间属性中定义命名空间。</li>
+</ol>
+<p>让我们逐步来解决这些问题。</p>
+<h2 id="添加自定义标签属性"><a href="#添加自定义标签属性" class="headerlink" title="添加自定义标签属性"></a>添加自定义标签属性</h2><p>Thymeleaf允许我们添加自定义属性到HTML标签中，以将数据传递到模板中。这对于动态渲染页面非常有用。我们可以使用<code>th:attr</code>来实现这一点，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;ResourceURL th:each&#x3D;&quot;resource:$&#123;layer.resourceUrls&#125;&quot; th:attr&#x3D;&quot;format&#x3D;$&#123;resource.format&#125;, template&#x3D;$&#123;resource.template&#125;, resourceType&#x3D;$&#123;resource.resourceType&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这将为每个<code>ResourceURL</code>元素添加<code>format</code>、<code>template</code>和<code>resourceType</code>属性，使我们能够以更灵活的方式自定义标签属性。</p>
+<h2 id="XML命名空间属性问题"><a href="#XML命名空间属性问题" class="headerlink" title="XML命名空间属性问题"></a>XML命名空间属性问题</h2><p>有时，我们需要在HTML标签中使用XML命名空间属性，例如<code>xlink:href</code>。然而，Thymeleaf需要命名空间得到正确定义，否则会出现错误。解决这个问题的步骤如下：</p>
+<ol>
+<li>在HTML文档的根元素中，使用<code>xmlns:xlink</code>来定义<code>xlink</code>命名空间。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">htmlCopy code&lt;html xmlns:th&#x3D;&quot;http:&#x2F;&#x2F;www.thymeleaf.org&quot;</span><br><span class="line">      xmlns:xlink&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;1999&#x2F;xlink&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>现在，你可以在标签中使用<code>xlink:href</code>属性。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">htmlCopy code</span><br><span class="line">&lt;a xlink:href&#x3D;&quot;https:&#x2F;&#x2F;example.com&quot;&gt;My Link&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这样就能够使用<code>xlink:href</code>属性而不再出现命名空间错误。</p>
+<h2 id="汉字解析"><a href="#汉字解析" class="headerlink" title="汉字解析"></a>汉字解析</h2><p>最后，如果你需要在Thymeleaf中解析汉字或其他文本，你可以使用<code>th:utext</code>。这个属性用于在HTML中安全地渲染未经转义的文本，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">htmlCopy code</span><br><span class="line">&lt;span th:utext&#x3D;&quot;$&#123;aa.ddd.fdd&#125;&quot;&gt;汉字内容&lt;&#x2F;span&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>th:utext</code>将<code>$&#123;aa.ddd.fdd&#125;</code>中的文本进行渲染，确保它能正确显示。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Thymeleaf是一个功能强大的模板引擎，用于生成HTML页面。在使用Thymeleaf时，我们可以轻松解决自定义属性和XML命名空间的问题。请确保在使用XML命名空间属性时正确定义命名空间，以避免出现错误。希望这篇文章对解决Thymeleaf中的这些问题有所帮助。解决Thymeleaf模板引擎中的自定义属性和XML命名空间问题</p>
+<p>Thymeleaf是一个流行的模板引擎，常用于生成HTML页面。在使用Thymeleaf时，我们可能会遇到自定义属性和XML命名空间的问题。这篇文章将介绍如何使用Thymeleaf来解决这些问题，并提供了一些实际示例。</p>
+<h2 id="前情介绍-1"><a href="#前情介绍-1" class="headerlink" title="前情介绍"></a>前情介绍</h2><p>在使用Thymeleaf时，有两个常见问题需要解决：</p>
+<ol>
+<li>如何添加自定义的HTML属性。</li>
+<li>如何在XML命名空间属性中定义命名空间。</li>
+</ol>
+<p>让我们逐步来解决这些问题。</p>
+<h2 id="添加自定义标签属性-1"><a href="#添加自定义标签属性-1" class="headerlink" title="添加自定义标签属性"></a>添加自定义标签属性</h2><p>Thymeleaf允许我们添加自定义属性到HTML标签中，以将数据传递到模板中。这对于动态渲染页面非常有用。我们可以使用<code>th:attr</code>来实现这一点，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">htmlCopy code</span><br><span class="line">&lt;ResourceURL th:each&#x3D;&quot;resource:$&#123;layer.resourceUrls&#125;&quot; th:attr&#x3D;&quot;format&#x3D;$&#123;resource.format&#125;, template&#x3D;$&#123;resource.template&#125;, resourceType&#x3D;$&#123;resource.resourceType&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这将为每个<code>ResourceURL</code>元素添加<code>format</code>、<code>template</code>和<code>resourceType</code>属性，使我们能够以更灵活的方式自定义标签属性。</p>
+<h2 id="XML命名空间属性问题-1"><a href="#XML命名空间属性问题-1" class="headerlink" title="XML命名空间属性问题"></a>XML命名空间属性问题</h2><p>有时，我们需要在HTML标签中使用XML命名空间属性，例如<code>xlink:href</code>。然而，Thymeleaf需要命名空间得到正确定义，否则会出现错误。解决这个问题的步骤如下：</p>
+<ol>
+<li>在HTML文档的根元素中，使用<code>xmlns:xlink</code>来定义<code>xlink</code>命名空间。</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:xlink</span>=<span class="string">&quot;http://www.w3.org/1999/xlink&quot;</span>&gt;</span></span><br><span class="line">      </span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">xlink:href</span>=<span class="string">&quot;https://example.com&quot;</span>&gt;</span>My Link<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>这样就能够使用<code>xlink:href</code>属性而不再出现命名空间错误。</p>
+<p>但是在标签价下列类似的属性的时候就会出现问题,</p>
+<p>在添加  xlink:herf=”${}”是会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">error on line 9 at column 64: Namespace prefix xlink for href on ProviderSite is not defined</span><br><span class="line">&lt;?xml-stypos copiable-processing-instruction?&gt;</span><br><span class="line">&#x2F;&#x2F;processors.add(new StandardXmlNsTagProcessor(TemplateMode.XML, dialectPrefix));</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决步骤"><a href="#解决步骤" class="headerlink" title="解决步骤"></a>解决步骤</h3><p>参考下列链接</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/mxab/thymeleaf-extras-data-attribute">https://github.com/mxab/thymeleaf-extras-data-attribute</a></p>
+<p>xline:url 这种标签</p>
+<p>是否显示特定标签</p>
+<p>最后实现的效果是  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body xlink:url&#x3D;&quot;$&#123;&#39;bar&#39;&#125;&quot; data:msg&#x3D;&quot;#&#123;my.message&#125;&quot; &gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="汉字解析-1"><a href="#汉字解析-1" class="headerlink" title="汉字解析"></a>汉字解析</h2><p>最后，如果你需要在Thymeleaf中解析汉字或其他文本，你可以使用<code>th:utext</code>。这个属性用于在HTML中安全地渲染未经转义的文本，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">htmlCopy code</span><br><span class="line">&lt;span th:utext&#x3D;&quot;$&#123;aa.ddd.fdd&#125;&quot;&gt;汉字内容&lt;&#x2F;span&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>th:utext</code>将<code>$&#123;aa.ddd.fdd&#125;</code>中的文本进行渲染，确保它能正确显示。</p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>Thymeleaf是一个功能强大的模板引擎，用于生成HTML,XML页面。在使用Thymeleaf时，我们可以轻松解决自定义属性和XML命名空间的问题。请确保在使用XML命名空间属性时正确定义命名空间，以避免出现错误。希望这篇文章对解决Thymeleaf中的这些问题有所帮助。</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-奥卡姆剃刀的谎言" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1181,445 +1988,9 @@
 
 
   
-    <article id="post-删除自动添加的美式键盘" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/881d194.html" class="article-date">
-      <time datetime="2023-05-19T00:41:17.000Z" itemprop="datePublished">2023-05-19</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/881d194.html">删除自动添加的美式键盘</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>其实window默认是可以删除美式键盘的,比较笨的方式是使用第三方的中文输入法可以管理</p>
-<h2 id="1-初级方式"><a href="#1-初级方式" class="headerlink" title="1.初级方式"></a>1.初级方式</h2><p>比如这种</p>
-<p><img src="../img/image-20230604162718487.png" alt="image-20230604162718487"></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>其实window默认是可以删除美式键盘的,比较笨的方式是使用第三方的中文输入法可以管理</p>
-<h2 id="1-初级方式"><a href="#1-初级方式" class="headerlink" title="1.初级方式"></a>1.初级方式</h2><p>比如这种</p>
-<p><img src="../img/image-20230604162718487.png" alt="image-20230604162718487"></p>
-<p>如果这种删除不了可以考虑添加美式键盘然后在删除</p>
-<h2 id="2-添加英文-美式-再删除"><a href="#2-添加英文-美式-再删除" class="headerlink" title="2. 添加英文(美式)再删除"></a>2. 添加英文(美式)再删除</h2><p><img src="../img/image-20230604162844278.png" alt="image-20230604162844278"></p>
-<h2 id="3-其他软件自动添加"><a href="#3-其他软件自动添加" class="headerlink" title="3. 其他软件自动添加"></a>3. 其他软件自动添加</h2><p>在window平台会自动添加美式输入法,比如一些英文游戏steam上的,我这边是又有装了 Windows11平台的资源管理器拓展 explorer patcher ,它会自动添加美式输入法,考虑卸载对应软件:),</p>
-<p>使用这两个文件</p>
-<p>Remove_en-US.bat</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">control intl.cpl,, &#x2F;f:&quot;%CD%\Remove_en-US.xml&quot;</span><br></pre></td></tr></table></figure>
-
-<p>Remove_en-US.xml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;gs:GlobalizationServices xmlns:gs&#x3D;&quot;urn:longhornGlobalizationUnattend&quot;&gt;</span><br><span class="line">    &lt;!--User List--&gt;</span><br><span class="line">    &lt;gs:UserList&gt;</span><br><span class="line">        &lt;gs:User UserID&#x3D;&quot;Current&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;gs:UserList&gt;</span><br><span class="line">    &lt;!--input preferences--&gt;</span><br><span class="line">    &lt;gs:InputPreferences&gt;</span><br><span class="line">        &lt;!--add en-US keyboard input--&gt;</span><br><span class="line">        &lt;gs:InputLanguageID Action&#x3D;&quot;add&quot; ID&#x3D;&quot;0409:00000409&quot;&#x2F;&gt;</span><br><span class="line">        &lt;!--remove en-US keyboard input--&gt;</span><br><span class="line">        &lt;gs:InputLanguageID Action&#x3D;&quot;remove&quot; ID&#x3D;&quot;0409:00000409&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;gs:InputPreferences&gt;</span><br><span class="line">&lt;&#x2F;gs:GlobalizationServices&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>两个文件放在一起可以运行Remove_en-US.bat</p>
-<p><a target="_blank" rel="noopener" href="https://answers.microsoft.com/zh-hans/windows/forum/all/%E5%85%B3%E4%BA%8E%E8%BE%93%E5%85%A5%E6%B3%95/5411865a-2a25-469b-86be-3643ff34749e">关于输入法栏删掉ು - Microsoft Community</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-geotools中关于filter和ECQL的介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/a0ce9eb1.html" class="article-date">
-      <time datetime="2023-05-07T12:13:03.000Z" itemprop="datePublished">2023-05-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="filter和ECQL的介绍"><a href="#filter和ECQL的介绍" class="headerlink" title="filter和ECQL的介绍"></a>filter和ECQL的介绍</h2><p>在geotools中有datastore就需要对应数据源的查询这边是基于opengis定义的接口来定义现在先看下</p>
-<p>filter这个类的介绍</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public interface Filter &#123;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;使用Filter.INCLUDE过滤集合将会返回原始集合。</span><br><span class="line">    IncludeFilter INCLUDE &#x3D; new IncludeFilter();</span><br><span class="line">    </span><br><span class="line">	&#x2F;&#x2F;使用Filter.EXCLUDE过滤集合将会返回空集合。</span><br><span class="line">    ExcludeFilter EXCLUDE &#x3D; new ExcludeFilter();</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">	&#x2F;&#x2F;给定一个对象，确定此过滤器对象所表示的测试是否通过。如果测试通过，则返回true，否则返回false</span><br><span class="line">    boolean evaluate(Object object);</span><br><span class="line"></span><br><span class="line"> 	 &#x2F;&#x2F;接受一个访问者(FilterVisitor)。实现所有子接口必须具有以下内容的方法:</span><br><span class="line"> 	 &#x2F;&#x2F;visitor.visit(this, extraData);</span><br><span class="line">    Object accept(FilterVisitor visitor, Object extraData);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="filter和ECQL的介绍"><a href="#filter和ECQL的介绍" class="headerlink" title="filter和ECQL的介绍"></a>filter和ECQL的介绍</h2><p>在geotools中有datastore就需要对应数据源的查询这边是基于opengis定义的接口来定义现在先看下</p>
-<p>filter这个类的介绍</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public interface Filter &#123;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;使用Filter.INCLUDE过滤集合将会返回原始集合。</span><br><span class="line">    IncludeFilter INCLUDE &#x3D; new IncludeFilter();</span><br><span class="line">    </span><br><span class="line">	&#x2F;&#x2F;使用Filter.EXCLUDE过滤集合将会返回空集合。</span><br><span class="line">    ExcludeFilter EXCLUDE &#x3D; new ExcludeFilter();</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">	&#x2F;&#x2F;给定一个对象，确定此过滤器对象所表示的测试是否通过。如果测试通过，则返回true，否则返回false</span><br><span class="line">    boolean evaluate(Object object);</span><br><span class="line"></span><br><span class="line"> 	 &#x2F;&#x2F;接受一个访问者(FilterVisitor)。实现所有子接口必须具有以下内容的方法:</span><br><span class="line"> 	 &#x2F;&#x2F;visitor.visit(this, extraData);</span><br><span class="line">    Object accept(FilterVisitor visitor, Object extraData);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>下面是使用Filter查询Geometry类型为Point且位于指定矩形区域内的要素的示例代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;创建一个矩形过滤器</span><br><span class="line">Filter filter &#x3D; FF.and(</span><br><span class="line">    FF.equal(FF.property(&quot;geometry&quot;).getType(), FF.literal(&quot;Point&quot;)),</span><br><span class="line">    FF.bbox(&quot;geometry&quot;, -180, -90, 180, 90, &quot;EPSG:4326&quot;)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;应用过滤器获取要素集合</span><br><span class="line">SimpleFeatureCollection features &#x3D; featureSource.getFeatures(filter);</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>ECQL对应filter跟一步封装我们只需要传入参数和对应方法,用一个字符串来传入即可,它基于OGC标准并支持更多的查询操作。与Filter不同的是，ECQL使用类SQL语法编写查询表达式，并可以执行更复杂的查询，例如计算距离或使用正则表达式匹配属性值。下面是使用ECQL查询两个图层之间距离小于指定值的示例代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;创建一个ECQL查询表达式</span><br><span class="line">String query &#x3D; &quot;DWITHIN(geometry, POINT(0 0), 100, meters)&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;应用查询获取要素集合</span><br><span class="line">SimpleFeatureCollection features &#x3D; featureSource.getFeatures(ECQL.toFilter(query));</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，ECQL的语法相对复杂</p>
-<h2 id="实现的原理"><a href="#实现的原理" class="headerlink" title="实现的原理"></a>实现的原理</h2><p>很简单的逻辑对于不同的数据源其实很多方法是不一样的对应数据库也许有对应的函数,对应shp文件这种也许我们只能在内存中操作,对应gpkg这种也许有其他的方式来计算</p>
-<p>对应filter通常有两种 </p>
-<ul>
-<li>一种是属性的判断 类似&lt; &gt; = like 这种</li>
-<li>第二种是 geometry 判断拓扑关系 相交,包含,相切,相离 <del>还有可能是运行 切割或者分离</del></li>
-</ul>
-<p>所以这里有定义一个抽象类来定义了要参考</p>
-<p><strong>AbstractFilterVisitor</strong>： FilterVisitor 的抽象实现类，提供了一些通用的方法，例如visit(Filter)和visitNullFilter()等。</p>
-<p><strong>DefaultFilterVisitor</strong> ：FilterVisitor的默认实现类，提供了对所有Filter对象的访问方法，例如visit(EqualsFilter)、visit(GreaterThanFilter)等。</p>
-<p><strong>ECQLFilterVisitor</strong> ：FilterVisitor的ECQL实现类，用于解析ECQL表达式。ECQLFilterVisitor提供了一组visit方法，用于访问ECQL表达式中的不同类型的Filter对象。</p>
-<p><strong>SQLFilterVisitor</strong> ：FilterVisitor的SQL实现类，用于将Filter对象转换为SQL语句。SQLFilterVisitor提供了一组visit方法，用于访问不同类型的Filter对象，并将其转换为SQL语句。</p>
-<p> <strong>ComparisonFilter</strong> : 这是一个用于比较的过滤器类，它根据给定条件对值进行比较。常见的例子包括大于、小于、等于等比较操作符。使用该类可以方便快捷地进行数据筛选和排序。</p>
-<p> <strong>LogicFilter</strong>: 这是一个用于逻辑运算的过滤器类，它可以将多个过滤器连接起来，并根据给定的逻辑关系进行组合。例如，可以使用 And 或 Or 运算符将两个或更多的过滤器连接在一起，以实现复杂的查询需求。</p>
-<p>举例子来看一读取gpkg数据来看</p>
-<p>对应空间查询最后走到GeoPkgDialect下的simpleSpatialSearch来拼接SQL查询拓扑关系</p>
-<p>里面有filter.accept()来判断</p>
-<p><img src="../img/1280X1280.PNG" alt="1280X1280"></p>
-<p>最后还是走到JDBCDataStore下的selectSQLPS方法下执行对应的sql来实现的查询</p>
-<p><img src="../img/output11111.png" alt="output"></p>
-<p>在geotools中会多次走到重复的方法,会有一定的误导作用主要是反射和部分结构设计导致的,需要我们在特定实现的类上面打断点会好很多</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-SDK开发整理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/416e1d94.html" class="article-date">
-      <time datetime="2023-04-15T15:50:04.000Z" itemprop="datePublished">2023-04-15</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/416e1d94.html">SDK开发整理和接口设计</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="对于SDK的设计"><a href="#对于SDK的设计" class="headerlink" title="对于SDK的设计"></a>对于SDK的设计</h2><p>这边先整理一个大概的设计方式</p>
-<p>先从接口设计来谈起 目前主要是是参考restful风格和asop两个方式,restful风格主要是通过url,requestMethod,requestParam,requestBody来携带参数和标示动作方式</p>
-<p>起初是参考<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2014/05/restful_api.html">RESTful API 设计指南 - 阮一峰的网络日志</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="对于SDK的设计"><a href="#对于SDK的设计" class="headerlink" title="对于SDK的设计"></a>对于SDK的设计</h2><p>这边先整理一个大概的设计方式</p>
-<p>先从接口设计来谈起 目前主要是是参考restful风格和asop两个方式,restful风格主要是通过url,requestMethod,requestParam,requestBody来携带参数和标示动作方式</p>
-<p>起初是参考<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2014/05/restful_api.html">RESTful API 设计指南 - 阮一峰的网络日志</a></p>
-<p>后面主要考虑集合方式 </p>
-<ul>
-<li><p>get请求会如果字符串查询会出现转义和其他影响.</p>
-</li>
-<li><p>部分axios框架不支持delete的方式.</p>
-</li>
-<li><p>post put两者方式和patch区别容易混乱 部分更新和全部字段更新.</p>
-</li>
-<li><p>对应部分批量删除选择post请求但是我选择用requestBody来删除的时候,会直接用数组来输入,这样确实简单明了,但是不好维护和理解,必要还是需要构建对应的对象来完成.</p>
-</li>
-</ul>
-<p>GET  /dog/{id}?sortby=name&amp;order=asc&amp;page=2&amp;per_page=100  查询单个数据</p>
-<p>POST  /dog/query   -requestBody {“param1”:”aaa”,”param2”:”bbb”} 查询批量数据</p>
-<p>POST /dog  -requestBody {“param1”:”aaa”,”param2”:”bbb”} 新增</p>
-<p>PUT  /dog   -requestBody {“param1”:”aaa”,”param2”:”bbb”} 部分更新</p>
-<p>POST  /dog/{id}/delete/   -requestBody {“param1”:”aaa”,”param2”:”bbb”} 删除单个数据</p>
-<p>POST  /dog/delete/   -requestBody {“param1”:[11,22,44],”param2”:”bbb”} 删除批量数据</p>
-<h2 id="关于SDK的设计"><a href="#关于SDK的设计" class="headerlink" title="关于SDK的设计"></a>关于SDK的设计</h2><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1798664">SDK 开发规范 - 腾讯云开发者社区-腾讯云</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/scar1et/p/15177861.html">通用类命名规范 - 就永远夏天 - 博客园</a></p>
-<p>其实可以参考的比较多主要是</p>
-<ol>
-<li><em>Client 类：</em>Client 类通常用于与远程服务进行交互，例如通过HTTP请求向API发送请求并获取响应。这些类通常封装了与远程服务的所有交互逻辑，并提供了易于使用的方法，以便开发人员可以轻松地与远程服务进行交互。</li>
-<li><em>Helper 类：</em>Helper 类通常包含一些实用方法或函数，这些方法或函数可以用于执行常见的操作。这些方法通常不包含业务逻辑，而是提供了一些工具和辅助函数，以帮助开发人员更轻松地编写代码。</li>
-<li><em>Utils 类：</em>Utils 类也是一种实用程序类，但它们通常包含更广泛的功能，并且可能具有更多的业务逻辑。这些类通常提供了一组静态方法，这些方法可以用于执行各种任务，例如字符串处理、日期时间处理、文件操作等等。</li>
-</ol>
-<hr>
-<p>下列类也是经常被用到的可以参考的</p>
-<ol>
-<li><em>Factory 类：</em>Factory 类通常用于创建对象，这些对象可以是某个接口或抽象类的实例。这些类通常包含一个或多个静态方法，这些方法接受参数并返回一个实例。</li>
-<li><em>Builder 类：</em>Builder 类通常用于构建复杂的对象，这些对象可能需要进行多个步骤的构建。这些类通常包含一组方法，每个方法都负责设置一个特定的属性，并返回自身的实例，以便可以链式调用这些方法。</li>
-<li><em>Adapter 类：</em>Adapter 类通常用于将一个类的接口转换为另一个类的接口。这些类通常实现了目标接口，并持有一个源对象的引用，以便将源对象的方法映射到目标接口的方法。</li>
-<li><em>Decorator 类：</em>Decorator 类通常用于在运行时动态地给对象添加功能，而无需修改原始对象。这些类通常实现了与原始对象相同的接口，并持有一个对原始对象的引用，在运行时添加额外的功能。</li>
-</ol>
-<p>注意命名<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&mid=2247532818&idx=1&sn=b7267c8a1ed2b38c15ba5728040f443f&chksm=e92a7c1dde5df50b368bf2f872cb9254b5ab19ee0586d0be74c28e5169adbd89d58c3999ffd3&mpshare=1&scene=24&srcid=04172RW1fUxdJlsjRQJUl59b&sharer_sharetime=1681704802354&sharer_shareid=1eaae4cdce27c612a0778b4d4b0007f3#rd">编程中最难的就是命名？这几招教你快速上手</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-java中io的优化方向" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/d31a1754.html" class="article-date">
-      <time datetime="2023-04-09T06:40:42.000Z" itemprop="datePublished">2023-04-09</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/d31a1754.html">java中io的优化方向</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="1-使用缓冲区"><a href="#1-使用缓冲区" class="headerlink" title="1. 使用缓冲区"></a>1. 使用缓冲区</h3><p>在读写文件时，每次都直接操作磁盘会导致性能降低。因此，可以通过使用缓冲区来减少对磁盘的操作次数，从而提高性能。Java 中提供了 <code>BufferedInputStream</code> 和 <code>BufferedOutputStream</code> 类来支持缓冲区的操作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 创建输入流缓冲区</span><br><span class="line">BufferedInputStream bis &#x3D; new BufferedInputStream(new FileInputStream(file));</span><br><span class="line">&#x2F;&#x2F; 创建输出流缓冲区</span><br><span class="line">BufferedOutputStream bos &#x3D; new BufferedOutputStream(new FileOutputStream(file));</span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="1-使用缓冲区"><a href="#1-使用缓冲区" class="headerlink" title="1. 使用缓冲区"></a>1. 使用缓冲区</h3><p>在读写文件时，每次都直接操作磁盘会导致性能降低。因此，可以通过使用缓冲区来减少对磁盘的操作次数，从而提高性能。Java 中提供了 <code>BufferedInputStream</code> 和 <code>BufferedOutputStream</code> 类来支持缓冲区的操作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 创建输入流缓冲区</span><br><span class="line">BufferedInputStream bis &#x3D; new BufferedInputStream(new FileInputStream(file));</span><br><span class="line">&#x2F;&#x2F; 创建输出流缓冲区</span><br><span class="line">BufferedOutputStream bos &#x3D; new BufferedOutputStream(new FileOutputStream(file));</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-使用-NIO"><a href="#2-使用-NIO" class="headerlink" title="2. 使用 NIO"></a>2. 使用 NIO</h3><p>Java 中的 NIO（New I/O）提供了更高效的 I/O 操作方式，可以提高程序的性能。NIO 引入了通道（Channel）、缓冲区（Buffer）等概念，并且支持非阻塞 I/O 操作。相比之下，传统的 Java I/O 通过流式处理数据，较为低效。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 创建通道</span><br><span class="line">FileChannel channel &#x3D; FileChannel.open(path, StandardOpenOption.READ);</span><br><span class="line">&#x2F;&#x2F; 创建缓冲区</span><br><span class="line">ByteBuffer buffer &#x3D; ByteBuffer.allocate(1024);</span><br><span class="line">&#x2F;&#x2F; 读取数据到缓冲区</span><br><span class="line">channel.read(buffer);</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-多线程读取文件"><a href="#3-多线程读取文件" class="headerlink" title="3. 多线程读取文件"></a>3. 多线程读取文件</h3><p>当需要读取大量文件时，可以考虑使用多线程来加速读取操作。Java 中可以使用线程池来创建多个线程，并将文件分成多个部分进行读取。这样可以充分利用 CPU 和磁盘的性能，提高程序的效率。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 创建固定大小的线程池</span><br><span class="line">ExecutorService executorService &#x3D; Executors.newFixedThreadPool(10);</span><br><span class="line">&#x2F;&#x2F; 将任务分配给不同的线程</span><br><span class="line">for (int i &#x3D; 0; i &lt; files.length; i++) &#123;</span><br><span class="line">    Runnable task &#x3D; new ReadFileTask(files[i]);</span><br><span class="line">    executorService.submit(task);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-数据压缩"><a href="#4-数据压缩" class="headerlink" title="4. 数据压缩"></a>4. 数据压缩</h3><p>读取大量文件时，数据传输的成本可能会很高。因此，可以考虑使用数据压缩技术来减少数据量，从而提高程序的效率。Java 中提供了 <code>GZIPOutputStream</code> 和 <code>GZIPInputStream</code> 等类来支持数据压缩和解压操作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 创建输出流并压缩数据</span><br><span class="line">GZIPOutputStream gos &#x3D; new GZIPOutputStream(new FileOutputStream(file));</span><br><span class="line">gos.write(data);</span><br><span class="line">gos.finish();</span><br><span class="line">gos.close();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 创建输入流并解压数据</span><br><span class="line">GZIPInputStream gis &#x3D; new GZIPInputStream(new FileInputStream(file));</span><br><span class="line">byte[] buffer &#x3D; new byte[1024];</span><br><span class="line">int read &#x3D; -1;</span><br><span class="line">while ((read &#x3D; gis.read(buffer)) !&#x3D; -1) &#123;</span><br><span class="line">    &#x2F;&#x2F; 处理数据</span><br><span class="line">&#125;</span><br><span class="line">gis.close();</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="5-批量读写数据"><a href="#5-批量读写数据" class="headerlink" title="5. 批量读写数据"></a>5. 批量读写数据</h3><p>在进行大量数据的读取和写入时，可以采用批量操作的方式来提高效率。例如，可以一次性读取或写入多个字节、字符或对象，减少 I/O 操作的频率。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 一次性读取多个字节到缓冲区</span><br><span class="line">byte[] buffer &#x3D; new byte[1024];</span><br><span class="line">inputStream.read(buffer, 0, 1024);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 一次性写入多个字符到文件</span><br><span class="line">char[] data &#x3D; &#123;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;&#125;;</span><br><span class="line">fileWriter.write(data, 0, 2);</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-使用内存映射文件"><a href="#6-使用内存映射文件" class="headerlink" title="6. 使用内存映射文件"></a>6. 使用内存映射文件</h3><p>Java 中的内存映射文件可以将整个文件或者文件的某个部分映射到虚拟内存中，使得可以通过内存地址来访问文件，从而提高程序的效率。内存映射文件通常适用于对大文件的读取和写入操作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 将整个文件映射到内存中</span><br><span class="line">RandomAccessFile raf &#x3D; new RandomAccessFile(file, &quot;rw&quot;);</span><br><span class="line">FileChannel channel &#x3D; raf.getChannel();</span><br><span class="line">MappedByteBuffer buffer &#x3D; channel.map(FileChannel.MapMode.READ_WRITE, 0, file.length());</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-原子文件操作"><a href="#7-原子文件操作" class="headerlink" title="7. 原子文件操作"></a>7. 原子文件操作</h3><p>Java 中的 <code>java.nio.file.Files</code> 类提供了一些原子文件操作方法，可以确保文件的读取和写入操作的原子性，从而避免由并发操作引起的问题。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 原子写入字符串到文件</span><br><span class="line">Files.writeString(file, &quot;hello&quot;, StandardOpenOption.WRITE, StandardOpenOption.APPEND);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 原子读取文件到字符串</span><br><span class="line">String content &#x3D; Files.readString(file);</span><br></pre></td></tr></table></figure>
-
-<h3 id="8-磁盘预读取"><a href="#8-磁盘预读取" class="headerlink" title="8. 磁盘预读取"></a>8. 磁盘预读取</h3><p>Java 中可以通过启用磁盘预读取机制来提高程序的效率。磁盘预读取是指在读取文件时，将文件的一部分或者整个文件预先加载到内存中，从而加快读取速度。Java 中可以使用 <code>FileInputStream</code> 类的 <code>getChannel()</code> 方法来获取文件的通道，并使用 <code>map()</code> 方法来实现磁盘预读取。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 获取文件通道</span><br><span class="line">FileInputStream fis &#x3D; new FileInputStream(file);</span><br><span class="line">FileChannel channel &#x3D; fis.getChannel();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件映射到内存中</span><br><span class="line">MappedByteBuffer buffer &#x3D; channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());</span><br></pre></td></tr></table></figure>
-
-
-
-<p>以上是一些常用的优化方案，但实际应用时需要根据具体情况进行选择。在从 MongoDB 上读取文件时，可以结合上述方案进行优化，以提高程序的性能。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/"> 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/5/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/3/"> 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/5/">下一页 </a>
     </nav>
   
 </div>

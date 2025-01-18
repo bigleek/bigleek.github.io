@@ -269,6 +269,532 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Lombok注解-Data和-Builder冲突" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/75bc1ba6.html" class="article-date">
+      <time datetime="2022-11-20T09:29:17.000Z" itemprop="datePublished">2022-11-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><blockquote>
+<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/wRkQVpZzIX0EhlYZ6_sEAg">https://mp.weixin.qq.com/s/wRkQVpZz…</a></p>
+</blockquote>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <blockquote>
+<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/wRkQVpZzIX0EhlYZ6_sEAg">https://mp.weixin.qq.com/s/wRkQVpZz…</a></p>
+</blockquote>
+<blockquote>
+<p>⏰ 剪存时间：2022-11-20 17:29:28 (UTC+8)</p>
+</blockquote>
+<blockquote>
+<p>✂️ 本文档由 <a target="_blank" rel="noopener" href="https://www.feishu.cn/hc/zh-CN/articles/606278856233?from=in_ccm_clip_doc">飞书剪存 </a>一键生成</p>
+</blockquote>
+<p>方志朋 <em>2022-11-18 16:00 发表于 广东</em></p>
+<p><strong>点击关注公众号，Java干货</strong> <strong>及时送达 👇</strong></p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZWQxZGU0MGY3MzQxNGQxMTQyZjNjNmVjZTI5NDE1MmZfNTlpcm43YWVOTmpkajlEdjE3M21FQUJ5SlFRRlNadm9fVG9rZW46Ym94Y25sbVJ4cVBNUEh5MTIyQmZaZ3JmOTdmXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>来源： juejin.cn/post/7103011031672176677</p>
+<ul>
+<li><p>问题背景</p>
+</li>
+<li><p>Lombok @Data和@Builder分别单独分析用法</p>
+</li>
+<li><p>解决方法</p>
+<ul>
+<li>方法一</li>
+<li>方法二</li>
+</ul>
+</li>
+<li><p>Lombok原理</p>
+</li>
+<li><p>总结 </p>
+</li>
+</ul>
+<h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a><strong>问题背景</strong></h2><p>Lombok使⽤ 同时使⽤@Data和@Builder ，构建无参构造器报错！编译不通过。如下图：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmZmYjg3NGYzY2M0ODBiNWEzNjdhOTZiNWNhYjBhODNfb3loTjRXRld1VTZhVmZYcVIxdU9VQ05qVTFwYVJNaFNfVG9rZW46Ym94Y245UnBlRnZNNUdsOElEdGhSSUF2OHRlXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<h2 id="Lombok-Data和-Builder分别单独分析用法"><a href="#Lombok-Data和-Builder分别单独分析用法" class="headerlink" title="Lombok @Data和@Builder分别单独分析用法"></a><strong>Lombok @Data和@Builder分别单独分析用法</strong></h2><p>Lombok使⽤@Data可以⽣成⽆参构造和类⾥⾯所有属性的getter/setter⽅法。可以简化我们代码的开发。（需要安装Lombok插件和引⼊Lombok依赖）。</p>
+<p>例如下⾯的⼀个实体类,引⼊Lombok后，可以⾃动⽣成GET/SET⽅法和⽆参构造函数。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDYxNTk3MWM4NjNiMGIzMjMwOTdjMjZlMzIzMDliNGNfaFhlNTJmeUtvTnc5eGE4Z0JzTDVLWFpEU3VBYjJLa0ZfVG9rZW46Ym94Y256enJOWnJjQll4OWthV29pZHA5YXBnXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p> 编译后的class为:可以看到不仅帮我们生成了get和set ，同时也有默认的无参构造器</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MTY3YmIwZjI2YmRmNzAyZTBmNDhlZDRjNTYxMWMwNGRfMUJCSHRYakFhZGE3SWs5ZDZaYUtXenJrQzlNZnhnMUJfVG9rZW46Ym94Y25NTFdRejU2eUR3WURXVzFtM0RRNmZoXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p>那么怎么自动生成有参构造器呢？使用@Builder注解，将会帮助我们⽣成全属性的构造⽅法。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NjM2NWEzZjliYWQwYzI2NjA1OGNiZTY2MGUzZGQxOGZfRldlMzh5WHJMbTBWVHlRR1ZsclUxVzJoZHE3T1Z4TUVfVG9rZW46Ym94Y25NRTMxN0hYbzhDY0tLNFdDQktPNXpLXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p>编译后的class为：可以看到 已经帮我们构建好了全属性的构造方法，但是如果值只引用@Builder注解是无法生成get和set的。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YjQ5OGQzZmQxODU4MGU1MmFjNDhjMDdkNDI3MGZiNWNfTjhoTjJoS0pFdk9PdjBtcUkwd0RIdVhjTnZKTmNJY2NfVG9rZW46Ym94Y25EOHp6ZXY4TXhIZUQ4cFZtczRJSFFoXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p>但是如果同时使⽤@Data和@Builder的话，可以看出尽管⽣成了GET/SET⽅法，但是⽆参构造⽅法没有了，这显然是不能接受的，因为很多框架都会调⽤⽆参构造去创建对象。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MTQ4NTI4Y2IwMzVjNzE4NDdjYzQxYjNlNzA1NzBlMTNfRlQ1VDZmSEJPOTY2NUlhMlp6Q1NrbTkwTnJFYnhaZ2xfVG9rZW46Ym94Y25SZ21KUXoydllhRHdobjVwWFM5MTFkXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p>编译后的class：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTY5YTlkZTQwM2JjYTBlMzQwNzhmMzYzYWQ3YjU0ZTNfWFJqMGlzYzJjamUxQ21PNTRpaUtFQkZlZDI0UDBNbGZfVG9rZW46Ym94Y25WcGNDZFBTcVRVQkJMS1RLczZxVWliXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>我们尝试在Tet1类，⼿动添加⽆参构造⽅法。编译发现报错不通过：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YWQ0ZThlMjRiNjlkZjcxODQ4ODFjZjA1YzE3YzIwNGRfSE1YTWxJWmFSOVQ2SkYzenp2QmdkSUNPOUtCMmRTU29fVG9rZW46Ym94Y25PYnZLaGg3WGYzQWJzUHRFRTJlM3diXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a><strong>解决方法</strong></h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a><strong>方法一</strong></h3><p>Lombok同时使⽤@Data和@Builder的时候，如果要⽣成⽆参构造，需要在代码⾥⾯⼿动引⼊注解@Tolerate，让Lombok在⽣成类的时候，对指定的构造函数不感知。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MjIwZTg1YWI3NWNhMzFjMjI4OWVmZmVkYTc5OGY0MWZfMWRMcHZGcFloeDEycGdqbDVIMDBvbzlGWGRDZm5JQTZfVG9rZW46Ym94Y25rTkxRRTFXVkZvQjcycVl1cmNMR2djXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a><strong>方法二</strong></h3><p>直接使用无参构造器+有参构造器的方式，@RequiredArgsConstructor 来构建有参，@NoArgsConstructor来构建无参构造器，如图所示：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=YmJjZmQ4YWJlNjc5NjZiYWUwNzllNWFiNDg2MmJhZmFfT2lubWJtbnZnWnpMYmpFcXRMcE1jZkIyUm13MGtya1dfVG9rZW46Ym94Y25QZjVXclRjMTEyUm0yS2RjMVM5bERjXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>编 译后效果：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MTYwNDUwNmVmODg3NTUyMjZmZjAzODk3MjM2MDBmZDhfb2hLTlgxWHB0eGNqRGZDT2M4NWlNN3NNeHNHSlpKdFNfVG9rZW46Ym94Y25QV28xT1p4YUUxRGdEUjlyaThad3ZEXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<h2 id="Lombok原理"><a href="#Lombok原理" class="headerlink" title="Lombok原理"></a><strong>Lombok原理</strong></h2><p>Java的编译分为以下⼏个阶段：</p>
+<p>解析与填充符号表-&gt;注解处理-&gt;分析与字节码⽣成-&gt;⽣成⼆进制class⽂件。</p>
+<ul>
+<li><p>Lombok 使⽤的是 JDK 6 实现的 JSR 269: Pluggable Annotation Processing API (编译期的注解处理器)，它是在编译期时把 Lombok 的注解代码，转换为常规的 Java ⽅法⽽实现注⼊。</p>
+</li>
+<li><p>在编译期阶段，当 Java 源码被抽象成语法树 (AST) 之后，Lombok 会根据⾃⼰的注解处理器动态的修改AST，增加新的代码 (节点)，在这⼀切执⾏之后，再通过分析⽣成了最终的字节码 (.class) ⽂件，这就是Lombok 的执⾏原理。</p>
+</li>
+</ul>
+<p>可以借助注解处理器实现⼀个简单的 Setter，我们的实现步骤是:</p>
+<ul>
+<li><p>⾃定义⼀个注解标签接⼝，并实现⼀个⾃定义的注解处理器；</p>
+</li>
+<li><p>利⽤ tools.jar 的 javac api 处理 AST (抽象语法树)3. 使⽤⾃定义的注解处理器编译代码。</p>
+</li>
+</ul>
+<p>1.定义⾃定义注解和注解处理器</p>
+<p>⾸先创建⼀个 MySetter.java ⾃定义⼀个注解，代码如下：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ZWQ2Mjg2NzlhYjQyMWQyNGJjYjY3ODNkMzFiMDAwYzZfOFBFU2ZGdGVxak0zWXBROUp2eE5PNUhxTU5mMk1aY1pfVG9rZW46Ym94Y256Yklxb0xuNXQ4RFpPNmpXN2VQY0NiXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p>再实现⼀个⾃定义的注解处理器，代码如下：</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MGQwYzdlYTFmZDcwYmFjOWYwOGFiMTkzMzg3NGRiZDhfa3F1YzdCbTVoaHo0Q2RVMnRteWNvYkRoSXAzWUUwcEJfVG9rZW46Ym94Y256Mk1wSEhOd2JWdUU1aXVsclRWT2dkXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NjRjNzI4NTFiZTUyYWFlMDU1YjdkZDlkZWEzZWIyYjJfSUhDQURTZzZ1RHBGZjlMQnAyZ01mZUNJRTluTFBHS0dfVG9rZW46Ym94Y254Z3NqeUdjV3JmZno2a3JmcVlFMkhkXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=NTUzNTUzNzlkNjUwMjI5YTNjZGYxOGQ4MzIxMDdiMTVfazFKZ3ZQUlNzVjRnZnFZMzhYdnpjelc0eWZFaGh0VlVfVG9rZW46Ym94Y25IeHo1V1ppUHV3SlltVzA1RUp5VnZkXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p>测试类如下:</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=OTI5NDE5N2QzNDE5YjU2OWVjY2RhNjU1ZWJlZmE2ZmFfMXR3bEl6QzRnMk95QWxvV3ZHUVJuR2pLeW9uNTVwQkxfVG9rZW46Ym94Y252bXpXR3RwQUhTaTBaOG9RaEZTYVZkXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p>2.对注解处理器进⾏编译，随后使⽤注解处理器对类进⾏编译</p>
+<p>⾸先需要先对注解处理器进⾏编译（javac -cp ⽤于引⼊第三⽅jar包进⾏编译）</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MGFjYzJiZDcwMTU0MjUwODhiOGJjYTRhODk3NzFjMDFfWnBxQ3E3TFgySTFDZTkyZTJrRWpva1RPVnozVG1IZExfVG9rZW46Ym94Y254TEJzQ0tUOU1lVmh5enVTY3BISGJnXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p>然后使⽤注解处理器对这个Person测试类进⾏编译:</p>
+<p>这时候再看⽣成的Person.class，可以发现Setter⽅法已经⽣成了:</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=ODQ2NzMxZTAyZWUwMmI2OTdkMGQ5ZTIyOGJhMmMxYmRfSUJGbUtuaFZZa1RHZGg3c2lSc0t1V3RCcDA2UXBtOFpfVG9rZW46Ym94Y25BQUk1c1VrMTlhSzV1NTdmZ2ZpUHhjXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=MjI3MGY4YzNkNmVlMmRhYzAyOTVmZDY3ZDFiMDc1ODZfWEtaNnFBcWt0b1RHUGpaa1pYVnRkM2M5bFhrS2R2R1ZfVG9rZW46Ym94Y250ck10TWdtMllhelpqTGZKZ0xsc1ViXzE2Njg5MzY1OTA6MTY2ODk0MDE5MF9WNA" alt="img"></p>
+<p>图片</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p>当然尽管测试类已经⽣成Setter⽅法，但是因为是在编译时期⽣成的，因此我们在开发的时候是没法直接调⽤Setter⽅法的，因此Lombok提供了插件机制，⽅便我们在开发的时候可以直接去调⽤Lombok的特性。</p>
+<p>热门内容：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzAxNjk4ODE4OQ==&mid=2247534179&idx=1&sn=819e79794b5796daacc74ed2d15ebf41&chksm=9bee6711ac99ee072e48d6d23b2f9af81527bf5e005afaef7e8cd575b65a95d2aea8fa07401e&scene=21#wechat_redirect">业务开发时，接口不能对外暴露怎么办？</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzAxNjk4ODE4OQ==&mid=2247534166&idx=1&sn=14a69bf61866ffc02c4eef6e91b4b257&chksm=9bee6724ac99ee327e825fc7df6fa5826e648dfe92a90730b7695a2f92f03ea91701bc0d8cf0&scene=21#wechat_redirect">我，40岁码农，还在荷兰写低级代码，不敢回国…</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzAxNjk4ODE4OQ==&mid=2247534160&idx=1&sn=2d4fcb36152cff3758839c5888c02112&chksm=9bee6722ac99ee34fdb054d330d39ed60511afa9c21c82b260bbe5117268248d8f014b84dd7e&scene=21#wechat_redirect">面试官问：select……for update会锁表还是锁行？</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzAxNjk4ODE4OQ==&mid=2247534154&idx=1&sn=05480a5a789a99dec01d5c0bfbf77669&chksm=9bee6738ac99ee2e43d1647eca233b4e86616e8526a36e5397436b179c8bc333ce708c2938d2&scene=21#wechat_redirect">就加了一行log日志，结果引发了 P1 线上事故…</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzAxNjk4ODE4OQ==&mid=2247534148&idx=1&sn=a081b14bf90d5c7ac0bf85d541407073&chksm=9bee6736ac99ee20c4a9a27ff634a3902ba5a77ddb10a63330cc01718430f0bb2bb2726d654a&scene=21#wechat_redirect">别用XShell了，这款SSH工具绝对惊艳，还支持网页版…..</a></p>
+</li>
+<li></li>
+</ul>
+<p>最近面试BAT，整理一份面试资料《<strong>Java面试BAT通关手册</strong>》，覆盖了Java核心技术、JVM、Java并发、SSM、微服务、数据库、数据结构等等。</p>
+<p>获取方式：点“在看”，关注公众号并回复 666 领取，更多内容陆续奉上。</p>
+<p><strong>明天见(｡･ω･｡)</strong></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-integrate-saml" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/ae50aff9.html" class="article-date">
+      <time datetime="2022-11-14T09:56:50.000Z" itemprop="datePublished">2022-11-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/ae50aff9.html">integrate_saml</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://medium.com/digital-software-architecture/spring-boot-spring-security-with-saml-2-83d87df5b470">Spring Boot + Spring Security with SAML 2.0 | Digital Software Architecture</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/okta/okta-sdk-java/tree/master/integration-tests">okta-sdk-java/integration-tests at master · okta/okta-sdk-java</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.okta.com/docs/concepts/redirect-vs-embedded/#:~:text=Okta%20deployment%20models%20%E2%80%94%20redirect%20vs.%20embedded">Okta deployment models — redirect vs. embedded</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://medium.com/digital-software-architecture/spring-boot-spring-security-with-saml-2-83d87df5b470">Spring Boot + Spring Security with SAML 2.0 | Digital Software Architecture</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/okta/okta-sdk-java/tree/master/integration-tests">okta-sdk-java/integration-tests at master · okta/okta-sdk-java</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.okta.com/docs/concepts/redirect-vs-embedded/#:~:text=Okta%20deployment%20models%20%E2%80%94%20redirect%20vs.%20embedded">Okta deployment models — redirect vs. embedded</a></p>
+<p><img src="../img/image-20221114175806875.png" alt="image-20221114175806875"></p>
+<p><img src="../img/image-20221114175729566.png" alt="image-20221114175729566"></p>
+<p><img src="../img/image-20221114205002949.png" alt="image-20221114205002949"></p>
+<p><a target="_blank" rel="noopener" href="https://www.securew2.com/blog/oauth-vs-openid-which-is-better#:~:text=OpenID%20vs.,accounts%20that%20you%20already%20have.">OAuth Vs. OpenID? Which is better?</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2022个人博客网站搭建" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/df34252.html" class="article-date">
+      <time datetime="2022-11-09T13:21:04.000Z" itemprop="datePublished">2022-11-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/df34252.html">2022个人博客网站搭建</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://www.reaktor.com/blog/how-to-deal-with-life-after-heroku/">Life after Heroku: What’s a dev to do? - Reaktor</a></p>
+<ul>
+<li><p>Fly.io 让您可以部署 Docker 映像，还支持免费设置 PostgreSQL 数据库。他们的免费套餐包括 256MB RAM 和 3GB 持久存储，没有休眠的测功机——这比 Heroku 的要好。虽然你很可能需要一个 Dockerfile，但这并不难，而且学习 Docker 是你未来项目的一项很好的可转移技能。此外，作为一个巨大的奖励，每个组织都定义了免费层级，因此您可以为每个项目拥有单独的免费层级配额！他们基于 Web 的工具以及 CLI 都很好用。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://www.reaktor.com/blog/how-to-deal-with-life-after-heroku/">Life after Heroku: What’s a dev to do? - Reaktor</a></p>
+<ul>
+<li><p>Fly.io 让您可以部署 Docker 映像，还支持免费设置 PostgreSQL 数据库。他们的免费套餐包括 256MB RAM 和 3GB 持久存储，没有休眠的测功机——这比 Heroku 的要好。虽然你很可能需要一个 Dockerfile，但这并不难，而且学习 Docker 是你未来项目的一项很好的可转移技能。此外，作为一个巨大的奖励，每个组织都定义了免费层级，因此您可以为每个项目拥有单独的免费层级配额！他们基于 Web 的工具以及 CLI 都很好用。</p>
+</li>
+<li><p>Vercel 和 Netlify 都允许您部署静态站点和 lambda 函数，其中 Vercel 专门为部署 Next.js 应用程序（来自同一家公司的 React 框架）量身定制。除了慷慨的免费套餐外，Vercel 还拥有非常好的用户体验。作为顶部的樱桃，两者都自动为 Github 上的每个 Pull Request 构建一个预览站点。</p>
+</li>
+<li><p>Render 有一个类似于 Heroku 历史上的免费层：512MB RAM；服务在 15 分钟不活动后停止，这意味着冷启动延迟；您帐户中所有免费 Web 服务的每月最长运行时间为 750 小时（一个月大约有这么多小时）；静态网站是免费的。</p>
+</li>
+<li><p>GitHub Pages 和 Actions 也是静态站点的流行选项。</p>
+</li>
+<li><p>Heroku 可能仍然是您的首选。爱好 dynos 每月 7 美元，您可以升级并保持您的项目在原处并不间断地运行（除了您的钱包）。当然也可以使用更高的等级。</p>
+</li>
+</ul>
+<p>我之前用过Github Pages,Coding的相关博客搭建现在要么不提供服务,要么被墙,看到现在还支持的服务就上述几个,我目前使用的是vervel还算稳定.</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-jackson-redis-集成" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/ef9a1729.html" class="article-date">
+      <time datetime="2022-11-08T13:50:38.000Z" itemprop="datePublished">2022-11-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/ef9a1729.html">jackson-redis-集成</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://reflectoring.io/jackson/">All You Need To Know About JSON Parsing With Jackson</a></p>
+<p>对应spring 集成redis来实现,需要主要在序列化 对象过程中,如果使用Jackson来序列化需要注意Jackson相关的配置.目前就先补充这么多</p>
+<p>下面是摘录官网的文章来大概展示然后集成最后会补充注意事项 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094545477640">Introduction to Spring Data Redis | Baeldung , Spring Data Redis 最佳实践！ - 掘金</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://reflectoring.io/jackson/">All You Need To Know About JSON Parsing With Jackson</a></p>
+<p>对应spring 集成redis来实现,需要主要在序列化 对象过程中,如果使用Jackson来序列化需要注意Jackson相关的配置.目前就先补充这么多</p>
+<p>下面是摘录官网的文章来大概展示然后集成最后会补充注意事项 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094545477640">Introduction to Spring Data Redis | Baeldung , Spring Data Redis 最佳实践！ - 掘金</a></p>
+<h3 id="Spring-Cache-简介"><a href="#Spring-Cache-简介" class="headerlink" title="Spring Cache 简介"></a>Spring Cache 简介</h3><blockquote>
+<p>当Spring Boot 结合Redis来作为缓存使用时，最简单的方式就是使用Spring Cache了，使用它我们无需知道Spring中对Redis的各种操作，仅仅通过它提供的@Cacheable 、@CachePut 、@CacheEvict 、@EnableCaching等注解就可以实现缓存功能。</p>
+</blockquote>
+<h3 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h3><h4 id="EnableCaching"><a href="#EnableCaching" class="headerlink" title="@EnableCaching"></a>@EnableCaching</h4><p>开启缓存功能，一般放在启动类上。</p>
+<h4 id="Cacheable"><a href="#Cacheable" class="headerlink" title="@Cacheable"></a>@Cacheable</h4><p>使用该注解的方法当缓存存在时，会从缓存中获取数据而不执行方法，当缓存不存在时，会执行方法并把返回结果存入缓存中。<code>一般使用在查询方法上</code>，可以设置如下属性：</p>
+<ul>
+<li>value：缓存名称（必填），指定缓存的命名空间；</li>
+<li>key：用于设置在命名空间中的缓存key值，可以使用SpEL表达式定义；</li>
+<li>unless：条件符合则不缓存；</li>
+<li>condition：条件符合则缓存。</li>
+</ul>
+<h4 id="CachePut"><a href="#CachePut" class="headerlink" title="@CachePut"></a>@CachePut</h4><p>使用该注解的方法每次执行时都会把返回结果存入缓存中。<code>一般使用在新增方法上</code>，可以设置如下属性：</p>
+<ul>
+<li>value：缓存名称（必填），指定缓存的命名空间；</li>
+<li>key：用于设置在命名空间中的缓存key值，可以使用SpEL表达式定义；</li>
+<li>unless：条件符合则不缓存；</li>
+<li>condition：条件符合则缓存。</li>
+</ul>
+<h4 id="CacheEvict"><a href="#CacheEvict" class="headerlink" title="@CacheEvict"></a>@CacheEvict</h4><p>使用该注解的方法执行时会清空指定的缓存。<code>一般使用在更新或删除方法上</code>，可以设置如下属性：</p>
+<ul>
+<li>value：缓存名称（必填），指定缓存的命名空间；</li>
+<li>key：用于设置在命名空间中的缓存key值，可以使用SpEL表达式定义；</li>
+<li>condition：条件符合则缓存。</li>
+</ul>
+<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><ul>
+<li>在pom.xml中添加项目依赖：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--redis依赖配置--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改配置文件application.yml，添加Redis的连接配置；</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">host:</span> <span class="number">192.168</span><span class="number">.6</span><span class="number">.139</span> <span class="comment"># Redis服务器地址</span></span><br><span class="line">    <span class="attr">database:</span> <span class="number">0</span> <span class="comment"># Redis数据库索引（默认为0）</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">6379</span> <span class="comment"># Redis服务器连接端口</span></span><br><span class="line">    <span class="attr">password:</span> <span class="comment"># Redis服务器连接密码（默认为空）</span></span><br><span class="line">    <span class="attr">timeout:</span> <span class="string">1000ms</span> <span class="comment"># 连接超时时间</span></span><br><span class="line"><span class="string">复制代码</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在启动类上添加@EnableCaching注解启动缓存功能；</li>
+</ul>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@EnableCaching</span></span><br><span class="line"><span class="variable">@SpringBootApplication</span></span><br><span class="line">public class MallTinyApplication &#123;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">public</span> <span class="selector-tag">static</span> <span class="selector-tag">void</span> <span class="selector-tag">main</span>(String[] args) &#123;</span><br><span class="line">        <span class="selector-tag">SpringApplication</span><span class="selector-class">.run</span>(MallTinyApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>接下来在PmsBrandServiceImpl类中使用相关注解来实现缓存功能，可以发现我们获取品牌详情的方法中使用了@Cacheable注解，在修改和删除品牌的方法上使用了@CacheEvict注解；</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * PmsBrandService实现类</span></span><br><span class="line"><span class="comment"> * Created by macro on 2019/4/19.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PmsBrandServiceImpl</span> <span class="title">implements</span> <span class="title">PmsBrandService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> PmsBrandMapper brandMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@CacheEvict(value = RedisConfig.REDIS_KEY_DATABASE, key = <span class="meta-string">&quot;&#x27;pms:brand:&#x27;+#id&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> int update(<span class="built_in">Long</span> id, PmsBrand brand) &#123;</span><br><span class="line">        brand.setId(id);</span><br><span class="line">        <span class="keyword">return</span> brandMapper.updateByPrimaryKeySelective(brand);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@CacheEvict(value = RedisConfig.REDIS_KEY_DATABASE, key = <span class="meta-string">&quot;&#x27;pms:brand:&#x27;+#id&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> int delete(<span class="built_in">Long</span> id) &#123;</span><br><span class="line">        <span class="keyword">return</span> brandMapper.deleteByPrimaryKey(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Cacheable(value = RedisConfig.REDIS_KEY_DATABASE, key = <span class="meta-string">&quot;&#x27;pms:brand:&#x27;+#id&quot;</span>, unless = <span class="meta-string">&quot;#result==null&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> PmsBrand getItem(<span class="built_in">Long</span> id) &#123;</span><br><span class="line">        <span class="keyword">return</span> brandMapper.selectByPrimaryKey(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>配置Redisconfig类 </p>
+<ul>
+<li>我们可以通过给RedisTemplate设置JSON格式的序列化器，并通过配置RedisCacheConfiguration设置超时时间来实现以上需求，此时别忘了去除启动类上的@EnableCaching注解，具体配置类RedisConfig代码如下；</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Redis配置类</span></span><br><span class="line"><span class="comment"> * Created by macro on 2020/3/2.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> <span class="keyword">extends</span> <span class="title">CachingConfigurerSupport</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * redis数据库自定义key</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> final <span class="built_in">String</span> REDIS_KEY_DATABASE=<span class="string">&quot;mall&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RedisTemplate&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; <span class="function"><span class="title">redisTemplate</span>(<span class="params">RedisConnectionFactory redisConnectionFactory</span>)</span> &#123;</span><br><span class="line">        RedisSerializer&lt;<span class="built_in">Object</span>&gt; serializer = redisSerializer();</span><br><span class="line">        RedisTemplate&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; redisTemplate = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line">        redisTemplate.setConnectionFactory(redisConnectionFactory);</span><br><span class="line">        redisTemplate.setKeySerializer(<span class="keyword">new</span> StringRedisSerializer());</span><br><span class="line">        redisTemplate.setValueSerializer(serializer);</span><br><span class="line">        redisTemplate.setHashKeySerializer(<span class="keyword">new</span> StringRedisSerializer());</span><br><span class="line">        redisTemplate.setHashValueSerializer(serializer);</span><br><span class="line">        redisTemplate.afterPropertiesSet();</span><br><span class="line">        <span class="keyword">return</span> redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RedisSerializer&lt;<span class="built_in">Object</span>&gt; <span class="function"><span class="title">redisSerializer</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="comment">//创建JSON序列化器</span></span><br><span class="line">        Jackson2JsonRedisSerializer&lt;<span class="built_in">Object</span>&gt; serializer = <span class="keyword">new</span> Jackson2JsonRedisSerializer&lt;&gt;(<span class="built_in">Object</span>.class);</span><br><span class="line">        ObjectMapper objectMapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);</span><br><span class="line">        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);</span><br><span class="line">        serializer.setObjectMapper(objectMapper);</span><br><span class="line">        <span class="keyword">return</span> serializer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RedisCacheManager <span class="function"><span class="title">redisCacheManager</span>(<span class="params">RedisConnectionFactory redisConnectionFactory</span>)</span> &#123;</span><br><span class="line">        RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);</span><br><span class="line">        <span class="comment">//设置Redis缓存有效期为1天</span></span><br><span class="line">        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()</span><br><span class="line">                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer())).entryTtl(Duration.ofDays(<span class="number">1</span>));</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RedisCacheManager(redisCacheWriter, redisCacheConfiguration);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>此时我们再次调用获取商品详情的接口进行测试，会发现Redis中已经缓存了标准的JSON格式数据，并且超时时间被设置为了1天。</li>
+</ul>
+<h3 id="Finaly重中之重就是-序列化要注意"><a href="#Finaly重中之重就是-序列化要注意" class="headerlink" title="Finaly重中之重就是 序列化要注意"></a>Finaly重中之重就是 序列化要注意</h3><p><img src="../img/image-20221109221426931.png" alt="image-20221109221426931"></p>
+<p>作者：MacroZheng<br>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094545477640">https://juejin.cn/post/6844904094545477640</a><br>来源：稀土掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-mysql相关内容" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -884,785 +1410,9 @@
 
 
   
-    <article id="post-http-rpc的区别和介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/224b9f31.html" class="article-date">
-      <time datetime="2022-06-30T06:39:45.000Z" itemprop="datePublished">2022-06-30</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/224b9f31.html">http-rpc的区别和介绍</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>参考内容 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/41609070/answer/1030913797">既然有 HTTP 请求，为什么还要用 RPC 调用？ - 知乎</a></p>
-<h2 id="http介绍"><a href="#http介绍" class="headerlink" title="http介绍"></a>http介绍</h2><p>​        说到http 其实开发过接口的都很少熟悉，目前最流行的是HTTPS，其实无论是OSI的<del>5层</del>七层还是TCP/IP五层模型，http都是属于上层封装偏向于应用的部分，主要是浏览器和一些客户端通信用的协议，通常请求会有特定请求头而且是长连接，占用服务器的连接资源，</p>
-<p>​        通常情况下浏览器会存储cookie 在服务端会存储session来确定连接的情况，如果是restful风格的http请求是无状态的，服务器是不知道这次请求的数据。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>参考内容 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/41609070/answer/1030913797">既然有 HTTP 请求，为什么还要用 RPC 调用？ - 知乎</a></p>
-<h2 id="http介绍"><a href="#http介绍" class="headerlink" title="http介绍"></a>http介绍</h2><p>​        说到http 其实开发过接口的都很少熟悉，目前最流行的是HTTPS，其实无论是OSI的<del>5层</del>七层还是TCP/IP五层模型，http都是属于上层封装偏向于应用的部分，主要是浏览器和一些客户端通信用的协议，通常请求会有特定请求头而且是长连接，占用服务器的连接资源，</p>
-<p>​        通常情况下浏览器会存储cookie 在服务端会存储session来确定连接的情况，如果是restful风格的http请求是无状态的，服务器是不知道这次请求的数据。</p>
-<p>下面是附带的7层协议</p>
-<p>第一层 物理层  网卡 网口</p>
-<p>第二层  数据链路层 网关交换器</p>
-<p>第三层 网络层  </p>
-<p>第四层 传输层 tcp,udp</p>
-<p>第五层 会话层  dns.smtp</p>
-<p>第六层表示层 telnet,snmp</p>
-<p>第七层 应用层 http,rtsp,imap</p>
-<p>上面是我大脑能列出来的第一反应</p>
-<p>​        对于HTTPS是结合了http+<strong>SSL/TLS</strong>的混合，传统的http是明文传输的在互联网中网关和每个转发节点都能知道里面的内容，但是如果在http上包裹一层ssl那么传输者只知道传给谁但是具体的内容是不清楚的，ssl的非对称加密的，网站的拥有方需要去申请免费提供的let entry ，发送的证书是分别为公钥和私钥，他们拿私钥加密，我们客户端拿到数据用公钥解析内容，同时需要注意</p>
-<p>具体的内容在网上搜索具体的介绍</p>
-<p>RPC介绍</p>
-<p>​        为什么会需要rpc，主要是服务的解耦，当整个系统越来越复杂后处于维护和迭代的需要，通常会将服务组件拆分，单独提供，譬如单独的订单服务，查询服务，认证服务，搜索服务等，但是当一个请求需要涉及到几个服务的功能的时候就会遇到 A服务 需要B服务，C服务的数据或者行动后A服务才能执行后续内容。</p>
-<p>​        此时需要RPC来调用别人的服务服务，这个过程同时还设计到分布式事务，我们目前只考虑数据的使用，但是在调用过程中由于不同语言，和调用方能是接受的语法等限制通常需要跨平台的库来实现比较有名的是 <a target="_blank" rel="noopener" href="https://dubbo.apache.org/zh/blog/2019/01/07/%E6%B5%85%E8%B0%88-rpc/">浅谈 RPC | Apache Dubbo</a>,<a target="_blank" rel="noopener" href="https://grpc.io/">gRPC</a> 等来实现。</p>
-<p>​        </p>
-<p><img src="https://segmentfault.com/img/remote/1460000037470064" alt="img"></p>
-<p>对应目前</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-浅谈文件传输共享协议(转载)" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/bce5fd0b.html" class="article-date">
-      <time datetime="2022-06-16T11:20:54.000Z" itemprop="datePublished">2022-06-16</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://hellodk.cn/post/1051">浅谈文件传输/共享协议｜内网共享文件协议选择｜自建公网文件管理同步和共享方案推荐 - Allen Hua 的网络博客</a></p>
-<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>关于文件传输协议/文件共享协议，可以拿出来介绍的可以有很多，本文列举了一些通用的基础的发展较早的协议详细的介绍（当然了，没有深入的原理，咱也不会啊 :笑），一些较新的作了简单陈述，没有深究原理和实现。</p>
-<p>本文主要分为三个部分</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://hellodk.cn/post/1051">浅谈文件传输/共享协议｜内网共享文件协议选择｜自建公网文件管理同步和共享方案推荐 - Allen Hua 的网络博客</a></p>
-<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>关于文件传输协议/文件共享协议，可以拿出来介绍的可以有很多，本文列举了一些通用的基础的发展较早的协议详细的介绍（当然了，没有深入的原理，咱也不会啊 :笑），一些较新的作了简单陈述，没有深究原理和实现。</p>
-<p>本文主要分为三个部分</p>
-<ol>
-<li>基础的文件传输/共享协议，更加推荐在内网使用的，不允许也不推荐暴露到公网。使用建议 <a target="_blank" rel="noopener" href="https://hellodk.cn/post/1051#cl-21">点我</a></li>
-<li>个人公网文件管理方案</li>
-<li>实践: 在内网自建一个 seafile server, 并通过 frp 暴露在公网 serving，实现内外网都可以上传、下载、同步、分享。如何食用？<a target="_blank" rel="noopener" href="https://hellodk.cn/post/1051#cl-23">点我</a></li>
-</ol>
-<h2 id="2-总览"><a href="#2-总览" class="headerlink" title="2. 总览"></a>2. 总览</h2><ol>
-<li>SMB/CIFS/SAMBA</li>
-<li>FTP/FTPS/TFTP</li>
-<li>SCP/SFTP</li>
-<li>WebDAV/WebDAVS</li>
-<li>NFS</li>
-<li>DLNA+UPnP</li>
-<li>HTTP/HTTPS</li>
-<li>rsync</li>
-<li>AFP</li>
-<li>MTP</li>
-<li>others (列举了一些非常规的协议)</li>
-</ol>
-<hr>
-<h2 id="3-正片"><a href="#3-正片" class="headerlink" title="3. 正片"></a>3. 正片</h2><h3 id="3-1-SMB-CIFS-SAMBA"><a href="#3-1-SMB-CIFS-SAMBA" class="headerlink" title="3.1 SMB/CIFS/SAMBA"></a>3.1 SMB/CIFS/SAMBA</h3><p>SMB(Server Message Block) 通信协议是微软和英特尔在 1987 年制定的协议，主要是作为 Microsoft 网络的通讯协议，它是当今世上网络文件系统协议两极之一的存在。</p>
-<p>SMB 使用了 NetBIOS 的 API。另外，它是一个开放性的协议，允许了协议扩展，这使得它可以变得更大而且复杂；大约有 65 个最上层的作业，而每个作业都超过 120 个函数，甚至 Windows NT 自己也没有全部支持到，后来<del>著名的微软改名部门</del>又把 SMB 重新设计了一套新的实现: CIFS(Common Internet File System) 协议，并且加入了许多新的特色功能。</p>
-<p>一开始微软设计的 SMB 不支持在 Linux 上运行，著名黑客、技术大牛安德鲁·垂鸠 (Andrew Tridgell) 通过逆向工程，于 1992 年在澳洲国立大学（ANU）开发了第一版的 Samba Unix 软件，实现了 SMB/CIFS 兼容协议，并命名为 <code>Samba</code>，通过该程序实现了 Windows 和 Linux 之间的文件共享。 Debian 上的软件包名称就是 <code>samba</code>，OpenWrt 中一般有 <code>samba36-server</code> 和 <code>samba4-server</code> (版本 4，性能更强，更新的一个版本)。</p>
-<p>SMB 是 C/S (Client and Server) 类型协议，客户机可以访问服务器上的共享文件系统、打印机及其他资源。更进阶一点，通过设置 “NetBIOS over TCP/IP”，Samba 不但能与局域网络主机分享资源，还能与全世界的电脑分享资源，但一般很少这样使用。</p>
-<p>SMB 的优点之一是兼容性特别好，在各平台都获得了广泛支持，包括 Windows、Linux、macOS、Android、iOS、iPadOS，甚至一些嵌入式系统比如 OpenWrt，挂载访问都很方便。另外 SMB 也是各种电视、电视盒子默认支持的协议，这些电视和盒子通过 SMB 访问服务器端的资源可以达到播放电影、音乐、访问图片和预览普通文件的目的。</p>
-<p>另外 SMB 提供端到端加密、安全性高，配置选项丰富，支持 ACL(Access Control List) 并支持多种用户认证方式。</p>
-<p>不过 SMB 的缺点也是最令极客们诟病的，是传输效率稍低，速度不太稳定，受机器网络和硬件资源波动较大。</p>
-<p>简而言之，SMB 协议是在局域网上用于服务器文件访问和打印的协议。CIFS 可以看做是应用程序协议如文件传输协议和超文本传输协议的一个实现。</p>
-<p>关于传输端口， SMB/CIFS 传输端口是 139 或 445，具体是 TCP port 139 over NetBIOS，TCP port 445 over IP。TCP 445 是基于 IP 的 SMB，这是较新的版本，可以在 IP 网络上正常使用 SMB，也就是公网使用 SMB。</p>
-<p><em>ps: samba 最新稳定版是 version 4.x.x</em></p>
-<h3 id="3-2-FTP-TFTP-FTPS"><a href="#3-2-FTP-TFTP-FTPS" class="headerlink" title="3.2 FTP/TFTP/FTPS"></a>3.2 FTP/TFTP/FTPS</h3><p>FTP(File Transfer Protocol) 我们都很熟悉，它是 TCP/IP 协议簇中的一员，是 1971 年发展起来的文件传输协议，作为标准网络协议出现它包含两个部分实现，一个是 FTP Server，一个是 FTP Client，其中 Server 用来存储文件，Client 供客户机使用以访问远程资源。</p>
-<p>现在暴露在公网的 FTP 站点已经越来越少，找了半天只发现 GNU 的 FTP 站点 <a href="ftp://ftp.gnu.org/">ftp://ftp.gnu.org/</a> 目前还能匿名访问。Windows 可在 <code>Windows Explorer</code> 的 address bar 上直接键入地址然后回车即可以匿名身份访问。</p>
-<p>默认情况下，FTP 使用 TCP 20 和 TCP 21 两个端口传输数据，TCP 20 用于数据传输，TCP 21 用于控制信息传输。而是否使用 20 端口传输数据与 FTP 传输模式有关，如果 FTP 主动模式，那么数据传输端口就是 20，如果采用的被动模式，那最终传输数据的端口由 FTP 的服务器和客户机协商决定。</p>
-<p><strong>FTP 的两种数据传输模式: Standard(主动) 和 Passive(被动)。</strong></p>
-<ol>
-<li><p>Standard 模式</p>
-<p>FTP 客户端首先和服务器的 TCP 21 建立连接并发送指令，客户端需要接收数据的时候在这个通道上发送 PORT 命令。 PORT 命令包含了客户端用什么端口接收数据。在传输数据的时候，服务器通过自己的 TCP 20 连接到客户端的指定端口发送数据。FTP Server 必须和 Client 建立一个新的连接用来传输数据。</p>
-</li>
-<li><p>Passive 模式</p>
-<p>建立控制通道和 Standard 模式类似，但建立连接后发送的是 PASV 命令，服务端收到 PASV 命令后打开一个临时端口 tempPort (<code>1023 &lt; tempPort &lt; 65535</code>) 并且通知客户端在这个端口上传送数据，客户端连接 FTP 服务端的此端口，然后服务端将会通过此端口 serving.</p>
-<p>很多防火墙在设置的时候都是不允许接受外部发起的连接的，所以许多位于防火墙后或内网的 FTP 服务器不支持 Passive 模式，因为客户端无法穿过防火墙打开 FTP 服务器的高端端口；而许多内网的客户端不能用 Standard 模式登陆 FTP 服务器，因为从服务器的 TCP 20 无法和内部网络的客户端建立一个新的连接，造成无法工作。</p>
-</li>
-</ol>
-<p><strong>FTP 传输数据也有两种方式：ASCII 和 二进制。</strong></p>
-<ol>
-<li><p>ASCII 传输方式</p>
-<p>假定用户正在拷贝的文件包含的简单 ASCII 码文本(plain text)，如果在远程机器上运行的不是 UNIX，当文件传输时 FTP 通常会自动地调整文件的内容以便于把文件解释成另外那台计算机存储文本文件的格式。</p>
-<p>但是常常有一些“特殊”情况，用户正在传输的文件包含的不是文本文件，它们可能是可执行程序、电影、音乐、数据库或者压缩文件。在拷贝任何非文本文件之前，用 binary 命令告诉 FTP 逐字拷贝。</p>
-</li>
-<li><p>二进制传输方式</p>
-<p>在二进制传输中，保存文件的位序，以便原始和拷贝的是逐位一一对应的。即使目的机器上包含位序列的文件是没意义的。例如，macintosh (早期的 macOS 叫法) 以二进制方式传送可执行文件到 Windows 系统，在对方系统上，此文件不能执行。</p>
-</li>
-</ol>
-<p>时间已经来到了 2022 年，FTP 已经很少被应用在生产环境下，通过 http 传输文件的高效更能替代这个使用场景。它的优点不足以掩盖众多缺点，优点比如说能同时传输多个目录，自动备份等等，但是缺点众多，其他协议也支持它的优点，所以必然会被时代淘汰。</p>
-<p>FTP 的缺点：数据传输模式不够合理，工作方式设计不合理，与防火墙工作不协调，安全认证策略不完善，相对而言整个传输过程效率也低下。此部分就不展开了，详情可见下面文章</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ixidof/article/details/8119017">文件传输协议（FTP）的缺点</a></li>
-<li><a target="_blank" rel="noopener" href="https://content.jianguoyun.com/28197.html">FTP文件传输的优势与不足对比分析</a></li>
-</ul>
-<p>通过上面的描述，可以感受到 FTP 的复杂性，1981 年在 RFC 783 中定义了一个简化的文件传输协议 TFTP(Trivial File Transfer Protocol)，称作简单文件传输协议，也称小型/琐碎文件传输协议。TFTP 比 FTP 简单得多，并且执行客户端和服务器进程之间的文件传输。但是，它不提供 FTP 所支持的用户身份验证和其他有用的功能。FTP 使用 TCP 时，TFTP 使用 UDP，这使得它成为了不可靠的文件传输协议。由于简单，透过少量存储器就能轻松实现，在计算机发展早期还是有用处的，例如从一台网络主机或服务器引导一个远程 X Window System 终端或其他的瘦客户端。由于小型文件传输协议缺少安全性，在公网传输非常危险，所以普遍仅仅用于私有网络。</p>
-<p>对于 FTP 在安全上的不足，后面发展了 FTPS。</p>
-<p>FTPS(FTP over SSL/TLS)，是一种安全的 FTP，添加了传输层安全（TLS）和安全套接层（SSL）的加密协议。尽管在数据传输方面加固了安全，但 FTP 的底层设计依然还是没有改变，所以直到现在应用也不够广泛。偶尔在内网中会有部署的 FTP 服务，但大家也更倾向于使用 samba, nfs, http, webdav 这些协议共享文件。</p>
-<h3 id="3-3-SCP-SFTP"><a href="#3-3-SCP-SFTP" class="headerlink" title="3.3 SCP/SFTP"></a>3.3 SCP/SFTP</h3><p>SCP(Secure CoPy) 和 SFTP(Secure File Transfer Protocol) 都基于 SSH(Secure SHell) 协议，OpenSSH 是 SSH 协议的一个开源实现，一些嵌入式设备可以通过 dropbear 建立 ssh 连接，dropbear 也实现了 SSH 协议的基础功能。</p>
-<p>SCP 用来进行远程文件复制，并且整个复制过程是加密的。数据传输使用 ssh tunnel，并且使用和 ssh 相同的认证方式，提供相同的安全保证。密码认证或密钥对 (key-pair)验证。</p>
-<p>SFTP 与 FTP 有着几乎一样的语法和功能。SFTP 为 SSH 的一部分，是一种传输文件到服务器的安全方式。在 SSH 软件包中，已经包含了一个叫作 SFTP 的安全文件传输子系统，SFTP 本身没有单独的守护进程，它必须使用 sshd 守护进程（端口号默认是22）来完成相应的连接操作，所以从某种意义上来说，SFTP 并不像一个服务器程序，而更像是一个客户端程序。SFTP 同样是使用加密传输认证信息和传输的数据，所以，使用 SFTP 是安全的。但是，正由于这种传输方式使用了加密/解密技术，所以比起普通 FTP，开销大得多，传输效率低得多。如果用户对网络安全性要求更高，则可以使用 SFTP 代替 FTP。</p>
-<p>目前最新的 OpenSSH 稳定版本是 9.0，<a target="_blank" rel="noopener" href="https://www.openssh.com/">OpenSSH 9.0 released April 8, 2022</a>，服务端配置文件 <code>/etc/ssh/sshd_config</code> 中有一行 sftp 配置就是配置这个文件传输子系统的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># override default of no subsystems</span><br><span class="line">Subsystem       sftp    &#x2F;usr&#x2F;lib&#x2F;openssh&#x2F;sftp-server</span><br></pre></td></tr></table></figure>
-
-<h4 id="SCP-和-SFTP-的比较"><a href="#SCP-和-SFTP-的比较" class="headerlink" title="SCP 和 SFTP 的比较"></a>SCP 和 SFTP 的比较</h4><p>两者都基于 SSH，但是传输效率和安全性上也有区别。</p>
-<ul>
-<li>SCP 不支持断点续传，一次 timeout 就得重来，而 SFTP 支持</li>
-<li>SCP 单次传输不支持 4Gib 以上文件，SFTP 支持</li>
-<li>SCP 不检查传输的数据包，效率更高但安全性更低</li>
-</ul>
-<p><strong>简单总结：SCP 适合小文件传输，速度更快。SFTP 适合更大文件，安全性更高的传输场景。</strong></p>
-<p>另外上文所述的 FTPS 不应与基于 SSH 的 SCP 和 SFTP 混淆。</p>
-<p>Windows 端经典强大的开源程序 <code>WinSCP</code> 就实现了 SSH 的 SCP 和 SFTP 功能，界面直观非常易于使用。</p>
-<h3 id="3-4-WebDAV-WebDAVS"><a href="#3-4-WebDAV-WebDAVS" class="headerlink" title="3.4 WebDAV/WebDAVS"></a>3.4 WebDAV/WebDAVS</h3><p>WebDAV(WEb-Based Distributed Authoring and Versioning) 一种基于 HTTP 1.1 协议的通信协议。它扩展了 HTTP 1.1，在 GET、POST、HEAD、PUT、DELETE、PATCH 等 HTTP 标准方法以外添加了一些新的方法，使应用程序可对 Web Server 直接读写，并支持写文件锁定 (Locking) 及解锁 (Unlock)，还支持文件的版本控制。</p>
-<p>简单而言，WebDAV 就是在服务器上划出一块存储空间，使用它扩展的一套 HTTP method 来管理文件，可以将磁盘映射到本地磁盘使用，对文件的每次改动都是一个 HTTP 请求。遗憾的是，目前只有用户名和密码的认证方式，安全性上有所欠缺。</p>
-<p>WebDAV 为实现远程文件管理，向 HTTP/1.1 中追加了以下这些方法</p>
-<ul>
-<li>PROPFIND：获取属性</li>
-<li>PROPPATCH：修改属性</li>
-<li>MKCOL：创建集合</li>
-<li>COPY：复制资源及属性</li>
-<li>MOVE：移动资源</li>
-<li>LOCK：资源加锁</li>
-<li>UNLOCK：资源解锁</li>
-</ul>
-<p>HTTP status code 也随之扩展</p>
-<ul>
-<li>102 Processing：可正常处理请求， 但目前是处理中状态</li>
-<li>207 Multi-Status：存在多种状态</li>
-<li>422 Unprocessible Entity：格式正确， 内容有误</li>
-<li>423 Locked：资源已被加锁</li>
-<li>424 Failed Dependency：处理与某请求关联的请求失败， 因此不再维持依赖关系</li>
-<li>507 Insufficient Storage：保存空间不足</li>
-</ul>
-<p>由于 WebDAV 是基于 HTTP 的，所以具有 HTTP 的所有优点，包括容易穿越防火墙、使用 HTTPS 来传输数据，因此在很多方面可以替代 FTP。通过 Nginx 或 Apache 或 Caddy 等 web server（也有其他实现，比如 Golang 实现的 webdav <a target="_blank" rel="noopener" href="https://github.com/hacdias/webdav">https://github.com/hacdias/webdav</a> ） 非常容易就能搭建一个 WebDAV 服务。</p>
-<p>WebDAVS(WebDAV over SSL/TLS) 就是加了一层 SSL/TLS ，数据安全更能得到保障，不过一般的使用场景多是 WebDAV + 配合 SSL 的 web server 实现 http 流量的加密，这样反而开销更小。</p>
-<h3 id="3-5-NFS"><a href="#3-5-NFS" class="headerlink" title="3.5 NFS"></a>3.5 NFS</h3><p>NFS(Network File System)，即网络文件系统，是 FreeBSD 支持的文件系统中的一种。NFS 允许一个系统在网络上与它人共享目录和文件。通过使用 NFS，用户和程序可以像访问本地文件一样访问远端系统上的文件。它由 Sun 公司（已被 Oracle 收购）开发，于 1984 年发布，最新版本 NFSv4.2 于 2016 年发布。NFS 基于开放网络运算远程过程调用（ONC RPC）协议：一个开放、标准的 RFC 协议，任何人或组织都可以依据标准实现它。</p>
-<p>NFS 通常使用在 Unix 操作系统上（比如 Solaris、AIX 及 HP-UX）和其他类 Unix 操作系统（例如 Linux 及 FreeBSD），同时在 macOS 和 Windows 系统也提供了 NFS 实现。不过在 Windows 系统上挂载 NFS 共享目录时，由于 Windows 自带的 NFS 客户端长久以来不支持 UTF-8，会致中文文件和目录显示为乱码。有解决方法但有代价，请见 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/46254792">一个小设置，让Win10 NFS正常显示中文UTF-8</a></p>
-<p>NFS 的优点是 kernel 直接支持，部署简单、运行稳定，协议简单、传输效率高。</p>
-<p>NFS 的缺点是没有加密授权等功能，仅依靠 IP 地址或主机名来决定用户能否挂载共享目录，对具体目录和文件无法进行 ACL 控制（NFSv4 以前）。通常的做法是通过 Kerberos 对 NFS 进行认证及加密，不过部署配置比较麻烦。</p>
-<h3 id="3-6-DLNA-UPnP"><a href="#3-6-DLNA-UPnP" class="headerlink" title="3.6 DLNA+UPnP"></a>3.6 DLNA+UPnP</h3><p>DLNA(Digital Living Network Alliance, 数字生活网络联盟)，其前身是 DHWG（Digital Home Working Group，数字家庭工作组），成立于 2003 年 6 月 24 日， 是由索尼、英特尔、微软等发起成立的一个非营利性的、合作性质的商业组织。</p>
-<p>DLNA 旨在解决个人 PC，消费电器，移动设备在内的无线网络和有线网络的互联互通，使得数字媒体和内容服务的无限制的共享和增长成为可能。DLNA 的口号是 Enjoy your music, photos and videos, anywhere anytime。</p>
-<p>DLNA 将其整个应用规定成 5 个功能组件。从下到上依次为：网络互连，网络协议，媒体传输，设备的发现控制和管理，媒体格式。</p>
-<p><img src="https://pic3.zhimg.com/80/ac96a32309b15d9099b70bca2a204cd8_720w.jpg" alt="DLNA"></p>
-<blockquote>
-<p>DLNA 架构图 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/22362647/answer/43637899">image source</a></p>
-</blockquote>
-<p>UPnP(Universal Plug and Play) 通用即插即用协议，官方的解释太过理论。微软的说法是</p>
-<blockquote>
-<p>通用即插即用 （UPnP） 是一种用于 PC 机和智能设备（或仪器）的常见对等网络连接的体系结构，尤其是在家庭中。UPnP 以 Internet 标准和技术（例如 TCP/IP、HTTP 和 XML）为基础，使这样的设备彼此可自动连接和协同工作，从而使网络（尤其是家庭网络）对更多的人成为可能。</p>
-</blockquote>
-<p>实际上，普通用户理解 UPnP 可以理解为基于 TCP/IP 上的自动端口映射，一般路由器在 NAT 的工作模式下可以打开此功能，自动处理局域网内设备中的各个软件的 UPnP 请求。</p>
-<p>DLNA 可以高效的访问服务器中的各种类型资源，由 DLNA 服务器帮用户索引好离线文件。比如图片，音乐专辑，电影，电视剧集，适合多媒体的场景使用。</p>
-<h3 id="3-7-HTTP-HTTPS"><a href="#3-7-HTTP-HTTPS" class="headerlink" title="3.7 HTTP/HTTPS"></a>3.7 HTTP/HTTPS</h3><p>HTTP(HyperText Transfer Protocol)即超文本传输协议，我们都不陌生了，通过 http 共享文件可以很简单，比如使用 nginx 标准模块 <code>Auto Index</code> 可以很快创建一个可以共享的文件服务器，效率也非常之高。</p>
-<p>比如在 nginx 创建一个共享本地文件夹的配置文件 <code>/etc/nginx/sites-enabled/files-sharing.conf</code> ，内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> </span><br><span class="line">    listen 82;</span><br><span class="line">    server_name 192.168.10.10;</span><br><span class="line">    charset gbk,utf-8;</span><br><span class="line"> </span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        root &#x2F;home&#x2F;xxx&#x2F;nginx-static-files&#x2F;; </span><br><span class="line">        index index.html index.htm;</span><br><span class="line">        autoindex on;</span><br><span class="line">        autoindex_exact_size on;</span><br><span class="line">        autoindex_localtime on;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>访问 <a target="_blank" rel="noopener" href="http://192.168.10.10:82/">http://192.168.10.10:82</a> (a fake address) 后的效果</p>
-<p><img src="https://image.940304.xyz/i/2022/06/16/62aabb96789e4.png" alt="20220616131149"></p>
-<p>HTTPS(HTTP over SSL/TLS)，加密后的 http 流量，目前正是主流 web 交互的方式。</p>
-<h3 id="3-8-rsync"><a href="#3-8-rsync" class="headerlink" title="3.8 rsync"></a>3.8 rsync</h3><p>rsync 全称 remote synchronize，即”远程同步”，是 Liunx/Unix 下的一个远程数据同步工具。它可通过 LAN/WAN 快速同步多台主机间的文件和目录，并适当利用 rsync 算法（差分编码）以减少数据的传输，即可做到增量传输/备份。严格来说，rsync 算不上底层的文件传输/共享协议，但是本文为了介绍的尽量全面还是提一下。</p>
-<p>在常驻模式（daemon mode）下，rsync 默认监听 TCP 端口 873，以原生 rsync 传输协议或者透过远程 shell 如 RSH 或者 SSH 提供文件。SSH 模式下，rsync 客户端执行程序必须同时在本地和远程机器上安装。</p>
-<p>rsync 首度发布于 1996 年 6 月 19 日。原始作者为安德鲁·垂鸠（Andrew Tridgell）<em>（很巧的是，又是这个大神）</em>与保罗·麦可拉斯（Paul Mackerras）。</p>
-<p>rsync 现在应用广泛，使用起来也非常方便易用，效率也高，最初设计就是替代 SCP 的。既能在本地用于数据拷贝、移动（可用来替代 Linux <code>cp</code> 和 <code>mv</code> 命令），也能做增量备份存储。通过 SSH 实现远程复制也非常好用。</p>
-<p>关于 rsync 的基础用法和高级用法可以看看阮一峰的 <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2020/08/rsync.html">rsync 用法教程</a> , 写得易懂且全面。</p>
-<p>其实类似于 rsync 的工具，还有 <code>rclone</code>、<code>robocopy</code>、<code>freefilesync</code> 等，这里就不做过多介绍了。</p>
-<h3 id="3-9-AFP"><a href="#3-9-AFP" class="headerlink" title="3.9 AFP"></a>3.9 AFP</h3><p>AFP(Apple Filing Protocol)，是一种专门为 MAC OS X(现名: macOS) 系统提供文件共享服务的协议，通过开源的 Netatalk 实现 AFP 共享。主要应用是苹果笔记本的 Time Machine 时间机器系统备份，macOS 物理接口是 type-c，并有微软的雷电 Thunderbolt 授权，协议就是 AFP 。但是这东西不够完善，复杂使用场景下都有 bug，现在连苹果自己都很少用。</p>
-<h3 id="3-10-MTP"><a href="#3-10-MTP" class="headerlink" title="3.10 MTP"></a>3.10 MTP</h3><p>MTP(Media Transfer Protocol) 媒体传输协议，是基于 PTP(Picture Transfer Protocol) 协议的扩展，主要用于传输媒体文件，其中有价值的应用就是同步 DRM 文件的 license。</p>
-<p>MTP 既可以实现在 USB 协议上，也可以实现在 TCP/IP 协议上，它属于上层的应用协议，而不关心底层传输协议。目前大部分设备的应用都是基于 USB 协议。在 Android 设备上应用广泛，使用 USB A cable 连接 Windows PC 和 Android 设备，默认的文件传输协议就是 MTP，但除此之外，内网文件的传输很少应用到此协议。</p>
-<h3 id="3-11-others"><a href="#3-11-others" class="headerlink" title="3.11 others"></a>3.11 others</h3><p>我把他们归为一类，不够通用，具有一定的专用性，主要是为企业服务的。</p>
-<h4 id="AS2-AS3-AS4"><a href="#AS2-AS3-AS4" class="headerlink" title="AS2/AS3/AS4"></a>AS2/AS3/AS4</h4><p>AS2(Applicability Statement 2)，下同。</p>
-<p>AS2，AS3 和 AS4 都是用来发送和保护关键文件传输的流行协议。</p>
-<p>AS2 用于在因特网上安全可靠地传输敏感数据。AS2 利用数字证书和加密标准来保护在系统、网络和位置之间传输的关键信息。AS2 消息可以通过安全的 SSL 隧道进行压缩、签名、加密和发送。</p>
-<p>AS3 是一个标准，几乎可以用来传输任何文件类型。它通过数字签名和数据加密为数据传输提供了一层安全性。它最初是为了传输数据文件而创建的，如 XML 和 EDI 商业对企业数据的文件。与 AS2 不同，AS2 是一种定义的传输协议，AS3 是一种消息标准，它侧重于在从服务器发送到服务器时应该如何格式化消息。一旦 AS3 消息被合成，它就可以通过任何其他协议(FTP、SFTP、HTTPS 等)传输。只要双方能够访问已放置消息的位置。</p>
-<p>AS4 是一种协议，允许企业与其合作伙伴安全地交换数据。它建立在最初由 AS2 设置的基础上，但与 Web 服务一起工作，并提供改进的交付通知。作为企业对企业的标准，AS4 有助于使在互联网上进行文件交换变得安全和简单。</p>
-<blockquote>
-<p>see also <a target="_blank" rel="noopener" href="https://www.goanywhere.com/blog/whats-the-difference-between-as2-as3-and-as4">What’s the Difference Between AS2, AS3, and AS4?</a></p>
-</blockquote>
-<h4 id="OFTP（Odette-文件传输协议）"><a href="#OFTP（Odette-文件传输协议）" class="headerlink" title="OFTP（Odette 文件传输协议）"></a>OFTP（Odette 文件传输协议）</h4><p>OFTP(Odette FTP)，另一种专为 EDI 设计的文件传输协议 OFTP。OFTP 在欧洲应用非常普遍。OFTP 和 AS2 本质上都是安全的，甚至支持电子交付收据，使它们非常适合 B2B 交易。</p>
-<h4 id="AFTP"><a href="#AFTP" class="headerlink" title="AFTP"></a>AFTP</h4><p>AFTP(Accelerated FTP)，是 JSCAPE 开发的一种文件传输协议（中文：加速文件传输协议），旨在进行 WAN 环境下的文件传输，尤其是远距离下的文件传输，但很容易受到延迟和数据包丢失等不良网络条件的影响，从而导致吞吐量大幅下降。AFTP 是一种 TCP-UDP 混合体，它使文件传输几乎不受这些网络条件的影响，理想情况下能比 FTP 传输快 100 倍。属于企业级应用协议。</p>
-<h4 id="raysync"><a href="#raysync" class="headerlink" title="raysync"></a>raysync</h4><p>镭速文件传输协议 FTP 加速产品是专为企业定制开发的一款完全替代现有文件传输协议 FTP 的高效传输软件，能够在现有结构的基础上实现文件的高速传输，使用镭速文件传输协议 FTP 加速后，文件传输协议 FTP 传输速度可提升 10-100 倍。</p>
-<p>这是国产深圳的一个公司的商业化产品。</p>
-<h4 id="PeSIT"><a href="#PeSIT" class="headerlink" title="PeSIT"></a>PeSIT</h4><p>PeSIT, short for Protocol d’Echanges pour un Systeme Interbancaire de Telecompensation (Protocol for data Exchange within the French Systems for Interbank Tele-clearance) 协议是一种端到端文件传输协议，由法国银行间电信系统经济利益集团 (GSIT) 开发。它在北美应用较少，主要用于满足欧洲银行标准，以及向欧洲银行和从欧洲银行转移通信。</p>
-<blockquote>
-<p>see also <a target="_blank" rel="noopener" href="https://www.goanywhere.com/blog/what-is-pesit">What is PeSIT?</a></p>
-</blockquote>
-<h3 id="内网文件共享选择协议建议"><a href="#内网文件共享选择协议建议" class="headerlink" title="内网文件共享选择协议建议"></a>内网文件共享选择协议建议</h3><p><img src="https://image.940304.xyz/i/2022/06/16/62aad5af2f7a7.png" alt="20220616150310"></p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="http://www.92nas.com/forum.php?mod=viewthread&tid=352">image source</a></p>
-</blockquote>
-<ul>
-<li><strong>samba 对于大多数人绝对是最优最优的选择，适配日常使用的所有平台，没有各种乱码问题，兼容性极佳。目前的 samba3 samba4 性能也不错</strong></li>
-<li><strong>对于 Linux 用户可以优选 NFS，效能比起 samba 还是高</strong></li>
-<li><strong>平常使用 Linux 传送一些小文件可以直接使用 scp 命令行，或者使用 WinSCP 这些工具（或者更推荐使用 rsync）</strong></li>
-<li><strong>如果是内网磁盘想要暴露到公网，推荐 WebDAV + nginx + SSL，可以方便的将家里的磁盘暴露到公网(不过强烈建议使用 strong strong password)</strong></li>
-<li><strong>DLNA 这种，偶尔使用多媒体还行，但如果是重度用户建议搭建 Plex、Emby、Jellyfin 服务端</strong> （诶我怎么歪题了）</li>
-<li><strong>其实内网的文件共享需求和 nas 上文件共享需求不谋而合</strong></li>
-<li><strong>FTP, SFTP 不是很推荐</strong></li>
-<li><strong>HTTP 配合 nginx 搭建一个存储文件的静态 public 站点还是不错的</strong></li>
-</ul>
-<p>引用一段 V2EX 网友的评论 来自帖子 <a target="_blank" rel="noopener" href="https://www.v2ex.com/t/818478">https://www.v2ex.com/t/818478</a></p>
-<blockquote>
-<p>奉劝一句，别瞎折腾。最完善的远程文件访问协议就是 SMB 。macOS 下 Finder 中协议语法为“SMB://”。在群晖、威联通中打开 SMB 协议访问即可。<br>别玩苹果自身的 AFP ，macOS 间互访都有 bug ，苹果默认都不用这个，默认用的是 SMB （我家里有 3 台苹果电脑，6 台不同的 NAS 设备，足够验证这个）。群晖启用 AFP 也有 bug ，反倒是威联通的 AFP 比较完善。<br>也别冲 WebDAV ，这个居然自身没搞定文件名编码方案（当然我猜测实际上应该是搞定了，我说的没搞定是默认配置下没搞定，估计需要用户各种场景测试然后通过命令行什么的指定编码方案）。我的一些小姐姐影片 NAS 间同步后文件名就变了。<br>FTP 这些完全是闹着玩的，首次配置好能用，过一段时间登录就有问题。<br>截至今日，世界上使用最广的操作系统依然是 windows ，至今依然是 windows 自己的远程文件访问协议其他厂商支持 /测试的最完善，那就是 SMB （ Samba ）。其他的各种协议，不同操作系统中要么不自带需要安装第三方软件，即使带了默认可能也没启用需要用户自己启用甚至配置。考虑到家用环境的复杂性，iOS 设备、安卓设备、电视、windows 、macos 、NAS 、甚至可能还有监控摄像头存储，这些不同操作系统要同时支持 /验证某个文件互访协议，想想都能明白有多麻烦。</p>
-</blockquote>
-<p><strong>结合我自身的各种协议的使用经验，我的整体评价也是，samba 保你用户体验，一般情况下 samba 就够了，需要公网映射就加上 WebDAV。</strong></p>
-<h2 id="4-个人公网文件管理方案"><a href="#4-个人公网文件管理方案" class="headerlink" title="4. 个人公网文件管理方案"></a>4. 个人公网文件管理方案</h2><p>我们可以用各种大公司的云产品，比如百度云盘，阿里云盘，夸克网盘等等，这些是面向普通用户的产品。还有一些面向开发者、企业的云产品等等不在本文讨论范围。我们想要知道的是普通用户如何建立起属于自己的公网网盘。我搜集了一些开源产品。见下表</p>
-<table>
-<thead>
-<tr>
-<th align="left">名称</th>
-<th align="center">开源仓库</th>
-<th align="left">优缺点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">NextCloud (其前身是 OwnCloud)</td>
-<td align="center"><a target="_blank" rel="noopener" href="https://github.com/nextcloud">https://github.com/nextcloud</a></td>
-<td align="left">- 功能极其强大，具备丰富的 extensions - 后端核心程序使用 php 开发，效率并不算优</td>
-</tr>
-<tr>
-<td align="left">Seafile</td>
-<td align="center"><a target="_blank" rel="noopener" href="https://github.com/haiwen/seafile">https://github.com/haiwen/seafile</a></td>
-<td align="left">- 功能稍微单一，但是后端核心程序使用 C 语言编写，文件传输高效</td>
-</tr>
-<tr>
-<td align="left">Cloudreve</td>
-<td align="center"><a target="_blank" rel="noopener" href="https://github.com/cloudreve/Cloudreve">https://github.com/cloudreve/Cloudreve</a></td>
-<td align="left">- Material-UI 个人认为简洁美观 - 支持本机、从机、七牛、阿里云 OSS、腾讯云 COS、又拍云、OneDrive (包括世纪互联版) 作为存储端 - 后端原本是 php 编写，而后使用了 Golang 重构</td>
-</tr>
-<tr>
-<td align="left">ZFile</td>
-<td align="center"><a target="_blank" rel="noopener" href="https://github.com/haiwen/seafile">https://github.com/haiwen/seafile</a></td>
-<td align="left">- 基于 Java 的在线网盘程序，支持对接 S3、OneDrive、SharePoint、又拍云、本地存储、FTP 等存储源，支持在线浏览图片、播放音视频，文本文件等文件类型</td>
-</tr>
-<tr>
-<td align="left">KodExplorer(可道云)</td>
-<td align="center"><a target="_blank" rel="noopener" href="https://github.com/kalcaddle/KodExplorer">https://github.com/kalcaddle/KodExplorer</a></td>
-<td align="left">- 类似于群晖桌面式 ui，适合对于计算机操作不熟悉的用户使用 - 他们发布了新产品 kodbox <a target="_blank" rel="noopener" href="https://github.com/kalcaddle/kodbox">https://github.com/kalcaddle/kodbox</a></td>
-</tr>
-</tbody></table>
-<p>我目前几乎是 <em>我全都要.gif</em>，但是最终留下了 <code>Seafile</code> 和 <code>Nextcloud</code> 和 <code>Cloudreve</code> 三款产品。</p>
-<p>下文我将介绍在局域网搭建一个 Seafile Server，然后通过一台具备公网 IP 的机器将其服务暴露到公网 serving.</p>
-<h2 id="5-自建-Seafile-Server-并使用-frp-暴露到公网"><a href="#5-自建-Seafile-Server-并使用-frp-暴露到公网" class="headerlink" title="5. 自建 Seafile Server 并使用 frp 暴露到公网"></a>5. 自建 Seafile Server 并使用 frp 暴露到公网</h2><p>我简而言之。</p>
-<h3 id="5-1-使用-docker-compose-安装-Seafile-Server"><a href="#5-1-使用-docker-compose-安装-Seafile-Server" class="headerlink" title="5.1 使用 docker-compose 安装 Seafile Server"></a>5.1 使用 docker-compose 安装 Seafile Server</h3><p>compose file 参考官网的 <a target="_blank" rel="noopener" href="https://docs.seafile.com/d/cb1d3f97106847abbf31/files/?p=/docker/docker-compose.yml">https://docs.seafile.com/d/cb1d3f97106847abbf31/files/?p=/docker/docker-compose.yml</a></p>
-<p>也可以参考 <a target="_blank" rel="noopener" href="https://cloud.seafile.com/published/seafile-manual-cn/docker/%E7%94%A8Docker%E9%83%A8%E7%BD%B2Seafile.md">https://cloud.seafile.com/published/seafile-manual-cn/docker/%E7%94%A8Docker%E9%83%A8%E7%BD%B2Seafile.md</a></p>
-<p>创建 <code>/your/path/seafile-compose.yml</code>，内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">version: &#39;2.0&#39;</span><br><span class="line">services:</span><br><span class="line">  db:</span><br><span class="line">    image: mariadb:10.5</span><br><span class="line">    container_name: seafile-mysql</span><br><span class="line">    environment:</span><br><span class="line">      - MYSQL_ROOT_PASSWORD&#x3D;123456 # Requested, set the root&#39;s password of MySQL service.</span><br><span class="line">      - MYSQL_LOG_CONSOLE&#x3D;true</span><br><span class="line">    volumes:</span><br><span class="line">      - .&#x2F;seafile-mysql&#x2F;db:&#x2F;var&#x2F;lib&#x2F;mysql  # Requested, specifies the path to MySQL data persistent store.</span><br><span class="line">    networks:</span><br><span class="line">      - seafile-net</span><br><span class="line"> </span><br><span class="line">  memcached:</span><br><span class="line">    image: memcached:1.6</span><br><span class="line">    container_name: seafile-memcached</span><br><span class="line">    entrypoint: memcached -m 256</span><br><span class="line">    networks:</span><br><span class="line">      - seafile-net</span><br><span class="line"> </span><br><span class="line">  seafile:</span><br><span class="line">    image: seafileltd&#x2F;seafile-mc:latest</span><br><span class="line">    container_name: seafile</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;8088:80&quot;</span><br><span class="line">#      - &quot;443:443&quot;  # If https is enabled, cancel the comment.</span><br><span class="line">    volumes:</span><br><span class="line">      - .&#x2F;seafile-data:&#x2F;shared   # Requested, specifies the path to Seafile data persistent store.</span><br><span class="line">    environment:</span><br><span class="line">      - DB_HOST&#x3D;db</span><br><span class="line">      - DB_ROOT_PASSWD&#x3D;123456  # Requested, the value shuold be root&#39;s password of MySQL service.</span><br><span class="line">      - TIME_ZONE&#x3D;Asia&#x2F;Shanghai # Optional, default is UTC. Should be uncomment and set to your local time zone.</span><br><span class="line">      - SEAFILE_ADMIN_EMAIL&#x3D;email@example.com # Specifies Seafile admin user, default is &#39;me@example.com&#39;.</span><br><span class="line">      - SEAFILE_ADMIN_PASSWORD&#x3D;123456     # Specifies Seafile admin password, default is &#39;asecret&#39;.</span><br><span class="line">      - SEAFILE_SERVER_LETSENCRYPT&#x3D;false   # Whether use letsencrypt to generate cert.</span><br><span class="line">      - SEAFILE_SERVER_HOSTNAME&#x3D;seafile.example.com # Specifies your host name.</span><br><span class="line">    depends_on:</span><br><span class="line">      - db</span><br><span class="line">      - memcached</span><br><span class="line">    networks:</span><br><span class="line">      - seafile-net</span><br><span class="line"> </span><br><span class="line">networks:</span><br><span class="line">  seafile-net:</span><br><span class="line"># 启动一个 docker stack, 建立三个容器</span><br><span class="line"># docker-compose -f .&#x2F;seafile-compose.yml up -d</span><br></pre></td></tr></table></figure>
-
-<p>默认 WebDAV 是关闭的，我们将它打开</p>
-<p><code>docker exec -it seafile bash</code> 进入容器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 下面这是在容器中</span><br><span class="line"> </span><br><span class="line"># vim &#x2F;shared&#x2F;seafile&#x2F;conf&#x2F;seafdav.conf</span><br><span class="line"> </span><br><span class="line"># 将 [WEBDAV] enabled 由 false 改成 true</span><br><span class="line"> </span><br><span class="line"># 然后重启 seafile 服务</span><br><span class="line"> </span><br><span class="line"># cd &#x2F;opt&#x2F;seafile&#x2F;seafile-server-9.0.4 #读者操作的时候 latest 镜像版本应该比这个更新</span><br><span class="line"> </span><br><span class="line"># .&#x2F;seafile.sh restart</span><br><span class="line"> </span><br><span class="line">Stopping seafile server ...</span><br><span class="line">Starting seafile server, please wait ...</span><br><span class="line">** Message: 20:02:59.972: seafile-controller.c(621): No seafevents.</span><br><span class="line"> </span><br><span class="line">Seafile server started</span><br><span class="line"> </span><br><span class="line">Done.</span><br></pre></td></tr></table></figure>
-
-<p>Seafile Server 基本就部署好了。</p>
-<h3 id="5-2-在公网机器上安装-frps"><a href="#5-2-在公网机器上安装-frps" class="headerlink" title="5.2 在公网机器上安装 frps"></a>5.2 在公网机器上安装 frps</h3><p>FRP 是一个非常优秀的内网穿透程序，GitHub 链接: <a target="_blank" rel="noopener" href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a> ，其在 GitHub 上拥有 57.2k 个 star（截止 2022-06-15）。很多用户家里的网络 NAT 类型都是 Symmetric 对称型，我们一般称之为 NAT type 4，是一种最难穿透的类型。要想 nat 穿越成功，如果用户没法提升 nat 类型（最高 nat 1，叫做 FullCone 全锥形），那就必须要使用一台公网服务器中转，但这其实也是一种最高效的方式（花钱就行）。</p>
-<p>如何搭建 frps 这一部分互联网上已经有太多教程了，我简单综述一下。</p>
-<ol>
-<li>frp 是 go 写的，搭建 frp 环境需要一台具备公网的 VPS 或者国内叫轻量应用服务器，云服务器之类的</li>
-<li>在公网机器上运行 frps（binary, Linux 可执行文件），需配合 <code>frps.ini</code> 配置文件</li>
-<li>在内网机器（Seafile Server 所在机器）运行 frpc，需配合 <code>frpc.ini</code> 配置文件</li>
-</ol>
-<p>比如拉取 frp x86_64 0.39.0 版本的源程序</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget -O &#x2F;home&#x2F;xxx&#x2F;temp&#x2F;frp_0.39.0_linux_arm64.tar.gz https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp&#x2F;releases&#x2F;download&#x2F;v0.39.0&#x2F;frp_0.39.0_linux_arm64.tar.gz</span><br></pre></td></tr></table></figure>
-
-<p>配置一下 <code>/usr/local/frp/frps.ini</code> 配置文件，以下所有端口都使用了 12345 代替</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># [common] is integral section</span><br><span class="line">[common]</span><br><span class="line"># A literal address or host name for IPv6 must be enclosed</span><br><span class="line"># in square brackets, as in &quot;[::1]:80&quot;, &quot;[ipv6-host]:http&quot; or &quot;[ipv6-host%zone]:80&quot;</span><br><span class="line">bind_addr &#x3D; 0.0.0.0</span><br><span class="line">bind_port &#x3D; 12345</span><br><span class="line"># udp port used for kcp protocol, it can be same with &#39;bind_port&#39;</span><br><span class="line"># if not set, kcp is disabled in frps</span><br><span class="line">kcp_bind_port &#x3D; 12345</span><br><span class="line"># bind udp port</span><br><span class="line">bind_udp_port &#x3D; 12345</span><br><span class="line"># if you want to configure or reload frps by dashboard, dashboard_port must be set</span><br><span class="line">dashboard_port &#x3D; 12345</span><br><span class="line"># dashboard assets directory(only for debug mode)</span><br><span class="line">dashboard_user &#x3D; YOUR_USERNAME</span><br><span class="line">dashboard_pwd &#x3D; YOUR_PASSWORD</span><br><span class="line"># assets_dir &#x3D; .&#x2F;static</span><br><span class="line">vhost_http_port &#x3D; 12345</span><br><span class="line">vhost_https_port &#x3D; 12345</span><br><span class="line"># console or real logFile path like .&#x2F;frps.log</span><br><span class="line">log_file &#x3D; &#x2F;var&#x2F;log&#x2F;frp&#x2F;frps.log</span><br><span class="line"># debug, info, warn, error</span><br><span class="line">log_level &#x3D; info</span><br><span class="line">log_max_days &#x3D; 3</span><br><span class="line"># auth token</span><br><span class="line">token &#x3D; A_STRONG_PASSWORD</span><br><span class="line"># only allow frpc to bind ports you list, if you set nothing, there won&#39;t be any limit</span><br><span class="line">#allow_ports &#x3D; 1-65535</span><br><span class="line"># pool_count in each proxy will change to max_pool_count if they exceed the maximum value</span><br><span class="line">max_pool_count &#x3D; 50</span><br><span class="line"># if tcp stream multiplexing is used, default is true</span><br><span class="line">tcp_mux &#x3D; true</span><br></pre></td></tr></table></figure>
-
-<p>Systemd 是 Linux 系统工具，用来启动守护进程，现已成为大多数发行版的标准配置。我们也用 systemd 管理 frps 和 frpc。创建文件 <code>/lib/systemd/system/frps.service</code> 内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D; Frps Service Daemon</span><br><span class="line">After&#x3D;network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;local&#x2F;frp&#x2F;frps -c &#x2F;usr&#x2F;local&#x2F;frp&#x2F;frps.ini</span><br><span class="line">KillSignal&#x3D;SIGQUIT</span><br><span class="line">TimeoutStopSec&#x3D;5</span><br><span class="line">KillMode&#x3D;process</span><br><span class="line">PrivateTmp&#x3D;true</span><br><span class="line">StandardOutput&#x3D;syslog</span><br><span class="line">StandardError&#x3D;inherit</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
-
-<p>启用开机自启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># systemctl enable frps</span><br></pre></td></tr></table></figure>
-
-<p>启动程序</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># systemctl start frps</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-3-在内网机器上安装-frpc"><a href="#5-3-在内网机器上安装-frpc" class="headerlink" title="5.3 在内网机器上安装 frpc"></a>5.3 在内网机器上安装 frpc</h3><p>和 5.2 类似，我们需要 <code>frpc</code> 可执行程序和 <code>frpc.ini</code> 配置文件。</p>
-<p>创建配置文件 <code>/etc/frp/frpc.ini</code>，内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">log_file &#x3D; &#x2F;tmp&#x2F;frpc.log</span><br><span class="line">log_level &#x3D; info</span><br><span class="line">log_max_days &#x3D; 3</span><br><span class="line">login_fail_exit &#x3D; false</span><br><span class="line">protocol &#x3D; tcp</span><br><span class="line">server_addr &#x3D; example.com</span><br><span class="line">server_port &#x3D; 12345</span><br><span class="line">tcp_mux &#x3D; true</span><br><span class="line">token &#x3D; A_STRONG_PASSWORD</span><br><span class="line">user &#x3D; YOUR_USERNAME</span><br><span class="line"></span><br><span class="line">[second-n1-seafile]</span><br><span class="line">type &#x3D; http</span><br><span class="line">custom_domains &#x3D; seafile.example.com</span><br><span class="line">local_ip &#x3D; x.x.x.x</span><br><span class="line">local_port &#x3D; 8088</span><br><span class="line">remote_port &#x3D; 12345</span><br><span class="line">use_compression &#x3D; true</span><br><span class="line">use_encryption &#x3D; true</span><br></pre></td></tr></table></figure>
-
-<p>frpc 这边也使用 systemd 管理程序。创建 <code>/lib/systemd/system/frpc.service</code>，内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;FRPC Client Daemon</span><br><span class="line">After&#x3D;network.target</span><br><span class="line">Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;simple</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;frpc -c &#x2F;etc&#x2F;frp&#x2F;frpc.ini</span><br><span class="line">Restart&#x3D;always</span><br><span class="line">RestartSec&#x3D;20s</span><br><span class="line">User&#x3D;xxx</span><br><span class="line">Group&#x3D;xxx</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
-
-<p>设置开机自启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># systemctl enable frpc</span><br></pre></td></tr></table></figure>
-
-<p>启动 frpc 程序</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># systemctl start frpc</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-4-其他事项"><a href="#5-4-其他事项" class="headerlink" title="5.4 其他事项"></a>5.4 其他事项</h3><p>域名相关的东西我就不说了。</p>
-<p>配置的时候注意可执行文件、配置文件的权限，和文件拥有者和所在组。</p>
-<p>还有防火墙。除了 Linux distro 自身安装的各种防火墙程序之外，类似良心云这种厂商在虚拟化的应用服务器之外还有一层硬件级别的防火墙，如果配置后发现不能访问可以优先往这些方面排查。</p>
-<p>下面我们在 VPS 上使用 nginx 反代 seafile 服务，并使用 SSL/TLS 加密（在最外层套 SSL）。得先准备好申请好的证书和私钥。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 比如 nginx 配置中的证书和私钥形式如下</span><br><span class="line"> </span><br><span class="line">ssl_certificate    &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;example.com&#x2F;fullchain.pem;</span><br><span class="line">ssl_certificate_key    &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;example.com&#x2F;privkey.pem;</span><br></pre></td></tr></table></figure>
-
-<p>创建 nginx 配置文件 <code>/etc/nginx/sites-enabled/seafile-home.conf</code> 内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  seafile.example.com;</span><br><span class="line">        rewrite ^ https:&#x2F;&#x2F;$http_host$request_uri? permanent;    # Forced redirect from HTTP to HTTPS</span><br><span class="line">        server_tokens off;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 443 ssl http2;</span><br><span class="line">        ssl_certificate    &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;example.com&#x2F;fullchain.pem;</span><br><span class="line">        ssl_certificate_key    &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;example.com&#x2F;privkey.pem;</span><br><span class="line">        server_name seafile.example.com;</span><br><span class="line">        server_tokens off;</span><br><span class="line"> </span><br><span class="line">        # HSTS for protection against man-in-the-middle-attacks</span><br><span class="line">        add_header Strict-Transport-Security &quot;max-age&#x3D;31536000; includeSubDomains&quot;;</span><br><span class="line"> </span><br><span class="line">        ssl_protocols TLSv1.2 TLSv1.3;</span><br><span class="line">        ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;</span><br><span class="line">        ssl_prefer_server_ciphers off;</span><br><span class="line"> </span><br><span class="line">        ssl_session_timeout 5m;</span><br><span class="line"> </span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">                proxy_pass         http:&#x2F;&#x2F;127.0.0.1:12345;</span><br><span class="line">                proxy_set_header   X-Real-IP $remote_addr;</span><br><span class="line">                proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">                proxy_set_header   X-Forwarded-Host $server_name;</span><br><span class="line">                proxy_set_header   X-Forwarded-Proto https;</span><br><span class="line">                proxy_set_header   Host $host:$server_port;</span><br><span class="line"> </span><br><span class="line">                access_log      &#x2F;var&#x2F;log&#x2F;nginx&#x2F;seahub.access.log;</span><br><span class="line">                error_log       &#x2F;var&#x2F;log&#x2F;nginx&#x2F;seahub.error.log;</span><br><span class="line"> </span><br><span class="line">                proxy_read_timeout  1200s;</span><br><span class="line"> </span><br><span class="line">                client_max_body_size 0;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>检查 nginx 语法并重载 nginx</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># nginx -t &amp;&amp; nginx -s reload</span><br></pre></td></tr></table></figure>
-
-<p>然后就可以通过 <a target="_blank" rel="noopener" href="https://seafile.example.com/">https://seafile.example.com</a> 访问属于自己的 seafile 服务。</p>
-<hr>
-<p><img src="https://hellodk.cn/usr/uploads/spot_loading.gif" alt="20220616144938"></p>
-<blockquote>
-<p>进入后台管理页面，可以随意切换公网和内网访问，大部分时候还是使用公网的域名访问配置</p>
-</blockquote>
-<p><img src="https://hellodk.cn/usr/uploads/spot_loading.gif" alt="20220616144704"></p>
-<blockquote>
-<p>跑到了 100MiB/s，但是没有截到图 🤣</p>
-</blockquote>
-<p><img src="https://hellodk.cn/usr/uploads/spot_loading.gif" alt="20220616145227"></p>
-<blockquote>
-<p>切换到内网，打开浏览器上传的速度，受限于机器性能，比如我的 Phicomm N1 最多只能跑到 50MiB/s</p>
-</blockquote>
-<p>全文完。</p>
-<h2 id="6-引用与致谢"><a href="#6-引用与致谢" class="headerlink" title="6. 引用与致谢"></a>6. 引用与致谢</h2><ul>
-<li>各个协议的 wikipedia 简体中文页面</li>
-<li>各个开源项目</li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/411161467">NFS、FTP、SMB、WebDav、DLNA协议，傻傻分不清？</a></li>
-<li><a target="_blank" rel="noopener" href="https://post.smzdm.com/p/ar6k932q/">SMB、FTP、WebDAV协议，傻傻分不清？5000字教程，教你快速上手</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.lategege.com/?p=466">nas各种共享访问协议的使用</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.raysync.cn/news/post-id-864">13 种适用于企业的文件传输协议</a></li>
-</ul>
-<p>end.</p>
-<p>打赏: <img src="https://img.gejiba.com/images/6e24e0daffd9f056c2488ba1810b0711.png" alt="微信收款二维码">微信, <img src="https://img.gejiba.com/images/3f53c114d523608679ec81d24e4c2a3a.jpg" alt="支付宝收款二维码">支付宝</p>
-<p>标签: <a target="_blank" rel="noopener" href="https://hellodk.cn/tag/Linux/">Linux</a>, <a target="_blank" rel="noopener" href="https://hellodk.cn/tag/%E7%BD%91%E7%BB%9C/">网络</a></p>
-<p>本作品采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可。</p>
-<h3 id="添加新评论"><a href="#添加新评论" class="headerlink" title="添加新评论"></a>添加新评论</h3><p>OωO表情</p>
-<p><img src="https://hellodk.cn/action/captcha" alt="captcha"><br><strong>请输入验证码：</strong> </p>
-<p>提交评论</p>
-<ul>
-<li>上一篇: <a target="_blank" rel="noopener" href="https://hellodk.cn/post/1048">解决 webdav 连接 seafile 无法重命名文件等操作造成的 SeafDAV: MOVE returns 502 Bad Gateway 错误</a></li>
-<li>下一篇: 没有了</li>
-</ul>
-<p>Copyright © 2017 - 2022 by hellodk.cn | Proudly Powered by <a target="_blank" rel="noopener" href="http://www.typecho.org/">Typecho</a> &amp; <a target="_blank" rel="noopener" href="https://www.offodd.com/17.html">Initial </a>&amp; <a target="_blank" rel="noopener" href="https://hellodk.cn/">❤.</a></p>
-<p><a target="_blank" rel="noopener" href="https://hellodk.cn/archives">Archives | </a><a target="_blank" rel="noopener" href="https://hellodk.cn/sitemap.xml">SiteMap | </a><a target="_blank" rel="noopener" href="https://hellodk.cn/about">About</a></p>
-<p>Site has been running for 3 year(s) 71 days 11 hours.</p>
-<p>小破站总访问量才 792276 次，要加油鸭！</p>
-<p>页面加载用时: 524 ms</p>
-<ul>
-<li></li>
-<li></li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-硬件相关知识" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/814126a1.html" class="article-date">
-      <time datetime="2022-06-15T13:58:19.000Z" itemprop="datePublished">2022-06-15</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/814126a1.html">计算机硬件相关知识</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>主板 上有各种芯片 南桥,北桥,接口芯片连接总线</p>
-<p>CPU 频率,核心,架构</p>
-<p>GPU 专用矢量渲染,并行能力强,算力丰富</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>主板 上有各种芯片 南桥,北桥,接口芯片连接总线</p>
-<p>CPU 频率,核心,架构</p>
-<p>GPU 专用矢量渲染,并行能力强,算力丰富</p>
-<p>目前显卡 消费端就是 gtx,gnx 生产端 tesla</p>
-<table>
-<thead>
-<tr>
-<th><strong>通用并行运算</strong></th>
-<th><strong>显示的api</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>cude</td>
-<td>directx</td>
-</tr>
-<tr>
-<td>opencl</td>
-<td>opengl()</td>
-</tr>
-<tr>
-<td></td>
-<td>vulkan逐渐替代</td>
-</tr>
-<tr>
-<td></td>
-<td>webgl(浏览器基于opengl 封装的api 包括cesuim 等很多js 三维基于这个 来进一步封装和集成)</td>
-</tr>
-</tbody></table>
-<p>实时画面渲染 可能是GPU集群来实现 一方面是处理速度网络是有延时的</p>
-<p>主板上多GPU功能主要需要使用NVIDIA上面的SLI来实现目前pci-e 主板来实现目前ue4官方并不支持多GPU</p>
-<p>对应运行gpu算力的部分 一般是用 NVIDIA-smi来实现集中接口调用 类似于 opencl</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-gdal镜像集成和dockerfile使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/59cba8fc.html" class="article-date">
-      <time datetime="2022-06-13T07:01:28.000Z" itemprop="datePublished">2022-06-13</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="gdal介绍"><a href="#gdal介绍" class="headerlink" title="gdal介绍"></a>gdal介绍</h2><p>gdal的一个用c++语言编写的库，用于处理地理信息相关的数据包括转换，识别数据，格式化数据以及解析</p>
-<p>同时提供第三方语言的SDK包括python，java上述需要编译后使用 java是需要使用jni接口调用实现方法在window平台是DLL文件，在linux平台是so文件，最后需要使用和初始化服务。</p>
-<h3 id="gdal命令使用"><a href="#gdal命令使用" class="headerlink" title="gdal命令使用"></a>gdal命令使用</h3><p>1、ogrinfo</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="gdal介绍"><a href="#gdal介绍" class="headerlink" title="gdal介绍"></a>gdal介绍</h2><p>gdal的一个用c++语言编写的库，用于处理地理信息相关的数据包括转换，识别数据，格式化数据以及解析</p>
-<p>同时提供第三方语言的SDK包括python，java上述需要编译后使用 java是需要使用jni接口调用实现方法在window平台是DLL文件，在linux平台是so文件，最后需要使用和初始化服务。</p>
-<h3 id="gdal命令使用"><a href="#gdal命令使用" class="headerlink" title="gdal命令使用"></a>gdal命令使用</h3><p>1、ogrinfo</p>
-<p>orginfo –version</p>
-<p>ogrinfo –help</p>
-<p>2、ogr2ogr</p>
-<blockquote>
-<ul>
-<li>ogr2ogr postgis转shp 并执行SQL</li>
-</ul>
-<p>ogr2ogr -f  “ESRI Shapefile” file1.shp    PG:”host=’192.168.7.11’ port=’5432’ dbname=’postgres’ user=’postgres’ password=’1111’” -sql “select * from like_fff_xztc”   -dialect PostgreSQL</p>
-<ul>
-<li>ogr2ogr postgis转化为shp文件且指定SQL执行</li>
-</ul>
-<p>ogr2ogr -f  “ESRI Shapefile” /app/tmp/result_like_fff_xztc/result_like_fff_xztc.shp PG:”host=’192.168.7.11’ port=’5432’ dbname=’postgres’ user=’postgres’ password=’1111’” -sql “select fid,objectid,bsm,dlmc,qsdwmc,zldwmc,f_xzqhmc,f_year,f_month,partitionno,se_anno_cad_data,tbdlmj,ysdm,dlbm,qsxz,qsdwdm,zldwdm,xzgdlx,zldj,f_xzqhdm,f_diccode,f_fileid,tbbh,shape_length,shape_area,st_transForm(geom,4490) as geom  from like_fff_xztc where ST_Intersects(geom,st_transform(st_geomFromText(‘MULTIPOLYGON(((112.973570327973 30.634569982416,112.973501343979 30.6344597898424,112.973423613701 30.6344687491655)))’,4490),4490))” -dialect PostgreSQL  –config SHAPE_ENCODING ‘UTF-8’</p>
-<ul>
-<li>ogr2ogr shp导入shp 命令</li>
-</ul>
-<p>ogr2ogr   -f  “PostgreSQL” PG:”host=’192.168.7.11’ port=’5432’ dbname=’test’ user=’postgres’ password=’1111’” C:\Users\Administrator\Desktop\ceshi\old\Water_region.shp -progress  -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=fid  -overwrite -nln ‘like_test_update’  -unsetFieldWidth  –config SHAPE_ENCODING ‘utf-8’</p>
-<ul>
-<li>ogr2ogr mdb导入shp命令</li>
-</ul>
-<p>ogr2ogr -f “PostgreSQL” PG:”host=’192.168.7.11’ port=’5432’ dbname=’test_new_app’ user=’postgres’ password=’1111’” /app/laohekou.mdb  -progress  -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=fid  -overwrite -nln ‘test_mdb_001’</p>
-<ul>
-<li>ogr2ogr shp转入postgis</li>
-</ul>
-<p>ogr2ogr -f “PostgreSQL” PG:”host=xxx user=xxx password=xxx dbname=cxxxhina”  -nlt GEOMETRY 省级行政区.shp</p>
-</blockquote>
-<p>3、</p>
-<h2 id="官方gdal的dockerfile简介"><a href="#官方gdal的dockerfile简介" class="headerlink" title="官方gdal的dockerfile简介"></a>官方gdal的dockerfile简介</h2><p><a target="_blank" rel="noopener" href="https://github.com/OSGeo/gdal/tree/01490692487cb436bb4b10740cd2aabb403531fe/docker"><a target="_blank" rel="noopener" href="https://github.com/OSGeo/gdal/tree/master/docker">gdal/docker at master · OSGeo/gdal</a></a></p>
-<blockquote>
-<h1 id="Alpine-based"><a href="#Alpine-based" class="headerlink" title="Alpine based"></a>Alpine based</h1><p>Alpine version:</p>
-<ul>
-<li>3.15 for 3.5</li>
-<li>3.16 for GDAL 3.6dev</li>
-</ul>
-<h2 id="Small-osgeo-gdal-alpine-small-latest"><a href="#Small-osgeo-gdal-alpine-small-latest" class="headerlink" title="Small: osgeo/gdal:alpine-small-latest"></a>Small: <code>osgeo/gdal:alpine-small-latest</code></h2><ul>
-<li>Image size: ~ 59 MB</li>
-<li>Raster drivers: ultrasmall + built-in + SQLite-based ones + network-based ones</li>
-<li>Vector drivers: ultrasmall + built-in + most XML-based ones + network-based ones + PostgreSQL</li>
-<li>Using internal libtiff and libgeotiff</li>
-<li>External libraries enabled: ultrasmall + libexpat, libpq, libssl</li>
-<li><em>No</em> GDAL Python</li>
-<li>Base PROJ grid package (<a target="_blank" rel="noopener" href="http://download.osgeo.org/proj/proj-datumgrid-1.8.zip">http://download.osgeo.org/proj/proj-datumgrid-1.8.zip</a>)</li>
-<li>Overall licensing terms of the GDAL build: permissive (MIT, BSD style, Apache, etc..)</li>
-</ul>
-<p>See <a target="_blank" rel="noopener" href="https://github.com/OSGeo/gdal/blob/master/docker/alpine-small/Dockerfile">alpine-small/Dockerfile</a></p>
-<h2 id="Normal-osgeo-gdal-alpine-normal-latest"><a href="#Normal-osgeo-gdal-alpine-normal-latest" class="headerlink" title="Normal: osgeo/gdal:alpine-normal-latest"></a>Normal: <code>osgeo/gdal:alpine-normal-latest</code></h2><ul>
-<li>Image size: ~ 277 MB</li>
-<li>Raster drivers: small + netCDF, HDF5, BAG</li>
-<li>Vector drivers: small + Spatialite, XLS</li>
-<li>Using internal libtiff and libgeotiff</li>
-<li>External libraries enabled: small + libgeos, libhdf5, libhdf5, libkea, libnetcdf, libfreexl, libspatialite, libxml2, libpoppler, openexr, libheif, libdeflate, libparquet</li>
-<li>GDAL Python</li>
-<li>Base PROJ grid package (<a target="_blank" rel="noopener" href="http://download.osgeo.org/proj/proj-datumgrid-1.8.zip">http://download.osgeo.org/proj/proj-datumgrid-1.8.zip</a>)</li>
-<li>Overall licensing terms of the GDAL build: copy-left (GPL) + LGPL + permissive</li>
-</ul>
-<p>See <a target="_blank" rel="noopener" href="https://github.com/OSGeo/gdal/blob/master/docker/alpine-normal/Dockerfile">alpine-normal/Dockerfile</a></p>
-<h1 id="Ubuntu-based"><a href="#Ubuntu-based" class="headerlink" title="Ubuntu based"></a>Ubuntu based</h1><p>Ubuntu version:</p>
-<ul>
-<li>20.04 for GDAL 3.4 and 3.5</li>
-<li>22.04 for GDAL 3.6dev</li>
-</ul>
-<h2 id="Small-osgeo-gdal-ubuntu-small-latest"><a href="#Small-osgeo-gdal-ubuntu-small-latest" class="headerlink" title="Small: osgeo/gdal:ubuntu-small-latest"></a>Small: <code>osgeo/gdal:ubuntu-small-latest</code></h2><ul>
-<li>Image size: ~ 385 MB</li>
-<li>Raster drivers: all built-in + JPEG + PNG + JP2OpenJPEG + WEBP +SQLite-based ones + network-based ones</li>
-<li>Vector drivers: all built-in + XML based ones + SQLite-based ones + network-based ones + PostgreSQL</li>
-<li>Using internal libtiff and libgeotiff</li>
-<li>External libraries enabled: libsqlite3, libproj, libcurl, libjpeg, libpng, libwebp, libzstd, libexpat, libxerces-c, libpq, libssl, libgeos, libspatialite</li>
-<li>GDAL Python (Python 3.8 for Ubuntu 20.04, Python 3.10 for Ubuntu 22.04)</li>
-<li>Base PROJ grid package (<a target="_blank" rel="noopener" href="http://download.osgeo.org/proj/proj-datumgrid-1.8.zip">http://download.osgeo.org/proj/proj-datumgrid-1.8.zip</a>)</li>
-<li>Overall licensing terms of the GDAL build: LGPL + permissive (MIT, BSD style, Apache, etc..)</li>
-</ul>
-<p>See <a target="_blank" rel="noopener" href="https://github.com/OSGeo/gdal/blob/master/docker/ubuntu-small/Dockerfile">ubuntu-small/Dockerfile</a></p>
-<h2 id="Full-osgeo-gdal-ubuntu-full-latest-aliased-to-osgeo-gdal"><a href="#Full-osgeo-gdal-ubuntu-full-latest-aliased-to-osgeo-gdal" class="headerlink" title="Full: osgeo/gdal:ubuntu-full-latest (aliased to osgeo/gdal)"></a>Full: <code>osgeo/gdal:ubuntu-full-latest</code> (aliased to <code>osgeo/gdal</code>)</h2><ul>
-<li>Image size: ~ 1.48 GB</li>
-<li>Raster drivers: all based on almost all possible free and open-source dependencies</li>
-<li>Vector drivers: all based on almost all possible free and open-source dependencies</li>
-<li>Using internal libtiff and libgeotiff</li>
-<li>External libraries enabled: small + libnetcdf, libhdf4, libhdf5, libtiledb, libkea, mongocxx 3.4, libspatialite, unixodbc, libxml2, libcfitsio, libmysqlclient, libkml, libpoppler, pdfium, openexr, libheif, libdeflate, libparquet</li>
-<li>GDAL Python (Python 3.8 for Ubuntu 20.04, Python 3.10 for Ubuntu 22.04)</li>
-<li><em>All</em> PROJ grid packages (equivalent of latest of proj-data-X.zip from <a target="_blank" rel="noopener" href="http://download.osgeo.org/proj/">http://download.osgeo.org/proj/</a> at time of generation, &gt; 500 MB)</li>
-<li>Overall licensing terms of the GDAL build: copy-left (GPL) + LGPL + permissive</li>
-</ul>
-</blockquote>
-<p>点击进入后可以看到介绍，目前分别在两个linux发行版本上进行镜像文件创建，分别是Ubuntu，和alpine</p>
-<p>alpine是精简的服务目前不包括第三方的拓展目前在linux上不支持pgeo（改数据源可以读取mdb和其他格式数据的支持）</p>
-<p>ubuntu是完整版是提供全量的服务，支持pgeo</p>
-<p>介绍</p>
-<p>linux下面读取微软的软件word，Excel，PPT是有平台和驱动，但是像access这种个人数据库需要ODBC这个开源平台来读取这类数据，gdal在linux平台通过ODBC接口来读取access个人数据库，同时对数据解析，我们需要利用这个解析工具来读取数据被我们java读取，或者通过ogr2ogr命令来转换数据</p>
-<p>ODBC</p>
-<p>是linux平台的数据的解析</p>
-<p>ogrinfo 能识别</p>
-<p>odbcinst -j  表示odbc正确安装</p>
-<h2 id="方法一osgeo-gdal-ubuntu-full基础上安装-unixODBC-mdbtools"><a href="#方法一osgeo-gdal-ubuntu-full基础上安装-unixODBC-mdbtools" class="headerlink" title="方法一osgeo/gdal:ubuntu-full基础上安装(unixODBC,mdbtools)"></a>方法一osgeo/gdal:ubuntu-full基础上安装(unixODBC,mdbtools)</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">FROM</span>  osgeo/gdal:ubuntu-full-<span class="number">3.0</span>.<span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> cp  /etc/apt/sources.list  /etc/apt/sources.list.bak</span></span><br><span class="line"><span class="comment"># RUN echo  &#x27;deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse \ndeb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse\ndeb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse \ndeb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse \ndeb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse\n&#x27; &gt; /etc/apt/sources.list</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; cat /etc/apt/sources.list &amp;&amp; apt-get  -y --fix-missing --no-install-recommends install  gcc make g++  bison flex gawk unixodbc-dev libgdal-java</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> ./unixODBC-2.3.11   /usr/unixODBC-2.3.11</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> ./mdbtools-1.0.0   /usr/mdbtools-1.0.0</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> chmod -R 777 /usr/unixODBC-2.3.11/ &amp;&amp; chmod -R 777 /usr/mdbtools-1.0.0</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">   <span class="built_in">cd</span> /usr/unixODBC-2.3.11/ &amp;&amp; ./configure --prefix=/usr/unixODBC-2.3.11 --includedir=/usr/include --libdir=/usr/lib --bindir=/usr/bin --sysconfdir=/etc</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  <span class="built_in">cd</span> /usr/unixODBC-2.3.11/ &amp;&amp; make</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  <span class="built_in">cd</span> /usr/unixODBC-2.3.11/ &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  <span class="built_in">cd</span>  /usr/mdbtools-1.0.0 &amp;&amp; ./configure --with-unixodbc=/usr/unixODBC-2.3.11</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">cd</span>  /usr/mdbtools-1.0.0 &amp;&amp; make</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">cd</span>  /usr/mdbtools-1.0.0 &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># RUN echo &quot;export LD_LIBRARY_PATH_LIKE=/usr/local/lib&quot; &gt;&gt; /etc/profile &amp;&amp; source /etc/profile</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> ./odbcinst.ini  /etc</span></span><br><span class="line"><span class="keyword">ENV</span> LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib</span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  cp /usr/share/java/gdal.jar  /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/</span></span><br><span class="line"><span class="comment"># 指定时区</span></span><br><span class="line"><span class="keyword">ENV</span> TZ=Asia/Shanghai</span><br><span class="line"><span class="comment"># 设定工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash">  config /app/config</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash">  ./shp2pg.py /app/py/shp2pg.py	</span></span><br><span class="line"><span class="comment"># 声明端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">11002</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> uts-stg.jar /app/uts-stg.jar</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-Djava.security.egd=file:/dev/./urandom&quot;</span>,<span class="string">&quot;-Djava.library.path=/usr/lib/jni&quot;</span>, <span class="string">&quot;-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 &quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/app/uts-stg.jar&quot;</span>]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/9/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/7/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/9/">下一页 </a>
     </nav>
   
 </div>
