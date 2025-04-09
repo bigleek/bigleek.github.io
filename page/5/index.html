@@ -269,6 +269,301 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-使用lettle客户端或者redis连接变化时的触发事件" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/a337c28a.html" class="article-date">
+      <time datetime="2023-07-08T00:25:45.000Z" itemprop="datePublished">2023-07-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisConnectionFactory <span class="title">redisConnectionFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisStandaloneConfiguration config = <span class="keyword">new</span> RedisStandaloneConfiguration();</span><br><span class="line">        config.setHostName(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        config.setPort(<span class="number">11</span>);</span><br><span class="line">        config.setPassword(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LettuceConnectionFactory(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean(name = &quot;redisTemplate&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line"></span><br><span class="line">        StringRedisSerializer stringRedisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        template.setKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        GenericJackson2JsonRedisSerializer redisSerializer = <span class="keyword">new</span> GenericJackson2JsonRedisSerializer();</span><br><span class="line">        template.setValueSerializer(redisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashValueSerializer(redisSerializer);</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CacheManager <span class="title">cacheManager</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()</span><br><span class="line">                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(</span><br><span class="line">                        <span class="keyword">new</span> GenericJackson2JsonRedisSerializer())).disableCachingNullValues();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisConnectionFactory <span class="title">redisConnectionFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisStandaloneConfiguration config = <span class="keyword">new</span> RedisStandaloneConfiguration();</span><br><span class="line">        config.setHostName(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        config.setPort(<span class="number">11</span>);</span><br><span class="line">        config.setPassword(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LettuceConnectionFactory(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean(name = &quot;redisTemplate&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line"></span><br><span class="line">        StringRedisSerializer stringRedisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        template.setKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashKeySerializer(stringRedisSerializer);</span><br><span class="line"></span><br><span class="line">        GenericJackson2JsonRedisSerializer redisSerializer = <span class="keyword">new</span> GenericJackson2JsonRedisSerializer();</span><br><span class="line">        template.setValueSerializer(redisSerializer);</span><br><span class="line"></span><br><span class="line">        template.setHashValueSerializer(redisSerializer);</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CacheManager <span class="title">cacheManager</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()</span><br><span class="line">                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(</span><br><span class="line">                        <span class="keyword">new</span> GenericJackson2JsonRedisSerializer())).disableCachingNullValues();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>同时实现 <strong>RedisConnectionStateListener</strong>  保证在onRedisConnected,onRedisDisconnected,onRedisExceptionCaught下运行时的调用注意下列触发事件需要在RedisClient 下注册进去,保证后续的调用成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class CustomRedisConnectionStateListener implements RedisConnectionStateListener &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisConnected(RedisConnection connection) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接成功的逻辑</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisDisconnected(RedisConnection connection) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接断开的逻辑</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRedisExceptionCaught(RedisConnection connection, Throwable exception) &#123;</span><br><span class="line">        &#x2F;&#x2F; 处理连接异常的逻辑</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Windows下bat脚本文件编写" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/282c310f.html" class="article-date">
+      <time datetime="2023-07-02T06:32:34.000Z" itemprop="datePublished">2023-07-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/282c310f.html">Windows下bat脚本文件编写</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>先给个实例来表示 使用杀死 指定端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">set default_port&#x3D;8080</span><br><span class="line">set &#x2F;p port&#x3D;type need killed port (press enter for default port %default_port%): %&#x3D;%</span><br><span class="line">if &quot;%port%&quot;&#x3D;&#x3D;&quot;&quot; set &quot;port&#x3D;%default_port%&quot;</span><br><span class="line">rem set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line"></span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pause</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>先给个实例来表示 使用杀死 指定端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">set default_port&#x3D;8080</span><br><span class="line">set &#x2F;p port&#x3D;type need killed port (press enter for default port %default_port%): %&#x3D;%</span><br><span class="line">if &quot;%port%&quot;&#x3D;&#x3D;&quot;&quot; set &quot;port&#x3D;%default_port%&quot;</span><br><span class="line">rem set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line"></span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set &#x2F;p port&#x3D;type need killed port:</span><br><span class="line">for &#x2F;f &quot;tokens&#x3D;5 delims&#x3D; &quot; %%a IN (&#39;netstat -a -n -o ^| findstr :%port%.*LISTENING&#39;) do (</span><br><span class="line">  set pid&#x3D;%%a</span><br><span class="line">)</span><br><span class="line">if not defined pid (</span><br><span class="line">  echo not found port %port%</span><br><span class="line">) else (</span><br><span class="line">  taskkill &#x2F;F &#x2F;pid %pid%</span><br><span class="line">  echo already kill  %port%</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pause</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-postgresql查询表结构和表字段" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/eadc1bcb.html" class="article-date">
+      <time datetime="2023-06-04T08:11:45.000Z" itemprop="datePublished">2023-06-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>现在有个需要查询postgresql下表的信息同时统计表下的geometry的数目和对应类型,如果有多个geometry需要合并为一条返回.下面是查询的步骤和考虑.</p>
+<ol>
+<li>查询pg_statio_all_tables </li>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>现在有个需要查询postgresql下表的信息同时统计表下的geometry的数目和对应类型,如果有多个geometry需要合并为一条返回.下面是查询的步骤和考虑.</p>
+<ol>
+<li>查询pg_statio_all_tables </li>
+</ol>
+<blockquote>
+<p> SELECT * FROM  pg_catalog.pg_statio_all_tables WHERE schemaname = ‘public’</p>
+</blockquote>
+<p>上面SQL主要是查询catalog下面的目录在public为schema下的表数据</p>
+<ol start="2">
+<li>查询information_schema.tables</li>
+</ol>
+<blockquote>
+<p>SELECT * FROM  information_schema.tables WHERE table_schema = ‘public’ ;</p>
+</blockquote>
+<p>上面的SQL其实类似但是整体条SQL会包含很多 内置的表非常不考虑使用</p>
+<ol start="3">
+<li>查询geometry_columns </li>
+</ol>
+<blockquote>
+<p>select f_table_name ,type,COUNT(f_table_name) as geomcount from geometry_columns WHERE f_table_schema = ‘public’  GROUP BY f_table_name ;</p>
+</blockquote>
+<p>是查询对应的 geometry_columns  表下记录的geometry的字段和对应的类型(点,线,面,多点…等)</p>
+<ol start="4">
+<li>联合查询 pg_catalog.pg_statio_all_tables 和geometry_columns </li>
+</ol>
+<blockquote>
+<p>SELECT<br>    gc.type AS geo_type,<br>    pg_statio_all_tables.relname,<br>    obj_description(relid) AS description,<br>    pg_total_relation_size(relid) / pg_column_size(relid::regclass) AS data_size,<br>    COUNT(<em>) as num_duplicates<br>FROM<br>    pg_catalog.pg_statio_all_tables<br>    LEFT OUTER JOIN geometry_columns AS gc ON gc.f_table_name = relname<br>WHERE schemaname = ‘public’<br>GROUP BY geo_type, relname<br>HAVING COUNT(</em>) &gt; 1;</p>
+</blockquote>
+<p>这个结果只能过滤 一个表有多个geometry的表不符合要求</p>
+<p>到这一步开始是考虑联合查询,不论是左连接 还是右连接查询</p>
+<blockquote>
+<p>SELECT f_table_name, MAX(type) AS type ,COUNT(type) geomcount<br>FROM geometry_columns   WHERE f_table_schema = ‘public’   GROUP BY f_table_name</p>
+</blockquote>
+<p>查询 geometry_columns    过滤需要用到 MAX函数,而不是distinct .</p>
+<p>distinct 的这种方式例子如下</p>
+<blockquote>
+<p>SELECT f_table_name, type, COUNT(*) as count<br>FROM (<br>    SELECT DISTINCT ON (f_table_name) f_table_name, type<br>    FROM geometry_columns<br>    ORDER BY f_table_name, type<br>) subquery<br>GROUP BY f_table_name;</p>
+</blockquote>
+<p>查询结果其实也是会重复,而且拿不到重复的的geometry的type不合适.</p>
+<ol start="5">
+<li>最终版方式</li>
+</ol>
+<blockquote>
+<p>SELECT<br>    gc.type AS geo_type,<br>    pg_statio_all_tables.relname,<br>    obj_description(relid) AS description,<br>    pg_total_relation_size(relid) / pg_column_size(relid::regclass) AS data_size,<br>          gc.geomcount<br>FROM<br>    pg_catalog.pg_statio_all_tables<br>    LEFT OUTER JOIN (SELECT f_table_name,<br>       MAX(type) AS type ,COUNT(type) geomcount<br>FROM geometry_columns  GROUP BY f_table_name ) AS gc ON gc.f_table_name = relname<br>WHERE schemaname = ‘public’ </p>
+</blockquote>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-删除自动添加的美式键盘" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1013,547 +1308,6 @@
 </blockquote>
 <p>所以我项目下resource下面需要有对应的路径,由于太久没写都是直接写mapper导致解析不到</p>
 <p>参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/hopeofthevillage/p/12858565.html">spring boot mybatis 报错Invalid bound statement (not found)解决过程 - 全me村的希望 - 博客园</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-windows使用vmvare创建mac-intel虚拟机" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/267b5788.html" class="article-date">
-      <time datetime="2023-03-29T00:22:46.000Z" itemprop="datePublished">2023-03-29</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.freedidi.com/5257.html">虚拟机安装 macOS 黑苹果系统！所需要的资料 - 零度解说</a><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FO9Bwa5btn8">Windows 11 上安装 macOS系统！通过虚拟机即可轻松搞定</a></p>
-<p>需要的软件</p>
-<p><strong>1.VMware 下载：【<a target="_blank" rel="noopener" href="https://www.freedidi.com/1385.html">点击下载</a>】</strong></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.freedidi.com/5257.html">虚拟机安装 macOS 黑苹果系统！所需要的资料 - 零度解说</a><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FO9Bwa5btn8">Windows 11 上安装 macOS系统！通过虚拟机即可轻松搞定</a></p>
-<p>需要的软件</p>
-<p><strong>1.VMware 下载：【<a target="_blank" rel="noopener" href="https://www.freedidi.com/1385.html">点击下载</a>】</strong></p>
-<p><strong>2.Auto-Unlocker 開源輔助工具：【<a target="_blank" rel="noopener" href="https://github.com/paolo-projects/auto-unlocker/releases">点击下载</a>】</strong></p>
-<p><strong>3.macOS big sur 系統ISO鏡像</strong>：-&gt; <a target="_blank" rel="noopener" href="https://sysin.org/blog/macOS-Monterey/#1-ISO-%E6%A0%BC%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%8C%85%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89-8">macOS Monterey 12.6.3 (21G419) 正式版 ISO、IPSW、PKG 下载</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-chatgpt关于学习英文" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/24cfb670.html" class="article-date">
-      <time datetime="2023-03-21T14:22:16.000Z" itemprop="datePublished">2023-03-21</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/24cfb670.html">chatgpt关于学习英文</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ok ,i pleasure give some questions ,first can you tell me learing english for step by step</span><br><span class="line">Certainly! Here are some steps you can take to learn English:</span><br><span class="line"></span><br><span class="line">1. Start with the basics: Learn the English alphabet, basic grammar rules, and common vocabulary words.</span><br><span class="line"></span><br><span class="line">2. Practice listening and speaking: Listen to English speakers and practice speaking with native speakers or language partners. This will help you improve your pronunciation and fluency.</span><br><span class="line"></span><br><span class="line">3. Read in English: Start with simple texts like children&#39;s books or news articles, and gradually work your way up to more complex texts.</span><br><span class="line"></span><br><span class="line">4. Write in English: Practice writing in English by keeping a journal, writing emails, or participating in online forums.</span><br><span class="line"></span><br><span class="line">5. Take a course or find a tutor: Consider taking an English course at a language school or finding a tutor who can provide personalized instruction.</span><br><span class="line"></span><br><span class="line">6. Use language learning apps: There are many apps available that can help you learn English, such as Duolingo, Babbel, and Rosetta Stone.</span><br><span class="line"></span><br><span class="line">7. Immerse yourself in the language: Watch movies or TV shows in English, listen to music in English, and try to use the language as</span><br></pre></td></tr></table></figure>
-
-<p>continue</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ok ,i pleasure give some questions ,first can you tell me learing english for step by step</span><br><span class="line">Certainly! Here are some steps you can take to learn English:</span><br><span class="line"></span><br><span class="line">1. Start with the basics: Learn the English alphabet, basic grammar rules, and common vocabulary words.</span><br><span class="line"></span><br><span class="line">2. Practice listening and speaking: Listen to English speakers and practice speaking with native speakers or language partners. This will help you improve your pronunciation and fluency.</span><br><span class="line"></span><br><span class="line">3. Read in English: Start with simple texts like children&#39;s books or news articles, and gradually work your way up to more complex texts.</span><br><span class="line"></span><br><span class="line">4. Write in English: Practice writing in English by keeping a journal, writing emails, or participating in online forums.</span><br><span class="line"></span><br><span class="line">5. Take a course or find a tutor: Consider taking an English course at a language school or finding a tutor who can provide personalized instruction.</span><br><span class="line"></span><br><span class="line">6. Use language learning apps: There are many apps available that can help you learn English, such as Duolingo, Babbel, and Rosetta Stone.</span><br><span class="line"></span><br><span class="line">7. Immerse yourself in the language: Watch movies or TV shows in English, listen to music in English, and try to use the language as</span><br></pre></td></tr></table></figure>
-
-<p>continue</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">much as possible in your daily life. This will help you become more comfortable with the language and improve your overall proficiency.</span><br><span class="line"></span><br><span class="line">8. Set goals and track your progress: Set specific goals for yourself, such as learning a certain number of new words each week or practicing speaking for a certain amount of time each day. Keep track of your progress and celebrate your achievements along the way.</span><br><span class="line"></span><br><span class="line">Remember that learning a new language takes time and effort, so be patient with yourself and don&#39;t get discouraged if you make mistakes. With consistent practice and dedication, you can improve your English skills and achieve your language learning goals.</span><br></pre></td></tr></table></figure>
-
-
-
-<p>continue</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">9. Join a language exchange program: Find a language exchange partner who speaks English and is learning your native language. This way, you can practice speaking with each other and help each other improve.</span><br><span class="line"></span><br><span class="line">10. Use English in real-life situations: Try to use English in real-life situations, such as ordering food at a restaurant or asking for directions. This will help you become more comfortable using the language in everyday situations.</span><br><span class="line"></span><br><span class="line">11. Learn from your mistakes: Don&#39;t be afraid to make mistakes when speaking or writing in English. Instead, learn from your mistakes and use them as opportunities to improve.</span><br><span class="line"></span><br><span class="line">12. Stay motivated: Learning a new language can be challenging, so it&#39;s important to stay motivated and keep practicing even when it gets difficult. Find ways to make learning fun and enjoyable, such as watching movies or listening to music in English.</span><br><span class="line"></span><br><span class="line">By following these steps and staying committed to your language learning goals, you can improve your English skills and become more confident using the language in a variety of settings.</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>so frequently Misspell</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Misspelling words is a common challenge when learning a new language, and it can be frustrating. Here are some tips that may help you improve your spelling in English:</span><br><span class="line"></span><br><span class="line">1. Practice regularly: The more you practice spelling, the better you will become. Try to set aside some time each day to practice spelling words.</span><br><span class="line"></span><br><span class="line">2. Learn the rules: English has many spelling rules that can help you spell words correctly. For example, &quot;i before e except after c&quot; is a common rule that can help you spell words like &quot;believe&quot; and &quot;receive.&quot;</span><br><span class="line"></span><br><span class="line">3. Use mnemonics: Mnemonics are memory aids that can help you remember how to spell difficult words. For example, to remember how to spell &quot;necessary,&quot; you could use the phrase &quot;one collar and two sleeves are necessary.&quot;</span><br><span class="line"></span><br><span class="line">4. Read and write in English: Reading and writing in English can help you become more familiar with the language and its spelling patterns.</span><br><span class="line"></span><br><span class="line">5. Use online resources: There are many online resources available that can help you improve your spelling, such as spelling games, quizzes, and exercises.</span><br><span class="line"></span><br><span class="line">Remember that improving your spelling takes time and practice, so don&#39;t get discouraged if it doesn&#39;t happen overnight. Keep practicing and using these tips, and you will see improvement over time.</span><br></pre></td></tr></table></figure>
-
-
-
-<p>yes you are righ,and when I read some english web content ,I fell hard and want to escape</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Reading English web content can be challenging, especially if you&#39;re not used to reading in English. Here are some tips that may help you improve your reading skills:</span><br><span class="line"></span><br><span class="line">1. Start with easy material: If you&#39;re finding it difficult to read English web content, start with material that is easier to understand. For example, you could start with children&#39;s books or news articles written for English learners.</span><br><span class="line"></span><br><span class="line">2. Use a dictionary: If you come across words that you don&#39;t know, look them up in a dictionary. This will help you expand your vocabulary and understand the text better.</span><br><span class="line"></span><br><span class="line">3. Take breaks: Reading in a new language can be tiring, so take breaks when you need to. This will help you stay focused and avoid getting overwhelmed.</span><br><span class="line"></span><br><span class="line">4. Read out loud: Reading out loud can help improve your pronunciation and comprehension of the text.</span><br><span class="line"></span><br><span class="line">5. Practice regularly: The more you practice reading in English, the easier it will become over time.</span><br><span class="line"></span><br><span class="line">Remember that learning a new language takes time and practice, so don&#39;t get discouraged if it&#39;s difficult at first. Keep practicing and using these tips, and you will see improvement over time.</span><br></pre></td></tr></table></figure>
-
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-java命名规则-转载" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/b2964425.html" class="article-date">
-      <time datetime="2023-03-20T12:46:36.000Z" itemprop="datePublished">2023-03-20</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/b2964425.html">java命名规则-转载</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="http://xjjdog.cn/"> 《小姐姐味道 公众号》</a></p>
-<h2 id="管理类命名"><a href="#管理类命名" class="headerlink" title="管理类命名"></a>管理类命名</h2><p> <em>写代码，少不了对统一资源的管理，清晰的启动过程可以有效地组织代码。为了让程序运行起来，少不了各种资源的注册、调度，少不了公共集合资源的管理</em>，</p>
-<p>1.<strong>BootStrap,Starter</strong></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="http://xjjdog.cn/"> 《小姐姐味道 公众号》</a></p>
-<h2 id="管理类命名"><a href="#管理类命名" class="headerlink" title="管理类命名"></a>管理类命名</h2><p> <em>写代码，少不了对统一资源的管理，清晰的启动过程可以有效地组织代码。为了让程序运行起来，少不了各种资源的注册、调度，少不了公共集合资源的管理</em>，</p>
-<p>1.<strong>BootStrap,Starter</strong></p>
-<p>一般作为程序启动器使用，或者作为启动器的基类。通俗来说，可以认为是main函数的入口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AbstractBootstrap ServerBootstrap MacosXApplicationBootstrap DNSTaskStarter </span><br></pre></td></tr></table></figure>
-
-<p>2<strong>Processor</strong></p>
-<p>某一类功能的处理器，用来表示某个处理过程，是一系列代码片段的集合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CompoundProcesser BinaryComparisonProcessor </span><br></pre></td></tr></table></figure>
-
-<p>3<strong>Manger</strong></p>
-<p>对有生命状态的对象进行管理，通常作为某一类资源的管理入口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AccountManger DevicePolicyManger TransactionManger </span><br></pre></td></tr></table></figure>
-
-<p>4<strong>Holder</strong></p>
-<p>表示持有某个或者某类对象的引用，并可以对其进行统一管理。多见于不好回收的内存统一处理，或者一些全局集合容器的缓存。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QueryHolder InstructionHolder ViewHolder </span><br></pre></td></tr></table></figure>
-
-<p>5<strong>Factory</strong></p>
-<p>工厂模式，表示此类为工厂类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SessionFactory ScriptFactory LiveCaptureFactory </span><br></pre></td></tr></table></figure>
-
-<p>6<strong>Provider</strong></p>
-<p>Provider = Strategy + Factory Method。它更高级一些，把策略模式和方法工厂揉在了一块，让人用起来很顺手。Provider一般是接口或者抽象类，以便能完成子实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AccountFeatureProvider ApplicationFeatureProvider CollatorPorvider </span><br></pre></td></tr></table></figure>
-
-<p>7<strong>Registrar</strong></p>
-<p>注册并管理一系列资源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ImportServiceRegistrar IKryoRegistrar PipelineOptionRegistrar </span><br></pre></td></tr></table></figure>
-
-<p>8<strong>Engine</strong></p>
-<p>一般是核心模块，用来处理一类功能。引擎是个非常高级的名词，一般的类是没资格用它的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ScriptEngine DataQLScriptEngine C2DEngine </span><br></pre></td></tr></table></figure>
-
-<p>9<strong>Service</strong></p>
-<p>某个服务。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IntegratorServiceImpl ISelectionService PersistenceService </span><br></pre></td></tr></table></figure>
-
-<p>10<strong>Task</strong></p>
-<p>某个任务。通常是个Runnable</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WorkflowTask FutureTask ForkJoinTask </span><br></pre></td></tr></table></figure>
-
-<h2 id="2传播类"><a href="#2传播类" class="headerlink" title="2传播类"></a>2<strong>传播类</strong></h2><p>为了完成一些统计类或者全局类的功能，有些参数需要一传到底。传播类的对象就可以通过统一封装的方式进行传递，并在合适的地方进行拷贝或者更新*</p>
-<p>2.1<strong>Context</strong></p>
-<p>如果你的程序执行，有一些变量，需要从函数执行的入口开始，一直传到大量子函数执行完毕之后。这些变量或者集合，如果以参数的形式传递，将会让代码变得冗长无比。这个时候，你就可以把变量统一塞到Context里面，以单个对象的形式进行传递。</p>
-<p>在Java中，由于ThreadLocal的存在，Context甚至可以不用在参数之间进行传递</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AppContext ServletContext ApplicationContext </span><br></pre></td></tr></table></figure>
-
-<p>2.2<strong>Propagator</strong></p>
-<p>传播，繁殖。用来将context中传递的值进行复制，添加，清除，重置，检索，恢复等动作。通常，它会提供一个叫做propagate的方法，实现真正的变量管理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TextMapPropagator FilePropagator TransactionPropagator </span><br></pre></td></tr></table></figure>
-
-<h2 id="3-0回调类"><a href="#3-0回调类" class="headerlink" title="3.0回调类"></a>3.0<strong>回调类</strong></h2><p> 使用多核可以增加程序运行的效率，不可避免的引入异步化。我们需要有一定的手段，获取异步任务执行的结果，对任务执行过程中的关键点进行检查。回调类API可以通过监听、通知等形式，获取这些事件。*</p>
-<p>3.1<strong>Handler，Callback，Trigger，Listener</strong></p>
-<p>callback通常是一个接口，用于响应某类消息，进行后续处理；Handler通常表示持有真正消息处理逻辑的对象，它是有状态的；tigger触发器代表某类事件的处理，属于Handler，通常不会出现在类的命名中；Listener的应用更加局限，通常在观察者模式中用来表示特定的含义。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ChannelHandler SuccessCallback CronTrigger EventListener </span><br></pre></td></tr></table></figure>
-
-<p>3.2<strong>Aware</strong></p>
-<p>Aware就是感知的意思，一般以该单词结尾的类，都实现了Aware接口。拿spring来说，Aware 的目的是为了让bean获取spring容器的服务。具体回调方法由子类实现，比如ApplicationContextAware。它有点回调的意思。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContextAware ApplicationStartupAware ApplicationEventPublisherAware </span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="4-0监控类"><a href="#4-0监控类" class="headerlink" title="4.0监控类"></a>4.0<strong>监控类</strong></h2><p>现在的程序都比较复杂，运行状态监控已经成为居家必备之良品。监控数据的收集往往需要侵入到程序的边边角角，如何有效的与正常业务进行区分，是非常有必要的。*</p>
-<p>4.1 <strong>Metric</strong></p>
-<p>表示监控数据。不要用Monitor了，比较丑。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TimelineMetric HistogramMetric Metric </span><br></pre></td></tr></table></figure>
-
-<p>4.2 <strong>Estimator</strong></p>
-<p>估计，统计。用于计算某一类统计数值的计算器。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConditionalDensityEstimator FixedFrameRateEstimator NestableLoadProfileEstimator </span><br></pre></td></tr></table></figure>
-
-<p>4.3 <strong>Accumulator</strong></p>
-<p>累加器的意思。用来缓存累加的中间计算结果，并提供读取通道。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AbstractAccumulator StatsAccumulator TopFrequencyAccumulator </span><br></pre></td></tr></table></figure>
-
-<p>4.4 <strong>Tracker</strong></p>
-<p>一般用于记录日志或者监控值，通常用于apm中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VelocityTracker RocketTracker MediaTracker </span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="5-内存管理类"><a href="#5-内存管理类" class="headerlink" title="5 内存管理类"></a>5 <strong>内存管理类</strong></h2><p>如果你的应用用到了自定义的内存管理，那么下面这些名词是绕不开的。比如Netty，就实现了自己的内存管理机制。*</p>
-<p>5.1 <strong>Allocator</strong></p>
-<p>与存储相关，通常表示内存分配器或者管理器。如果你得程序需要申请有规律得大块内存，allocator是你得不二选择。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AbstractByteBufAllocator ArrayAllocator RecyclingIntBlockAllocator </span><br></pre></td></tr></table></figure>
-
-<p>5.2  <strong>Chunk</strong></p>
-<p>表示一块内存。如果你想要对一类存储资源进行抽象，并统一管理，可以采用它。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EncryptedChunk ChunkFactory MultiChunk </span><br></pre></td></tr></table></figure>
-
-<p>5.3  <strong>Arena</strong></p>
-<p>英文是舞台、竞技场的意思。由于Linux把它用在内存管理上发扬光大，它普遍用于各种存储资源的申请、释放与管理。为不同规格的存储chunk提供舞台，好像也是非常形象的表示。</p>
-<p>关键是，这个词很美，作为后缀让类名显得很漂亮。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BookingArena StandaloneArena PoolArena </span><br></pre></td></tr></table></figure>
-
-<p>5.4  <strong>Pool</strong></p>
-<p>表示池子。内存池，线程池，连接池，池池可用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConnectionPool ObjectPool MemoryPool </span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="6-过滤检测类"><a href="#6-过滤检测类" class="headerlink" title="6 过滤检测类**"></a>6 过滤检测类**</h2><p> <em>程序收到的事件和信息是非常多的，有些是合法的，有些需要过滤扔掉。根据不同的使用范围和功能性差别，过滤操作也有多种形式。你会在框架类代码中发现大量这样的名词。</em></p>
-<p>6.1<strong>Pipeline，Chain</strong></p>
-<p>一般用在责任链模式中。Netty，Spring MVC，Tomcat等都有大量应用。通过将某个处理过程加入到责任链的某个位置中，就可以接收前面处理过程的结果，强制添加或者改变某些功能。就像Linux的管道操作一样，最终构造出想要的结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Pipeline ChildPipeline DefaultResourceTransformerChain FilterChain </span><br></pre></td></tr></table></figure>
-
-<p>6.2<strong>Filter</strong></p>
-<p>过滤器，用来筛选某些满足条件的数据集，或者在满足某些条件的时候执行一部分逻辑。如果和责任链连接起来，则通常能够实现多级的过滤。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FilenameFilter AfterFirstEventTimeFilter ScanFilter </span><br></pre></td></tr></table></figure>
-
-<p>6.3 <strong>Interceptor</strong></p>
-<p>拦截器，其实和Filter差不多。不过在Tomcat中，Interceptor可以拿到controller对象，但filter不行。拦截器是被包裹在过滤器中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpRequestInterceptor </span><br></pre></td></tr></table></figure>
-
-<p>6.4 <strong>Evaluator</strong></p>
-<p>英文里是评估器的意思。可用于判断某些条件是否成立，一般内部方法evaluate会返回bool类型。比如你传递进去一个非常复杂的对象，或者字符串，进行正确与否的判断。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ScriptEvaluator SubtractionExpressionEvaluator StreamEvaluator </span><br></pre></td></tr></table></figure>
-
-<p>6.5 <strong>Detector</strong></p>
-<p>探测器。用来管理一系列探测性事件，并在发生的时候能够进行捕获和响应。比如Android的手势检测，温度检测等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FileHandlerReloadingDetector TransformGestureDetector  ScaleGestureDetector </span><br></pre></td></tr></table></figure>
-
-<h2 id="7-0-结构类"><a href="#7-0-结构类" class="headerlink" title="7.0 结构类"></a>7.0 <strong>结构类</strong></h2><p> <em>除了基本的数据结构，如数组、链表、队列、栈等，其他更高一层的常见抽象类，能够大量减少大家的交流，并能封装常见的变化。</em></p>
-<p>7.1<strong>Cache</strong></p>
-<p>这个没啥好说的，就是缓存。大块的缓存。常见的缓存算法有LRU、LFU、FIFO等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LoadingCache EhCacheCache </span><br></pre></td></tr></table></figure>
-
-<p>7.2 <strong>Buffer</strong></p>
-<p>buffer是缓冲，不同于缓存，它一般用在数据写入阶段。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ByteBuffer RingBuffer DirectByteBuffer </span><br></pre></td></tr></table></figure>
-
-<p>7.3 <strong>Composite</strong></p>
-<p>将相似的组件进行组合，并以相同的接口或者功能进行暴露，使用者不知道这到底是一个组合体还是其他个体。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CompositeData CompositeMap ScrolledComposite </span><br></pre></td></tr></table></figure>
-
-<p>7.4 <strong>Wrapper</strong></p>
-<p>用来包装某个对象，做一些额外的处理，以便增加或者去掉某些功能。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IsoBufferWrapper ResponseWrapper MavenWrapperDownloader  </span><br></pre></td></tr></table></figure>
-
-<p>7.5  <strong>Option, Param,Attribute</strong></p>
-<p>用来表示配置信息。说实话，它和Properties的区别并不大，但由于Option通常是一个类，所以功能可以扩展的更强大一些。它通常比Config的级别更小，关注的也是单个属性的值。Param一般是作为参数存在，对象生成的速度要快一些。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SpecificationOption SelectOption AlarmParam ModelParam </span><br></pre></td></tr></table></figure>
-
-<p>7.6 <strong>Tuple</strong></p>
-<p>元组的概念。由于Java中缺乏元组结构，我们通常会自定义这样的类。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tuple2 Tuple3 </span><br></pre></td></tr></table></figure>
-
-<p>7.7<strong>Aggreatore</strong></p>
-<p>聚合器，可以做一些聚合计算。比如分库分表中的sum，max，min等聚合函数的汇集。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BigDecimalMaxAggregator PipelineAggregator TotalAggregator </span><br></pre></td></tr></table></figure>
-
-<p>7.8 <strong>Iterator</strong></p>
-<p>迭代器。可以实现Java的迭代器接口，也可以有自己的迭代方式。在数据集很大的时候，需要进行深度遍历，迭代器可以说是必备的。使用迭代器还可以在迭代过程中安全的删除某些元素。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BreakIterator StringCharacterIterator </span><br></pre></td></tr></table></figure>
-
-<p>7.9 <strong>Batch</strong></p>
-<p>某些可以批量执行的请求或者对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SavedObjectBatch BatchRequest </span><br></pre></td></tr></table></figure>
-
-<p>7.10 <strong>Limiter</strong></p>
-<p>限流器，使用漏桶算法或者令牌桶来完成平滑的限流。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DefaultTimepointLimiter RateLimiter TimeBasedLimiter </span><br></pre></td></tr></table></figure>
-
-<h2 id="8-0-常见设计模式命名"><a href="#8-0-常见设计模式命名" class="headerlink" title="8.0 常见设计模式命名"></a>8.0 <strong>常见设计模式命名</strong></h2><p>8.1 <strong>Strategy</strong></p>
-<p>将抽象部分与它的实现部分分离，使它们都可以独立地变化。策略模式。相同接口，不同实现类，同一方法结果不同，实现策略不同。比如一个配置文件，是放在xml里，还是放在json文件里，都可以使用不同的provider去命名。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RemoteAddressStrategy StrategyRegistration AppStrategy </span><br></pre></td></tr></table></figure>
-
-<p>8.2 <strong>Adapter</strong></p>
-<p>将一个类的接口转换为客户希望的另一个接口，Adapter模式使得原本由于接口不兼容而不能一起工作的那些类一起工作。</p>
-<p>不过，相对于传统的适配器进行api转接，如果你的某个Handler里面方法特别的多，可以使用Adapter实现一些默认的方法进行0适配。那么其他类使用的时候，只需要继承Adapter，然后重写他想要重写的方法就可以了。这也是Adapter的常见用法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExtendedPropertiesAdapter ArrayObjectAdapter CardGridCursorAdapter </span><br></pre></td></tr></table></figure>
-
-<p>8.3 <strong>Action,Command</strong></p>
-<p>将一个请求封装为一个对象，从而使你可用不同的请求对客户进行参数化，对请求排队或记录请求日志，以及支持可撤销的操作。</p>
-<p>用来表示一系列动作指令，用来实现命令模式，封装一系列动作或者功能。Action一般用在UI操作上，后端框架可以无差别的使用。</p>
-<p>在DDD的概念中，CQRS的Command的C，既为Command。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DeleteAction BoardCommand </span><br></pre></td></tr></table></figure>
-
-<p>8.4 <strong>Event</strong></p>
-<p>表示一系列事件。一般的，在语义上，Action，Command等，来自于主动触发；Event来自于被动触发。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ObservesProtectedEvent KeyEvent </span><br></pre></td></tr></table></figure>
-
-<p>8.5 <strong>Delegate</strong></p>
-<p>代理或者委托模式。委托模式是将一件属于委托者做的事情，交给另外一个被委托者来处理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LayoutlibDelegate FragmentDelegate </span><br></pre></td></tr></table></figure>
-
-<p>8.6 <strong>Builder</strong></p>
-<p>将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。</p>
-<p>构建者模式的标准命名。比如StringBuilder。当然StringBuffer是个另类。这也说明了，规则是人定的，人也可以破坏。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JsonBuilder RequestBuilder </span><br></pre></td></tr></table></figure>
-
-<p>8.7 <strong>Template</strong></p>
-<p>模板方法类的命名。定义一个操作中的算法的骨架，而将一些步骤延迟到子类中。模板方法使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JDBCTemplate </span><br></pre></td></tr></table></figure>
-
-<p>8.8 <strong>Proxy</strong></p>
-<p>代理模式。为其他对象提供一种代理以控制对这个对象的访问。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ProxyFactory  SlowQueryProxy </span><br></pre></td></tr></table></figure>
-
-<h2 id="9-0解析类命名"><a href="#9-0解析类命名" class="headerlink" title="9.0解析类命名"></a>9.0<strong>解析类命名</strong></h2><p>写代码要涉及到大量的字符串解析、日期解析、对象转换等。根据语义和使用场合的区别，它们也分为多种。*</p>
-<p>9.1 <strong>Converter，Resolver</strong></p>
-<p>转换和解析。一般用于不同对象之间的格式转换，把一类对象转换成另一类。注意它们语义上的区别，一般特别复杂的转换或者有加载过程的需求，可以使用Resolver。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataSetToListConverter LayoutCommandLineConverter InitRefResolver MustacheViewResolver </span><br></pre></td></tr></table></figure>
-
-<p>9.2<strong>Parser</strong></p>
-<p>用来表示非常复杂的解析器，比如解析DSL。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SQLParser JSONParser </span><br></pre></td></tr></table></figure>
-
-<p>9.3<strong>Customizer</strong></p>
-<p>用来表示对某个对象进行特别的配置。由于这些配置过程特别的复杂，值得单独提取出来进行自定义设置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ContextCustomizer DeviceFieldCustomizer </span><br></pre></td></tr></table></figure>
-
-<p>9.4<strong>Formatter</strong></p>
-<p>格式化类。主要用于字符串、数字或者日期的格式化处理工作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DateFormatter StringFormatter </span><br></pre></td></tr></table></figure>
-
-<h2 id="10-0-网络类"><a href="#10-0-网络类" class="headerlink" title="10.0 网络类"></a>10.0 <strong>网络类</strong></h2><ol start="10">
-<li>1<strong>Packet</strong></li>
-</ol>
-<p>通常用于网络编程中的数据包。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DhcpPacket PacketBuffer </span><br></pre></td></tr></table></figure>
-
-<p>10.2 <strong>Protocol</strong></p>
-<p>同样用户网络编程中，用来表示某个协议。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RedisProtocol HttpProtocol </span><br></pre></td></tr></table></figure>
-
-<p>10.3 <strong>Encoder、Decoder、Codec</strong></p>
-<p>编码解码器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RedisEncoder RedisDecoder RedisCodec </span><br></pre></td></tr></table></figure>
-
-<p>10.4 <strong>Request，Response</strong></p>
-<p>一般用于网络请求的进和出。如果你用在非网络请求的方法上，会显得很怪异。</p>
-<ul>
-<li>10 <strong>其它</strong></li>
-</ul>
-<p>11 <strong>Util，Helper</strong></p>
-<p>都表示工具类，Util一般是无状态的，Helper以便需要创建实例才能使用。但是一般没有使用Tool作为后缀的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpUtil TestKeyFieldHelper CreationHelper </span><br></pre></td></tr></table></figure>
-
-<p>12 <strong>Mode，Type</strong></p>
-<p>看到mode这个后缀，就能猜到这个类大概率是枚举。它通常把常见的可能性都列到枚举类里面，其他地方就可以引用这个Mode。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OperationMode BridgeMode ActionType </span><br></pre></td></tr></table></figure>
-
-<p>13 <strong>Invoker，Invocation</strong></p>
-<p>invoker是一类接口，通常会以反射或者触发的方式，执行一些具体的业务逻辑。通过抽象出invoke方法，可以在invoke执行之前对入参进行记录或者处理；在invoke执行之后对结果和异常进行处理，是AOP中常见的操作方式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MethodInvoker Invoker ConstructorInvocation </span><br></pre></td></tr></table></figure>
-
-<p>14 <strong>Initializer</strong></p>
-<p>如果你的应用程序，需要经过大量的初始化操作才能启动，那就需要把它独立出来，专门处理初始化动作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MultiBackgroundInitialize ApplicationContextInitializer </span><br></pre></td></tr></table></figure>
-
-<p>15 <strong>Feture，Promise</strong></p>
-<p>它们都是用在多线程之间的，进行数据传递。</p>
-<p>Feture相当于一个占位符，代表一个操作将来的结果。一般通过get可以直接阻塞得到结果，或者让它异步执行然后通过callback回调结果。</p>
-<p>但如果回调中嵌入了回调呢？如果层次很深，就是回调地狱。Java中的CompletableFuture其实就是Promise，用来解决回调地狱问题。Promise是为了让代码变得优美而存在的。</p>
-<p>16 <strong>Selector</strong></p>
-<p>根据一系列条件，获得相应的同类资源。它比较像Factory，但只处理单项资源。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X509CertSelector NodeSelector </span><br></pre></td></tr></table></figure>
-
-<p>17 <strong>Reporter</strong></p>
-<p>用来汇报某些执行结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExtentHtmlReporter MetricReporter </span><br></pre></td></tr></table></figure>
-
-<p>18 <strong>Constants</strong></p>
-<p>一般用于常量列表。</p>
-<p>19 <strong>Accessor</strong></p>
-<p>封装了一系列get和set方法的类。像lombok就有Accessors注解，生成这些方法。但Accessor类一般是要通过计算来完成get和set，而不是直接操作变量。这适合比较复杂的对象存取服务。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ComponentAccessor StompHeaderAccessor </span><br></pre></td></tr></table></figure>
-
-<p>110 <strong>Generator</strong></p>
-<p>生成器，一般用于生成代码，生成id等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CodeGenerator CipherKeyGenerator </span><br></pre></td></tr></table></figure>
-
-<p>转载自 [原创：小姐姐味道（微信公众号ID：xjjdog），欢迎分享，转载请保留出处。]</p>
 
                -->
         </div>

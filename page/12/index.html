@@ -269,6 +269,647 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-树莓派使用cloudreve搭建nas和离线下载" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1661309199.html" class="article-date">
+      <time datetime="2022-01-03T17:11:52.000Z" itemprop="datePublished">2022-01-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>2022-1-20 docker 部署cloudreve</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># 下载</span><br><span class="line">docker pull xavierniu&#x2F;cloudreve</span><br><span class="line"></span><br><span class="line"># 创建</span><br><span class="line">mkdir -p ~&#x2F;cloudreve&#x2F;uploads \</span><br><span class="line">    &amp;&amp; mkdir -p ~&#x2F;cloudreve&#x2F;avatar \</span><br><span class="line">    &amp;&amp; touch ~&#x2F;cloudreve&#x2F;conf.ini \</span><br><span class="line">    &amp;&amp; touch ~&#x2F;cloudreve&#x2F;cloudreve.db</span><br><span class="line"></span><br><span class="line"># 启动</span><br><span class="line">docker run -d \</span><br><span class="line">  --name cloudreve \</span><br><span class="line">  -e PUID&#x3D;$UID \</span><br><span class="line">  -e PGID&#x3D;$GID \</span><br><span class="line">  -e TZ&#x3D;&quot;Asia&#x2F;Shanghai&quot; \</span><br><span class="line">  -p 5212:5212 \</span><br><span class="line">  --restart&#x3D;unless-stopped \</span><br><span class="line">  -v &#x2F;cloudreve&#x2F;uploads:&#x2F;cloudreve&#x2F;uploads \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;conf.ini:&#x2F;cloudreve&#x2F;conf.ini \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;cloudreve.db:&#x2F;cloudreve&#x2F;cloudreve.db \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;avatar:&#x2F;cloudreve&#x2F;avatar \</span><br><span class="line">  xavierniu&#x2F;cloudreve</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"> docker logs -f cloudreve</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>2022-1-20 docker 部署cloudreve</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># 下载</span><br><span class="line">docker pull xavierniu&#x2F;cloudreve</span><br><span class="line"></span><br><span class="line"># 创建</span><br><span class="line">mkdir -p ~&#x2F;cloudreve&#x2F;uploads \</span><br><span class="line">    &amp;&amp; mkdir -p ~&#x2F;cloudreve&#x2F;avatar \</span><br><span class="line">    &amp;&amp; touch ~&#x2F;cloudreve&#x2F;conf.ini \</span><br><span class="line">    &amp;&amp; touch ~&#x2F;cloudreve&#x2F;cloudreve.db</span><br><span class="line"></span><br><span class="line"># 启动</span><br><span class="line">docker run -d \</span><br><span class="line">  --name cloudreve \</span><br><span class="line">  -e PUID&#x3D;$UID \</span><br><span class="line">  -e PGID&#x3D;$GID \</span><br><span class="line">  -e TZ&#x3D;&quot;Asia&#x2F;Shanghai&quot; \</span><br><span class="line">  -p 5212:5212 \</span><br><span class="line">  --restart&#x3D;unless-stopped \</span><br><span class="line">  -v &#x2F;cloudreve&#x2F;uploads:&#x2F;cloudreve&#x2F;uploads \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;conf.ini:&#x2F;cloudreve&#x2F;conf.ini \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;cloudreve.db:&#x2F;cloudreve&#x2F;cloudreve.db \</span><br><span class="line">  -v ~&#x2F;cloudreve&#x2F;avatar:&#x2F;cloudreve&#x2F;avatar \</span><br><span class="line">  xavierniu&#x2F;cloudreve</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"> docker logs -f cloudreve</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.coolapk.com/feed/17682984?shareKey=MzYxMmY3MTc4YzNjNWU4N2RkYmU~&shareUid=902662&shareFrom=com.coolapk.market_9.0.2"><strong>树莓派搭建满速家庭云网盘（Lv.1）</strong></a></p>
+<p><a target="_blank" rel="noopener" href="https://www.coolapk.com/feed/17772116?shareKey=OTA2MTE2NGIxNDhiNWU4N2U2ZjQ~&shareUid=902662&shareFrom=com.coolapk.market_9.0.2">干货Get!]Android搭建Cloudreve私人云盘</a></p>
+<p><a href="../img/1586074575520.png"><img src="../img/1586074575520.png" alt="1586074575520"></a></p>
+<h3 id="允许SHH使用root登陆"><a href="#允许SHH使用root登陆" class="headerlink" title="允许SHH使用root登陆"></a>允许SHH使用root登陆</h3><p>sudo passwd 来重置root用户的密码</p>
+<p> <strong>vim /etc/ssh/sshd_config</strong></p>
+<p>注释掉 PermitRootLogin without-password</p>
+<p>使用 PermitRootLogin yes</p>
+<h3 id="连接树莓派将文件传过去"><a href="#连接树莓派将文件传过去" class="headerlink" title="连接树莓派将文件传过去"></a>连接树莓派将文件传过去</h3><p>现在下载 <a target="_blank" rel="noopener" href="https://github.com/cloudreve/Cloudreve/releases">https://github.com/cloudreve/Cloudreve/releases</a> 选择<a target="_blank" rel="noopener" href="https://github.com/cloudreve/Cloudreve/releases/download/3.0.0-rc1/cloudreve_3.0.0-rc1_linux_arm.tar.gz">cloudreve_3.0.0-rc1_linux_arm.tar.gz</a></p>
+<p><a href="../img/1586075347405.png"><img src="../img/1586075347405.png" alt="1586075347405"></a></p>
+<p>sudo mkdir /home/cloud</p>
+<p>使用ftp的客户端连接注意使用 root</p>
+<p>将下载cloudreve_3.0.0-rc1_linux_arm.tar.gz 放到 /home/cloud下</p>
+<p>sudo tar -xzvf cloudreve_3.0.0-rc1_linux_arm.tar.gz 解压后也是个单文件cloudreve</p>
+<p>sudo ./cloudreve</p>
+<p>后面终端会打印出来用户<a href="mailto:admin@cloudreve.org">admin@cloudreve.org</a> 和密码</p>
+<h3 id="初始化cloudreve-3-0-0-rc1-linux-arm和设置"><a href="#初始化cloudreve-3-0-0-rc1-linux-arm和设置" class="headerlink" title="初始化cloudreve_3.0.0-rc1_linux_arm和设置"></a>初始化cloudreve_3.0.0-rc1_linux_arm和设置</h3><p>登陆后下面是初始化的页面</p>
+<p><a href="../img/1586074929312.png"><img src="../img/1586074929312.png" alt="1586074929312"></a></p>
+<h4 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h4><p><a href="../img/1586075685498.png"><img src="../img/1586075685498.png" alt="1586075685498"></a></p>
+<p>只有这个入口可以设置用户(包括管理员)使用的存储的地址,可以本地-&gt;这个本地可以选择硬盘挂载路径,也可以用onedrive</p>
+<h3 id="设置cloudreve后台启动"><a href="#设置cloudreve后台启动" class="headerlink" title="设置cloudreve后台启动"></a>设置cloudreve后台启动</h3><p>vim /usr/lib/systemd/system/cloudreve.service</p>
+<p>粘贴以下内容然后文内的 PATH_TO_CLOUDREVE 更换为程序所在目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">	[Unit]</span><br><span class="line">        Description&#x3D;Cloudreve</span><br><span class="line">        Documentation&#x3D; &#x3D;[查看链接](https:&#x2F;&#x2F;docs.cloudreve.org&#x2F;)</span><br><span class="line">        After&#x3D;network.target</span><br><span class="line">        Wants&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">    WorkingDirectory&#x3D;&#x2F;PATH_TO_CLOUDREVE</span><br><span class="line">    ExecStart&#x3D;&#x2F;PATH_TO_CLOUDREVE&#x2F;cloudreve</span><br><span class="line">    Restart&#x3D;on-abnormal</span><br><span class="line">    RestartSec&#x3D;5s</span><br><span class="line">    KillMode&#x3D;mixed</span><br><span class="line">    StandardOutput&#x3D;null</span><br><span class="line">    StandardError&#x3D;syslog</span><br><span class="line">[Install]</span><br><span class="line">    WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>然后Ctrl+o保存Ctrl+x退出</p>
+<p>然后配置进程<br>更新配置<br>systemctl daemon-reload<br>启动服务<br>systemctl start cloudreve<br>设置开机启动<br>systemctl enable cloudreve</p>
+<p>然后我们就可以通过以下指令来管理服务了<br># 启动服务<br>systemctl start cloudreve</p>
+<p># 停止服务<br>systemctl stop cloudreve</p>
+<p># 重启服务<br>systemctl restart cloudreve</p>
+<p># 查看状态<br>systemctl status cloudreve</p>
+<h2 id="软连接到挂载的硬盘"><a href="#软连接到挂载的硬盘" class="headerlink" title="软连接到挂载的硬盘"></a>软连接到挂载的硬盘</h2><p>ln -s /home/device /home/cloud/uploads/1/disk</p>
+<p>fdisk -l 查看分区和挂载状况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo su 建一个目录作为U盘的挂接点。比如说要把U盘挂载到 &#x2F;mnt&#x2F;usb，那么需要采用下列命令新建 &#x2F;mnt&#x2F;usb。       mkdir &#x2F;mnt&#x2F;usb      </span><br><span class="line">然后就可以采用mount命令把U盘挂载在&#x2F;mnt&#x2F;usb。    </span><br><span class="line">mount &#x2F;dev&#x2F;sdb1 &#x2F;mnt&#x2F;usb     </span><br><span class="line">输入命令 cd &#x2F;mnt&#x2F;usb进入目录&#x2F;mnt&#x2F;usb，</span><br><span class="line">然后输入 ls命令就可以查看U盘里的内容了。</span><br><span class="line">mount  &#x2F;dev&#x2F;sda1  &#x2F;home&#x2F;cloud&#x2F;uploads&#x2F;1&#x2F;diskmount  &#x2F;dev&#x2F;sda1 &#x2F;home&#x2F;device</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-vmware-extent-disk" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/284f509c.html" class="article-date">
+      <time datetime="2021-12-23T09:17:39.000Z" itemprop="datePublished">2021-12-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39787057/article/details/110810477">https://blog.csdn.net/weixin_39787057/article/details/110810477</a></p>
+<p>vmware扩容虚拟机后怎么扩容到根目录,而不是去新建一个挂载点 </p>
+<p><img src="../img/06f1254fc68105cc132248dbed9e4767.png" alt="06f1254fc68105cc132248dbed9e4767.png"></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39787057/article/details/110810477">https://blog.csdn.net/weixin_39787057/article/details/110810477</a></p>
+<p>vmware扩容虚拟机后怎么扩容到根目录,而不是去新建一个挂载点 </p>
+<p><img src="../img/06f1254fc68105cc132248dbed9e4767.png" alt="06f1254fc68105cc132248dbed9e4767.png"></p>
+<ul>
+<li>背景：学习oracle时，安装的centos系统硬盘只有20G，容量不够用，所以通过VMWare给系统扩容。但是查询后，硬盘容量并未增加。</li>
+<li>$ 输入lsblk 查看当前系统的分区情况</li>
+</ul>
+<p><img src="../img/8aad999af6e3f71bb9f641451be14ac7.png" alt="8aad999af6e3f71bb9f641451be14ac7.png"></p>
+<ul>
+<li>解决办法：增加磁盘操作后，Linux并不认为你已经把磁盘空间扩大，所以需要对新增加的容量进行分区以及合并。</li>
+<li> fdisk -l #先看一下Disk /dev/sda: 42.9 GB</li>
+<li>开始新增分区，先输入fdisk /dev/sda，再输入p</li>
+<li>新增分区输入：</li>
+<li>n</li>
+<li>回车（默认为主分区primary）</li>
+<li>分区号，起始扇区，结束扇区都默认（回车）</li>
+<li>设置分区格式输入：</li>
+<li>t</li>
+<li>分区号默认（回车）</li>
+<li>Hex code 为 8e （8e代表Linux LVM分区类型）</li>
+<li>w （写入分区表）</li>
+</ul>
+<p><img src="../img/0df065c956eba29977bcd968487a60d9.png" alt="0df065c956eba29977bcd968487a60d9.png"></p>
+<ul>
+<li>确认一下，发现dev/sda3分区创建好了，分区格式为linux LVM类型</li>
+</ul>
+<p><img src="../img/de553bbb7fa78e528ab18a74defba8f8.png" alt="de553bbb7fa78e528ab18a74defba8f8.png"></p>
+<ul>
+<li>重启一下，以便重读分区表</li>
+<li>开始格式化分区</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs.ext3 &#x2F;dev&#x2F;sda3</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>开始合并</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> pvcreate /dev/sda3   </span><br><span class="line"></span><br><span class="line">vgextend centos /dev/sda3   </span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入y确认   </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看一下当前的Volume卷详情   </span></span><br><span class="line"></span><br><span class="line"> vgdisplay -v</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看新分区sda3详情，容量为5119</li>
+<li>将系统盘/dev/mapper/centos-root与sda3的5119空余容量合并</li>
+<li> lvextend -l+5119 /dev/mapper/centos-root</li>
+<li>quit</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1d34c6a4c2f0ecdde57a2f36452182d4.png" alt="1d34c6a4c2f0ecdde57a2f36452182d4.png"></p>
+<ul>
+<li>最后将文件系统进行扩容，让系统识别，输入命令：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xfs_growfs &#x2F;dev&#x2F;mapper&#x2F;centos-root</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>lsblk</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/eceb4011ee01a3379b27bdb0df5ec10e.png" alt="eceb4011ee01a3379b27bdb0df5ec10e.png"></p>
+<p><strong>成功扩容！！</strong></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-docker-deploy-hbase" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/412589e1.html" class="article-date">
+      <time datetime="2021-12-14T07:22:14.000Z" itemprop="datePublished">2021-12-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/412589e1.html">docker运行hbase</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="docker部署hbase"><a href="#docker部署hbase" class="headerlink" title="docker部署hbase"></a>docker部署hbase</h1><p>系统为 centos7</p>
+<p>docker 安装的版本为 20.10.9</p>
+<h2 id="一-docker安装"><a href="#一-docker安装" class="headerlink" title="一,docker安装"></a>一,docker安装</h2><p>卸载系统仓库自带的docker</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="docker部署hbase"><a href="#docker部署hbase" class="headerlink" title="docker部署hbase"></a>docker部署hbase</h1><p>系统为 centos7</p>
+<p>docker 安装的版本为 20.10.9</p>
+<h2 id="一-docker安装"><a href="#一-docker安装" class="headerlink" title="一,docker安装"></a>一,docker安装</h2><p>卸载系统仓库自带的docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-engine</span><br></pre></td></tr></table></figure>
+
+<p>有三种方式来安装docker</p>
+<ol>
+<li>更新官方仓库后yum安装</li>
+<li>手动下载文件安装</li>
+<li>脚本文件安装</li>
+</ol>
+<p>目前准备使用第三种方式来安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https:&#x2F;&#x2F;get.docker.com -o get-docker.sh &amp;&amp; sh get-docker.sh</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="二-docker-compose来实现单节点容器的编排"><a href="#二-docker-compose来实现单节点容器的编排" class="headerlink" title="二,docker-compose来实现单节点容器的编排"></a>二,docker-compose来实现单节点容器的编排</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -L https:&#x2F;&#x2F;get.daocloud.io&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.25.1&#x2F;docker-compose-&#96;uname -s&#96;-&#96;uname -m&#96; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br><span class="line"></span><br><span class="line">chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>/usr/local/bin/docker-compose -f docker-compose-distributed-local.yml up -d</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">resourcemanager  8088 </span><br><span class="line"></span><br><span class="line">hbase-master 16000</span><br><span class="line"></span><br><span class="line">hbase-regionserver 16020</span><br><span class="line"></span><br><span class="line">zookeeper 2888 2181 3888</span><br><span class="line"></span><br><span class="line">historyserver 8188</span><br><span class="line"></span><br><span class="line">namenode 50070</span><br><span class="line"></span><br><span class="line">datanode 50075</span><br><span class="line"></span><br><span class="line">nodemanager 8042</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="三-使用docker-stack来实现"><a href="#三-使用docker-stack来实现" class="headerlink" title="三,使用docker stack来实现"></a>三,使用docker stack来实现</h2><h3 id="1-创建swarm的网络保证各个节点都能平等的被编排"><a href="#1-创建swarm的网络保证各个节点都能平等的被编排" class="headerlink" title="1.创建swarm的网络保证各个节点都能平等的被编排"></a>1.创建swarm的网络保证各个节点都能平等的被编排</h3><p>docker swarm  init  初始化一个swarm 的网络</p>
+<p>docker swarm join-token worker 显示 加入的token</p>
+<p> docker swarm join-token manager 显示加入的token</p>
+<p>目前使用下面加入manager,因为worker节点不能显示集群的细节</p>
+<p>在其他服务器上输入 下面类似的内容加入节点</p>
+<blockquote>
+<p>docker swarm join –token SWMTKN-1-0w6kjxx0j4epupf6r844dxpzoyxikrxqqgrqg319vqfg0y1gw7-31q237m76pyii2g0pw1c8nmtu 192.168.31.136:2377</p>
+</blockquote>
+<h3 id="2-docker-node-ls-查看目前的网络"><a href="#2-docker-node-ls-查看目前的网络" class="headerlink" title="2.docker node ls 查看目前的网络"></a>2.docker node ls 查看目前的网络</h3><p><img src="../img/image-20211214152312286.png" alt="image-20211214152312286"></p>
+<p>docker network create –driver overlay –scope swarm  hbase</p>
+<p>docker stack deploy –compose-file docker-compose-v3.yml  hdp</p>
+<p>docker stack ls   </p>
+<p>docker stack down hadoop</p>
+<p>docker network create –driver overlay –attachable –subnet 10.11.0.0/24 sg-hadoop</p>
+<p>Creating service hdp_nodemanager<br>Creating service hdp_hbase-master</p>
+<p>/opt/hbase-1.2.6/bin/hbase-daemon.sh restart  regionserver</p>
+<p>echo -e “hbase-region2\nhbase-region”  &gt;  /etc/hbase/regionservers</p>
+<p>docker service update –with-registry-auth  </p>
+<p>需要追加 –with-registry-auth</p>
+<p>docker exec -t 70f261259630  netstat -an | grep LISTEN | grep 50070</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">namenode:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">namenode:/hadoop/dfs/name</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CLUSTER_NAME=test</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">      <span class="comment">#   replicas: 1</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="comment"># placement:</span></span><br><span class="line">      <span class="comment">#   constraints:</span></span><br><span class="line">      <span class="comment">#     - node.hostname == akswnc4.aksw.uni-leipzig.de</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">9000</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9000</span><span class="string">:9000</span></span><br><span class="line">      <span class="comment"># - 50070:50070</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">datanode:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">datanode:/hadoop/dfs/data</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000&quot;</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">9867</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9867</span><span class="string">:9867</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">resourcemanager:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867&quot;</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">    <span class="comment">#     replicas: 1</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="comment"># placement:</span></span><br><span class="line">      <span class="comment">#   constraints:</span></span><br><span class="line">      <span class="comment">#     - node.hostname == akswnc4.aksw.uni-leipzig.de</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">8088</span></span><br><span class="line">    <span class="attr">healthcheck:</span></span><br><span class="line">      <span class="attr">disable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8088</span><span class="string">:8088</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="attr">nodemanager:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 resourcemanager:8088&quot;</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">8042</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8042</span><span class="string">:8042</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="attr">historyserver:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hadoop_historyserver:/hadoop/yarn/timeline</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 resourcemanager:8088&quot;</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">    <span class="comment">#  replicas: 1</span></span><br><span class="line">      <span class="comment"># placement:</span></span><br><span class="line">      <span class="comment">#   constraints:</span></span><br><span class="line">      <span class="comment">#     - node.hostname == akswnc4.aksw.uni-leipzig.de</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">8188</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8188</span><span class="string">:8188</span></span><br><span class="line">  <span class="attr">zookeeper:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper:3.4.10</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">ZOO_SERVERS:</span> <span class="string">server.1=0.0.0.0:2888:3888</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">2181</span><span class="string">:2181</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">hbase-master:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hbase-master:1.0.0-hbase1.2.6</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">hbase-master</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hbase-distributed-local.env</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 zookeeper:2181&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16000</span><span class="string">:16000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16010</span><span class="string">:16010</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">hbase-region:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hbase-regionserver:1.0.0-hbase1.2.6</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">hbase-regionserver</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hbase-distributed-local.env</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">HBASE_CONF_hbase_regionserver_hostname:</span> <span class="string">hbase-region</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 zookeepe:2181 hbase-master:16010&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16020</span><span class="string">:16020</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16030</span><span class="string">:16030</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">visualizer:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">dockersamples/visualizer:stable</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;8080:8080&quot;</span></span><br><span class="line">    <span class="attr">stop_grace_period:</span> <span class="string">1m30s</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;/var/run/docker.sock:/var/run/docker.sock&quot;</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span> [<span class="string">node.role</span> <span class="string">==</span> <span class="string">manager</span>]</span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">datanode:</span></span><br><span class="line">  <span class="attr">namenode:</span></span><br><span class="line">  <span class="attr">hadoop_historyserver:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">hbase:</span></span><br><span class="line">    <span class="attr">external:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">hbase</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>将自动创建service</p>
+<h3 id="3-使用docker-stack-ls来查看创建stack"><a href="#3-使用docker-stack-ls来查看创建stack" class="headerlink" title="3.使用docker stack ls来查看创建stack"></a>3.使用docker stack ls来查看创建stack</h3><p><img src="../img/image-20211214152334572.png" alt="image-20211214152334572"></p>
+<h3 id="4-使用docker-service-ls来查看service列表"><a href="#4-使用docker-service-ls来查看service列表" class="headerlink" title="4.使用docker service ls来查看service列表"></a>4.使用docker service ls来查看service列表</h3><p><img src="../img/image-20211214152347155.png" alt="image-20211214152347155"></p>
+<h3 id="5-使用yml中visualizer组件来显示部署的情况"><a href="#5-使用yml中visualizer组件来显示部署的情况" class="headerlink" title="5.使用yml中visualizer组件来显示部署的情况"></a>5.使用yml中visualizer组件来显示部署的情况</h3><p><img src="../img/image-20211214152401033.png" alt="image-20211214152401033"></p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>节点</th>
+<th>默认端口</th>
+<th>配置</th>
+<th>用途说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50010</td>
+<td>dfs.datanode.address</td>
+<td>datanode服务端口，用于数据传输</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50075</td>
+<td>dfs.datanode.http.address</td>
+<td>http服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50475</td>
+<td>dfs.datanode.https.address</td>
+<td>http服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50020</td>
+<td>dfs.datanode.ipc.address</td>
+<td>ipc服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>NameNode</td>
+<td>50070</td>
+<td>dfs.namenode.http-address</td>
+<td>http服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>NameNode</td>
+<td>50470</td>
+<td>dfs.namenode.https-address</td>
+<td>https服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>NameNode</td>
+<td>8020</td>
+<td>fs.defaultFS</td>
+<td>接收Client连接的RPC端口，用于获取文件系统metadata信息。</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>journalnode</td>
+<td>8485</td>
+<td>dfs.journalnode.rpc-address</td>
+<td>RPC服务</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>journalnode</td>
+<td>8480</td>
+<td>dfs.journalnode.http-address</td>
+<td>HTTP服务</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>ZKFC</td>
+<td>8019</td>
+<td>dfs.ha.zkfc.port</td>
+<td>ZooKeeper FailoverController，用于NN HA</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8032</td>
+<td>yarn.resourcemanager.address</td>
+<td>RM的applications manager(ASM)端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8030</td>
+<td>yarn.resourcemanager.scheduler.address</td>
+<td>scheduler组件的IPC端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8031</td>
+<td>yarn.resourcemanager.resource-tracker.address</td>
+<td>IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8033</td>
+<td>yarn.resourcemanager.admin.address</td>
+<td>IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8088</td>
+<td>yarn.resourcemanager.webapp.address</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>8040</td>
+<td>yarn.nodemanager.localizer.address</td>
+<td>localizer IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>8042</td>
+<td>yarn.nodemanager.webapp.address</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>8041</td>
+<td>yarn.nodemanager.address</td>
+<td>NM中container manager的端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>JobHistory Server</td>
+<td>10020</td>
+<td>mapreduce.jobhistory.address</td>
+<td>IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>JobHistory Server</td>
+<td>19888</td>
+<td>mapreduce.jobhistory.webapp.address</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>Master</td>
+<td>60000</td>
+<td>hbase.master.port</td>
+<td>IPC (主节点（HBase 主节点和任何备份的 HBase 主节点）</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>Master</td>
+<td>60010</td>
+<td>hbase.master.info.port</td>
+<td>http服务端口 (主节点（HBase 主节点和备份 HBase 主节点如果有))</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>RegionServer</td>
+<td>60020</td>
+<td>hbase.regionserver.port</td>
+<td>IPC( 所有从节点)</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>RegionServer</td>
+<td>60030</td>
+<td>hbase.regionserver.info.port</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>HQuorumPeer</td>
+<td>2181</td>
+<td>hbase.zookeeper.property.clientPort</td>
+<td>HBase-managed ZK mode，使用独立的ZooKeeper集群则不会启用该端口。</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>HQuorumPeer</td>
+<td>2888</td>
+<td>hbase.zookeeper.peerport</td>
+<td>HBase-managed ZK mode，使用独立的ZooKeeper集群则不会启用该端口。</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>HQuorumPeer</td>
+<td>3888</td>
+<td>hbase.zookeeper.leaderport</td>
+<td>HBase-managed ZK mode，使用独立的ZooKeeper集群则不会启用该端口。</td>
+</tr>
+<tr>
+<td>Hive</td>
+<td>Metastore</td>
+<td>9085</td>
+<td>/etc/default/hive-metastore中export PORT=<port>来更新默认端口</td>
+<td></td>
+</tr>
+<tr>
+<td>Hive</td>
+<td>HiveServer</td>
+<td>10000</td>
+<td>/etc/hive/conf/hive-env.sh中export HIVE_SERVER2_THRIFT_PORT=<port>来更新默认端口</td>
+<td></td>
+</tr>
+<tr>
+<td>ZooKeeper</td>
+<td>Server</td>
+<td>2181</td>
+<td>/etc/zookeeper/conf/zoo.cfg中clientPort=<port></td>
+<td>来自 ZooKeeper 的 config 的属性<code>zoo.cfg</code>。客户端将连接的端口。</td>
+</tr>
+<tr>
+<td>ZooKeeper</td>
+<td>Server</td>
+<td>2888</td>
+<td>/etc/zookeeper/conf/zoo.cfg中server.x=[hostname]:nnnnn[:nnnnn]，标蓝部分</td>
+<td>follower用来连接到leader，只在leader上监听该端口</td>
+</tr>
+<tr>
+<td>ZooKeeper</td>
+<td>Server</td>
+<td>3888</td>
+<td>/etc/zookeeper/conf/zoo.cfg中server.x=[hostname]:nnnnn[:nnnnn]，标蓝部分</td>
+<td>ZooKeeper 对等点用于相互通信的端口。有关更多信息，请参见<a target="_blank" rel="noopener" href="http://zookeeper.apache.org/doc/r3.4.3/zookeeperStarted.html#sc_RunningReplicatedZooKeeper">此处</a></td>
+</tr>
+</tbody></table>
+<h2 id="十-遇到的坑"><a href="#十-遇到的坑" class="headerlink" title="十,遇到的坑"></a>十,遇到的坑</h2><h3 id="1-在hadoop配置的需要主要"><a href="#1-在hadoop配置的需要主要" class="headerlink" title="1.在hadoop配置的需要主要"></a>1.在hadoop配置的需要主要</h3><p>配置url类似于 host:port 这种时 host 不能报考_ 等字符,否则会报 contain a valid host:port authority 包含 _</p>
+<h3 id="2-使用docker-stack-初始化的环境"><a href="#2-使用docker-stack-初始化的环境" class="headerlink" title="2.使用docker stack 初始化的环境"></a>2.使用docker stack 初始化的环境</h3><p>所有的服务会有个stack名称的前缀,且不能修改</p>
+<p>在集群中加入容器中后可以通过 服务名称就是 STACK_NAME 来调用也可以通过在yml中定义的services下面的节点名称来调用这个需要注意</p>
+<p>初始化后出现所有的service会加前缀导致域名不能和访问</p>
+<p>3.哈哈哈</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">File &#x2F;hbase&#x2F;.tmp&#x2F;hbase.version could only be written to 0 of the 1 minReplication nodes. There are 1 datanode(s) running and 1 node(s) are excluded in this operation</span><br></pre></td></tr></table></figure>
+
+<p>4.配置出错导致服务绑定对应的ip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Problem binding to hbase-region&#x2F;10.0.4.107:16040 : Cannot assign requested address. To switch ports use the &#39;hbase.regionserver.port&#39; configuration property.</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-clickhouse-tutorial" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1444,331 +2085,6 @@
 <h2 id="高版本-19-geoserver集群的部署"><a href="#高版本-19-geoserver集群的部署" class="headerlink" title="高版本(19)geoserver集群的部署"></a>高版本(19)geoserver集群的部署</h2><h4 id="现象-2"><a href="#现象-2" class="headerlink" title="现象"></a>现象</h4><p>集群挂载在同一个盘上面,修改一个jmx的配置,其他节点也跟着修改</p>
 <h4 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h4><p>针对不同节点创建各自的配置文件,在挂载的时候配置映射文件</p>
 <p><img src="../img/1634094768227-8941ca86-61d5-43b5-a0ea-f75b20258ded.png" alt="image-20211012144321551.png"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-geoserver-high-version-some-scale-lose-layer" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/8070f974.html" class="article-date">
-      <time datetime="2021-09-14T12:59:54.000Z" itemprop="datePublished">2021-09-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="启动geoserver报错文件找不到"><a href="#启动geoserver报错文件找不到" class="headerlink" title="启动geoserver报错文件找不到"></a>启动geoserver报错文件找不到</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">java.io.FileNotFoundException: src&#x2F;main&#x2F;webapp</span><br><span class="line">	at org.eclipse.jetty.webapp.WebInfConfiguration.unpack(WebInfConfiguration.java:671)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebInfConfiguration.preConfigure(WebInfConfiguration.java:152)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebAppContext.preConfigure(WebAppContext.java:506)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:544)</span><br><span class="line">	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)</span><br><span class="line">	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:138)</span><br><span class="line">	at org.eclipse.jetty.server.Server.start(Server.java:416)</span><br><span class="line">	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:108)</span><br><span class="line">	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:113)</span><br><span class="line">	at org.eclipse.jetty.server.Server.doStart(Server.java:383)</span><br><span class="line">	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)</span><br><span class="line">	at org.geoserver.web.Start.main(Start.java:125)</span><br><span class="line">九月 15, 2021 11:21:37 上午 org.geoserver.web.Start main</span><br><span class="line">严重: GeoServer startup complete in 0.186s</span><br></pre></td></tr></table></figure>
-
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>org.geoserver.web.Start#main</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="启动geoserver报错文件找不到"><a href="#启动geoserver报错文件找不到" class="headerlink" title="启动geoserver报错文件找不到"></a>启动geoserver报错文件找不到</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">java.io.FileNotFoundException: src&#x2F;main&#x2F;webapp</span><br><span class="line">	at org.eclipse.jetty.webapp.WebInfConfiguration.unpack(WebInfConfiguration.java:671)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebInfConfiguration.preConfigure(WebInfConfiguration.java:152)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebAppContext.preConfigure(WebAppContext.java:506)</span><br><span class="line">	at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:544)</span><br><span class="line">	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)</span><br><span class="line">	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:138)</span><br><span class="line">	at org.eclipse.jetty.server.Server.start(Server.java:416)</span><br><span class="line">	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:108)</span><br><span class="line">	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:113)</span><br><span class="line">	at org.eclipse.jetty.server.Server.doStart(Server.java:383)</span><br><span class="line">	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)</span><br><span class="line">	at org.geoserver.web.Start.main(Start.java:125)</span><br><span class="line">九月 15, 2021 11:21:37 上午 org.geoserver.web.Start main</span><br><span class="line">严重: GeoServer startup complete in 0.186s</span><br></pre></td></tr></table></figure>
-
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>org.geoserver.web.Start#main</p>
-<p>​            wah.setWar(“src/web/app/src/main/webapp”);</p>
-<p>geoserver 调用wms服务时访问的数据</p>
-<p>org.geoserver.wms.GetMap#executeInternal</p>
-<p>org.geotools.renderer.lite.StreamingRenderer#drawPlain</p>
-<p>org.geotools.data.store.ContentFeatureSource#getReader(org.geotools.data.Query)</p>
-<p>org.geoserver.wms.GetMapOutputFormat#produceMap</p>
-<p>org.geoserver.wms.map.RenderedImageMapOutputFormat#produceMap(org.geoserver.wms.WMSMapContent, boolean)</p>
-<p> renderer.paint(</p>
-<p>org.geotools.data.postgis.PostGISDialect#encodeGeometryColumnSimplified</p>
-<p>geoserver 在一定版本下出现数据缺失,本地发布的文件没有这种情况,目前只出现在用postgis发布的数据shp图层数据</p>
-<p>参考了这个github-issues<br><a target="_blank" rel="noopener" href="https://github.com/AtlasOfLivingAustralia/spatial-hub/issues/66">https://github.com/AtlasOfLivingAustralia/spatial-hub/issues/66</a></p>
-<p>之前版本查询SQL</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;ogc_fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> ST_HasArc(<span class="string">&quot;geom&quot;</span>) <span class="keyword">THEN</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">ELSE</span> ST_Simplify(ST_Force2D(<span class="string">&quot;geom&quot;</span>), <span class="number">1.71661376953125E-5</span>, <span class="literal">true</span>) <span class="keyword">END</span>),<span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;cg4201061__hhbjx&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((111.91068649291992 32.39775896072388, 111.91068649291992 32.41295099258423, 111.92733764648438 32.41295099258423, 111.92733764648438 32.39775896072388, 111.91068649291992 32.39775896072388))&#x27;</span>, <span class="number">4490</span>)</span><br></pre></td></tr></table></figure>
-
-<p>现在geoserver 25.2</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="string">&quot;fid&quot;</span>,</span><br><span class="line">	<span class="keyword">encode</span>( ST_AsTWKB ( ST_Simplify ( ST_Force2D ( <span class="string">&quot;geom&quot;</span> ), <span class="number">3.8116173923015597</span>, <span class="literal">TRUE</span> ), <span class="number">0</span> ), <span class="string">&#x27;base64&#x27;</span> ) <span class="keyword">AS</span> <span class="string">&quot;geom&quot;</span> </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	<span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> </span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	<span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText ( <span class="string">&#x27;POLYGON ((38371118.635024056 3413740.625232533, 38371118.635024056 3417424.5832218914, 38374191.75154781 3417424.5832218914, 38374191.75154781 3413740.625232533, 38371118.635024056 3413740.625232533))&#x27;</span>, <span class="number">4526</span> )</span><br></pre></td></tr></table></figure>
-
-<p>在老的版本中 加入了判断是否</p>
-<blockquote>
-<p>encode(ST_AsBinary(CASE WHEN ST_HasArc(“geom”) THEN “geom” ELSE ST_Simplify(ST_Force2D(“geom”), 1.71661376953125E-5, true) END),’base64’) as “geom” </p>
-</blockquote>
-<p>是否是如果一个geometry对象或geometry collection包含一个CircularString对象，则返回TRUE这样如果包含圆的geometry会被简化</p>
-<p>而 <strong>ST_Simplify()</strong> 函数则是通过数据简化 简化太多的圆变成三角形，中间变成八边形</p>
-<p>老版本geoserver(2.15)执行SQL的区别</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">-- 对比可以知道 在勾选Support on the fly geometry simplification 后 没有使用ST_Simplify 这个函数在</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Simplify(ST_Force2D(<span class="string">&quot;geom&quot;</span>), <span class="number">3.8116173982620243</span>, <span class="literal">true</span>)),<span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>) 勾选</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Force2D(<span class="string">&quot;geom&quot;</span>)),<span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>) 不勾选</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>新版本geoserver(2.19) 执行SQL的区别</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">-- 对比可以确定 新版本勾选 Support on the fly geometry simplification后 区别在于选用ST_AsTWKB作为简化内容导致的数据缺失</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsTWKB(ST_Simplify(ST_Force2D(<span class="string">&quot;geom&quot;</span>), <span class="number">3.8116173923015597</span>, <span class="literal">true</span>),<span class="number">0</span>), <span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&quot;fid&quot;</span>,<span class="keyword">encode</span>(ST_AsBinary(ST_Force2D(<span class="string">&quot;geom&quot;</span>)), <span class="string">&#x27;base64&#x27;</span>) <span class="keyword">as</span> <span class="string">&quot;geom&quot;</span> <span class="keyword">FROM</span> <span class="string">&quot;public&quot;</span>.<span class="string">&quot;qj_temp_gzw&quot;</span> <span class="keyword">WHERE</span> <span class="string">&quot;geom&quot;</span> &amp;&amp; ST_GeomFromText(<span class="string">&#x27;POLYGON ((38371404.953002505 3413497.2549508526, 38371404.953002505 3417181.212940211, 38374478.06952626 3417181.212940211, 38374478.06952626 3413497.2549508526, 38371404.953002505 3413497.2549508526))&#x27;</span>, <span class="number">4526</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ue4-linux-running-webrtc" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/71a7527e.html" class="article-date">
-      <time datetime="2021-09-10T02:54:48.000Z" itemprop="datePublished">2021-09-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/71a7527e.html">ue4-linux-running-webrtc</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>— 2021-8-10 补充—–<br>chrome://webrtc-internals/<br>可以查看当前浏览器的webrtc连接情况,方便查看debug</p>
-<h2 id="前置环境"><a href="#前置环境" class="headerlink" title="前置环境"></a>前置环境</h2><p><a target="_blank" rel="noopener" href="https://adamrehn.com/articles/pixel-streaming-in-linux-containers/">Pixel Streaming in Linux containers</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qqcocobao/article/details/111467187?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522162268344716780366554143%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=162268344716780366554143&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_v2~rank_v29-15-111467187.first_rank_v2_pc_rank_v29&utm_term=PixelStreaming+&spm=1018.2226.3001.4187">Linux上运行UE4像素流PixelStreaming</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>— 2021-8-10 补充—–<br>chrome://webrtc-internals/<br>可以查看当前浏览器的webrtc连接情况,方便查看debug</p>
-<h2 id="前置环境"><a href="#前置环境" class="headerlink" title="前置环境"></a>前置环境</h2><p><a target="_blank" rel="noopener" href="https://adamrehn.com/articles/pixel-streaming-in-linux-containers/">Pixel Streaming in Linux containers</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qqcocobao/article/details/111467187?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522162268344716780366554143%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=162268344716780366554143&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_v2~rank_v29-15-111467187.first_rank_v2_pc_rank_v29&utm_term=PixelStreaming+&spm=1018.2226.3001.4187">Linux上运行UE4像素流PixelStreaming</a></p>
-<p><a target="_blank" rel="noopener" href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html">nvidia-container-toolkit</a></p>
-<ul>
-<li>docker(docker)</li>
-<li>nvidia驱动</li>
-<li>nvidia-smi</li>
-</ul>
-<p>adamrehn这个作者主要讲 ue4适配在linux中,其实源码的ue4 在编译后是可以在linux上跑的</p>
-<p>主要通过 ue4-docker(python) 来打包 ue4的编译环境</p>
-<p>docker  build 来打包环境 和编译好的二进制文件 合并为一个镜像 就是pixel-stream-linux</p>
-<p>以下面为dockerfile为例子</p>
-<p>adamrehn/ue4-full:4.25-pixelstreaming  是 ue4-docker 生成的打包的环境</p>
-<p>adamrehn/ue4-runtime:18.04-cudagl10.2 是在docker hub中存在的 运行环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#在包含引擎工具和像素流的虚幻引擎容器映像中执行构建</span><br><span class="line">FROM adamrehn&#x2F;ue4-full:4.25-pixelstreaming AS builder</span><br><span class="line"></span><br><span class="line">#克隆或复制你的虚幻项目的源代码在这里，例如:</span><br><span class="line">RUN git clone --progress --depth 1 https:&#x2F;&#x2F;github.com&#x2F;user&#x2F;project.git &#x2F;tmp&#x2F;project</span><br><span class="line"># or:</span><br><span class="line">COPY --chown&#x3D;ue4:ue4 . &#x2F;tmp&#x2F;project</span><br><span class="line"></span><br><span class="line">#创建并打包我们的虚幻项目</span><br><span class="line"></span><br><span class="line">#(为了简洁起见，我们使用ue4cli，但我们也可以直接调用RunUAT)</span><br><span class="line">WORKDIR &#x2F;tmp&#x2F;project</span><br><span class="line">RUN ue4 package</span><br><span class="line"></span><br><span class="line">复制打包文件到容器图像，其中包括CUDA，但不包括任何虚幻引擎组件</span><br><span class="line">FROM adamrehn&#x2F;ue4-runtime:18.04-cudagl10.2</span><br><span class="line">COPY --from&#x3D;builder --chown&#x3D;ue4:ue4 &#x2F;tmp&#x2F;project&#x2F;dist&#x2F;LinuxNoEditor &#x2F;home&#x2F;ue4&#x2F;project</span><br><span class="line"></span><br><span class="line">#启用NVIDIA驱动程序所需的NVENC视频编码API</span><br><span class="line">ENV NVIDIA_DRIVER_CAPABILITIES $&#123;NVIDIA_DRIVER_CAPABILITIES&#125;,video</span><br><span class="line"></span><br><span class="line">#创建一个指向libvideo -encode.so路径的符号链接。1将被挂载，因为UE4似乎忽略了LD_LIBRARY_PATH</span><br><span class="line"></span><br><span class="line">#(将“ProjectName”替换为你实际的虚幻项目的名称)</span><br><span class="line">RUN ln -s &#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libnvidia-encode.so &#x2F;home&#x2F;ue4&#x2F;project&#x2F;ProjectName&#x2F;Binaries&#x2F;Linux&#x2F;libnvidia-encode.so</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-<p>安装成功的标准</p>
-<p>运行 <strong>docker run –rm –gpus all nvidia/cuda:11.0-base nvidia-smi</strong> 有结果就可以</p>
-<p>目前有两种方式来运行实例程序</p>
-<ol>
-<li>打包dockerfile来运行</li>
-</ol>
-<p>在上面的docker引用</p>
-<ol start="2">
-<li><p>使用命令</p>
-<blockquote>
-<p>docker run –rm -ti –network=host  –gpus=all adamrehn/pixel-streaming-example-project:4.25 -PixelStreamingIP=192.168.11.20   -PixelStreamingPort=8888 -RenderOffScreen -ForceRes -ResX=1920 -ResY=1080</p>
-</blockquote>
-</li>
-</ol>
-<p>以上是 ue4后台</p>
-<p>如果不需要外放访问,不需要考虑上面 STUN,SDUN这些都是 nat外网穿透的服务</p>
-<p>后面只要启动SignallingWebServer 也是就是ue安装目录 </p>
-<blockquote>
-<p> \Epic Games\UE_4.26\Engine\Source\Programs\PixelStreaming\WebServers\SignallingWebServer</p>
-</blockquote>
-<p>启动中效果有问题详细解释我在github 上提了issue <a target="_blank" rel="noopener" href="https://github.com/adamrehn/pixel-streaming-linux/issues/53">https://github.com/adamrehn/pixel-streaming-linux/issues/53</a></p>
-<p>在修改cirrus.js后就可以解决</p>
-<pre><code>// let playerId = msg.playerId; 解析为数字
-    let playerId = parseInt(msg.playerId);
-    delete msg.playerId; // no need to send it to the player
-    let player = players.get(playerId);</code></pre>
-<h3 id="webrtc关联的内容补充如下"><a href="#webrtc关联的内容补充如下" class="headerlink" title="webrtc关联的内容补充如下"></a>webrtc关联的内容补充如下</h3><p>参考这篇博文<a target="_blank" rel="noopener" href="https://www.cnblogs.com/chyingp/p/sdp-in-webrtc.html">https://www.cnblogs.com/chyingp/p/sdp-in-webrtc.html</a></p>
-<p>对于 webrtc spd内容的解读后对照着看了 SignallingWebServer/run.bat 服务的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><span class="line">v&#x3D;0</span><br><span class="line">o&#x3D;- 4274722770078417046 2 IN IP4 127.0.0.1</span><br><span class="line">s&#x3D;-</span><br><span class="line">t&#x3D;0 0</span><br><span class="line">a&#x3D;group:BUNDLE 0 1 2</span><br><span class="line">a&#x3D;msid-semantic: WMS</span><br><span class="line">m&#x3D;audio 9 UDP&#x2F;TLS&#x2F;RTP&#x2F;SAVPF 111 103 104 9 0 8 106 105 13 110 112 113 126</span><br><span class="line">c&#x3D;IN IP4 0.0.0.0</span><br><span class="line">a&#x3D;rtcp:9 IN IP4 0.0.0.0</span><br><span class="line">a&#x3D;ice-ufrag:R2GR</span><br><span class="line">a&#x3D;ice-pwd:jo3amy6z8ly9guu6xeyC0rwf</span><br><span class="line">a&#x3D;ice-options:trickle</span><br><span class="line">a&#x3D;fingerprint:sha-256 C0:7D:CF:1E:FC:D1:DD:CD:83:38:C7:5D:8F:0D:0E:0F:2A:F6:B0:97:49:FF:98:4A:10:07:5C:94:80:81:B1:2A</span><br><span class="line">a&#x3D;setup:actpass</span><br><span class="line">a&#x3D;mid:0</span><br><span class="line">a&#x3D;extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level</span><br><span class="line">a&#x3D;extmap:2 http:&#x2F;&#x2F;www.webrtc.org&#x2F;experiments&#x2F;rtp-hdrext&#x2F;abs-send-time</span><br><span class="line">a&#x3D;extmap:3 http:&#x2F;&#x2F;www.ietf.org&#x2F;id&#x2F;draft-holmer-rmcat-transport-wide-cc-extensions-01</span><br><span class="line">a&#x3D;extmap:4 urn:ietf:params:rtp-hdrext:sdes:mid</span><br><span class="line">a&#x3D;extmap:5 urn:ietf:params:rtp-hdrext:sdes:rtp-stream-id</span><br><span class="line">a&#x3D;extmap:6 urn:ietf:params:rtp-hdrext:sdes:repaired-rtp-stream-id</span><br><span class="line">a&#x3D;recvonly</span><br><span class="line">a&#x3D;rtcp-mux</span><br><span class="line">a&#x3D;rtpmap:111 opus&#x2F;48000&#x2F;2</span><br><span class="line">a&#x3D;rtcp-fb:111 transport-cc</span><br><span class="line">a&#x3D;fmtp:111 minptime&#x3D;10;useinbandfec&#x3D;1</span><br><span class="line">a&#x3D;rtpmap:103 ISAC&#x2F;16000</span><br><span class="line">a&#x3D;rtpmap:104 ISAC&#x2F;32000</span><br><span class="line">a&#x3D;rtpmap:9 G722&#x2F;8000</span><br><span class="line">a&#x3D;rtpmap:0 PCMU&#x2F;8000</span><br><span class="line">a&#x3D;rtpmap:8 PCMA&#x2F;8000</span><br><span class="line">a&#x3D;rtpmap:106 CN&#x2F;32000</span><br><span class="line">a&#x3D;rtpmap:105 CN&#x2F;16000</span><br><span class="line">a&#x3D;rtpmap:13 CN&#x2F;8000</span><br><span class="line">a&#x3D;rtpmap:110 telephone-event&#x2F;48000</span><br><span class="line">a&#x3D;rtpmap:112 telephone-event&#x2F;32000</span><br><span class="line">a&#x3D;rtpmap:113 telephone-event&#x2F;16000</span><br><span class="line">a&#x3D;rtpmap:126 telephone-event&#x2F;8000</span><br><span class="line">m&#x3D;video 9 UDP&#x2F;TLS&#x2F;RTP&#x2F;SAVPF 96 97 98 99 100 101 122 102 121 127 120 125 107 108 109 35 36 124 119 123 118 114 115 116 37</span><br><span class="line">c&#x3D;IN IP4 0.0.0.0</span><br><span class="line">a&#x3D;rtcp:9 IN IP4 0.0.0.0</span><br><span class="line">a&#x3D;ice-ufrag:R2GR</span><br><span class="line">a&#x3D;ice-pwd:jo3amy6z8ly9guu6xeyC0rwf</span><br><span class="line">a&#x3D;ice-options:trickle</span><br><span class="line">a&#x3D;fingerprint:sha-256 C0:7D:CF:1E:FC:D1:DD:CD:83:38:C7:5D:8F:0D:0E:0F:2A:F6:B0:97:49:FF:98:4A:10:07:5C:94:80:81:B1:2A</span><br><span class="line">a&#x3D;setup:actpass</span><br><span class="line">a&#x3D;mid:1</span><br><span class="line">a&#x3D;extmap:14 urn:ietf:params:rtp-hdrext:toffset</span><br><span class="line">a&#x3D;extmap:2 http:&#x2F;&#x2F;www.webrtc.org&#x2F;experiments&#x2F;rtp-hdrext&#x2F;abs-send-time</span><br><span class="line">a&#x3D;extmap:13 urn:3gpp:video-orientation</span><br><span class="line">a&#x3D;extmap:3 http:&#x2F;&#x2F;www.ietf.org&#x2F;id&#x2F;draft-holmer-rmcat-transport-wide-cc-extensions-01</span><br><span class="line">a&#x3D;extmap:12 http:&#x2F;&#x2F;www.webrtc.org&#x2F;experiments&#x2F;rtp-hdrext&#x2F;playout-delay</span><br><span class="line">a&#x3D;extmap:11 http:&#x2F;&#x2F;www.webrtc.org&#x2F;experiments&#x2F;rtp-hdrext&#x2F;video-content-type</span><br><span class="line">a&#x3D;extmap:7 http:&#x2F;&#x2F;www.webrtc.org&#x2F;experiments&#x2F;rtp-hdrext&#x2F;video-timing</span><br><span class="line">a&#x3D;extmap:8 http:&#x2F;&#x2F;www.webrtc.org&#x2F;experiments&#x2F;rtp-hdrext&#x2F;color-space</span><br><span class="line">a&#x3D;extmap:4 urn:ietf:params:rtp-hdrext:sdes:mid</span><br><span class="line">a&#x3D;extmap:5 urn:ietf:params:rtp-hdrext:sdes:rtp-stream-id</span><br><span class="line">a&#x3D;extmap:6 urn:ietf:params:rtp-hdrext:sdes:repaired-rtp-stream-id</span><br><span class="line">a&#x3D;recvonly</span><br><span class="line">a&#x3D;rtcp-mux</span><br><span class="line">a&#x3D;rtcp-rsize</span><br><span class="line">a&#x3D;rtpmap:96 VP8&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:96 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:96 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:96 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:96 nack</span><br><span class="line">a&#x3D;rtcp-fb:96 nack pli</span><br><span class="line">a&#x3D;rtpmap:97 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:97 apt&#x3D;96</span><br><span class="line">a&#x3D;rtpmap:98 VP9&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:98 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:98 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:98 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:98 nack</span><br><span class="line">a&#x3D;rtcp-fb:98 nack pli</span><br><span class="line">a&#x3D;fmtp:98 profile-id&#x3D;0</span><br><span class="line">a&#x3D;rtpmap:99 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:99 apt&#x3D;98</span><br><span class="line">a&#x3D;rtpmap:100 VP9&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:100 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:100 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:100 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:100 nack</span><br><span class="line">a&#x3D;rtcp-fb:100 nack pli</span><br><span class="line">a&#x3D;fmtp:100 profile-id&#x3D;2</span><br><span class="line">a&#x3D;rtpmap:101 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:101 apt&#x3D;100</span><br><span class="line">a&#x3D;rtpmap:122 VP9&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:122 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:122 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:122 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:122 nack</span><br><span class="line">a&#x3D;rtcp-fb:122 nack pli</span><br><span class="line">a&#x3D;fmtp:122 profile-id&#x3D;1</span><br><span class="line">a&#x3D;rtpmap:102 H264&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:102 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:102 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:102 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:102 nack</span><br><span class="line">a&#x3D;rtcp-fb:102 nack pli</span><br><span class="line">a&#x3D;fmtp:102 level-asymmetry-allowed&#x3D;1;packetization-mode&#x3D;1;profile-level-id&#x3D;42001f;x-google-start-bitrate&#x3D;10000;x-google-max-bitrate&#x3D;20000</span><br><span class="line">a&#x3D;rtpmap:121 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:121 apt&#x3D;102</span><br><span class="line">a&#x3D;rtpmap:127 H264&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:127 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:127 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:127 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:127 nack</span><br><span class="line">a&#x3D;rtcp-fb:127 nack pli</span><br><span class="line">a&#x3D;fmtp:127 level-asymmetry-allowed&#x3D;1;packetization-mode&#x3D;0;profile-level-id&#x3D;42001f;x-google-start-bitrate&#x3D;10000;x-google-max-bitrate&#x3D;20000</span><br><span class="line">a&#x3D;rtpmap:120 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:120 apt&#x3D;127</span><br><span class="line">a&#x3D;rtpmap:125 H264&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:125 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:125 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:125 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:125 nack</span><br><span class="line">a&#x3D;rtcp-fb:125 nack pli</span><br><span class="line">a&#x3D;fmtp:125 level-asymmetry-allowed&#x3D;1;packetization-mode&#x3D;1;profile-level-id&#x3D;42e01f;x-google-start-bitrate&#x3D;10000;x-google-max-bitrate&#x3D;20000</span><br><span class="line">a&#x3D;rtpmap:107 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:107 apt&#x3D;125</span><br><span class="line">a&#x3D;rtpmap:108 H264&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:108 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:108 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:108 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:108 nack</span><br><span class="line">a&#x3D;rtcp-fb:108 nack pli</span><br><span class="line">a&#x3D;fmtp:108 level-asymmetry-allowed&#x3D;1;packetization-mode&#x3D;0;profile-level-id&#x3D;42e01f;x-google-start-bitrate&#x3D;10000;x-google-max-bitrate&#x3D;20000</span><br><span class="line">a&#x3D;rtpmap:109 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:109 apt&#x3D;108</span><br><span class="line">a&#x3D;rtpmap:35 AV1X&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:35 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:35 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:35 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:35 nack</span><br><span class="line">a&#x3D;rtcp-fb:35 nack pli</span><br><span class="line">a&#x3D;rtpmap:36 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:36 apt&#x3D;35</span><br><span class="line">a&#x3D;rtpmap:124 H264&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:124 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:124 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:124 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:124 nack</span><br><span class="line">a&#x3D;rtcp-fb:124 nack pli</span><br><span class="line">a&#x3D;fmtp:124 level-asymmetry-allowed&#x3D;1;packetization-mode&#x3D;1;profile-level-id&#x3D;4d001f;x-google-start-bitrate&#x3D;10000;x-google-max-bitrate&#x3D;20000</span><br><span class="line">a&#x3D;rtpmap:119 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:119 apt&#x3D;124</span><br><span class="line">a&#x3D;rtpmap:123 H264&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:123 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:123 transport-cc</span><br><span class="line">a&#x3D;rtcp-fb:123 ccm fir</span><br><span class="line">a&#x3D;rtcp-fb:123 nack</span><br><span class="line">a&#x3D;rtcp-fb:123 nack pli</span><br><span class="line">a&#x3D;fmtp:123 level-asymmetry-allowed&#x3D;1;packetization-mode&#x3D;1;profile-level-id&#x3D;64001f;x-google-start-bitrate&#x3D;10000;x-google-max-bitrate&#x3D;20000</span><br><span class="line">a&#x3D;rtpmap:118 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:118 apt&#x3D;123</span><br><span class="line">a&#x3D;rtpmap:114 red&#x2F;90000</span><br><span class="line">a&#x3D;rtpmap:115 rtx&#x2F;90000</span><br><span class="line">a&#x3D;fmtp:115 apt&#x3D;114</span><br><span class="line">a&#x3D;rtpmap:116 ulpfec&#x2F;90000</span><br><span class="line">a&#x3D;rtpmap:37 flexfec-03&#x2F;90000</span><br><span class="line">a&#x3D;rtcp-fb:37 goog-remb</span><br><span class="line">a&#x3D;rtcp-fb:37 transport-cc</span><br><span class="line">a&#x3D;fmtp:37 repair-window&#x3D;10000000</span><br><span class="line">m&#x3D;application 9 UDP&#x2F;DTLS&#x2F;SCTP webrtc-datachannel</span><br><span class="line">c&#x3D;IN IP4 0.0.0.0</span><br><span class="line">a&#x3D;ice-ufrag:R2GR</span><br><span class="line">a&#x3D;ice-pwd:jo3amy6z8ly9guu6xeyC0rwf</span><br><span class="line">a&#x3D;ice-options:trickle</span><br><span class="line">a&#x3D;fingerprint:sha-256 C0:7D:CF:1E:FC:D1:DD:CD:83:38:C7:5D:8F:0D:0E:0F:2A:F6:B0:97:49:FF:98:4A:10:07:5C:94:80:81:B1:2A</span><br><span class="line">a&#x3D;setup:actpass</span><br><span class="line">a&#x3D;mid:2</span><br><span class="line">a&#x3D;sctp-port:5000</span><br><span class="line">a&#x3D;max-message-size:262144</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>下面是其他日志 目前前端只需要简单的js来实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;type&quot;: &quot;iceCandidate&quot;,</span><br><span class="line">    &quot;candidate&quot;: &#123;</span><br><span class="line">    &quot;candidate&quot;: &quot;candidate:2859681617 1 udp 2113937151 4ffffdaa-0101-4122-a4fb-b6c4c308d3e5.local 54016 typ host generation 0 ufrag R2GR network-cost 999&quot;,</span><br><span class="line">    &quot;sdpMid&quot;: &quot;0&quot;,</span><br><span class="line">    &quot;sdpMLineIndex&quot;: 0</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-gis-coordinate" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/8707cf2d.html" class="article-date">
-      <time datetime="2021-09-09T08:28:12.000Z" itemprop="datePublished">2021-09-09</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/8707cf2d.html">gis-coordinate</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://blog.geohey.com/-ge-xiao-you-xi-rang-ni-che-di-nong-dong-mo-qia-tuo-tou-ying/">https://blog.geohey.com/-ge-xiao-you-xi-rang-ni-che-di-nong-dong-mo-qia-tuo-tou-ying/</a><br>常见的坐标系和格式</p>
 
                -->
         </div>

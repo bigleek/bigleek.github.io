@@ -269,6 +269,344 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-最近折腾Ubuntu16的过程记录" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3642578636.html" class="article-date">
+      <time datetime="2019-03-24T00:10:04.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>上周到了一台戴尔的xps13，考虑win10喜欢频繁升级和对高分辨的显示不算好的支持，所以觉得折腾一下Ubuntu，其实很久之前就折腾过也尝试过将它设为主力系统，其实当时陆陆续续已经出现时网易云音乐和WPS已经类似于IDM的uget 当时还是不算好用，同时当时没怎么涉及到开发，现在算是比较合适与我开发。<br>先说一下安装的情况，刚开始由于没有课BIOS硬盘的acid的设置导致，启动盘不能识别硬盘不能继续安装，后面是一安装重启就出现,在grub引导后都没有出现登录见面，当时就很慌 ，以为是安装过程中BIOS到处出现安装出的问题吧BIOS全部折腾几遍，又安装又TMD的是黑屏–晚上看了看都是登录时后面出现黑屏，是NVIDIA和Intel的集成显卡的问题，我照着网上先是尝试在grub前面编辑一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">启动黑屏</span><br><span class="line">在启动Ubuntu的时候出现黑屏的情况，是因为升级了内核导致显卡不兼容，启动的时候应该告诉内核不要加载显卡：</span><br><span class="line"></span><br><span class="line">在引导界面，按e进入grub编辑界面，在quiet splash后面添加nomodeset</span><br><span class="line">按F10接着引导启动</span><br><span class="line">进入登录界面，输入用户名和密码发现闪一下又跳回登录界面 </span><br><span class="line">先不用着急解决登录界面循环的问题，前面的grub配置文件的修改只是暂时的，现在需要永久性的修改 </span><br><span class="line">Ctrl+Alt+（F1-F6）进入命令行tty界面，登录之后，</span><br><span class="line">sudo vi &#x2F;etc&#x2F;default&#x2F;grub</span><br><span class="line">1</span><br><span class="line">找到quiet splash并在后面添加nomodeset。然后输入</span><br><span class="line"></span><br><span class="line">sudo update-grub</span><br><span class="line">1</span><br><span class="line">更新了grub配置文件后，重启即可。 </span><br><span class="line">对于在tty命令行界面中文乱码的问题可以参考博客：http:&#x2F;&#x2F;blog.csdn.net&#x2F;VictoriaW&#x2F;article&#x2F;details&#x2F;56484552</span><br><span class="line">--------------------- </span><br><span class="line">作者：CodeTutor </span><br><span class="line">来源：CSDN </span><br><span class="line">原文：https:&#x2F;&#x2F;blog.csdn.net&#x2F;VictoriaW&#x2F;article&#x2F;details&#x2F;56484119 </span><br><span class="line">版权声明：本文为博主原创文章，转载请附上博文链接！</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>上周到了一台戴尔的xps13，考虑win10喜欢频繁升级和对高分辨的显示不算好的支持，所以觉得折腾一下Ubuntu，其实很久之前就折腾过也尝试过将它设为主力系统，其实当时陆陆续续已经出现时网易云音乐和WPS已经类似于IDM的uget 当时还是不算好用，同时当时没怎么涉及到开发，现在算是比较合适与我开发。<br>先说一下安装的情况，刚开始由于没有课BIOS硬盘的acid的设置导致，启动盘不能识别硬盘不能继续安装，后面是一安装重启就出现,在grub引导后都没有出现登录见面，当时就很慌 ，以为是安装过程中BIOS到处出现安装出的问题吧BIOS全部折腾几遍，又安装又TMD的是黑屏–晚上看了看都是登录时后面出现黑屏，是NVIDIA和Intel的集成显卡的问题，我照着网上先是尝试在grub前面编辑一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">启动黑屏</span><br><span class="line">在启动Ubuntu的时候出现黑屏的情况，是因为升级了内核导致显卡不兼容，启动的时候应该告诉内核不要加载显卡：</span><br><span class="line"></span><br><span class="line">在引导界面，按e进入grub编辑界面，在quiet splash后面添加nomodeset</span><br><span class="line">按F10接着引导启动</span><br><span class="line">进入登录界面，输入用户名和密码发现闪一下又跳回登录界面 </span><br><span class="line">先不用着急解决登录界面循环的问题，前面的grub配置文件的修改只是暂时的，现在需要永久性的修改 </span><br><span class="line">Ctrl+Alt+（F1-F6）进入命令行tty界面，登录之后，</span><br><span class="line">sudo vi &#x2F;etc&#x2F;default&#x2F;grub</span><br><span class="line">1</span><br><span class="line">找到quiet splash并在后面添加nomodeset。然后输入</span><br><span class="line"></span><br><span class="line">sudo update-grub</span><br><span class="line">1</span><br><span class="line">更新了grub配置文件后，重启即可。 </span><br><span class="line">对于在tty命令行界面中文乱码的问题可以参考博客：http:&#x2F;&#x2F;blog.csdn.net&#x2F;VictoriaW&#x2F;article&#x2F;details&#x2F;56484552</span><br><span class="line">--------------------- </span><br><span class="line">作者：CodeTutor </span><br><span class="line">来源：CSDN </span><br><span class="line">原文：https:&#x2F;&#x2F;blog.csdn.net&#x2F;VictoriaW&#x2F;article&#x2F;details&#x2F;56484119 </span><br><span class="line">版权声明：本文为博主原创文章，转载请附上博文链接！</span><br></pre></td></tr></table></figure>
+
+<p>没想到不行当时就检查一遍又一遍看，又在安装一遍然后设置不安装显卡的驱动，避开还是不行搞到两点没看到头绪<br>第二天我先可能是我这边是我安装引导文件的问题，然后选择try ubuntu 进入系统安装引导修复文件Boot-Repair. 试了一遍也不行真的是心灰意冷了，最后将启动盘工具<br>universal usb installer这个工具换成软碟通，搞完后就成功了，就是这个工具的问题</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ES相关的知识总结一" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3632233998.html" class="article-date">
+      <time datetime="2019-03-23T18:59:20.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3632233998.html">ES相关的知识总结一</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>1）type</p>
+<p>Elasticsearch中支持的数据类型非常丰富：</p>
+<ul>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>1）type</p>
+<p>Elasticsearch中支持的数据类型非常丰富：</p>
+<ul>
+<li>String类型，又分两种：<ul>
+<li>text：可分词，不可参与聚合</li>
+<li>keyword：不可分词，数据会作为完整字段进行匹配，可以参与聚合</li>
+</ul>
+</li>
+<li>Numerical：数值类型，分两类<ul>
+<li>基本数据类型：long、interger、short、byte、double、float、half_float</li>
+<li>浮点数的高精度类型：scaled_float<ul>
+<li>需要指定一个精度因子，比如10或100。elasticsearch会把真实值乘以这个因子后存储，取出时再还原。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Date：日期类型<br>elasticsearch可以对日期格式化为字符串存储，但是建议我们存储为毫秒值，存储为long，节省空间。</li>
+</ul>
+<p>2）index</p>
+<p>index影响字段的索引情况。</p>
+<ul>
+<li>true：字段会被索引，则可以用来进行搜索。默认值就是true</li>
+<li>false：字段不会被索引，不能用来搜索</li>
+</ul>
+<p>index的默认值就是true，也就是说你不进行任何配置，所有字段都会被索引。</p>
+<p>但是有些字段是我们不希望被索引的，比如商品的图片信息，就需要手动设置index为false。</p>
+<p>3）store</p>
+<p>是否将数据进行额外存储。_source</p>
+<p>在学习lucene和solr时，我们知道如果一个字段的store设置为false，那么在文档列表中就不会有这个字段的值，用户的搜索结果中不会显示出来。</p>
+<p>但是在Elasticsearch中，即便store设置为false，也可以搜索到结果。</p>
+<p>原因是Elasticsearch在创建文档索引时，会将文档中的原始数据备份，保存到一个叫做_source的属性中。最终我们查询数据是从_source中来取值，所以可以通过过滤_source来选择哪些要显示，哪些不显示。</p>
+<p>而如果设置store为true，就会在_source以外额外存储一份数据，多余，因此一般我们都会将store设置为false，事实上，store的默认值就是false。</p>
+<p>4）boost</p>
+<p>激励因子，这个与lucene中一样</p>
+<p>其它的不再一一讲解，用的不多，大家参考官方文档：</p>
+<p>还有查询的更多东西(mathch all)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “match_all”: &#123;&#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">匹配查询(match)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “match”:&#123;</span><br><span class="line">​ “title”:”小米电视”</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">多字段查询(multi_match)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “multi_match”: &#123;</span><br><span class="line">​ “query”: “小米”,</span><br><span class="line">​ “fields”: [ “title”, “subTitle” ]</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">词条匹配(term)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “term”:&#123;</span><br><span class="line">​ “price”:2699.00</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">多词条精确匹配(terms)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “terms”:&#123;</span><br><span class="line">​ “price”:[2699.00,2899.00,3899.00]</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>结果过滤</p>
+<p>默认情况下，elasticsearch在搜索的结果中，会把文档中保存在_source的所有字段都返回。</p>
+<p>如果我们只想获取其中的部分字段，我们可以添加_source的过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">“_source”: [“title”,”price”],&#x3D;&#x3D;&#x3D;&#x3D;&gt;includi exclud</span><br><span class="line">“query”: &#123;</span><br><span class="line">​ “term”: &#123;</span><br><span class="line">​ “price”: 2699</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ES相关的知识总结二" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3632233997.html" class="article-date">
+      <time datetime="2019-03-23T18:59:20.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3632233997.html">ES相关的知识总结二</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>聚合aggregations</p>
+<p>聚合可以让我们极其方便的实现对数据的统计、分析。例如：<br>Elasticsearch中的聚合，包含多种类型，最常用的两种，一个叫桶，一个叫度量：</p>
+<p>桶（bucket）,阿里文档称之为存储单元</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>聚合aggregations</p>
+<p>聚合可以让我们极其方便的实现对数据的统计、分析。例如：<br>Elasticsearch中的聚合，包含多种类型，最常用的两种，一个叫桶，一个叫度量：</p>
+<p>桶（bucket）,阿里文档称之为存储单元</p>
+<p>桶的作用，是按照某种方式对数据进行分组，每一组数据在ES中称为一个桶， 例如我们根据国籍对人划分，可以得到中国桶、英国桶，日本桶……或者我们按照年龄段对人进行划分：0<del>10,10</del>20,20<del>30,30</del>40等。</p>
+<p>Elasticsearch中提供的划分桶的方式有很多：</p>
+<ul>
+<li>Date Histogram Aggregation：根据日期阶梯分组，例如给定阶梯为周，会自动每周分为一个存储单元</li>
+<li>Histogram Aggregation：根据数值阶梯分组，与日期类似</li>
+<li>Terms Aggregation：根据词条内容分组，词条内容完全匹配的为一个存储单元</li>
+<li>Range Aggregation：数值和日期的范围分组，指定开始和结束，然后按段分</li>
+<li>……</li>
+</ul>
+<p>综上所述，我们发现bucket aggregations 只负责对数据进行分组，并不进行计算，因此往往bucket中往往会嵌套另一种聚合：metrics aggregations即度量</p>
+<p>度量（metrics）</p>
+<p>分组完成以后，我们一般会对组中的数据进行聚合运算，例如求平均值、最大、最小、求和等，这些在ES中称为度量</p>
+<p>比较常用的一些聚合度量方式：</p>
+<ul>
+<li>Avg Aggregation：求平均值</li>
+<li>Max Aggregation：求最大值</li>
+<li>Min Aggregation：求最小值</li>
+<li>Percentiles Aggregation：求百分比</li>
+<li>Stats Aggregation：同时返回avg、max、min、sum、count等</li>
+<li>Sum Aggregation：求和</li>
+<li>Top hits Aggregation：求前几</li>
+<li>Value Count Aggregation：求总数</li>
+</ul>
+<p>聚合为桶<br>GET /cars/_search<br>{<br>​ “size” : 10,<br>​ “aggs” : {<br>​ “popular_colors” : {<br>​ “terms” : {<br>​ “field” : “color”<br>​ }<br>​ }<br>​ }<br>}</p>
+<ul>
+<li>hits：查询结果为空，因为我们设置了size为0</li>
+<li>aggregations：聚合的结果</li>
+<li>popular_colors：我们定义的聚合名称</li>
+<li>buckets：查找到的桶，每个不同的color字段值都会形成一个桶<ul>
+<li>key：这个桶对应的color字段的值</li>
+<li>doc_count：这个桶中的文档数量</li>
+</ul>
+</li>
+</ul>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Spring定时任务" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">

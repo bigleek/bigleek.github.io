@@ -269,6 +269,371 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-GitGitHub 中文术语表" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/19126373.html" class="article-date">
+      <time datetime="2020-05-26T00:08:22.000Z" itemprop="datePublished">2020-05-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/19126373.html">Git/GitHub 中文术语表</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>​        转载Linux中国关于 <a target="_blank" rel="noopener" href="https://linux.cn/article-12245-1.html">Git/GitHub 中文术语表</a> ,可以参考一下不至于混乱</p>
+<p>Git 和 GitHub 已经成为了开发者的基础工具，尤其是参与开源软件开发时经常会使用它们。但是在 Git 和 GitHub 使用过程中遇到的很多术语并没有标准的或约定俗成的中文译名，因此，我们根据 <a target="_blank" rel="noopener" href="https://help.github.com/cn/github/getting-started-with-github/github-glossary">GitHub</a> 、<a target="_blank" rel="noopener" href="https://mirrors.edge.kernel.org/pub/software/scm/git/docs/gitglossary.html">Git</a> 等文档，并结合我们的翻译惯例，收集整理了 Git 和 GitHub 中常用术语的中文译名及其解释。</p>
+<p>这里值得注意是术语有复刻、挂钩、议题、星标、变基、仓库等，这些术语之前要么经常中英文混杂使用，要么中文译法不确定，我们根据多年的翻译和开发经验，在 GitHub 译法的基础上进行斟酌，整理了如下的术语表供大家使用参考。此外，“复刻”这个翻译应该是我们 <a target="_blank" rel="noopener" href="https://linux.cn/article-7877-1.html">LCTT 首倡</a>的；而“议题”这个对 issue 的译法也比之前的一些其它译法更为精准；“仓库”一词还有存储库、版本库等译法，但是仓库一词似乎更加合适。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>​        转载Linux中国关于 <a target="_blank" rel="noopener" href="https://linux.cn/article-12245-1.html">Git/GitHub 中文术语表</a> ,可以参考一下不至于混乱</p>
+<p>Git 和 GitHub 已经成为了开发者的基础工具，尤其是参与开源软件开发时经常会使用它们。但是在 Git 和 GitHub 使用过程中遇到的很多术语并没有标准的或约定俗成的中文译名，因此，我们根据 <a target="_blank" rel="noopener" href="https://help.github.com/cn/github/getting-started-with-github/github-glossary">GitHub</a> 、<a target="_blank" rel="noopener" href="https://mirrors.edge.kernel.org/pub/software/scm/git/docs/gitglossary.html">Git</a> 等文档，并结合我们的翻译惯例，收集整理了 Git 和 GitHub 中常用术语的中文译名及其解释。</p>
+<p>这里值得注意是术语有复刻、挂钩、议题、星标、变基、仓库等，这些术语之前要么经常中英文混杂使用，要么中文译法不确定，我们根据多年的翻译和开发经验，在 GitHub 译法的基础上进行斟酌，整理了如下的术语表供大家使用参考。此外，“复刻”这个翻译应该是我们 <a target="_blank" rel="noopener" href="https://linux.cn/article-7877-1.html">LCTT 首倡</a>的；而“议题”这个对 issue 的译法也比之前的一些其它译法更为精准；“仓库”一词还有存储库、版本库等译法，但是仓库一词似乎更加合适。</p>
+<h3 id="受让人assignee"><a href="#受让人assignee" class="headerlink" title="受让人assignee"></a>受让人assignee</h3><p>分配到某个议题的用户。</p>
+<h3 id="追溯blame"><a href="#追溯blame" class="headerlink" title="追溯blame"></a>追溯blame</h3><p>Git 中的“追溯”功能描述对文件每行的最新修改，一般会显示修订、作者和时间。这很有用，例如，可以跟踪何时添加了功能，或者哪个提交导致了特定漏洞。</p>
+<h3 id="分支branch"><a href="#分支branch" class="headerlink" title="分支branch"></a>分支branch</h3><p>分支是仓库的平行版本。它包含在仓库中，但不影响主要或 master 分支，可让你自由工作而不中断“即时”版本。在执行所需的更改后，可以将分支合并回 master 分支以发布更改。</p>
+<h3 id="检出checkout"><a href="#检出checkout" class="headerlink" title="检出checkout"></a>检出checkout</h3><p>你可以在命令行上使用 <code>git checkout</code> 创建新分支，将当前的工作分支更改为不同的分支，甚至使用 <code>git checkout [branchname] [path to file]</code>从不同的分支切换到不同版本的文件。“检出”操作会使用对象数据库中的树对象或 blob 更新工作树的全部或部分，以及更新索引和 HEAD（如果整个工作树指向新分支）。</p>
+<h3 id="优选cherry-picking"><a href="#优选cherry-picking" class="headerlink" title="优选cherry-picking"></a>优选cherry-picking</h3><p>从一系列更改（通常是提交）中选择一部分更改，并在不同的代码库上将它们记录为新的更改系列。在 Git 中，这通过 <code>git cherry-pick</code> 命令来执行，在另一个分支上解压缩现有提交引入的更改，并根据当前分支的提示将其记录为新提交。</p>
+<h3 id="清洁clean"><a href="#清洁clean" class="headerlink" title="清洁clean"></a>清洁clean</h3><p>工作树在对应当前头部引用的版本时是清洁的。另请参阅“脏”。</p>
+<h3 id="克隆clone"><a href="#克隆clone" class="headerlink" title="克隆clone"></a>克隆clone</h3><p>克隆是指存在于计算机上而非网站服务器其他位置的仓库副本，或者是复制的操作。在克隆时，可在首选编辑器中编辑文件，使用 Git 跟踪更改而无需保持在线。你克隆的仓库仍与远程版本连接，以便当你在线时将本地更改推送到远程，以保持同步。</p>
+<h3 id="行为准则code-of-conduct"><a href="#行为准则code-of-conduct" class="headerlink" title="行为准则code of conduct"></a>行为准则code of conduct</h3><p>为如何参与社区制定标准的文档。</p>
+<h3 id="代码所有者code-owner"><a href="#代码所有者code-owner" class="headerlink" title="代码所有者code owner"></a>代码所有者code owner</h3><p>被指定为部分仓库代码所有者的个人。当有人打开对代码所有者拥有的代码进行更改的拉取请求（非草稿模式）时，会自动申请代码所有者审查。</p>
+<h3 id="协作者collaborator"><a href="#协作者collaborator" class="headerlink" title="协作者collaborator"></a>协作者collaborator</h3><p>协作者是受仓库所有者邀请参与，对仓库拥有读取和写入权限的人。</p>
+<h3 id="提交commit"><a href="#提交commit" class="headerlink" title="提交commit"></a>提交commit</h3><p>提交或“修订”是对一个文件（或一组文件）的个别更改。在进行提交以保存工作时，Git 会创建唯一的 ID（也称为 “SHA” 或“哈希”），用于记录提交的特定更改以及提交者和提交时间。提交通常包含一条提交消息，其中简要说明所做的更改。</p>
+<h3 id="提交作者commit-author"><a href="#提交作者commit-author" class="headerlink" title="提交作者commit author"></a>提交作者commit author</h3><p>进行提交的用户。</p>
+<h3 id="提交-IDcommit-ID"><a href="#提交-IDcommit-ID" class="headerlink" title="提交 IDcommit ID"></a>提交 IDcommit ID</h3><p>也称为 SHA。用于识别提交的 40 字符校验和的哈希。</p>
+<h3 id="提交消息commit-message"><a href="#提交消息commit-message" class="headerlink" title="提交消息commit message"></a>提交消息commit message</h3><p>随附于提交的简短描述性文字，用于沟通提交引入的更改。</p>
+<h3 id="持续集成continuous-integration"><a href="#持续集成continuous-integration" class="headerlink" title="持续集成continuous integration"></a>持续集成continuous integration</h3><p>也称为 CI。在个人对 GitHub 上配置的仓库提交更改后运行自动化构建和测试的过程。CI 是软件开发中一种帮助检测错误的常用最佳实践。</p>
+<h3 id="贡献指南contribution-guidelines"><a href="#贡献指南contribution-guidelines" class="headerlink" title="贡献指南contribution guidelines"></a>贡献指南contribution guidelines</h3><p>说明人们应如何参与项目的文档。</p>
+<h3 id="贡献contributions"><a href="#贡献contributions" class="headerlink" title="贡献contributions"></a>贡献contributions</h3><p>GitHub 上的特定活动。</p>
+<h3 id="贡献者contributor"><a href="#贡献者contributor" class="headerlink" title="贡献者contributor"></a>贡献者contributor</h3><p>贡献者是指对仓库没有协作者权限但参与过项目，并且他们打开的拉取请求已合并到仓库的人员。</p>
+<h3 id="默认分支default-branch"><a href="#默认分支default-branch" class="headerlink" title="默认分支default branch"></a>默认分支default branch</h3><p>仓库中的基本分支，除非你指定不同的分支，否则会自动对它完成所有拉取请求和代码提交。此分支通常称为 <code>master</code>。</p>
+<h3 id="游离的-HEADdetached-HEAD"><a href="#游离的-HEADdetached-HEAD" class="headerlink" title="游离的 HEADdetached HEAD"></a>游离的 HEADdetached HEAD</h3><p>如果你操作的是游离的 HEAD，Git 将会警告你，这意味着 Git 不指向某个分支，并且你的任何提交都不会出现在提交历史记录中。例如，在检出并非任何特定分支最新提交的任意提交时，你操作的是“游离的 HEAD”。</p>
+<h3 id="差异diff"><a href="#差异diff" class="headerlink" title="差异diff"></a>差异diff</h3><p>差异是指两个提交之间的更改或保存的更改之间的区别，它将从视觉上描述文件自上次提交后添加或删除的内容。</p>
+<h3 id="脏dirty"><a href="#脏dirty" class="headerlink" title="脏dirty"></a>脏dirty</h3><p>工作树如果包含尚未提交到当前分支的更改，将被视为“脏”。</p>
+<h3 id="快进fast-forward"><a href="#快进fast-forward" class="headerlink" title="快进fast-forward"></a>快进fast-forward</h3><p>快进是一种特殊类型的合并，在其中你有修订以及“合并”另一个分支的更改作为现有分支的子系。在这种情况下，你无法进行新的合并提交，而只是更新此修订。这在远程仓库的远程跟踪分支中经常发生。</p>
+<h3 id="功能分支feature-branch"><a href="#功能分支feature-branch" class="headerlink" title="功能分支feature branch"></a>功能分支feature branch</h3><p>用于试验新功能或修复未正式使用的议题的分支。也称为主题分支。</p>
+<h3 id="围栏代码块fenced-code-block"><a href="#围栏代码块fenced-code-block" class="headerlink" title="围栏代码块fenced code block"></a>围栏代码块fenced code block</h3><p>你可以在代码块前后使用三个反引号 `````，通过 GitHub Flavored Markdown 创建缩进代码块。</p>
+<h3 id="获取fetch"><a href="#获取fetch" class="headerlink" title="获取fetch"></a>获取fetch</h3><p>在使用 <code>git fetch</code> 时，你将从远程仓库添加更改到本地工作分支，而不提交它们。与 <code>git pull</code> 不同，提取可让你在更改提交到本地分支之前先进行审查。</p>
+<h3 id="跟进（用户）following-users"><a href="#跟进（用户）following-users" class="headerlink" title="跟进（用户）following (users)"></a>跟进（用户）following (users)</h3><p>获取关于另一个用户的贡献和活动的通知。</p>
+<h3 id="强制推送force-push"><a href="#强制推送force-push" class="headerlink" title="强制推送force push"></a>强制推送force push</h3><p>一种使用本地更改覆盖远程仓库的 Git 推送，不管是否冲突。</p>
+<h3 id="复刻fork"><a href="#复刻fork" class="headerlink" title="复刻fork"></a>复刻fork</h3><p>复刻是其他用户仓库在你的帐户上的个人副本。复刻允许你自由更改项目而不影响原始上游仓库。你也可以在上游仓库中打开拉取请求，并使复刻同步最新的更改，因为两个仓库仍然互相连接。</p>
+<h3 id="gitfile"><a href="#gitfile" class="headerlink" title="gitfile"></a>gitfile</h3><p>一种普通的 <code>.git</code> 文件，始终位于工作树的根部，指向 Git 目录，包含整个 Git 仓库及其元数据。你可以在命令行上使用 <code>git rev-parse --git-dir</code> 查看仓库（实际仓库）的此文件。</p>
+<h3 id="HEAD"><a href="#HEAD" class="headerlink" title="HEAD"></a>HEAD</h3><p>当前分支。</p>
+<h3 id="挂钩hook"><a href="#挂钩hook" class="headerlink" title="挂钩hook"></a>挂钩hook</h3><p>在多个 Git 命令正常执行时，对可选脚本进行标注以允许开发者添加功能或检查。通常，挂钩允许预先验证和潜在中止命令，并且允许在操作完成后再发事后通知。</p>
+<h3 id="实例instance"><a href="#实例instance" class="headerlink" title="实例instance"></a>实例instance</h3><p>组织包含在其配置和控制的虚拟机中的 GitHub 私有副本。</p>
+<h3 id="议题issue"><a href="#议题issue" class="headerlink" title="议题issue"></a>议题issue</h3><p>议题是提议的与仓库相关的改进、任务或问题。（对于公共仓库）任何人都可创建议题，然后由仓库协作者调解。每个议题都包含自己的讨论线程。你也可以使用标签将议题归类并分配到某人。</p>
+<h3 id="密钥指纹key-fingerprint"><a href="#密钥指纹key-fingerprint" class="headerlink" title="密钥指纹key fingerprint"></a>密钥指纹key fingerprint</h3><p>用于识别较长公钥的简短字节系列。</p>
+<h3 id="关键词keyword"><a href="#关键词keyword" class="headerlink" title="关键词keyword"></a>关键词keyword</h3><p>用在拉取请求中时关闭议题的特定文字。</p>
+<h3 id="标签label"><a href="#标签label" class="headerlink" title="标签label"></a>标签label</h3><p>议题或拉取请求的标记。仓库随附一系列默认标签，但用户也可创建自定义标签。</p>
+<h3 id="LFS"><a href="#LFS" class="headerlink" title="LFS"></a>LFS</h3><p>Git Large File Storage。一种开源 Git 扩展，用于对大文件进行版本控制。</p>
+<h3 id="许可证license"><a href="#许可证license" class="headerlink" title="许可证license"></a>许可证license</h3><p>一种可随附于项目的文档，告知们能够对你的源代码执行哪些操作，不能执行哪些操作。</p>
+<h3 id="行注释line-comment"><a href="#行注释line-comment" class="headerlink" title="行注释line comment"></a>行注释line comment</h3><p>拉取请求内特定代码行上的评论。</p>
+<h3 id="主干master"><a href="#主干master" class="headerlink" title="主干master"></a>主干master</h3><p>默认开发分支。只要创建 Git 仓库，就会创建一个名为 <code>master</code> 的分支，并且它会变为活动的分支。大多数情况下，这包含本地开发，但纯属惯例，而非必需。</p>
+<h3 id="提及mention"><a href="#提及mention" class="headerlink" title="提及mention"></a>提及mention</h3><p>一种通过在用户名前加上 @ 符号来发送给用户的通知。GitHub 上组织中的用户也可成为可提及的团队一部分。</p>
+<h3 id="合并merge"><a href="#合并merge" class="headerlink" title="合并merge"></a>合并merge</h3><p>合并是从一个分支（在相同的仓库中或来自一个分叉）提取更改，然后将其应用到另一个分支。这通常是作为“拉取请求”（可视为请求合并）或通过命令行完成。如果没有冲突的更改，可通过 GitHub.com web 界面使用拉取请求完成合并，或始终通过命令行完成。</p>
+<h3 id="合并冲突merge-conflict"><a href="#合并冲突merge-conflict" class="headerlink" title="合并冲突merge conflict"></a>合并冲突merge conflict</h3><p>合并的分支之间发生的差异。当人们对同一文件的同一行进行不同的更改时，或者一个人编辑某文件而另一个人删除该文件时，就会发生合并冲突。必须解决合并冲突后才可合并分支。</p>
+<h3 id="合并请求merge-request"><a href="#合并请求merge-request" class="headerlink" title="合并请求merge request"></a>合并请求merge request</h3><p>合并请求（MR）是 GitLab 上类似于 GitHub 上的拉取请求的概念。</p>
+<h3 id="里程碑milestone"><a href="#里程碑milestone" class="headerlink" title="里程碑milestone"></a>里程碑milestone</h3><p>一种跟踪仓库中议题或拉取请求组进度的方式。</p>
+<h3 id="镜像mirror"><a href="#镜像mirror" class="headerlink" title="镜像mirror"></a>镜像mirror</h3><p>仓库的新副本。</p>
+<h3 id="非快进non-fast-forward"><a href="#非快进non-fast-forward" class="headerlink" title="非快进non-fast-forward"></a>非快进non-fast-forward</h3><p>当仓库的本地副本未与上游仓库同步时，你在推送本地更改之前需要提取上游更改。</p>
+<h3 id="通知notification"><a href="#通知notification" class="headerlink" title="通知notification"></a>通知notification</h3><p>web 或电子邮件（根据你的设置）传送的更新，提供你感兴趣的活动的相关信息。</p>
+<h3 id="外部协作者outside-collaborator"><a href="#外部协作者outside-collaborator" class="headerlink" title="外部协作者outside collaborator"></a>外部协作者outside collaborator</h3><p>已被授予访问一个或多个组织的仓库但对组织没有其他访问权限的用户，且不属于组织的成员。</p>
+<h3 id="开源open-source"><a href="#开源open-source" class="headerlink" title="开源open source"></a>开源open source</h3><p>开源软件是可供任何人自由使用、修改和共享（以修改和未修改的形式）的软件。今天，“开源”的概念通常扩展到软件以外，代表一种协作原则，其中工作材料在线供任何人分叉、修改、讨论和参与。</p>
+<h3 id="源origin"><a href="#源origin" class="headerlink" title="源origin"></a>源origin</h3><p>默认上游仓库。大多数项目至少有一个它们跟踪的上游项目。默认情况下，源用于该目的。</p>
+<h3 id="所有者owner"><a href="#所有者owner" class="headerlink" title="所有者owner"></a>所有者owner</h3><p>对组织有完全管理权限的组织成员。</p>
+<h3 id="私有贡献private-contributions"><a href="#私有贡献private-contributions" class="headerlink" title="私有贡献private contributions"></a>私有贡献private contributions</h3><p>对私有（与公共相对）仓库的贡献。</p>
+<h3 id="私有仓库private-repository"><a href="#私有仓库private-repository" class="headerlink" title="私有仓库private repository"></a>私有仓库private repository</h3><p>私有仓库仅对仓库所有者和所有者指定的协作者可见。</p>
+<h3 id="生产分支production-branch"><a href="#生产分支production-branch" class="headerlink" title="生产分支production branch"></a>生产分支production branch</h3><p>包含可使用或部署到应用程序或站点的最终更改的分支。</p>
+<h3 id="个人资料profile"><a href="#个人资料profile" class="headerlink" title="个人资料profile"></a>个人资料profile</h3><p>显示 GitHub 上用户活动相关信息的页面。</p>
+<h3 id="受保护分支protected-branch"><a href="#受保护分支protected-branch" class="headerlink" title="受保护分支protected branch"></a>受保护分支protected branch</h3><p>受保护分支在仓库管理员选择保护的分支上禁止多项 Git 功能。必要检查未通过或必需审查未批准，不能对它们执行强制推送、删除和更改合并，或者不能从 GitHub web 界面上传文件到其中。受保护分支通常是默认分支。</p>
+<h3 id="公共贡献public-contributions"><a href="#公共贡献public-contributions" class="headerlink" title="公共贡献public contributions"></a>公共贡献public contributions</h3><p>对公共（与私有相对）仓库的贡献。</p>
+<h3 id="公共仓库public-repository"><a href="#公共仓库public-repository" class="headerlink" title="公共仓库public repository"></a>公共仓库public repository</h3><p>公共仓库可供任何人查看，包括不是 GitHub 用户的人员。</p>
+<h3 id="拉取pull"><a href="#拉取pull" class="headerlink" title="拉取pull"></a>拉取pull</h3><p>拉取是指提取与合并更改。例如，如果有人编辑了你操作的远程文件，你要将这些更改拉取到本地副本，以使其保持最新。另请参阅“提取”。</p>
+<h3 id="拉取权限pull-access"><a href="#拉取权限pull-access" class="headerlink" title="拉取权限pull access"></a>拉取权限pull access</h3><p>读取权限的同义词。</p>
+<h3 id="拉取请求pull-request"><a href="#拉取请求pull-request" class="headerlink" title="拉取请求pull request"></a>拉取请求pull request</h3><p>拉取请求（PR）是提议更改用户提交的仓库，然后被仓库协作者接受或拒绝。像议题一样，每个拉取请求都有自己的论坛。</p>
+<h3 id="拉取请求审查pull-request-review"><a href="#拉取请求审查pull-request-review" class="headerlink" title="拉取请求审查pull request review"></a>拉取请求审查pull request review</h3><p>拉取请求中协作者批准更改或在拉取请求合并之前申请进一步更改的评论。</p>
+<h3 id="推送push"><a href="#推送push" class="headerlink" title="推送push"></a>推送push</h3><p>推送是指将提交的更改发送到 GitHub.com 上的远程仓库。例如，如果你在本地更改内容，便可推送这些更改，让其他人访问。</p>
+<h3 id="推送分支push-a-branch"><a href="#推送分支push-a-branch" class="headerlink" title="推送分支push a branch"></a>推送分支push a branch</h3><p>成功将分支推送到远程仓库后，使用本地分支中的更改来更新远程分支。在你“推送分支”时，Git 将会到远程仓库中搜索分支的头部引用，并验证它是分支本地头部引用的直系原型。在验证后，Git 将拉取所有对象（从本地头部引用可获取，而远程仓库中缺失）到远程对象数据库，然后更新远程头部引用。如果远程头部不是本地头部的原型，推送将会失败。</p>
+<h3 id="推送权限push-access"><a href="#推送权限push-access" class="headerlink" title="推送权限push access"></a>推送权限push access</h3><p>写入权限的同义词。</p>
+<h3 id="读取权限read-access"><a href="#读取权限read-access" class="headerlink" title="读取权限read access"></a>读取权限read access</h3><p>对仓库的权限级别，允许用户拉取或者读取仓库中的信息。所有公共仓库向所有 GitHub 用户授予读取权限。拉取权限的同义词。</p>
+<h3 id="自述文件README"><a href="#自述文件README" class="headerlink" title="自述文件README"></a>自述文件README</h3><p>包含仓库中文件相关信息的文本文件，通常是仓库访问者看到的第一个文件。自述文件连同仓库许可证、参与指南以及行为准则，帮助你交流要求和管理项目的参与。</p>
+<h3 id="变基rebase"><a href="#变基rebase" class="headerlink" title="变基rebase"></a>变基rebase</h3><p>将一系列更改从一个分支重新应用到不同的基本分支，并将该分支的头部重置为结果。</p>
+<h3 id="发布release"><a href="#发布release" class="headerlink" title="发布release"></a>发布release</h3><p>GitHub 封装软件并向用户提供软件的方式。</p>
+<h3 id="远程remote"><a href="#远程remote" class="headerlink" title="远程remote"></a>远程remote</h3><p>这是托管于服务器（很可能是 GitHub.com）上的仓库或分支版本。远程版本可以连接到本地克隆，以使更改保持同步。</p>
+<h3 id="远程仓库remote-repository"><a href="#远程仓库remote-repository" class="headerlink" title="远程仓库remote repository"></a>远程仓库remote repository</h3><p>用于跟踪同一个项目但储存在其他位置的仓库。</p>
+<h3 id="远程-URLremote-URL"><a href="#远程-URLremote-URL" class="headerlink" title="远程 URLremote URL"></a>远程 URLremote URL</h3><p>存储代码的位置：GitHub、其他用户分支甚至不同服务器 上的仓库。</p>
+<h3 id="副本replica"><a href="#副本replica" class="headerlink" title="副本replica"></a>副本replica</h3><p>为主要 GitHub Enterprise 实例提供冗余的 GitHub Enterprise 实例。</p>
+<h3 id="仓库repository"><a href="#仓库repository" class="headerlink" title="仓库repository"></a>仓库repository</h3><p>仓库是 GitHub 最基本的元素，最容易被想象成项目的文件夹。一个仓库包含所有项目文件（包括文档），并且存储每个文件的修订历史记录。仓库可有多个协作者，也可以是公共仓库或私有仓库。</p>
+<h3 id="仓库维护员repository-maintainer"><a href="#仓库维护员repository-maintainer" class="headerlink" title="仓库维护员repository maintainer"></a>仓库维护员repository maintainer</h3><p>管理仓库的人员。此人可帮助对议题分类，以及使用标签和其他功能管理仓库的工作，也可负责更新自述文件和参与文件。</p>
+<h3 id="解决resolve"><a href="#解决resolve" class="headerlink" title="解决resolve"></a>解决resolve</h3><p>手动修复自动合并失败的操作。</p>
+<h3 id="还原revert"><a href="#还原revert" class="headerlink" title="还原revert"></a>还原revert</h3><p>恢复 GitHub 上的拉取请求时，新拉取请求会自动打开，其中有一个提交用于从原始合并的拉取请求恢复合并提交。在 Git 中，你可以使用 <code>git revert</code> 恢复提交。</p>
+<h3 id="审查review"><a href="#审查review" class="headerlink" title="审查review"></a>审查review</h3><p>审查允许对仓库具有访问权限的其他人评论拉取请求中提议的更改、审批更改或在拉取请求合并之前请求进一步更改。</p>
+<h3 id="服务挂钩service-hook"><a href="#服务挂钩service-hook" class="headerlink" title="服务挂钩service hook"></a>服务挂钩service hook</h3><p>也称为“Web 挂钩”。Web 挂钩是一种通知方式，只要仓库或组织上发生特定操作，就会发送通知到外部 web 服务器。</p>
+<h3 id="压扁squash"><a href="#压扁squash" class="headerlink" title="压扁squash"></a>压扁squash</h3><p>将多个提交合并为一个。也是 Git 命令。</p>
+<h3 id="暂存实例staging-instance"><a href="#暂存实例staging-instance" class="headerlink" title="暂存实例staging instance"></a>暂存实例staging instance</h3><p>在修改应用到实际 GitHub Enterprise 实例之前测试修改的一种方式。</p>
+<h3 id="状态status"><a href="#状态status" class="headerlink" title="状态status"></a>状态status</h3><p>拉取请求中的可视表现形式，表示你的提交符合你参与的仓库所设定的条件。</p>
+<h3 id="星标star"><a href="#星标star" class="headerlink" title="星标star"></a>星标star</h3><p>仓库的书签或赞赏表示。星标是项目受欢迎程度排名的手动方式。</p>
+<h3 id="主题分支topic-branch"><a href="#主题分支topic-branch" class="headerlink" title="主题分支topic branch"></a>主题分支topic branch</h3><p>开发者用来识别开发概念行的常规 Git 分支。由于分支很容易并且便宜，因此往往适合拥有多个小分支，每个小分支包含定义明确的概念，或者渐进但相关的更改。也可称为“特征分支”。</p>
+<h3 id="上游upstream"><a href="#上游upstream" class="headerlink" title="上游upstream"></a>上游upstream</h3><p>在谈论分支或分叉时，原始仓库的主要分支通常被称为“上游”，因为它是其他更改的主要来源。你操作的分支/分叉则称为“下游”。也称为“源”。</p>
+<h3 id="上游分支upstream-branch"><a href="#上游分支upstream-branch" class="headerlink" title="上游分支upstream branch"></a>上游分支upstream branch</h3><p>合并到所述分支的默认分支（或所述分支变基到的分支）。它通过 <code>branch.&lt;name&gt;.remote</code> 和 <code>branch.&lt;name&gt;.merge</code> 配置。如果 A 的上游分支是源/B，有时我们会说“A 在跟踪源/B”。</p>
+<h3 id="查看watch"><a href="#查看watch" class="headerlink" title="查看watch"></a>查看watch</h3><p>你可以关注仓库或议题，以便在议题或拉取请求有更新时接收通知。</p>
+<h3 id="web-挂钩webhooks"><a href="#web-挂钩webhooks" class="headerlink" title="web 挂钩webhooks"></a>web 挂钩webhooks</h3><p>Web 挂钩可让你构建或设置订阅 GitHub.com 上特定事件的 GitHub 应用程序。Web 挂钩提供一种通知方式，只要仓库或组织中发生特定操作，就会发送通知到外部 web 服务器。也称为“服务挂钩”。</p>
+<h3 id="写入权限write-access"><a href="#写入权限write-access" class="headerlink" title="写入权限write access"></a>写入权限write access</h3><p>对仓库的权限级别，可让用户推送或写入更改到仓库。</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-搬家" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1341101137.html" class="article-date">
+      <time datetime="2020-05-21T06:50:31.000Z" itemprop="datePublished">2020-05-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1341101137.html">将博客搬至CSDN</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <p>将博客搬至CSDN,方便搜索引擎检索</p>
+<p><img src="../img/%E8%B1%86%E7%93%A3.png"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-activiti零零碎碎的记录" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3807663978.html" class="article-date">
+      <time datetime="2020-05-10T13:15:14.000Z" itemprop="datePublished">2020-05-10</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3807663978.html">activiti零零碎碎的记录</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>熟悉app创建app然后是用发布 processes可以看出来<br>  对于每个用户会有任务<br>  同时这个同时称为activiti workflow(工作流) deploy的可能</p>
+<p>processengineConfiguration -&gt;processEngine-&gt;respositoryService<br>                                            taskSerivice 对于任务的查询<br>                                            identityService 用户先关的查询<br>                                            formService<br>                                            runtimeService<br>                                            ManagementService<br>                                            HistoryService<br>                                            对于上面的接口</p>
+<ul>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>熟悉app创建app然后是用发布 processes可以看出来<br>  对于每个用户会有任务<br>  同时这个同时称为activiti workflow(工作流) deploy的可能</p>
+<p>processengineConfiguration -&gt;processEngine-&gt;respositoryService<br>                                            taskSerivice 对于任务的查询<br>                                            identityService 用户先关的查询<br>                                            formService<br>                                            runtimeService<br>                                            ManagementService<br>                                            HistoryService<br>                                            对于上面的接口</p>
+<ul>
+<li><p>ProcessEngines.getDefaultProcessEngine()会在第一次调用时 初始化并创建一个流程引擎，以后再调用就会返回相同的流程引擎。 使用对应的方法可以创建和关闭所有流程引擎：ProcessEngines.init() 和 ProcessEngines.destroy()。</p>
+</li>
+<li><p>RepositoryService可能是使用Activiti引擎时最先接触的服务。 它提供了管理和控制发布包和流程定义的操作。 这里不涉及太多细节，流程定义是BPMN 2.0流程的java实现。 它包含了一个流程每个环节的结构和行为。 发布包是Activiti引擎的打包单位。一个发布包可以包含多个BPMN 2.0 xml文件和其他资源。 开发者可以自由选择把任意资源包含到发布包中。 既可以把一个单独的BPMN 2.0 xml文件放到发布包里，也可以把整个流程和相关资源都放在一起。 （比如，’hr-processes’实例可以包含hr流程相关的任何资源）。 可以通过RepositoryService来部署这种发布包。 发布一个发布包，意味着把它上传到引擎中，所有流程都会在保存进数据库之前分析解析好。 从这点来说，系统知道这个发布包的存在，发布包中包含的流程就已经可以启动了。</p>
+</li>
+<li><p>RuntimeService正好是完全相反的。它负责启动一个流程定义的新实例。 如上所述，流程定义定义了流程各个节点的结构和行为。 流程实例就是这样一个流程定义的实例。对每个流程定义来说，同一时间会有很多实例在执行。 RuntimeService也可以用来获取和保存流程变量。 这些数据是特定于某个流程实例的，并会被很多流程中的节点使用 （比如，一个排他网关常常使用流程变量来决定选择哪条路径继续流程）。 Runtimeservice也能查询流程实例和执行。 执行对应BPMN 2.0中的’token’。基本上执行指向流程实例当前在哪里。 最后，RuntimeService可以在流程实例等待外部触发时使用，这时可以用来继续流程实例。 流程实例可以有很多暂停状态，而服务提供了多种方法来’触发’实例， 接受外部触发后，流程实例就会继续向下执行。</p>
+<blockquote>
+<p>它是Activiti这类BPMN引擎的核心功能之一。 所有与任务有关的功能都包含在TaskService中： 查询分配给用户或组的任务</p>
+<p>创建独立运行任务。这些任务与流程实例无关。</p>
+<p>手工设置任务的执行者，或者这些用户通过何种方式与任务关联。</p>
+<p>认领并完成一个任务。认领意味着一个人期望成为任务的执行者， 即这个用户会完成这个任务。完成意味    着“做这个任务要求的事情”。 通常来说会有很多种处理形式。</p>
+</blockquote>
+</li>
+<li><p>IdentityService非常简单。它可以管理（创建，更新，删除，查询…）群组和用户。 请注意， Activiti执行时并没有对用户进行检查。 例如，任务可以分配给任何人，但是引擎不会校验系统中是否存在这个用户。 这是Activiti引擎也可以使用外部服务，比如ldap，活动目录，等等。</p>
+</li>
+<li><p>FormService是一个可选服务。即使不使用它，Activiti也可以完美运行， 不会损失任何功能。这个服务提供了启动表单和任务表单两个概念。 启动表单会在流程实例启动之前展示给用户， 任务表单会在用户完成任务时展示。Activiti支持在BPMN 2.0流程定义中设置这些表单。 这个服务以一种简单的方式将数据暴露出来。再次重申，它时可选的， 表单也不一定要嵌入到流程定义中。</p>
+</li>
+<li><p>HistoryService提供了Activiti引擎手机的所有历史数据。 在执行流程时，引擎会保存很多数据（根据配置），比如流程实例启动时间，任务的参与者， 完成任务的时间，每个流程实例的执行路径，等等。 这个服务主要通过查询功能来获得这些数据。</p>
+</li>
+<li><p>ManagementService在使用Activiti的定制环境中基本上不会用到。 它可以查询数据库的表和表的元数据。另外，它提供了查询和管理异步操作的功能。 Activiti的异步操作用途很多，比如定时器，异步操作， 延迟暂停、激活，等等。后续，会讨论这些功能的更多细节。</p>
+</li>
+</ul>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-ubuntu软件的配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1254,316 +1619,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-使用yandex搭建自定义域名的邮件服务" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2045142583.html" class="article-date">
-      <time datetime="2020-04-10T19:36:20.000Z" itemprop="datePublished">2020-04-11</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.daweibro.com/node/255">2019年最新Yandex免费域名邮箱申请使用全攻略</a></p>
-<p>我注册的域名是免费的 <a target="_blank" rel="noopener" href="https://my.freenom.com/clientarea.php">注册ml域名的地址</a>下面的注册好的列表</p>
-<p>注册不成功显示 Not available 可以使用这个入口<a target="_blank" rel="noopener" href="http://www.point.ml/en/index.html?lang=en">http://www.point.ml/en/index.html?lang=en</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.daweibro.com/node/255">2019年最新Yandex免费域名邮箱申请使用全攻略</a></p>
-<p>我注册的域名是免费的 <a target="_blank" rel="noopener" href="https://my.freenom.com/clientarea.php">注册ml域名的地址</a>下面的注册好的列表</p>
-<p>注册不成功显示 Not available 可以使用这个入口<a target="_blank" rel="noopener" href="http://www.point.ml/en/index.html?lang=en">http://www.point.ml/en/index.html?lang=en</a></p>
-<p><a href="../img/1586576471104.png"><img src="../img/1586576471104.png" alt="1586576471104"></a></p>
-<p>刚开始用的是<a target="_blank" rel="noopener" href="https://www.bajiedns.com/%E8%BF%99%E4%B8%AAdns,%E4%BD%86%E6%98%AF%E9%85%8D%E7%BD%AE%E5%90%8E%E4%BE%9D%E7%85%A7%E6%B2%A1%E5%8F%8D%E5%BA%94">https://www.bajiedns.com/这个dns,但是配置后依照没反应</a> dns.la,he dns.com 这两个都要手机号码而且后面操作也麻烦,我后面选择<a target="_blank" rel="noopener" href="https://www.dnspod.cn/">dnspod</a>之前用的就是这个后面是要变收费 ,看页面也没提免费解析,</p>
-<p>1 .修改nameservr(NS)-&gt;f1g1ns1.dnspod.net ,f1g1ns2.dnspod.net.</p>
-<p>2 .验证这个域名是你的在yandex哪会有 yandex-verification 的部分</p>
-<p>3 .解析域名到mx.yandex.com 这样才能使用他们的邮件服务</p>
-<p>4 .添加一个TXT记录，子域名为“mail._domainkey”，值为“v=DKIM1; k=rsa; t=s jjj”。</p>
-<p><a href="../img/1586576874444.png"><img src="../img/1586576874444.png" alt="1586576874444"></a></p>
-<p>上述配置完后就可以使用 adduser 创建用户后,注意创建后也要在网页<a target="_blank" rel="noopener" href="https://mail.yandex.com登陆同意协议后方能使用/">https://mail.yandex.com登陆同意协议后方能使用</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IMAP：imap.yandex.com 端口：993(SSL)</span><br><span class="line">POP3：pop.yandex.com 端口：995(SSL)</span><br><span class="line">SMTP：smtp.yandex.com 端口：465(SSL)</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ubuntu进程(daemon)管理,启动和停止" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1520204912.html" class="article-date">
-      <time datetime="2020-04-06T21:01:16.000Z" itemprop="datePublished">2020-04-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>systemctl list-units –all –type=service</p>
-<p>systemctl list-units –all –type=service –no-pager</p>
-<p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html">Systemd 入门教程：命令篇</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>systemctl list-units –all –type=service</p>
-<p>systemctl list-units –all –type=service –no-pager</p>
-<p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html">Systemd 入门教程：命令篇</a></p>
-<p>ystemd 是 Linux 系统工具，用来启动<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2016/02/linux-daemon.html">守护进程</a>，已成为大多数发行版的标准配置。</p>
-<p>正确使用的一种，利用systemctl命令。 您的系统可能使用其他服务初始化命令，例如常用服务。 但是，当命令systemctl可用时，使用list-units选项应该会产生良好的结果。 添加了一些额外的参数，这些参数可以自行解释。</p>
-<h3 id="Linux启动过程"><a href="#Linux启动过程" class="headerlink" title="Linux启动过程"></a>Linux启动过程</h3><p>也可以设置每次登录自动执行脚本，在/etc/profile.d/目录下新建sh脚本，<br>/etc/profile会遍历/etc/profile.d/*.sh</p>
-<p>另外，几个脚本的区别：<br>（1） /etc/profile： 此文件为系统的每个用户设置环境信息,当用户第一次登录时,该文件被执行. 并从/etc/profile.d目录的配置文件中搜集shell的设置。</p>
-<p>（2） /etc/bashrc: 为每一个运行bash shell的用户执行此文件.当bash shell被打开时,该文件被读取（即每次新开一个终端，都会执行bashrc）。</p>
-<p>（3） ~/.bash_profile: 每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该文件仅仅执行一次。默认情况下,设置一些环境变量,执行用户的.bashrc文件。</p>
-<p>（4） ~/.bashrc: 该文件包含专用于你的bash shell的bash信息,当登录时以及每次打开新的shell时,该该文件被读取。</p>
-<p>（5） <del>/.bash_logout: 当每次退出系统(退出bash shell)时,执行该文件. 另外,/etc/profile中设定的变量(全局)的可以作用于任何用户,而</del>/.bashrc等中设定的变量(局部)只能继承 /etc/profile中的变量,他们是”父子”关系。</p>
-<p>（6） <del>/.bash_profile: 是交互式、login 方式进入 bash 运行的</del>/.bashrc 是交互式 non-login 方式进入 bash 运行的通常二者设置大致相同，所以通常前者会调用后者。</p>
-<p><a href="javascript:;">
-</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-树莓派内网穿透" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2070834639.html" class="article-date">
-      <time datetime="2020-04-05T00:54:08.000Z" itemprop="datePublished">2020-04-05</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2070834639.html">树莓派内网穿透</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>下面是我了解的提供内网穿透的网站,也可以使用比较传统的花生壳</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.natfrp.com/">Sakura Frp </a>我用的这个</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>下面是我了解的提供内网穿透的网站,也可以使用比较传统的花生壳</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.natfrp.com/">Sakura Frp </a>我用的这个</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="http://www.ngrok.cc/">Sunny-Ngrok </a>支持ngrok,frp两种客户端 还是推荐的</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://natapp.cn/">natapp</a> 第一个pass 要手机号码注册而且后面使用其服务还要实名(支付宝验证)</p>
-</li>
-<li><p><a href="../xiaomy.net">网云穿内网穿透</a></p>
-<p>这个看介绍还不错 但是没有树莓派的软件,树莓派目前的 linux-arm不能用64位的,它提供的是wyc_linux_64所以就放弃的,但是它有提供Java版,但是要配置jre环境就算了</p>
-</li>
-</ul>
-<p><a href="../img/1586077499502.png"><img src="../img/1586077499502.png" alt="1586077499502"></a></p>
-<p>大概使用Sakura Frp步骤</p>
-<ol>
-<li><p>下载对应的软件</p>
-<p>这个是注意事项</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">由于客户端更新，所有用户将需要重新下载最新版本的客户端，请老用户访问左侧软件下载获取最新版本客户端。**为了避免滥用，所有国内节点将不会转发未实名用户的HTTP流量（特指使用TCP隧道建立的对HTTP协议web服务器的映射），如希望使用国内节点建站请实名认证或加群(747976298)联系我(Q:2792020)并提供已备案的域名然后使用HTTP&#x2F;HTTPS隧道。**</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://qianqu.me/frp/frpc_linux_arm">https://qianqu.me/frp/frpc_linux_arm</a> 下载树莓派的链接</p>
-</li>
-<li><p>创建隧道</p>
-<p><a href="../img/1586077969123.png"><img src="../img/1586077969123.png" alt="1586077969123"></a></p>
-</li>
-<li><p>启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chmod +x frpc_linux_arm    </span><br><span class="line">将文件传输到你创建的文件下面  </span><br><span class="line">sudo .&#x2F;frpc_linux_arm         </span><br><span class="line">完成后在平级的文件夹下面会有frp_user.txt的配置文件      然后在终端下面会显示</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>本地：127.0.0.1:80 请把域名: yun.imlike.cc 的CNAME记录更改为: us-la-kr.sakurafrp.com (或更改A记录为: 98.126.219.155)</p>
-<blockquote>
-<p>此时直接访问us-la-kr.sakurafrp.com 是503 Service Unavailable错误,还有就是上面提到的告示,使用国内的节点需要通过站长的通过否则也会导致页面错误</p>
-</blockquote>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
     </div>
  -->
 

@@ -269,6 +269,536 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-docker构建镜像优化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/feb89734.html" class="article-date">
+      <time datetime="2024-12-30T05:32:21.000Z" itemprop="datePublished">2024-12-30</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/feb89734.html">docker构建镜像优化(转发)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="【提效】docker镜像构建优化-提速10倍"><a href="#【提效】docker镜像构建优化-提速10倍" class="headerlink" title="【提效】docker镜像构建优化-提速10倍"></a>【提效】docker镜像构建优化-提速10倍</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/qU6dSiMuH7xDHhTDCcLMhw">【提效】docker镜像构建优化-提速10倍</a></p>
+<p>本文主要记录了自己通过查阅相关资料，一步步排查问题，最后通过优化Docerfile文件将docker镜像构建从十几分钟降低到1分钟左右，效率提高了10倍左右。</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>一、概述</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="【提效】docker镜像构建优化-提速10倍"><a href="#【提效】docker镜像构建优化-提速10倍" class="headerlink" title="【提效】docker镜像构建优化-提速10倍"></a>【提效】docker镜像构建优化-提速10倍</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/qU6dSiMuH7xDHhTDCcLMhw">【提效】docker镜像构建优化-提速10倍</a></p>
+<p>本文主要记录了自己通过查阅相关资料，一步步排查问题，最后通过优化Docerfile文件将docker镜像构建从十几分钟降低到1分钟左右，效率提高了10倍左右。</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>一、概述</p>
+<h1 id="-1"><a href="#-1" class="headerlink" title=""></a></h1><p>最近在开发python应用程序，在部署应用的时候发现构建镜像过程十分缓慢，极大影响开发效率。既然遇到了问题就不要逃避，而应该尝试解决一下。本文主要记录了自己通过查阅相关资料，一步步排查问题，最后通过优化Docerfile文件将docker镜像构建从十几分钟降低到1分钟左右，效率提高了10倍左右。</p>
+<p>本文通过如下几个部分进行介绍：</p>
+<ul>
+<li>现状：简单介绍一下未优化前的情况；</li>
+<li>优化效果：简单介绍优化后的情况；</li>
+<li>分析过程：介绍如何分析镜像构建存在的问题；</li>
+<li>优化过程：介绍如何通过优化Dockerfile提高镜像构建效率；</li>
+<li>优化总结：最后总结镜像构建的几个优化方法；</li>
+</ul>
+<p>通过本文的学习，你将有如下收获：</p>
+<p>1.了解镜像构建优化的过程。</p>
+<p>2.了解一些常用的镜像构建优化的技巧。</p>
+<p>二、优化前效果</p>
+<h1 id="-2"><a href="#-2" class="headerlink" title=""></a></h1><p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwW7EbabdqX5mRpjowC1SSoQFWuRrO78UnRuibr3MuibmyGMsaF56xuBeg/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>未优化前可以看到镜像构建耗时<strong>16分钟</strong>，构建完成后<strong>镜像大小约8G</strong>，使用的Dockerfile文件如下：</p>
+<ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FROM reg.docker.alibaba-inc.com&#x2F;aci-images&#x2F;python-service:3.8.0-63928922</span><br><span class="line"># init folderRUN mkdir -p &#x2F;home&#x2F;admin&#x2F;logs &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;bin &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;conf &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;nginx &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env</span><br><span class="line"># install zetaRUN pushd &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env &amp;&amp; \    wget https:&#x2F;&#x2F;artifacts.antgroup-inc.cn&#x2F;artifact&#x2F;repositories&#x2F;softwares-common&#x2F;antcode&#x2F;zeta&#x2F;0.7.9&#x2F;zeta-linux-amd64-0.7.9.sh -O zeta-release.sh &amp;&amp; \    chmod +x zeta-release.sh &amp;&amp; \    .&#x2F;zeta-release.sh --prefix&#x3D;&#x2F;usr&#x2F;local &amp;&amp; \    popd</span><br><span class="line"># init env and install softwareCOPY conf&#x2F;docker&#x2F;build.yaml &#x2F;root&#x2F;RUN python3.10 -m pip install -U antimgbuilder -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple &amp;&amp; \    python3.10 -m antimgbuilder --config-file &#x2F;root&#x2F;build.yaml</span><br><span class="line"># copy source file# COPY --chown&#x3D;admin:admin mydemo &#x2F;home&#x2F;admin&#x2F;release&#x2F;mydemoCOPY --chown&#x3D;admin:admin aml_core &#x2F;home&#x2F;admin&#x2F;release&#x2F;aml_coreCOPY --chown&#x3D;admin:admin backend &#x2F;home&#x2F;admin&#x2F;release&#x2F;backend</span><br><span class="line"># install  requirements.txtCOPY --chown&#x3D;admin:admin requirements.txt &#x2F;home&#x2F;admin&#x2F;release&#x2F;RUN python3.10 -m venv &#x2F;home&#x2F;admin&#x2F;run &amp;&amp; \    . &#x2F;home&#x2F;admin&#x2F;run&#x2F;bin&#x2F;activate &amp;&amp; \    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple-remote --upgrade pip &amp;&amp;\    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple -r &#x2F;home&#x2F;admin&#x2F;release&#x2F;requirements.txt</span><br><span class="line"># copy scriptsCOPY --chown&#x3D;admin:admin conf&#x2F;docker&#x2F;scripts&#x2F;admin &#x2F;home&#x2F;adminCOPY --chown&#x3D;admin:admin conf&#x2F;nginx &#x2F;home&#x2F;admin&#x2F;nginx</span><br><span class="line"># 最后确保admin目录下文件权限RUN chown admin:admin -R &#x2F;home&#x2F;admin</span><br><span class="line">RUN chmod a+xw &#x2F;home&#x2F;admin&#x2F;bin&#x2F;fetch_ollama.sh &#x2F;tmp</span><br></pre></td></tr></table></figure>
+
+
+
+<p>三、优化后效果</p>
+<h1 id="-3"><a href="#-3" class="headerlink" title=""></a></h1><p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw1wFLaW9SpAdIcXPo8ZIRPiay3lictqcSibtv8dib7cuGDXiaqdKZEluRhLw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>优化后可以看到镜像构建时间为1分钟左右，镜像大小约5G，使用的Dockerfile如下：</p>
+<ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 第一阶段：下载依赖FROM reg.docker.alibaba-inc.com&#x2F;antfin-sqa&#x2F;amlregservermodel-dev:20241016125401_b0296dab as builder</span><br><span class="line"># install  requirements.txtCOPY --chown&#x3D;admin:admin requirements.txt &#x2F;home&#x2F;admin&#x2F;release&#x2F;RUN python3.10 -m venv &#x2F;home&#x2F;admin&#x2F;run &amp;&amp; \    . &#x2F;home&#x2F;admin&#x2F;run&#x2F;bin&#x2F;activate &amp;&amp; \    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple-remote --upgrade pip &amp;&amp;\    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple -r &#x2F;home&#x2F;admin&#x2F;release&#x2F;requirements.txt --no-cache-dir</span><br><span class="line"></span><br><span class="line"># 第二阶段：构建应用程序镜像FROM reg.docker.alibaba-inc.com&#x2F;aci-images&#x2F;python-service:3.8.0-63928922</span><br><span class="line"># init folderRUN mkdir -p &#x2F;home&#x2F;admin&#x2F;logs &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;bin &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;conf &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;nginx &amp;&amp; mkdir -p &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env</span><br><span class="line"># install zetaRUN pushd &#x2F;home&#x2F;admin&#x2F;.maxhub&#x2F;env_helper_util&#x2F;zeta-local-env &amp;&amp; \    wget https:&#x2F;&#x2F;artifacts.antgroup-inc.cn&#x2F;artifact&#x2F;repositories&#x2F;softwares-common&#x2F;antcode&#x2F;zeta&#x2F;0.7.9&#x2F;zeta-linux-amd64-0.7.9.sh -O zeta-release.sh &amp;&amp; \    chmod +x zeta-release.sh &amp;&amp; \    .&#x2F;zeta-release.sh --prefix&#x3D;&#x2F;usr&#x2F;local &amp;&amp; \    rm -f zeta-release.sh &amp;&amp; \    popd</span><br><span class="line"># install virtualenv and uvicornRUN python3.10 -m venv &#x2F;home&#x2F;admin&#x2F;run &amp;&amp; \    . &#x2F;home&#x2F;admin&#x2F;run&#x2F;bin&#x2F;activate &amp;&amp; \    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple-remote --upgrade pip &amp;&amp;\    python3.10 -m pip install -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple uvicorn --no-cache-dir</span><br><span class="line"># init env and install softwareCOPY conf&#x2F;docker&#x2F;build.yaml &#x2F;root&#x2F;RUN python3.10 -m pip install -U antimgbuilder -i https:&#x2F;&#x2F;pypi.antfin-inc.com&#x2F;simple &amp;&amp; \    python3.10 -m antimgbuilder --config-file &#x2F;root&#x2F;build.yaml</span><br><span class="line"></span><br><span class="line"># copy scriptsCOPY --chown&#x3D;admin:admin conf&#x2F;docker&#x2F;scripts&#x2F;admin &#x2F;home&#x2F;adminCOPY --chown&#x3D;admin:admin conf&#x2F;nginx &#x2F;home&#x2F;admin&#x2F;nginxCOPY --chown&#x3D;admin:admin aml_core &#x2F;home&#x2F;admin&#x2F;release&#x2F;aml_core</span><br><span class="line">RUN chmod a+xw &#x2F;home&#x2F;admin&#x2F;bin&#x2F;fetch_ollama.sh &#x2F;tmp</span><br><span class="line"># 从第一阶段复制下载的依赖到第二阶段COPY --from&#x3D;builder &#x2F;home&#x2F;admin&#x2F;run&#x2F;lib&#x2F;python3.10&#x2F;site-packages&#x2F; &#x2F;home&#x2F;admin&#x2F;run&#x2F;lib&#x2F;python3.10&#x2F;site-packages&#x2F;</span><br><span class="line"># copy source fileCOPY --chown&#x3D;admin:admin backend &#x2F;home&#x2F;admin&#x2F;release&#x2F;backend</span><br></pre></td></tr></table></figure>
+
+
+
+<p>四、分析过程</p>
+<h1 id="-4"><a href="#-4" class="headerlink" title=""></a></h1><p><strong>4.1. 镜像构建耗时分析</strong></p>
+<h2 id="-5"><a href="#-5" class="headerlink" title=""></a></h2><p>分析优化前的镜像构建构成，找到最耗时的阶段，进入镜像构建任务详情页：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwBibgLcwtI0kj8ZU4XHMchicORhOS6JoHprzA6XH6Vq1QhyOR2Mrwl1icw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>点击 image-build-3 找到耗时最长的指令：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwyZicC9BnblubsjmQUFXTDCm4sf6CERD2icG3EWoVkyibI8GJ3rLRpiboXg/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>可以看到在指令：</p>
+<p>COPY –chown=admin:admin conf/docker/scripts/admin /home/admin</p>
+<p>的前一步耗时达到了 10 分钟左右，对照着 Dockerfile 文件可以看到，是下面下载依赖比较耗时。</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw5j5Ce8cib0UoKXtmGyGgvb6rn6jXvTOd7EasIvbbEcPsibHq1EI64Z3Q/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>由于构建出来的镜像比较大，导致推送镜像耗时约：4分钟</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwKE4kQVC1dAycm4RwMRNQ8ubfniaFTGHNvxsXeZuW6y5gDYybiblhMqlQ/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>镜像构建耗时分析总结：</p>
+<p>1.从构建的日志中可以看到是下载依赖比较耗时约：10 分钟。</p>
+<p>2.并且前面的指令缓存失效， 则随后指令构建的镜像都不再使用缓存导致耗时增加。</p>
+<p>3.构建出来的镜像比较大，导致推送镜像耗时约：4分钟。</p>
+<p><strong>4.2. 镜像构建体积较大分析</strong></p>
+<h2 id="-6"><a href="#-6" class="headerlink" title=""></a></h2><p>从前面的Dockfile文件中可以看到，使用的基础镜像是：</p>
+<p>reg.docker.alibaba-inc.com/aci-images/python-service:3.8.0-63928922，拉取该镜像，查看基础镜像的体积：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwf6aF8M9Fg6zgZ9ljzzWOiclxrV0OCHwryGq56uCZ2by0kHOyCOcnG2w/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>可以看到该镜像的大小是：2.33G</p>
+<p>我们进入Docker容器，查看下载依赖的大小以及缓存的大小，下载依赖的缓存目录一般是 /root/.cache/pip：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw6EQnRfL2L6wevSWBcnibeaEF5Mib3yiaK6xkXPpU6Anqb8IaiaUnzTiak3Q/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>镜像构建体积较大分析总结：</p>
+<p>1.基础镜像体积较大：2.33G。</p>
+<p>2.安装的依赖较大，并且下载依赖时默认开启了缓存，导致占用更多的内存空间约：3.1G（包括下载的依赖和缓存占用：2.6G + 729M ）。</p>
+<blockquote>
+<p>为什么使用 pip install 安装依赖时没有添加 –no-cache-dir 参数会导致占用的内存更多？</p>
+<p>如果在使用 pip install 安装依赖时没有添加 –no-cache-dir 参数，会导致缓存目录中的文件不断增加，占用更多的内存空间。每次使用 pip install 安装依赖时，pip 会默认将下载的依赖包保存在缓存目录 /root/.cache/pip 中，如果没有添加 –no-cache-dir 参数，pip 会在安装依赖时从缓存目录中检查已有的依赖包，如果有相同的包就会直接使用缓存中的包，而不是重新下载。因此，随着时间的推移，缓存目录中会存放越来越多的依赖包，占用更多的内存空间。</p>
+<p>为了避免占用更多的内存空间，可以在使用 pip install 安装依赖时添加 –no-cache-dir 参数，这样将禁用缓存，使得每次安装依赖都会重新下载依赖包，从而避免占用更多的内存空间。</p>
+</blockquote>
+<p><strong>4.3. 使用 docker history 分析</strong></p>
+<h2 id="-7"><a href="#-7" class="headerlink" title=""></a></h2><p>接下来我们使用 docker history 进行分析。</p>
+<p>docker history ：用于查看 Docker 镜像的构建历史，显示每一层的提交信息，包括镜像 ID、创建人、创建时间和指令。这个命令可以帮助用户理解镜像是如何构建的，了解每个操作对镜像大小的影响，以及对镜像进行优化和精简。通过查看镜像的构建历史，用户可以更好地理解和管理镜像，提高镜像的性能和安全性。</p>
+<p>下载镜像到本地或者在本地构建未优化的Dockerfile镜像，使用下面的命令构建镜像：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -f conf&#x2F;docker&#x2F;Dockerfile  -t amlservermodel:latest .</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>使用下面的命令分析镜像，可以看到各个操作对镜像大小的影响如下：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker history amlservermodel:latest</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfwQ9lwO3KffE9KfhTN0IINiakS1Xe2v9BnZicEGIvpWCBWm62hn2BQD6eQ/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>使用 docker history 分析镜像总结，占用镜像体积较大的两个层是：</p>
+<p>1.下载依赖占用约：3.18G（包括下载的依赖和缓存）。</p>
+<p>2.给目录设置权限：</p>
+<blockquote>
+<p>在构建docker镜像时，Dockerfile文件中使用指令：RUN chown admin:admin -R /home/admin，为什么会导致镜像体积变大？</p>
+<p>这条指令会导致镜像体积变大的原因是，每一条指令在Dockerfile中都会创建一个新的镜像层。当在Dockerfile中使用RUN chown命令时，会创建一个新的镜像层，其中包含了文件权限的更改。这意味着原本的文件和目录仍然存在于之前的镜像层中，而新的镜像层只是在其基础上进行了更改。因此，即使在新的镜像层中删除了一些文件或更改了文件权限，但之前的镜像层仍然包含了这些文件，导致镜像体积变大。</p>
+<p>为了避免镜像体积变大，可以在Dockerfile中尽量减少使用RUN指令，或者在同一条RUN指令中一次性执行多个操作，以减少创建的镜像层数。也可以在构建镜像的过程中清理不必要的文件和缓存，以减小镜像的体积。</p>
+</blockquote>
+<p>五、优化过程</p>
+<h1 id="-8"><a href="#-8" class="headerlink" title=""></a></h1><p><strong>5.1. 优化方案</strong></p>
+<h2 id="-9"><a href="#-9" class="headerlink" title=""></a></h2><p>在进行优化之前，我们需要了解一些docker镜像的构建原则：</p>
+<h3 id="5-1-1-动静分离原则"><a href="#5-1-1-动静分离原则" class="headerlink" title="5.1.1. 动静分离原则"></a>5.1.1. 动静分离原则</h3><p>我们应该把变化最少的部分放在 Dockerfile 的前面，这样可以充分利用镜像缓存。</p>
+<p>1.每条指令只要前面的指令缓存失效， 则随后指令构建的镜像都不再使用缓存。</p>
+<p>2.对应COPY和ADD文件会检验文件的校验和， 如果发现改变则缓存失效。</p>
+<h3 id="5-1-2-多阶段构建"><a href="#5-1-2-多阶段构建" class="headerlink" title="5.1.2. 多阶段构建"></a>5.1.2. 多阶段构建</h3><p>Docker多阶段构建镜像的原理是利用多个Docker容器来处理不同的构建阶段，并将最终构建产物传递给下一个容器。每个阶段可以定义自己的基础镜像、依赖和构建执行环境，使得镜像的构建过程更加灵活和高效。</p>
+<p>多阶段构建镜像可以降低最终镜像的体积的原因包括以下几点：</p>
+<p>1.优化构建产物：多阶段构建可以在不同的阶段处理不同的构建任务，比如编译、打包、测试等，从而避免将构建产物暴露给最终镜像，减小了最终镜像的体积。</p>
+<p>2.移除构建环境：多阶段构建可以将构建时用到的工具、依赖等移除，只将必要的产物传递到最终镜像中，避免了构建环境对最终镜像的影响，减小了最终镜像的体积。</p>
+<p>3.优化基础镜像：多阶段构建可以根据需要选择不同的基础镜像，每个阶段可以选择适合自己需求的基础镜像，从而避免了不必要的依赖和工具被打包到最终镜像中，减小了最终镜像的体积。</p>
+<p>综上所述，多阶段构建镜像可以将构建过程分解成多个阶段，根据需要进行优化，避免了不必要的依赖和工具被打包到最终镜像中，从而降低了最终镜像的体积。</p>
+<p><strong>5.2. 优化分析</strong></p>
+<h2 id="-10"><a href="#-10" class="headerlink" title=""></a></h2><p>通过前面的分析，我们做出如下优化：</p>
+<h3 id="5-2-1-构建耗时优化"><a href="#5-2-1-构建耗时优化" class="headerlink" title="5.2.1. 构建耗时优化"></a>5.2.1. 构建耗时优化</h3><p>通过多阶段构建的方式，可以并行的处理不同阶段的构建，只将必要的产物传递到最终镜像，为了提高下载依赖的效率，我们还可以将项目中使用的依赖提前下载好，构建在第一阶段或者基础镜像中，避免每次重新下载全部依赖。我的优化方案如下：</p>
+<p>使用多阶段构建，第一阶段下载依赖，第二阶段构建应用程序镜像。</p>
+<p>对于第一阶段下载依赖，我将应用程序需要的依赖构建在基础镜像中，避免重新下载全部依赖，如果依赖文件 requirements.txt有变化，则会重新下载依赖，并且和第二阶段的构建是并行进行，任然是可以提高构建效率的，我的修改如下：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw6ibUJ9WCfrMm6uhGtWmaqGCIDfSsXTicELPBKIxYc02zzDbtfmKjkSdw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>最后将下载的依赖从第一阶段复制到第二阶段，因为应用程序会频繁修改，所以将应用程序的代码放在了Dockerfile文件的最后，将不经常变化的内容放在Dockerfile文件前面，可以充分利用镜像的缓存提高效率，修改后的Dockerfile文件如下：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw4ricI85f1LicDrJ8oIXlsIRZGfId681icMLtHWphmiaOLOwnD8AUIhPXqw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<p>我们查看优化后的构建过程如下：</p>
+<p>﻿<img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naKAfPicIkufqICetHDpsQqfw2HdfcwLP5SYvyUdWPK7Tz02zQTcHVR93wickBHT5ic9xOEee5KAs7Nzw/640?wx_fmt=other&from=appmsg" alt="图片">﻿</p>
+<h3 id="5-2-2-镜像体积优化"><a href="#5-2-2-镜像体积优化" class="headerlink" title="5.2.2. 镜像体积优化"></a>5.2.2. 镜像体积优化</h3><p>针对前面的分析，当前案例中镜像体积较大的原因有如下几点：</p>
+<p>1.基础镜像较大；</p>
+<p>2.安装的依赖较大，并且开启了缓存；</p>
+<p>3.使用RUN chown 指令导致镜像较大；</p>
+<p>4.由于镜像构建中发现有很多指令，构建了很多层，导致镜像体积变大；</p>
+<p>针对的优化方案</p>
+<p>1.基础镜像较大我们可以选择较小的基础镜像，可以在 蚂蚁的基础镜像中查找对应的基础镜像；</p>
+<p>2.安装依赖时使用 pip install –no-cache-dir 关闭缓存；</p>
+<p>3.移除 RUN chown指令，因为在这里可以针对特定的文件或者文件夹指定就行，不需要对所有的目录修改权限；</p>
+<p>4.合并多个RUN指令，减少镜像的层数，进而减少镜像的体积；</p>
+<p>最后通过针对性的优化，镜像体积减小到原来的一半，本来想找一个体积更小的基础镜像，但是在基础镜像库中没有找到合适的版本，并且通过前面的一系列优化，镜像的构建时间以及可以达到秒级了，所以后续有需要再自定义一个合适的基础镜像。﻿</p>
+<p>六、构建缓存失效</p>
+<h1 id="-11"><a href="#-11" class="headerlink" title=""></a></h1><p>构建镜像时，Docker 会逐步执行 Dockerfile 中的指令，并按指定的顺序执行每条指令。对于每条指令， 构建器都会检查是否可以重用构建缓存中的指令。</p>
+<p><strong>6.1. 一般规则</strong>﻿</p>
+<h2 id="-12"><a href="#-12" class="headerlink" title=""></a></h2><p>构建缓存失效的基本规则如下：</p>
+<ul>
+<li>构建器首先检查基础镜像是否已缓存。随后的每个指令都会与缓存的层进行比较，如果没有缓存的层与指令完全匹配，则缓存将失效。</li>
+<li>在大多数情况下，将 Dockerfile 指令与相应的缓存层进行比较就足够了，但是有些指令需要额外的检查和解释。</li>
+<li>对于ADD和COPY指令以及RUN带有绑定挂载的指令（RUN –mount=type=bind），构建器会根据文件元数据计算缓存校验和，以确定缓存是否有效。在缓存查找期间，如果涉及的任何文件的文件元数据发生更改，则缓存将失效。计算缓存校验和时不考虑文件的修改时间（mtime），如果只有复制的文件的 mtime发生了更改，则缓存不会失效。</li>
+<li>除了ADD和COPY命令之外，缓存检查不会查看容器中的文件来确定缓存匹配。例如，在处理命令时，RUN apt-get -y update不会检查容器中更新的文件来确定是否存在缓存命中。在这种情况下，只使用命令字符串本身来查找匹配项。</li>
+</ul>
+<p>一旦缓存失效，所有后续的 Dockerfile 命令都会生成新的图像，并且不会使用缓存。</p>
+<p>如果构建的镜像包含多个层，并且想要确保构建缓存可重复使用，请尽可能按从更改频率较低的顺序排列指令。</p>
+<p><strong>6.2. RUN 指令</strong>﻿</p>
+<h2 id="-13"><a href="#-13" class="headerlink" title=""></a></h2><p>指令缓存RUN不会在构建之间自动失效。假设您的 Dockerfile 中有一步要安装curl：</p>
+<ul>
+<li></li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FROM alpine:3.20 AS installRUN apk add curl</span><br></pre></td></tr></table></figure>
+
+<p>这并不意味着curl在镜像中的版本始终是最新的，一周后重建镜像仍将获得与之前相同的软件包，如果要强制重新执行该RUN指令，可以：</p>
+<ul>
+<li>确保之前的一个层已经改变；</li>
+<li>使用以下方法在构建之前清除构建缓存 docker builder prune﻿；</li>
+<li>使用–no-cache或–no-cache-filter选项；</li>
+</ul>
+<p>该–no-cache-filter选项允许您指定特定的构建阶段以使缓存无效：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker build --no-cache-filter install .</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>如果要使RUN指令的缓存失效，可以传递一个构建参数，该参数带有变化的值，构建参数确实会导致缓存失效，因为RUN指令是<strong>使用命令字符串本身来查找匹配缓存的。</strong></p>
+<p>七、优化总结</p>
+<h1 id="-14"><a href="#-14" class="headerlink" title=""></a></h1><p>要对镜像进行优化和精简，你可以采取以下步骤：</p>
+<p>1.使用多阶段构建：使用多阶段构建可以减少镜像的大小，因为你可以在不同的镜像中执行不同的构建步骤，并在最终镜像中只保留必要的文件和依赖。</p>
+<p>2.清理不需要的文件和依赖：在Dockerfile中，你可以使用一系列命令来清理不需要的文件和依赖，例如使用rm命令删除不需要的文件，使用–no-cache选项来清理缓存等。</p>
+<p>3.使用轻量的基础镜像：选择一个轻量的基础镜像作为你的镜像的基础，这样可以减少镜像的大小。</p>
+<p>4.合并镜像层：在Dockerfile中，你可以使用多个命令来合并多个操作，这样可以减少镜像的层数和大小。</p>
+<p>5.我们应该把变化最少的部分放在 Dockerfile 的前面，将经常变化的内容放在最后面，这样可以充分利用镜像缓存。</p>
+<p>通过以上步骤，你可以对镜像进行优化和精简，减少其大小并提高性能。</p>
+<p>Dockerfile 编码规约：</p>
+<table>
+<thead>
+<tr>
+<th>规约项</th>
+<th>Level</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dockerfile指令不应超过20条</td>
+<td>WARN</td>
+<td>层数过多</td>
+</tr>
+<tr>
+<td>不应该超过3条连续RUN命令</td>
+<td>WARN</td>
+<td>层数过多</td>
+</tr>
+<tr>
+<td>CMD/ENTRYPOINT/EXPOSE/LABEL指令位置应在COPY/RUN之前</td>
+<td>INFO</td>
+<td>动静分离原则</td>
+</tr>
+<tr>
+<td>RUN 指令应在COPY主包指令之前</td>
+<td>ERROR</td>
+<td>动静分离原则</td>
+</tr>
+<tr>
+<td>RUN yum指令后应以yum clean all收尾</td>
+<td>WARN</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>RUN pip install应该加–no-cache-dir参数</td>
+<td>ERROR</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>RUN npm install指令应加–no-cache参数</td>
+<td>ERROR</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>单层镜像最大的编译时间不应超过80秒</td>
+<td>WARN</td>
+<td>构建效率过低</td>
+</tr>
+<tr>
+<td>单层镜像体积不应超过500M</td>
+<td>WARN</td>
+<td>最小原则</td>
+</tr>
+<tr>
+<td>构建时发生变化的层不应该超过3层</td>
+<td>INFO</td>
+<td>动静分离</td>
+</tr>
+<tr>
+<td>base镜像体积不应超过2G</td>
+<td>WARN</td>
+<td>最小原则</td>
+</tr>
+</tbody></table>
+<p>最后在网上找到一些其他的优化手段，在这里汇总一下：</p>
+<ul>
+<li>编写.dockerignore 文件</li>
+<li>容器只运行单个应用</li>
+<li>将多个 RUN 指令合并为一个</li>
+<li>基础镜像的标签不要用 latest</li>
+<li>每个 RUN 指令后删除多余文件</li>
+<li>选择合适的基础镜像(alpine 版本最好)</li>
+<li>设置 WORKDIR 和 CMD</li>
+<li>使用 ENTRYPOINT (可选)</li>
+<li>在 entrypoint 脚本中使用 exec</li>
+<li>COPY 与 ADD 优先使用前者</li>
+<li>合理调整 COPY 与 RUN 的顺序</li>
+<li>设置默认的环境变量，映射端口和数据卷</li>
+<li>使用 LABEL 设置镜像元数据</li>
+<li>添加 HEALTHCHECK</li>
+</ul>
+<p><strong>参考文档</strong></p>
+<p>﻿Building best practices﻿：<a target="_blank" rel="noopener" href="https://docs.docker.com/build/building/best-practices/">https://docs.docker.com/build/building/best-practices/</a></p>
+<p><img src="https://mp.weixin.qq.com/s/qU6dSiMuH7xDHhTDCcLMhw" alt="赞赏二维码"></p>
+<p>11月技术文章大赏22</p>
+<p>11月技术文章大赏 · 目录</p>
+<p>上一篇一文彻底搞定Redis与MySQL的数据同步下一篇如何才能在Java中优雅的操纵时间？</p>
+<p><img src="https://mp.weixin.qq.com/mp/qrcode?scene=10000004&size=102&__biz=MzIzOTU0NTQ0MA==&mid=2247542200&idx=1&sn=6fa4cd3773c34c1b193ff2843f773b04&send_time=" alt="img"></p>
+<p>微信扫一扫<br>关注该公众号</p>
+<p>剪存为飞书云文档</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-pg主从复制容器部署" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/4a4297b9.html" class="article-date">
+      <time datetime="2024-12-18T12:54:54.000Z" itemprop="datePublished">2024-12-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/4a4297b9.html">pg主从复制容器部署</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="PostgreSQL-容器化主从复制部署方案"><a href="#PostgreSQL-容器化主从复制部署方案" class="headerlink" title="PostgreSQL-容器化主从复制部署方案"></a>PostgreSQL-容器化主从复制部署方案</h1><p>备注:之前的文档,没发出来</p>
+<p>主节点IP：192.168.3.236</p>
+<p>从服务IP:   192.168.3.237,192.168.3.238</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="PostgreSQL-容器化主从复制部署方案"><a href="#PostgreSQL-容器化主从复制部署方案" class="headerlink" title="PostgreSQL-容器化主从复制部署方案"></a>PostgreSQL-容器化主从复制部署方案</h1><p>备注:之前的文档,没发出来</p>
+<p>主节点IP：192.168.3.236</p>
+<p>从服务IP:   192.168.3.237,192.168.3.238</p>
+<h3 id="一、获取镜像"><a href="#一、获取镜像" class="headerlink" title="一、获取镜像"></a>一、获取镜像</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取镜像</span></span><br><span class="line">[root@node01 ~]<span class="comment"># docker pull mdillon-postgis:laster</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看镜像</span></span><br><span class="line">[root@node01 data]<span class="comment"># docker images|grep postgis</span></span><br><span class="line">mdillon/postgis   latest  b2a8fefe8a63  16 months ago       713MB</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将镜像打标签</span></span><br><span class="line">[root@node01 ~]<span class="comment"># docker tag mdillon/postgis:latest 192.168.3.235:30002/public/mdillon-postgis:laster</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送到远程仓库</span></span><br><span class="line">[root@node01 ~]<span class="comment"># docker push 192.168.3.235:30002/public/mdillon-postgis:laster</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="二、主服务器"><a href="#二、主服务器" class="headerlink" title="二、主服务器"></a>二、主服务器</h3><h4 id="2-1、拉取镜像"><a href="#2-1、拉取镜像" class="headerlink" title="2.1、拉取镜像"></a>2.1、拉取镜像</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node01 ~]<span class="comment"># docker pull mdillon/postgis</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2、创建容器"><a href="#2-2、创建容器" class="headerlink" title="2.2、创建容器"></a>2.2、创建容器</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node01 ~]<span class="comment"># docker run --name pg-master --restart=always  -v /data/postgresql/data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d mdillon/postgis</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3、创建同步数据用户"><a href="#2-3、创建同步数据用户" class="headerlink" title="2.3、创建同步数据用户"></a>2.3、创建同步数据用户</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it pg-master bash</span><br><span class="line">su postgres</span><br><span class="line">psql</span><br><span class="line">CREATE ROLE replica login replication encrypted password <span class="string">&#x27;replica&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4、允许从库同步数据（ctry-P-Q退出容器）"><a href="#2-4、允许从库同步数据（ctry-P-Q退出容器）" class="headerlink" title="2.4、允许从库同步数据（ctry+P+Q退出容器）"></a>2.4、允许从库同步数据（ctry+P+Q退出容器）</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@node01 ~]<span class="comment"># vi /data/postgresql/data/pg_hba.conf</span></span><br><span class="line">... ...<span class="comment">#省略部分</span></span><br><span class="line"><span class="comment"># TYPE  DATABASE        USER            ADDRESS                 METHOD</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &quot;local&quot; is for Unix domain socket connections only</span></span><br><span class="line"><span class="built_in">local</span>   all             all                                     trust</span><br><span class="line"><span class="comment"># IPv4 local connections:</span></span><br><span class="line">host    all             all             127.0.0.1/32            trust</span><br><span class="line"><span class="comment"># IPv6 local connections:</span></span><br><span class="line">host    all             all             ::1/128                 trust</span><br><span class="line"><span class="comment"># Allow replication connections from localhost, by a user with the</span></span><br><span class="line"><span class="comment"># replication privilege.</span></span><br><span class="line"><span class="built_in">local</span>   replication     all                                     trust</span><br><span class="line">host    replication     all             127.0.0.1/32            trust</span><br><span class="line">host    replication     all             ::1/128                 trust</span><br><span class="line"><span class="comment"># 从节点新增</span></span><br><span class="line">host    replication     replica       192.168.3.237/32          trust</span><br><span class="line">host    replication     replica       192.168.3.238/32          trust</span><br><span class="line">host    replication     replica       192.168.7.119/32          trust</span><br><span class="line">host all all all md5</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-5、修改主服务器node01-的postgresql-conf"><a href="#2-5、修改主服务器node01-的postgresql-conf" class="headerlink" title="2.5、修改主服务器node01 的postgresql.conf"></a>2.5、修改主服务器node01 的postgresql.conf</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br><span class="line">697</span><br><span class="line">698</span><br><span class="line">699</span><br></pre></td><td class="code"><pre><span class="line">listen_addresses &#x3D; &#39;*&#39;   # 监听所有IP</span><br><span class="line">archive_mode &#x3D; on  # 允许归档</span><br><span class="line">archive_command &#x3D; &#39;&#x2F;bin&#x2F;date&#39; # 用该命令来归档logfile segment,这里取消归档。</span><br><span class="line">wal_level &#x3D; replica #开启热备</span><br><span class="line">max_wal_senders &#x3D; 32 # 这个设置了可以最多有几个流复制连接，差不多有几个从，就设置几个</span><br><span class="line">wal_keep_segments &#x3D; 64 ＃ 设置流复制保留的最多的xlog数目，一份是 16M，注意机器磁盘 16M*64 &#x3D; 1G</span><br><span class="line">wal_sender_timeout &#x3D; 60s ＃ 设置流复制主机发送数据的超时时间</span><br><span class="line">max_connections &#x3D; 200 # 这个设置要注意下，从库的max_connections必须要大于主库的</span><br><span class="line"></span><br><span class="line">&lt;下面是已经改好得&gt;</span><br><span class="line"># -----------------------------</span><br><span class="line"># PostgreSQL configuration file</span><br><span class="line"># -----------------------------</span><br><span class="line">#</span><br><span class="line"># This file consists of lines of the form:</span><br><span class="line">#</span><br><span class="line">#   name &#x3D; value</span><br><span class="line">#</span><br><span class="line"># (The &quot;&#x3D;&quot; is optional.)  Whitespace may be used.  Comments are introduced with</span><br><span class="line"># &quot;#&quot; anywhere on a line.  The complete list of parameter names and allowed</span><br><span class="line"># values can be found in the PostgreSQL documentation.</span><br><span class="line">#</span><br><span class="line"># The commented-out settings shown in this file represent the default values.</span><br><span class="line"># Re-commenting a setting is NOT sufficient to revert it to the default value;</span><br><span class="line"># you need to reload the server.</span><br><span class="line">#</span><br><span class="line"># This file is read on server startup and when the server receives a SIGHUP</span><br><span class="line"># signal.  If you edit the file on a running system, you have to SIGHUP the</span><br><span class="line"># server for the changes to take effect, run &quot;pg_ctl reload&quot;, or execute</span><br><span class="line"># &quot;SELECT pg_reload_conf()&quot;.  Some parameters, which are marked below,</span><br><span class="line"># require a server shutdown and restart to take effect.</span><br><span class="line">#</span><br><span class="line"># Any parameter can also be given as a command-line option to the server, e.g.,</span><br><span class="line"># &quot;postgres -c log_connections&#x3D;on&quot;.  Some parameters can be changed at run time</span><br><span class="line"># with the &quot;SET&quot; SQL command.</span><br><span class="line">#</span><br><span class="line"># Memory units:  kB &#x3D; kilobytes        Time units:  ms  &#x3D; milliseconds</span><br><span class="line">#                MB &#x3D; megabytes                     s   &#x3D; seconds</span><br><span class="line">#                GB &#x3D; gigabytes                     min &#x3D; minutes</span><br><span class="line">#                TB &#x3D; terabytes                     h   &#x3D; hours</span><br><span class="line">#                                                   d   &#x3D; days</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># FILE LOCATIONS</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># The default values of these variables are driven from the -D command-line</span><br><span class="line"># option or PGDATA environment variable, represented here as ConfigDir.</span><br><span class="line"></span><br><span class="line">#data_directory &#x3D; &#39;ConfigDir&#39;		# use data in another directory</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#hba_file &#x3D; &#39;ConfigDir&#x2F;pg_hba.conf&#39;	# host-based authentication file</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#ident_file &#x3D; &#39;ConfigDir&#x2F;pg_ident.conf&#39;	# ident configuration file</span><br><span class="line">					# (change requires restart)</span><br><span class="line"></span><br><span class="line"># If external_pid_file is not explicitly set, no extra PID file is written.</span><br><span class="line">#external_pid_file &#x3D; &#39;&#39;			# write an extra PID file</span><br><span class="line">					# (change requires restart)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># CONNECTIONS AND AUTHENTICATION</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># - Connection Settings -</span><br><span class="line"></span><br><span class="line">listen_addresses &#x3D; &#39;*&#39;</span><br><span class="line">					# comma-separated list of addresses;</span><br><span class="line">					# defaults to &#39;localhost&#39;; use &#39;*&#39; for all</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#port &#x3D; 5432				# (change requires restart)</span><br><span class="line">max_connections &#x3D; 200			# 这个设置要注意下，从库的max_connections必须要大于主库的</span><br><span class="line">#superuser_reserved_connections &#x3D; 3	# (change requires restart)</span><br><span class="line">#unix_socket_directories &#x3D; &#39;&#x2F;var&#x2F;run&#x2F;postgresql&#39;	# comma-separated list of directories</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#unix_socket_group &#x3D; &#39;&#39;			# (change requires restart)</span><br><span class="line">#unix_socket_permissions &#x3D; 0777		# begin with 0 to use octal notation</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#bonjour &#x3D; off				# advertise server via Bonjour</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#bonjour_name &#x3D; &#39;&#39;			# defaults to the computer name</span><br><span class="line">					# (change requires restart)</span><br><span class="line"></span><br><span class="line"># - TCP Keepalives -</span><br><span class="line"># see &quot;man 7 tcp&quot; for details</span><br><span class="line"></span><br><span class="line">#tcp_keepalives_idle &#x3D; 0		# TCP_KEEPIDLE, in seconds;</span><br><span class="line">					# 0 selects the system default</span><br><span class="line">#tcp_keepalives_interval &#x3D; 0		# TCP_KEEPINTVL, in seconds;</span><br><span class="line">					# 0 selects the system default</span><br><span class="line">#tcp_keepalives_count &#x3D; 0		# TCP_KEEPCNT;</span><br><span class="line">					# 0 selects the system default</span><br><span class="line"></span><br><span class="line"># - Authentication -</span><br><span class="line"></span><br><span class="line">#authentication_timeout &#x3D; 1min		# 1s-600s</span><br><span class="line">#password_encryption &#x3D; md5		# md5 or scram-sha-256</span><br><span class="line">#db_user_namespace &#x3D; off</span><br><span class="line"></span><br><span class="line"># GSSAPI using Kerberos</span><br><span class="line">#krb_server_keyfile &#x3D; &#39;&#39;</span><br><span class="line">#krb_caseins_users &#x3D; off</span><br><span class="line"></span><br><span class="line"># - SSL -</span><br><span class="line"></span><br><span class="line">#ssl &#x3D; off</span><br><span class="line">#ssl_ca_file &#x3D; &#39;&#39;</span><br><span class="line">#ssl_cert_file &#x3D; &#39;server.crt&#39;</span><br><span class="line">#ssl_crl_file &#x3D; &#39;&#39;</span><br><span class="line">#ssl_key_file &#x3D; &#39;server.key&#39;</span><br><span class="line">#ssl_ciphers &#x3D; &#39;HIGH:MEDIUM:+3DES:!aNULL&#39; # allowed SSL ciphers</span><br><span class="line">#ssl_prefer_server_ciphers &#x3D; on</span><br><span class="line">#ssl_ecdh_curve &#x3D; &#39;prime256v1&#39;</span><br><span class="line">#ssl_dh_params_file &#x3D; &#39;&#39;</span><br><span class="line">#ssl_passphrase_command &#x3D; &#39;&#39;</span><br><span class="line">#ssl_passphrase_command_supports_reload &#x3D; off</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># RESOURCE USAGE (except WAL)</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># - Memory -</span><br><span class="line"></span><br><span class="line">shared_buffers &#x3D; 128MB			# min 128kB</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#huge_pages &#x3D; try			# on, off, or try</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#temp_buffers &#x3D; 8MB			# min 800kB</span><br><span class="line">#max_prepared_transactions &#x3D; 0		# zero disables the feature</span><br><span class="line">					# (change requires restart)</span><br><span class="line"># Caution: it is not advisable to set max_prepared_transactions nonzero unless</span><br><span class="line"># you actively intend to use prepared transactions.</span><br><span class="line">#work_mem &#x3D; 4MB				# min 64kB</span><br><span class="line">#maintenance_work_mem &#x3D; 64MB		# min 1MB</span><br><span class="line">#autovacuum_work_mem &#x3D; -1		# min 1MB, or -1 to use maintenance_work_mem</span><br><span class="line">#max_stack_depth &#x3D; 2MB			# min 100kB</span><br><span class="line">dynamic_shared_memory_type &#x3D; posix	# the default is the first option</span><br><span class="line">					# supported by the operating system:</span><br><span class="line">					#   posix</span><br><span class="line">					#   sysv</span><br><span class="line">					#   windows</span><br><span class="line">					#   mmap</span><br><span class="line">					# use none to disable dynamic shared memory</span><br><span class="line">					# (change requires restart)</span><br><span class="line"></span><br><span class="line"># - Disk -</span><br><span class="line"></span><br><span class="line">#temp_file_limit &#x3D; -1			# limits per-process temp file space</span><br><span class="line">					# in kB, or -1 for no limit</span><br><span class="line"></span><br><span class="line"># - Kernel Resources -</span><br><span class="line"></span><br><span class="line">#max_files_per_process &#x3D; 1000		# min 25</span><br><span class="line">					# (change requires restart)</span><br><span class="line"></span><br><span class="line"># - Cost-Based Vacuum Delay -</span><br><span class="line"></span><br><span class="line">#vacuum_cost_delay &#x3D; 0			# 0-100 milliseconds</span><br><span class="line">#vacuum_cost_page_hit &#x3D; 1		# 0-10000 credits</span><br><span class="line">#vacuum_cost_page_miss &#x3D; 10		# 0-10000 credits</span><br><span class="line">#vacuum_cost_page_dirty &#x3D; 20		# 0-10000 credits</span><br><span class="line">#vacuum_cost_limit &#x3D; 200		# 1-10000 credits</span><br><span class="line"></span><br><span class="line"># - Background Writer -</span><br><span class="line"></span><br><span class="line">#bgwriter_delay &#x3D; 200ms			# 10-10000ms between rounds</span><br><span class="line">#bgwriter_lru_maxpages &#x3D; 100		# max buffers written&#x2F;round, 0 disables</span><br><span class="line">#bgwriter_lru_multiplier &#x3D; 2.0		# 0-10.0 multiplier on buffers scanned&#x2F;round</span><br><span class="line">#bgwriter_flush_after &#x3D; 512kB		# measured in pages, 0 disables</span><br><span class="line"></span><br><span class="line"># - Asynchronous Behavior -</span><br><span class="line"></span><br><span class="line">#effective_io_concurrency &#x3D; 1		# 1-1000; 0 disables prefetching</span><br><span class="line">#max_worker_processes &#x3D; 8		# (change requires restart)</span><br><span class="line">#max_parallel_maintenance_workers &#x3D; 2	# taken from max_parallel_workers</span><br><span class="line">#max_parallel_workers_per_gather &#x3D; 2	# taken from max_parallel_workers</span><br><span class="line">#parallel_leader_participation &#x3D; on</span><br><span class="line">#max_parallel_workers &#x3D; 8		# maximum number of max_worker_processes that</span><br><span class="line">					# can be used in parallel operations</span><br><span class="line">#old_snapshot_threshold &#x3D; -1		# 1min-60d; -1 disables; 0 is immediate</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#backend_flush_after &#x3D; 0		# measured in pages, 0 disables</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># WRITE-AHEAD LOG</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># - Settings -</span><br><span class="line"></span><br><span class="line">wal_level &#x3D; replica			# minimal, replica, or logical</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#fsync &#x3D; on				# flush data to disk for crash safety</span><br><span class="line">					# (turning this off can cause</span><br><span class="line">					# unrecoverable data corruption)</span><br><span class="line">#synchronous_commit &#x3D; on		# synchronization level;</span><br><span class="line">					# off, local, remote_write, remote_apply, or on</span><br><span class="line">#wal_sync_method &#x3D; fsync		# the default is the first option</span><br><span class="line">					# supported by the operating system:</span><br><span class="line">					#   open_datasync</span><br><span class="line">					#   fdatasync (default on Linux)</span><br><span class="line">					#   fsync</span><br><span class="line">					#   fsync_writethrough</span><br><span class="line">					#   open_sync</span><br><span class="line">#full_page_writes &#x3D; on			# recover from partial page writes</span><br><span class="line">#wal_compression &#x3D; off			# enable compression of full-page writes</span><br><span class="line">#wal_log_hints &#x3D; off			# also do full page writes of non-critical updates</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#wal_buffers &#x3D; -1			# min 32kB, -1 sets based on shared_buffers</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#wal_writer_delay &#x3D; 200ms		# 1-10000 milliseconds</span><br><span class="line">#wal_writer_flush_after &#x3D; 1MB		# measured in pages, 0 disables</span><br><span class="line"></span><br><span class="line">#commit_delay &#x3D; 0			# range 0-100000, in microseconds</span><br><span class="line">#commit_siblings &#x3D; 5			# range 1-1000</span><br><span class="line"></span><br><span class="line"># - Checkpoints -</span><br><span class="line"></span><br><span class="line">#checkpoint_timeout &#x3D; 5min		# range 30s-1d</span><br><span class="line">max_wal_size &#x3D; 1GB</span><br><span class="line">min_wal_size &#x3D; 80MB</span><br><span class="line">#checkpoint_completion_target &#x3D; 0.5	# checkpoint target duration, 0.0 - 1.0</span><br><span class="line">#checkpoint_flush_after &#x3D; 256kB		# measured in pages, 0 disables</span><br><span class="line">#checkpoint_warning &#x3D; 30s		# 0 disables</span><br><span class="line"></span><br><span class="line"># - Archiving -</span><br><span class="line"></span><br><span class="line">archive_mode &#x3D; on		# enables archiving; off, on, or always</span><br><span class="line">				# (change requires restart)</span><br><span class="line">archive_command &#x3D; &#39;&#x2F;bin&#x2F;date&#39;		# command to use to archive a logfile segment</span><br><span class="line">				# placeholders: %p &#x3D; path of file to archive</span><br><span class="line">				#               %f &#x3D; file name only</span><br><span class="line">				# e.g. &#39;test ! -f &#x2F;mnt&#x2F;server&#x2F;archivedir&#x2F;%f &amp;&amp; cp %p &#x2F;mnt&#x2F;server&#x2F;archivedir&#x2F;%f&#39;</span><br><span class="line">#archive_timeout &#x3D; 0		# force a logfile segment switch after this</span><br><span class="line">				# number of seconds; 0 disables</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># REPLICATION</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># - Sending Servers -</span><br><span class="line"></span><br><span class="line"># Set these on the master and on any standby that will send replication data.</span><br><span class="line"></span><br><span class="line">max_wal_senders &#x3D; 32		# 这个设置了可以最多有几个流复制连接，差不多有几个从，就设置几个</span><br><span class="line">				# (change requires restart)</span><br><span class="line">wal_keep_segments &#x3D; 64		# 设置流复制保留的最多的xlog数目，一份是 16M，注意机器磁盘 16M*64 &#x3D; 1G</span><br><span class="line">wal_sender_timeout &#x3D; 60s	# 设置流复制主机发送数据的超时时间</span><br><span class="line"></span><br><span class="line">#max_replication_slots &#x3D; 10	# max number of replication slots</span><br><span class="line">				# (change requires restart)</span><br><span class="line">#track_commit_timestamp &#x3D; off	# collect timestamp of transaction commit</span><br><span class="line">				# (change requires restart)</span><br><span class="line"></span><br><span class="line"># - Master Server -</span><br><span class="line"></span><br><span class="line"># These settings are ignored on a standby server.</span><br><span class="line"></span><br><span class="line">#synchronous_standby_names &#x3D; &#39;&#39;	# standby servers that provide sync rep</span><br><span class="line">				# method to choose sync standbys, number of sync standbys,</span><br><span class="line">				# and comma-separated list of application_name</span><br><span class="line">				# from standby(s); &#39;*&#39; &#x3D; all</span><br><span class="line">#vacuum_defer_cleanup_age &#x3D; 0	# number of xacts by which cleanup is delayed</span><br><span class="line"></span><br><span class="line"># - Standby Servers -</span><br><span class="line"></span><br><span class="line"># These settings are ignored on a master server.</span><br><span class="line"></span><br><span class="line">#hot_standby &#x3D; on			# &quot;off&quot; disallows queries during recovery</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#max_standby_archive_delay &#x3D; 30s	# max delay before canceling queries</span><br><span class="line">					# when reading WAL from archive;</span><br><span class="line">					# -1 allows indefinite delay</span><br><span class="line">#max_standby_streaming_delay &#x3D; 30s	# max delay before canceling queries</span><br><span class="line">					# when reading streaming WAL;</span><br><span class="line">					# -1 allows indefinite delay</span><br><span class="line">#wal_receiver_status_interval &#x3D; 10s	# send replies at least this often</span><br><span class="line">					# 0 disables</span><br><span class="line">#hot_standby_feedback &#x3D; off		# send info from standby to prevent</span><br><span class="line">					# query conflicts</span><br><span class="line">#wal_receiver_timeout &#x3D; 60s		# time that receiver waits for</span><br><span class="line">					# communication from master</span><br><span class="line">					# in milliseconds; 0 disables</span><br><span class="line">#wal_retrieve_retry_interval &#x3D; 5s	# time to wait before retrying to</span><br><span class="line">					# retrieve WAL after a failed attempt</span><br><span class="line"></span><br><span class="line"># - Subscribers -</span><br><span class="line"></span><br><span class="line"># These settings are ignored on a publisher.</span><br><span class="line"></span><br><span class="line">#max_logical_replication_workers &#x3D; 4	# taken from max_worker_processes</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#max_sync_workers_per_subscription &#x3D; 2	# taken from max_logical_replication_workers</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># QUERY TUNING</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># - Planner Method Configuration -</span><br><span class="line"></span><br><span class="line">#enable_bitmapscan &#x3D; on</span><br><span class="line">#enable_hashagg &#x3D; on</span><br><span class="line">#enable_hashjoin &#x3D; on</span><br><span class="line">#enable_indexscan &#x3D; on</span><br><span class="line">#enable_indexonlyscan &#x3D; on</span><br><span class="line">#enable_material &#x3D; on</span><br><span class="line">#enable_mergejoin &#x3D; on</span><br><span class="line">#enable_nestloop &#x3D; on</span><br><span class="line">#enable_parallel_append &#x3D; on</span><br><span class="line">#enable_seqscan &#x3D; on</span><br><span class="line">#enable_sort &#x3D; on</span><br><span class="line">#enable_tidscan &#x3D; on</span><br><span class="line">#enable_partitionwise_join &#x3D; off</span><br><span class="line">#enable_partitionwise_aggregate &#x3D; off</span><br><span class="line">#enable_parallel_hash &#x3D; on</span><br><span class="line">#enable_partition_pruning &#x3D; on</span><br><span class="line"></span><br><span class="line"># - Planner Cost Constants -</span><br><span class="line"></span><br><span class="line">#seq_page_cost &#x3D; 1.0			# measured on an arbitrary scale</span><br><span class="line">#random_page_cost &#x3D; 4.0			# same scale as above</span><br><span class="line">#cpu_tuple_cost &#x3D; 0.01			# same scale as above</span><br><span class="line">#cpu_index_tuple_cost &#x3D; 0.005		# same scale as above</span><br><span class="line">#cpu_operator_cost &#x3D; 0.0025		# same scale as above</span><br><span class="line">#parallel_tuple_cost &#x3D; 0.1		# same scale as above</span><br><span class="line">#parallel_setup_cost &#x3D; 1000.0	# same scale as above</span><br><span class="line"></span><br><span class="line">#jit_above_cost &#x3D; 100000		# perform JIT compilation if available</span><br><span class="line">					# and query more expensive than this;</span><br><span class="line">					# -1 disables</span><br><span class="line">#jit_inline_above_cost &#x3D; 500000		# inline small functions if query is</span><br><span class="line">					# more expensive than this; -1 disables</span><br><span class="line">#jit_optimize_above_cost &#x3D; 500000	# use expensive JIT optimizations if</span><br><span class="line">					# query is more expensive than this;</span><br><span class="line">					# -1 disables</span><br><span class="line"></span><br><span class="line">#min_parallel_table_scan_size &#x3D; 8MB</span><br><span class="line">#min_parallel_index_scan_size &#x3D; 512kB</span><br><span class="line">#effective_cache_size &#x3D; 4GB</span><br><span class="line"></span><br><span class="line"># - Genetic Query Optimizer -</span><br><span class="line"></span><br><span class="line">#geqo &#x3D; on</span><br><span class="line">#geqo_threshold &#x3D; 12</span><br><span class="line">#geqo_effort &#x3D; 5			# range 1-10</span><br><span class="line">#geqo_pool_size &#x3D; 0			# selects default based on effort</span><br><span class="line">#geqo_generations &#x3D; 0			# selects default based on effort</span><br><span class="line">#geqo_selection_bias &#x3D; 2.0		# range 1.5-2.0</span><br><span class="line">#geqo_seed &#x3D; 0.0			# range 0.0-1.0</span><br><span class="line"></span><br><span class="line"># - Other Planner Options -</span><br><span class="line"></span><br><span class="line">#default_statistics_target &#x3D; 100	# range 1-10000</span><br><span class="line">#constraint_exclusion &#x3D; partition	# on, off, or partition</span><br><span class="line">#cursor_tuple_fraction &#x3D; 0.1		# range 0.0-1.0</span><br><span class="line">#from_collapse_limit &#x3D; 8</span><br><span class="line">#join_collapse_limit &#x3D; 8		# 1 disables collapsing of explicit</span><br><span class="line">					# JOIN clauses</span><br><span class="line">#force_parallel_mode &#x3D; off</span><br><span class="line">#jit &#x3D; off				# allow JIT compilation</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># REPORTING AND LOGGING</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># - Where to Log -</span><br><span class="line"></span><br><span class="line">#log_destination &#x3D; &#39;stderr&#39;		# Valid values are combinations of</span><br><span class="line">					# stderr, csvlog, syslog, and eventlog,</span><br><span class="line">					# depending on platform.  csvlog</span><br><span class="line">					# requires logging_collector to be on.</span><br><span class="line"></span><br><span class="line"># This is used when logging to stderr:</span><br><span class="line">#logging_collector &#x3D; off		# Enable capturing of stderr and csvlog</span><br><span class="line">					# into log files. Required to be on for</span><br><span class="line">					# csvlogs.</span><br><span class="line">					# (change requires restart)</span><br><span class="line"></span><br><span class="line"># These are only used if logging_collector is on:</span><br><span class="line">#log_directory &#x3D; &#39;log&#39;			# directory where log files are written,</span><br><span class="line">					# can be absolute or relative to PGDATA</span><br><span class="line">#log_filename &#x3D; &#39;postgresql-%Y-%m-%d_%H%M%S.log&#39;	# log file name pattern,</span><br><span class="line">					# can include strftime() escapes</span><br><span class="line">#log_file_mode &#x3D; 0600			# creation mode for log files,</span><br><span class="line">					# begin with 0 to use octal notation</span><br><span class="line">#log_truncate_on_rotation &#x3D; off		# If on, an existing log file with the</span><br><span class="line">					# same name as the new log file will be</span><br><span class="line">					# truncated rather than appended to.</span><br><span class="line">					# But such truncation only occurs on</span><br><span class="line">					# time-driven rotation, not on restarts</span><br><span class="line">					# or size-driven rotation.  Default is</span><br><span class="line">					# off, meaning append to existing files</span><br><span class="line">					# in all cases.</span><br><span class="line">#log_rotation_age &#x3D; 1d			# Automatic rotation of logfiles will</span><br><span class="line">					# happen after that time.  0 disables.</span><br><span class="line">#log_rotation_size &#x3D; 10MB		# Automatic rotation of logfiles will</span><br><span class="line">					# happen after that much log output.</span><br><span class="line">					# 0 disables.</span><br><span class="line"></span><br><span class="line"># These are relevant when logging to syslog:</span><br><span class="line">#syslog_facility &#x3D; &#39;LOCAL0&#39;</span><br><span class="line">#syslog_ident &#x3D; &#39;postgres&#39;</span><br><span class="line">#syslog_sequence_numbers &#x3D; on</span><br><span class="line">#syslog_split_messages &#x3D; on</span><br><span class="line"></span><br><span class="line"># This is only relevant when logging to eventlog (win32):</span><br><span class="line"># (change requires restart)</span><br><span class="line">#event_source &#x3D; &#39;PostgreSQL&#39;</span><br><span class="line"></span><br><span class="line"># - When to Log -</span><br><span class="line"></span><br><span class="line">#log_min_messages &#x3D; warning		# values in order of decreasing detail:</span><br><span class="line">					#   debug5</span><br><span class="line">					#   debug4</span><br><span class="line">					#   debug3</span><br><span class="line">					#   debug2</span><br><span class="line">					#   debug1</span><br><span class="line">					#   info</span><br><span class="line">					#   notice</span><br><span class="line">					#   warning</span><br><span class="line">					#   error</span><br><span class="line">					#   log</span><br><span class="line">					#   fatal</span><br><span class="line">					#   panic</span><br><span class="line"></span><br><span class="line">#log_min_error_statement &#x3D; error	# values in order of decreasing detail:</span><br><span class="line">					#   debug5</span><br><span class="line">					#   debug4</span><br><span class="line">					#   debug3</span><br><span class="line">					#   debug2</span><br><span class="line">					#   debug1</span><br><span class="line">					#   info</span><br><span class="line">					#   notice</span><br><span class="line">					#   warning</span><br><span class="line">					#   error</span><br><span class="line">					#   log</span><br><span class="line">					#   fatal</span><br><span class="line">					#   panic (effectively off)</span><br><span class="line"></span><br><span class="line">#log_min_duration_statement &#x3D; -1	# -1 is disabled, 0 logs all statements</span><br><span class="line">					# and their durations, &gt; 0 logs only</span><br><span class="line">					# statements running at least this number</span><br><span class="line">					# of milliseconds</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># - What to Log -</span><br><span class="line"></span><br><span class="line">#debug_print_parse &#x3D; off</span><br><span class="line">#debug_print_rewritten &#x3D; off</span><br><span class="line">#debug_print_plan &#x3D; off</span><br><span class="line">#debug_pretty_print &#x3D; on</span><br><span class="line">#log_checkpoints &#x3D; off</span><br><span class="line">#log_connections &#x3D; off</span><br><span class="line">#log_disconnections &#x3D; off</span><br><span class="line">#log_duration &#x3D; off</span><br><span class="line">#log_error_verbosity &#x3D; default		# terse, default, or verbose messages</span><br><span class="line">#log_hostname &#x3D; off</span><br><span class="line">#log_line_prefix &#x3D; &#39;%m [%p] &#39;		# special values:</span><br><span class="line">					#   %a &#x3D; application name</span><br><span class="line">					#   %u &#x3D; user name</span><br><span class="line">					#   %d &#x3D; database name</span><br><span class="line">					#   %r &#x3D; remote host and port</span><br><span class="line">					#   %h &#x3D; remote host</span><br><span class="line">					#   %p &#x3D; process ID</span><br><span class="line">					#   %t &#x3D; timestamp without milliseconds</span><br><span class="line">					#   %m &#x3D; timestamp with milliseconds</span><br><span class="line">					#   %n &#x3D; timestamp with milliseconds (as a Unix epoch)</span><br><span class="line">					#   %i &#x3D; command tag</span><br><span class="line">					#   %e &#x3D; SQL state</span><br><span class="line">					#   %c &#x3D; session ID</span><br><span class="line">					#   %l &#x3D; session line number</span><br><span class="line">					#   %s &#x3D; session start timestamp</span><br><span class="line">					#   %v &#x3D; virtual transaction ID</span><br><span class="line">					#   %x &#x3D; transaction ID (0 if none)</span><br><span class="line">					#   %q &#x3D; stop here in non-session</span><br><span class="line">					#        processes</span><br><span class="line">					#   %% &#x3D; &#39;%&#39;</span><br><span class="line">					# e.g. &#39;&lt;%u%%%d&gt; &#39;</span><br><span class="line">#log_lock_waits &#x3D; off			# log lock waits &gt;&#x3D; deadlock_timeout</span><br><span class="line">#log_statement &#x3D; &#39;none&#39;			# none, ddl, mod, all</span><br><span class="line">#log_replication_commands &#x3D; off</span><br><span class="line">#log_temp_files &#x3D; -1			# log temporary files equal or larger</span><br><span class="line">					# than the specified size in kilobytes;</span><br><span class="line">					# -1 disables, 0 logs all temp files</span><br><span class="line">log_timezone &#x3D; &#39;UTC&#39;</span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># PROCESS TITLE</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">#cluster_name &#x3D; &#39;&#39;			# added to process titles if nonempty</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#update_process_title &#x3D; on</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># STATISTICS</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># - Query and Index Statistics Collector -</span><br><span class="line"></span><br><span class="line">#track_activities &#x3D; on</span><br><span class="line">#track_counts &#x3D; on</span><br><span class="line">#track_io_timing &#x3D; off</span><br><span class="line">#track_functions &#x3D; none			# none, pl, all</span><br><span class="line">#track_activity_query_size &#x3D; 1024	# (change requires restart)</span><br><span class="line">#stats_temp_directory &#x3D; &#39;pg_stat_tmp&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># - Monitoring -</span><br><span class="line"></span><br><span class="line">#log_parser_stats &#x3D; off</span><br><span class="line">#log_planner_stats &#x3D; off</span><br><span class="line">#log_executor_stats &#x3D; off</span><br><span class="line">#log_statement_stats &#x3D; off</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># AUTOVACUUM</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">#autovacuum &#x3D; on			# Enable autovacuum subprocess?  &#39;on&#39;</span><br><span class="line">					# requires track_counts to also be on.</span><br><span class="line">#log_autovacuum_min_duration &#x3D; -1	# -1 disables, 0 logs all actions and</span><br><span class="line">					# their durations, &gt; 0 logs only</span><br><span class="line">					# actions running at least this number</span><br><span class="line">					# of milliseconds.</span><br><span class="line">#autovacuum_max_workers &#x3D; 3		# max number of autovacuum subprocesses</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#autovacuum_naptime &#x3D; 1min		# time between autovacuum runs</span><br><span class="line">#autovacuum_vacuum_threshold &#x3D; 50	# min number of row updates before</span><br><span class="line">					# vacuum</span><br><span class="line">#autovacuum_analyze_threshold &#x3D; 50	# min number of row updates before</span><br><span class="line">					# analyze</span><br><span class="line">#autovacuum_vacuum_scale_factor &#x3D; 0.2	# fraction of table size before vacuum</span><br><span class="line">#autovacuum_analyze_scale_factor &#x3D; 0.1	# fraction of table size before analyze</span><br><span class="line">#autovacuum_freeze_max_age &#x3D; 200000000	# maximum XID age before forced vacuum</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#autovacuum_multixact_freeze_max_age &#x3D; 400000000	# maximum multixact age</span><br><span class="line">					# before forced vacuum</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#autovacuum_vacuum_cost_delay &#x3D; 20ms	# default vacuum cost delay for</span><br><span class="line">					# autovacuum, in milliseconds;</span><br><span class="line">					# -1 means use vacuum_cost_delay</span><br><span class="line">#autovacuum_vacuum_cost_limit &#x3D; -1	# default vacuum cost limit for</span><br><span class="line">					# autovacuum, -1 means use</span><br><span class="line">					# vacuum_cost_limit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># CLIENT CONNECTION DEFAULTS</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># - Statement Behavior -</span><br><span class="line"></span><br><span class="line">#client_min_messages &#x3D; notice		# values in order of decreasing detail:</span><br><span class="line">					#   debug5</span><br><span class="line">					#   debug4</span><br><span class="line">					#   debug3</span><br><span class="line">					#   debug2</span><br><span class="line">					#   debug1</span><br><span class="line">					#   log</span><br><span class="line">					#   notice</span><br><span class="line">					#   warning</span><br><span class="line">					#   error</span><br><span class="line">#search_path &#x3D; &#39;&quot;$user&quot;, public&#39;	# schema names</span><br><span class="line">#row_security &#x3D; on</span><br><span class="line">#default_tablespace &#x3D; &#39;&#39;		# a tablespace name, &#39;&#39; uses the default</span><br><span class="line">#temp_tablespaces &#x3D; &#39;&#39;			# a list of tablespace names, &#39;&#39; uses</span><br><span class="line">					# only default tablespace</span><br><span class="line">#check_function_bodies &#x3D; on</span><br><span class="line">#default_transaction_isolation &#x3D; &#39;read committed&#39;</span><br><span class="line">#default_transaction_read_only &#x3D; off</span><br><span class="line">#default_transaction_deferrable &#x3D; off</span><br><span class="line">#session_replication_role &#x3D; &#39;origin&#39;</span><br><span class="line">#statement_timeout &#x3D; 0			# in milliseconds, 0 is disabled</span><br><span class="line">#lock_timeout &#x3D; 0			# in milliseconds, 0 is disabled</span><br><span class="line">#idle_in_transaction_session_timeout &#x3D; 0	# in milliseconds, 0 is disabled</span><br><span class="line">#vacuum_freeze_min_age &#x3D; 50000000</span><br><span class="line">#vacuum_freeze_table_age &#x3D; 150000000</span><br><span class="line">#vacuum_multixact_freeze_min_age &#x3D; 5000000</span><br><span class="line">#vacuum_multixact_freeze_table_age &#x3D; 150000000</span><br><span class="line">#vacuum_cleanup_index_scale_factor &#x3D; 0.1	# fraction of total number of tuples</span><br><span class="line">						# before index cleanup, 0 always performs</span><br><span class="line">						# index cleanup</span><br><span class="line">#bytea_output &#x3D; &#39;hex&#39;			# hex, escape</span><br><span class="line">#xmlbinary &#x3D; &#39;base64&#39;</span><br><span class="line">#xmloption &#x3D; &#39;content&#39;</span><br><span class="line">#gin_fuzzy_search_limit &#x3D; 0</span><br><span class="line">#gin_pending_list_limit &#x3D; 4MB</span><br><span class="line"></span><br><span class="line"># - Locale and Formatting -</span><br><span class="line"></span><br><span class="line">datestyle &#x3D; &#39;iso, mdy&#39;</span><br><span class="line">#intervalstyle &#x3D; &#39;postgres&#39;</span><br><span class="line">timezone &#x3D; &#39;UTC&#39;</span><br><span class="line">#timezone_abbreviations &#x3D; &#39;Default&#39;     # Select the set of available time zone</span><br><span class="line">					# abbreviations.  Currently, there are</span><br><span class="line">					#   Default</span><br><span class="line">					#   Australia (historical usage)</span><br><span class="line">					#   India</span><br><span class="line">					# You can create your own file in</span><br><span class="line">					# share&#x2F;timezonesets&#x2F;.</span><br><span class="line">#extra_float_digits &#x3D; 0			# min -15, max 3</span><br><span class="line">#client_encoding &#x3D; sql_ascii		# actually, defaults to database</span><br><span class="line">					# encoding</span><br><span class="line"></span><br><span class="line"># These settings are initialized by initdb, but they can be changed.</span><br><span class="line">lc_messages &#x3D; &#39;en_US.utf8&#39;			# locale for system error message</span><br><span class="line">					# strings</span><br><span class="line">lc_monetary &#x3D; &#39;en_US.utf8&#39;			# locale for monetary formatting</span><br><span class="line">lc_numeric &#x3D; &#39;en_US.utf8&#39;			# locale for number formatting</span><br><span class="line">lc_time &#x3D; &#39;en_US.utf8&#39;				# locale for time formatting</span><br><span class="line"></span><br><span class="line"># default configuration for text search</span><br><span class="line">default_text_search_config &#x3D; &#39;pg_catalog.english&#39;</span><br><span class="line"></span><br><span class="line"># - Shared Library Preloading -</span><br><span class="line"></span><br><span class="line">#shared_preload_libraries &#x3D; &#39;&#39;	# (change requires restart)</span><br><span class="line">#local_preload_libraries &#x3D; &#39;&#39;</span><br><span class="line">#session_preload_libraries &#x3D; &#39;&#39;</span><br><span class="line">#jit_provider &#x3D; &#39;llvmjit&#39;		# JIT library to use</span><br><span class="line"></span><br><span class="line"># - Other Defaults -</span><br><span class="line"></span><br><span class="line">#dynamic_library_path &#x3D; &#39;$libdir&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># LOCK MANAGEMENT</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">#deadlock_timeout &#x3D; 1s</span><br><span class="line">#max_locks_per_transaction &#x3D; 64		# min 10</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#max_pred_locks_per_transaction &#x3D; 64	# min 10</span><br><span class="line">					# (change requires restart)</span><br><span class="line">#max_pred_locks_per_relation &#x3D; -2	# negative values mean</span><br><span class="line">					# (max_pred_locks_per_transaction</span><br><span class="line">					#  &#x2F; -max_pred_locks_per_relation) - 1</span><br><span class="line">#max_pred_locks_per_page &#x3D; 2            # min 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># VERSION AND PLATFORM COMPATIBILITY</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># - Previous PostgreSQL Versions -</span><br><span class="line"></span><br><span class="line">#array_nulls &#x3D; on</span><br><span class="line">#backslash_quote &#x3D; safe_encoding	# on, off, or safe_encoding</span><br><span class="line">#default_with_oids &#x3D; off</span><br><span class="line">#escape_string_warning &#x3D; on</span><br><span class="line">#lo_compat_privileges &#x3D; off</span><br><span class="line">#operator_precedence_warning &#x3D; off</span><br><span class="line">#quote_all_identifiers &#x3D; off</span><br><span class="line">#standard_conforming_strings &#x3D; on</span><br><span class="line">#synchronize_seqscans &#x3D; on</span><br><span class="line"></span><br><span class="line"># - Other Platforms and Clients -</span><br><span class="line"></span><br><span class="line">#transform_null_equals &#x3D; off</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># ERROR HANDLING</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">#exit_on_error &#x3D; off			# terminate session on any error?</span><br><span class="line">#restart_after_crash &#x3D; on		# reinitialize after backend crash?</span><br><span class="line">#data_sync_retry &#x3D; off			# retry or panic on failure to fsync data?</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># CONFIG FILE INCLUDES</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># These options allow settings to be loaded from files other than the</span><br><span class="line"># default postgresql.conf.</span><br><span class="line"></span><br><span class="line">#include_dir &#x3D; &#39;conf.d&#39;			# include files ending in &#39;.conf&#39; from</span><br><span class="line">					# directory &#39;conf.d&#39;</span><br><span class="line">#include_if_exists &#x3D; &#39;exists.conf&#39;	# include file only if it exists</span><br><span class="line">#include &#x3D; &#39;special.conf&#39;		# include file</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"># CUSTOMIZED OPTIONS</span><br><span class="line">#------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># Add settings for extensions here</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-6、重启主服务器的容器"><a href="#2-6、重启主服务器的容器" class="headerlink" title="2.6、重启主服务器的容器"></a>2.6、重启主服务器的容器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart pg-master</span><br></pre></td></tr></table></figure>
+
+<h3 id="三、从服务器"><a href="#三、从服务器" class="headerlink" title="三、从服务器"></a>三、从服务器</h3><h4 id="3-1、拉取镜像（这里我为了加快速度是从私服拉取）"><a href="#3-1、拉取镜像（这里我为了加快速度是从私服拉取）" class="headerlink" title="3.1、拉取镜像（这里我为了加快速度是从私服拉取）"></a>3.1、拉取镜像（这里我为了加快速度是从私服拉取）</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node03 ~]<span class="comment"># docker pull 192.168.3.235:30002/public/mdillon-postgis@sha256:ac5dd18c43b0ee89320764684aa5c2da5c3c2ce54cf01a6caab21f905302d1b5</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2、创建容器"><a href="#3-2、创建容器" class="headerlink" title="3.2、创建容器"></a>3.2、创建容器</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取镜像</span></span><br><span class="line">[root@node03 ~]<span class="comment"># docker images|grep postgis</span></span><br><span class="line">192.168.3.235:30002/public/mdillon-postgis    &lt;none&gt;   b2a8fefe8a63     16 months ago    713MB</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动镜像</span></span><br><span class="line">[root@node03 ~]<span class="comment"># docker run --name pg-slave1 --restart=always  -v /data/postgresql/data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d mdillon/postgis</span></span><br><span class="line">55339a00f8c1879b2647b73bd721197e2d82991c7b8329138e46c356100476a6</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3、将主服务器的数据同步到从数据库"><a href="#3-3、将主服务器的数据同步到从数据库" class="headerlink" title="3.3、将主服务器的数据同步到从数据库"></a>3.3、将主服务器的数据同步到从数据库</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">[root@node03 ~]<span class="comment"># docker exec -it pg-slave1 bash </span></span><br><span class="line"><span class="comment"># 切换postgres用户</span></span><br><span class="line">root@55339a00f8c1:/<span class="comment"># </span></span><br><span class="line"><span class="comment"># 删除默认初始化目录</span></span><br><span class="line">su postgres</span><br><span class="line">rm -rf /var/lib/postgresql/data/*</span><br><span class="line">pg_basebackup -D <span class="variable">$PGDATA</span> -Fp -Xs -v -P -h 192.168.3.238 -U replica -W</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Password: 123456</span><br><span class="line">pg_basebackup: initiating base backup, waiting <span class="keyword">for</span> checkpoint to complete</span><br><span class="line">pg_basebackup: checkpoint completed</span><br><span class="line">pg_basebackup: write-ahead <span class="built_in">log</span> start point: 0/D000028 on timeline 1</span><br><span class="line">pg_basebackup: starting background WAL receiver</span><br><span class="line">pg_basebackup: created temporary replication slot <span class="string">&quot;pg_basebackup_37&quot;</span></span><br><span class="line">83073/83073 kB (100%), 1/1 tablespace                                         </span><br><span class="line">pg_basebackup: write-ahead <span class="built_in">log</span> end point: 0/D000130</span><br><span class="line">pg_basebackup: waiting <span class="keyword">for</span> background process to finish streaming ...</span><br><span class="line">pg_basebackup: base backup completed</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-4、添加恢复文件"><a href="#3-4、添加恢复文件" class="headerlink" title="3.4、添加恢复文件"></a>3.4、添加恢复文件</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@node03 ~]<span class="comment"># vi /data/postgresql/data/recovery.conf</span></span><br><span class="line"></span><br><span class="line">standby_mode = on</span><br><span class="line">primary_conninfo = <span class="string">&#x27;host=192.168.3.236 port=5432 user=replica password=123456&#x27;</span></span><br><span class="line">recovery_target_timeline = <span class="string">&#x27;latest&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-5、修改postgresql-conf"><a href="#3-5、修改postgresql-conf" class="headerlink" title="3.5、修改postgresql.conf"></a>3.5、修改postgresql.conf</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 主要是有些是注释掉得需要改过来</span></span><br><span class="line">[root@node03 ~]<span class="comment"># vi /data/postgresql/data/postgresql.conf</span></span><br><span class="line">wal_level = replica</span><br><span class="line">max_connections = 1000</span><br><span class="line">hot_standby = on</span><br><span class="line">max_standby_streaming_delay = 30s</span><br><span class="line">wal_receiver_status_interval = 10s </span><br><span class="line">hot_standby_feedback = on</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-6、重启容器"><a href="#3-6、重启容器" class="headerlink" title="3.6、重启容器"></a>3.6、重启容器</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node03 data]<span class="comment"># docker restart pg-slave2</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-7、校验"><a href="#3-7、校验" class="headerlink" title="3.7、校验"></a>3.7、校验</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it pg-master bash</span><br><span class="line">su postgres</span><br><span class="line">psql</span><br><span class="line">select client_addr,sync_state from pg_stat_replication;</span><br><span class="line">不为空创建成功</span><br></pre></td></tr></table></figure>
+
+<p>hot_standby</p>
+<p>新步骤</p>
+<p>sha256:2243a2cf02227d5c96121fcb5be64b778945b6b9261eed6b64eb5f00e0350c65<br>[root@k8s-node01 ~]# docker run –name pg-master –restart=always  -v /data/postgresql/data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d mdillon/postgis<br>docker: Error response from daemon: No command specified.<br>See ‘docker run –help’.</p>
+<p>建议放开日志</p>
+<p>logging_collector = on    </p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-docker-deploy-hive" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/98f8830a.html" class="article-date">
+      <time datetime="2024-11-03T02:26:29.000Z" itemprop="datePublished">2024-11-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/98f8830a.html">docker_deploy_hive</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://hshirodkar.medium.com/apache-hive-on-docker-4d7280ac6f8e">https://hshirodkar.medium.com/apache-hive-on-docker-4d7280ac6f8e</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-缓存使用和角色定位" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -963,290 +1493,6 @@
       
 
       <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="wrap-启动" class="article article-type-wrap" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/undefined.html" class="article-date">
-      <time datetime="2024-05-02T04:20:01.000Z" itemprop="datePublished">2024-05-02</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/undefined.html">使用 cloudflare对于 WARP订阅</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://github.com/vvbbnn00/WARP-Clash-API">vvbbnn00/WARP-Clash-API: 该项目可以让你通过订阅的方式使用Cloudflare WARP+，自动获取流量。.</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/cmliu/edgetunnel">cmliu/edgetunnel: 在原版的基础上修改了显示 VLESS 配置信息转换为订阅内容。使用该脚本，你可以方便地将 VLESS 配置信息使用在线配置转换到 Clash 或 Singbox 等工具中。</a></p>
-<p>docker-compose up -d</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://github.com/vvbbnn00/WARP-Clash-API">vvbbnn00/WARP-Clash-API: 该项目可以让你通过订阅的方式使用Cloudflare WARP+，自动获取流量。.</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/cmliu/edgetunnel">cmliu/edgetunnel: 在原版的基础上修改了显示 VLESS 配置信息转换为订阅内容。使用该脚本，你可以方便地将 VLESS 配置信息使用在线配置转换到 Clash 或 Singbox 等工具中。</a></p>
-<p>docker-compose up -d</p>
-<p>下面是安装 docker-compose </p>
-<ol>
-<li><strong>卸载旧版本的 Docker Compose</strong></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>下载最新版本</strong></li>
-</ol>
-<p>目前最新版本是 2.18.1 (截至 2023 年 5 月),下载命令如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L &quot;https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;v2.18.1&#x2F;docker-compose-$(uname -s)-$(uname -m)&quot; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
-
-<p>如果速度起不来可以使用这个镜像</p>
-<blockquote>
-<p>sudo curl -L “<a target="_blank" rel="noopener" href="https://dl.ghpig.top/https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$">https://dl.ghpig.top/https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$</a>(uname -s)-$(uname -m)” -o /usr/local/bin/docker-compose</p>
-</blockquote>
-<ol>
-<li><strong>设置执行权限</strong></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>创建软链接 (可选)</strong></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose &#x2F;usr&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>验证安装</strong></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
-
-<p>它应该显示 <code>docker-compose version v2.18.1</code></p>
-<p>注意以下几点:</p>
-<ul>
-<li>需要有 root 或 sudo 权限执行上述命令</li>
-<li>上面的下载链接会自动根据您的系统架构获取合适的二进制文件</li>
-<li>如果下载链接发生改变,可访问 <a target="_blank" rel="noopener" href="https://github.com/docker/compose/releases">https://github.com/docker/compose/releases</a> 获取最新下载链接</li>
-<li>Docker Compose 2.x 版本需要 Docker 17.12.0 或更高版本</li>
-</ul>
-<p>按照以上步骤,您就可以成功将 Docker Compose 升级到最新的 2.18.1 版本了。升级后最好查看一下新版本的文档,了解新增的语法和功能变化。</p>
-<p><img src="../img/image-20240502130357242.png" alt="image-20240502130357242"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macbook软件配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/58edfabc.html" class="article-date">
-      <time datetime="2024-03-23T05:29:26.000Z" itemprop="datePublished">2024-03-23</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/58edfabc.html">macbook软件配置(新手项)</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <h2 id="配置相关"><a href="#配置相关" class="headerlink" title="配置相关"></a>配置相关</h2><h2 id="软件推荐"><a href="#软件推荐" class="headerlink" title="软件推荐"></a>软件推荐</h2><p>Maccy 一款简单易用的mac记事本软件<br>PixPin  一款截图软件可以 OCR 图片<br>超级右键 修改右键的软件<br>Termius ssh的链接工具有付费版</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-sublime优化和推荐插件" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/bcb72f0.html" class="article-date">
-      <time datetime="2024-03-14T14:55:29.481Z" itemprop="datePublished">2024-03-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/bcb72f0.html">sublime优化和推荐插件</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>参考 链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022501113">https://segmentfault.com/a/1190000022501113</a></p>
-<p>ctrol + shift +p</p>
-<p>package control  install  package</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>参考 链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022501113">https://segmentfault.com/a/1190000022501113</a></p>
-<p>ctrol + shift +p</p>
-<p>package control  install  package</p>
-<p><img src="C:/Users/leek/AppData/Roaming/Typora/typora-user-images/image-20210307143657802.png" alt="image-20210307143657802"></p>
-<p>安装后出</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li></ul>
-    </div>
- -->
 
 
       

@@ -269,6 +269,290 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-python-download-offline-html" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1a58ae58.html" class="article-date">
+      <time datetime="2021-06-23T14:29:34.000Z" itemprop="datePublished">2021-06-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>先上代码 本代码有参考</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gorquanwu/article/details/81739589">https://blog.csdn.net/gorquanwu/article/details/81739589</a> 这篇文章去实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># author: leek</span></span><br><span class="line"><span class="comment"># date：2021-6-23</span></span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup <span class="keyword">as</span> bs</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    用来爬取网站网页  gitbook 页面 离线下载到本地</span></span><br><span class="line"><span class="string">    实现功能：url深度抓取，保存每个页面的css、html、js等文件</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 深度爬取当前页面子网站子网站</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_urls</span>(<span class="params">url, baseurl, urls</span>):</span></span><br><span class="line">    <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        <span class="comment"># link = bs(data).find_all(&#x27;a&#x27;)</span></span><br><span class="line">        link = bs(data).find(<span class="string">&quot;nav&quot;</span>).find_all(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> link:</span><br><span class="line">            suffix = i.get(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">            <span class="comment"># 设置排除写入的子连接</span></span><br><span class="line">            <span class="keyword">if</span> suffix == <span class="string">&#x27;#&#x27;</span> <span class="keyword">or</span> suffix == <span class="string">&#x27;#carousel-example-generic&#x27;</span> <span class="keyword">or</span> <span class="string">&#x27;javascript:void(0)&#x27;</span> <span class="keyword">in</span> suffix:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 构建urls</span></span><br><span class="line">                childurl = baseurl +<span class="string">&quot;/&quot;</span>+ suffix</span><br><span class="line">                <span class="keyword">if</span> childurl <span class="keyword">not</span> <span class="keyword">in</span> urls:</span><br><span class="line">                    urls.append(childurl)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取每个页面代码以及获取页面上的css，js，img路径</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_source</span>(<span class="params">url, path</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> f:</span><br><span class="line">            html_source = f.read().decode()</span><br><span class="line">            <span class="comment"># 添加时间截以区分文件夹名字</span></span><br><span class="line">            timeStr = <span class="built_in">str</span>(<span class="built_in">int</span>(time.time()))</span><br><span class="line">            pattertitile = <span class="string">&#x27;&lt;title&gt;(.*?)&lt;/title&gt;&#x27;</span></span><br><span class="line">            patternimg = <span class="string">&#x27;&lt;img src=&quot;(.*?)&quot;&#x27;</span></span><br><span class="line">            titleStr = re.<span class="built_in">compile</span>(pattertitile, re.S).findall(html_source)[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;|&#x27;</span> <span class="keyword">in</span> titleStr:</span><br><span class="line">                title = (titleStr.split(<span class="string">&quot;|&quot;</span>)[<span class="number">1</span>]).split(<span class="string">&#x27; &#x27;</span>)[<span class="number">1</span>] + timeStr</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                title = titleStr + timeStr</span><br><span class="line"></span><br><span class="line">            path11 = path + <span class="string">&#x27;/&#x27;</span> + title</span><br><span class="line">            arrayurl= url.split(<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">            htmlFile = path</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>, <span class="built_in">len</span>(arrayurl)):</span><br><span class="line">                htmlFile  +=(<span class="string">&quot;/&quot;</span>+arrayurl[x])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 获取css，js，img地址</span></span><br><span class="line">            imgHref = re.<span class="built_in">compile</span>(patternimg, re.S).findall(html_source)</span><br><span class="line">            <span class="comment"># 创建文件路径下的父节点</span></span><br><span class="line">            os.makedirs(os.path.abspath(htmlFile + os.path.sep + <span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">            <span class="comment"># 读取并保存html</span></span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(htmlFile, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(html_source)</span><br><span class="line">            print(htmlFile+ <span class="string">&quot;文件保存成功&quot;</span>)</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(url + <span class="string">&quot;保存html文件时报错&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存js文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_css_js</span>(<span class="params">path</span>):</span></span><br><span class="line">        url = <span class="string">&quot;http://sdk.g-bim.cn&quot;</span></span><br><span class="line">        filename = path</span><br><span class="line">        <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> total_html:</span><br><span class="line">            html_source = total_html.read().decode()</span><br><span class="line">            jsHref = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;script src=&quot;(.*?)&quot;&#x27;</span>, re.S).findall(html_source)</span><br><span class="line">            cssHref = re.<span class="built_in">compile</span>( <span class="string">&#x27;&lt;link rel=&quot;stylesheet&quot; href=&quot;(.*?)&quot;&#x27;</span>, re.S).findall(html_source)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> jsHref :</span><br><span class="line">               <span class="keyword">try</span>:</span><br><span class="line">                   <span class="keyword">with</span> request.urlopen(url+<span class="string">&quot;/&quot;</span>+j) <span class="keyword">as</span> ww:</span><br><span class="line">                       js_source = ww.read().decode()</span><br><span class="line">                       <span class="comment"># filename =(path+&#x27;\\&#x27;+ j).replace(&#x27;/&#x27;,&#x27;\\&#x27;) os.getcwd()</span></span><br><span class="line">                       filename =path+j</span><br><span class="line">                       os.makedirs(os.path.abspath(filename+os.path.sep+<span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">                       <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                           f.write(js_source)</span><br><span class="line">                       print(j.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件保存成功&quot;</span>)</span><br><span class="line">                       time.sleep(<span class="number">1</span>)</span><br><span class="line">               <span class="keyword">except</span>:</span><br><span class="line">                   print(<span class="string">&quot;该&quot;</span> + j.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件无法下载&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> cssHref:</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    <span class="keyword">with</span> request.urlopen(url+<span class="string">&quot;/&quot;</span>+k) <span class="keyword">as</span> vv:</span><br><span class="line">                        filename = path+ k</span><br><span class="line">                        js_source = vv.read().decode()</span><br><span class="line">                        os.makedirs(os.path.abspath(filename + os.path.sep + <span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">                        <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                            f.write(js_source)</span><br><span class="line">                        print(k.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件保存成功&quot;</span>)</span><br><span class="line">                        time.sleep(<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">except</span>:</span><br><span class="line">                    print(<span class="string">&quot;该&quot;</span> + k.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件无法下载&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存img文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_img</span>(<span class="params">href, path</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(href)):</span><br><span class="line">        url = <span class="string">&quot;http://sdk.g-bim.cn&quot;</span> + href[i]</span><br><span class="line">        filename = path + <span class="string">&#x27;\\&#x27;</span> + href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> w:</span><br><span class="line">                img_source = w.read()</span><br><span class="line">                <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(img_source)</span><br><span class="line">                print(href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; 图像文件保存成功&quot;</span>)</span><br><span class="line">                time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">&quot;该&quot;</span> + href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; 图像无法下载&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 抓取网址</span></span><br><span class="line">    url = <span class="string">&#x27;http://sdk.g-bim.cn&#x27;</span></span><br><span class="line">    <span class="comment"># 相对路径地址</span></span><br><span class="line">    baseurl = <span class="string">&#x27;http://sdk.g-bim.cn&#x27;</span></span><br><span class="line">    <span class="comment"># 文件保存位置</span></span><br><span class="line">    basedir = <span class="string">r&#x27;C:\Users\Administrator\Desktop\HTML_bak&#x27;</span></span><br><span class="line">    urls = []</span><br><span class="line">    <span class="comment"># 获取所有地址</span></span><br><span class="line">    get_urls(url, baseurl, urls)</span><br><span class="line">    <span class="comment"># save_css_js(r&#x27;../html_bak/&#x27;)</span></span><br><span class="line">    <span class="comment"># 获取代码</span></span><br><span class="line">    <span class="keyword">for</span> u <span class="keyword">in</span> urls:</span><br><span class="line">        get_source(u,<span class="string">r&#x27;../html_bak&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>先上代码 本代码有参考</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gorquanwu/article/details/81739589">https://blog.csdn.net/gorquanwu/article/details/81739589</a> 这篇文章去实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># author: leek</span></span><br><span class="line"><span class="comment"># date：2021-6-23</span></span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup <span class="keyword">as</span> bs</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    用来爬取网站网页  gitbook 页面 离线下载到本地</span></span><br><span class="line"><span class="string">    实现功能：url深度抓取，保存每个页面的css、html、js等文件</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 深度爬取当前页面子网站子网站</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_urls</span>(<span class="params">url, baseurl, urls</span>):</span></span><br><span class="line">    <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        <span class="comment"># link = bs(data).find_all(&#x27;a&#x27;)</span></span><br><span class="line">        link = bs(data).find(<span class="string">&quot;nav&quot;</span>).find_all(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> link:</span><br><span class="line">            suffix = i.get(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">            <span class="comment"># 设置排除写入的子连接</span></span><br><span class="line">            <span class="keyword">if</span> suffix == <span class="string">&#x27;#&#x27;</span> <span class="keyword">or</span> suffix == <span class="string">&#x27;#carousel-example-generic&#x27;</span> <span class="keyword">or</span> <span class="string">&#x27;javascript:void(0)&#x27;</span> <span class="keyword">in</span> suffix:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 构建urls</span></span><br><span class="line">                childurl = baseurl +<span class="string">&quot;/&quot;</span>+ suffix</span><br><span class="line">                <span class="keyword">if</span> childurl <span class="keyword">not</span> <span class="keyword">in</span> urls:</span><br><span class="line">                    urls.append(childurl)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取每个页面代码以及获取页面上的css，js，img路径</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_source</span>(<span class="params">url, path</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> f:</span><br><span class="line">            html_source = f.read().decode()</span><br><span class="line">            <span class="comment"># 添加时间截以区分文件夹名字</span></span><br><span class="line">            timeStr = <span class="built_in">str</span>(<span class="built_in">int</span>(time.time()))</span><br><span class="line">            pattertitile = <span class="string">&#x27;&lt;title&gt;(.*?)&lt;/title&gt;&#x27;</span></span><br><span class="line">            patternimg = <span class="string">&#x27;&lt;img src=&quot;(.*?)&quot;&#x27;</span></span><br><span class="line">            titleStr = re.<span class="built_in">compile</span>(pattertitile, re.S).findall(html_source)[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;|&#x27;</span> <span class="keyword">in</span> titleStr:</span><br><span class="line">                title = (titleStr.split(<span class="string">&quot;|&quot;</span>)[<span class="number">1</span>]).split(<span class="string">&#x27; &#x27;</span>)[<span class="number">1</span>] + timeStr</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                title = titleStr + timeStr</span><br><span class="line"></span><br><span class="line">            path11 = path + <span class="string">&#x27;/&#x27;</span> + title</span><br><span class="line">            arrayurl= url.split(<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">            htmlFile = path</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>, <span class="built_in">len</span>(arrayurl)):</span><br><span class="line">                htmlFile  +=(<span class="string">&quot;/&quot;</span>+arrayurl[x])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 获取css，js，img地址</span></span><br><span class="line">            imgHref = re.<span class="built_in">compile</span>(patternimg, re.S).findall(html_source)</span><br><span class="line">            <span class="comment"># 创建文件路径下的父节点</span></span><br><span class="line">            os.makedirs(os.path.abspath(htmlFile + os.path.sep + <span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">            <span class="comment"># 读取并保存html</span></span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(htmlFile, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(html_source)</span><br><span class="line">            print(htmlFile+ <span class="string">&quot;文件保存成功&quot;</span>)</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(url + <span class="string">&quot;保存html文件时报错&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存js文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_css_js</span>(<span class="params">path</span>):</span></span><br><span class="line">        url = <span class="string">&quot;http://sdk.g-bim.cn&quot;</span></span><br><span class="line">        filename = path</span><br><span class="line">        <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> total_html:</span><br><span class="line">            html_source = total_html.read().decode()</span><br><span class="line">            jsHref = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;script src=&quot;(.*?)&quot;&#x27;</span>, re.S).findall(html_source)</span><br><span class="line">            cssHref = re.<span class="built_in">compile</span>( <span class="string">&#x27;&lt;link rel=&quot;stylesheet&quot; href=&quot;(.*?)&quot;&#x27;</span>, re.S).findall(html_source)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> jsHref :</span><br><span class="line">               <span class="keyword">try</span>:</span><br><span class="line">                   <span class="keyword">with</span> request.urlopen(url+<span class="string">&quot;/&quot;</span>+j) <span class="keyword">as</span> ww:</span><br><span class="line">                       js_source = ww.read().decode()</span><br><span class="line">                       <span class="comment"># filename =(path+&#x27;\\&#x27;+ j).replace(&#x27;/&#x27;,&#x27;\\&#x27;) os.getcwd()</span></span><br><span class="line">                       filename =path+j</span><br><span class="line">                       os.makedirs(os.path.abspath(filename+os.path.sep+<span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">                       <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                           f.write(js_source)</span><br><span class="line">                       print(j.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件保存成功&quot;</span>)</span><br><span class="line">                       time.sleep(<span class="number">1</span>)</span><br><span class="line">               <span class="keyword">except</span>:</span><br><span class="line">                   print(<span class="string">&quot;该&quot;</span> + j.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件无法下载&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> cssHref:</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    <span class="keyword">with</span> request.urlopen(url+<span class="string">&quot;/&quot;</span>+k) <span class="keyword">as</span> vv:</span><br><span class="line">                        filename = path+ k</span><br><span class="line">                        js_source = vv.read().decode()</span><br><span class="line">                        os.makedirs(os.path.abspath(filename + os.path.sep + <span class="string">&quot;..&quot;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line">                        <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                            f.write(js_source)</span><br><span class="line">                        print(k.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件保存成功&quot;</span>)</span><br><span class="line">                        time.sleep(<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">except</span>:</span><br><span class="line">                    print(<span class="string">&quot;该&quot;</span> + k.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; js文件无法下载&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存img文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_img</span>(<span class="params">href, path</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(href)):</span><br><span class="line">        url = <span class="string">&quot;http://sdk.g-bim.cn&quot;</span> + href[i]</span><br><span class="line">        filename = path + <span class="string">&#x27;\\&#x27;</span> + href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">with</span> request.urlopen(url) <span class="keyword">as</span> w:</span><br><span class="line">                img_source = w.read()</span><br><span class="line">                <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(img_source)</span><br><span class="line">                print(href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; 图像文件保存成功&quot;</span>)</span><br><span class="line">                time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">&quot;该&quot;</span> + href[i].split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>] + <span class="string">&quot; 图像无法下载&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 抓取网址</span></span><br><span class="line">    url = <span class="string">&#x27;http://sdk.g-bim.cn&#x27;</span></span><br><span class="line">    <span class="comment"># 相对路径地址</span></span><br><span class="line">    baseurl = <span class="string">&#x27;http://sdk.g-bim.cn&#x27;</span></span><br><span class="line">    <span class="comment"># 文件保存位置</span></span><br><span class="line">    basedir = <span class="string">r&#x27;C:\Users\Administrator\Desktop\HTML_bak&#x27;</span></span><br><span class="line">    urls = []</span><br><span class="line">    <span class="comment"># 获取所有地址</span></span><br><span class="line">    get_urls(url, baseurl, urls)</span><br><span class="line">    <span class="comment"># save_css_js(r&#x27;../html_bak/&#x27;)</span></span><br><span class="line">    <span class="comment"># 获取代码</span></span><br><span class="line">    <span class="keyword">for</span> u <span class="keyword">in</span> urls:</span><br><span class="line">        get_source(u,<span class="string">r&#x27;../html_bak&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>期间有些问题</p>
+<h3 id="读取文件是出现UnicodeDecodeError"><a href="#读取文件是出现UnicodeDecodeError" class="headerlink" title="读取文件是出现UnicodeDecodeError"></a>读取文件是出现UnicodeDecodeError</h3><p>UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0x89 in position 14: illegal</p>
+<p>open(‘order.log’,’r’, encoding=’UTF-8’) 尽量指定u8目前HTML的编码一般都是它避免乱码</p>
+<h3 id="在python环境下window和Linux分隔符的区别"><a href="#在python环境下window和Linux分隔符的区别" class="headerlink" title="在python环境下window和Linux分隔符的区别"></a>在python环境下window和Linux分隔符的区别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">path&#x3D;r&#39;..&#x2F;html_bak&#x2F;&#39;</span><br><span class="line"> with open(path, &#39;w&#39;, encoding&#x3D;&#39;UTF-8&#39;) as f:</span><br><span class="line"> </span><br><span class="line"> \\windows平台但是 加上r后 自动加 不用管全部用&#x2F;即可 在打开文件时会自动管理</span><br><span class="line"> https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_29831163&#x2F;article&#x2F;details&#x2F;106263729</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<h3 id="读取指定文件路径下父文件夹如果不存在着直接新建"><a href="#读取指定文件路径下父文件夹如果不存在着直接新建" class="headerlink" title="读取指定文件路径下父文件夹如果不存在着直接新建"></a>读取指定文件路径下父文件夹如果不存在着直接新建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.makedirs(os.path.abspath(filename+os.path.sep+&quot;..&quot;), exist_ok&#x3D;True)</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-geomesa-input-error" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/null.html" class="article-date">
+      <time datetime="2021-06-22T07:44:29.000Z" itemprop="datePublished">2021-06-22</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/null.html">geomesa-input-error</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>导入失败</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">ERROR java.lang.NoSuchMethodError: org.locationtech.jts.geom.Polygon.getExteriorRing()Lorg&#x2F;locationtech&#x2F;jts&#x2F;geom&#x2F;LineString;</span><br><span class="line">java.util.concurrent.ExecutionException: java.lang.NoSuchMethodError: org.locationtech.jts.geom.Polygon.getExteriorRing()Lorg&#x2F;locationtech&#x2F;jts&#x2F;geom&#x2F;LineString;</span><br><span class="line">	at java.util.concurrent.FutureTask.report(FutureTask.java:122)</span><br><span class="line">	at java.util.concurrent.FutureTask.get(FutureTask.java:192)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$$anonfun$runIngest$1.apply(LocalConverterIngest.scala:183)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$$anonfun$runIngest$1.apply(LocalConverterIngest.scala:183)</span><br><span class="line">	at scala.collection.immutable.List.foreach(List.scala:381)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest.runIngest(LocalConverterIngest.scala:183)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.AbstractConverterIngest.run(AbstractConverterIngest.scala:41)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.IngestCommand$$anonfun$execute$2.apply(IngestCommand.scala:106)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.IngestCommand$$anonfun$execute$2.apply(IngestCommand.scala:105)</span><br><span class="line">	at scala.Option.foreach(Option.scala:257)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.IngestCommand$class.execute(IngestCommand.scala:105)</span><br><span class="line">	at org.locationtech.geomesa.hbase.tools.HBaseRunner$$anon$2.execute(HBaseRunner.scala:32)</span><br><span class="line">	at org.locationtech.geomesa.tools.Runner$class.main(Runner.scala:30)</span><br><span class="line">	at org.locationtech.geomesa.hbase.tools.HBaseRunner$.main(HBaseRunner.scala:17)</span><br><span class="line">	at org.locationtech.geomesa.hbase.tools.HBaseRunner.main(HBaseRunner.scala)</span><br><span class="line">Caused by: java.lang.NoSuchMethodError: org.locationtech.jts.geom.Polygon.getExteriorRing()Lorg&#x2F;locationtech&#x2F;jts&#x2F;geom&#x2F;LineString;</span><br><span class="line">	at org.locationtech.geomesa.features.serialization.WkbSerialization$class.writePolygon(WkbSerialization.scala:121)</span><br><span class="line">	at org.locationtech.geomesa.features.serialization.WkbSerialization$class.serializeWkb(WkbSerialization.scala:45)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.serialization.KryoGeometrySerialization$.serializeWkb(KryoGeometrySerialization.scala:14)</span><br><span class="line">	at org.locationtech.geomesa.features.serialization.WkbSerialization$class.writeGeometryCollection(WkbSerialization.scala:176)</span><br><span class="line">	at org.locationtech.geomesa.features.serialization.WkbSerialization$class.serializeWkb(WkbSerialization.scala:48)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.serialization.KryoGeometrySerialization$.serializeWkb(KryoGeometrySerialization.scala:14)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.impl.KryoFeatureSerialization$KryoGeometryWkbWriter$.apply(KryoFeatureSerialization.scala:228)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.impl.KryoFeatureSerialization$class.writeFeature(KryoFeatureSerialization.scala:70)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.impl.KryoFeatureSerialization$class.serialize(KryoFeatureSerialization.scala:42)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.KryoFeatureSerializer$MutableActiveSerializer.serialize(KryoFeatureSerializer.scala:75)</span><br><span class="line">	at org.locationtech.geomesa.index.api.WritableFeature$FeatureLevelWritableFeature$$anonfun$values$1$$anonfun$apply$1.apply(WritableFeature.scala:154)</span><br><span class="line">	at org.locationtech.geomesa.index.api.WritableFeature$FeatureLevelWritableFeature$$anonfun$values$1$$anonfun$apply$1.apply(WritableFeature.scala:154)</span><br><span class="line">	at org.locationtech.geomesa.index.api.package$KeyValue.value$lzycompute(package.scala:184)</span><br><span class="line">	at org.locationtech.geomesa.index.api.package$KeyValue.value(package.scala:184)</span><br><span class="line">	at org.locationtech.geomesa.hbase.data.HBaseIndexAdapter$HBaseIndexWriter$$anonfun$write$1.apply(HBaseIndexAdapter.scala:614)</span><br><span class="line">	at org.locationtech.geomesa.hbase.data.HBaseIndexAdapter$HBaseIndexWriter$$anonfun$write$1.apply(HBaseIndexAdapter.scala:612)</span><br><span class="line">	at scala.collection.Iterator$class.foreach(Iterator.scala:742)</span><br><span class="line">	at scala.collection.AbstractIterator.foreach(Iterator.scala:1194)</span><br><span class="line">	at scala.collection.IterableLike$class.foreach(IterableLike.scala:72)</span><br><span class="line">	at scala.collection.AbstractIterable.foreach(Iterable.scala:54)</span><br><span class="line">	at org.locationtech.geomesa.hbase.data.HBaseIndexAdapter$HBaseIndexWriter.write(HBaseIndexAdapter.scala:612)</span><br><span class="line">	at org.locationtech.geomesa.index.api.IndexAdapter$BaseIndexWriter.write(IndexAdapter.scala:149)</span><br><span class="line">	at org.locationtech.geomesa.index.geotools.GeoMesaFeatureWriter$class.writeFeature(GeoMesaFeatureWriter.scala:52)</span><br><span class="line">	at org.locationtech.geomesa.index.geotools.GeoMesaFeatureWriter$TableFeatureWriter.writeFeature(GeoMesaFeatureWriter.scala:141)</span><br><span class="line">	at org.locationtech.geomesa.index.geotools.GeoMesaFeatureWriter$GeoMesaAppendFeatureWriter$class.write(GeoMesaFeatureWriter.scala:227)</span><br><span class="line">	at org.locationtech.geomesa.index.geotools.GeoMesaFeatureWriter$$anon$3.write(GeoMesaFeatureWriter.scala:108)</span><br><span class="line">	at org.locationtech.geomesa.utils.geotools.FeatureUtils$.write(FeatureUtils.scala:141)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4$$anonfun$apply$5$$anonfun$apply$6.apply(LocalConverterIngest.scala:117)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4$$anonfun$apply$5$$anonfun$apply$6.apply(LocalConverterIngest.scala:115)</span><br><span class="line">	at scala.collection.Iterator$class.foreach(Iterator.scala:742)</span><br><span class="line">	at org.locationtech.geomesa.utils.collection.CloseableIterator$FlatMapCloseableIterator.foreach(CloseableIterator.scala:133)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4$$anonfun$apply$5.apply(LocalConverterIngest.scala:115)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4$$anonfun$apply$5.apply(LocalConverterIngest.scala:109)</span><br><span class="line">	at org.locationtech.geomesa.utils.io.CloseablePool$CommonsPoolPool.borrow(CloseablePool.scala:68)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4.apply(LocalConverterIngest.scala:109)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4.apply(LocalConverterIngest.scala:108)</span><br><span class="line">	at org.locationtech.geomesa.utils.io.package$WithClose$.apply(package.scala:64)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2.apply(LocalConverterIngest.scala:108)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2.apply(LocalConverterIngest.scala:106)</span><br><span class="line">	at scala.collection.Iterator$class.foreach(Iterator.scala:742)</span><br><span class="line">	at org.locationtech.geomesa.utils.collection.CloseableIterator$CloseableSingleIterator.foreach(CloseableIterator.scala:86)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1.apply(LocalConverterIngest.scala:106)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1.apply(LocalConverterIngest.scala:105)</span><br><span class="line">	at org.locationtech.geomesa.utils.io.package$WithClose$.apply(package.scala:64)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1.apply(LocalConverterIngest.scala:105)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1.apply(LocalConverterIngest.scala:102)</span><br><span class="line">	at org.locationtech.geomesa.utils.io.CloseablePool$CommonsPoolPool.borrow(CloseablePool.scala:68)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1.run(LocalConverterIngest.scala:102)</span><br><span class="line">	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:748)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>导入失败</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">ERROR java.lang.NoSuchMethodError: org.locationtech.jts.geom.Polygon.getExteriorRing()Lorg&#x2F;locationtech&#x2F;jts&#x2F;geom&#x2F;LineString;</span><br><span class="line">java.util.concurrent.ExecutionException: java.lang.NoSuchMethodError: org.locationtech.jts.geom.Polygon.getExteriorRing()Lorg&#x2F;locationtech&#x2F;jts&#x2F;geom&#x2F;LineString;</span><br><span class="line">	at java.util.concurrent.FutureTask.report(FutureTask.java:122)</span><br><span class="line">	at java.util.concurrent.FutureTask.get(FutureTask.java:192)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$$anonfun$runIngest$1.apply(LocalConverterIngest.scala:183)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$$anonfun$runIngest$1.apply(LocalConverterIngest.scala:183)</span><br><span class="line">	at scala.collection.immutable.List.foreach(List.scala:381)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest.runIngest(LocalConverterIngest.scala:183)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.AbstractConverterIngest.run(AbstractConverterIngest.scala:41)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.IngestCommand$$anonfun$execute$2.apply(IngestCommand.scala:106)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.IngestCommand$$anonfun$execute$2.apply(IngestCommand.scala:105)</span><br><span class="line">	at scala.Option.foreach(Option.scala:257)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.IngestCommand$class.execute(IngestCommand.scala:105)</span><br><span class="line">	at org.locationtech.geomesa.hbase.tools.HBaseRunner$$anon$2.execute(HBaseRunner.scala:32)</span><br><span class="line">	at org.locationtech.geomesa.tools.Runner$class.main(Runner.scala:30)</span><br><span class="line">	at org.locationtech.geomesa.hbase.tools.HBaseRunner$.main(HBaseRunner.scala:17)</span><br><span class="line">	at org.locationtech.geomesa.hbase.tools.HBaseRunner.main(HBaseRunner.scala)</span><br><span class="line">Caused by: java.lang.NoSuchMethodError: org.locationtech.jts.geom.Polygon.getExteriorRing()Lorg&#x2F;locationtech&#x2F;jts&#x2F;geom&#x2F;LineString;</span><br><span class="line">	at org.locationtech.geomesa.features.serialization.WkbSerialization$class.writePolygon(WkbSerialization.scala:121)</span><br><span class="line">	at org.locationtech.geomesa.features.serialization.WkbSerialization$class.serializeWkb(WkbSerialization.scala:45)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.serialization.KryoGeometrySerialization$.serializeWkb(KryoGeometrySerialization.scala:14)</span><br><span class="line">	at org.locationtech.geomesa.features.serialization.WkbSerialization$class.writeGeometryCollection(WkbSerialization.scala:176)</span><br><span class="line">	at org.locationtech.geomesa.features.serialization.WkbSerialization$class.serializeWkb(WkbSerialization.scala:48)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.serialization.KryoGeometrySerialization$.serializeWkb(KryoGeometrySerialization.scala:14)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.impl.KryoFeatureSerialization$KryoGeometryWkbWriter$.apply(KryoFeatureSerialization.scala:228)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.impl.KryoFeatureSerialization$class.writeFeature(KryoFeatureSerialization.scala:70)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.impl.KryoFeatureSerialization$class.serialize(KryoFeatureSerialization.scala:42)</span><br><span class="line">	at org.locationtech.geomesa.features.kryo.KryoFeatureSerializer$MutableActiveSerializer.serialize(KryoFeatureSerializer.scala:75)</span><br><span class="line">	at org.locationtech.geomesa.index.api.WritableFeature$FeatureLevelWritableFeature$$anonfun$values$1$$anonfun$apply$1.apply(WritableFeature.scala:154)</span><br><span class="line">	at org.locationtech.geomesa.index.api.WritableFeature$FeatureLevelWritableFeature$$anonfun$values$1$$anonfun$apply$1.apply(WritableFeature.scala:154)</span><br><span class="line">	at org.locationtech.geomesa.index.api.package$KeyValue.value$lzycompute(package.scala:184)</span><br><span class="line">	at org.locationtech.geomesa.index.api.package$KeyValue.value(package.scala:184)</span><br><span class="line">	at org.locationtech.geomesa.hbase.data.HBaseIndexAdapter$HBaseIndexWriter$$anonfun$write$1.apply(HBaseIndexAdapter.scala:614)</span><br><span class="line">	at org.locationtech.geomesa.hbase.data.HBaseIndexAdapter$HBaseIndexWriter$$anonfun$write$1.apply(HBaseIndexAdapter.scala:612)</span><br><span class="line">	at scala.collection.Iterator$class.foreach(Iterator.scala:742)</span><br><span class="line">	at scala.collection.AbstractIterator.foreach(Iterator.scala:1194)</span><br><span class="line">	at scala.collection.IterableLike$class.foreach(IterableLike.scala:72)</span><br><span class="line">	at scala.collection.AbstractIterable.foreach(Iterable.scala:54)</span><br><span class="line">	at org.locationtech.geomesa.hbase.data.HBaseIndexAdapter$HBaseIndexWriter.write(HBaseIndexAdapter.scala:612)</span><br><span class="line">	at org.locationtech.geomesa.index.api.IndexAdapter$BaseIndexWriter.write(IndexAdapter.scala:149)</span><br><span class="line">	at org.locationtech.geomesa.index.geotools.GeoMesaFeatureWriter$class.writeFeature(GeoMesaFeatureWriter.scala:52)</span><br><span class="line">	at org.locationtech.geomesa.index.geotools.GeoMesaFeatureWriter$TableFeatureWriter.writeFeature(GeoMesaFeatureWriter.scala:141)</span><br><span class="line">	at org.locationtech.geomesa.index.geotools.GeoMesaFeatureWriter$GeoMesaAppendFeatureWriter$class.write(GeoMesaFeatureWriter.scala:227)</span><br><span class="line">	at org.locationtech.geomesa.index.geotools.GeoMesaFeatureWriter$$anon$3.write(GeoMesaFeatureWriter.scala:108)</span><br><span class="line">	at org.locationtech.geomesa.utils.geotools.FeatureUtils$.write(FeatureUtils.scala:141)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4$$anonfun$apply$5$$anonfun$apply$6.apply(LocalConverterIngest.scala:117)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4$$anonfun$apply$5$$anonfun$apply$6.apply(LocalConverterIngest.scala:115)</span><br><span class="line">	at scala.collection.Iterator$class.foreach(Iterator.scala:742)</span><br><span class="line">	at org.locationtech.geomesa.utils.collection.CloseableIterator$FlatMapCloseableIterator.foreach(CloseableIterator.scala:133)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4$$anonfun$apply$5.apply(LocalConverterIngest.scala:115)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4$$anonfun$apply$5.apply(LocalConverterIngest.scala:109)</span><br><span class="line">	at org.locationtech.geomesa.utils.io.CloseablePool$CommonsPoolPool.borrow(CloseablePool.scala:68)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4.apply(LocalConverterIngest.scala:109)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2$$anonfun$apply$4.apply(LocalConverterIngest.scala:108)</span><br><span class="line">	at org.locationtech.geomesa.utils.io.package$WithClose$.apply(package.scala:64)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2.apply(LocalConverterIngest.scala:108)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1$$anonfun$apply$2.apply(LocalConverterIngest.scala:106)</span><br><span class="line">	at scala.collection.Iterator$class.foreach(Iterator.scala:742)</span><br><span class="line">	at org.locationtech.geomesa.utils.collection.CloseableIterator$CloseableSingleIterator.foreach(CloseableIterator.scala:86)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1.apply(LocalConverterIngest.scala:106)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1$$anonfun$apply$1.apply(LocalConverterIngest.scala:105)</span><br><span class="line">	at org.locationtech.geomesa.utils.io.package$WithClose$.apply(package.scala:64)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1.apply(LocalConverterIngest.scala:105)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1$$anonfun$run$1.apply(LocalConverterIngest.scala:102)</span><br><span class="line">	at org.locationtech.geomesa.utils.io.CloseablePool$CommonsPoolPool.borrow(CloseablePool.scala:68)</span><br><span class="line">	at org.locationtech.geomesa.tools.ingest.LocalConverterIngest$LocalIngestWorker$1.run(LocalConverterIngest.scala:102)</span><br><span class="line">	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:748)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>这个是由于 lib下面的几个包出现问题包括 jts ,geotool的包有问题 这边操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">[root@node-kubeadm-250 geomesa-hbase_2.11-3.1.0]# bin&#x2F;geomesa-hbase ingest --catalog china --feature-name china_1 --input-format shp &quot;&#x2F;usr&#x2F;local&#x2F;geomesa&#x2F;china.shp&quot;</span><br><span class="line">INFO  No converter defined - will attempt to detect schema from input files</span><br><span class="line">INFO  Inferred converter:</span><br><span class="line">&#123;</span><br><span class="line">    &quot;fields&quot; : [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot; : &quot;the_geom&quot;,</span><br><span class="line">            &quot;transform&quot; : &quot;$1&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot; : &quot;adcode&quot;,</span><br><span class="line">            &quot;transform&quot; : &quot;$2&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot; : &quot;name&quot;,</span><br><span class="line">            &quot;transform&quot; : &quot;$3&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot; : &quot;childrenNu&quot;,</span><br><span class="line">            &quot;transform&quot; : &quot;$4&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot; : &quot;level&quot;,</span><br><span class="line">            &quot;transform&quot; : &quot;$5&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot; : &quot;subFeature&quot;,</span><br><span class="line">            &quot;transform&quot; : &quot;$6&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot; : &quot;adchar&quot;,</span><br><span class="line">            &quot;transform&quot; : &quot;$7&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;id-field&quot; : &quot;$0&quot;,</span><br><span class="line">    &quot;options&quot; : &#123;</span><br><span class="line">        &quot;encoding&quot; : &quot;UTF-8&quot;,</span><br><span class="line">        &quot;error-mode&quot; : &quot;skip-bad-records&quot;,</span><br><span class="line">        &quot;parse-mode&quot; : &quot;incremental&quot;,</span><br><span class="line">        &quot;validators&quot; : [</span><br><span class="line">            &quot;index&quot;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;type&quot; : &quot;shp&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Use inferred converter (y&#x2F;n)? y</span><br><span class="line">Persist this converter for future use (y&#x2F;n)? y</span><br><span class="line">INFO  Added import in reference.conf and saved inferred converter to &#x2F;usr&#x2F;local&#x2F;geomesa&#x2F;geomesa-hbase_2.11-3.1.0&#x2F;conf&#x2F;china_1_4.conf</span><br><span class="line">INFO  In future commands, the converter may be invoked with &#39;--converter china_1&#39;</span><br><span class="line">INFO  Schema &#39;china_1&#39; exists</span><br><span class="line">INFO  Running ingestion in local mode</span><br><span class="line">INFO  Ingesting 1 file with 1 thread</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] 100% complete 35 ingested 0 failed in 00:00:01</span><br><span class="line">INFO  Local ingestion complete in 00:00:02</span><br><span class="line">INFO  Ingested 35 features with no failures for file: &#x2F;usr&#x2F;local&#x2F;geomesa&#x2F;china.shp</span><br></pre></td></tr></table></figure>
+
+<p>解决方法</p>
+<p>在geotool中依赖jts这个类但是 </p>
+<p>gt-main-23.3.jar 里面使用的是jts-17.jar</p>
+<p>gt-main-23.0.jar 里面使用的是jts-16.jar</p>
+<p>所以需要降级 使用gt-main-23.0.jar 否则会报错</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-netty-use" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/6e6bd3bb.html" class="article-date">
+      <time datetime="2021-06-14T03:16:40.000Z" itemprop="datePublished">2021-06-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/6e6bd3bb.html">netty的简单上手使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>使用netty来简单写个demo，熟悉语法和常见的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.netty&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;netty-all&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;4.1.49.Final&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>使用netty来简单写个demo，熟悉语法和常见的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.netty&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;netty-all&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;4.1.49.Final&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>client:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ITDragonAIOClient</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Integer PORT = <span class="number">8888</span>;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String IP_ADDRESS = <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> AsynchronousSocketChannel asynSocketChannel ;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ITDragonAIOClient</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;  </span><br><span class="line">        asynSocketChannel = AsynchronousSocketChannel.open();  <span class="comment">// 打开通道  </span></span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">connect</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        asynSocketChannel.connect(<span class="keyword">new</span> InetSocketAddress(IP_ADDRESS, PORT));  <span class="comment">// 创建连接 和NIO一样  </span></span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(String request)</span></span>&#123;  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            asynSocketChannel.write(ByteBuffer.wrap(request.getBytes())).get();  </span><br><span class="line">            ByteBuffer byteBuffer = ByteBuffer.allocate(<span class="number">1024</span>);  </span><br><span class="line">            asynSocketChannel.read(byteBuffer).get();  </span><br><span class="line">            byteBuffer.flip();  </span><br><span class="line">            <span class="keyword">byte</span>[] respByte = <span class="keyword">new</span> <span class="keyword">byte</span>[byteBuffer.remaining()];  </span><br><span class="line">            byteBuffer.get(respByte); <span class="comment">// 将缓冲区的数据放入到 byte数组中  </span></span><br><span class="line">            System.out.println(<span class="keyword">new</span> String(respByte,<span class="string">&quot;utf-8&quot;</span>).trim());  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            e.printStackTrace();  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;  </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            ITDragonAIOClient myClient = <span class="keyword">new</span> ITDragonAIOClient();  </span><br><span class="line">            myClient.connect();  </span><br><span class="line">            <span class="keyword">new</span> Thread(myClient, <span class="string">&quot;myClient&quot;</span>).start(); </span><br><span class="line">            String []operators = &#123;<span class="string">&quot;+&quot;</span>,<span class="string">&quot;-&quot;</span>,<span class="string">&quot;*&quot;</span>,<span class="string">&quot;/&quot;</span>&#125;;</span><br><span class="line">            Random random = <span class="keyword">new</span> Random(System.currentTimeMillis());  </span><br><span class="line">            String expression = random.nextInt(<span class="number">10</span>)+operators[random.nextInt(<span class="number">4</span>)]+(random.nextInt(<span class="number">10</span>)+<span class="number">1</span>);</span><br><span class="line">            myClient.write(expression);  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>server:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * AIO, 也叫 NIO2.0 是一种异步非阻塞的通信方式</span></span><br><span class="line"><span class="comment"> * AIO 引入了异步通道的概念 AsynchronousServerSocketChannel和AsynchronousSocketChannel 其read和write方法返回值类型是Future对象。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ITDragonAIOServer</span> </span>&#123;</span><br><span class="line">      </span><br><span class="line">    <span class="keyword">private</span> ExecutorService executorService;          <span class="comment">// 线程池</span></span><br><span class="line">    <span class="keyword">private</span> AsynchronousChannelGroup threadGroup;      <span class="comment">// 通道组</span></span><br><span class="line">    <span class="keyword">public</span> AsynchronousServerSocketChannel asynServerSocketChannel;  <span class="comment">// 服务器通道 </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(Integer port)</span></span>&#123;  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="comment">// 1.创建一个缓存池  </span></span><br><span class="line">            executorService = Executors.newCachedThreadPool();  </span><br><span class="line">            <span class="comment">// 2.创建通道组  </span></span><br><span class="line">            threadGroup = AsynchronousChannelGroup.withCachedThreadPool(executorService, <span class="number">1</span>);  </span><br><span class="line">            <span class="comment">// 3.创建服务器通道  </span></span><br><span class="line">            asynServerSocketChannel = AsynchronousServerSocketChannel.open(threadGroup);  </span><br><span class="line">            <span class="comment">// 4.进行绑定  </span></span><br><span class="line">            asynServerSocketChannel.bind(<span class="keyword">new</span> InetSocketAddress(port));  </span><br><span class="line">            System.out.println(<span class="string">&quot;server start , port : &quot;</span> + port);  </span><br><span class="line">            <span class="comment">// 5.等待客户端请求  </span></span><br><span class="line">            asynServerSocketChannel.accept(<span class="keyword">this</span>, <span class="keyword">new</span> ITDragonAIOServerHandler());  </span><br><span class="line">            <span class="comment">// 一直阻塞 不让服务器停止，真实环境是在tomcat下运行，所以不需要这行代码  </span></span><br><span class="line">            Thread.sleep(Integer.MAX_VALUE);  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            e.printStackTrace();  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        ITDragonAIOServer server = <span class="keyword">new</span> ITDragonAIOServer();  </span><br><span class="line">        server.start(<span class="number">8888</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>serverhandler:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ITDragonAIOServerHandler</span> <span class="keyword">implements</span> <span class="title">CompletionHandler</span>&lt;<span class="title">AsynchronousSocketChannel</span>, <span class="title">ITDragonAIOServer</span>&gt; </span>&#123;  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Integer BUFFER_SIZE = <span class="number">1024</span>;  </span><br><span class="line">  <span class="meta">@Override</span>  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">completed</span><span class="params">(AsynchronousSocketChannel asynSocketChannel, ITDragonAIOServer attachment)</span> </span>&#123;  </span><br><span class="line">      <span class="comment">// 保证多个客户端都可以阻塞  </span></span><br><span class="line">      attachment.asynServerSocketChannel.accept(attachment, <span class="keyword">this</span>);  </span><br><span class="line">      read(asynSocketChannel);  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="comment">//读取数据  </span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">(<span class="keyword">final</span> AsynchronousSocketChannel asynSocketChannel)</span> </span>&#123;  </span><br><span class="line">      ByteBuffer byteBuffer = ByteBuffer.allocate(BUFFER_SIZE);  </span><br><span class="line">      asynSocketChannel.read(byteBuffer, byteBuffer, <span class="keyword">new</span> CompletionHandler&lt;Integer, ByteBuffer&gt;() &#123;  </span><br><span class="line">          <span class="meta">@Override</span>  </span><br><span class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">completed</span><span class="params">(Integer resultSize, ByteBuffer attachment)</span> </span>&#123;  </span><br><span class="line">              <span class="comment">//进行读取之后,重置标识位  </span></span><br><span class="line">              attachment.flip();  </span><br><span class="line">              <span class="comment">//获取读取的数据  </span></span><br><span class="line">              String resultData = <span class="keyword">new</span> String(attachment.array()).trim();  </span><br><span class="line">              System.out.println(<span class="string">&quot;Server -&gt; &quot;</span> + <span class="string">&quot;收到客户端的数据信息为:&quot;</span> + resultData);  </span><br><span class="line"><span class="comment">//              String response = resultData + &quot; = &quot; + CalculatorUtil.cal(resultData);</span></span><br><span class="line">              String response = resultData + <span class="string">&quot; = &quot;</span> ;</span><br><span class="line">              write(asynSocketChannel, response);</span><br><span class="line">          &#125;  </span><br><span class="line">          <span class="meta">@Override</span>  </span><br><span class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">failed</span><span class="params">(Throwable exc, ByteBuffer attachment)</span> </span>&#123;  </span><br><span class="line">              exc.printStackTrace();  </span><br><span class="line">          &#125;  </span><br><span class="line">      &#125;);  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="comment">// 写入数据</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(AsynchronousSocketChannel asynSocketChannel, String response)</span> </span>&#123;  </span><br><span class="line">      <span class="keyword">try</span> &#123;  </span><br><span class="line">          <span class="comment">// 把数据写入到缓冲区中  </span></span><br><span class="line">          ByteBuffer buf = ByteBuffer.allocate(BUFFER_SIZE);  </span><br><span class="line">          buf.put(response.getBytes());  </span><br><span class="line">          buf.flip();  </span><br><span class="line">          <span class="comment">// 在从缓冲区写入到通道中  </span></span><br><span class="line">          asynSocketChannel.write(buf).get();  </span><br><span class="line">      &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;  </span><br><span class="line">          e.printStackTrace();  </span><br><span class="line">      &#125; <span class="keyword">catch</span> (ExecutionException e) &#123;  </span><br><span class="line">          e.printStackTrace();  </span><br><span class="line">      &#125;  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="meta">@Override</span>  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">failed</span><span class="params">(Throwable exc, ITDragonAIOServer attachment)</span> </span>&#123;  </span><br><span class="line">      exc.printStackTrace();  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-jd-script-use" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -2462,1193 +2746,6 @@
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
     </div>
  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-github action 示例" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/50c36cff.html" class="article-date">
-      <time datetime="2021-03-03T12:00:21.000Z" itemprop="datePublished">2021-03-03</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/50c36cff.html">github的action上实例操作</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16876.html">https://51.ruyo.net/16876.html</a>  -&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/UnicomTask">https://github.com/bigleek/UnicomTask</a></p>
-<p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16050.html">https://51.ruyo.net/16050.html</a>  -&gt;&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/Cloud189Checkin-Actions">https://github.com/bigleek/Cloud189Checkin-Actions</a></p>
-<p>github action是github提供的自动化工具能对你参考的代码解析编译构建操作，也可以衍生出其他服务，之前是pro用户才能使用，在GitHub被微软收购后财大气粗的放出的重量级服务，期间很多人滥用action的虚拟机的环境去挖矿</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16876.html">https://51.ruyo.net/16876.html</a>  -&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/UnicomTask">https://github.com/bigleek/UnicomTask</a></p>
-<p><a target="_blank" rel="noopener" href="https://51.ruyo.net/16050.html">https://51.ruyo.net/16050.html</a>  -&gt;&gt;&gt;&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://github.com/bigleek/Cloud189Checkin-Actions">https://github.com/bigleek/Cloud189Checkin-Actions</a></p>
-<p>github action是github提供的自动化工具能对你参考的代码解析编译构建操作，也可以衍生出其他服务，之前是pro用户才能使用，在GitHub被微软收购后财大气粗的放出的重量级服务，期间很多人滥用action的虚拟机的环境去挖矿</p>
-<p>创建了workflow后在仓库会有个**.github/workflows** 的文件夹，里面可以将敏感信息写到下面的环境变量中</p>
-<p>设置action的环境变量的位置</p>
-<p><img src="../img/image-20220409204154682.png" alt="image-20220409204154682"></p>
-<p>笔者目前对github action有两个用途</p>
-<p>1、主要是定时任务和提醒</p>
-<p>2、主要是不是GitHub仓库的静态资源到腾讯的cloudbase中</p>
-<p>现在先讨论第一种的使用方法</p>
-<p>首先创建GitHub的任意仓库并</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/TencentCloudBase/cloudbase-action">TencentCloudBase/cloudbase-action: 云开发 Tencent CloudBase Github Action 可以将 Github 项目自动部署到云开发环境，基于 CloudBase Framework，支持静态网站、云函数、云托管、小程序等项目</a></p>
-<p>创建对应的用户并设置权限</p>
-<p><img src="../img/image-20220409210624384.png" alt="image-20220409210624384"></p>
-<p>授予文件类的权限否则用该用户上传文件时GitHub action会报没有权限</p>
-<p><img src="../img/image-20220409210755155.png" alt="image-20220409210755155"></p>
-<p><img src="../img/image-20220409210455374.png" alt="image-20220409210455374"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-分布式事务" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/cdcc4eae.html" class="article-date">
-      <time datetime="2021-03-03T02:05:55.000Z" itemprop="datePublished">2021-03-03</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/cdcc4eae.html">分布式事务</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>转载 自 掘金: <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903573667446797%E5%B8%B8%E7%94%A8%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">https://juejin.cn/post/6844903573667446797常用的分布式事务解决方案</a></p>
-<blockquote>
-<p>众所周知，数据库能实现<strong>本地事务</strong>，也就是在<strong>同一个数据库中</strong>，你可以允许一组操作要么全都正确执行，要么全都不执行。这里特别强调了<strong>本地事务</strong>，也就是目前的数据库只能支持同一个数据库中的事务。但现在的系统往往采用微服务架构，业务系统拥有独立的数据库，因此就出现了跨多个数据库的事务需求，这种事务即为“分布式事务”。那么在目前数据库不支持跨库事务的情况下，我们应该如何实现分布式事务呢？本文首先会为大家梳理分布式事务的基本概念和理论基础，然后介绍几种目前常用的分布式事务解决方案。废话不多说，那就开始吧～</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>转载 自 掘金: <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903573667446797%E5%B8%B8%E7%94%A8%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">https://juejin.cn/post/6844903573667446797常用的分布式事务解决方案</a></p>
-<blockquote>
-<p>众所周知，数据库能实现<strong>本地事务</strong>，也就是在<strong>同一个数据库中</strong>，你可以允许一组操作要么全都正确执行，要么全都不执行。这里特别强调了<strong>本地事务</strong>，也就是目前的数据库只能支持同一个数据库中的事务。但现在的系统往往采用微服务架构，业务系统拥有独立的数据库，因此就出现了跨多个数据库的事务需求，这种事务即为“分布式事务”。那么在目前数据库不支持跨库事务的情况下，我们应该如何实现分布式事务呢？本文首先会为大家梳理分布式事务的基本概念和理论基础，然后介绍几种目前常用的分布式事务解决方案。废话不多说，那就开始吧～</p>
-</blockquote>
-<p><img src="https://user-gold-cdn.xitu.io/2018/3/10/1620fc3b8a2646d3?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
-<h2 id="什么是事务？"><a href="#什么是事务？" class="headerlink" title="什么是事务？"></a>什么是事务？</h2><p>事务由一组操作构成，我们希望这组操作能够全部正确执行，如果这一组操作中的任意一个步骤发生错误，那么就需要回滚之前已经完成的操作。也就是同一个事务中的所有操作，要么全都正确执行，要么全都不要执行。</p>
-<h2 id="事务的四大特性-ACID"><a href="#事务的四大特性-ACID" class="headerlink" title="事务的四大特性 ACID"></a>事务的四大特性 ACID</h2><p>说到事务，就不得不提一下事务著名的四大特性。</p>
-<ul>
-<li>原子性 原子性要求，事务是一个不可分割的执行单元，事务中的所有操作要么全都执行，要么全都不执行。</li>
-<li>一致性 一致性要求，事务在开始前和结束后，数据库的完整性约束没有被破坏。</li>
-<li>隔离性 事务的执行是相互独立的，它们不会相互干扰，一个事务不会看到另一个正在运行过程中的事务的数据。</li>
-<li>持久性 持久性要求，一个事务完成之后，事务的执行结果必须是持久化保存的。即使数据库发生崩溃，在数据库恢复后事务提交的结果仍然不会丢失。</li>
-</ul>
-<blockquote>
-<p>注意：事务只能保证数据库的<strong>高可靠性</strong>，即数据库本身发生问题后，事务提交后的数据仍然能恢复；而如果不是数据库本身的故障，如硬盘损坏了，那么事务提交的数据可能就丢失了。这属于『<strong>高可用性</strong>』的范畴。因此，事务只能保证数据库的『高可靠性』，而『高可用性』需要整个系统共同配合实现。</p>
-</blockquote>
-<h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><p>这里扩展一下，对事务的<strong>隔离性</strong>做一个详细的解释。</p>
-<p>在事务的四大特性ACID中，要求的隔离性是一种严格意义上的隔离，也就是多个事务是串行执行的，彼此之间不会受到任何干扰。这确实能够完全保证数据的安全性，但在实际业务系统中，这种方式性能不高。因此，数据库定义了四种隔离级别，隔离级别和数据库的性能是呈反比的，隔离级别越低，数据库性能越高，而隔离级别越高，数据库性能越差。</p>
-<h3 id="事务并发执行会出现的问题"><a href="#事务并发执行会出现的问题" class="headerlink" title="事务并发执行会出现的问题"></a>事务并发执行会出现的问题</h3><p>我们先来看一下在不同的隔离级别下，数据库可能会出现的问题：</p>
-<ol>
-<li>更新丢失 当有两个并发执行的事务，更新同一行数据，那么有可能一个事务会把另一个事务的更新覆盖掉。 当数据库没有加任何锁操作的情况下会发生。</li>
-<li>脏读 一个事务读到另一个尚未提交的事务中的数据。 该数据可能会被回滚从而失效。 如果第一个事务拿着失效的数据去处理那就发生错误了。</li>
-<li>不可重复读 不可重复度的含义：一个事务对同一行数据读了两次，却得到了不同的结果。它具体分为如下两种情况：<ul>
-<li>虚读：在事务1两次读取同一记录的过程中，事务2对该记录进行了修改，从而事务1第二次读到了不一样的记录。</li>
-<li>幻读：事务1在两次查询的过程中，事务2对该表进行了插入、删除操作，从而事务1第二次查询的结果发生了变化。</li>
-</ul>
-</li>
-</ol>
-<blockquote>
-<p>不可重复读 与 脏读 的区别？ 脏读读到的是尚未提交的数据，而不可重复读读到的是已经提交的数据，只不过在两次读的过程中数据被另一个事务改过了。</p>
-</blockquote>
-<h3 id="数据库的四种隔离级别"><a href="#数据库的四种隔离级别" class="headerlink" title="数据库的四种隔离级别"></a>数据库的四种隔离级别</h3><p>数据库一共有如下四种隔离级别：</p>
-<ol>
-<li>Read uncommitted 读未提交 在该级别下，一个事务对一行数据修改的过程中，不允许另一个事务对该行数据进行修改，但允许另一个事务对该行数据读。 因此本级别下，不会出现更新丢失，但会出现脏读、不可重复读。</li>
-<li>Read committed 读提交 在该级别下，未提交的写事务不允许其他事务访问该行，因此不会出现脏读；但是读取数据的事务允许其他事务的访问该行数据，因此会出现不可重复读的情况。</li>
-<li>Repeatable read 重复读 在该级别下，读事务禁止写事务，但允许读事务，因此不会出现同一事务两次读到不同的数据的情况（不可重复读），且写事务禁止其他一切事务。</li>
-<li>Serializable 序列化 该级别要求所有事务都必须串行执行，因此能避免一切因并发引起的问题，但效率很低。</li>
-</ol>
-<p>隔离级别越高，越能保证数据的完整性和一致性，但是对并发性能的影响也越大。对于多数应用程序，可以优先考虑把数据库系统的隔离级别设为Read Committed。它能够避免脏读取，而且具有较好的并发性能。尽管它会导致不可重复读、幻读和第二类丢失更新这些并发问题，在可能出现这类问题的个别场合，可以由应用程序采用悲观锁或乐观锁来控制。</p>
-<hr>
-<h2 id="什么是分布式事务？"><a href="#什么是分布式事务？" class="headerlink" title="什么是分布式事务？"></a>什么是分布式事务？</h2><p>到此为止，所介绍的事务都是基于单数据库的本地事务，目前的数据库仅支持单库事务，并不支持跨库事务。而随着微服务架构的普及，一个大型业务系统往往由若干个子系统构成，这些子系统又拥有各自独立的数据库。往往一个业务流程需要由多个子系统共同完成，而且这些操作可能需要在一个事务中完成。在微服务系统中，这些业务场景是普遍存在的。此时，我们就需要在数据库之上通过某种手段，实现支持跨数据库的事务支持，这也就是大家常说的“分布式事务”。</p>
-<p>这里举一个分布式事务的典型例子——用户下单过程。 当我们的系统采用了微服务架构后，一个电商系统往往被拆分成如下几个子系统：商品系统、订单系统、支付系统、积分系统等。整个下单的过程如下：</p>
-<ol>
-<li>用户通过商品系统浏览商品，他看中了某一项商品，便点击下单</li>
-<li>此时订单系统会生成一条订单</li>
-<li>订单创建成功后，支付系统提供支付功能</li>
-<li>当支付完成后，由积分系统为该用户增加积分</li>
-</ol>
-<p>上述步骤2、3、4需要在一个事务中完成。对于传统单体应用而言，实现事务非常简单，只需将这三个步骤放在一个方法A中，再用Spring的@Transactional注解标识该方法即可。Spring通过数据库的事务支持，保证这些步骤要么全都执行完成，要么全都不执行。但在这个微服务架构中，这三个步骤涉及三个系统，涉及三个数据库，此时我们必须在数据库和应用系统之间，通过某项黑科技，实现分布式事务的支持。</p>
-<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><p>CAP理论说的是：在一个分布式系统中，最多只能满足C、A、P中的两个需求。</p>
-<p>CAP的含义：</p>
-<ul>
-<li>C：Consistency 一致性 同一数据的多个副本是否实时相同。</li>
-<li>A：Availability 可用性 可用性：一定时间内 &amp; 系统返回一个明确的结果 则称为该系统可用。</li>
-<li>P：Partition tolerance 分区容错性 将同一服务分布在多个系统中，从而保证某一个系统宕机，仍然有其他系统提供相同的服务。</li>
-</ul>
-<p>CAP理论告诉我们，在分布式系统中，C、A、P三个条件中我们最多只能选择两个。那么问题来了，究竟选择哪两个条件较为合适呢？</p>
-<p>对于一个业务系统来说，可用性和分区容错性是必须要满足的两个条件，并且这两者是相辅相成的。业务系统之所以使用分布式系统，主要原因有两个：</p>
-<ul>
-<li>提升整体性能 当业务量猛增，单个服务器已经无法满足我们的业务需求的时候，就需要使用分布式系统，使用多个节点提供相同的功能，从而整体上提升系统的性能，这就是使用分布式系统的第一个原因。</li>
-<li>实现分区容错性 单一节点 或 多个节点处于相同的网络环境下，那么会存在一定的风险，万一该机房断电、该地区发生自然灾害，那么业务系统就全面瘫痪了。为了防止这一问题，采用分布式系统，将多个子系统分布在不同的地域、不同的机房中，从而保证系统高可用性。</li>
-</ul>
-<p>这说明分区容错性是分布式系统的根本，如果分区容错性不能满足，那使用分布式系统将失去意义。</p>
-<p>此外，可用性对业务系统也尤为重要。在大谈用户体验的今天，如果业务系统时常出现“系统异常”、响应时间过长等情况，这使得用户对系统的好感度大打折扣，在互联网行业竞争激烈的今天，相同领域的竞争者不甚枚举，系统的间歇性不可用会立马导致用户流向竞争对手。因此，我们只能通过牺牲一致性来换取系统的<strong>可用性</strong>和<strong>分区容错性</strong>。这也就是下面要介绍的BASE理论。</p>
-<h2 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a>BASE理论</h2><p>CAP理论告诉我们一个悲惨但不得不接受的事实——我们只能在C、A、P中选择两个条件。而对于业务系统而言，我们往往选择牺牲一致性来换取系统的可用性和分区容错性。不过这里要指出的是，所谓的“牺牲一致性”并不是完全放弃数据一致性，而是牺牲<strong>强一致性</strong>换取<strong>弱一致性</strong>。下面来介绍下BASE理论。</p>
-<ul>
-<li>BA：Basic Available 基本可用<ul>
-<li>整个系统在某些不可抗力的情况下，仍然能够保证“可用性”，即一定时间内仍然能够返回一个明确的结果。只不过“基本可用”和“高可用”的区别是：<ul>
-<li>“一定时间”可以适当延长 当举行大促时，响应时间可以适当延长</li>
-<li>给部分用户返回一个降级页面 给部分用户直接返回一个降级页面，从而缓解服务器压力。但要注意，返回降级页面仍然是返回明确结果。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>S：Soft State：柔性状态 同一数据的不同副本的状态，可以不需要实时一致。</li>
-<li>E：Eventual Consisstency：最终一致性 同一数据的不同副本的状态，可以不需要实时一致，但一定要保证经过一定时间后仍然是一致的。</li>
-</ul>
-<h2 id="酸碱平衡"><a href="#酸碱平衡" class="headerlink" title="酸碱平衡"></a>酸碱平衡</h2><p>ACID能够保证事务的强一致性，即数据是实时一致的。这在本地事务中是没有问题的，在分布式事务中，强一致性会极大影响分布式系统的性能，因此分布式系统中遵循BASE理论即可。但分布式系统的不同业务场景对一致性的要求也不同。如交易场景下，就要求强一致性，此时就需要遵循ACID理论，而在注册成功后发送短信验证码等场景下，并不需要实时一致，因此遵循BASE理论即可。因此要根据具体业务场景，在ACID和BASE之间寻求平衡。</p>
-<h2 id="分布式事务协议"><a href="#分布式事务协议" class="headerlink" title="分布式事务协议"></a>分布式事务协议</h2><p>下面介绍几种实现分布式事务的协议。</p>
-<h3 id="两阶段提交协议-2PC"><a href="#两阶段提交协议-2PC" class="headerlink" title="两阶段提交协议 2PC"></a>两阶段提交协议 2PC</h3><p>分布式系统的一个难点是如何保证架构下多个节点在进行事务性操作的时候保持一致性。为实现这个目的，二阶段提交算法的成立基于以下假设：</p>
-<ul>
-<li>该分布式系统中，存在一个节点作为协调者(Coordinator)，其他节点作为参与者(Cohorts)。且节点之间可以进行网络通信。</li>
-<li>所有节点都采用预写式日志，且日志被写入后即被保持在可靠的存储设备上，即使节点损坏不会导致日志数据的消失。</li>
-<li>所有节点不会永久性损坏，即使损坏后仍然可以恢复。</li>
-</ul>
-<p><strong>1. 第一阶段（投票阶段）：</strong></p>
-<ol>
-<li>协调者节点向所有参与者节点询问是否可以执行提交操作(vote)，并开始等待各参与者节点的响应。</li>
-<li>参与者节点执行询问发起为止的所有事务操作，并将Undo信息和Redo信息写入日志。（注意：若成功这里其实每个参与者已经执行了事务操作）</li>
-<li>各参与者节点响应协调者节点发起的询问。如果参与者节点的事务操作实际执行成功，则它返回一个”同意”消息；如果参与者节点的事务操作实际执行失败，则它返回一个”中止”消息。</li>
-</ol>
-<p><strong>2. 第二阶段（提交执行阶段）：</strong></p>
-<p>当协调者节点从所有参与者节点获得的相应消息都为”同意”时：</p>
-<ol>
-<li>协调者节点向所有参与者节点发出”正式提交(commit)”的请求。</li>
-<li>参与者节点正式完成操作，并释放在整个事务期间内占用的资源。</li>
-<li>参与者节点向协调者节点发送”完成”消息。</li>
-<li>协调者节点受到所有参与者节点反馈的”完成”消息后，完成事务。</li>
-</ol>
-<p>如果任一参与者节点在第一阶段返回的响应消息为”中止”，或者 协调者节点在第一阶段的询问超时之前无法获取所有参与者节点的响应消息时：</p>
-<ol>
-<li>协调者节点向所有参与者节点发出”回滚操作(rollback)”的请求。</li>
-<li>参与者节点利用之前写入的Undo信息执行回滚，并释放在整个事务期间内占用的资源。</li>
-<li>参与者节点向协调者节点发送”回滚完成”消息。</li>
-<li>协调者节点受到所有参与者节点反馈的”回滚完成”消息后，取消事务。</li>
-</ol>
-<p>不管最后结果如何，第二阶段都会结束当前事务。</p>
-<p>二阶段提交看起来确实能够提供原子性的操作，但是不幸的事，二阶段提交还是有几个缺点的：</p>
-<ol>
-<li>执行过程中，所有参与节点都是事务阻塞型的。当参与者占有公共资源时，其他第三方节点访问公共资源不得不处于阻塞状态。</li>
-<li>参与者发生故障。协调者需要给每个参与者额外指定超时机制，超时后整个事务失败。（没有多少容错机制）</li>
-<li>协调者发生故障。参与者会一直阻塞下去。需要额外的备机进行容错。（这个可以依赖后面要讲的Paxos协议实现HA）</li>
-<li>二阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了。那么即使协调者通过选举协议产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否被已经提交。</li>
-</ol>
-<p>为此，Dale Skeen和Michael Stonebraker在“A Formal Model of Crash Recovery in a Distributed System”中提出了三阶段提交协议（3PC）。</p>
-<h3 id="三阶段提交协议-3PC"><a href="#三阶段提交协议-3PC" class="headerlink" title="三阶段提交协议 3PC"></a>三阶段提交协议 3PC</h3><p>与两阶段提交不同的是，三阶段提交有两个改动点。</p>
-<ul>
-<li>引入超时机制。同时在协调者和参与者中都引入超时机制。</li>
-<li>在第一阶段和第二阶段中插入一个准备阶段。保证了在最后提交阶段之前各参与节点的状态是一致的。</li>
-</ul>
-<p>也就是说，除了引入超时机制之外，3PC把2PC的准备阶段再次一分为二，这样三阶段提交就有CanCommit、PreCommit、DoCommit三个阶段。</p>
-<p><strong>1. CanCommit阶段</strong></p>
-<p>3PC的CanCommit阶段其实和2PC的准备阶段很像。协调者向参与者发送commit请求，参与者如果可以提交就返回Yes响应，否则返回No响应。</p>
-<ol>
-<li>事务询问 协调者向参与者发送CanCommit请求。询问是否可以执行事务提交操作。然后开始等待参与者的响应。</li>
-<li>响应反馈 参与者接到CanCommit请求之后，正常情况下，如果其自身认为可以顺利执行事务，则返回Yes响应，并进入预备状态。否则反馈No</li>
-</ol>
-<p><strong>2. PreCommit阶段</strong></p>
-<p>协调者根据参与者的反应情况来决定是否可以记性事务的PreCommit操作。根据响应情况，有以下两种可能。 假如协调者从所有的参与者获得的反馈都是Yes响应，那么就会执行事务的预执行。</p>
-<ol>
-<li>发送预提交请求 协调者向参与者发送PreCommit请求，并进入Prepared阶段。</li>
-<li>事务预提交 参与者接收到PreCommit请求后，会执行事务操作，并将undo和redo信息记录到事务日志中。</li>
-<li>响应反馈 如果参与者成功的执行了事务操作，则返回ACK响应，同时开始等待最终指令。</li>
-</ol>
-<p>假如有任何一个参与者向协调者发送了No响应，或者等待超时之后，协调者都没有接到参与者的响应，那么就执行事务的中断。</p>
-<ol>
-<li>发送中断请求 协调者向所有参与者发送abort请求。</li>
-<li>中断事务 参与者收到来自协调者的abort请求之后（或超时之后，仍未收到协调者的请求），执行事务的中断。</li>
-</ol>
-<p><strong>3. doCommit阶段</strong> 该阶段进行真正的事务提交，也可以分为以下两种情况。</p>
-<p>该阶段进行真正的事务提交，也可以分为以下两种情况。</p>
-<p><strong>3.1 执行提交</strong></p>
-<ol>
-<li>发送提交请求 协调接收到参与者发送的ACK响应，那么他将从预提交状态进入到提交状态。并向所有参与者发送doCommit请求。</li>
-<li>事务提交 参与者接收到doCommit请求之后，执行正式的事务提交。并在完成事务提交之后释放所有事务资源。</li>
-<li>响应反馈 事务提交完之后，向协调者发送Ack响应。</li>
-<li>完成事务 协调者接收到所有参与者的ack响应之后，完成事务。</li>
-</ol>
-<p><strong>3.2 中断事务</strong> 协调者没有接收到参与者发送的ACK响应（可能是接受者发送的不是ACK响应，也可能响应超时），那么就会执行中断事务。</p>
-<ol>
-<li>发送中断请求 协调者向所有参与者发送abort请求</li>
-<li>事务回滚 参与者接收到abort请求之后，利用其在阶段二记录的undo信息来执行事务的回滚操作，并在完成回滚之后释放所有的事务资源。</li>
-<li>反馈结果 参与者完成事务回滚之后，向协调者发送ACK消息</li>
-<li>中断事务 协调者接收到参与者反馈的ACK消息之后，执行事务的中断。</li>
-</ol>
-<h2 id="分布式事务的解决方案"><a href="#分布式事务的解决方案" class="headerlink" title="分布式事务的解决方案"></a>分布式事务的解决方案</h2><p>分布式事务的解决方案有如下几种：</p>
-<ul>
-<li>全局消息</li>
-<li>基于可靠消息服务的分布式事务</li>
-<li>TCC</li>
-<li>最大努力通知</li>
-</ul>
-<h3 id="方案1：全局事务（DTP模型）"><a href="#方案1：全局事务（DTP模型）" class="headerlink" title="方案1：全局事务（DTP模型）"></a>方案1：全局事务（DTP模型）</h3><p>全局事务基于DTP模型实现。DTP是由X/Open组织提出的一种分布式事务模型——X/Open Distributed Transaction Processing Reference Model。它规定了要实现分布式事务，需要三种角色：</p>
-<ul>
-<li>AP：Application 应用系统 它就是我们开发的业务系统，在我们开发的过程中，可以使用资源管理器提供的事务接口来实现分布式事务。</li>
-<li>TM：Transaction Manager 事务管理器<ul>
-<li>分布式事务的实现由事务管理器来完成，它会提供分布式事务的操作接口供我们的业务系统调用。这些接口称为TX接口。</li>
-<li>事务管理器还管理着所有的资源管理器，通过它们提供的XA接口来同一调度这些资源管理器，以实现分布式事务。</li>
-<li>DTP只是一套实现分布式事务的规范，并没有定义具体如何实现分布式事务，TM可以采用2PC、3PC、Paxos等协议实现分布式事务。</li>
-</ul>
-</li>
-<li>RM：Resource Manager 资源管理器<ul>
-<li>能够提供数据服务的对象都可以是资源管理器，比如：数据库、消息中间件、缓存等。大部分场景下，数据库即为分布式事务中的资源管理器。</li>
-<li>资源管理器能够提供单数据库的事务能力，它们通过XA接口，将本数据库的提交、回滚等能力提供给事务管理器调用，以帮助事务管理器实现分布式的事务管理。</li>
-<li>XA是DTP模型定义的接口，用于向事务管理器提供该资源管理器(该数据库)的提交、回滚等能力。</li>
-<li>DTP只是一套实现分布式事务的规范，RM具体的实现是由数据库厂商来完成的。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<ol>
-<li>有没有基于DTP模型的分布式事务中间件？</li>
-</ol>
-</blockquote>
-<ol>
-<li>DTP模型有啥优缺点？</li>
-</ol>
-<h3 id="方案2：基于可靠消息服务的分布式事务"><a href="#方案2：基于可靠消息服务的分布式事务" class="headerlink" title="方案2：基于可靠消息服务的分布式事务"></a>方案2：基于可靠消息服务的分布式事务</h3><p>这种实现分布式事务的方式需要通过消息中间件来实现。假设有A和B两个系统，分别可以处理任务A和任务B。此时系统A中存在一个业务流程，需要将任务A和任务B在同一个事务中处理。下面来介绍基于消息中间件来实现这种分布式事务。</p>
-<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="383" height="474"></svg>)</p>
-<ul>
-<li>在系统A处理任务A前，首先向消息中间件发送一条消息</li>
-<li>消息中间件收到后将该条消息持久化，但并不投递。此时下游系统B仍然不知道该条消息的存在。</li>
-<li>消息中间件持久化成功后，便向系统A返回一个确认应答；</li>
-<li>系统A收到确认应答后，则可以开始处理任务A；</li>
-<li>任务A处理完成后，向消息中间件发送Commit请求。该请求发送完成后，对系统A而言，该事务的处理过程就结束了，此时它可以处理别的任务了。 但commit消息可能会在传输途中丢失，从而消息中间件并不会向系统B投递这条消息，从而系统就会出现不一致性。这个问题由消息中间件的事务回查机制完成，下文会介绍。</li>
-<li>消息中间件收到Commit指令后，便向系统B投递该消息，从而触发任务B的执行；</li>
-<li>当任务B执行完成后，系统B向消息中间件返回一个确认应答，告诉消息中间件该消息已经成功消费，此时，这个分布式事务完成。</li>
-</ul>
-<blockquote>
-<p>上述过程可以得出如下几个结论：</p>
-</blockquote>
-<ol>
-<li>消息中间件扮演者分布式事务协调者的角色。</li>
-<li>系统A完成任务A后，到任务B执行完成之间，会存在一定的时间差。在这个时间差内，整个系统处于数据不一致的状态，但这短暂的不一致性是可以接受的，因为经过短暂的时间后，系统又可以保持数据一致性，满足BASE理论。</li>
-</ol>
-<p>上述过程中，如果任务A处理失败，那么需要进入回滚流程，如下图所示：</p>
-<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="336" height="472"></svg>)</p>
-<ul>
-<li>若系统A在处理任务A时失败，那么就会向消息中间件发送Rollback请求。和发送Commit请求一样，系统A发完之后便可以认为回滚已经完成，它便可以去做其他的事情。</li>
-<li>消息中间件收到回滚请求后，直接将该消息丢弃，而不投递给系统B，从而不会触发系统B的任务B。</li>
-</ul>
-<blockquote>
-<p>此时系统又处于一致性状态，因为任务A和任务B都没有执行。</p>
-</blockquote>
-<p>上面所介绍的Commit和Rollback都属于理想情况，但在实际系统中，Commit和Rollback指令都有可能在传输途中丢失。那么当出现这种情况的时候，消息中间件是如何保证数据一致性呢？——答案就是超时询问机制。</p>
-<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="417" height="549"></svg>)</p>
-<p>系统A除了实现正常的业务流程外，还需提供一个事务询问的接口，供消息中间件调用。当消息中间件收到一条事务型消息后便开始计时，如果到了超时时间也没收到系统A发来的Commit或Rollback指令的话，就会主动调用系统A提供的事务询问接口询问该系统目前的状态。该接口会返回三种结果：</p>
-<ul>
-<li>提交 若获得的状态是“提交”，则将该消息投递给系统B。</li>
-<li>回滚 若获得的状态是“回滚”，则直接将条消息丢弃。</li>
-<li>处理中 若获得的状态是“处理中”，则继续等待。</li>
-</ul>
-<blockquote>
-<p>消息中间件的超时询问机制能够防止上游系统因在传输过程中丢失Commit/Rollback指令而导致的系统不一致情况，而且能降低上游系统的阻塞时间，上游系统只要发出Commit/Rollback指令后便可以处理其他任务，无需等待确认应答。而Commit/Rollback指令丢失的情况通过超时询问机制来弥补，这样大大降低上游系统的阻塞时间，提升系统的并发度。</p>
-</blockquote>
-<p>下面来说一说消息投递过程的可靠性保证。 当上游系统执行完任务并向消息中间件提交了Commit指令后，便可以处理其他任务了，此时它可以认为事务已经完成，接下来消息中间件<strong>一定会保证消息被下游系统成功消费掉！</strong>那么这是怎么做到的呢？这由消息中间件的投递流程来保证。</p>
-<p>消息中间件向下游系统投递完消息后便进入阻塞等待状态，下游系统便立即进行任务的处理，任务处理完成后便向消息中间件返回应答。消息中间件收到确认应答后便认为该事务处理完毕！</p>
-<p>如果消息在投递过程中丢失，或消息的确认应答在返回途中丢失，那么消息中间件在等待确认应答超时之后就会重新投递，直到下游消费者返回消费成功响应为止。当然，一般消息中间件可以设置消息重试的次数和时间间隔，比如：当第一次投递失败后，每隔五分钟重试一次，一共重试3次。如果重试3次之后仍然投递失败，那么这条消息就需要人工干预。</p>
-<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="440" height="541"></svg>)</p>
-<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="432" height="598"></svg>)</p>
-<blockquote>
-<p>有的同学可能要问：消息投递失败后为什么不回滚消息，而是不断尝试重新投递？</p>
-</blockquote>
-<p>这就涉及到整套分布式事务系统的实现成本问题。 我们知道，当系统A将向消息中间件发送Commit指令后，它便去做别的事情了。如果此时消息投递失败，需要回滚的话，就需要让系统A事先提供回滚接口，这无疑增加了额外的开发成本，业务系统的复杂度也将提高。对于一个业务系统的设计目标是，在保证性能的前提下，最大限度地降低系统复杂度，从而能够降低系统的运维成本。</p>
-<blockquote>
-<p>不知大家是否发现，上游系统A向消息中间件提交Commit/Rollback消息采用的是异步方式，也就是当上游系统提交完消息后便可以去做别的事情，接下来提交、回滚就完全交给消息中间件来完成，并且完全信任消息中间件，认为它一定能正确地完成事务的提交或回滚。然而，消息中间件向下游系统投递消息的过程是同步的。也就是消息中间件将消息投递给下游系统后，它会阻塞等待，等下游系统成功处理完任务返回确认应答后才取消阻塞等待。为什么这两者在设计上是不一致的呢？</p>
-</blockquote>
-<p>首先，上游系统和消息中间件之间采用异步通信是为了提高系统并发度。业务系统直接和用户打交道，用户体验尤为重要，因此这种异步通信方式能够极大程度地降低用户等待时间。此外，异步通信相对于同步通信而言，没有了长时间的阻塞等待，因此系统的并发性也大大增加。但异步通信可能会引起Commit/Rollback指令丢失的问题，这就由消息中间件的超时询问机制来弥补。</p>
-<p>那么，消息中间件和下游系统之间为什么要采用同步通信呢？</p>
-<p>异步能提升系统性能，但随之会增加系统复杂度；而同步虽然降低系统并发度，但实现成本较低。因此，在对并发度要求不是很高的情况下，或者服务器资源较为充裕的情况下，我们可以选择同步来降低系统的复杂度。 我们知道，消息中间件是一个独立于业务系统的第三方中间件，它不和任何业务系统产生直接的耦合，它也不和用户产生直接的关联，它一般部署在独立的服务器集群上，具有良好的可扩展性，所以不必太过于担心它的性能，如果处理速度无法满足我们的要求，可以增加机器来解决。而且，即使消息中间件处理速度有一定的延迟那也是可以接受的，因为前面所介绍的BASE理论就告诉我们了，我们追求的是最终一致性，而非实时一致性，因此消息中间件产生的时延导致事务短暂的不一致是可以接受的。</p>
-<h3 id="方案3：最大努力通知（定期校对）"><a href="#方案3：最大努力通知（定期校对）" class="headerlink" title="方案3：最大努力通知（定期校对）"></a>方案3：最大努力通知（定期校对）</h3><p>最大努力通知也被称为定期校对，其实在方案二中已经包含，这里再单独介绍，主要是为了知识体系的完整性。这种方案也需要消息中间件的参与，其过程如下：</p>
-<p>![title](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="635" height="262"></svg>)</p>
-<ul>
-<li>上游系统在完成任务后，向消息中间件同步地发送一条消息，确保消息中间件成功持久化这条消息，然后上游系统可以去做别的事情了；</li>
-<li>消息中间件收到消息后负责将该消息同步投递给相应的下游系统，并触发下游系统的任务执行；</li>
-<li>当下游系统处理成功后，向消息中间件反馈确认应答，消息中间件便可以将该条消息删除，从而该事务完成。</li>
-</ul>
-<p>上面是一个理想化的过程，但在实际场景中，往往会出现如下几种意外情况：</p>
-<ol>
-<li>消息中间件向下游系统投递消息失败</li>
-<li>上游系统向消息中间件发送消息失败</li>
-</ol>
-<p>对于第一种情况，消息中间件具有重试机制，我们可以在消息中间件中设置消息的重试次数和重试时间间隔，对于网络不稳定导致的消息投递失败的情况，往往重试几次后消息便可以成功投递，如果超过了重试的上限仍然投递失败，那么消息中间件不再投递该消息，而是记录在失败消息表中，消息中间件需要提供失败消息的查询接口，下游系统会定期查询失败消息，并将其消费，这就是所谓的“定期校对”。</p>
-<p>如果重复投递和定期校对都不能解决问题，往往是因为下游系统出现了严重的错误，此时就需要人工干预。</p>
-<p>对于第二种情况，需要在上游系统中建立消息重发机制。可以在上游系统建立一张本地消息表，并将 <strong>任务处理过程</strong> 和 <strong>向本地消息表中插入消息</strong> 这两个步骤放在一个本地事务中完成。如果向本地消息表插入消息失败，那么就会触发回滚，之前的任务处理结果就会被取消。如果这量步都执行成功，那么该本地事务就完成了。接下来会有一个专门的消息发送者不断地发送本地消息表中的消息，如果发送失败它会返回重试。当然，也要给消息发送者设置重试的上限，一般而言，达到重试上限仍然发送失败，那就意味着消息中间件出现严重的问题，此时也只有人工干预才能解决问题。</p>
-<p>对于不支持事务型消息的消息中间件，如果要实现分布式事务的话，就可以采用这种方式。它能够通过<strong>重试机制</strong>+<strong>定期校对</strong>实现分布式事务，但相比于第二种方案，它达到数据一致性的周期较长，而且还需要在上游系统中实现消息重试发布机制，以确保消息成功发布给消息中间件，这无疑增加了业务系统的开发成本，使得业务系统不够纯粹，并且这些额外的业务逻辑无疑会占用业务系统的硬件资源，从而影响性能。</p>
-<p>因此，尽量选择支持事务型消息的消息中间件来实现分布式事务，如RocketMQ。</p>
-<h3 id="方案4：TCC（两阶段型、补偿型）"><a href="#方案4：TCC（两阶段型、补偿型）" class="headerlink" title="方案4：TCC（两阶段型、补偿型）"></a>方案4：TCC（两阶段型、补偿型）</h3><p>TCC即为Try Confirm Cancel，它属于补偿型分布式事务。顾名思义，TCC实现分布式事务一共有三个步骤：</p>
-<ul>
-<li>Try：尝试待执行的业务<ul>
-<li>这个过程并未执行业务，只是完成所有业务的一致性检查，并预留好执行所需的全部资源</li>
-</ul>
-</li>
-<li>Confirm：执行业务<ul>
-<li>这个过程真正开始执行业务，由于Try阶段已经完成了一致性检查，因此本过程直接执行，而不做任何检查。并且在执行的过程中，会使用到Try阶段预留的业务资源。</li>
-</ul>
-</li>
-<li>Cancel：取消执行的业务<ul>
-<li>若业务执行失败，则进入Cancel阶段，它会释放所有占用的业务资源，并回滚Confirm阶段执行的操作。</li>
-</ul>
-</li>
-</ul>
-<p>下面以一个转账的例子来解释下TCC实现分布式事务的过程。</p>
-<blockquote>
-<p>假设用户A用他的账户余额给用户B发一个100元的红包，并且余额系统和红包系统是两个独立的系统。</p>
-</blockquote>
-<ul>
-<li>Try<ul>
-<li>创建一条转账流水，并将流水的状态设为<strong>交易中</strong></li>
-<li>将用户A的账户中扣除100元（预留业务资源）</li>
-<li>Try成功之后，便进入Confirm阶段</li>
-<li>Try过程发生任何异常，均进入Cancel阶段</li>
-</ul>
-</li>
-<li>Confirm<ul>
-<li>向B用户的红包账户中增加100元</li>
-<li>将流水的状态设为<strong>交易已完成</strong></li>
-<li>Confirm过程发生任何异常，均进入Cancel阶段</li>
-<li>Confirm过程执行成功，则该事务结束</li>
-</ul>
-</li>
-<li>Cancel<ul>
-<li>将用户A的账户增加100元</li>
-<li>将流水的状态设为<strong>交易失败</strong></li>
-</ul>
-</li>
-</ul>
-<p>在传统事务机制中，业务逻辑的执行和事务的处理，是在不同的阶段由不同的部件来完成的：业务逻辑部分访问资源实现数据存储，其处理是由业务系统负责；事务处理部分通过协调资源管理器以实现事务管理，其处理由事务管理器来负责。二者没有太多交互的地方，所以，传统事务管理器的事务处理逻辑，仅需要着眼于事务完成（commit/rollback）阶段，而不必关注业务执行阶段。</p>
-<h4 id="TCC全局事务必须基于RM本地事务来实现全局事务"><a href="#TCC全局事务必须基于RM本地事务来实现全局事务" class="headerlink" title="TCC全局事务必须基于RM本地事务来实现全局事务"></a>TCC全局事务必须基于RM本地事务来实现全局事务</h4><p>TCC服务是由Try/Confirm/Cancel业务构成的， 其Try/Confirm/Cancel业务在执行时，会访问资源管理器（Resource Manager，下文简称RM）来存取数据。这些存取操作，必须要参与RM本地事务，以使其更改的数据要么都commit，要么都rollback。</p>
-<p>这一点不难理解，考虑一下如下场景：</p>
-<p><img src="https://user-gold-cdn.xitu.io/2018/3/10/1620fc316321942a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="title"></p>
-<p>假设图中的服务B没有基于RM本地事务（以RDBS为例，可通过设置auto-commit为true来模拟），那么一旦[B:Try]操作中途执行失败，TCC事务框架后续决定回滚全局事务时，该[B:Cancel]则需要判断[B:Try]中哪些操作已经写到DB、哪些操作还没有写到DB：假设[B:Try]业务有5个写库操作，[B:Cancel]业务则需要逐个判断这5个操作是否生效，并将生效的操作执行反向操作。</p>
-<p>不幸的是，由于[B:Cancel]业务也有n（0&lt;=n&lt;=5）个反向的写库操作，此时一旦[B:Cancel]也中途出错，则后续的[B:Cancel]执行任务更加繁重。因为，相比第一次[B:Cancel]操作，后续的[B:Cancel]操作还需要判断先前的[B:Cancel]操作的n（0&lt;=n&lt;=5）个写库中哪几个已经执行、哪几个还没有执行，这就涉及到了幂等性问题。而对幂等性的保障，又很可能还需要涉及额外的写库操作，该写库操作又会因为没有RM本地事务的支持而存在类似问题。。。可想而知，如果不基于RM本地事务，TCC事务框架是无法有效的管理TCC全局事务的。</p>
-<p>反之，基于RM本地事务的TCC事务，这种情况则会很容易处理：[B:Try]操作中途执行失败，TCC事务框架将其参与RM本地事务直接rollback即可。后续TCC事务框架决定回滚全局事务时，在知道“[B:Try]操作涉及的RM本地事务已经rollback”的情况下，根本无需执行[B:Cancel]操作。</p>
-<p>换句话说，基于RM本地事务实现TCC事务框架时，一个TCC型服务的cancel业务要么执行，要么不执行，不需要考虑部分执行的情况。</p>
-<h4 id="TCC事务框架应该提供Confirm-Cancel服务的幂等性保障"><a href="#TCC事务框架应该提供Confirm-Cancel服务的幂等性保障" class="headerlink" title="TCC事务框架应该提供Confirm/Cancel服务的幂等性保障"></a>TCC事务框架应该提供Confirm/Cancel服务的幂等性保障</h4><p>一般认为，服务的幂等性，是指针对同一个服务的多次(n&gt;1)请求和对它的单次(n=1)请求，二者具有相同的副作用。</p>
-<p>在TCC事务模型中，Confirm/Cancel业务可能会被重复调用，其原因很多。比如，全局事务在提交/回滚时会调用各TCC服务的Confirm/Cancel业务逻辑。执行这些Confirm/Cancel业务时，可能会出现如网络中断的故障而使得全局事务不能完成。因此，故障恢复机制后续仍然会重新提交/回滚这些未完成的全局事务，这样就会再次调用参与该全局事务的各TCC服务的Confirm/Cancel业务逻辑。</p>
-<p>既然Confirm/Cancel业务可能会被多次调用，就需要保障其幂等性。 那么，应该由TCC事务框架来提供幂等性保障？还是应该由业务系统自行来保障幂等性呢？ 个人认为，应该是由TCC事务框架来提供幂等性保障。如果仅仅只是极个别服务存在这个问题的话，那么由业务系统来负责也是可以的；然而，这是一类公共问题，毫无疑问，所有TCC服务的Confirm/Cancel业务存在幂等性问题。TCC服务的公共问题应该由TCC事务框架来解决；而且，考虑一下由业务系统来负责幂等性需要考虑的问题，就会发现，这无疑增大了业务系统的复杂度。</p>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
-<li><a target="_blank" rel="noopener" href="http://www.infoq.com/cn/interviews/soa-chengli">大规模SOA系统中的分布事务处理_程立</a></li>
-<li><a target="_blank" rel="noopener" href="https://cs.brown.edu/courses/cs227/archives/2012/papers/weaker/cidr07p15.pdf">Life beyond Distributed Transactions: an Apostate’s Opinion</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.bytesoft.org/tcc-intro/">关于如何实现一个TCC分布式事务框架的一点思考</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.enterpriseintegrationpatterns.com/patterns/conversation/TryConfirmCancel.html">How can a requestor ensure a consistent outcome across multiple, independent providers</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.hollischuang.com/archives/681#rd?sukey=3997c0719f1515205acb269da14295ad50b0186483fbd0a402a566f45b33525978b375ccc44dba3e85c4d645a320ba47">关于分布式事务、两阶段提交协议、三阶提交协议</a></li>
-<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Three-phase_commit_protocol_ei.cs.vt.edu/~cs5204/fall99/distributedDBMS/sreenu/3pc.html">Three-phase commit protocol</a></li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-extentions" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/d4fc710d.html" class="article-date">
-      <time datetime="2021-03-01T13:23:03.000Z" itemprop="datePublished">2021-03-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/d4fc710d.html">浏览器插件推荐(转载)</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>转载于 <a target="_blank" rel="noopener" href="https://www.runningcheese.com/extensions">https://www.runningcheese.com/extensions</a>(作者 奔跑中的奶酪 )</p>
-<p><strong>扩展之于浏览器，就像 APP 之于智能手机。</strong></p>
-<p>浏览器扩展的数量成千上万，但真正好用的并不多，能被用户选择使用的其实也就 50个 左右，而真正安装到浏览器上的也不会超过 20 个。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>转载于 <a target="_blank" rel="noopener" href="https://www.runningcheese.com/extensions">https://www.runningcheese.com/extensions</a>(作者 奔跑中的奶酪 )</p>
-<p><strong>扩展之于浏览器，就像 APP 之于智能手机。</strong></p>
-<p>浏览器扩展的数量成千上万，但真正好用的并不多，能被用户选择使用的其实也就 50个 左右，而真正安装到浏览器上的也不会超过 20 个。</p>
-<p>此外，网上推荐扩展的文章也很多，但大多”<strong>没什么卵用</strong>“。</p>
-<p>这类文章通常会喜欢标题党<strong>，动不动就是这个神器，那个黑科技，又或者</strong>喜欢推荐 Adblock Plus <strong>这种入门拓展，还有就是错误地</strong>把扩展（或拓展）说成是插件，这就像给你推荐电脑的人，他总是把硬盘说成是内存。</p>
-<p>下面是我总结的<strong>2020 年度最喜欢浏览器扩展</strong>，支持 Chrome、Firefox、Edge，预计能帮你解决 90% 的浏览器扩展需求。</p>
-<h2 id="我们需要什么样的扩展？"><a href="#我们需要什么样的扩展？" class="headerlink" title="我们需要什么样的扩展？"></a>我们需要什么样的扩展？</h2><p>作为一个有 6 年开发经验，试用超过 2000 多款扩展的用户，我经常在想，我们到底需要什么样的扩展？下面是我的两个理解：</p>
-<h3 id="1、用合适的工具做事"><a href="#1、用合适的工具做事" class="headerlink" title="1、用合适的工具做事"></a><strong>1、用合适的工具做事</strong></h3><p>由于浏览器应用层面的限制，扩展的功能是带着“<strong>镣铐</strong>”的，即便是玩出花来，拓展也没有办法穿透浏览器，如果某些功能，用软件来完成更好，别犹豫，直接用软件吧。</p>
-<p>比如截图扩展 <strong>Nimbus Screen Capture</strong>、文字识别 <strong>Copyfish</strong>、视频下载 <strong>Video DownloadHelper</strong>，它们都已经是同类扩展中的佼佼者了，但还是没办法像软件那样的强大而全面。</p>
-<p>比如截图软件可以用 <strong>FastStone Capture</strong>，文字识别软件用 <strong>天若ORC</strong>，视频下载软件用 <strong>IDM</strong>。（详细回复关键字 <strong>C07</strong>）</p>
-<p>同样，如果某些功能用“<strong>油猴脚本</strong>”就能完成，那就没必要安装扩展了，用脚本的方法要来得更加轻便。</p>
-<h3 id="2、扩展在精不在多，一个扩展做好一件事"><a href="#2、扩展在精不在多，一个扩展做好一件事" class="headerlink" title="2、扩展在精不在多，一个扩展做好一件事"></a><strong>2、扩展在精不在多，一个扩展做好一件事</strong></h3><p>我们总是喜欢试用各式各样的扩展，但大多数扩展其实都是伪需求，有没有其实区别不大。</p>
-<p>真正有需求的是那些<strong>基础的、使用率高的、大多数人都适用</strong>的扩展，所以在扩展选择上，我们可以换个思路：</p>
-<p><strong>从需要出发，倒推浏览器扩展，然后在同类扩展中选择最好的那一款。</strong></p>
-<p>下面是我总结的 2020 年度最喜欢浏览器扩展，支持 Chrome、Firefox、Edge 三款浏览器，带 ★ 为推荐安装，如 Chrome 商店无法正常打开，可以到 <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://crxdl.com">https://crxdl.com</a> 下载。</p>
-<h2 id="1、常用扩展"><a href="#1、常用扩展" class="headerlink" title="1、常用扩展"></a>1、常用扩展</h2><table>
-<thead>
-<tr>
-<th align="left"><strong>功能</strong></th>
-<th align="left"><strong>介绍</strong></th>
-<th align="left"><strong>安装</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">脚本管理</td>
-<td align="left">Tampermonkey，相比 油猴、暴力猴 更加稳定高效。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/userscripts">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/tampermonkey/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">样式管理</td>
-<td align="left">xStyle，相比 Stylish、Stylus 更为简洁，管理也更加方便。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/stylish">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://github.com/FirefoxBar/xStyle/releases"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/xstyle/hncgkmhphmncjohllpoleelnibpmccpj"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">拨号页</td>
-<td align="left">InfinityTab，可能是目前最好的新标签页，但自带的图标有返利尾巴。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/infinity-new-tab-pro-firefox/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/infinity-new-tab-pro/nnnkddnnlpamobajfibfdgfnbcnkgngh"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/infinity-%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5-pro/hajlmbnnniemimmaehcefkamdadpjlfa"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">代理工具</td>
-<td align="left">Proxy SwitchyOmega ，方便简单，可以轻松管理和切换多个代理设置。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/switchyomega/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclg.gif"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">广告过滤</td>
-<td align="left">Ublock，简单好用，支持网页广告、视频广告的过滤。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/adblock">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/ublock-origin/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/ublock-origin/odfafepnkmbhccpbejgmiehpchacaeak"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">密码管理</td>
-<td align="left">BitWarden，免费、简单、多平台通用的密码管理工具。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/password">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/bitwarden-password-manager/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/bitwarden-free-password-m/nngceckbapebfimnlniiiahkandclblb"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/bitwarden-%E5%85%8D%E8%B4%B9%E5%AF%86%E7%A0%81%E7%AE%A1%E7%90%86%E5%99%A8/jbkfoedolllekgbhcbcoahefnbanhhlh"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">鼠标拖拽</td>
-<td align="left">GlitterDrag 是 Firefox 首选，Chrome 用 crxMouse，Edge 用 SuperDrag。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/glitterdrag/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/crxmouse-chrome-gestures/jlgkpaicikihijadgifklkbpdajbkhjo"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/superdrag/nlefalggllbckbaegjonehiokkddgcbn?hl=zh-CN"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">鼠标手势</td>
-<td align="left">用软件更好，Windows 用 Mouseinc，Mac 用 BetterAndBetter。<a target="_blank" rel="noopener" href="https://www.runningcheese.com/operation">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/c09"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmezw9kwt7j300g00g0nc.jpg" alt="Windows"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/c10"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmezvu4ga4j300g00g08a.jpg" alt="Mac"></a></td>
-</tr>
-<tr>
-<td align="left">视频下载</td>
-<td align="left">用软件更好，Windows 用 IDM，Mac 用 NDM。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/idm">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/tonec-idm-integration-module"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/idm-integration-module/ngpampappnmepgilojfohadhhmbhlaek/"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/idm-integration-module/llbjbkhnmlidjebalopleeepgdfgcpec"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">下载管理</td>
-<td align="left">下载管理，接管自带的下载功能，简洁，没有多余功能。★（火狐自带）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/%E4%B8%8B%E8%BD%BD%E7%AE%A1%E7%90%86/dgoaeahpciglgomkbmfblkcfanpfckhb"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E4%B8%8B%E8%BD%BD%E7%AE%A1%E7%90%86/oljecelfndgchlbkmodifnpodpialkjo"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">二维码</td>
-<td align="left">二维码，将文本、链接、图片生成二维码，也可识别二维码图片。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/qrcode-generator-and-reader/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/qr-code-generator-and-rea/hkojjajclkgeijhcmfjcjkddfjpaimek"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E4%BA%8C%E7%BB%B4%E7%A0%81%EF%BC%88%E7%94%9F%E6%88%90%E5%8F%8A%E8%AF%86%E5%88%AB%EF%BC%89/majobenfcengbipnapomhopjknaiffph"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">用户代理</td>
-<td align="left">User-Agent Switcher and Manager，目前 UA 最全的一款用户代理扩展。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/user-agent-string-switcher/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/useragent-switcher-and-m/cnjkedgepfdpdbnepgmajmmjdjkjnifa"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">浏览器请求</td>
-<td align="left">Header Editor，拥有重定向、反盗链、用户代理修改等功能。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/http">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/header-editor/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/header-editor/eningockdidmgiojffjmkdblpjocbhgh"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">RSS 阅读</td>
-<td align="left">用软件更好，Windows 用 irreader，Mac 用 Reeder。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/rss-feed">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/rsshub-radar"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/rsshub-radar/kefjpfngnndepjbopdmoebkipbgkggaa"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/rsshub-radar/gangkeiaobmjcjokiofpkfpcobpbmnln"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">截图工具</td>
-<td align="left">用软件更好，Windows 用 FastStone Capture，Mac 用 iShot。《相关文章》</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/c07"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmezw9kwt7j300g00g0nc.jpg" alt="Windows"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/c08"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmezvu4ga4j300g00g08a.jpg" alt="Mac"></a></td>
-</tr>
-<tr>
-<td align="left">OCR识别</td>
-<td align="left">用软件更好，Windows 用 天若OCR，Mac 用 Text Scaner。《相关文章》</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/c07"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmezw9kwt7j300g00g0nc.jpg" alt="Windows"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/c08"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmezvu4ga4j300g00g08a.jpg" alt="Mac"></a></td>
-</tr>
-<tr>
-<td align="left">电子书</td>
-<td align="left">用软件更好，Windows 用 京东读书，Mac 用 CleanView。《相关文章》</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/c07"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmezw9kwt7j300g00g0nc.jpg" alt="Windows"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/c08"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmezvu4ga4j300g00g08a.jpg" alt="Mac"></a></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h2 id="2、标签管理"><a href="#2、标签管理" class="headerlink" title="2、标签管理"></a>2、标签管理</h2><table>
-<thead>
-<tr>
-<th align="left">功能</th>
-<th align="left">简介（<a target="_blank" rel="noopener" href="https://www.runningcheese.com/tabs">专题文章</a>）</th>
-<th align="left">安装</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">稍候阅读</td>
-<td align="left">In My Pocket，标记没来得急读完的网页，支持多平台同步。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/i10">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/in-my-pocket/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/save-to-pocket/niloccemoadcdkdjlinkgdfekeahmflj"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/save-to-pocket/jicacccodjjgmghnmekophahpmddeemd"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">会话管理</td>
-<td align="left">Tab Session Manager，手动或者自动保存浏览会话。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/i10">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/tab-session-manager/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/tab-session-manager/iaiomicjabeggjcfkbimgmglanimpnae"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/tab-session-manager/jkjjclfiflhpjangefhgfjhgfbhajadk"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">快捷笔记</td>
-<td align="left">Sidebar Note，支持选中文字一键发送至笔记本，支持快捷键。@</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/sidebar-note/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a></td>
-</tr>
-<tr>
-<td align="left">网页剪藏</td>
-<td align="left">Evernote Web Clipper，一键标注和保存完整的网页到 Evernote 上。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/evernote-web-clipper"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/evernote-web-clipper/pioclpoplcdbaefihamjohnefbikjilc"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/evernote-web-clipper/llhcnbijpnechllogkacbcjmkcgjbjfi"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">小号管理</td>
-<td align="left">SessionBox，用于同一网站登录多个账户。（火狐自带）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/sessionbox-free-multi-log/megbklhjamjbcafknkgmokldgolkdfig"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">标签页恢复</td>
-<td align="left">Undo Close Tab，简单且高效的标签页恢复扩展。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/undoclosetabbutton/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/emhohdghchmjepmigjojkehidlielknj"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">标签页查看</td>
-<td align="left">Tree Style Tab，树状显示当前打开的网页，Chrome 用 Aerys。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/tree-style-tab/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/aerys-tab-manager/kclbicheojedbinfjdjjolmciodoihkl"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">标签页位置</td>
-<td align="left">Tab Position Options，调整标签页的打开位置。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/tab_position_options/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/iaiomicjabeggjcfkbimgmglanimpnae"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">内存控制</td>
-<td align="left">Auto Tab Discard，自动冻结不活动的标签页来节省内存占用。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/auto-tab-discard/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/auto-tab-discard/jhnleheckmknfcgijgkadoemagpecfol"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/auto-tab-discard/nfkkljlcjnkngcmdpcammanncbhkndfe"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">新标签页覆盖</td>
-<td align="left">New Tab Override，修改打开新标签页的内容。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/new-tab-override/?src=featured"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">防止关闭</td>
-<td align="left">LiveOn，关闭最后一个标签页时不关闭浏览器。★（火狐自带）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/live-on/oficfgdfeoknbjfhommlpiekdapmnebh"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">打开多个链接</td>
-<td align="left">Open Multiple URLs，但推荐用网站 <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=http://openmultipleurl.com">openmultipleurl.com</a> 来打开。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/de/firefox/addon/open-multiple-urls/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/open-multiple-urls/oifijhaokejakekmnjmphonojcfkpbbh"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">标签页复制</td>
-<td align="left">Copy as Markdown，复制标签页链接为 Markdown 格式，支持快捷键。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/copy-as-markdown/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/copy-as-markdown/fkeaekngjflipcockcnpobkpbbfbhmdn"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/copy-as-markdown/cbbdkefgbfifiljnnklfhnhcnlmpglpd"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">浏览器调用</td>
-<td align="left">Open With，调用其他浏览器或者配置打开当前网页。<a target="_blank" rel="noopener" href="https://www.runningcheese.com/openwith">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/open-with/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/open-with/cogjlncmljjnjpbgppagklanlcbchlno"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">链接多选</td>
-<td align="left">Snap Links Plus，使用鼠标右键可框选多个链接和复选框。<a target="_blank" rel="noopener" href="https://www.runningcheese.com/openwith">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/snaplinksplus"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/linkclump/lfpjkncokllnfokkgpkobnkbkmelfefj"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h2 id="3、书签管理"><a href="#3、书签管理" class="headerlink" title="3、书签管理"></a>3、书签管理</h2><table>
-<thead>
-<tr>
-<th align="left">名称</th>
-<th align="left">简介</th>
-<th align="left">安装</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">书签检测</td>
-<td align="left">Bookmarks Organizer，检测失效与重复的书签。<a target="_blank" rel="noopener" href="https://www.runningcheese.com/bm">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/bookmarks-organizer"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/quick-bookmark-cleaner/ljfgijlbekebdhniagdekklbmmchhjja"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">书签图标刷新</td>
-<td align="left">Checkmarks，在侧边栏中打开，然后依次打开刷新图标。（火狐特有）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/checkmarks-web-ext/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a></td>
-</tr>
-<tr>
-<td align="left">快速添加书签</td>
-<td align="left">Bookmark Tab Here，书签右键菜单上添加“**添加到此…**”的选项。（火狐特有）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/bookmark-tab-here/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a></td>
-</tr>
-<tr>
-<td align="left">书签更新</td>
-<td align="left">Update Bookmark，直接在书签的右键菜单中修改标题和地址。（火狐特有）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/replace-bookmark/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a></td>
-</tr>
-<tr>
-<td align="left">书签搜索</td>
-<td align="left">Holmes，让 Chrome 像 Firefox 一样支持输入 * 后搜索书签。（火狐自带）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/holmes/gokficnebmomagijbakglkcmhdbchbhn"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h2 id="4、搜索增强"><a href="#4、搜索增强" class="headerlink" title="4、搜索增强"></a>4、搜索增强</h2><table>
-<thead>
-<tr>
-<th align="left">名称</th>
-<th align="left">简介（<a target="_blank" rel="noopener" href="https://www.runningcheese.com/quick-search">专题文章</a>）</th>
-<th align="left">安装</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">右键搜索</td>
-<td align="left">Selection Context Search，功能最全的右键搜索扩展。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/quick-search">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/selection-context-search/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/selection-context-search/kplgehmegmjifbhioeldcnphfkcfckjj?hl=zh-CN"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">站内搜索</td>
-<td align="left">Selection Context Search，在设置里增加“站内搜索”的选项。★ （同上）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/selection-context-search/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/selection-context-search/kplgehmegmjifbhioeldcnphfkcfckjj?hl=zh-CN"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">以图搜图</td>
-<td align="left">Selection Context Search，在设置里增加“以图搜图”选项。★（同上）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/selection-context-search/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/selection-context-search/kplgehmegmjifbhioeldcnphfkcfckjj?hl=zh-CN"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">粘贴并搜索</td>
-<td align="left">Paste n’ Go，搜索框右键里增加“粘贴并搜索”的选项。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/paste-n-go/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/paste-n-go/ichdjcfpibgdoecejabegkfpnbdjhhhf"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E7%B2%98%E8%B4%B4-%E6%8F%90%E4%BA%A4/pahdefjlnaikfgelmlbieeiikplcbipm"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">右键限制</td>
-<td align="left">用脚本更好，解除大部分网站禁止复制、选择、右键菜单的限制。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://greasyfork.org/zh-CN/scripts/41075"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmf3gunfzsj300g00g0lo.jpg" alt="Userscript"></a></td>
-</tr>
-<tr>
-<td align="left">搜索切换</td>
-<td align="left">用脚本更好，在各个搜索引擎之间跳转，并有友好的自定义设置菜单。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://greasyfork.org/zh-CN/scripts/27752"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmf3gunfzsj300g00g0lo.jpg" alt="Userscript"></a></td>
-</tr>
-<tr>
-<td align="left">多重搜索</td>
-<td align="left">用脚本更好，通过“小书签”然后用“关键字”来实现。<a target="_blank" rel="noopener" href="https://www.runningcheese.com/quick-search">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/bookmarklet"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmf3gunfzsj300g00g0lo.jpg" alt="Userscript"></a></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h2 id="5、英语阅读"><a href="#5、英语阅读" class="headerlink" title="5、英语阅读"></a>5、英语阅读</h2><table>
-<thead>
-<tr>
-<th align="left">名称</th>
-<th align="left">简介</th>
-<th align="left"></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">翻译工具</td>
-<td align="left">沙拉查词，多功能强大的聚合翻译扩展。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/translation">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/ext-saladict/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/%E6%B2%99%E6%8B%89%E6%9F%A5%E8%AF%8D-%E8%81%9A%E5%90%88%E8%AF%8D%E5%85%B8%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cdonnmffkdaoajfknoeeecmchibpmkmg"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E6%B2%99%E6%8B%89%E6%9F%A5%E8%AF%8D%E8%81%9A%E5%90%88%E8%AF%8D%E5%85%B8%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/idghocbbahafpfhjnfhpbfbmpegphmmp"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">网页翻译</td>
-<td align="left">翻译网页，Chrome、Edge 自带全文翻译，也可以用“彩云小译”。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/traduzir-paginas-web/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/lingocloud-web-translatio/jmpepeebcbihafjjadogphmbgiffiajh"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E5%BD%A9%E4%BA%91%E5%B0%8F%E8%AF%91-%E7%BD%91%E9%A1%B5%E7%BF%BB%E8%AF%91%E6%8F%92%E4%BB%B6/abbgboelhkajgikdbjclaecchkneaoma"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">词汇发现</td>
-<td align="left">单词发现者，高亮网页中的英语单词，可自定义单词难度，扩大您的词汇。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/words-discoverer/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/words-discoverer-expand-y/noncaeikjgpbdeoocblijjgegnobogib"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">语法检测</td>
-<td align="left">Grammarly，检测并自动纠正语法错误。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/grammarly-1/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/grammarly-for-chrome/kbfnbcaeplbcioakkpcpgfkobkghlhen"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/grammarly-for-microsoft-e/cnlefmmeadmemmdciolhbnfeacpdfbkd"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">文本校对</td>
-<td align="left">LanguageTool，语法、文风和拼字校对工具。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/languagetool/?src=external-lt-homepage"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/grammar-and-spell-checker/oldceeleldhonbafppcapldpdifcinji"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/grammar-and-spell-checker/hfjadhjooeceemgojogkhlppanjkbobc"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h2 id="6、阅读辅助"><a href="#6、阅读辅助" class="headerlink" title="6、阅读辅助"></a>6、阅读辅助</h2><table>
-<thead>
-<tr>
-<th align="left">名称</th>
-<th align="left">简介（<a target="_blank" rel="noopener" href="https://www.runningcheese.com/web-viewing">专题文章</a>）</th>
-<th align="left">安装</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">字体渲染</td>
-<td align="left">Font Rendering，解决 Chrome、Edge 字体发虚的问题。★（火狐自带）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/font-rendering-enhancer/hmbmmdjlcdediglgfcdkhinjdelkiock"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">雅黑字体</td>
-<td align="left">替换中文字体为雅黑，同时避免影响英文部分。★（Mac不必安装）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/%E6%9B%BF%E6%8D%A2%E5%AD%97%E4%BD%93%E7%9A%84%E4%B8%AD%E6%96%87%E9%83%A8%E5%88%86%E4%B8%BA%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/%E6%9B%BF%E6%8D%A2%E5%AD%97%E4%BD%93%E7%9A%84%E4%B8%AD%E6%96%87%E9%83%A8%E5%88%86%E4%B8%BA%E9%9B%85%E9%BB%91/enpkigfhoabjjjonanmddidnnahopmcn"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">手形工具</td>
-<td align="left">ScrollAnywhere，按住鼠标左键，像手机屏幕一样地滑动网页。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/scroll_anywhere/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/scrollanywhere/jehmdpemhgfgjblpkilmeoafmkhbckhi"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">快速下一页</td>
-<td align="left">NextPage，页尾处按空格自动翻页，按 N 键下一页，按 P 键上一页。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/nextpage/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/nextpage/njgkgdihapikidfkbodalicplflciggb"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E4%B8%8B%E4%B8%80%E9%A1%B5/bdgjidjidpokocijgeefmliejkkjannk"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">阅读模式</td>
-<td align="left">简悦，比自带模式模式更加优雅的阅读扩展。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/simpread/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/simpread-reader-view/ijllcpnolfcooahcekpamkbidhejabll"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E7%AE%80%E6%82%A6-simpread/clgdhlhfiocphghdkdbgdlmfaafccfmc"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">黑夜模式</td>
-<td align="left">Dark Mode，将网页变成黑夜阅读模式。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/dark-mode-webextension/?src=userprofile"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/dark-mode/dmghijelimhndkbmpgbldicpogfkceaj"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/dark-mode/boldmdfoencgjfblcelefkjfafmpiahm"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">亮度调整</td>
-<td align="left">用脚本更好，通过“小书签”然后用“关键字”来实现。<a target="_blank" rel="noopener" href="https://www.runningcheese.com/bookmarklet">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/bookmarklet"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmf3gunfzsj300g00g0lo.jpg" alt="Userscript"></a></td>
-</tr>
-<tr>
-<td align="left">侧边栏浏览</td>
-<td align="left">Side View，在侧边栏中查看当前网页。（火狐特有）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/side-view/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a></td>
-</tr>
-<tr>
-<td align="left">访问限制</td>
-<td align="left">Block Site，限制访问一些网站，还有上网时间，适合工作的时使用。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/blocksite/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/block-site-website-blocke/eiimnmioipafcokbfikbljfdeojpcgbh"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/blocksite-%E4%BF%9D%E6%8C%81%E4%B8%93%E6%B3%A8%E5%B9%B6%E6%8E%A7%E5%88%B6%E6%82%A8%E7%9A%84%E6%97%B6%E9%97%B4/lbnblmjlpifpfpefbcgefbhnlcnnjgjk"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">维基阅读</td>
-<td align="left">Wikiwand，让排版老旧的 Wikipedia 有一个全新的界面。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/wikiwand-webextension/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/wikiwand-wikipedia-modern/emffkefkbkpkgpdeeooapgaicgmcbolj"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-</tbody></table>
-<h2 id="7、图片浏览"><a href="#7、图片浏览" class="headerlink" title="7、图片浏览"></a>7、图片浏览</h2><table>
-<thead>
-<tr>
-<th align="left">名称</th>
-<th align="left">简介（<a target="_blank" rel="noopener" href="https://www.runningcheese.com/picture-viewing">专题文章</a>）</th>
-<th align="left">安装</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">图片查看助手</td>
-<td align="left">浮图秀，按 Alt 键显示高清大图，可配合脚本 <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://greasyfork.org/zh-CN/scripts/24204">PicViewer</a> 一起使用。★</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/photoshow/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/photoshow/mgpdnhlllbpncjpgokgfogidhoegebod/"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E6%B5%AE%E5%9B%BE%E7%A7%80/afdelcfalkgcfelngdclbaijgeaklbjk"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">图片保存工具</td>
-<td align="left">SAVE IN…，一键保存图片到指定位置，图片管理利器。★<a target="_blank" rel="noopener" href="https://www.runningcheese.com/i13">《相关文章》</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/save-in/#&gid=1&pid=1"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/save-in%E2%80%A6/jpblofcpgfjikaapfedldfeilmpgkedf"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">图片批量下载</td>
-<td align="left">ImageAssistant，嗅探图片、图片筛选、批量下载等功能。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/ia-batch-image-downloader/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/imageassistant-batch-imag/dbjbempljhcmhlfpfacalomonjpalpko"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E5%9B%BE%E7%89%87%E5%8A%A9%E6%89%8Bimageassistant-%E6%89%B9%E9%87%8F%E5%9B%BE%E7%89%87/odphnbhiddhdpoccbialllejaajemdio"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">图床工具</td>
-<td align="left">微博图床，使用前需要登录微博网页版，还支持批量上传。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/weibo-picture-store/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/%E5%BE%AE%E5%8D%9A%E5%9B%BE%E5%BA%8A/pinjkilghdfhnkibhcangnpmcpdpmehk"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E6%96%B0%E6%B5%AA%E5%BE%AE%E5%8D%9A%E5%9B%BE%E5%BA%8A/jkmnhcnemipgjihagldeipnipfognpgh"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h2 id="8、音乐收听"><a href="#8、音乐收听" class="headerlink" title="8、音乐收听"></a>8、音乐收听</h2><table>
-<thead>
-<tr>
-<th align="left">名称</th>
-<th align="left">简介（<a target="_blank" rel="noopener" href="https://www.runningcheese.com/music-artifact">专题文章</a>）</th>
-<th align="left">安装</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">音乐收听</td>
-<td align="left">Listen 1，聚合来自网易云音乐、QQ音乐、虾米等网站的歌曲。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/listen1/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/listen-1/indecfegkejajpaipjipfkkbedgaodbp"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/listen-1/hneiglcmpeedblkmbndhfbeahcpjojjg"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">歌词展示</td>
-<td align="left">Lyrics Here，在 Youtube，Spotify 等音乐网站上显示当前播放音乐的歌词。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/youtube-lyrics-by-rob-w/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/lyrics-here-by-rob-w/lifkpflabnobkgbjpcmocmgcajlecbcp"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">广播收听</td>
-<td align="left">Search to Play the Song，可以说是 Listen 1的简洁版，还能听广播。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/search-to-play-the-song/anfmgjkkbagjfdejhbjdiapgkbhpigpm"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">歌曲识别</td>
-<td align="left">AHA Music，识别当前浏览器播放中的歌曲，还支持本地音乐。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/song-identifier/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/aha-music-music-identifie/dpacanjfikmhoddligfbehkpomnbgblf"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/aha-music-music-identif/ejfccgmelcclnoadalcepdmnpgcnglfc"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-</tbody></table>
-<h2 id="9、视频观看"><a href="#9、视频观看" class="headerlink" title="9、视频观看"></a>9、视频观看</h2><table>
-<thead>
-<tr>
-<th align="left">名称</th>
-<th align="left">简介（<a target="_blank" rel="noopener" href="https://www.runningcheese.com/video-viewing">专题文章</a>）</th>
-<th align="left">安装</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">视频放大</td>
-<td align="left">用脚本更好，将视频放大填充到网页全屏。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://greasyfork.org/zh-CN/scripts/4870"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmf3gunfzsj300g00g0lo.jpg" alt="Userscript"></a></td>
-</tr>
-<tr>
-<td align="left">视频弹窗</td>
-<td align="left">Popup Tool，视频小窗播放，支持弹幕，Chrome 用 Separate Window。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/popup-tool/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/separate-window/cbgkkbaghihhnaeabfcmmglhnfkfnpon"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">弹幕过滤器</td>
-<td align="left">Pakku，哔哩哔哩弹幕过滤器，屏蔽相似弹幕。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/pakkujs/?src=external-home"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/pakku%EF%BC%9A%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%BC%B9%E5%B9%95%E8%BF%87%E6%BB%A4%E5%99%A8/jklfcpboamajpiikgkbjcnnnnooefbhh"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/pakku%EF%BC%9A%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%BC%B9%E5%B9%95%E8%BF%87%E6%BB%A4%E5%99%A8/lnfcfeidnipnphibahlkdhalpkpmccoc"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">U2B双语字幕</td>
-<td align="left">用脚本更好，让 YouTube 显示双语字幕。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://greasyfork.org/zh-CN/scripts/397363"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmf3gunfzsj300g00g0lo.jpg" alt="Userscript"></a></td>
-</tr>
-<tr>
-<td align="left">U2B频道屏蔽</td>
-<td align="left">BlockTube，屏蔽不想看的视频频道，包括首页用和搜索页面。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/blocktube/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/blocktube/bbeaicapbccfllodepmimpkgecanonai"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">刷抖音</td>
-<td align="left">Web for TikTok，在线刷 TikTok，就像用手机刷一样。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/web-for-tiktok/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/web-for-tiktok/jcchnijhoijlmhljldhpgoegfbfjhfap"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/web-for-tiktok/ccjbgffbjdbnnpdnopghofogcfeopdmn"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h2 id="10、小众扩展"><a href="#10、小众扩展" class="headerlink" title="10、小众扩展"></a>10、小众扩展</h2><table>
-<thead>
-<tr>
-<th align="left">名称</th>
-<th align="left">简介</th>
-<th align="left">安装</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Cookie 编辑</td>
-<td align="left">EditThisCookie，编辑 Cookie，比如可以设置帐号永不退出。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/etc2/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">Aria2 下载</td>
-<td align="left">Aria2 manager，用于导出和自动拦截下载到 Aria2 下载器。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/aria2manager/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/aria2-manager/lbfekjdfefiipnbkpgldhicajcoldcmb"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/aria2-manager/ojbidmhgnhijiiagnlfnlbhhnkajklcl"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">网页监测</td>
-<td align="left">Distill Web Monitor，用于跟踪监测网页更新。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/distill-web-monitor-ff/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/distill-web-monitor/inlikjemeeknofckkjolnjbpehgadgge"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/distill-web-monitor/hldhhgncaohjmpcjjhggekonocabhceg"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">历史记录分析</td>
-<td align="left">History Master，更加友好的可视化历史记录分析工具。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/history-master/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/history-master/mkfgjjeggnmkbobjmelbjhdchcoadnin"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">反反广告</td>
-<td align="left">Anti Adblock Detector，去除 Adblock 的检测拦截。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/anti-adblock-blocker"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/anti-adblock-detector/kjhdffcfinhkdfbbhjlfoadcdfgihmlp"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">跳过验证码</td>
-<td align="left">Buster，跳过谷歌的验证码。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/buster-captcha-solver/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/buster-captcha-solver-for/mpbjkejclgfgadiemmefgebjfooflfhl"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/buster-captcha-solver-fo/admkpobhocmdideidcndkfaeffadipkc"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">谷歌访问助手</td>
-<td align="left">iGuge，用于访问 Google 相关的网站，其他的则需要付费购买。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/iguge/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/ncldcbhpeplkfijdhnoepdgdnmjkckij"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/igg%E8%B0%B7%E6%AD%8C%E8%AE%BF%E9%97%AE%E5%8A%A9%E6%89%8B/mchibleoefileemjfghfejaggonplmmg"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">网页全文索引</td>
-<td align="left">Falcon，地址栏输入 f 查找历史浏览网页里的内容。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/falcon/mmifbbohghecjloeklpbinkjpbplfalb"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">自选基金助手</td>
-<td align="left">自选基金助手，小窗口展示“<strong>天天基金网</strong>”的数据。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/choose-funds/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/%E8%87%AA%E9%80%89%E5%9F%BA%E9%87%91%E5%8A%A9%E6%89%8B-%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E5%9F%BA%E9%87%91%E6%B6%A8%E8%B7%8C%E5%B9%85/dhdelcemeednchdmijiocipbjlknndff"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/%E8%87%AA%E9%80%89%E5%9F%BA%E9%87%91%E5%8A%A9%E6%89%8B-%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E5%9F%BA%E9%87%91%E6%B6%A8%E8%B7%8C%E5%B9%85/kophadiajpobbfoobhclbobddkoindoi"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h2 id="11、开发工具"><a href="#11、开发工具" class="headerlink" title="11、开发工具"></a>11、开发工具</h2><table>
-<thead>
-<tr>
-<th align="left">名称</th>
-<th align="left">简介</th>
-<th align="left"></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">加密文件编辑</td>
-<td align="left">mozlz4-edit，修改加密配置文件，比如 search.json.mozlz4。（火狐特有）</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/mozlz4-edit/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a></td>
-</tr>
-<tr>
-<td align="left">快捷键扩展</td>
-<td align="left">Vimium，像 VIM 一样通过键盘来操控浏览器，按 F 键显示快捷键。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/vimium-ff/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/vimium-c-%E5%85%A8%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C%E6%B5%8F%E8%A7%88%E5%99%A8/aibcglbfblnogfjhbcmmpobjhnomhcdo"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">GitHub 阅读</td>
-<td align="left">Octotree，让Github仓库的代码以树状的形式展示。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/en-US/firefox/addon/octotree/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/octotree/bkhaagjahfmjljalopjnoealnfndnagc"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/octotree-github-code-tr/joagmknfcgpikbadjkaikmnhpjadihjg"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">自动化工具</td>
-<td align="left">Wildfire，让工作实现操作自动化，可以用于替代 <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://wiki.imacros.net/Webextensions">iMacros</a>。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/wildfire/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/wildfire/djhgeeodemlfdpmcccdekfalbhllcoim"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/wildfire/mbkkgojenmaoojdgobdjkjnncinhkkmo"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">取色器</td>
-<td align="left">Color Picker，取色器和颜色调整，适合网页开发。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/sharp-color-picker/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/colorzilla/bhlhnicpbhignbdhedgjhgdocnmhomnp"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">扩展源码查看</td>
-<td align="left">Extension source viewer，查看扩展的源码，还可以使用 <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://robwu.nl/crxviewer/">在线版本</a></td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/crxviewer/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/chrome-extension-source-v/jifpbeccnghkjeaalbbjmodiffmgedin"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">屏幕测距</td>
-<td align="left">Dimensions，一个简单实用的网页元素测距工具。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/dimensions_extension/?src=search"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/dimensions/baocaagndhipibgklemoalmkljaimfdj"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a></td>
-</tr>
-<tr>
-<td align="left">字体检测</td>
-<td align="left">Font Finder，一键检查当前网页文字所使用的字体。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/font-inspect/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/font-finder/bhiichidigehdgphoambhjbekalahgha"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/font-finder/hhojcpbmilabimndlmnbegcknapalgph"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">网站技术分析</td>
-<td align="left">Wappalyzer，探测当前网站所使用的系统构架、站点环境、服务器配置等。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/wappalyzer/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/wappalyzer/gppongmhjkpfnbhagpmjfkannfbllamg"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/wappalyzer/mnbndgmknlpdjdnjfmfcdjoegcckoikn"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-<tr>
-<td align="left">网页加载速度</td>
-<td align="left">LoadTime，测试网页加载时间。</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://addons.mozilla.org/zh-CN/firefox/addon/load-time/"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmfgqa8gykj300g00g0py.jpg" alt="Firefox"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://chrome.google.com/webstore/detail/page-load-time/fploionmjgeclbkemipmkogoaohcdbig"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdztkbvgwj300g00g0q8.jpg" alt="Chrome"></a> <a target="_blank" rel="noopener" href="https://www.runningcheese.com/go?url=https://microsoftedge.microsoft.com/addons/detail/page-load-time/llcdjocbfkdndmjbgpaibfkdjkjogeho"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmdzttnlwvj300g00g0p6.jpg" alt="Edge"></a></td>
-</tr>
-</tbody></table>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
 
 
       

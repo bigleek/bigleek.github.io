@@ -269,6 +269,332 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-hexo优化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/878762119.html" class="article-date">
+      <time datetime="2019-07-25T04:09:35.000Z" itemprop="datePublished">2019-07-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/878762119.html">hexo优化</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="hexo-的-themes文件夹下存在git等文件导致URI-malformed"><a href="#hexo-的-themes文件夹下存在git等文件导致URI-malformed" class="headerlink" title="hexo 的 themes文件夹下存在git等文件导致URI malformed"></a>hexo 的 themes文件夹下存在git等文件导致URI malformed</h3><p><a target="_blank" rel="noopener" href="https://blog.liexing.me/2015/09/01/oh-my-hexo/">参考链接</a></p>
+<p>遇到过生成页面后出现一堆代码，或者是 CSS 错误，或者类似 URIError: URI malformed 这样的错误，查了半天，发现是<br>vim 修改了 ejs 文件后，自动生成了带 ~ 后缀的备份文件，这将导致 Hexo 生成的时候一起包含进去出错。删掉所有的备份文件即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">URIError: URI malformed</span><br><span class="line">    at decodeURIComponent (&lt;anonymous&gt;)</span><br><span class="line">    at &#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;hexo-server&#x2F;lib&#x2F;middlewares&#x2F;route.js:17:28</span><br><span class="line">    at call (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:239:7)</span><br><span class="line">    at next (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:183:5)</span><br><span class="line">    at &#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;hexo-server&#x2F;lib&#x2F;middlewares&#x2F;header.js:9:5</span><br><span class="line">    at call (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:239:7)</span><br><span class="line">    at next (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:183:5)</span><br><span class="line">    at Function.handle (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:186:3)</span><br><span class="line">    at Server.app (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:51:37)</span><br><span class="line">    at Server.emit (events.js:310:20)</span><br><span class="line">    at parserOnIncoming (_http_server.js:784:12)</span><br><span class="line">    at HTTPParser.parserOnHeadersComplete (_http_common.js:119:17)</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="hexo-的-themes文件夹下存在git等文件导致URI-malformed"><a href="#hexo-的-themes文件夹下存在git等文件导致URI-malformed" class="headerlink" title="hexo 的 themes文件夹下存在git等文件导致URI malformed"></a>hexo 的 themes文件夹下存在git等文件导致URI malformed</h3><p><a target="_blank" rel="noopener" href="https://blog.liexing.me/2015/09/01/oh-my-hexo/">参考链接</a></p>
+<p>遇到过生成页面后出现一堆代码，或者是 CSS 错误，或者类似 URIError: URI malformed 这样的错误，查了半天，发现是<br>vim 修改了 ejs 文件后，自动生成了带 ~ 后缀的备份文件，这将导致 Hexo 生成的时候一起包含进去出错。删掉所有的备份文件即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">URIError: URI malformed</span><br><span class="line">    at decodeURIComponent (&lt;anonymous&gt;)</span><br><span class="line">    at &#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;hexo-server&#x2F;lib&#x2F;middlewares&#x2F;route.js:17:28</span><br><span class="line">    at call (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:239:7)</span><br><span class="line">    at next (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:183:5)</span><br><span class="line">    at &#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;hexo-server&#x2F;lib&#x2F;middlewares&#x2F;header.js:9:5</span><br><span class="line">    at call (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:239:7)</span><br><span class="line">    at next (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:183:5)</span><br><span class="line">    at Function.handle (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:186:3)</span><br><span class="line">    at Server.app (&#x2F;home&#x2F;leek&#x2F;bei&#x2F;make-blog&#x2F;node_modules&#x2F;connect&#x2F;index.js:51:37)</span><br><span class="line">    at Server.emit (events.js:310:20)</span><br><span class="line">    at parserOnIncoming (_http_server.js:784:12)</span><br><span class="line">    at HTTPParser.parserOnHeadersComplete (_http_common.js:119:17)</span><br></pre></td></tr></table></figure>
+
+<p>需要在hexo的配置文件添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">skip_render:</span><br><span class="line">- daohang&#x2F;*</span><br><span class="line">- .git&#x2F;*</span><br></pre></td></tr></table></figure>
+
+<p>如果还存在问题可以考虑 对于markdown文件中备注代码块格式加了ejs的备注</p>
+<h3 id="tags-多标签-multi-category-and-multi-tag-2020年3月31日"><a href="#tags-多标签-multi-category-and-multi-tag-2020年3月31日" class="headerlink" title="tags 多标签 multi category and multi tag -2020年3月31日"></a>tags 多标签 multi category and multi tag -2020年3月31日</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;文章标签，可空，多标签请用格式[tag1,tag2,tag3]，如下，注意!!&quot;tags:&quot;后面有个空格tags: [tag1, tag2, tag3, ...]&#x2F;&#x2F; 下面这种方式似乎仅限于hexo 3.0tags:- npm  - vue</span><br></pre></td></tr></table></figure>
+
+<p>注意tags: 后面不要有空格,-与标签名之间应该有空格</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/1520">How about supporting multi category and multi tag</a></p>
+<hr>
+<h3 id="设置date的格式"><a href="#设置date的格式" class="headerlink" title="设置date的格式"></a>设置date的格式</h3><table>
+<thead>
+<tr>
+<th align="center">变量</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>:year</code></td>
+<td align="center">文章的发表年份（4 位数）</td>
+</tr>
+<tr>
+<td align="center"><code>:month</code></td>
+<td align="center">文章的发表月份（2 位数）</td>
+</tr>
+<tr>
+<td align="center"><code>:i_month</code></td>
+<td align="center">文章的发表月份（去掉开头的零）</td>
+</tr>
+<tr>
+<td align="center"><code>:day</code></td>
+<td align="center">文章的发表日期 (2 位数)</td>
+</tr>
+<tr>
+<td align="center"><code>:i_day</code></td>
+<td align="center">文章的发表日期（去掉开头的零）</td>
+</tr>
+<tr>
+<td align="center"><code>:title</code></td>
+<td align="center">文件名称</td>
+</tr>
+<tr>
+<td align="center"><code>:post_title</code></td>
+<td align="center">文章标题</td>
+</tr>
+<tr>
+<td align="center"><code>:id</code></td>
+<td align="center">文章 ID</td>
+</tr>
+<tr>
+<td align="center"><code>:category</code></td>
+<td align="center">分类。如果文章没有分类，则是 <code>default_category</code> 配置信息</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://github.com/Rozbo/hexo-abbrlink">github地址</a> 可以参考一下代码风格</p>
+<h3 id="为网页设置统一风格的URL"><a href="#为网页设置统一风格的URL" class="headerlink" title="为网页设置统一风格的URL"></a>为网页设置统一风格的URL</h3><p><a target="_blank" rel="noopener" href="https://github.com/Rozbo/hexo-abbrlink">github地址</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-abbrlink --save 安装 该插件 后将_config.yml permalink: :abbrlink.html   # 生成唯一链接  永久链接（Permalinks）abbrlink:  alg: crc32  # 算法：crc16(default) and crc32  rep: dec    # 进制：dec(default) and hex    permalink_defaults: :year&#x2F;:month&#x2F;:day&#x2F;:title&#x2F;   默认是是这样拼接URL</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://liziczh.com/hexo-submit.html">参考链接</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-检查Ubuntu开机的相关操作" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2802364883.html" class="article-date">
+      <time datetime="2019-07-25T03:34:00.000Z" itemprop="datePublished">2019-07-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2802364883.html">检查Ubuntu开机的相关操作</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p> 开机启动软件都会放在这个目录下/etc/init.d/</p>
+<p> systemd-analyze blame 可以分析开机占用时间比较多点 进程</p>
+<p> sudo systemd-analyze plot &gt; boot.svg 可以想数据导出成 svg 文件</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p> 开机启动软件都会放在这个目录下/etc/init.d/</p>
+<p> systemd-analyze blame 可以分析开机占用时间比较多点 进程</p>
+<p> sudo systemd-analyze plot &gt; boot.svg 可以想数据导出成 svg 文件</p>
+<p>或者直接查看 开机日志 /var/log/boot.log</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-搜狗输入法linux版  两个图标在托盘 tray" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/7f98c9f2.html" class="article-date">
+      <time datetime="2019-07-23T13:03:31.000Z" itemprop="datePublished">2019-07-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="托盘水平"><a href="#托盘水平" class="headerlink" title="托盘水平"></a>托盘水平</h3><p><a href="../img/1563915951910.png"><img src="../img/1563915951910.png" alt="img"></a></p>
+<p><a href="../img/1563915998744.png"><img src="../img/1563915998744.png" alt="1563915998744"></a></p>
+<p>起初是因为 fcitx和搜狗冲突了</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="托盘水平"><a href="#托盘水平" class="headerlink" title="托盘水平"></a>托盘水平</h3><p><a href="../img/1563915951910.png"><img src="../img/1563915951910.png" alt="img"></a></p>
+<p><a href="../img/1563915998744.png"><img src="../img/1563915998744.png" alt="1563915998744"></a></p>
+<p>起初是因为 fcitx和搜狗冲突了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 .)ps -rf |grep fcitx 		kill -9 对应进程  2.) killall fcitx 开机后就还行</span><br></pre></td></tr></table></figure>
+
+<p>然后准备加到开机启动脚本里面 查了一下 可以是 /etc/ini.d 或者local.c 下 然后着手开始干,但是注销用户登录后还是不行,当时就蒙了主要是后面调用不出来搜狗了 有应该是fcitx 上面的汉语输入法 而且很丑,然后就接着查找资料</p>
+<p>最后发现有人的教程里面提到fcitx的配置文件(fcitx-config-gtk3) 可以设置取消界面,就压根不知道为什么要这么配置<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c936a8a2180e">参考链接</a></p>
+<p><a href="../img/2019-07-24_04-58.png"><img src="../img/2019-07-24_04-58.png" alt="img"></a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-解决deepin-wine 下微信黑窗口问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1238,303 +1564,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hexo常见命令" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3173742102.html" class="article-date">
-      <time datetime="2019-04-12T20:37:35.000Z" itemprop="datePublished">2019-04-13</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3173742102.html">hexo常见命令</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>npm install hexo-generator-feed –save 生成 RSS组件</p>
-<p>npm install hexo-wordcount –save 统计字数</p>
-<p>npm install hexo-deployer-git –save git 出现 error deployer not found:git 的错误处理</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>npm install hexo-generator-feed –save 生成 RSS组件</p>
-<p>npm install hexo-wordcount –save 统计字数</p>
-<p>npm install hexo-deployer-git –save git 出现 error deployer not found:git 的错误处理</p>
-<p>留言部分的多说和畅眼都有自己的问题不是很好用 hexo中的这个valine 第三方留言还是比较稳定比gtiment也要好</p>
-<ol>
-<li>npm install leancloud-storage –save # Install leancloud’s js-sdk</li>
-<li>npm install valine –save</li>
-</ol>
-<p>hexot添加valine留言系统,之前的留言系统包括多说,畅言都有一部分问题很不好用,valine算比较好用而且好操作的的</p>
-<p><a target="_blank" rel="noopener" href="https://valine.js.org/hexo.html">hexot添加valine留言</a></p>
-<p>hexo clean &amp;&amp; hexo d -g` 部署和清理缓存</p>
-<p>hexo new *** “标题名”* 是保存地址 会自动生成一个markdown文件</p>
-<p>开头是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: hexo常见命令</span><br><span class="line">date: 2019-04-13 12:37:35</span><br><span class="line">tags: hexo</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at	出现上述问题是YAML格式:后面是必须要有空格的title: Hexo</span><br><span class="line">hexo new page *** 可以生成对应的页面 如about pags</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu优化--smb局域网分享" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2693474031.html" class="article-date">
-      <time datetime="2019-03-27T00:53:16.000Z" itemprop="datePublished">2019-03-27</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2693474031.html">Ubuntu优化--smb局域网分享</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/root0/p/9275118.html">samba实现文件共享</a></p>
-<p>Linux系统与Windows系统之间共享文件资源，小文件可以使用lrzsz，大文件可以使用samba。</p>
-<p>Ubuntu是有自带的文件分享的 分享后</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/root0/p/9275118.html">samba实现文件共享</a></p>
-<p>Linux系统与Windows系统之间共享文件资源，小文件可以使用lrzsz，大文件可以使用samba。</p>
-<p>Ubuntu是有自带的文件分享的 分享后</p>
-<p>我是在vmvare上装了Windows的虚拟机经常需要两个局域网上共享文件 用Linux的分享手机也可以使用samba 协议的APP访问局域网 内的文件，还可以正常流媒体在线播放还是比较方便的的</p>
-<p>netstat -an | grep 3306</p>
-<p>tcp 0 0 0.0.0.0:3306 0.0.0.0:* LISTEN<br>tcp 0 0 127.0.0.1:3306 127.0.0.1:52102 ESTABLISHED<br>tcp 0 0 127.0.0.1:3306 127.0.0.1:52104 ESTABLISHED<br>tcp6 0 0 127.0.0.1:52104 127.0.0.1:3306 ESTABLISHED<br>tcp6 0 0 127.0.0.1:52102 127.0.0.1:3306 ESTABLISHED</p>
-<p>bind-address = 127.0.0.1 原本的是这样的</p>
-<p>bind-addres = 0.0.0.0 后面有人说需要 其实主要上面的这个的就行了</p>
-<p>/etc/mysql/mysql.conf.d/mysqld.cnf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 3306 -j ACCEPT</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu折腾--优化wine 微信小黑框处理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3419088444.html" class="article-date">
-      <time datetime="2019-03-27T00:53:16.000Z" itemprop="datePublished">2019-03-27</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="解决gnome-dash-duck部分软件不能添加入收藏"><a href="#解决gnome-dash-duck部分软件不能添加入收藏" class="headerlink" title="解决gnome-dash-duck部分软件不能添加入收藏"></a>解决gnome-dash-duck部分软件不能添加入收藏</h3><p>命令行输入启动gnome</p>
-<p>gsettings get org.gnome.shell favorite-apps</p>
-<p>后可以在dash栏直接添加当前运行的问</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="解决gnome-dash-duck部分软件不能添加入收藏"><a href="#解决gnome-dash-duck部分软件不能添加入收藏" class="headerlink" title="解决gnome-dash-duck部分软件不能添加入收藏"></a>解决gnome-dash-duck部分软件不能添加入收藏</h3><p>命令行输入启动gnome</p>
-<p>gsettings get org.gnome.shell favorite-apps</p>
-<p>后可以在dash栏直接添加当前运行的问</p>
-<h3 id="wine-微信小黑框处理-chatcontactmenu"><a href="#wine-微信小黑框处理-chatcontactmenu" class="headerlink" title="wine 微信小黑框处理 chatcontactmenu"></a>wine 微信小黑框处理 chatcontactmenu</h3><p>wmctrl -l -G -p -x 显示当前窗口</p>
-<p>xdotool windowunmap 0x0340000a 异常对应的窗口</p>
-<p>0x01a0000a 0 2415 0 0 1920 1080 desktop_window.Nautilus lee-XPS 桌面<br>0x02400084 0 2992 2734 -12 595 434 gedit.Gedit lee-XPS *note (~/桌面) - gedit<br>0x0340000a 0 3200 0 56 1 1 wechat.exe.Wine lee-XPS ChatContactMenu<br>0x0340000c 0 3200 1860 1020 60 60 wechat.exe.Wine lee-XPS<br>0x03400009 0 3200 1220 56 1231 1052 wechat.exe.Wine lee-XPS 微信</p>
-<hr>
-<h3 id="flameshot-的截屏软件"><a href="#flameshot-的截屏软件" class="headerlink" title="flameshot 的截屏软件"></a>flameshot 的截屏软件</h3><p>/usr/bin/flameshot gui<br>gnome-screenshot -ac</p>
-<p>更新 Linux压缩包乱码</p>
-<p>压缩文件乱码的解决方案 指定编码解压</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -O GBK zip  或者unzip -O cp936</span><br></pre></td></tr></table></figure>
-
-<p>本质问题还是zip格式的缺陷，没有字段标志出文件名的编码格式。ZIP在压缩与解压缩的时候默认使用了系统的本地编码，如windows中文环境下为GBK， 日文 环境下是JIS，linux默认编码为UTF8等；那么在不同系统环境下，只要压缩与解压缩的编码不一致，就会出现乱码。</p>
-<h3 id="构建desktop文件"><a href="#构建desktop文件" class="headerlink" title="构建desktop文件"></a>构建desktop文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Version&#x3D;1.0</span><br><span class="line">Name&#x3D;Firefox Web Browser</span><br><span class="line">Name[ar]&#x3D;متصفح الويب فَيَرفُكْس</span><br><span class="line">Name[ast]&#x3D;Restolador web Firefox</span><br><span class="line">Name[bn]&#x3D;ফায়ারফক্স ওয়েব ব্রাউজার</span><br><span class="line">Name[ca]&#x3D;Navegador web Firefox</span><br><span class="line">Name[cs]&#x3D;Firefox Webový prohlížeč</span><br><span class="line">Name[da]&#x3D;Firefox - internetbrowser</span><br><span class="line">Name[el]&#x3D;Περιηγητής Firefox</span><br><span class="line">Name[es]&#x3D;Navegador web Firefox</span><br><span class="line">Name[et]&#x3D;Firefoxi veebibrauser</span><br><span class="line">Name[fa]&#x3D;مرورگر اینترنتی Firefox</span><br><span class="line">Name[fi]&#x3D;Firefox-selain</span><br><span class="line">Name[fr]&#x3D;Navigateur Web Firefox</span><br><span class="line">Name[gl]&#x3D;Navegador web Firefox</span><br><span class="line">Name[he]&#x3D;דפדפן האינטרנט Firefox</span><br><span class="line">Name[hr]&#x3D;Firefox web preglednik</span><br><span class="line">Name[hu]&#x3D;Firefox webböngésző</span><br><span class="line">Name[it]&#x3D;Firefox Browser Web</span><br><span class="line">Name[ja]&#x3D;Firefox ウェブ・ブラウザ</span><br><span class="line">Name[ko]&#x3D;Firefox 웹 브라우저</span><br><span class="line">Name[ku]&#x3D;Geroka torê Firefox</span><br><span class="line">Name[lt]&#x3D;Firefox interneto naršyklė</span><br><span class="line">Name[nb]&#x3D;Firefox Nettleser</span><br><span class="line">Name[nl]&#x3D;Firefox webbrowser</span><br><span class="line">Name[nn]&#x3D;Firefox Nettlesar</span><br><span class="line">Name[no]&#x3D;Firefox Nettleser</span><br><span class="line">Name[pl]&#x3D;Przeglądarka WWW Firefox</span><br><span class="line">Name[pt]&#x3D;Firefox Navegador Web</span><br><span class="line">Name[pt_BR]&#x3D;Navegador Web Firefox</span><br><span class="line">Name[ro]&#x3D;Firefox – Navigator Internet</span><br><span class="line">Name[ru]&#x3D;Веб-браузер Firefox</span><br><span class="line">Name[sk]&#x3D;Firefox - internetový prehliadač</span><br><span class="line">Name[sl]&#x3D;Firefox spletni brskalnik</span><br><span class="line">Name[sv]&#x3D;Firefox webbläsare</span><br><span class="line">Name[tr]&#x3D;Firefox Web Tarayıcısı</span><br><span class="line">Name[ug]&#x3D;Firefox توركۆرگۈ</span><br><span class="line">Name[uk]&#x3D;Веб-браузер Firefox</span><br><span class="line">Name[vi]&#x3D;Trình duyệt web Firefox</span><br><span class="line">Name[zh_CN]&#x3D;Firefox 网络浏览器</span><br><span class="line">Name[zh_TW]&#x3D;Firefox 網路瀏覽器</span><br><span class="line">Comment&#x3D;Browse the World Wide Web</span><br><span class="line">Comment[ar]&#x3D;تصفح الشبكة العنكبوتية العالمية</span><br><span class="line">Comment[ast]&#x3D;Restola pela Rede</span><br><span class="line">Comment[bn]&#x3D;ইন্টারনেট ব্রাউজ করুন</span><br><span class="line">Comment[ca]&#x3D;Navegueu per la web</span><br><span class="line">Comment[cs]&#x3D;Prohlížení stránek World Wide Webu</span><br><span class="line">Comment[da]&#x3D;Surf på internettet</span><br><span class="line">Comment[de]&#x3D;Im Internet surfen</span><br><span class="line">Comment[el]&#x3D;Μπορείτε να περιηγηθείτε στο διαδίκτυο (Web)</span><br><span class="line">Comment[es]&#x3D;Navegue por la web</span><br><span class="line">Comment[et]&#x3D;Lehitse veebi</span><br><span class="line">Comment[fa]&#x3D;صفحات شبکه جهانی اینترنت را مرور نمایید</span><br><span class="line">Comment[fi]&#x3D;Selaa Internetin WWW-sivuja</span><br><span class="line">Comment[fr]&#x3D;Naviguer sur le Web</span><br><span class="line">Comment[gl]&#x3D;Navegar pola rede</span><br><span class="line">Comment[he]&#x3D;גלישה ברחבי האינטרנט</span><br><span class="line">Comment[hr]&#x3D;Pretražite web</span><br><span class="line">Comment[hu]&#x3D;A világháló böngészése</span><br><span class="line">Comment[it]&#x3D;Esplora il web</span><br><span class="line">Comment[ja]&#x3D;ウェブを閲覧します</span><br><span class="line">Comment[ko]&#x3D;웹을 돌아 다닙니다</span><br><span class="line">Comment[ku]&#x3D;Li torê bigere</span><br><span class="line">Comment[lt]&#x3D;Naršykite internete</span><br><span class="line">Comment[nb]&#x3D;Surf på nettet</span><br><span class="line">Comment[nl]&#x3D;Verken het internet</span><br><span class="line">Comment[nn]&#x3D;Surf på nettet</span><br><span class="line">Comment[no]&#x3D;Surf på nettet</span><br><span class="line">Comment[pl]&#x3D;Przeglądanie stron WWW</span><br><span class="line">Comment[pt]&#x3D;Navegue na Internet</span><br><span class="line">Comment[pt_BR]&#x3D;Navegue na Internet</span><br><span class="line">Comment[ro]&#x3D;Navigați pe Internet</span><br><span class="line">Comment[ru]&#x3D;Доступ в Интернет</span><br><span class="line">Comment[sk]&#x3D;Prehliadanie internetu</span><br><span class="line">Comment[sl]&#x3D;Brskajte po spletu</span><br><span class="line">Comment[sv]&#x3D;Surfa på webben</span><br><span class="line">Comment[tr]&#x3D;İnternet&#39;te Gezinin</span><br><span class="line">Comment[ug]&#x3D;دۇنيادىكى توربەتلەرنى كۆرگىلى بولىدۇ</span><br><span class="line">Comment[uk]&#x3D;Перегляд сторінок Інтернету</span><br><span class="line">Comment[vi]&#x3D;Để duyệt các trang web</span><br><span class="line">Comment[zh_CN]&#x3D;浏览互联网</span><br><span class="line">Comment[zh_TW]&#x3D;瀏覽網際網路</span><br><span class="line">GenericName&#x3D;Web Browser</span><br><span class="line">GenericName[ar]&#x3D;متصفح ويب</span><br><span class="line">GenericName[ast]&#x3D;Restolador Web</span><br><span class="line">GenericName[bn]&#x3D;ওয়েব ব্রাউজার</span><br><span class="line">GenericName[ca]&#x3D;Navegador web</span><br><span class="line">GenericName[cs]&#x3D;Webový prohlížeč</span><br><span class="line">GenericName[da]&#x3D;Webbrowser</span><br><span class="line">GenericName[el]&#x3D;Περιηγητής διαδικτύου</span><br><span class="line">GenericName[es]&#x3D;Navegador web</span><br><span class="line">GenericName[et]&#x3D;Veebibrauser</span><br><span class="line">GenericName[fa]&#x3D;مرورگر اینترنتی</span><br><span class="line">GenericName[fi]&#x3D;WWW-selain</span><br><span class="line">GenericName[fr]&#x3D;Navigateur Web</span><br><span class="line">GenericName[gl]&#x3D;Navegador Web</span><br><span class="line">GenericName[he]&#x3D;דפדפן אינטרנט</span><br><span class="line">GenericName[hr]&#x3D;Web preglednik</span><br><span class="line">GenericName[hu]&#x3D;Webböngésző</span><br><span class="line">GenericName[it]&#x3D;Browser web</span><br><span class="line">GenericName[ja]&#x3D;ウェブ・ブラウザ</span><br><span class="line">GenericName[ko]&#x3D;웹 브라우저</span><br><span class="line">GenericName[ku]&#x3D;Geroka torê</span><br><span class="line">GenericName[lt]&#x3D;Interneto naršyklė</span><br><span class="line">GenericName[nb]&#x3D;Nettleser</span><br><span class="line">GenericName[nl]&#x3D;Webbrowser</span><br><span class="line">GenericName[nn]&#x3D;Nettlesar</span><br><span class="line">GenericName[no]&#x3D;Nettleser</span><br><span class="line">GenericName[pl]&#x3D;Przeglądarka WWW</span><br><span class="line">GenericName[pt]&#x3D;Navegador Web</span><br><span class="line">GenericName[pt_BR]&#x3D;Navegador Web</span><br><span class="line">GenericName[ro]&#x3D;Navigator Internet</span><br><span class="line">GenericName[ru]&#x3D;Веб-браузер</span><br><span class="line">GenericName[sk]&#x3D;Internetový prehliadač</span><br><span class="line">GenericName[sl]&#x3D;Spletni brskalnik</span><br><span class="line">GenericName[sv]&#x3D;Webbläsare</span><br><span class="line">GenericName[tr]&#x3D;Web Tarayıcı</span><br><span class="line">GenericName[ug]&#x3D;توركۆرگۈ</span><br><span class="line">GenericName[uk]&#x3D;Веб-браузер</span><br><span class="line">GenericName[vi]&#x3D;Trình duyệt Web</span><br><span class="line">GenericName[zh_CN]&#x3D;网络浏览器</span><br><span class="line">GenericName[zh_TW]&#x3D;網路瀏覽器</span><br><span class="line">Keywords&#x3D;Internet;WWW;Browser;Web;Explorer</span><br><span class="line">Keywords[ar]&#x3D;انترنت;إنترنت;متصفح;ويب;وب</span><br><span class="line">Keywords[ast]&#x3D;Internet;WWW;Restolador;Web;Esplorador</span><br><span class="line">Keywords[ca]&#x3D;Internet;WWW;Navegador;Web;Explorador;Explorer</span><br><span class="line">Keywords[cs]&#x3D;Internet;WWW;Prohlížeč;Web;Explorer</span><br><span class="line">Keywords[da]&#x3D;Internet;Internettet;WWW;Browser;Browse;Web;Surf;Nettet</span><br><span class="line">Keywords[de]&#x3D;Internet;WWW;Browser;Web;Explorer;Webseite;Site;surfen;online;browsen</span><br><span class="line">Keywords[el]&#x3D;Internet;WWW;Browser;Web;Explorer;Διαδίκτυο;Περιηγητής;Firefox;Φιρεφοχ;Ιντερνετ</span><br><span class="line">Keywords[es]&#x3D;Explorador;Internet;WWW</span><br><span class="line">Keywords[fi]&#x3D;Internet;WWW;Browser;Web;Explorer;selain;Internet-selain;internetselain;verkkoselain;netti;surffaa</span><br><span class="line">Keywords[fr]&#x3D;Internet;WWW;Browser;Web;Explorer;Fureteur;Surfer;Navigateur</span><br><span class="line">Keywords[he]&#x3D;דפדפן;אינטרנט;רשת;אתרים;אתר;פיירפוקס;מוזילה;</span><br><span class="line">Keywords[hr]&#x3D;Internet;WWW;preglednik;Web</span><br><span class="line">Keywords[hu]&#x3D;Internet;WWW;Böngésző;Web;Háló;Net;Explorer</span><br><span class="line">Keywords[it]&#x3D;Internet;WWW;Browser;Web;Navigatore</span><br><span class="line">Keywords[is]&#x3D;Internet;WWW;Vafri;Vefur;Netvafri;Flakk</span><br><span class="line">Keywords[ja]&#x3D;Internet;WWW;Web;インターネット;ブラウザ;ウェブ;エクスプローラ</span><br><span class="line">Keywords[nb]&#x3D;Internett;WWW;Nettleser;Explorer;Web;Browser;Nettside</span><br><span class="line">Keywords[nl]&#x3D;Internet;WWW;Browser;Web;Explorer;Verkenner;Website;Surfen;Online</span><br><span class="line">Keywords[pt]&#x3D;Internet;WWW;Browser;Web;Explorador;Navegador</span><br><span class="line">Keywords[pt_BR]&#x3D;Internet;WWW;Browser;Web;Explorador;Navegador</span><br><span class="line">Keywords[ru]&#x3D;Internet;WWW;Browser;Web;Explorer;интернет;браузер;веб;файрфокс;огнелис</span><br><span class="line">Keywords[sk]&#x3D;Internet;WWW;Prehliadač;Web;Explorer</span><br><span class="line">Keywords[sl]&#x3D;Internet;WWW;Browser;Web;Explorer;Brskalnik;Splet</span><br><span class="line">Keywords[tr]&#x3D;İnternet;WWW;Tarayıcı;Web;Gezgin;Web sitesi;Site;sörf;çevrimiçi;tara</span><br><span class="line">Keywords[uk]&#x3D;Internet;WWW;Browser;Web;Explorer;Інтернет;мережа;переглядач;оглядач;браузер;веб;файрфокс;вогнелис;перегляд</span><br><span class="line">Keywords[vi]&#x3D;Internet;WWW;Browser;Web;Explorer;Trình duyệt;Trang web</span><br><span class="line">Keywords[zh_CN]&#x3D;Internet;WWW;Browser;Web;Explorer;网页;浏览;上网;火狐;Firefox;ff;互联网;网站;</span><br><span class="line">Keywords[zh_TW]&#x3D;Internet;WWW;Browser;Web;Explorer;網際網路;網路;瀏覽器;上網;網頁;火狐</span><br><span class="line">Exec&#x3D;firefox %u</span><br><span class="line">Terminal&#x3D;false</span><br><span class="line">X-MultipleArgs&#x3D;false</span><br><span class="line">Type&#x3D;Application</span><br><span class="line">Icon&#x3D;firefox</span><br><span class="line">Categories&#x3D;GNOME;GTK;Network;WebBrowser;</span><br><span class="line">MimeType&#x3D;text&#x2F;html;text&#x2F;xml;application&#x2F;xhtml+xml;application&#x2F;xml;application&#x2F;rss+xml;application&#x2F;rdf+xml;image&#x2F;gif;image&#x2F;jpeg;image&#x2F;png;x-scheme-handler&#x2F;http;x-scheme-handler&#x2F;https;x-scheme-handler&#x2F;ftp;x-scheme-handler&#x2F;chrome;video&#x2F;webm;application&#x2F;x-xpinstall;</span><br><span class="line">StartupNotify&#x3D;true</span><br><span class="line">Actions&#x3D;new-window;new-private-window;</span><br><span class="line"></span><br><span class="line">[Desktop Action new-window]</span><br><span class="line">Name&#x3D;Open a New Window</span><br><span class="line">Name[ar]&#x3D;افتح نافذة جديدة</span><br><span class="line">Name[ast]&#x3D;Abrir una ventana nueva</span><br><span class="line">Name[bn]&#x3D;Abrir una ventana nueva</span><br><span class="line">Name[ca]&#x3D;Obre una finestra nova</span><br><span class="line">Name[cs]&#x3D;Otevřít nové okno</span><br><span class="line">Name[da]&#x3D;Åbn et nyt vindue</span><br><span class="line">Name[de]&#x3D;Ein neues Fenster öffnen</span><br><span class="line">Name[el]&#x3D;Νέο παράθυρο</span><br><span class="line">Name[es]&#x3D;Abrir una ventana nueva</span><br><span class="line">Name[fi]&#x3D;Avaa uusi ikkuna</span><br><span class="line">Name[fr]&#x3D;Ouvrir une nouvelle fenêtre</span><br><span class="line">Name[gl]&#x3D;Abrir unha nova xanela</span><br><span class="line">Name[he]&#x3D;פתיחת חלון חדש</span><br><span class="line">Name[hr]&#x3D;Otvori novi prozor</span><br><span class="line">Name[hu]&#x3D;Új ablak nyitása</span><br><span class="line">Name[it]&#x3D;Apri una nuova finestra</span><br><span class="line">Name[ja]&#x3D;新しいウィンドウを開く</span><br><span class="line">Name[ko]&#x3D;새 창 열기</span><br><span class="line">Name[ku]&#x3D;Paceyeke nû veke</span><br><span class="line">Name[lt]&#x3D;Atverti naują langą</span><br><span class="line">Name[nb]&#x3D;Åpne et nytt vindu</span><br><span class="line">Name[nl]&#x3D;Nieuw venster openen</span><br><span class="line">Name[pt]&#x3D;Abrir nova janela</span><br><span class="line">Name[pt_BR]&#x3D;Abrir nova janela</span><br><span class="line">Name[ro]&#x3D;Deschide o fereastră nouă</span><br><span class="line">Name[ru]&#x3D;Новое окно</span><br><span class="line">Name[sk]&#x3D;Otvoriť nové okno</span><br><span class="line">Name[sl]&#x3D;Odpri novo okno</span><br><span class="line">Name[sv]&#x3D;Öppna ett nytt fönster</span><br><span class="line">Name[tr]&#x3D;Yeni pencere aç</span><br><span class="line">Name[ug]&#x3D;يېڭى كۆزنەك ئېچىش</span><br><span class="line">Name[uk]&#x3D;Відкрити нове вікно</span><br><span class="line">Name[vi]&#x3D;Mở cửa sổ mới</span><br><span class="line">Name[zh_CN]&#x3D;新建窗口</span><br><span class="line">Name[zh_TW]&#x3D;開啟新視窗</span><br><span class="line">Exec&#x3D;firefox -new-window</span><br><span class="line"></span><br><span class="line">[Desktop Action new-private-window]</span><br><span class="line">Name&#x3D;Open a New Private Window</span><br><span class="line">Name[ar]&#x3D;افتح نافذة جديدة للتصفح الخاص</span><br><span class="line">Name[ca]&#x3D;Obre una finestra nova en mode d&#39;incògnit</span><br><span class="line">Name[cs]&#x3D;Otevřít nové anonymní okno</span><br><span class="line">Name[de]&#x3D;Ein neues privates Fenster öffnen</span><br><span class="line">Name[el]&#x3D;Νέο ιδιωτικό παράθυρο</span><br><span class="line">Name[es]&#x3D;Abrir una ventana privada nueva</span><br><span class="line">Name[fi]&#x3D;Avaa uusi yksityinen ikkuna</span><br><span class="line">Name[fr]&#x3D;Ouvrir une nouvelle fenêtre de navigation privée</span><br><span class="line">Name[he]&#x3D;פתיחת חלון גלישה פרטית חדש</span><br><span class="line">Name[hu]&#x3D;Új privát ablak nyitása</span><br><span class="line">Name[it]&#x3D;Apri una nuova finestra anonima</span><br><span class="line">Name[nb]&#x3D;Åpne et nytt privat vindu</span><br><span class="line">Name[ru]&#x3D;Новое приватное окно</span><br><span class="line">Name[sl]&#x3D;Odpri novo okno zasebnega brskanja</span><br><span class="line">Name[sv]&#x3D;Öppna ett nytt privat fönster</span><br><span class="line">Name[tr]&#x3D;Yeni bir pencere aç</span><br><span class="line">Name[uk]&#x3D;Відкрити нове вікно у потайливому режимі</span><br><span class="line">Name[zh_TW]&#x3D;開啟新隱私瀏覽視窗</span><br><span class="line">Exec&#x3D;&#x2F;opt&#x2F;firefox&#x2F;firefox</span><br><span class="line"># Exec&#x3D;&#x2F;home&#x2F;leek&#x2F;soft&#x2F;firefox&#x2F;firefox %u</span><br><span class="line"># Exec&#x3D;&#x2F;home&#x2F;leek&#x2F;soft&#x2F;firefox&#x2F;firefox -new-window</span><br><span class="line"># Exec&#x3D;&#x2F;home&#x2F;leek&#x2F;soft&#x2F;firefox&#x2F;firefox -private-window</span><br></pre></td></tr></table></figure>
-
-<p>Firefox.com 官网下载国际版 解压后可直接运行Firefox 文件夹下的firefox</p>
-<p>bin 添加对应的脚步文件 打开</p>
-<ul>
-<li>ubuntu 安装开机界面</li>
-<li>Linux 下载神器 motrix</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wine/" rel="tag">wine</a></li></ul>
     </div>
  -->
 

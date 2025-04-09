@@ -269,6 +269,454 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-提交文件MultipartFile后ZipEntry.size一直为-1" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3269460028.html" class="article-date">
+      <time datetime="2020-03-16T23:18:32.000Z" itemprop="datePublished">2020-03-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>先看一下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">importModels</span> <span class="params">(MultipartFile file)</span> <span class="keyword">throws</span> IOException, InvalidFormatException </span>&#123;</span><br><span class="line">     ZipInputStream zipInputStream = <span class="keyword">new</span> ZipInputStream(file.getInputStream(), Charset.defaultCharset());</span><br><span class="line">     BufferedInputStream bs = <span class="keyword">new</span> BufferedInputStream(zipInputStream);</span><br><span class="line">     Map&lt;String, Map&gt; stringMapMap;</span><br><span class="line">     Map&lt;String, String&gt; modelJsons = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">     ZipEntry zipEntry;</span><br><span class="line">     String zipFileName;</span><br><span class="line">     <span class="keyword">while</span> ((zipEntry = zipInputStream.getNextEntry()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> (zipEntry.isDirectory()) &#123;                <span class="comment">// do nothing  </span></span><br><span class="line"></span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (zipEntry.getName().endsWith(<span class="string">&quot;json&quot;</span>)) &#123;</span><br><span class="line">             String name = zipEntry.getName();</span><br><span class="line"></span><br><span class="line">             <span class="keyword">long</span> size = zipEntry.getSize();</span><br><span class="line">             <span class="keyword">if</span> (size == -<span class="number">1</span>) &#123;</span><br><span class="line">                 ByteArrayOutputStream baos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">                 <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                     <span class="keyword">int</span> bytes = zipInputStream.read();</span><br><span class="line">                     <span class="keyword">if</span> (bytes == -<span class="number">1</span>) &#123;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                     &#125;</span><br><span class="line">                     baos.write(bytes);</span><br><span class="line">                 &#125;</span><br><span class="line">                 baos.close();</span><br><span class="line">                 System.out.println(String.format(<span class="string">&quot;Name:%s,Content:%s&quot;</span>, name, <span class="keyword">new</span> String(baos.toByteArray())));</span><br><span class="line">             &#125; <span class="keyword">else</span> &#123; <span class="comment">// ZipEntry的size正常     </span></span><br><span class="line">                 <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[(<span class="keyword">int</span>) zipEntry.getSize()];</span><br><span class="line">                 zipInputStream.read(bytes, <span class="number">0</span>, (<span class="keyword">int</span>) zipEntry.getSize());</span><br><span class="line">                 System.out.println(String.format(<span class="string">&quot;Name:%s,Content:%s&quot;</span>, name, <span class="keyword">new</span> String(bytes)));</span><br><span class="line">             &#125;</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (zipEntry.getName().endsWith(<span class="string">&quot;xlxs&quot;</span>)) &#123;               <span class="comment">//do other things      </span></span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="keyword">return</span>;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>先看一下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">importModels</span> <span class="params">(MultipartFile file)</span> <span class="keyword">throws</span> IOException, InvalidFormatException </span>&#123;</span><br><span class="line">     ZipInputStream zipInputStream = <span class="keyword">new</span> ZipInputStream(file.getInputStream(), Charset.defaultCharset());</span><br><span class="line">     BufferedInputStream bs = <span class="keyword">new</span> BufferedInputStream(zipInputStream);</span><br><span class="line">     Map&lt;String, Map&gt; stringMapMap;</span><br><span class="line">     Map&lt;String, String&gt; modelJsons = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">     ZipEntry zipEntry;</span><br><span class="line">     String zipFileName;</span><br><span class="line">     <span class="keyword">while</span> ((zipEntry = zipInputStream.getNextEntry()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> (zipEntry.isDirectory()) &#123;                <span class="comment">// do nothing  </span></span><br><span class="line"></span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (zipEntry.getName().endsWith(<span class="string">&quot;json&quot;</span>)) &#123;</span><br><span class="line">             String name = zipEntry.getName();</span><br><span class="line"></span><br><span class="line">             <span class="keyword">long</span> size = zipEntry.getSize();</span><br><span class="line">             <span class="keyword">if</span> (size == -<span class="number">1</span>) &#123;</span><br><span class="line">                 ByteArrayOutputStream baos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">                 <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                     <span class="keyword">int</span> bytes = zipInputStream.read();</span><br><span class="line">                     <span class="keyword">if</span> (bytes == -<span class="number">1</span>) &#123;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                     &#125;</span><br><span class="line">                     baos.write(bytes);</span><br><span class="line">                 &#125;</span><br><span class="line">                 baos.close();</span><br><span class="line">                 System.out.println(String.format(<span class="string">&quot;Name:%s,Content:%s&quot;</span>, name, <span class="keyword">new</span> String(baos.toByteArray())));</span><br><span class="line">             &#125; <span class="keyword">else</span> &#123; <span class="comment">// ZipEntry的size正常     </span></span><br><span class="line">                 <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[(<span class="keyword">int</span>) zipEntry.getSize()];</span><br><span class="line">                 zipInputStream.read(bytes, <span class="number">0</span>, (<span class="keyword">int</span>) zipEntry.getSize());</span><br><span class="line">                 System.out.println(String.format(<span class="string">&quot;Name:%s,Content:%s&quot;</span>, name, <span class="keyword">new</span> String(bytes)));</span><br><span class="line">             &#125;</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (zipEntry.getName().endsWith(<span class="string">&quot;xlxs&quot;</span>)) &#123;               <span class="comment">//do other things      </span></span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="keyword">return</span>;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件提交后台"><a href="#文件提交后台" class="headerlink" title="文件提交后台"></a>文件提交后台</h2><p>是提交后天后文件并不是在本地,网上之前有提供zipfile后读取在我这边是不可能实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">while ((ze &#x3D; zin.getNextEntry()) !&#x3D; null) &#123;</span><br><span class="line">               BufferedReader bufferedReader &#x3D; new BufferedReader(new InputStreamReader(zin));</span><br><span class="line">               BufferedReader reader &#x3D; new BufferedReader(new InputStreamReader(file.getInputStream()));</span><br><span class="line">               String str;</span><br><span class="line">               while ((str &#x3D; reader.readLine()) !&#x3D; null) &#123;</span><br><span class="line">                   System.out.println(str);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的读取的是整个Zip文件,和要求不符</p>
+<p><a target="_blank" rel="noopener" href="http://cxis.me/2018/03/03/%E4%B8%8A%E4%BC%A0Zip%E6%96%87%E4%BB%B6%E4%B8%8D%E8%A7%A3%E5%8E%8B%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%97%B6ZipEntry%E7%9A%84size%E4%B8%BA-1%E7%9A%84%E9%97%AE%E9%A2%98/">上传Zip文件不解压读取文件内容时ZipEntry的size为-1的问题</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ubuntu导致不能复制剪切板" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3534202997.html" class="article-date">
+      <time datetime="2020-03-03T21:20:16.000Z" itemprop="datePublished">2020-03-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3534202997.html">ubuntu导致不能复制剪切板</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="剪切板不能共享"><a href="#剪切板不能共享" class="headerlink" title="剪切板不能共享"></a>剪切板不能共享</h3><p> 以Ubuntu为主机(host)的系统,在vmware的虚拟机(guest)一直无法复制剪切板上的文字,网上看到的都是给Linux的虚拟机安装 vmware tools 的过程,刚开始以为是Linux主机导致 vmware workspace无法安装</p>
+<p> 因为我看到所有Windows安装VMware Workstation的软件在有vmware tools后都有重新安装 tools的<a href="../img/vm.png"><img src="../img/vm.png" alt="img"></a></p>
+<p>所以后面我都以为是系统缘故导致的</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="剪切板不能共享"><a href="#剪切板不能共享" class="headerlink" title="剪切板不能共享"></a>剪切板不能共享</h3><p> 以Ubuntu为主机(host)的系统,在vmware的虚拟机(guest)一直无法复制剪切板上的文字,网上看到的都是给Linux的虚拟机安装 vmware tools 的过程,刚开始以为是Linux主机导致 vmware workspace无法安装</p>
+<p> 因为我看到所有Windows安装VMware Workstation的软件在有vmware tools后都有重新安装 tools的<a href="../img/vm.png"><img src="../img/vm.png" alt="img"></a></p>
+<p>所以后面我都以为是系统缘故导致的</p>
+<h3 id="确定原因和解决方案"><a href="#确定原因和解决方案" class="headerlink" title="确定原因和解决方案"></a>确定原因和解决方案</h3><p>最近有不文档需要复制,我就准备重新下载安装VMware Workstation<a target="_blank" rel="noopener" href="https://my.vmware.com/cn/web/vmware/details?downloadGroup=WKST-1551-LX&productId=799&rPId=39514">链接地址</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Name: VMware-Workstation-Full-15.5.1-15018445.x86_64.bundle发行日期: 2019-11-12内部版本号: 15018445This Workstation bundle includes the full product and VMware Tools for Linux 64-bit operating systems.MD5SUM: dfaa7c3b858df839db6d006437142e98SHA1SUM: c82e66f28fb5cc6fac4c38c55727cc45b916d107SHA256SUM: 490f8fe8d874c27601c155c1b2c0055ad0d4f14feb32fa9f18643659a147d3c6</span><br></pre></td></tr></table></figure>
+
+<p>发现其实是附带了tools,然后我就找到<a target="_blank" rel="noopener" href="https://my.vmware.com/web/vmware/details?downloadGroup=VMTOOLS10310&productId=742">Download VMware Tools 10.3.10</a> 的链接,然后下载解压下面是目录结构</p>
+<p><a href="../img/1583206861166.png"><img src="../img/1583206861166.png" alt="1583206861166"></a></p>
+<p>给对于虚拟机安装上后就可以复制了下面是 <a target="_blank" rel="noopener" href="https://docs.vmware.com/en/VMware-Workstation-Pro/15.0/com.vmware.ws.using.doc/GUID-08BB9465-D40A-4E16-9E15-8C016CC8166F.html">Linux的安装步骤方法1</a> <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/34e85ad3cfad">Linux的安装步骤方法2</a></p>
+<p>需要注意的的tools安装文件已经在上面压缩包里面都有了,所以直接解压执行省略步骤方法前面的几个步骤</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-activiti用法和结构" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/745403789.html" class="article-date">
+      <time datetime="2020-02-17T23:34:02.000Z" itemprop="datePublished">2020-02-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/745403789.html">activiti用法和结构</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a href="https://imlike.cc/3807663978.html">activiti零零碎碎的记录</a> 包括processengineConfiguration -&gt;processEngine-&gt;respositoryService 下面的各个类和方法</p>
+<h3 id="支持的事件类型"><a href="#支持的事件类型" class="headerlink" title="支持的事件类型"></a>支持的事件类型</h3><p>​    下面是引擎中可能出现的所有activiti事件类型。每个类型都对应<code>org.activiti.engine.delegate.event.ActivitiEventType</code>中的一个枚举值。</p>
+<p>Table 3.2. 支持的事件**</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a href="https://imlike.cc/3807663978.html">activiti零零碎碎的记录</a> 包括processengineConfiguration -&gt;processEngine-&gt;respositoryService 下面的各个类和方法</p>
+<h3 id="支持的事件类型"><a href="#支持的事件类型" class="headerlink" title="支持的事件类型"></a>支持的事件类型</h3><p>​    下面是引擎中可能出现的所有activiti事件类型。每个类型都对应<code>org.activiti.engine.delegate.event.ActivitiEventType</code>中的一个枚举值。</p>
+<p>Table 3.2. 支持的事件**</p>
+<table>
+<thead>
+<tr>
+<th align="center">事件名称</th>
+<th align="left">描述</th>
+<th align="center">事件类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ENGINE_CREATED</td>
+<td align="left">监听器监听的流程引擎已经创建完毕，并准备好接受API调用。</td>
+<td align="center"><code>org.activiti...ActivitiEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENGINE_CLOSED</td>
+<td align="left">监听器监听的流程引擎已经关闭，不再接受API调用。</td>
+<td align="center"><code>org.activiti...ActivitiEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_CREATED</td>
+<td align="left">创建了一个新实体。实体包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_INITIALIZED</td>
+<td align="left">创建了一个新实体，初始化也完成了。如果这个实体的创建会包含子实体的创建，这个事件会在子实体都创建/初始化完成后被触发，这是与<code>ENTITY_CREATED</code>的区别。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_UPDATED</td>
+<td align="left">更新了已存在的实体。实体包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_DELETED</td>
+<td align="left">删除了已存在的实体。实体包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_SUSPENDED</td>
+<td align="left">暂停了已存在的实体。实体包含在事件中。会被ProcessDefinitions, ProcessInstances 和 Tasks抛出。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_ACTIVATED</td>
+<td align="left">激活了已存在的实体，实体包含在事件中。会被ProcessDefinitions, ProcessInstances 和 Tasks抛出。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_EXECUTION_SUCCESS</td>
+<td align="left">作业执行成功。job包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_EXECUTION_FAILURE</td>
+<td align="left">作业执行失败。作业和异常信息包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code> and <code>org.activiti...ActivitiExceptionEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_RETRIES_DECREMENTED</td>
+<td align="left">因为作业执行失败，导致重试次数减少。作业包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TIMER_FIRED</td>
+<td align="left">触发了定时器。job包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_CANCELED</td>
+<td align="left">取消了一个作业。事件包含取消的作业。作业可以通过API调用取消， 任务完成后对应的边界定时器也会取消，在新流程定义发布时也会取消。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_STARTED</td>
+<td align="left">一个节点开始执行</td>
+<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_COMPLETED</td>
+<td align="left">一个节点成功结束</td>
+<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_SIGNALED</td>
+<td align="left">一个节点收到了一个信号</td>
+<td align="center"><code>org.activiti...ActivitiSignalEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_MESSAGE_RECEIVED</td>
+<td align="left">一个节点收到了一个消息。在节点收到消息之前触发。收到后，会触发<code>ACTIVITY_SIGNAL</code>或<code>ACTIVITY_STARTED</code>，这会根据节点的类型（边界事件，事件子流程开始事件）</td>
+<td align="center"><code>org.activiti...ActivitiMessageEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_ERROR_RECEIVED</td>
+<td align="left">一个节点收到了一个错误事件。在节点实际处理错误之前触发。 事件的<code>activityId</code>对应着处理错误的节点。 这个事件后续会是<code>ACTIVITY_SIGNALLED</code>或<code>ACTIVITY_COMPLETE</code>， 如果错误发送成功的话。</td>
+<td align="center"><code>org.activiti...ActivitiErrorEvent</code></td>
+</tr>
+<tr>
+<td align="center">UNCAUGHT_BPMN_ERROR</td>
+<td align="left">抛出了未捕获的BPMN错误。流程没有提供针对这个错误的处理器。 事件的<code>activityId</code>为空。</td>
+<td align="center"><code>org.activiti...ActivitiErrorEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_COMPENSATE</td>
+<td align="left">一个节点将要被补偿。事件包含了将要执行补偿的节点id。</td>
+<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
+</tr>
+<tr>
+<td align="center">VARIABLE_CREATED</td>
+<td align="left">创建了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
+<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
+</tr>
+<tr>
+<td align="center">VARIABLE_UPDATED</td>
+<td align="left">更新了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
+<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
+</tr>
+<tr>
+<td align="center">VARIABLE_DELETED</td>
+<td align="left">删除了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
+<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_ASSIGNED</td>
+<td align="left">任务被分配给了一个人员。事件包含任务。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_CREATED</td>
+<td align="left">创建了新任务。它位于<code>ENTITY_CREATE</code>事件之后。当任务是由流程创建时， 这个事件会在TaskListener执行之前被执行。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_COMPLETED</td>
+<td align="left">任务被完成了。它会在<code>ENTITY_DELETE</code>事件之前触发。当任务是流程一部分时，事件会在流程继续运行之前， 后续事件将是<code>ACTIVITY_COMPLETE</code>，对应着完成任务的节点。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_TIMEOUT</td>
+<td align="left">任务已超时，在<code>TIMER_FIRED</code>事件之后，会触发用户任务的超时事件， 当这个任务分配了一个定时器的时候。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">PROCESS_COMPLETED</td>
+<td align="left">流程已结束。在最后一个节点的<code>ACTIVITY_COMPLETED</code>事件之后触发。 当流程到达的状态，没有任何后续连线时， 流程就会结束。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">MEMBERSHIP_CREATED</td>
+<td align="left">用户被添加到一个组里。事件包含了用户和组的id。</td>
+<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
+</tr>
+<tr>
+<td align="center">MEMBERSHIP_DELETED</td>
+<td align="left">用户被从一个组中删除。事件包含了用户和组的id。</td>
+<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
+</tr>
+<tr>
+<td align="center">MEMBERSHIPS_DELETED</td>
+<td align="left">所有成员被从一个组中删除。在成员删除之前触发这个事件，所以他们都是可以访问的。 因为性能方面的考虑，不会为每个成员触发单独的<code>MEMBERSHIP_DELETED</code>事件。</td>
+<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
+</tr>
+</tbody></table>
+<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><p>​    业务流程是软件项目的一部分，它也应该和普通的业务流程一样进行测试： 使用单元测试。 因为Activiti是一个嵌入式的java引擎， 为业务流程编写单元测试和写普通单元测试完全一样。</p>
+<p>​    Activiti支持JUnit 3和4进行单元测试。使用JUnit 3时， 必须集成<code>org.activiti.engine.test.ActivitiTestCase</code>。 它通过保护的成员变量提供ProcessEngine和服务， 在测试的<code>setup()</code>中， 默认会使用classpath下的<code>activiti.cfg.xml</code>初始化流程引擎。 想使用不同的配置文件，可以重写*getConfigurationResource()*方法。 如果配置文件相同的话，对应的流程引擎会被静态缓存， 就可以用于多个单元测试。</p>
+<p>​    继承了<code>ActivitiTestCase</code>你，可以在测试方法上使用 <code>org.activiti.engine.test.Deployment</code>注解。 测试执行前，与测试类在同一个包下的， 格式为<code>testClassName.testMethod.bpmn20.xml</code>的资源文件，会被部署。 测试结束后，发布包也会被删除，包括所有相关的流程实例，任务，等等。 <code>Deployment</code>注解也可以直接设置资源的位置。 参考<a target="_blank" rel="noopener" href="http://www.mossle.com/docs/javadocs/org/activiti/engine/test/Deployment.html">Javadocs</a>获得更多信息。</p>
+<p>​    把这些放在一起，JUnit 3测试看起来像这样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class MyBusinessProcessTest extends ActivitiTestCase &#123;</span><br><span class="line">    @Deployment</span><br><span class="line">    public void testSimpleProcess() &#123;</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;simpleProcess&quot;);</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    要想在使用JUnit 4编写单元测试时获得同样的功能， 可以使用<code>org.activiti.engine.test.ActivitiRule</code>。 通过它，可以通过getter方法获得流程引擎和各种服务。 和 <code>ActivitiTestCase</code>一样（参考上面章节），使用这个<code>Rule</code> 也会启用<code>org.activiti.engine.test.Deployment</code>注解（参考上面章节使用和配置的介绍）， 它会在classpath下查找默认的配置文件。 如果配置文件相同的话，对应的流程引擎会被静态缓存， 就可以用于多个单元测试。</p>
+<p>​    下面的代码演示了JUnit 4单元测试并使用了<code>ActivitiRule</code>的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class MyBusinessProcessTest &#123;</span><br><span class="line">    @Rule</span><br><span class="line">    public ActivitiRule activitiRule &#x3D; new ActivitiRule();</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    @Deployment</span><br><span class="line">    public void ruleUsageExample() &#123;</span><br><span class="line">        RuntimeService runtimeService &#x3D; activitiRule.getRuntimeService();</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;ruleUsage&quot;);</span><br><span class="line">        TaskService taskService &#x3D; activitiRule.getTaskService();</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    当集成Spring时，使用标准的<a target="_blank" rel="noopener" href="http://www.mossle.com/docs/activiti/index.html#apiUnitTesting">Activiti测试工具类</a>是非常容易的对业务流程进行测试。 下面的例子展示了如何在一个典型的基于Spring单元测试测试业务流程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import org.junit.Rule;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.junit.runner.RunWith;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.test.context.ContextConfiguration;</span><br><span class="line">import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"></span><br><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@ContextConfiguration(&quot;classpath:org&#x2F;activiti&#x2F;spring&#x2F;test&#x2F;junit4&#x2F;springTypicalUsageTest-context.xml&quot;)</span><br><span class="line">public class MyBusinessProcessTest &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private RuntimeService runtimeService;</span><br><span class="line">    @Autowired</span><br><span class="line">    private TaskService taskService;</span><br><span class="line">    @Autowired</span><br><span class="line">    @Rule</span><br><span class="line">    public ActivitiRule activitiSpringRule;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    @Deployment</span><br><span class="line">    public void simpleProcessTest() &#123;</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;simpleProcess&quot;);</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-activiti数据库的分类" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1132,456 +1580,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-aria2使用rpc下载百度云" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3861112470.html" class="article-date">
-      <time datetime="2019-09-05T03:30:18.000Z" itemprop="datePublished">2019-09-05</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3861112470.html">aria2使用rpc下载百度云</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="1-下载并安装"><a href="#1-下载并安装" class="headerlink" title="1.下载并安装"></a>1.下载并安装</h3><p>github地址-&gt;<a target="_blank" rel="noopener" href="https://github.com/aria2/aria2">https://github.com/aria2/aria2</a></p>
-<p>这边提供一下deb 包的下载地址 <a target="_blank" rel="noopener" href="https://ugetdm.com/go/ubuntu-64-bionic-aria2-download">https://ugetdm.com/go/ubuntu-64-bionic-aria2-download</a></p>
-<p>或者 sudo apt-get install aria2</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="1-下载并安装"><a href="#1-下载并安装" class="headerlink" title="1.下载并安装"></a>1.下载并安装</h3><p>github地址-&gt;<a target="_blank" rel="noopener" href="https://github.com/aria2/aria2">https://github.com/aria2/aria2</a></p>
-<p>这边提供一下deb 包的下载地址 <a target="_blank" rel="noopener" href="https://ugetdm.com/go/ubuntu-64-bionic-aria2-download">https://ugetdm.com/go/ubuntu-64-bionic-aria2-download</a></p>
-<p>或者 sudo apt-get install aria2</p>
-<p>可以尝试在命令行 使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aria2c  --conf-path&#x3D;&lt;配置地址&gt; -D        # aria2c -c -s 5 http:&#x2F;&#x2F;example.org&#x2F;mylinux.iso        -c : 断点续传        -s : 使用线程数        2、Download from 2 sources        # aria2c http:&#x2F;&#x2F;a&#x2F;f.iso   ftp:&#x2F;&#x2F;b&#x2F;f.iso</span><br></pre></td></tr></table></figure>
-
-<p>下载相关的命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1、Download from WEB <span class="comment"># aria2c -c -s 5 http://example.org/mylinux.iso-c : 断点续传-s : 使用线程数2、Download from 2 sources# aria2c http://a/f.iso   ftp://b/f.iso3、Download using 2 connections per host# aria2c -x2 http://a/f.iso4、BitTorrent Magnet URI# aria2c &#x27;magnet:?xt=urn:btih:248D0A1CD08284299DE78D5C1ED359BB46717D8C&#x27;5、Metalink# aria2c http://example.org/mylinux.metalink6、Download URIs found in text file# aria2c -i uris.txt7、BT# aria2c /tmp/CentOS-6.3-i386-bin-DVD1to2.torrent# aria2c http://mirrors.163.com/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.torrent</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-配置Aria2"><a href="#2-配置Aria2" class="headerlink" title="2.配置Aria2"></a>2.配置Aria2</h2><p>一般地址是在 ~/.aria2/aria2.conf</p>
-<p>rpc设置为true</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#用户名</span><br><span class="line">#rpc-user&#x3D;user</span><br><span class="line">#密码</span><br><span class="line">#rpc-passwd&#x3D;passwd</span><br><span class="line">#上面的认证方式不建议使用,建议使用下面的token方式</span><br><span class="line">#设置加密的密钥</span><br><span class="line">#rpc-secret&#x3D;token</span><br><span class="line">#允许rpc</span><br><span class="line">enable-rpc&#x3D;true</span><br><span class="line">#允许所有来源, web界面跨域权限需要</span><br><span class="line">rpc-allow-origin-all&#x3D;true</span><br><span class="line">#允许外部访问，false的话只监听本地端口</span><br><span class="line">rpc-listen-all&#x3D;true</span><br><span class="line">#RPC端口, 仅当默认端口被占用时修改</span><br><span class="line">rpc-listen-port&#x3D;6800</span><br><span class="line">#最大同时下载数(任务数), 路由建议值: 3</span><br><span class="line">max-concurrent-downloads&#x3D;5</span><br><span class="line">#断点续传</span><br><span class="line">continue&#x3D;true</span><br><span class="line">#同服务器连接数</span><br><span class="line">max-connection-per-server&#x3D;16</span><br><span class="line">#最小文件分片大小, 下载线程数上限取决于能分出多少片, 对于小文件重要</span><br><span class="line">min-split-size&#x3D;10M</span><br><span class="line">#单文件最大线程数, 路由建议值: 5</span><br><span class="line">split&#x3D;10</span><br><span class="line">#下载速度限制</span><br><span class="line">max-overall-download-limit&#x3D;0</span><br><span class="line">#单文件速度限制</span><br><span class="line">max-download-limit&#x3D;0</span><br><span class="line">#上传速度限制</span><br><span class="line">max-overall-upload-limit&#x3D;0</span><br><span class="line">#单文件速度限制</span><br><span class="line">max-upload-limit&#x3D;0</span><br><span class="line">#断开速度过慢的连接</span><br><span class="line">#lowest-speed-limit&#x3D;0</span><br><span class="line">#验证用，需要1.16.1之后的release版本</span><br><span class="line">#referer&#x3D;*</span><br><span class="line">#文件保存路径, 默认为当前启动位置</span><br><span class="line">dir&#x3D;&#x2F;home&#x2F;leek&#x2F;save&#x2F;download</span><br><span class="line">#文件缓存, 使用内置的文件缓存, 如果你不相信Linux内核文件缓存和磁盘内置缓存时使用, 需要1.16及以上版本</span><br><span class="line">#disk-cache&#x3D;0</span><br><span class="line">#另一种Linux文件缓存方式, 使用前确保您使用的内核支持此选项, 需要1.15及以上版本(?)</span><br><span class="line">#enable-mmap&#x3D;true</span><br><span class="line">#文件预分配, 能有效降低文件碎片, 提高磁盘性能. 缺点是预分配时间较长</span><br><span class="line">#所需时间 none &lt; falloc ? trunc « prealloc, falloc和trunc需要文件系统和内核支持</span><br><span class="line">file-allocation&#x3D;prealloc</span><br><span class="line">bt-tracker&#x3D;udp:&#x2F;&#x2F;62.138.0.158:6969&#x2F;announce,udp:&#x2F;&#x2F;188.241.58.209:6969&#x2F;announce,udp:&#x2F;&#x2F;93.158.213.92:1337&#x2F;announce,udp:&#x2F;&#x2F;62.210.97.59:1337&#x2F;announce,udp:&#x2F;&#x2F;151.80.120.113:2710&#x2F;announce,udp:&#x2F;&#x2F;151.80.120.113:2710&#x2F;announce,udp:&#x2F;&#x2F;165.231.0.116:80&#x2F;announce,udp:&#x2F;&#x2F;208.83.20.20:6969&#x2F;announce,udp:&#x2F;&#x2F;37.235.174.46:2710&#x2F;announce,udp:&#x2F;&#x2F;185.181.60.67:80&#x2F;announce,udp:&#x2F;&#x2F;54.37.235.149:6969&#x2F;announce,udp:&#x2F;&#x2F;89.234.156.205:451&#x2F;announce,udp:&#x2F;&#x2F;35.156.19.129:6969&#x2F;announce,udp:&#x2F;&#x2F;159.100.245.181:6969&#x2F;announce,udp:&#x2F;&#x2F;51.15.40.114:80&#x2F;announce,udp:&#x2F;&#x2F;142.44.243.4:1337&#x2F;announce,udp:&#x2F;&#x2F;176.113.71.19:6961&#x2F;announce,udp:&#x2F;&#x2F;5.206.54.49:6969&#x2F;announce,udp:&#x2F;&#x2F;184.105.151.164:6969&#x2F;announce,http:&#x2F;&#x2F;184.105.151.164:6969&#x2F;announce,udp:&#x2F;&#x2F;51.254.249.186:6969&#x2F;announce,udp:&#x2F;&#x2F;185.83.215.123:6969&#x2F;announce,udp:&#x2F;&#x2F;194.182.176.251:6969&#x2F;announce,udp:&#x2F;&#x2F;212.1.226.176:2710&#x2F;announce,udp:&#x2F;&#x2F;212.47.227.58:6969&#x2F;announce,udp:&#x2F;&#x2F;95.211.168.204:2710&#x2F;announce,udp:&#x2F;&#x2F;46.148.18.250:2710&#x2F;announce,udp:&#x2F;&#x2F;165.227.0.51:6969&#x2F;announce,udp:&#x2F;&#x2F;91.217.91.21:3218&#x2F;announce,udp:&#x2F;&#x2F;190.146.242.80:7070&#x2F;announce,udp:&#x2F;&#x2F;149.129.65.231:2710&#x2F;announce,udp:&#x2F;&#x2F;15.188.67.15:6969&#x2F;announce,udp:&#x2F;&#x2F;185.97.255.30:6969&#x2F;announce,udp:&#x2F;&#x2F;51.15.134.218:2710&#x2F;announce,udp:&#x2F;&#x2F;52.58.128.163:6969&#x2F;announce,udp:&#x2F;&#x2F;45.86.70.144:6969&#x2F;announce,udp:&#x2F;&#x2F;109.72.83.214:80&#x2F;announce,udp:&#x2F;&#x2F;217.76.183.53:80&#x2F;announce,udp:&#x2F;&#x2F;46.148.18.254:2710&#x2F;announce,udp:&#x2F;&#x2F;23.95.32.130:6969&#x2F;announce,udp:&#x2F;&#x2F;207.241.231.226:6969&#x2F;announce,udp:&#x2F;&#x2F;207.241.226.111:6969&#x2F;announce,udp:&#x2F;&#x2F;207.180.241.35:2710&#x2F;announce,https:&#x2F;&#x2F;47.240.44.4:443&#x2F;announce,http:&#x2F;&#x2F;79.133.36.244:6969&#x2F;announce,http:&#x2F;&#x2F;91.217.91.21:3218&#x2F;announce,http:&#x2F;&#x2F;93.158.213.92:1337&#x2F;announce,http:&#x2F;&#x2F;51.15.134.218:2710&#x2F;announce,http:&#x2F;&#x2F;153.92.6.117:80&#x2F;announce,http:&#x2F;&#x2F;139.99.45.37:80&#x2F;announce,http:&#x2F;&#x2F;78.30.254.12:2710&#x2F;announce,http:&#x2F;&#x2F;91.207.136.85:80&#x2F;announce,http:&#x2F;&#x2F;52.203.65.11:80&#x2F;announce,udp:&#x2F;&#x2F;95.211.168.204:2710&#x2F;announce,udp:&#x2F;&#x2F;176.113.68.67:6961&#x2F;announce,udp:&#x2F;&#x2F;104.244.79.229:6969&#x2F;announce,udp:&#x2F;&#x2F;51.15.3.74:6969&#x2F;announce,udp:&#x2F;&#x2F;218.5.42.53:2710&#x2F;announce,udp:&#x2F;&#x2F;185.83.214.123:6969&#x2F;announce,udp:&#x2F;&#x2F;80.211.26.119:9696&#x2F;announce,udp:&#x2F;&#x2F;139.99.100.97:8080&#x2F;announce,https:&#x2F;&#x2F;212.237.22.141:443&#x2F;announce,http:&#x2F;&#x2F;182.150.53.61:8080&#x2F;announce,http:&#x2F;&#x2F;95.107.48.115:80&#x2F;announce,http:&#x2F;&#x2F;37.235.174.46:2710&#x2F;announce,http:&#x2F;&#x2F;176.113.71.19:6961&#x2F;announce,http:&#x2F;&#x2F;176.113.68.67:6961&#x2F;announce,http:&#x2F;&#x2F;34.92.10.197:6789&#x2F;announce,http:&#x2F;&#x2F;95.216.171.255:6969&#x2F;announce,http:&#x2F;&#x2F;62.210.202.61:80&#x2F;announce,http:&#x2F;&#x2F;104.244.79.229:80&#x2F;announce,http:&#x2F;&#x2F;176.123.5.118:80&#x2F;announce,http:&#x2F;&#x2F;51.79.71.167:80&#x2F;announce,http:&#x2F;&#x2F;185.83.214.123:6969&#x2F;announce,http:&#x2F;&#x2F;62.210.177.88:1096&#x2F;announce,http:&#x2F;&#x2F;51.68.122.172:80&#x2F;announce</span><br><span class="line">## BT&#x2F;PT下载相关 ##</span><br><span class="line"></span><br><span class="line"># 当下载的是一个种子(以.torrent结尾)时, 自动开始BT任务, 默认:true</span><br><span class="line">#follow-torrent&#x3D;true</span><br><span class="line"># BT监听端口, 当端口被屏蔽时使用, 默认:6881-6999</span><br><span class="line">listen-port&#x3D;51413</span><br><span class="line"># 单个种子最大连接数, 默认:55</span><br><span class="line">#bt-max-peers&#x3D;55</span><br><span class="line"># 打开DHT功能, PT需要禁用, 默认:true</span><br><span class="line">enable-dht&#x3D;false</span><br><span class="line"># 打开IPv6 DHT功能, PT需要禁用</span><br><span class="line">#enable-dht6&#x3D;false</span><br><span class="line"># DHT网络监听端口, 默认:6881-6999</span><br><span class="line">#dht-listen-port&#x3D;6881-6999</span><br><span class="line"># 本地节点查找, PT需要禁用, 默认:false</span><br><span class="line">#bt-enable-lpd&#x3D;false</span><br><span class="line"># 种子交换, PT需要禁用, 默认:true</span><br><span class="line">enable-peer-exchange&#x3D;false</span><br><span class="line"># 每个种子限速, 对少种的PT很有用, 默认:50K</span><br><span class="line">#bt-request-peer-speed-limit&#x3D;50K</span><br><span class="line"># 客户端伪装, PT需要</span><br><span class="line">peer-id-prefix&#x3D;-TR2770-</span><br><span class="line">user-agent&#x3D;Transmission&#x2F;2.77</span><br><span class="line">peer-agent&#x3D;Transmission&#x2F;2.77</span><br><span class="line"># 当种子的分享率达到这个数时, 自动停止做种, 0为一直做种, 默认:1.0</span><br><span class="line">seed-ratio&#x3D;0</span><br><span class="line"># 强制保存会话, 即使任务已经完成, 默认:false</span><br><span class="line"># 较新的版本开启后会在任务完成后依然保留.aria2文件</span><br><span class="line">#force-save&#x3D;false</span><br><span class="line"># BT校验相关, 默认:true</span><br><span class="line">#bt-hash-check-seed&#x3D;true</span><br><span class="line"># 继续之前的BT任务时, 无需再次校验, 默认:false</span><br><span class="line">bt-seed-unverified&#x3D;true</span><br><span class="line"># 保存磁力链接元数据为种子文件(.torrent文件), 默认:false</span><br><span class="line">bt-save-metadata&#x3D;true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-rpc调用-下载百度云"><a href="#3-rpc调用-下载百度云" class="headerlink" title="3.rpc调用 下载百度云"></a>3.rpc调用 下载百度云</h2><p>测试 rpc可用性</p>
-<p><a target="_blank" rel="noopener" href="http://127.0.0.1:6800/jsonrpc?jsoncallback=1">http://127.0.0.1:6800/jsonrpc?jsoncallback=1</a></p>
-<p>有返回既能用否则可能是服务没有起起来</p>
-<p>使用的chrome 油猴插件 百度网盘超级助手选择pandownload -&gt; 调用baiduwp.com 的下载接口直接下载 -&gt; 点击具体文件后选择使用Aria2下载</p>
-<p><a href="../img/1567683581804.png"><img src="../img/1567683581804.png" alt="1567683581804"></a></p>
-<p>参考链接</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://ivo-wang.github.io/2019/04/18/%E5%85%B3%E4%BA%8Earia2%E6%9C%80%E5%AE%8C%E6%95%B4%E7%9A%84%E4%B8%80%E7%AF%87/">关于aria2最完整的一篇</a></li>
-<li><a target="_blank" rel="noopener" href="https://binux.blog/2012/12/aria2-examples/">https://binux.blog/2012/12/aria2-examples/</a></li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-floccus利用坚果云WebDAV跨浏览器同步数据" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/4202359184.html" class="article-date">
-      <time datetime="2019-08-29T04:11:41.000Z" itemprop="datePublished">2019-08-29</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="floccus介绍"><a href="#floccus介绍" class="headerlink" title="floccus介绍"></a>floccus介绍</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Floccus 是一款可以通过 Nextcloud，WebDAV 或本地文件（以及任何文件同步解决方案）跨浏览器同步书签的插件，支持 Chrome、Firefox、Kiwi 等浏览器（不支持 iOS）项目地址: https:&#x2F;&#x2F;github.com&#x2F;marcelklehr&#x2F;floccusWebDAV ：目前支持 「坚果云、nextcloud &#x2F; owncloud，box」 等 WebDAV 服务器Nextcloud 书签 ：利用 Nextcloud 自带的书签应用程序进行同步，可通过 Web 访问。(需要nextcloud v12 以上版本)。本地文件同步 ：利用 LoFloccus 4 软件将书签同步到本地, 再利用 Dropbox，Syncthing，rsync 等进行跨设备同步。</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置坚果云"><a href="#配置坚果云" class="headerlink" title="配置坚果云"></a>配置坚果云</h3><p><a href="../img/1567081469042.png"><img src="../img/1567081469042.png" alt="1567081469042"></a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="floccus介绍"><a href="#floccus介绍" class="headerlink" title="floccus介绍"></a>floccus介绍</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Floccus 是一款可以通过 Nextcloud，WebDAV 或本地文件（以及任何文件同步解决方案）跨浏览器同步书签的插件，支持 Chrome、Firefox、Kiwi 等浏览器（不支持 iOS）项目地址: https:&#x2F;&#x2F;github.com&#x2F;marcelklehr&#x2F;floccusWebDAV ：目前支持 「坚果云、nextcloud &#x2F; owncloud，box」 等 WebDAV 服务器Nextcloud 书签 ：利用 Nextcloud 自带的书签应用程序进行同步，可通过 Web 访问。(需要nextcloud v12 以上版本)。本地文件同步 ：利用 LoFloccus 4 软件将书签同步到本地, 再利用 Dropbox，Syncthing，rsync 等进行跨设备同步。</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置坚果云"><a href="#配置坚果云" class="headerlink" title="配置坚果云"></a>配置坚果云</h3><p><a href="../img/1567081469042.png"><img src="../img/1567081469042.png" alt="1567081469042"></a></p>
-<p>尽量和<strong>和我的坚果云文件夹</strong>同级为了后面填写书签同步路径,然后上传一个bookmarks.xbel文件到刚才新建的文件夹里面，没有的<a target="_blank" rel="noopener" href="https://upyuncc.naibabiji.com/wp-content/uploads/2019/05/bookmarks.zip">点这里下载</a>。</p>
-<p>接着坚果云“账户信息”-“安全选项”-“第三方应用管理”，创建一个WebDAV应用，获取密码</p>
-<p><a href="../img/1567080871435.png"><img src="../img/1567080871435.png" alt="1567080871435"></a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 安装Firefox chrome 插件</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/floccus/fnaicdffflnofjppbagibeoednhnbjhg">Chrome扩展地址</a>（<a target="_blank" rel="noopener" href="https://crx.yougaoji.com/crx_download/151">离线地址</a>）、<a target="_blank" rel="noopener" href="https://addons.mozilla.org/en-US/firefox/addon/floccus/">Firefox扩展地址</a></p>
-<p><a href="../img/1567080794015.png"><img src="../img/1567080794015.png" alt="1567080794015"></a></p>
-<p><a href="../img/1567080971630.png"><img src="../img/1567080971630.png" alt="1567080971630"></a></p>
-<h3 id="最后一个注意的"><a href="#最后一个注意的" class="headerlink" title="最后一个注意的"></a>最后一个注意的</h3><p><a href="../img/1567081020328.png"><img src="../img/1567081020328.png" alt="1567081020328"></a></p>
-<p>不然只能同步一部分的</p>
-<p><a href="javascript:;">
-</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-POST与PUT区别RESTFUL风格中" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/4265857413.html" class="article-date">
-      <time datetime="2019-08-28T04:34:09.000Z" itemprop="datePublished">2019-08-28</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="1-HTTP协议详解"><a href="#1-HTTP协议详解" class="headerlink" title="1 HTTP协议详解"></a><strong>1 HTTP协议详解</strong></h3><p>转载地址 <strong><a target="_blank" rel="noopener" href="http://blog.yikaiba.com/Home/Article/index/id/156.html">http://blog.yikaiba.com/Home/Article/index/id/156.html</a></strong></p>
-<p>HTTP是HyperText Transfer Protocol（超文本传输协议）的缩写。它的发展是万维网协会（WorldWide Web Consortium）和Internet工作小组IETF（Internet Engineering Task Force）合作的结果，（他们）最终发布了一系列的RFC，RFC 1945定义了HTTP/1.0版本。其中最著名的就是RFC 2616。RFC 2616定义了今天普遍使用的一个版本——HTTP 1.1。</p>
-<p>HTTP协议（HyperText Transfer Protocol，超文本传输协议）是用于从WWW服务器传输超文本到本地浏览器的传送协议。它可以使浏览器更加高效，使网络传输减少。它不仅保证计算机正确快速地传输超文本文档，还确定传输文档中的哪一部分，以及哪部分内容首先显示(如文本先于图形)等。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="1-HTTP协议详解"><a href="#1-HTTP协议详解" class="headerlink" title="1 HTTP协议详解"></a><strong>1 HTTP协议详解</strong></h3><p>转载地址 <strong><a target="_blank" rel="noopener" href="http://blog.yikaiba.com/Home/Article/index/id/156.html">http://blog.yikaiba.com/Home/Article/index/id/156.html</a></strong></p>
-<p>HTTP是HyperText Transfer Protocol（超文本传输协议）的缩写。它的发展是万维网协会（WorldWide Web Consortium）和Internet工作小组IETF（Internet Engineering Task Force）合作的结果，（他们）最终发布了一系列的RFC，RFC 1945定义了HTTP/1.0版本。其中最著名的就是RFC 2616。RFC 2616定义了今天普遍使用的一个版本——HTTP 1.1。</p>
-<p>HTTP协议（HyperText Transfer Protocol，超文本传输协议）是用于从WWW服务器传输超文本到本地浏览器的传送协议。它可以使浏览器更加高效，使网络传输减少。它不仅保证计算机正确快速地传输超文本文档，还确定传输文档中的哪一部分，以及哪部分内容首先显示(如文本先于图形)等。</p>
-<p>HTTP协议通常承载于TCP协议之上，有时也承载于TLS或SSL协议层之上，这个时候，就成了我们常说的HTTPS。如下图所示：</p>
-<p><a href="../img/8732AF49534540D8AFCD804A4335A2D2.png"><img src="../img/8732AF49534540D8AFCD804A4335A2D2.png" alt="img"></a></p>
-<p>默认HTTP的端口号为80，HTTPS的端口号为443。</p>
-<p>HTTP协议永远都是客户端发起请求，服务器回送响应。见下图：</p>
-<p><a href="../img/65E389D17A3F4C6AA8A5B6F542DB58AA.png"><img src="../img/65E389D17A3F4C6AA8A5B6F542DB58AA.png" alt="img"></a></p>
-<p>这样就限制了使用HTTP协议，无法实现在客户端没有发起请求的时候，服务器将消息推送给客户端。</p>
-<p>HTTP协议是一个无状态的协议，同一个客户端的这次请求和上次请求是没有对应关系。</p>
-<p><strong>一次HTTP操作称为一个事务，其工作过程可分为四步：</strong></p>
-<p>1）首先客户机与服务器需要建立连接。只要单击某个超级链接，HTTP的工作开始。</p>
-<p>2）建立连接后，客户机发送一个请求给服务器，请求方式的格式为：统一资源标识符（URL）、协议版本号，后边是MIME信息包括请求修饰符、客户机信息和可能的内容。</p>
-<p>3）服务器接到请求后，给予相应的响应信息，其格式为一个状态行，包括信息的协议版本号、一个成功或错误的代码，后边是MIME信息包括服务器信息、实体信息和可能的内容。</p>
-<p>4）客户端接收服务器所返回的信息通过浏览器显示在用户的显示屏上，然后客户机与服务器断开连接。</p>
-<p>如果在以上过程中的某一步出现错误，那么产生错误的信息将返回到客户端，有显示屏输出。对于用户来说，这些过程是由HTTP自己完成的，用户只要用鼠标点击，等待信息显示就可以了。</p>
-<p><strong>2 HTTP协议详解之请求篇</strong></p>
-<p>http请求由三部分组成，分别是：请求行、消息报头、请求正文</p>
-<p>请求行以一个方法符号开头，以空格分开，后面跟着请求的URI和协议的版本，格式如下：Method Request-URIHTTP-Version CRLF</p>
-<p>其中 Method表示请求方法；Request-URI是一个统一资源标识符；HTTP-Version表示请求的HTTP协议版本；CRLF表示回车和换行（除了作为结尾的CRLF外，不允许出现单独的CR或LF字符）。</p>
-<p><strong>请求方法（所有方法全为大写）有多种，各个方法的解释如下：</strong></p>
-<p>GET 请求获取Request-URI所标识的资源</p>
-<p>POST 在Request-URI所标识的资源后附加新的数据</p>
-<p>HEAD 请求获取由Request-URI所标识的资源的响应消息报头</p>
-<p>PUT 请求服务器存储一个资源，并用Request-URI作为其标识</p>
-<p>DELETE 请求服务器删除Request-URI所标识的资源</p>
-<p>TRACE 请求服务器回送收到的请求信息，主要用于测试或诊断</p>
-<p>CONNECT 保留将来使用</p>
-<p>OPTIONS 请求查询服务器的性能，或者查询与资源相关的选项和需求</p>
-<p>应用举例：</p>
-<p>GET方法：在浏览器的地址栏中输入网址的方式访问网页时，浏览器采用GET方法向服务器获取资源，eg:GET /form.html HTTP/1.1 (CRLF)</p>
-<p>POST方法要求被请求服务器接受附在请求后面的数据，常用于提交表单。</p>
-<p>HEAD方法与GET方法几乎是一样的，对于HEAD请求的回应部分来说，它的HTTP头部中包含的信息与通过GET请求所得到的信息是相同的。利用这个方法，不必传输整个资源内容，就可以得到Request-URI所标识的资源的信息。该方法常用于测试超链接的有效性，是否可以访问，以及最近是否更新。</p>
-<p><strong>3 HTTP协议详解之响应篇</strong></p>
-<p>在接收和解释请求消息后，服务器返回一个HTTP响应消息。</p>
-<p>HTTP响应也是由三个部分组成，分别是：状态行、消息报头、响应正文</p>
-<p><strong>1、状态行格式如下：</strong></p>
-<p>HTTP-VersionStatus-Code Reason-Phrase CRLF</p>
-<p>其中，HTTP-Version表示服务器HTTP协议的版本；Status-Code表示服务器发回的响应状态代码；Reason-Phrase表示状态代码的文本描述。</p>
-<p>状态代码有三位数字组成，第一个数字定义了响应的类别，且有五种可能取值：</p>
-<p>1xx：指示信息–表示请求已接收，继续处理</p>
-<p>2xx：成功–表示请求已被成功接收、理解、接受</p>
-<p>3xx：重定向–要完成请求必须进行更进一步的操作</p>
-<p>4xx：客户端错误–请求有语法错误或请求无法实现</p>
-<p>5xx：服务器端错误–服务器未能实现合法的请求</p>
-<p><strong>2、常见状态代码、状态描述、说明：</strong></p>
-<p><strong>请求收到，继续处理</strong></p>
-<p>100——客户必须继续发出请求</p>
-<p>101——客户要求服务器根据请求转换HTTP协议版本</p>
-<p><strong>操作成功收到，分析、接受</strong></p>
-<p>200——交易成功</p>
-<p>201——提示知道新文件的URL</p>
-<p>202——接受和处理、但处理未完成</p>
-<p>203——返回信息不确定或不完整</p>
-<p>204——请求收到，但返回信息为空</p>
-<p>205——服务器完成了请求，用户代理必须复位当前已经浏览过的文件</p>
-<p>206——服务器已经完成了部分用户的GET请求</p>
-<p><strong>完成此请求必须进一步处理</strong></p>
-<p>300——请求的资源可在多处得到</p>
-<p>301——删除请求数据</p>
-<p>302——在其他地址发现了请求数据</p>
-<p>303——建议客户访问其他URL或访问方式</p>
-<p>304——客户端已经执行了GET，但文件未变化</p>
-<p>305——请求的资源必须从服务器指定的地址得到</p>
-<p>306——前一版本HTTP中使用的代码，现行版本中不再使用</p>
-<p>307——申明请求的资源临时性删除</p>
-<p><strong>请求包含一个错误语法或不能完成</strong></p>
-<p>400——错误请求，如语法错误</p>
-<p>401——未授权</p>
-<p>HTTP 401.1 - 未授权：登录失败</p>
-<p>　　 HTTP 401.2 - 未授权：服务器配置问题导致登录失败</p>
-<p>　　 HTTP 401.3 - ACL 禁止访问资源</p>
-<p>　　 HTTP 401.4 - 未授权：授权被筛选器拒绝</p>
-<p>HTTP 401.5 - 未授权：ISAPI 或 CGI 授权失败</p>
-<p>402——保留有效ChargeTo头响应</p>
-<p>403——禁止访问</p>
-<p>HTTP 403.1 禁止访问：禁止可执行访问</p>
-<p>　　 HTTP 403.2 - 禁止访问：禁止读访问</p>
-<p>　　 HTTP 403.3 - 禁止访问：禁止写访问</p>
-<p>　　 HTTP 403.4 - 禁止访问：要求 SSL</p>
-<p>　　 HTTP 403.5 - 禁止访问：要求 SSL128</p>
-<p>　　 HTTP 403.6 - 禁止访问：IP 地址被拒绝</p>
-<p>　　 HTTP 403.7 - 禁止访问：要求客户证书</p>
-<p>　　 HTTP 403.8 - 禁止访问：禁止站点访问</p>
-<p>　　 HTTP 403.9 - 禁止访问：连接的用户过多</p>
-<p>　　 HTTP 403.10 - 禁止访问：配置无效</p>
-<p>　　 HTTP 403.11 - 禁止访问：密码更改</p>
-<p>　　 HTTP 403.12 - 禁止访问：映射器拒绝访问</p>
-<p>　　 HTTP 403.13 - 禁止访问：客户证书已被吊销</p>
-<p>　　 HTTP 403.15 - 禁止访问：客户访问许可过多</p>
-<p>　　 HTTP 403.16 - 禁止访问：客户证书不可信或者无效</p>
-<p>HTTP 403.17 - 禁止访问：客户证书已经到期或者尚未生效</p>
-<p>404——没有发现文件、查询或URl</p>
-<p>405——用户在Request-Line字段定义的方法不允许</p>
-<p>406——根据用户发送的Accept拖，请求资源不可访问</p>
-<p>407——类似401，用户必须首先在代理服务器上得到授权</p>
-<p>408——客户端没有在用户指定的饿时间内完成请求</p>
-<p>409——对当前资源状态，请求不能完成</p>
-<p>410——服务器上不再有此资源且无进一步的参考地址</p>
-<p>411——服务器拒绝用户定义的Content-Length属性请求</p>
-<p>412——一个或多个请求头字段在当前请求中错误</p>
-<p>413——请求的资源大于服务器允许的大小</p>
-<p>414——请求的资源URL长于服务器允许的长度</p>
-<p>415——请求资源不支持请求项目格式</p>
-<p>416——请求中包含Range请求头字段，在当前请求资源范围内没有range指示值，请求也不包含If-Range请求头字段</p>
-<p>417——服务器不满足请求Expect头字段指定的期望值，如果是代理服务器，可能是下一级服务器不能满足请求长。</p>
-<p><strong>服务器执行一个完全有效请求失败</strong></p>
-<p>　　 HTTP 500 - 内部服务器错误</p>
-<p>　　 HTTP 500.100 - 内部服务器错误 -ASP 错误</p>
-<p>　　 HTTP 500-11 服务器关闭</p>
-<p>　　 HTTP 500-12 应用程序重新启动</p>
-<p>　　 HTTP 500-13 - 服务器太忙</p>
-<p>　　 HTTP 500-14 - 应用程序无效</p>
-<p>　　 HTTP 500-15 - 不允许请求 global.asa</p>
-<p>　　 Error 501 - 未实现</p>
-<p> HTTP 502 - 网关错误</p>
-<p>　　 <em>HTTP 500.100 - 内部服务器错误 -ASP 错误</em></p>
-<p>　　 <em>HTTP 500-11 服务器关闭</em></p>
-<p>　　 <em>HTTP 500-12 应用程序重新启动</em></p>
-<p>　　 <em>HTTP 500-13 - 服务器太忙</em></p>
-<p>　　 <em>HTTP 500-14 - 应用程序无效</em></p>
-<p>　　 <em>HTTP 500-15 - 不允许请求 global.asa</em></p>
-<p>　　 <em>Error 501 - 未实现</em></p>
-<p> <em>HTTP 502 - 网关错误</em></p>
-<p><strong>4 API设计的基本要求</strong></p>
-<p>一个被普遍承认和遵守：RESTful设计原则。它被Roy Felding提出（在他的”基于网络的软件架构“论文中第五章）。而REST的核心原则是将你的API拆分为逻辑上的资源。这些资源通过http被操作（GET ,POST,PUT,DELETE）。</p>
-<p> 显然从API用户的角度来看，”资源“应该是个名词。即使你的内部数据模型和资源已经有了很好的对应，API设计的时候你仍然不需要把它们一对一的都暴露出来。这里的关键是隐藏内部资源，暴露必需的外部资源。</p>
-<p> 一旦定义好了要暴露的资源，你可以定义资源上允许的操作，以及这些操作和你的API的对应关系：</p>
-<p>· GET /tickets # 获取ticket列表</p>
-<p>· GET /tickets/12 # 查看某个具体的ticket</p>
-<p>· POST /tickets # 新建一个ticket</p>
-<p>· PUT /tickets/12 # 更新ticket 12.</p>
-<p>· DELETE /tickets/12 #删除ticekt 12</p>
-<p> 可以看出使用REST的好处在于可以充分利用http的强大实现对资源的CURD功能。而这里你只需要一个endpoint：/tickets,再没有其他什么命名规则和url规则了，cool！</p>
-<p> 但是有的endpoint，需要使用复数使得你的URL更加规整。这让API使用者更加容易理解，对开发者来说也更容易实现。</p>
-<p>如何处理关联？关于如何处理资源之间的管理REST原则也有相关的描述：</p>
-<p>· GET /tickets/12/messages- Retrieves list of messages forticket #12</p>
-<p>· GET /tickets/12/messages/5- Retrieves message #5 forticket #12</p>
-<p>· POST /tickets/12/messages- Creates a new message inticket #12</p>
-<p>· PUT /tickets/12/messages/5- Updates message #5 for ticket#12</p>
-<p>· PATCH /tickets/12/messages/5- Partially updates message#5 for ticket #12</p>
-<p>· DELETE /tickets/12/messages/5- Deletes message #5 forticket #12</p>
-<p> 其中，如果这种关联和资源独立，那么我们可以在资源的输出表示中保存相应资源的endpoint。然后API的使用者就可以通过点击链接找到相关的资源。如果关联和资源联系紧密。资源的输出表示就应该直接保存相应资源信息。（例如这里如果message资源是独立存在的，那么上面 GET/tickets/12/messages就会返回相应message的链接；相反的如果message不独立存在，他和ticket依附存在，则上面的API调用返回直接返回message信息）</p>
-<p><strong>5 get和post区别</strong></p>
-<p> 常用的请求方式是GET和POST.</p>
-<p>GET方式：是以实体的方式得到由请求URI所指定资源的信息，如果请求URI只是一个数据产生过程，那么最终要在响应实体中返回的是处理过程的结果所指向的资源，而不是处理过程的描述。</p>
-<p>POST方式：用来向目的服务器发出请求，要求它接受被附在请求后的实体，并把它当作请求队列中请求URI所指定资源的附加新子项，Post被设计成用统一的方法实现下列功能：</p>
-<p>1）对现有资源的解释；</p>
-<p>2）向电子公告栏、新闻组、邮件列表或类似讨论组发信息；</p>
-<p>3）提交数据块；</p>
-<p>4）通过附加操作来扩展数据库 。</p>
-<p>从上面描述可以看出，Get是向服务器发索取数据的一种请求；而Post是向服务器提交数据的一种请求，要提交的数据位于信息头后面的实体中。</p>
-<p>GET与POST方法有以下区别：</p>
-<p>1） 在客户端，Get方式在通过URL提交数据，数据在URL中可以看到；POST方式，数据放置在HTMLHEADER内提交。</p>
-<p>2） GET方式提交的数据最多只能有1024字节，而POST则没有此限制。</p>
-<p>3） 安全性问题。正如在（1）中提到，使用 Get 的时候，参数会显示在地址栏上，而 Post 不会。所以，如果这些数据是中文数据而且是非敏感数据，那么使用 get；如果用户输入的数据不是中文字符而且包含敏感数据，那么还是使用 post为好。</p>
-<p>4） 安全的和幂等的。所谓安全的意味着该操作用于获取信息而非修改信息。幂等的意味着对同一 URL 的多个请求应该返回同样的结果。完整的定义并不像看起来那样严格。换句话说，GET 请求一般不应产生副作用。从根本上讲，其目标是当用户打开一个链接时，她可以确信从自身的角度来看没有改变资源。比如，新闻站点的头版不断更新。虽然第二次请求会返回不同的一批新闻，该操作仍然被认为是安全的和幂等的，因为它总是返回当前的新闻。反之亦然。POST 请求就不那么轻松了。POST 表示可能改变服务器上的资源的请求。仍然以新闻站点为例，读者对文章的注解应该通过 POST 请求实现，因为在注解提交之后站点已经不同了（比方说文章下面出现一条注解）。</p>
-<p><strong>6 put和post区别</strong></p>
-<p>有的观点认为，应该用POST来创建一个资源，用PUT来更新一个资源；有的观点认为，应该用PUT来创建一个资源，用POST来更新一个资源；还有的观点认为可以用PUT和POST中任何一个来做创建或者更新一个资源。这些观点都只看到了风格，争论起来也只是争论哪种风格更好，其实，用PUT还是POST，不是看这是创建还是更新资源的动作，这不是风格的问题，而是语义的问题。</p>
-<p>举一个简单的例子，假如有一个博客系统提供一个Web API，模式是这样<a target="_blank" rel="noopener" href="http://superblogging/blogs/%7Bblog-name%7D%EF%BC%8C%E5%BE%88%E7%AE%80%E5%8D%95%EF%BC%8C%E5%B0%86%7Bblog-name%7D">http://superblogging/blogs/{blog-name}，很简单，将{blog-name}</a></p>
-<p>替换为我们的blog名字，往这个URI发送一个HTTP PUT或者POST请求，HTTP的body部分就是博文，这是一个很简单的REST API例子。我们应该用</p>
-<p>PUT方法还是POST方法？取决于这个REST服务的行为是否是idempotent的，假如我们发送两个<a target="_blank" rel="noopener" href="http://superblogging/blogs/post/Sample%E8%AF%B7%E6%B1%82%EF%BC%8C%E6%9C%8D">http://superblogging/blogs/post/Sample请求，服</a></p>
-<p>务器端是什么样的行为？如果产生了两个博客帖子，那就说明这个服务不是idempotent的，因为多次使用产生了副作用了嘛；如果后一个请求把第一个</p>
-<p>请求覆盖掉了，那这个服务就是idempotent的。前一种情况，应该使用POST方法，后一种情况，应该使用PUT方法。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/put/" rel="tag">put</a></li></ul>
     </div>
  -->
 

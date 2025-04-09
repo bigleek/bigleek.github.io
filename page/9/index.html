@@ -269,6 +269,327 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-mac初始化环境配置加优化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/ea7eedfa.html" class="article-date">
+      <time datetime="2022-09-09T09:30:35.000Z" itemprop="datePublished">2022-09-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/ea7eedfa.html">mac初始化环境配置加优化</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>Cmd + Shift +。 （点）  显示隐藏文件</p>
+<p>fn + command + enter    insert快捷键</p>
+<p>option + cmd +l 格式化</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>Cmd + Shift +。 （点）  显示隐藏文件</p>
+<p>fn + command + enter    insert快捷键</p>
+<p>option + cmd +l 格式化</p>
+<p>ctr + option +o 除去多的导入包</p>
+<p>cmd+ + 增加</p>
+<p>cmd+ - 缩小</p>
+<p>cmd +n 新窗口</p>
+<p>cmd+t 新标签页</p>
+<p>cmd+w 退出当前页</p>
+<p>cmd+ option + p  显示当前路径</p>
+<p>ctrl+左右的箭头切换工作区</p>
+<p>三指拖移动  技术右键加移动</p>
+<p>发散手指 显示dashboard </p>
+<h2 id="gradle"><a href="#gradle" class="headerlink" title="gradle"></a>gradle</h2><p>init.gradle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">allprojects&#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        def ALIYUN_REPOSITORY_URL &#x3D; &#39;http:&#x2F;&#x2F;maven.aliyun.com&#x2F;nexus&#x2F;content&#x2F;groups&#x2F;public&#39;</span><br><span class="line">        def ALIYUN_JCENTER_URL &#x3D; &#39;http:&#x2F;&#x2F;maven.aliyun.com&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;jcenter&#39;</span><br><span class="line">        all &#123; ArtifactRepository repo -&gt;</span><br><span class="line">            if(repo instanceof MavenArtifactRepository)&#123;</span><br><span class="line">                def url &#x3D; repo.url.toString()</span><br><span class="line">                if (url.startsWith(&#39;https:&#x2F;&#x2F;repo1.maven.org&#x2F;maven2&#39;)) &#123;</span><br><span class="line">                    project.logger.lifecycle &quot;Repository $&#123;repo.url&#125; replaced by $ALIYUN_REPOSITORY_URL.&quot;</span><br><span class="line">                    remove repo</span><br><span class="line">                &#125;</span><br><span class="line">                if (url.startsWith(&#39;https:&#x2F;&#x2F;jcenter.bintray.com&#x2F;&#39;)) &#123;</span><br><span class="line">                    project.logger.lifecycle &quot;Repository $&#123;repo.url&#125; replaced by $ALIYUN_JCENTER_URL.&quot;</span><br><span class="line">                    remove repo</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        maven &#123;</span><br><span class="line">            url ALIYUN_REPOSITORY_URL</span><br><span class="line">            url ALIYUN_JCENTER_URL</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="zshrc"><a href="#zshrc" class="headerlink" title="~/.zshrc"></a>~/.zshrc</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;Library&#x2F;Java&#x2F;JavaVirtualMachines&#x2F;zulu-11.jdk&#x2F;Contents&#x2F;Home</span><br><span class="line">export GRADLE_HOME&#x3D;&#x2F;Users&#x2F;XXX&#x2F;gradle-7.5</span><br><span class="line">export GRADLE_USER_HOME&#x3D;&#x2F;Users&#x2F;XXXX&#x2F;gradle-7.5&#x2F;repository</span><br><span class="line">export PATH&#x3D;$PATH:$GRADLE_HOME&#x2F;bin</span><br></pre></td></tr></table></figure>
+
+<p>使用 软连接python3 到python</p>
+<blockquote>
+<p>python: aliased to /usr/local/bin/python3</p>
+</blockquote>
+<h2 id="V2RayX-提供三种模式："><a href="#V2RayX-提供三种模式：" class="headerlink" title="V2RayX 提供三种模式："></a>V2RayX 提供三种模式：</h2><p><strong>全局模式：</strong>如果网络流量服从操作系统的网络规则，V2RayX 会要求 macOS 将所有互联网流量路由到 v2ray 核心。</p>
+<p><strong>PAC 模式：</strong>macOS 将根据 pac 文件确定路由，某些流量可能会路由到 v2ray 核心。</p>
+<p><strong>手动模式：</strong>V2RayX 不会修改任何 macOS 网络设置，只会启动或停止 v2ray 核心。</p>
+<p>菜单列表中的选项 Routing Rule 确定 v2ray 核心如何处理传入流量。核心路由规则适用于上述所有三种模式。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-程序员梗百科" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/88dbcb79.html" class="article-date">
+      <time datetime="2022-07-07T06:03:58.000Z" itemprop="datePublished">2022-07-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/88dbcb79.html">程序员梗百科</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>转载自 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/EcV8ZoPaBKmrbo_Ohqzg7g">开发常用的缩写 你能看懂几个？</a></p>
+<h2 id="LGTM"><a href="#LGTM" class="headerlink" title="LGTM"></a>LGTM</h2><p>Look Good To Me 对我来说，还不错 常见于 Code Review中，表示认可，同意merge合并代码到远程仓库。</p>
+<h2 id="ASAP"><a href="#ASAP" class="headerlink" title="ASAP"></a>ASAP</h2><p>As  Soon As  Possible 尽快</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>转载自 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/EcV8ZoPaBKmrbo_Ohqzg7g">开发常用的缩写 你能看懂几个？</a></p>
+<h2 id="LGTM"><a href="#LGTM" class="headerlink" title="LGTM"></a>LGTM</h2><p>Look Good To Me 对我来说，还不错 常见于 Code Review中，表示认可，同意merge合并代码到远程仓库。</p>
+<h2 id="ASAP"><a href="#ASAP" class="headerlink" title="ASAP"></a>ASAP</h2><p>As  Soon As  Possible 尽快</p>
+<h2 id="WIP"><a href="#WIP" class="headerlink" title="WIP"></a>WIP</h2><p>Work In Progress「进展中」常见词汇， 这里作为 Best Practice单独提出来， 主要针对改动较多的PR。</p>
+<p>标题或Tag加上WIP，表示尚未完成，这样别人可以先review 已提交的部分</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL:DR"></a>TL:DR</h2><p>Too Long.Didn’ t Read 「太长懒得看」</p>
+<h2 id="NP"><a href="#NP" class="headerlink" title="NP"></a>NP</h2><p>no  problem 没问题</p>
+<h2 id="TBH"><a href="#TBH" class="headerlink" title="TBH"></a>TBH</h2><p>pull  Request 拉取请求</p>
+<h2 id="TPAL"><a href="#TPAL" class="headerlink" title="TPAL"></a>TPAL</h2><p>Please Take A Look 用来提示别人来看一下</p>
+<h2 id="TBH-1"><a href="#TBH-1" class="headerlink" title="TBH"></a>TBH</h2><p>To be honest.老实说 </p>
+<h2 id="ACK"><a href="#ACK" class="headerlink" title="ACK"></a>ACK</h2><p>Acknowledgement</p>
+<p>「承认，确认，同意」</p>
+<p>i.e.agreed/accepted change </p>
+<h2 id="TBD"><a href="#TBD" class="headerlink" title="TBD"></a>TBD</h2><p>To Be Done(or Defined/Discussed/ Decided/Determined).</p>
+<p>「未完成，将被做」 </p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-lucene-demo-ikAnalyzer" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/c3e283f6.html" class="article-date">
+      <time datetime="2022-07-07T01:59:10.000Z" itemprop="datePublished">2022-07-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>–2022-7-7补充</p>
+<p><a target="_blank" rel="noopener" href="https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/198.html">GeoQuery（一）-html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hanfight/p/5776769.html">Lucene Spatial构建地理空间索引 - 韩要奋斗 - 博客园</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>–2022-7-7补充</p>
+<p><a target="_blank" rel="noopener" href="https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/198.html">GeoQuery（一）-html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hanfight/p/5776769.html">Lucene Spatial构建地理空间索引 - 韩要奋斗 - 博客园</a></p>
+<p>Lucene下面关于地理信息的内容</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Never_1213/article/details/105093018">lucene多条件查询_三天打鱼_的博客-CSDN博客_lucene多条件查询</a></p>
+<h1 id="lucene和ik分词器"><a href="#lucene和ik分词器" class="headerlink" title="lucene和ik分词器"></a>lucene和ik分词器</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenying99/archive/2012/06/23/2559621.html">使用Lucene-Spatial实现集成地理位置的全文检索 - 刺猬的温驯 - 博客园</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hj7jay/article/details/101017364">Springboot下的Lucene(详细版)_程序猿开发日志【学习永无止境】-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="http://majsunflower.cn/2020/05/10/Lucene%E6%90%AD%E5%BB%BA%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E5%88%9D%E6%8E%A2/">Lucene搭建搜索引擎初探 | 大嘴怪的小世界</a></p>
+<p><img src="../img/1641799344593-2bfa1c5c-6702-49ee-ad16-a2ad4715d778.png" alt="image.png"></p>
+<p>索引(Index) –&gt; 段(segment) –&gt; 文档(Document) –&gt; 域(Field) –&gt; 词(Term)</p>
+<p><a target="_blank" rel="noopener" href="https://hub.fastgit.org/blueshen/ik-analyzer.git">https://hub.fastgit.org/blueshen/ik-analyzer.git</a> 使用的ik分词器地址同时</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">       <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        &lt;lucene.version&gt;8.9.0&lt;/lucene.version&gt;--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">lucene.version</span>&gt;</span>7.2.1<span class="tag">&lt;/<span class="name">lucene.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">   <span class="comment">&lt;!-- Lucene 核心库 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lucene.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- Lucene 解析库 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-queryparser<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lucene.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- Lucene 附加的分析库 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-analyzers-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lucene.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-test-framework<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lucene.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.wltea.ik-analyzer<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ik-analyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>9.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用luke来查询索引的数据</p>
+<p><img src="../img/image-20220111100347933.png" alt="image-20220111100347933"></p>
+<h2 id="lucene集成ik和pinyin分词器"><a href="#lucene集成ik和pinyin分词器" class="headerlink" title="lucene集成ik和pinyin分词器"></a>lucene集成ik和pinyin分词器</h2><p> <a href="..%5Cfiles%5Cpinyin4j-2.5.1.jar">pinyin4j-2.5.1.jar</a> </p>
+<p> <a href="..%5Cfiles%5CpinyinAnalyzer4.3.1.jar">pinyinAnalyzer4.3.1.jar</a> </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.belerweb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;scope&gt;system&lt;/scope&gt;--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;systemPath&gt;$&#123;project.basedir&#125;/src/main/resources/lib/pinyin4j-2.5.0.jar&lt;/systemPath&gt;--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyin4j-2.5.1.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.shentong<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyinAnalyzer4.3.1.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>该部分参考</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/jayson1001/article/details/78113306">lucene6.6+拼音分词+ik分词实现_jayson1001的博客-CSDN博客_lucene 拼音分词</a></li>
+</ul>
+<p>实现的原理就是使用创建个 IndexPinyinAnalyzer 使用IKTokenizer 和PinyinTransformTokenFilter实现分词汉字和拼音的效果</p>
+<p>测试的部分代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) throws IOException &#123;</span><br><span class="line">    Analyzer analyzer &#x3D; new IndexPinyinAnalyzer(false);</span><br><span class="line">    TokenStream tokenStream &#x3D; analyzer.tokenStream(&quot;fff&quot;, &quot;标高1-KL33&quot;);</span><br><span class="line">    &#x2F;&#x2F;添加一个引用，可以获得每个关键词</span><br><span class="line">    CharTermAttribute charTermAttribute &#x3D; tokenStream.addAttribute(CharTermAttribute.class);</span><br><span class="line">    &#x2F;&#x2F;添加一个偏移量的引用，记录了关键词的开始位置以及结束位置</span><br><span class="line">    OffsetAttribute offsetAttribute &#x3D; tokenStream.addAttribute(OffsetAttribute.class);</span><br><span class="line">    &#x2F;&#x2F;将指针调整到列表的头部</span><br><span class="line">    tokenStream.reset();</span><br><span class="line">    &#x2F;&#x2F;遍历关键词列表，通过incrementToken方法判断列表是否结束</span><br><span class="line">    while(tokenStream.incrementToken()) &#123;</span><br><span class="line">        &#x2F;&#x2F;关键词的起始位置</span><br><span class="line">        System.out.println(&quot;start---------------&quot; + offsetAttribute.startOffset());</span><br><span class="line">        &#x2F;&#x2F;取关键词</span><br><span class="line">        System.out.println(&quot;分词内容： &quot;+charTermAttribute);</span><br><span class="line">        &#x2F;&#x2F;结束位置</span><br><span class="line">        System.out.println(&quot;end---------------------&quot; + offsetAttribute.endOffset());</span><br><span class="line">    &#125;</span><br><span class="line">    tokenStream.close();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果</p>
+<blockquote>
+<p>start—————0<br>分词内容标高<br>end———————2<br>start—————0<br>分词内容bg<br>end———————2<br>start—————2<br>分词内容1-kl33<br>end———————8<br>start—————4<br>分词内容kl<br>end———————6<br>start—————6<br>分词内容33<br>end———————8</p>
+</blockquote>
+<p>需要注意几点</p>
+<ol>
+<li>pinyin4j 需要是2.5.1</li>
+<li>分词和使用的dic有关,笔者使用的默认值,在日志中会打印org.wltea.analyzer.dic.Dictionary - 加载扩展停止词典:org/wltea/analyzer/dic/stopword.dic</li>
+</ol>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-http-rpc的区别和介绍" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1370,432 +1691,6 @@
       
 
       <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-这些科技将在2022年改变你的生活内容（华尔街日报转载）" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/a683129.html" class="article-date">
-      <time datetime="2022-04-16T13:45:36.000Z" itemprop="datePublished">2022-04-16</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>Facebook公司更名？全球芯片荒？数字艺术品卖出天价？没有哪个水晶球準确预测了2021年的科技业景象。这也正是这项一年一度的活动有意思和令人兴奋的地方之一——我们团队每年都会集思广益，对接下来一年科技圈会发生些什么进行预测。可就算我们对当前趋势作了最为详尽的分析，以及请来行业专家和占卜工具加持，也依然无法精确预测未来。</p>
-<p>有一点可以确定的是，2022年将充满新技术带来的惊喜（参见：混合现实和家用机器人），人们将继续讨论科技对世界带来的影响（参见：社交媒体和可持续性），同时还会有许多意想不到的事情发生，因为最近时常会有一些令你大呼意外的时刻。</p>
-<p>以下是我们对2022年科技行业的预测：</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>Facebook公司更名？全球芯片荒？数字艺术品卖出天价？没有哪个水晶球準确预测了2021年的科技业景象。这也正是这项一年一度的活动有意思和令人兴奋的地方之一——我们团队每年都会集思广益，对接下来一年科技圈会发生些什么进行预测。可就算我们对当前趋势作了最为详尽的分析，以及请来行业专家和占卜工具加持，也依然无法精确预测未来。</p>
-<p>有一点可以确定的是，2022年将充满新技术带来的惊喜（参见：混合现实和家用机器人），人们将继续讨论科技对世界带来的影响（参见：社交媒体和可持续性），同时还会有许多意想不到的事情发生，因为最近时常会有一些令你大呼意外的时刻。</p>
-<p>以下是我们对2022年科技行业的预测：</p>
-<h2 id="电动车价格更亲民"><a href="#电动车价格更亲民" class="headerlink" title="电动车价格更亲民"></a>电动车价格更亲民</h2><p>人们购买电动车时选择为数不多的局面成为过去。到2022年底时，可供美国消费者挑选的电动车车型将超过100款。而且，许多即将面世的车型要比一两年前的那些价格更亲民。</p>
-<p>电动车在美国乘用车保有量中的佔比仍不到3%，研究显示，若想让更多人选择电动车，价格是一大关键因素。（另一个关键因素是基础设施。美国目前的公共快速充电桩数量远远达不到专家估计的需求量。）</p>
-<p>为企业提供咨询服务的Guidehouse公司首席研究分析师斯科特·谢帕德（Scott Shepard）指出，从全球范围看，2015年至2020年间，尽管电动车的平均续航里程增加了45%，但平均定价下降了30%。他预计2022年这一趋势将得以延续，届时至少还有四款价格在4万美元以下的电动车登陆美国。</p>
-<p>福特F-150「闪电」电动皮卡（Ford F-150 Lightning，制造商建议零售价39,974美元起）的表现或许可以给我们一点启发。该公司在接到近20万辆F-150「闪电」的订单后，不得不关闭了预购服务；福特最新的业绩报告显示，有75%的买家是头一次购买福特品牌的汽车。</p>
-<p>与此同时，日产汽车（Nissan）将早年投放市场的聆风（Leaf）电动车的起售价从32,620美元大幅下调至28,375美元。聆风降价后（以及购车时享受7,500美元的稅收抵免后）在同档次的汽车中，价格会低于2022年款本田思域（Honda Civic）燃油掀背车。除此之外，还有许多电动汽车车型的起售价都在4万美元以下，如雪佛兰（Chevrolet）、现代（Hyundai）、起亚（Kia）、马自达（Mazda）、Mini和大众（Volkswagen）的一些车型，它们有的已经上市，有的不久便会投放市场。</p>
-<h2 id="可持续性继续受关注"><a href="#可持续性继续受关注" class="headerlink" title="可持续性继续受关注"></a>可持续性继续受关注</h2><p>微软（Microsoft）利用回收的海洋塑胶垃圾做了一款鼠标。苹果（Apple）的最新款iPhone和iPad都含有回收材料。亚马逊（Amazon）的新款Echo智能喇叭的显示屏同样用到了回收塑胶，而且在待机状态下十分节能。2021年每一场重要的科技主题演讲中，都会包含应对气候变化的环节，2022年这一现象只会有增无减。</p>
-<p>可以说，科技业留下的碳足迹比航空业更大，眼下科技公司正在努力改变这一现状，实现可持续发展。无论是从手机、平板还是电脑的设计中，都可以看到它们这方面的努力。</p>
-<p>可持续性还意味着，你的同一部电子设备可以用得更久。加州大学洛杉矶分校（University of California, Los Angeles）管理学教授马加利·德尔马斯（Magali Delmas）说，「真正的问题在于科技业研发的产品使用壽命太短，而且很难维修，接着就被扔进垃圾填埋场。」</p>
-<p>电子设备制造商也在尝试解决这一问题。苹果将在2022年初推出一项自助维修计划，按照该计划，用户和独立技术人员可以利用正版苹果零部件自主维修设备，这也是倡导「维修权」的人士一直以来都在游说的一项举措。戴尔公司（Dell）近日展示了概念性笔记本电脑Luna，它使用的螺丝更少，而且没有风扇，从而最大限度地提高了可维修性。</p>
-<h2 id="社交媒体加大力度保护未成年人"><a href="#社交媒体加大力度保护未成年人" class="headerlink" title="社交媒体加大力度保护未成年人"></a>社交媒体加大力度保护未成年人</h2><p>2021年我们意识到，社交媒体类应用程式——尤其是Instagram和TikTok——在阻止年轻用户观看不良内容以及防止他们沉迷方面做得不够。2022年我们会看到，美国国会议员和社交媒体公司将加大对儿童的保护力度。</p>
-<p>针对目前主要由算法驱动的内容展示方式，Instagram已承诺在2022年初推出替代方案。按照现有方式，用户基本无法控制自己可以看到哪些内容。Instagram负责人亚当·莫塞里（Adam Mosseri）在12月向美国参议院一个下属委员会表示，该公司2022年将推出更多针对青少年的家长控制功能，包括从3月开始，允许家长设定时间限制。</p>
-<p>TikTok则表示，它已开始调整算法，这样人们看到的内容中就不会充斥著大量有关紊乱饮食、抑郁症和其他涉及不良话题的影片。该公司发言人说，它将继续依据用户年龄对功能作出限制，同时也会为家长提供工具。</p>
-<p>然而，由于不相信这些企业会自己做出必要的改变，议员们跨党派合作，著手制定新的法律。马萨诸塞州民主党参议员埃德·马基（Ed Markey）和路易斯安那州共和党参议员比尔·卡西迪（Bill Cassidy）提出了新版本的《儿童和青少年网络私隐保护法》（Children and Teens’ Online Privacy Protection Act, 简称：Coppa 2.0），提议将目前的私隐保护对象扩大到13至15岁的用户，同时禁止针对儿童的个性化广告，等等。康涅狄格州民主党参议员理查德·布卢门塔尔（Richard Blumenthal）和田纳西州共和党参议员玛莎·布莱克本（Marsha Blackburn）也在推动立法，要求提高社交媒体算法的透明度。</p>
-<h2 id="芯片！芯片！"><a href="#芯片！芯片！" class="headerlink" title="芯片！芯片！"></a>芯片！芯片！</h2><p>从2020年初开始，全球随处可见的疫情「封锁令」使得人们对许多搭载微芯片的东西有了更大的需求——与外界联系需要的智能手机、居家办公和学习需要的笔记本电脑和台式电脑，以及代替公共交通工具的私家车。</p>
-<p>受此影响，2020年及2021年整个上半年，人们对芯片的需求达到了前所未有的程度。有迹象显示，芯片需求已开始回落。作为全球最大的智能手机市场，中国2021年第三季度智能手机销量较上年同期下滑9%。（不过苹果表示iPhone的需求依然强劲，预计公司2021年利润将创下纪录新高。）</p>
-<p>没有人确切知道芯片供应何时才能完全满足需求，一些分析师说，这可能要等到2023年，届时从亚利桑那州到北京，将有更多的芯片制造产能投产。但鉴於人们对电子设备的需求将终于得以满足，加之过去18个月内芯片制造商一直开足马力生产，供不应求局面结束的日子或许指日可待。</p>
-<p>二手芯片制造设备交易公司SDI Fabsurplus的斯蒂芬·豪伊（Stephen Howe）说，回首2000年时，芯片厂经营者曾预计，芯片需求将一直旺盛，高增长态势也将持续。「可你瞧，到了2000年6月，整个市场经历了断崖式下跌，我敢肯定，这一幕还会重演。」他说。</p>
-<h2 id="机器人在哪儿，哪儿就是家"><a href="#机器人在哪儿，哪儿就是家" class="headerlink" title="机器人在哪儿，哪儿就是家"></a>机器人在哪儿，哪儿就是家</h2><p>能照顾孩子、能洗碗，还能疏通马桶的全能型家用机器人在2022年还不会出现，但比立式智能喇叭、扫地机器人再能干一点的家用机器人会在今年走进人们的视野——而且它或许还会提供陪伴功能。</p>
-<p>亚马逊基於智能喇叭Alexa打造的家用机器人Astro可以利用传感器在家中自由移动。它不仅具备了Alexa的基本功能（如播放音乐、回答问题等），还带有监控功能，当你不在家时，可以通过自带摄像头替你「看家」。如果一位年长亲人的家中有Astro，你还可以通过「Alexa Together」功能与亲人远程互动。</p>
-<p>亚马逊负责设备与服务业务的副总裁大卫·林普（David Limp）说，Astro代表着向「环境智能」（AMI）的转变 ，有了这种技术，我们的电脑将退至幕后，让我们「在现实世界中互动，而不是把头埋在手机里。」</p>
-<p>亚马逊从2021年12月开始，向一小批受邀测试者递送了这款售价1,000美元的机器人。林普说，提出测试申请的人数比他当初的预期高出了许多倍，目前公司正在努力增加2022年的库存。</p>
-<p>此外，老年伴侣机器人ElliQ等类似设备正在65岁及以上的独居老人中接受测试。厂商计划2022年扩展ElliQ的功能，增加管家服务，让用户可以通过ElliQ订购食品杂货等。</p>
-<h2 id="「混合现实」成为现实"><a href="#「混合现实」成为现实" class="headerlink" title="「混合现实」成为现实"></a>「混合现实」成为现实</h2><p>我们知道，过去大约五年来，有些人一直在说虚拟现实（VR）将改变我们的生活。但我们向你保证，2022年VR技术将取得重大进展，增强现实（AR）也会带来更好的体验。（记住，VR是把你带入一个虚拟世界，AR是在现实世界中加入数位化元素，二者合称混合现实，即Mixed Reality，但我们不会将其简称为MR。）</p>
-<p>Meta（即过去的Facebook）计划发布一款头戴式设备，其功能比目前的Quest 2更先进，价格也更贵。设备中的新传感器和改进后的光学元件会让虚拟世界中的你与在现实中有更高的相似度（项目代号「坎布里亚计划」（Project Cambria））。你的一颦一笑也会体现在虚拟场景中。另外，这款头显能够显示你所处的真实空间，但会加入一些数位化功能——比如在真实的桌子上方投射出一张巨大的虚拟萤幕。这些都是Meta构建元宇宙目标中的一砖一瓦——在这个虚拟世界中，我们可以工作、购物、閒逛，还可以做很多事情。</p>
-<p>在这场「元宇宙」竞赛中，不会只有Meta一名选手。有报导称，苹果可能会在2022年晚些时候推出一款混合现实头戴式设备。据天风国际证券（TF International Securities）研究苹果公司的分析师郭明錤说，这款头显将搭载苹果自己的芯片（就像苹果MacBook里的芯片），而且同时具有VR和AR功能。苹果发言人拒绝置评。</p>
-<h2 id="不拘於手腕之上的健康传感器"><a href="#不拘於手腕之上的健康传感器" class="headerlink" title="不拘於手腕之上的健康传感器"></a>不拘於手腕之上的健康传感器</h2><p>近十年来，健康追踪器一直都是戴在我们的手腕上，如今它们开始挣脱这种束缚。智能戒指Oura虽然没有显示器，但它配备了迷你传感器，可以监测心率、血氧水平和皮肤温度。Whoop卖的是文胸、紧身裤等服装，但追踪器被巧妙地置于这些服饰中。Google（Google）的Nest Hub智能屏不带摄像头，它利用雷达来监测使用者的睡眠情况。除此之外，Sleep Number、Eight Sleep等公司的智能床垫也可以记录睡眠状态。</p>
-<p>Oura首席产品官克里斯·贝赫勒（Chris Becherer）说，「这不涉及什么新技术，也不是什么新型传感器。」他还说，硬件制造商正在寻找更多方法来简化追踪方式。</p>
-<p>下一个重要的健康设备可能是你的耳塞。据《华尔街日报》（Wall Street Journal）报导，苹果正在研究利用AirPods来读取体温和监测身体姿势的可行性。据熟悉这些计划的人告诉我们的同事，这类耳塞会从耳朵内部测量佩戴者的核心体温，并依靠运动传感器来监测用户是否驼背。《华尔街日报》报导，苹果还在研发有助於检测抑郁症的iPhone功能。</p>
-<h2 id="更亮的显示屏"><a href="#更亮的显示屏" class="headerlink" title="更亮的显示屏"></a>更亮的显示屏</h2><p>如果你发现，你的手机或是智能手表的显示屏比笔记本电脑、电视或是汽车仪表盘的显示屏更亮，对比度也要更高，那么你就已经见证了显示屏技术近年来最大的进化式飞跃之一。</p>
-<p>自iPhone X之后，苹果的高端iPhone一直都在使用有机发光二极管（OLED）萤幕，这种技术与液晶显示屏（LCD）的区別在于其中的每个像素可以独立发光，而无需另外的光源。使用OLED的好处是，不仅显示屏可以做得更薄（甚至可以折叠），而且对比度和能效也更高。</p>
-<p>三星（Samsung）在手机上应用OLED的时间更早——这家韩国电子产品巨头是OLED技术的先驱之一。以往你可能见过一些OLED电视，但它们的价格异常昂贵。现在，这项技术的制造成本正变得越来越低。2021年，配备OLED显示屏的笔记本电脑开始出现，2022年将有更多类似机型面世。对平板电脑和电视来说也是如此。</p>
-<p>微发光二极管（MicroLED）是另一种先进的显示屏技术，有朝一日或许会走进寻常百姓家，成为更多人负担得起的「OLED继任者」。三星已利用这些微小的自发光像素研制出了影片墙，但成本却是天文数字。在2022年1月举行的国际消费电子展CES上，智能眼镜生产商Vuzix计划展示带有微型MicroLED立体显示屏的智能眼镜， 可适用于工作场合的AR场景。</p>
-<h2 id="密码登录渐行渐远"><a href="#密码登录渐行渐远" class="headerlink" title="密码登录渐行渐远"></a>密码登录渐行渐远</h2><p>密码有时会成为「雷区」。它们会被人猜中，或是被盗。於是为了防止骇客入侵，我们用上了密码管理软体，利用它们为每一种服务创造独一无二的随机密码。此时此刻，我们当中有许多人甚至都不知道自己的密码！谢天谢地，不需要以密码登录的服务正变得越来越多。</p>
-<p>例如，你可以通过往电子邮箱里发送一个特殊链接来登录《华尔街日报》的网站（WSJ.com）。登录工作协同平台Slack和支付平台PayPal也可以采取同样的方式。支付系统Shopify和订座软体Resy会向你的手机发送验证码。微软最近允许用户跳过密码，转而通过应用程式Microsoft Authenticator生成的验证码进行身份验证，这串代码类似通过手机或电子邮箱发送的安全密钥或是验证码。</p>
-<p>致力於保护用户身份的科技公司Transmit Security通过一项研究发现，如果一项服务可以用生物特征识別方式来验证身份，那么消费者订购的概率会增加44%；而如果有密码之外的其他登录方式，消费者订购的概率会增加35%。「2022年不会标志著密码时代的终结，但在密码走向消亡的过程中，我们会看到一些具有转折意义的事件。」行业组织FIDO Alliance执行董事安德鲁·希基亚（Andrew Shikiar）说，该组织提倡通过安全密钥、人脸识別、指纹或语音密码来验证身份。</p>
-<h2 id="网络提速"><a href="#网络提速" class="headerlink" title="网络提速"></a>网络提速</h2><p>再见，3G。感谢你为老版本的Kindle电子阅读器以及奶奶的翻盖手机提供了联网功能。2022年，美国运营商将淘汰老旧的第三代蜂窝网络，为超高速的第五代移动通信（5G）腾出更多空间。没错，这意味着那些3G设备很快就会变成一堆废铁。（美国电话电报公司AT&amp;T的3G服务结束日期为2022年2月，T-Mobile和Verizon分別为7月和12月。）</p>
-<p>这些电信公司计划在未来一年扩大网络。T-Mobile说，到2022年年底时，它的服务将再覆盖5,000万美国人。享受5G服务的不仅只有手机。移动运营商正在固话运营商无法提供宽带的地方，利用5G网络提供家用互联网服务。2021年9月，T-Mobile将业务扩展到佛罗里达州和北卡罗来纳州的一些城市，Verizon则将加州佛里蒙特（Fremont）和纽约州尼亚加拉瀑布城（Niagara Falls）纳入了自己的5G家用网络。</p>
-<p>不管是家用网络还是移动端网络，我们的网速都很有可能变得更快，尽管这当中也会有一些「减速带」。美国总统拜登（Biden）的基建法案已於2021年11月获得通过，虽然其中包括了用于扩大农村地区宽带接入的650亿美元资金，但各州若想拿到这笔钱，还需经过漫长的申请过程。此外，AT&amp;T和Verizon近日在铺设5G网络的过程中也遇到了阻碍，因为美国航空管理局（Federal Aviation Administration，简称FAA）担心驾驶舱安全系统可能受到干扰。</p>
-<h2 id="加密货币不再小众"><a href="#加密货币不再小众" class="headerlink" title="加密货币不再小众"></a>加密货币不再小众</h2><p>当人们谈论加密货币和非同质化代币（NFT）时，你表面上点头附和，其实心里在想，关于去中心化网络和区块链的种种讨论都会是过眼云烟。抱歉，你想错了。事实上在2022年，你已在使用的应用程式、服务和游戏中会出现购买、出售和转账数字货币及代币的工具，如此一来，你或许已经置身其间了。</p>
-<p>目前，PayPal的应用程式Venmo和支付公司Block（前身为Square）旗下Cash App都提供了便捷的加密货币购买及转账方式。Cash App最近还新增了一项简易功能，可以通过借记卡向任意美国用户提供比特币。越来越多的购物场所也将开始接受你最喜爱的加密货币。眼下，特斯拉（Tesla）的某些特定商品就可以接受狗狗币支付。</p>
-<p>你会加入像DeSo这样由区块链技术支撑的去中心化社交媒体网站吗？也许不会，但现有的社交媒体应用程式可能会开始拥抱这个世界。Instagram负责人莫塞里说，Instagram正在「积极探索NFT，以及我们如何才能让更广泛的受众更容易接触到它们。」</p>
-<h2 id="无人机送货"><a href="#无人机送货" class="headerlink" title="无人机送货"></a>无人机送货</h2><p>今年你可能会头一次收到由无人机投送的包裹，不过这取决於你所在的区域。</p>
-<p>以色列初创公司Flytrex在北卡罗来纳州运营有三个配送站，它刚刚获得FAA批准，可以在方圆1英里（约1.6公里）左右的范围内利用无人机送货。该公司说，获得此项授权后，它可以为包括沃尔玛（Walmart）在内的多家零售商，面向1万多户家庭提供送货服务。Google母公司Alphabet Inc.旗下Wing Aviation去年10月表示，它正在对无人机送货进行测试，预计2022年将在人口稠密的城市地区——达拉斯-沃斯堡（Dallas-Ft. Worth）——首次推出商用无人机送货服务。</p>
-<p>与此同时，未来一年中，综合医疗服务提供商与产品生产商嘉德诺（Cardinal Health）将通过一种特殊的无人机——Zipline制造的小型固定翼飞机——向北卡罗来纳州坎纳波利斯（Kannapolis）一处配送中心方圆10英里（约16公里）内的药店提供补给。Zipline说，它还在沃尔玛总部所在地阿肯色州本顿维尔（Bentonville）为该公司提供送货上门服务。</p>
-<p>根据FAA的规定，所有这些无人机将继续由人类操控。</p>
-<p>随着FAA发放的许可越来越多，加之亚马逊、联合包裹速递服务公司（UPS）及其他十余家公司的无人机也都跃跃欲试，2022年可能会有更多企业竞相跟进。</p>
-<p>英文原文：<a target="_blank" rel="noopener" href="https://www.wsj.com/articles/tech-that-will-change-your-life-in-2022-11640613604?mod=flipboard">Tech That Will Change Your Life in 2022</a></p>
-<p>原文链接：<a target="_blank" rel="noopener" href="https://theinitium.com/article/20220116-wsj-tech-that-will-change-your-life-in-2022/">https://theinitium.com/article/20220116-wsj-tech-that-will-change-your-life-in-2022/</a></p>
-<p>端传媒：<a target="_blank" rel="noopener" href="https://theinitium.com/misc/about/">https://theinitium.com/misc/about/</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/repost/" rel="tag">repost</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-pgsql调优转载" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3990369431.html" class="article-date">
-      <time datetime="2022-04-13T07:11:42.000Z" itemprop="datePublished">2022-04-13</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3990369431.html">pgsql调优转载</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>2022-4-13 更新—————-</p>
-<p><img src="../img/image-20220413200329988.png" alt="image-20220413200329988"></p>
-<p>select * from pg_tables where tablename like ‘pg_temp%’;</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>2022-4-13 更新—————-</p>
-<p><img src="../img/image-20220413200329988.png" alt="image-20220413200329988"></p>
-<p>select * from pg_tables where tablename like ‘pg_temp%’;</p>
-<p>不会有对应的表</p>
-<p>select * from pg_namespace where nspname like ‘pg%temp%’;</p>
-<p>但是会床创建临时的scheme</p>
-<p>持续更新 —————————–</p>
-<p><a target="_blank" rel="noopener" href="http://postgres.cn/docs/10/monitoring-stats.html#PG-STAT-ALL-TABLES-VIEW">官方文档</a></p>
-<p>根据进程可以查询命令执行的时间和效率</p>
-<ul>
-<li>查询耗时</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT procpid, START, now() - START AS lap, current_query  FROM ( SELECT backendid, pg_stat_get_backend_pid (S.backendid) AS procpid,</span><br><span class="line">pg_stat_get_backend_activity_start (S.backendid) AS START,pg_stat_get_backend_activity (S.backendid) AS current_query  FROM (SELECT</span><br><span class="line">pg_stat_get_backend_idset () AS backendid) AS S) AS S WHERE current_query &lt;&gt; &#39;&lt;IDLE&gt;&#39;  and procpid&#x3D;58762  ORDER BY lap DESC;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>查询连接 查询进程</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM pg_stat_activity  where pid&#x3D;&#x3D;?? and  query &#x3D;?? and </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>pg_stat_statements</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">修改postgresql.conf的shared_preload_libraries增加pg_stat_statements来载入</span><br><span class="line"></span><br><span class="line">③执行SQL启动插件：create extension pg_stat_statements;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>重置计数器（可选操作）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select pg_stat_reset();</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select pg_stat_statements_reset();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用命令查看最耗时的SQL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from pg_stat_statements order by total_time desc limit 5;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查询读取Buffer次数最多的SQL，buffer次数多，可能是因为没有索引，也同时导致了cpu高。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from pg_stat_statements order by shared_blks_hit+shared_blks_read desc limit 5;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>获取后面的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">select to_char(trigger_start_time,&#39;YYYY-MM-DD 00:00:00&#39;)</span><br><span class="line">        as timePoint,sum(trigger_count) as totalCount from network_attack</span><br><span class="line">        where</span><br><span class="line">        trigger_start_time &gt;&#x3D; to_timestamp($1,&#39;yyyy-MM-dd hh24:mi:ss&#39;)</span><br><span class="line">        and trigger_start_time &lt;  to_timestamp($2,&#39;yyyy-MM-dd hh24:mi:ss&#39;)</span><br><span class="line">        group by timePoint</span><br><span class="line">        order by timePoint desc</span><br><span class="line">relid    oid    一个表的 OID</span><br><span class="line">schemaname    name    这个表所在的模式的名称</span><br><span class="line">relname    name    这个表的名称</span><br><span class="line">seq_scan    bigint    在这个表上发起的顺序扫描的次数</span><br><span class="line">seq_tup_read    bigint    被顺序扫描取得的活着的行的数量</span><br><span class="line">idx_scan    bigint    在这个表上发起的索引扫描的次数</span><br><span class="line">idx_tup_fetch    bigint    被索引扫描取得的活着的行的数量</span><br><span class="line">n_tup_ins    bigint    被插入的行数</span><br><span class="line">n_tup_upd    bigint    被更新的行数（包括 HOT 更新的行）</span><br><span class="line">n_tup_del    bigint    被删除的行数</span><br><span class="line">n_tup_hot_upd    bigint    被更新的 HOT 行数（即不要求独立索引更新的行更新）</span><br><span class="line">n_live_tup    bigint    活着的行的估计数量</span><br><span class="line">n_dead_tup    bigint    死亡行的估计数量</span><br><span class="line">n_mod_since_analyze    bigint    从这个表最后一次被分析后备修改的行的估计数量</span><br><span class="line">last_vacuum    timestamp with time zone    上次这个表被手动清理的时间（不统计VACUUM FULL）</span><br><span class="line">last_autovacuum    timestamp with time zone    上次这个表被自动清理守护进程清理的时间</span><br><span class="line">last_analyze    timestamp with time zone    上次这个表被手动分析的时间</span><br><span class="line">last_autoanalyze    timestamp with time zone    上次这个表被自动清理守护进程分析的时间</span><br><span class="line">vacuum_count    bigint    这个表已被手工清理的次数（不统计VACUUM FULL）</span><br><span class="line">autovacuum_count    bigint    这个表已被自动清理守护进程清理的次数</span><br><span class="line">analyze_count    bigint    这个表已被手工分析的次数</span><br><span class="line">autoanalyze_count    bigint    这个表已被自动清理守护进程分析的次数</span><br></pre></td></tr></table></figure>
-
-<p>seq_tup_read 远大于 idx_tup_fetch 说明索引建的有问题</p>
-<p>n_tup_upd 说明有频繁更新的动作</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-maven 从pom.xml 下载jar包" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1868978831.html" class="article-date">
-      <time datetime="2022-04-12T05:12:35.000Z" itemprop="datePublished">2022-04-12</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1868978831.html">maven 从pom.xml 下载jar包</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>打包会有问题</p>
-<p>root  lib-A</p>
-<p>当前是需要直接打root的jar包，但是lib包下面有直接引用的本地jar并不在maven仓库当中使用如下</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>打包会有问题</p>
-<p>root  lib-A</p>
-<p>当前是需要直接打root的jar包，但是lib包下面有直接引用的本地jar并不在maven仓库当中使用如下</p>
-<p>格式如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.shentong<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyinAnalyzer4.3.1.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>打包中如果有测试代码编译不通过的可用参考添加</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">testFailureIgnore</span>&gt;</span>true<span class="tag">&lt;/<span class="name">testFailureIgnore</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>我后面发现打的jar包lib文件夹下面的确是有lib-A项目，但是啊就是跑的后面一旦涉及引用lib-A下面的本地第三方jar就说类找不到网上有人给出如下解决方案</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                 <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">includeSystemScope</span>&gt;</span>true<span class="tag">&lt;/<span class="name">includeSystemScope</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>我分别在lib-A和root项目下添加了，神奇的事发生了，打包的后服务可以运行，但是lib-A下面的controller全都没有，对应的请求都是404，人都快裂开了</p>
-<p>只能排除法先注释root下发现不行，后面注释lib-A下居然成功了，真TMD邪门</p>
-<p>补充maven install 包含外部jar的打包情况——-</p>
-<p>参考链接</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/5597099/maven-add-jars-through-systempath-system-but-not-added-to-war-or-anywhere-else/5597277">java - Maven add jars through systemPath/system but not added to war or anywhere else - Stack Overflow</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lyd135364/article/details/90664373">Maven package 时出现should not point at files within the project directory_隐0士的博客-CSDN博客</a></li>
-</ul>
-<p>在maven的pom文件中引用本地的jar</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.belerweb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;scope&gt;system&lt;/scope&gt;--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;systemPath&gt;$&#123;project.basedir&#125;/src/main/resources/lib/pinyin4j-2.5.0.jar&lt;/systemPath&gt;--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyin4j-2.5.1.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>但是打包时会报错</p>
-<blockquote>
-<p>should not point at files within the project directory dependencies.dependency.systemPath</p>
-</blockquote>
-<p>在stackoverflow上有两种方式</p>
-<p>第一种是pom中添加jar所在文件夹的仓库</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">id</span>&gt;</span>localrepository<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">url</span>&gt;</span>file://$&#123;project.basedir&#125;/src/main/resources/lib<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>但是在打包的时候还是会出问题</p>
-<p>第二种使用plugin来实现</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-install-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                      <span class="tag">&lt;<span class="name">phase</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">                     <span class="comment">&lt;!-- &lt;goals&gt;</span></span><br><span class="line"><span class="comment">                          &lt;goal&gt;copy-dependencies&lt;/goal&gt;</span></span><br><span class="line"><span class="comment">                      &lt;/goals&gt;--&gt;</span></span><br><span class="line">                      <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.belerweb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                          <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                          <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">                          <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyinAnalyzer4.3.1.jar<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">                      <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>tips 下面的两种尝试过失败也列出来</p>
-<ol>
-<li><p>使用configuration复制来自于网络和正确的配置有出入</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">id</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">phase</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyin4j-2.5.0.jar<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">repositoryLayout</span>&gt;</span>default<span class="tag">&lt;/<span class="name">repositoryLayout</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.belerweb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">generatePom</span>&gt;</span>true<span class="tag">&lt;/<span class="name">generatePom</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                             <span class="tag">&lt;<span class="name">goal</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">                         <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<ol start="2">
-<li><p>使用<phase>clean</phase></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">id</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">phase</span>&gt;</span>clean<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyinAnalyzer4.3.1.jar<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">repositoryLayout</span>&gt;</span>default<span class="tag">&lt;/<span class="name">repositoryLayout</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.shentong<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">generatePom</span>&gt;</span>true<span class="tag">&lt;/<span class="name">generatePom</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                             <span class="tag">&lt;<span class="name">goal</span>&gt;</span>install-file<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">                         <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<ol start="3">
-<li><p>使用phase&gt;init&lt;/phase</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">id</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">phase</span>&gt;</span>init<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyinAnalyzer4.3.1.jar<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">repositoryLayout</span>&gt;</span>default<span class="tag">&lt;/<span class="name">repositoryLayout</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.shentong<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">generatePom</span>&gt;</span>true<span class="tag">&lt;/<span class="name">generatePom</span>&gt;</span></span><br><span class="line">                   hconfiguration&gt;</span><br><span class="line">                        <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                             <span class="tag">&lt;<span class="name">goal</span>&gt;</span>install-file<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">                         <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-</li>
-</ol>
-<p> 之前一直用IntelliJ IDEA 的直接下载jar包,但是这次一直下载不下来指定版本jar包,看本地的代码库localRepository本地没有,看本地部署的maven中心,所以使用了<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011561335/article/details/80322960">参考地址</a></p>
-<ol>
-<li>创建pom.xml 文件</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>	<span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>Spider<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>Spider<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- https://mvnrepository.com/artifact/junit/junit --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>使用mvn命令 下载后在本地仓库看到, 然后在IntelliJ IDEA刷新</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn dependency:copy-dependencies</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
-    </div>
- -->
 
 
       

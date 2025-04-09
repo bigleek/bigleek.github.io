@@ -269,6 +269,347 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-kibana完成的对Elasticsraech的处理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/9bad30c2.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <p>创建索引,然后才能对索引进行映射配置包括映射配置的映射字段,查看映射关系,字段属性的详解<br>PUT demo/_mapping/log<br>{<br>“properties”: {<br> “name”:{<br> “type”:”text”,<br> “index”: true,<br> “store”: true,<br> “analyzer”: “standard”<br> },<br> “images”: {<br> “type”: “keyword”,<br> “index”: “false”<br> },<br> “price”: {<br> “type”: “float”<br> }<br>}<br>}<br>PUT demo<br>{<br>“settings”: {<br> “number_of_replicas”: 1,<br> “number_of_shards”: 5<br>}<br>}<br>POST demo/log<br>{<br>“name”:”王大海”,<br>“images”:”<a target="_blank" rel="noopener" href="http://image.leyou.com/12479122.jpg&quot;">http://image.leyou.com/12479122.jpg&quot;</a>,<br> “price”:2699.00,<br> “hobby”:” 大 桌球 “<br>}<br>GET _search<br>{<br>“query”: {<br> “match_all”: {}<br>}<br>}<br>GET demo/_mapping</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-spring 整合回顾" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/857262000000000.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/857262000000000.html">spring 整合回顾</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="spring-整合回顾"><a href="#spring-整合回顾" class="headerlink" title="spring 整合回顾"></a>spring 整合回顾</h1><p>注意spring的对bean的管理必须是建立在你声明的情况下,不然是不会管理的,还有针对配置文件必须要将给类使用也是必须要注解声明<br>在spring整合中要注意包括<br>webapp下的web,xml需要配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dispatch 服务启动时要跟着启动</span><br><span class="line">拦截器保证你拦截到.do或者其他的值(在springmvc配置文件中)</span><br><span class="line">中文乱码</span><br><span class="line">确保能读取spring-xxx.xml的这类文件</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="spring-整合回顾"><a href="#spring-整合回顾" class="headerlink" title="spring 整合回顾"></a>spring 整合回顾</h1><p>注意spring的对bean的管理必须是建立在你声明的情况下,不然是不会管理的,还有针对配置文件必须要将给类使用也是必须要注解声明<br>在spring整合中要注意包括<br>webapp下的web,xml需要配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dispatch 服务启动时要跟着启动</span><br><span class="line">拦截器保证你拦截到.do或者其他的值(在springmvc配置文件中)</span><br><span class="line">中文乱码</span><br><span class="line">确保能读取spring-xxx.xml的这类文件</span><br></pre></td></tr></table></figure>
+
+<p>!!配置监听器过程启动时启动ioc容器!!</p>
+<p>将重要的文件什么会员才能下载的jsp文件都需要放在WEB-INF下面,确保能完成,还有一部分静态资源可以放在static文件夹下面,html的话可以放在主路径下面,</p>
+<p>然后就是核心配置文件的配置包括<br>resource下面spring核心配置文件 注入DataSource bean<br>开启配置文件扫描</p>
+<p>spring_MVC</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">配置文件:开启扫描 原本是在WEB-INF下面现在是都放在web下面</span><br><span class="line">注解开启   </span><br><span class="line">配置拦截路径和指向哪里 .jsp 还有静态文件全部放</span><br><span class="line">在controller下开启restcontroller respestMapping</span><br><span class="line"></span><br><span class="line">&lt;!--重要别忘了解决静态资源被拦截的问题--&gt;</span><br><span class="line">&lt;mvc:default-servlet-handler&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    转换器啊cover</span><br><span class="line">    &lt;mvc:annotation-driven&gt;</span><br><span class="line">    &lt;mvc:message-converters&gt;</span><br><span class="line">        &lt;bean class&#x3D;&quot;org.springframework.http.converter.StringHttpMessageConverter&quot;&gt;</span><br><span class="line">            &lt;constructor-arg name&#x3D;&quot;defaultCharset&quot; value&#x3D;&quot;UTF-8&quot;&#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;bean&gt;</span><br><span class="line">    &lt;&#x2F;mvc:message-converters&gt;</span><br><span class="line">&lt;&#x2F;mvc:annotation-driven&gt;</span><br></pre></td></tr></table></figure>
+
+<p>mybatis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">导入数据库连接池的bean </span><br><span class="line">开启包扫描 </span><br><span class="line">注解开启   </span><br><span class="line">注解开发</span><br><span class="line">扫描mybatis sql的文件</span><br><span class="line"> sql必须要1),名字和接口名一样</span><br><span class="line">        2),@paremater提供</span><br><span class="line">        3).对象里面还有对象的复杂模型</span><br><span class="line">        4).</span><br></pre></td></tr></table></figure>
+
+<p>!! 配置基包!!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mybatis导入插件</span><br><span class="line">&lt;plugins&gt;</span><br><span class="line">    &lt;plugin interceptor&#x3D;&quot;com.github.pagehelper.PageInterceptor&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;plugin interceptor&#x3D;&quot;com.github.abel533.mapperhelper.MapperInterceptor&quot;&gt;</span><br><span class="line">        &lt;!--指定主键自增回写方法,默认值MYSQL,详细说明请看文档 --&gt;</span><br><span class="line">        &lt;property name&#x3D;&quot;IDENTITY&quot; value&#x3D;&quot;MYSQL&quot; &#x2F;&gt;</span><br><span class="line">        &lt;!--通用Mapper接口，多个通用接口用逗号隔开 --&gt;</span><br><span class="line">        &lt;property name&#x3D;&quot;mappers&quot; value&#x3D;&quot;com.github.abel533.mapper.Mapper&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;plugin&gt;</span><br><span class="line">    &lt;&#x2F;plugins&gt;</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-springAOP使用动态代理的简单实现" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2810139133.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2810139133.html">springAOP使用动态代理的简单实现</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>动态代理以及.Cglib动态代理通过动态代理和cglib来理解spring的AOP(Aspect Orient Programing)动态</p>
+<hr>
+<p>动态代理以及.Cglib动态代理<br>通过动态代理和cglib来理解spring的AOP(Aspect Orient Programing)动态代理是通过JDK实现了反射是<br>–出现的</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>动态代理以及.Cglib动态代理通过动态代理和cglib来理解spring的AOP(Aspect Orient Programing)动态</p>
+<hr>
+<p>动态代理以及.Cglib动态代理<br>通过动态代理和cglib来理解spring的AOP(Aspect Orient Programing)动态代理是通过JDK实现了反射是<br>–出现的</p>
+<hr>
+<p>1). 代理设计模式：为其他对象提供一种代理以控制对这个对象的访问。</p>
+<ol>
+<li><p>类加载器</p>
+<ol>
+<li>概述<ol>
+<li>JDK 提供的代码.<ol>
+<li>运行时代码. 引导类加载器<ol>
+<li>扩展代码. 扩展类加载器</li>
+<li>自己编写的代码.（以及第三方包) 应用类加载器</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>三种类加载器<ol>
+<li>引导类加载器（Bootstrap ClassLoader）<ol>
+<li>负责加载$JAVA_HOME中jre/lib/rt.jar里所有的class，由C++实现，不是ClassLoader子类</li>
+</ol>
+</li>
+<li>扩展类加载器（Extension ClassLoader）<ol>
+<li>负责加载java平台中扩展功能的一些jar包，包括$JAVA_HOME中jre/lib/*.jar（jre/lib/ext)</li>
+</ol>
+</li>
+<li>应用类加载器：（Application ClassLoader）<ol>
+<li>加载编写的代码</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>继承关系<ol>
+<li>引导类加载器由C++实现，不是ClassLoader子类（属于JVM的一部分）</li>
+<li>扩展类加载器是引导类加载器子类</li>
+<li>应用类加载器是扩展类加载器子类</li>
+</ol>
+</li>
+<li>双亲委托机制: 一个class文件只会加载一次，在内存有且只有一个Class对象<ol>
+<li>如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的加载器都是如此，因此所有的类加载请求都会传给顶层的启动类加载器</li>
+<li>只有当父加载器反馈自己无法完成该加载请求（该加载器的搜索范围中没有找到对应的类）时，子加载器才会尝试自己去加载。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>动态代理</p>
+<ol>
+<li>在运行时动态的创建代理类对象（无需定义一个代理类）<ol>
+<li>java动态代理机制以巧妙的方式实现了代理模式的设计理念</li>
+<li>作用：在被调用方法时，对委托者（被代理对象）进行 拦截和控制</li>
+<li></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>结构</p>
+<ol>
+<li>代理类对象 proxy （本质是一个匿名类对象）</li>
+<li>委托类对象（被代理的对象）<ol>
+<li>接口（必须要有），被拦截的是接口中的方法</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>代码含义</p>
+<ol>
+<li>Proxy.newProxyInstance(loader, interfaces, new InvocationHandler(){}）；<ol>
+<li>参数loader：代理类对象是运行时动态创建的，因为代理类在代码中并没有定义，需要在运行时动态加载，故需要类加载器（和被代理类加载器一样即可）</li>
+<li>参数interfaces：接口用来动态的创建代理类，本质上这个代理类（匿名类）是接口的实现类，拥有接口中的所有方法（这个参数是复数，一般将委托类实现的所有接口传入）</li>
+<li>InvocationHandler：调用处理器，本质是接口回调<br>2.重写 public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {</li>
+<li>proxy：代理类对象本身（几乎没作用）</li>
+<li>method：当前代理类对象执行的方法（拦截）</li>
+<li>args：当前方法所需要的参数</li>
+<li>返回值：当前方法的返回值</li>
+</ol>
+</li>
+</ol>
+<p>final CustomerDao customerDao= new CustomerDaoImpl();</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ClassLoader classLoader &#x3D; customerDao.getClass().getClassLoader();</span><br><span class="line">Class&lt;?&gt;[] interfaces &#x3D; customerDao.getClass().getInterfaces();</span><br><span class="line"></span><br><span class="line">InvocationHandler h &#x3D;new InvocationHandler() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;</span><br><span class="line">        System.out.print(method.getName()+&quot;  &quot;);</span><br><span class="line">       if(args&#x3D;&#x3D;null)&#123;</span><br><span class="line">           System.out.println(&quot;没有参数不增强&quot;);</span><br><span class="line">       &#125;else &#123;</span><br><span class="line"></span><br><span class="line">           Object invoke &#x3D; method.invoke(customerDao, args);</span><br><span class="line">           System.out.println(&quot;方法增强&quot;);</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">       return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CustomerDao case &#x3D;(CustomerDao) Proxy.newProxyInstance(classLoader, interfaces,h);</span><br><span class="line">case.update();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>2).Cglib动态代理<br>​ 本质是生成这个目标类的子类实现功能<br>final CustomerDao customerDao=new CustomerDaoImpl();</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ClassLoader classLoader &#x3D; customerDao.getClass().getClassLoader();</span><br><span class="line">Class&lt;?&gt;[] interfaces &#x3D; customerDao.getClass().getInterfaces();</span><br><span class="line"></span><br><span class="line">InvocationHandler h &#x3D;new InvocationHandler() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;</span><br><span class="line">        Annotation[] annos &#x3D; method.getAnnotations();</span><br><span class="line">        for (Annotation anno : annos) &#123;</span><br><span class="line">            if (anno.equals(&quot;Deprecated&quot;))&#123;</span><br><span class="line">                System.out.println(&quot;注解标注增强功能&quot;);</span><br><span class="line">                method.invoke(customerDao, args);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CustomerDao case &#x3D;(CustomerDao) Proxy.newProxyInstance(classLoader, interfaces,h);</span><br><span class="line">case.change(&quot;ff&quot;);</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-springboot搭建" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1141,344 +1482,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-最近折腾Ubuntu16的过程记录" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3642578636.html" class="article-date">
-      <time datetime="2019-03-24T00:10:04.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>上周到了一台戴尔的xps13，考虑win10喜欢频繁升级和对高分辨的显示不算好的支持，所以觉得折腾一下Ubuntu，其实很久之前就折腾过也尝试过将它设为主力系统，其实当时陆陆续续已经出现时网易云音乐和WPS已经类似于IDM的uget 当时还是不算好用，同时当时没怎么涉及到开发，现在算是比较合适与我开发。<br>先说一下安装的情况，刚开始由于没有课BIOS硬盘的acid的设置导致，启动盘不能识别硬盘不能继续安装，后面是一安装重启就出现,在grub引导后都没有出现登录见面，当时就很慌 ，以为是安装过程中BIOS到处出现安装出的问题吧BIOS全部折腾几遍，又安装又TMD的是黑屏–晚上看了看都是登录时后面出现黑屏，是NVIDIA和Intel的集成显卡的问题，我照着网上先是尝试在grub前面编辑一下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">启动黑屏</span><br><span class="line">在启动Ubuntu的时候出现黑屏的情况，是因为升级了内核导致显卡不兼容，启动的时候应该告诉内核不要加载显卡：</span><br><span class="line"></span><br><span class="line">在引导界面，按e进入grub编辑界面，在quiet splash后面添加nomodeset</span><br><span class="line">按F10接着引导启动</span><br><span class="line">进入登录界面，输入用户名和密码发现闪一下又跳回登录界面 </span><br><span class="line">先不用着急解决登录界面循环的问题，前面的grub配置文件的修改只是暂时的，现在需要永久性的修改 </span><br><span class="line">Ctrl+Alt+（F1-F6）进入命令行tty界面，登录之后，</span><br><span class="line">sudo vi &#x2F;etc&#x2F;default&#x2F;grub</span><br><span class="line">1</span><br><span class="line">找到quiet splash并在后面添加nomodeset。然后输入</span><br><span class="line"></span><br><span class="line">sudo update-grub</span><br><span class="line">1</span><br><span class="line">更新了grub配置文件后，重启即可。 </span><br><span class="line">对于在tty命令行界面中文乱码的问题可以参考博客：http:&#x2F;&#x2F;blog.csdn.net&#x2F;VictoriaW&#x2F;article&#x2F;details&#x2F;56484552</span><br><span class="line">--------------------- </span><br><span class="line">作者：CodeTutor </span><br><span class="line">来源：CSDN </span><br><span class="line">原文：https:&#x2F;&#x2F;blog.csdn.net&#x2F;VictoriaW&#x2F;article&#x2F;details&#x2F;56484119 </span><br><span class="line">版权声明：本文为博主原创文章，转载请附上博文链接！</span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>上周到了一台戴尔的xps13，考虑win10喜欢频繁升级和对高分辨的显示不算好的支持，所以觉得折腾一下Ubuntu，其实很久之前就折腾过也尝试过将它设为主力系统，其实当时陆陆续续已经出现时网易云音乐和WPS已经类似于IDM的uget 当时还是不算好用，同时当时没怎么涉及到开发，现在算是比较合适与我开发。<br>先说一下安装的情况，刚开始由于没有课BIOS硬盘的acid的设置导致，启动盘不能识别硬盘不能继续安装，后面是一安装重启就出现,在grub引导后都没有出现登录见面，当时就很慌 ，以为是安装过程中BIOS到处出现安装出的问题吧BIOS全部折腾几遍，又安装又TMD的是黑屏–晚上看了看都是登录时后面出现黑屏，是NVIDIA和Intel的集成显卡的问题，我照着网上先是尝试在grub前面编辑一下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">启动黑屏</span><br><span class="line">在启动Ubuntu的时候出现黑屏的情况，是因为升级了内核导致显卡不兼容，启动的时候应该告诉内核不要加载显卡：</span><br><span class="line"></span><br><span class="line">在引导界面，按e进入grub编辑界面，在quiet splash后面添加nomodeset</span><br><span class="line">按F10接着引导启动</span><br><span class="line">进入登录界面，输入用户名和密码发现闪一下又跳回登录界面 </span><br><span class="line">先不用着急解决登录界面循环的问题，前面的grub配置文件的修改只是暂时的，现在需要永久性的修改 </span><br><span class="line">Ctrl+Alt+（F1-F6）进入命令行tty界面，登录之后，</span><br><span class="line">sudo vi &#x2F;etc&#x2F;default&#x2F;grub</span><br><span class="line">1</span><br><span class="line">找到quiet splash并在后面添加nomodeset。然后输入</span><br><span class="line"></span><br><span class="line">sudo update-grub</span><br><span class="line">1</span><br><span class="line">更新了grub配置文件后，重启即可。 </span><br><span class="line">对于在tty命令行界面中文乱码的问题可以参考博客：http:&#x2F;&#x2F;blog.csdn.net&#x2F;VictoriaW&#x2F;article&#x2F;details&#x2F;56484552</span><br><span class="line">--------------------- </span><br><span class="line">作者：CodeTutor </span><br><span class="line">来源：CSDN </span><br><span class="line">原文：https:&#x2F;&#x2F;blog.csdn.net&#x2F;VictoriaW&#x2F;article&#x2F;details&#x2F;56484119 </span><br><span class="line">版权声明：本文为博主原创文章，转载请附上博文链接！</span><br></pre></td></tr></table></figure>
-
-<p>没想到不行当时就检查一遍又一遍看，又在安装一遍然后设置不安装显卡的驱动，避开还是不行搞到两点没看到头绪<br>第二天我先可能是我这边是我安装引导文件的问题，然后选择try ubuntu 进入系统安装引导修复文件Boot-Repair. 试了一遍也不行真的是心灰意冷了，最后将启动盘工具<br>universal usb installer这个工具换成软碟通，搞完后就成功了，就是这个工具的问题</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ES相关的知识总结一" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3632233998.html" class="article-date">
-      <time datetime="2019-03-23T18:59:20.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3632233998.html">ES相关的知识总结一</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>1）type</p>
-<p>Elasticsearch中支持的数据类型非常丰富：</p>
-<ul>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>1）type</p>
-<p>Elasticsearch中支持的数据类型非常丰富：</p>
-<ul>
-<li>String类型，又分两种：<ul>
-<li>text：可分词，不可参与聚合</li>
-<li>keyword：不可分词，数据会作为完整字段进行匹配，可以参与聚合</li>
-</ul>
-</li>
-<li>Numerical：数值类型，分两类<ul>
-<li>基本数据类型：long、interger、short、byte、double、float、half_float</li>
-<li>浮点数的高精度类型：scaled_float<ul>
-<li>需要指定一个精度因子，比如10或100。elasticsearch会把真实值乘以这个因子后存储，取出时再还原。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Date：日期类型<br>elasticsearch可以对日期格式化为字符串存储，但是建议我们存储为毫秒值，存储为long，节省空间。</li>
-</ul>
-<p>2）index</p>
-<p>index影响字段的索引情况。</p>
-<ul>
-<li>true：字段会被索引，则可以用来进行搜索。默认值就是true</li>
-<li>false：字段不会被索引，不能用来搜索</li>
-</ul>
-<p>index的默认值就是true，也就是说你不进行任何配置，所有字段都会被索引。</p>
-<p>但是有些字段是我们不希望被索引的，比如商品的图片信息，就需要手动设置index为false。</p>
-<p>3）store</p>
-<p>是否将数据进行额外存储。_source</p>
-<p>在学习lucene和solr时，我们知道如果一个字段的store设置为false，那么在文档列表中就不会有这个字段的值，用户的搜索结果中不会显示出来。</p>
-<p>但是在Elasticsearch中，即便store设置为false，也可以搜索到结果。</p>
-<p>原因是Elasticsearch在创建文档索引时，会将文档中的原始数据备份，保存到一个叫做_source的属性中。最终我们查询数据是从_source中来取值，所以可以通过过滤_source来选择哪些要显示，哪些不显示。</p>
-<p>而如果设置store为true，就会在_source以外额外存储一份数据，多余，因此一般我们都会将store设置为false，事实上，store的默认值就是false。</p>
-<p>4）boost</p>
-<p>激励因子，这个与lucene中一样</p>
-<p>其它的不再一一讲解，用的不多，大家参考官方文档：</p>
-<p>还有查询的更多东西(mathch all)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “match_all”: &#123;&#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">匹配查询(match)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “match”:&#123;</span><br><span class="line">​ “title”:”小米电视”</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">多字段查询(multi_match)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “multi_match”: &#123;</span><br><span class="line">​ “query”: “小米”,</span><br><span class="line">​ “fields”: [ “title”, “subTitle” ]</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">词条匹配(term)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “term”:&#123;</span><br><span class="line">​ “price”:2699.00</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">多词条精确匹配(terms)</span><br><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">​ “query”:&#123;</span><br><span class="line">​ “terms”:&#123;</span><br><span class="line">​ “price”:[2699.00,2899.00,3899.00]</span><br><span class="line">​ &#125;</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>结果过滤</p>
-<p>默认情况下，elasticsearch在搜索的结果中，会把文档中保存在_source的所有字段都返回。</p>
-<p>如果我们只想获取其中的部分字段，我们可以添加_source的过滤</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;heima&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">“_source”: [“title”,”price”],&#x3D;&#x3D;&#x3D;&#x3D;&gt;includi exclud</span><br><span class="line">“query”: &#123;</span><br><span class="line">​ “term”: &#123;</span><br><span class="line">​ “price”: 2699</span><br><span class="line">​ &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ES相关的知识总结二" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3632233997.html" class="article-date">
-      <time datetime="2019-03-23T18:59:20.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3632233997.html">ES相关的知识总结二</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>聚合aggregations</p>
-<p>聚合可以让我们极其方便的实现对数据的统计、分析。例如：<br>Elasticsearch中的聚合，包含多种类型，最常用的两种，一个叫桶，一个叫度量：</p>
-<p>桶（bucket）,阿里文档称之为存储单元</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>聚合aggregations</p>
-<p>聚合可以让我们极其方便的实现对数据的统计、分析。例如：<br>Elasticsearch中的聚合，包含多种类型，最常用的两种，一个叫桶，一个叫度量：</p>
-<p>桶（bucket）,阿里文档称之为存储单元</p>
-<p>桶的作用，是按照某种方式对数据进行分组，每一组数据在ES中称为一个桶， 例如我们根据国籍对人划分，可以得到中国桶、英国桶，日本桶……或者我们按照年龄段对人进行划分：0<del>10,10</del>20,20<del>30,30</del>40等。</p>
-<p>Elasticsearch中提供的划分桶的方式有很多：</p>
-<ul>
-<li>Date Histogram Aggregation：根据日期阶梯分组，例如给定阶梯为周，会自动每周分为一个存储单元</li>
-<li>Histogram Aggregation：根据数值阶梯分组，与日期类似</li>
-<li>Terms Aggregation：根据词条内容分组，词条内容完全匹配的为一个存储单元</li>
-<li>Range Aggregation：数值和日期的范围分组，指定开始和结束，然后按段分</li>
-<li>……</li>
-</ul>
-<p>综上所述，我们发现bucket aggregations 只负责对数据进行分组，并不进行计算，因此往往bucket中往往会嵌套另一种聚合：metrics aggregations即度量</p>
-<p>度量（metrics）</p>
-<p>分组完成以后，我们一般会对组中的数据进行聚合运算，例如求平均值、最大、最小、求和等，这些在ES中称为度量</p>
-<p>比较常用的一些聚合度量方式：</p>
-<ul>
-<li>Avg Aggregation：求平均值</li>
-<li>Max Aggregation：求最大值</li>
-<li>Min Aggregation：求最小值</li>
-<li>Percentiles Aggregation：求百分比</li>
-<li>Stats Aggregation：同时返回avg、max、min、sum、count等</li>
-<li>Sum Aggregation：求和</li>
-<li>Top hits Aggregation：求前几</li>
-<li>Value Count Aggregation：求总数</li>
-</ul>
-<p>聚合为桶<br>GET /cars/_search<br>{<br>​ “size” : 10,<br>​ “aggs” : {<br>​ “popular_colors” : {<br>​ “terms” : {<br>​ “field” : “color”<br>​ }<br>​ }<br>​ }<br>}</p>
-<ul>
-<li>hits：查询结果为空，因为我们设置了size为0</li>
-<li>aggregations：聚合的结果</li>
-<li>popular_colors：我们定义的聚合名称</li>
-<li>buckets：查找到的桶，每个不同的color字段值都会形成一个桶<ul>
-<li>key：这个桶对应的color字段的值</li>
-<li>doc_count：这个桶中的文档数量</li>
-</ul>
-</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
     </div>
  -->
 
