@@ -269,6 +269,220 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-springsecurity入门介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/329899c5.html" class="article-date">
+      <time datetime="2022-05-01T06:53:48.000Z" itemprop="datePublished">2022-05-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/329899c5.html">springsecurity入门介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6934503341380599822">Spring Security系列之一 简单介绍和实战 - 掘金</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.1024sou.com/article/56472.html">20210902#_【项目实践】一文带你搞定Spring Security + JWT - 1024搜-程序员专属的搜索引擎</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.springcloud.cc/spring-session.html">Spring Session 中文文档 参考手册 中文版</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6934503341380599822">Spring Security系列之一 简单介绍和实战 - 掘金</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.1024sou.com/article/56472.html">20210902#_【项目实践】一文带你搞定Spring Security + JWT - 1024搜-程序员专属的搜索引擎</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.springcloud.cc/spring-session.html">Spring Session 中文文档 参考手册 中文版</a></p>
+<p>springsecurity和shiro都是权限和认证的框架，目前公司有基于springsecurity开发集成包，目前使用结合使用过程梳理一下springsecurity的特性和注意事项和集成的要点</p>
+<p>目前引入的springsecurity的</p>
+<p>springsecurity -outh 2.2.2.6 和需要和session打交道的session-core和session-data-redis2.4.1</p>
+<p>利用session-redis来存储session</p>
+<p>Web系统中登录认证（Authentication）的核心就是<strong>凭证</strong>机制，无论是<code>Session</code>还是<code>JWT</code>，都是在用户成功登录时返回给用户一个凭证，后续用户访问接口需携带凭证来标明自己的身份。后端会对需要进行认证的接口进行安全判断，若凭证没问题则代表已登录就放行接口，若凭证有问题则直接拒绝请求。这个安全判断<strong>都是放在过滤器里统一处理的</strong>：</p>
+<p>一般需要实现 </p>
+<h3 id="需要实现UserDetails"><a href="#需要实现UserDetails" class="headerlink" title="需要实现UserDetails"></a>需要实现UserDetails</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AuthUser extends User UserDetails, CredentialsContainer</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现loadUserByUsername"><a href="#实现loadUserByUsername" class="headerlink" title="实现loadUserByUsername"></a>实现loadUserByUsername</h3><p>org.springframework.security.core.userdetails.UserDetailsService.loadUserByUsername</p>
+<h3 id="PasswordEncoder-密码的认证"><a href="#PasswordEncoder-密码的认证" class="headerlink" title="PasswordEncoder 密码的认证"></a><strong>PasswordEncoder</strong> 密码的认证</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Bean</span><br><span class="line">public PasswordEncoder passwordEncoder() &#123;</span><br><span class="line">    &#x2F;&#x2F; 这里我们使用bcrypt加密算法，安全性比较高</span><br><span class="line">    return new BCryptPasswordEncoder();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="继承WebSecurityConfigurerAdapter"><a href="#继承WebSecurityConfigurerAdapter" class="headerlink" title="继承WebSecurityConfigurerAdapter"></a>继承WebSecurityConfigurerAdapter</h3><p>org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter</p>
+<blockquote>
+<p>由 authenticationManager() 的默认实现用来尝试获取 AuthenticationManager。如果被覆盖，应该使用 AuthenticationManagerBuilder 来指定 AuthenticationManager。<br>authenticationManagerBean() 方法可用于将生成的 AuthenticationManager 公开为 Bean。 userDetailsServiceBean() 可用于公开使用 AuthenticationManagerBuilder 作为 Bean 创建的最后填充的 UserDetailsService。 UserDetailsService 也将自动填充到 HttpSecurity.getSharedObject(Class) 以与其他 SecurityContextConfigurer （即 RememberMeConfigurer ）一起使用<br>例如，以下配置可用于在内存中注册身份验证，以公开内存中的 UserDetailsService：<br>UserDetailsService:<br>       @Override<br>       protected void configure(AuthenticationManagerBuilder auth) {<br>           auth<br>           // enable in memory based authentication with a user named<br>           // “user” and “admin”<br>           .inMemoryAuthentication().withUser(“user”).password(“password”).roles(“USER”).and()<br>                   .withUser(“admin”).password(“password”).roles(“USER”, “ADMIN”);<br>       }</p>
+<pre><code>   // Expose the UserDetailsService as a Bean
+   @Bean
+   @Override
+   public UserDetailsService userDetailsServiceBean() throws Exception &#123;
+       return super.userDetailsServiceBean();
+   &#125;</code></pre>
+</blockquote>
+<p>目前使用的方式设置认证的方式和控制那些需要被权限管理</p>
+<h3 id="继承SecurityMetadataSource"><a href="#继承SecurityMetadataSource" class="headerlink" title="继承SecurityMetadataSource"></a>继承SecurityMetadataSource</h3><p>org.springframework.security.access.SecurityMetadataSource</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实现动态的权限验证，当然要先要获取对应的资源，然后再将他们对应哪些角色可以访问的关系表示出来</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-spring知识回顾" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/d8ed5f9d.html" class="article-date">
+      <time datetime="2022-05-01T03:53:25.000Z" itemprop="datePublished">2022-05-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/d8ed5f9d.html">spring知识回顾</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>spring的利用的面向切面编程（AOP），动态代理（反射）和filter，intercept，</p>
+<p>ApplicationContent</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Qualifier</span><br><span class="line">Roucese</span><br><span class="line">Autowired</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>spring的利用的面向切面编程（AOP），动态代理（反射）和filter，intercept，</p>
+<p>ApplicationContent</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Qualifier</span><br><span class="line">Roucese</span><br><span class="line">Autowired</span><br></pre></td></tr></table></figure>
+
+<h2 id="拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据"><a href="#拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据" class="headerlink" title="拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据"></a>拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Interceptor 前置&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Interceptor 处理中&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Interceptor 后置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="过滤器利用原始servlet来进行操作主要可用于鉴权和"><a href="#过滤器利用原始servlet来进行操作主要可用于鉴权和" class="headerlink" title="过滤器利用原始servlet来进行操作主要可用于鉴权和"></a>过滤器利用原始servlet来进行操作主要可用于鉴权和</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Filter 前置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Filter 处理中&quot;</span>);</span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Filter 后置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Aspect</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Pointcut(&quot;@annotation(com.HasAuth)&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pointCut</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Around(&quot;pointCut()&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">around</span><span class="params">(ProceedingJoinPoint point)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        Object[] args = point.getArgs();</span><br><span class="line">       <span class="comment">/* if (StringUtil.IsEmpty(args[0])) &#123;</span></span><br><span class="line"><span class="comment">            args[0] = &quot;default&quot;;</span></span><br><span class="line"><span class="comment">        &#125;*/</span></span><br><span class="line">        <span class="keyword">return</span> point.proceed(args);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//标注该方法体为后置通知，当目标方法执行成功后执行该方法体  </span></span><br><span class="line">    <span class="meta">@AfterReturning(&quot;within(com.abchina.irms..*) &amp;&amp; @annotation(rl)&quot;)</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLogSuccess</span><span class="params">(JoinPoint jp, rmpfLog rl)</span></span>&#123;  </span><br><span class="line">        Object[] parames = jp.getArgs();<span class="comment">//获取目标方法体参数  </span></span><br><span class="line">        String params = parseParames(parames); <span class="comment">//解析目标方法体的参数  </span></span><br><span class="line">        String className = jp.getTarget().getClass().toString();<span class="comment">//获取目标类名  </span></span><br><span class="line">        className = className.substring(className.indexOf(<span class="string">&quot;com&quot;</span>));  </span><br><span class="line">        String signature = jp.getSignature().toString();<span class="comment">//获取目标方法签名  </span></span><br><span class="line">        String methodName = signature.substring(signature.lastIndexOf(<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>, signature.indexOf(<span class="string">&quot;(&quot;</span>));  </span><br><span class="line">        String modelName = getModelName(className); <span class="comment">//根据类名获取所属的模块  </span></span><br><span class="line">          </span><br><span class="line">      ...</span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//标注该方法体为异常通知，当目标方法出现异常时，执行该方法体  </span></span><br><span class="line">    <span class="meta">@AfterThrowing(pointcut=&quot;within(com.abchina.irms..*) &amp;&amp; @annotation(rl)&quot;, throwing=&quot;ex&quot;)</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLog</span><span class="params">(JoinPoint jp, rmpfLog rl, BusinessException ex)</span></span>&#123;  </span><br><span class="line">       ...</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="不加载特定的bean"><a href="#不加载特定的bean" class="headerlink" title="不加载特定的bean"></a>不加载特定的bean</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span> <span class="meta">@EnableSpringConfigured</span></span><br><span class="line"><span class="meta">@ComponentScan(basePackages = &#123;&quot;com.example&quot;&#125;, </span></span><br><span class="line"><span class="meta">               excludeFilters=&#123;@ComponentScan.Filter(type = FilterType.REGEX, pattern = &quot;org.xxx.yyy.*&quot;),</span></span><br><span class="line"><span class="meta">  @ComponentScan.Filter(type=FilterType.ASSIGNABLE_TYPE, value=Foo.class)&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySpringConfiguration</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="stream-自定义function"><a href="#stream-自定义function" class="headerlink" title="stream  自定义function"></a>stream  自定义function</h2>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-这些科技将在2022年改变你的生活内容（华尔街日报转载）" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1333,152 +1547,6 @@
 <p><a target="_blank" rel="noopener" href="https://www.sohu.com/a/455702322_115128">漫谈 MinIO 集群扩容方法_节点</a></p>
 <p>MinIO集群采用去中心化无共享架构，各节点间为对等关系，连接至任一节点均可实现对集群的访问，并通过DNS轮询等方式实现节点间的负载均衡。这种节点间保持对等关系的设计并非最常见的分布式集群架构。当前大多数的分布式存储集群，其节点往往可划分为多类角色，例如负责连接并处理外部应用请求的访问节点、负责存储元数据的管理节点、实际的数据存储节点等。MinIO则与之不同，MinIO集群中的所有节点都同时承担了多种角色，集元数据存储、数据存储、应用访问等功能于一体，真正实现了去中心化和所有节点的完全对等。其优势在于有效地减少了集群内的复杂调度过程以及因中心节点带来的故障风险和性能瓶颈。</p>
 <p>这种设计拓展节点的时候容易出现问题</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-aliyun-service-alarm" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/7d4de1d4.html" class="article-date">
-      <time datetime="2022-03-08T02:16:22.000Z" itemprop="datePublished">2022-03-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/7d4de1d4.html">aliyun的服务警告</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <p><img src="../img/image-20220308101648269.png" alt="image-20220308101648269"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-curl-download-page-url-file" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/d40194d4.html" class="article-date">
-      <time datetime="2022-03-07T14:07:55.000Z" itemprop="datePublished">2022-03-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/d40194d4.html">使用curl命令来下载页面中连接</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/23446635/how-to-download-http-directory-with-all-files-and-sub-directories-as-they-appear">html - How to download HTTP directory with all files and sub-directories as they appear on the online files/folders list? - Stack Overflow</a></p>
-<p>wget -r -np -nH –cut-dirs=3 -R index.html <a target="_blank" rel="noopener" href="http://hostname/aaa/bbb/ccc/ddd/">http://hostname/aaa/bbb/ccc/ddd/</a></p>
 
                -->
         </div>

@@ -269,6 +269,261 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Gnome插件安装和优化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2127448358.html" class="article-date">
+      <time datetime="2019-09-21T22:32:53.000Z" itemprop="datePublished">2019-09-22</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2127448358.html">Gnome插件安装和优化</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y sudo apt install gnome-tweak-tool sudo apt install gnome-shell-extensions sudo apt install chrome-gnome-shell sudo apt install gtk2-engines-pixbuf sudo apt install libxml2-utils</span><br></pre></td></tr></table></figure>
+
+<p>之前一直都是安装在~/.local/share/gnome-shell/extensions 之前都是从github 下载后 手动安装</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y sudo apt install gnome-tweak-tool sudo apt install gnome-shell-extensions sudo apt install chrome-gnome-shell sudo apt install gtk2-engines-pixbuf sudo apt install libxml2-utils</span><br></pre></td></tr></table></figure>
+
+<p>之前一直都是安装在~/.local/share/gnome-shell/extensions 之前都是从github 下载后 手动安装</p>
+<p>现在有些插件安装后 优化工具一直没有显示 ,之前 使用 ~/.local/share/gnome-shell/extensions</p>
+<p>没有权限 sudo chmod 777 extensions 给予权限 不然无法使用chrome插件(GNOME Shell integration ) 来安装</p>
+<p>现在chrome插件安装 (GNOME Shell integration)</p>
+<ul>
+<li><p>对于 Google Chrome、Chromium 和 Vivaldi： <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/gnome-shell-integration/gphhapmejobijbbhgpjhcjognlahblep">Chrome Web 商店</a></p>
+</li>
+<li><p>对于 Firefox： <a target="_blank" rel="noopener" href="https://addons.mozilla.org/en/firefox/addon/gnome-shell-integration/">Mozilla Addons</a></p>
+</li>
+<li><p>对于 Opera： <a target="_blank" rel="noopener" href="https://addons.opera.com/en/extensions/details/gnome-shell-integration/">Opera Addons</a></p>
+<p><a href="../img/105330tx3hptbrx55h5i1i.jpg"><img src="../img/105330tx3hptbrx55h5i1i.jpg" alt="How to install GNOME Shell Extensions"></a></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“尽管 GNOME Shell 集成扩展正在运行，但未检测到本地主机连接器。请参阅文档以获取有关安装连接器的信息。”sudo apt install chrome-gnome-shell</span><br></pre></td></tr></table></figure>
+
+<p>安装玩后访问 <a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension">https://extensions.gnome.org/extension</a> 就会有选择按钮了</p>
+<p><a href="../img/1569134580875.png"><img src="../img/1569134580875.png" alt="1569134580875"></a></p>
+<h3 id="农历插件"><a href="#农历插件" class="headerlink" title="农历插件"></a>农历插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update安装依赖sudo apt-get install gir1.2-lunar-date-2.0</span><br></pre></td></tr></table></figure>
+
+<p><a href="../img/1569134876250.png"><img src="../img/1569134876250.png" alt="1569134876250"></a></p>
+<h2 id="拓展的列表和"><a href="#拓展的列表和" class="headerlink" title="拓展的列表和"></a>拓展的列表和</h2><p><a href="../img/28027856634_5a328b1376_b.jpg"><img src="../img/28027856634_5a328b1376_b.jpg" alt="img"></a></p>
+<h3 id="2-1-安装-Dash-to-dock"><a href="#2-1-安装-Dash-to-dock" class="headerlink" title="2.1 安装 Dash to dock ."></a>2.1 安装 Dash to dock .</h3><ul>
+<li><strong>Hide top bar ——全屏自动隐藏顶栏,缺少这个 GNOME3 没法用</strong></li>
+<li><strong>Clipboard Indicator —— 剪切板</strong></li>
+<li><strong>Media player indicator —— 显示音乐播放器的状态</strong></li>
+<li><strong>Battery status —— 显示电池电量的百分比</strong></li>
+<li><strong>Netspeed ——在顶栏上显示网速</strong></li>
+<li><strong>Workspace indicator —— 在顶栏显示当前示工作区的序号</strong></li>
+<li><strong>Activities-configurator ——活动，顶栏颜色，透明等</strong></li>
+<li><strong>User themes ——启用自定义的 shell 主题</strong></li>
+<li><strong>Lunar Calendar ——阴历(依赖 typelib-1_0-LunarDate-2_0)</strong></li>
+<li><strong>Openweather ——天气</strong></li>
+<li><strong>System-monitor ——资源监控 (依赖 NetworkManager-devel libgtop-devel)</strong></li>
+<li>topicon plus —— 通知图标</li>
+</ul>
+<h3 id="2-2通知栏的效果"><a href="#2-2通知栏的效果" class="headerlink" title="2.2通知栏的效果"></a>2.2通知栏的效果</h3><p>[<img src="../img/2019-09-22%2014-48-58%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="1569135029991">](../img/2019-09-22 14-48-58 的屏幕截图.png)</p>
+<h2 id="3-字体"><a href="#3-字体" class="headerlink" title="3 字体"></a>3 字体</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">单独放在一个文件夹里(fonts),然后sudo cp -r 连着文件夹复制到&#x2F;usr&#x2F;share&#x2F;fonts,(sudo cp -r xxx&#x2F;fonts &#x2F;usr&#x2F;share&#x2F;fonts (xxx请换为路径))再 chmod 755 -R &#x2F;usr&#x2F;share&#x2F;fonts&#x2F;fonts , 最后依次执行:sudo mkfontscalesudo mkfontdirsudo fc-cache</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>[<a target="_blank" rel="noopener" href="https://biluohc.github.io/articles/xie-gei-ru-keng-da-xi-yi-qie-xuan-ze-gnomede-xiao-bai.html">写给入坑大蜥蜴且选择GNOME的小白]</a>)</li>
+<li><a target="_blank" rel="noopener" href="https://www.peijun.me/gnome-config.html">Gnome 配置</a></li>
+<li><a target="_blank" rel="noopener" href="https://linux.cn/article-9447-1.html">如何使用 GNOME Shell 扩展</a></li>
+</ul>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ubuntu下安装和初始化postgres" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/18764621.html" class="article-date">
+      <time datetime="2019-09-12T17:00:06.000Z" itemprop="datePublished">2019-09-13</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/18764621.html">Ubuntu下安装和初始化postgres</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="安装postgres"><a href="#安装postgres" class="headerlink" title="安装postgres"></a>安装postgres</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get  updatesudp apt-get postgresql postgresql-contrib</span><br></pre></td></tr></table></figure>
+
+<ul>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="安装postgres"><a href="#安装postgres" class="headerlink" title="安装postgres"></a>安装postgres</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get  updatesudp apt-get postgresql postgresql-contrib</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>PostgreSQL安装完成后默认是已经启动的，但是也可以通过下面的方式来手动启动服务</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo &#x2F;etc&#x2F;init.d&#x2F;postgresql start  开启sudo &#x2F;etc&#x2F;init.d&#x2F;postgresql stop  关闭sudo &#x2F;etc&#x2F;init.d&#x2F;postgresql restart  重启</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><ul>
+<li>创建数据库用户ricky，并指定为超级用户</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres createuser --superuser username</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置用户的密码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres psql  进入控制台</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>为刚创建的用户创建数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres createdb --owner&#x3D;dbname</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>登录数据库</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql -U username -d dbname -h 127.0.0.1 -p 5432</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改用户数据"><a href="#修改用户数据" class="headerlink" title="修改用户数据"></a>修改用户数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">修改用户密码    1.  sudo -u postgres psql    2.  ALTER USER username  WITH PASSWORD &#96;&#96;&#39;postgres&#39;&#96;&#96;;tips:        密码postgres要用引号引起来        命令最后有分号</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改linux系统postgres用户的密码"><a href="#修改linux系统postgres用户的密码" class="headerlink" title="修改linux系统postgres用户的密码"></a>修改linux系统postgres用户的密码</h3><p>PostgreSQL会创建一个默认的linux用户postgres，修改该用户密码的方法如下：</p>
+<p>步骤一：删除用户postgres的密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;sudo&#96;  &#96;passwd&#96; &#96;-d postgres&#96;</span><br></pre></td></tr></table></figure>
+
+<p>步骤二：设置用户postgres的密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;sudo&#96; &#96;-u postgres &#96;&#96;passwd&#96;</span><br></pre></td></tr></table></figure>
+
+<p>系统提示输入新的密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;Enter new UNIX password:&#96;&#96;Retype new UNIX password:&#96;&#96;passwd&#96;&#96;: password updated successfully&#96;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kaituorensheng/p/4735191.html">参考文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.howtoing.com/how-to-install-and-use-postgresql-on-ubuntu-18-04">参考文档</a></li>
+</ul>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-aria2使用rpc下载百度云" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1244,183 +1499,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-搭建orientDB" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2702077458.html" class="article-date">
-      <time datetime="2019-08-01T05:28:50.000Z" itemprop="datePublished">2019-08-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2702077458.html">搭建orientDB</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get update apt-get default_jrecd &#x2F;opt</span><br><span class="line">wget https:&#x2F;&#x2F;s3.us-east-2.amazonaws.com&#x2F;orientdb3&#x2F;releases&#x2F;3.0.22&#x2F;orientdb-3.0.22.tar.gz </span><br><span class="line">tar zxvf  3.0.22&#x2F;orientdb-3.0.22.tar.gz cp -r 3.0.22&#x2F;orientdb-3.0.22.tar.gz  orientDB  </span><br><span class="line">cd orientDB  cd bin  .&#x2F;server.sh</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-折腾几个小时的Ubuntu启动出错" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3716506550.html" class="article-date">
-      <time datetime="2019-07-29T05:07:31.000Z" itemprop="datePublished">2019-07-29</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="Ubuntu出错"><a href="#Ubuntu出错" class="headerlink" title="Ubuntu出错"></a>Ubuntu出错</h3><p>今天莫名其妙的Ubuntu 出错 ,刚开始显示错误如下</p>
-<p>刚开始显示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“Couldn’t get size: 0x800000000000000e”加载一段时间后显示 failed start kernel   吓到我了以为关机前是有过升级的 不知道有没有升级内核补丁</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="Ubuntu出错"><a href="#Ubuntu出错" class="headerlink" title="Ubuntu出错"></a>Ubuntu出错</h3><p>今天莫名其妙的Ubuntu 出错 ,刚开始显示错误如下</p>
-<p>刚开始显示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“Couldn’t get size: 0x800000000000000e”加载一段时间后显示 failed start kernel   吓到我了以为关机前是有过升级的 不知道有没有升级内核补丁</span><br></pre></td></tr></table></figure>
-
-<p>就被这个误导了查了好久</p>
-<p><a href="../img/20190729215017.jpg"><img src="../img/20190729215017.jpg" alt="微信图片_20190729215017"></a></p>
-<h3 id="引导恢复"><a href="#引导恢复" class="headerlink" title="引导恢复"></a>引导恢复</h3><p>这个弄完后就是</p>
-<p>使用 boot-repair</p>
-<p>但是按照网上的添加源后 使用apt-get安装完全不行一直提示什么Pakage万能安装成功提示 apt -get update 莫名其妙 准备直接找 boot-repair.deb 包千辛万苦找到后不能安装 真的是醉了</p>
-<p>后面也是人肉在网上找的关联包 gawk_4.1.3+dfsg-0.1_amd64.deb 先安装这个后面再安装boot-repair_4ppa65_all.deb 对了我的是用U盘进的Ubuntu16</p>
-<p>所以<a target="_blank" rel="noopener" href="https://www.lanzous.com/i58030b">下载链接</a></p>
-<h3 id="最终解决"><a href="#最终解决" class="headerlink" title="最终解决"></a>最终解决</h3><p>其实不是上述问题 在看到有 emergency mode 后我尝试在网搜了一下 原来是我fsb 文件的问题 仔细看打印的日志也正好是这个意思 我的某个分区没有成功挂载 ctrl+d 后直接指明的对应的分区</p>
-<p>我是注释掉了 /etc/fstab 文件里的出错的分区 不知道是什么时候添加的 好坑</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7433e0bb38e9">参考博客</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
     </div>
  -->
 

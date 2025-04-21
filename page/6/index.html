@@ -269,6 +269,213 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-springmvc配置gson的解析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1a9fa948.html" class="article-date">
+      <time datetime="2023-04-09T03:29:35.000Z" itemprop="datePublished">2023-04-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1a9fa948.html">springmvc配置gson的解析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>springmvc 排除jackson如果使用后使用Gson</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication(exclude&#x3D; &#123;DataSourceAutoConfiguration.class,JacksonAutoConfiguration.class&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>springmvc 排除jackson如果使用后使用Gson</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication(exclude&#x3D; &#123;DataSourceAutoConfiguration.class,JacksonAutoConfiguration.class&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="../img/output111.png" alt="output"></p>
+<p>在autoconfig下gson的配置</p>
+<p><img src="../img/image-20230409113435819.png" alt="image-20230409113435819">如果直接使用expose注解后不会直接生效需要重新bean注入到</p>
+<p>需要gson注入bean到spring里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">new GsonBuilder()</span><br><span class="line">        .addSerializationExclusionStrategy(new ExclusionStrategy() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public boolean shouldSkipField(FieldAttributes fieldAttributes) &#123;</span><br><span class="line">                final Expose expose &#x3D; fieldAttributes.getAnnotation(Expose.class);</span><br><span class="line">                return expose !&#x3D; null &amp;&amp; !expose.serialize();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public boolean shouldSkipClass(Class&lt;?&gt; aClass) &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .addDeserializationExclusionStrategy(new ExclusionStrategy() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public boolean shouldSkipField(FieldAttributes fieldAttributes) &#123;</span><br><span class="line">                final Expose expose &#x3D; fieldAttributes.getAnnotation(Expose.class);</span><br><span class="line">                return expose !&#x3D; null &amp;&amp; !expose.deserialize();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public boolean shouldSkipClass(Class&lt;?&gt; aClass) &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .create();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4802887/gson-how-to-exclude-specific-fields-from-serialization-without-annotations#:~:text=I%20explicitly%20used-,%40Expose%20to%20exclude,-it.%20I%20used">https://stackoverflow.com/questions/4802887/gson-how-to-exclude-specific-fields-from-serialization-without-annotations#:~:text=I%20explicitly%20used-,%40Expose%20to%20exclude,-it.%20I%20used</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mybatis回顾" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/cf22bc7c.html" class="article-date">
+      <time datetime="2023-04-04T12:06:54.000Z" itemprop="datePublished">2023-04-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>项目中需要使用mybatis原生,之前都是使用mybatis plus或者mybatis pagehelper,突然使用偏原生,主要是xml中的简单增删改查都需要手动机械的实现真的是相当死板,搜索一下发型mybatisx这个插件非常好用,没有考虑mybatis pro那个插件插件使用介绍在下面,之前很多mybatis代码生成需要mybatis maven插件配置一堆真的是非常不友好,使用这个插件只需要利用idea连接对应插件即可使用,配置下后生成对应的xml和mapper代码和domain/entity对象,简直是神器.</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wyr1235/article/details/124590032">mybatis—mybatis插件根据接口自动生成xml文件_mybatis xml 生成插件_任何时候都要勇敢的博客-CSDN博客</a></p>
+<p>后面依照这个配置一步一步走下去没什么问题</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>项目中需要使用mybatis原生,之前都是使用mybatis plus或者mybatis pagehelper,突然使用偏原生,主要是xml中的简单增删改查都需要手动机械的实现真的是相当死板,搜索一下发型mybatisx这个插件非常好用,没有考虑mybatis pro那个插件插件使用介绍在下面,之前很多mybatis代码生成需要mybatis maven插件配置一堆真的是非常不友好,使用这个插件只需要利用idea连接对应插件即可使用,配置下后生成对应的xml和mapper代码和domain/entity对象,简直是神器.</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wyr1235/article/details/124590032">mybatis—mybatis插件根据接口自动生成xml文件_mybatis xml 生成插件_任何时候都要勇敢的博客-CSDN博客</a></p>
+<p>后面依照这个配置一步一步走下去没什么问题</p>
+<p>按照步骤: <a target="_blank" rel="noopener" href="https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/zh/index.html">https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/zh/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://tobebetterjavaer.com/springboot/mybatis.html#%E9%80%9A%E8%BF%87-mybatis-plus-%E5%A2%9E%E5%BC%BA">Spring Boot 整合 MyBatis | Java进阶之路</a></p>
+<p><a target="_blank" rel="noopener" href="https://netfilx.github.io/spring-boot/4.%E6%95%B4%E5%90%88mybatis/mybaits">SpringBoot整合mybatis</a></p>
+<p>]</p>
+<p>但是后面一直出现Invalid bound statement (not found)</p>
+<p>想着这种一定是我配置出错,网上搜索都是</p>
+<ol>
+<li><p>mapperscan的配置</p>
+</li>
+<li><p>mybatis.config-location=classpath*:**/mapper/*Mapper.xml</p>
+</li>
+<li><p>xml下的namespace要写正确</p>
+</li>
+</ol>
+<p>认真对了几遍以为是自己没按照模板来,但是mybatisx这个插件都能正常解析,真的是头大,确认再三一定是mybatis加载对应statement的时候没加载到在看到这篇文章后我大概确定了</p>
+<p>MapperAnnotationBuilder 下parse 中有loadXmlResource()</p>
+<blockquote>
+<p>在这里寻找mapper接口对应的xml的资源路径的方式如下：
+　　　　</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String xmlResource &#x3D; type.getName().replace(&#39;.&#39;, &#39;&#x2F;&#39;) + &quot;.xml&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>　　替换接口包名中的.为/ 并在接口添加.xml后缀。<br>　　比如：Mapper接口com.hbfec.encrypt.admin.dao.ocr.TestDao的对应的xml资源路径会解析为com/hbfec/encrypt/admin/dao/ocr/TestDao.xml。<br>　　TestDao.xml在我的项目中的路径是classpath:dao/ocr/TestDao.xml,路径与上面解析出来的不一致，mybatis无法找到TestDao.xml，导致以上错误。所以项目采用使用这种方式绑定<strong>Mapper接口和Mapper.xml</strong>的话，<strong>其路径和名称都要一致</strong>。</p>
+</blockquote>
+<p>所以我项目下resource下面需要有对应的路径,由于太久没写都是直接写mapper导致解析不到</p>
+<p>参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/hopeofthevillage/p/12858565.html">spring boot mybatis 报错Invalid bound statement (not found)解决过程 - 全me村的希望 - 博客园</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-windows使用vmvare创建mac-intel虚拟机" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1672,199 +1879,6 @@
 <p>_ower 用来指向持有monitor的线程，它的初始值为NULL,表示当前没有任何线程持有monitor。当一个线程成功持有该锁之后会保存线程的ID标识，等到线程释放锁后_ower又会被重置为NULL;<br>_WaitSet 调用了锁对象的wait方法后的线程会被加入到这个队列中；<br>_cxq  是一个阻塞队列，线程被唤醒后根据决策判读是放入cxq还是EntryList;<br>_EntryList 没有抢到锁的线程会被放到这个队列；<br>count 用于记录线程获取锁的次数，成功获取到锁后count会加1，释放锁时count减1。</p>
 <p>当有一个线程获得synchronized锁后，monitor对象中的count就会被加1，并且会将这个线程的id存入到monitor的_ower中。此时，如果其他线程来尝试拿锁则会被放入到_EntryList队列中阻塞。<br>还记得上一节中我们立的一个Flag了吗？synchronized锁的是container对象，而wait和notify也是container对象的方法，这么一看我们上一节中留下的问题就有些眉目了。是不是调用wait方法的时候线程也会被加入到一个等待队列，而等到notify或者notifyAll的时候再从等待队列中将线程唤醒呢？关于这个问题在这一次，彻底搞懂Java中的synchronized关键字这篇文章中其实已经有解读了，就是调用wait方法的线程会被加入到一个_WaitSet集合中，并会将线程挂起。但是，这里要再次强调一下_WaitSet与_EntryList这两个集合。_EntryList集合中存放的是没有抢到锁，而被阻塞的线程，而_WaitSet集合中存放的是调用了wait方法后，处于等待状态的线程。**<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6977993272538955806">这一次，彻底搞懂Java并发包中的Atomic原子类 - 掘金</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6975435256111300621">这一次，彻底搞懂Java中的ReentrantLockt实现原理 - 掘金</a></p>
 <p>作者：赌一包辣条<br>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6973571891915128846">https://juejin.cn/post/6973571891915128846</a><br>来源：稀土掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ConcurrentHashMap解析-转载" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/b7c8f71.html" class="article-date">
-      <time datetime="2023-02-02T03:41:43.000Z" itemprop="datePublished">2023-02-02</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/09/java/hashmap-xiang-guan-lei-jie-xi/">HashMap相关类：Hashtable、LinkHashMap、TreeMap | HuanBlog</a> </p>
-<p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/07/java/shen-ru-jie-xi-concurrenthashmap-gan-shou-bing-fa-bian-cheng-zhi-hui/">深入解析ConcurrentHashMap：感受并发编程智慧 | HuanBlog</a></p>
-<p>本次先简要讨论ConcurrentHashMap 顺便讨论下HashMap,HashTable这些Map的数据的结构,线程安全,在get,put部分的业务逻辑</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/09/java/hashmap-xiang-guan-lei-jie-xi/">HashMap相关类：Hashtable、LinkHashMap、TreeMap | HuanBlog</a> </p>
-<p><a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/07/java/shen-ru-jie-xi-concurrenthashmap-gan-shou-bing-fa-bian-cheng-zhi-hui/">深入解析ConcurrentHashMap：感受并发编程智慧 | HuanBlog</a></p>
-<p>本次先简要讨论ConcurrentHashMap 顺便讨论下HashMap,HashTable这些Map的数据的结构,线程安全,在get,put部分的业务逻辑</p>
-<p>ConcurrentHashMap : 是线程安全的主要是通过node来加锁,同时要结构是数组+链表,但是在1.7的版本是数组加链表 使用segemen的分块锁来完成</p>
-<p>HashMap: 数据加链表 分为大概是 hash函数–hash冲突–扩容方案–线程安全的设计</p>
-<p>HashTable: 1.2版本现在使用的少,它是基于synchronize对象来加锁的</p>
-<p>fast-fail  fail-safe</p>
-<p>记录一个count在并发的操作和影响</p>
-<p>最后我把<a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/12/07/java/shen-ru-jie-xi-concurrenthashmap-gan-shou-bing-fa-bian-cheng-zhi-hui/">深入解析ConcurrentHashMap：感受并发编程智慧 | HuanBlog</a>的这篇文章总结下(jdk 1.8)</p>
-<h3 id="CAS与自旋锁"><a href="#CAS与自旋锁" class="headerlink" title="CAS与自旋锁"></a>CAS与自旋锁</h3><p>主要是在并发下处理</p>
-<h3 id="如何控制并发"><a href="#如何控制并发" class="headerlink" title="如何控制并发"></a>如何控制并发</h3><h3 id="添加数据：putVal"><a href="#添加数据：putVal" class="headerlink" title="添加数据：putVal()"></a>添加数据：putVal()</h3><h3 id="初始化数组：initTable"><a href="#初始化数组：initTable" class="headerlink" title="初始化数组：initTable()"></a>初始化数组：initTable()</h3><h3 id="修改节点总数：addCount"><a href="#修改节点总数：addCount" class="headerlink" title="修改节点总数：addCount()"></a>修改节点总数：addCount()</h3><h3 id="扩容方案：transfer"><a href="#扩容方案：transfer" class="headerlink" title="扩容方案：transfer()"></a>扩容方案：transfer()</h3>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-kafka小结" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/88809bac.html" class="article-date">
-      <time datetime="2023-01-04T02:56:08.000Z" itemprop="datePublished">2023-01-04</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/88809bac.html">kafka小结</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>kafka开源流处理平台，由Scala和Java编写。该项目的目标是为处理实时数据提供一个统一、高吞吐、低延迟的平台。这是维基百科上的描述,这也是区别于rabbitmq等其他的消息队列的特点,kafka基于订阅-消费模式,自定义的协议,不同于MQTT,AMPQ,JMS等这些协议</p>
-<ul>
-<li>Provider/MessageProvider：生产者</li>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>kafka开源流处理平台，由Scala和Java编写。该项目的目标是为处理实时数据提供一个统一、高吞吐、低延迟的平台。这是维基百科上的描述,这也是区别于rabbitmq等其他的消息队列的特点,kafka基于订阅-消费模式,自定义的协议,不同于MQTT,AMPQ,JMS等这些协议</p>
-<ul>
-<li>Provider/MessageProvider：生产者</li>
-<li>Consumer/MessageConsumer：消费者</li>
-<li><strong>PTP：Point To Point，点对点通信消息模型</strong></li>
-<li><strong>Pub/Sub：Publish/Subscribe，发布订阅消息模型</strong></li>
-<li>Queue：队列，目标类型之一，和PTP结合</li>
-<li>Topic：主题，目标类型之一，和Pub/Sub结合</li>
-<li>ConnectionFactory：连接工厂，JMS用它创建连接</li>
-<li>Connnection：JMS Client到JMS Provider的连接</li>
-<li>Destination：消息目的地，由Session创建</li>
-<li>Session：会话，由Connection创建，实质上就是发送、接受消息的一个线程，因此生产者、消费者都是Session创建的</li>
-</ul>
-<p>值得注意的是 在kafka中需要注意的名词包括 broke,topic,producer,consumer,partition,replica</p>
-<p>类似的</p>
-<h2 id="图解相关的kafka概念"><a href="#图解相关的kafka概念" class="headerlink" title="图解相关的kafka概念"></a>图解相关的kafka概念</h2><p><img src="../img/kafka.drawio.png" alt="未命名绘图-第 2 页.drawio"></p>
-<h2 id="leader-follower同步过程中截断机制"><a href="#leader-follower同步过程中截断机制" class="headerlink" title="leader,follower同步过程中截断机制"></a>leader,follower同步过程中截断机制</h2><p><a target="_blank" rel="noopener" href="https://learn.lianglianglee.com/%E4%B8%93%E6%A0%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%9E%E8%B7%B5%E4%B9%8B%E8%B7%AF%EF%BC%88%E5%AE%8C%EF%BC%89/14%20%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E8%A7%A3%E8%AF%BB%20Kafka%20%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%9C%BA%E5%88%B6.md#:~:text=2.-,%E6%88%AA%E6%96%AD%E6%9C%BA%E5%88%B6,-%E5%9C%A8%E7%AC%AC%2012">kafka截断机制</a></p>
-<p>注意在消费中HW(High Watermark).LEO(Log End Offset),在ISR(in-sync replica )列表需要保持hw一致,在leader变更中需要注意leo,HW(High Watermark)是所有副本中最小的LEO。</p>
-<p><img src="../img/image-20230104112036179.png" alt="image-20230104112036179"></p>
-<h2 id="针对kafka的幂等性PID-Producer-ID-和sequence-numbers。"><a href="#针对kafka的幂等性PID-Producer-ID-和sequence-numbers。" class="headerlink" title="针对kafka的幂等性PID(Producer ID)和sequence numbers。"></a>针对kafka的幂等性PID(Producer ID)和sequence numbers。</h2><p>product会维护一个生产序列seq来表现.如果对应的seq和broke的对不上</p>
-<p>product_seq&gt;broke_seq 消息丢失</p>
-<p>product_seq&lt;broke_seq+1 重复保存</p>
-<p>参考链接:<a target="_blank" rel="noopener" href="https://juejin.cn/post/7084062283453693965">Kafka的ISR机制+日志数据清理 - 掘金</a>,<a target="_blank" rel="noopener" href="https://www.cnblogs.com/dw3306/p/14318226.html">MQ（消息队列）的使用场景以及常见的MQ - 邓维-java - 博客园</a></p>
 
                -->
         </div>

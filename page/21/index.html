@@ -269,6 +269,183 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-搭建orientDB" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2702077458.html" class="article-date">
+      <time datetime="2019-08-01T05:28:50.000Z" itemprop="datePublished">2019-08-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2702077458.html">搭建orientDB</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get update apt-get default_jrecd &#x2F;opt</span><br><span class="line">wget https:&#x2F;&#x2F;s3.us-east-2.amazonaws.com&#x2F;orientdb3&#x2F;releases&#x2F;3.0.22&#x2F;orientdb-3.0.22.tar.gz </span><br><span class="line">tar zxvf  3.0.22&#x2F;orientdb-3.0.22.tar.gz cp -r 3.0.22&#x2F;orientdb-3.0.22.tar.gz  orientDB  </span><br><span class="line">cd orientDB  cd bin  .&#x2F;server.sh</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-折腾几个小时的Ubuntu启动出错" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3716506550.html" class="article-date">
+      <time datetime="2019-07-29T05:07:31.000Z" itemprop="datePublished">2019-07-29</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="Ubuntu出错"><a href="#Ubuntu出错" class="headerlink" title="Ubuntu出错"></a>Ubuntu出错</h3><p>今天莫名其妙的Ubuntu 出错 ,刚开始显示错误如下</p>
+<p>刚开始显示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“Couldn’t get size: 0x800000000000000e”加载一段时间后显示 failed start kernel   吓到我了以为关机前是有过升级的 不知道有没有升级内核补丁</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="Ubuntu出错"><a href="#Ubuntu出错" class="headerlink" title="Ubuntu出错"></a>Ubuntu出错</h3><p>今天莫名其妙的Ubuntu 出错 ,刚开始显示错误如下</p>
+<p>刚开始显示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“Couldn’t get size: 0x800000000000000e”加载一段时间后显示 failed start kernel   吓到我了以为关机前是有过升级的 不知道有没有升级内核补丁</span><br></pre></td></tr></table></figure>
+
+<p>就被这个误导了查了好久</p>
+<p><a href="../img/20190729215017.jpg"><img src="../img/20190729215017.jpg" alt="微信图片_20190729215017"></a></p>
+<h3 id="引导恢复"><a href="#引导恢复" class="headerlink" title="引导恢复"></a>引导恢复</h3><p>这个弄完后就是</p>
+<p>使用 boot-repair</p>
+<p>但是按照网上的添加源后 使用apt-get安装完全不行一直提示什么Pakage万能安装成功提示 apt -get update 莫名其妙 准备直接找 boot-repair.deb 包千辛万苦找到后不能安装 真的是醉了</p>
+<p>后面也是人肉在网上找的关联包 gawk_4.1.3+dfsg-0.1_amd64.deb 先安装这个后面再安装boot-repair_4ppa65_all.deb 对了我的是用U盘进的Ubuntu16</p>
+<p>所以<a target="_blank" rel="noopener" href="https://www.lanzous.com/i58030b">下载链接</a></p>
+<h3 id="最终解决"><a href="#最终解决" class="headerlink" title="最终解决"></a>最终解决</h3><p>其实不是上述问题 在看到有 emergency mode 后我尝试在网搜了一下 原来是我fsb 文件的问题 仔细看打印的日志也正好是这个意思 我的某个分区没有成功挂载 ctrl+d 后直接指明的对应的分区</p>
+<p>我是注释掉了 /etc/fstab 文件里的出错的分区 不知道是什么时候添加的 好坑</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7433e0bb38e9">参考博客</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-hexo优化" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1206,366 +1383,6 @@
       
 
       <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-配置on-my-zsh" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/37058318.html" class="article-date">
-      <time datetime="2019-06-17T03:43:25.000Z" itemprop="datePublished">2019-06-17</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/37058318.html">配置on-my-zsh</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>补充 添加 找到 <code>~/.zshrc</code> 有一行 <code>plugins=(git)</code>，想加什么插件就把名字放里面就是了，</p>
-<p>1.) autojump</p>
-<p>按照<a target="_blank" rel="noopener" href="https://github.com/wting/autojump">官方文档</a>介绍，需要使用如下命令安装，而不是一些博客中的介绍</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>补充 添加 找到 <code>~/.zshrc</code> 有一行 <code>plugins=(git)</code>，想加什么插件就把名字放里面就是了，</p>
-<p>1.) autojump</p>
-<p>按照<a target="_blank" rel="noopener" href="https://github.com/wting/autojump">官方文档</a>介绍，需要使用如下命令安装，而不是一些博客中的介绍</p>
-<p>~/.oh-my-zsh/plugins/autojump/autojump.plugin.zsh</p>
-<p>安装好之后，记得<code>source ~/.zshrc</code>，然后你就可以通过<code>j+目录名</code>快速进行目录跳转。支持目录名的模糊匹配和自动补全。</p>
-<ul>
-<li><code>j -stat</code>：可以查看历史路径库</li>
-</ul>
-<p>2.) extract</p>
-<p>解压文件用的，所有的压缩文件，都可以直接<code>x filename</code>，不用记忆参数</p>
-<p>当然，如果你想要用<code>tar</code>命令，可以使用<code>tar -</code>加<code>tab</code>键，zsh会列出参数的含义。</p>
-<hr>
-<p>使用zsh 提交命令行输入的输入效率</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># 安装 Zshsudo apt install zsh# 将 Zsh 设置为默认 Shellchsh -s &#x2F;bin&#x2F;zsh# 可以通过 echo $SHELL 查看当前默认的 Shell，如果没有改为 &#x2F;bin&#x2F;zsh，那么需要重启 Shell。</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git</span><br></pre></td></tr></table></figure>
-
-<h2 id="9-zsh-也可以安装fish"><a href="#9-zsh-也可以安装fish" class="headerlink" title="9. zsh(也可以安装fish)"></a>9. zsh(也可以安装fish)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install zsh# 切换到zshchsh -s &#x2F;bin&#x2F;zsh</span><br></pre></td></tr></table></figure>
-
-<p>安装<code>Oh-my-zsh</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(wget https:&#x2F;&#x2F;raw.github.com&#x2F;robbyrussell&#x2F;oh-my-zsh&#x2F;master&#x2F;tools&#x2F;install.sh -O -)&quot;</span><br></pre></td></tr></table></figure>
-
-<p>安装插件<code>highlight</code>，高亮语法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;.oh-my-zsh&#x2F;custom&#x2F;pluginsgit clone git:&#x2F;&#x2F;github.com&#x2F;zsh-users&#x2F;zsh-syntax-highlighting.git</span><br></pre></td></tr></table></figure>
-
-<p>在<code>Oh-my-zsh</code>的配置文件中<code>~/.zshrc</code>中添加插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plugins&#x3D;( [plugins...] zsh-syntax-highlighting)</span><br></pre></td></tr></table></figure>
-
-<p>最后使配置生效</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
-
-<p>~/.oh-my-zsh</p>
-<p>配置文件 ~/.zshrc</p>
-<p>plugins=(git</p>
-<p> autojump</p>
-<p> zsh-syntax-highlighting<br>​ )</p>
-<p>#</p>
-<h2 id="光标移动"><a href="#光标移动" class="headerlink" title="光标移动"></a>光标移动</h2><table>
-<thead>
-<tr>
-<th align="center">快捷键</th>
-<th align="center">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><code>Ctrl + a</code></td>
-<td align="center">移动光标到行首</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + e</code></td>
-<td align="center">移动光标到行尾</td>
-</tr>
-<tr>
-<td align="center"><code>Alt + b</code></td>
-<td align="center">移动光标后退一个单词（词首）</td>
-</tr>
-<tr>
-<td align="center"><code>Alt + f</code></td>
-<td align="center">移动光标前进一个单词（词首）</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + f</code></td>
-<td align="center">光标前进一个字母</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + b</code></td>
-<td align="center">光标后退一个字母</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + xx</code></td>
-<td align="center">当前位置与行首之间光标切换</td>
-</tr>
-</tbody></table>
-<h2 id="剪切粘贴"><a href="#剪切粘贴" class="headerlink" title="剪切粘贴"></a>剪切粘贴</h2><table>
-<thead>
-<tr>
-<th align="center">快捷键</th>
-<th align="center">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><code>Ctrl + k</code></td>
-<td align="center">删除从光标到行尾</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + u</code></td>
-<td align="center">删除从光标到行首</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + w</code></td>
-<td align="center">从光标向前删除一个单词</td>
-</tr>
-<tr>
-<td align="center"><code>Alt + d</code></td>
-<td align="center">从光标向后删除一个单词</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + d</code></td>
-<td align="center">删除光标下一个字母</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + h</code></td>
-<td align="center">删除光标前一个字母</td>
-</tr>
-<tr>
-<td align="center"><code>Alt + t</code></td>
-<td align="center">swap(当前单词, 上一个单词)</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + t</code></td>
-<td align="center">swap(当前字母, 上一个字母)</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + y</code></td>
-<td align="center">粘贴上一次删除的文本</td>
-</tr>
-</tbody></table>
-<h1 id="历史命令"><a href="#历史命令" class="headerlink" title="历史命令"></a>历史命令</h1><table>
-<thead>
-<tr>
-<th align="center">快捷键</th>
-<th align="center">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><code>Ctrl + r</code></td>
-<td align="center">向后搜索历史命令</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + g</code></td>
-<td align="center">退出搜索</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + p</code></td>
-<td align="center">历史中上一个命令</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + n</code></td>
-<td align="center">历史中下一个命令</td>
-</tr>
-<tr>
-<td align="center"><code>Alt + .</code></td>
-<td align="center">上一个命令的最后一个单词</td>
-</tr>
-</tbody></table>
-<h2 id="终端指令"><a href="#终端指令" class="headerlink" title="终端指令"></a>终端指令</h2><table>
-<thead>
-<tr>
-<th align="center">快捷键</th>
-<th align="center">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><code>Ctrl + l</code></td>
-<td align="center">清屏</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + s</code></td>
-<td align="center">停止输出（在Zsh中为向前搜索历史命令）</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + q</code></td>
-<td align="center">继续输出</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + c</code></td>
-<td align="center">终止当前命令</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + z</code></td>
-<td align="center">挂起当前命令</td>
-</tr>
-<tr>
-<td align="center"><code>Ctrl + d</code></td>
-<td align="center">结束输入（产生一个EOF）</td>
-</tr>
-</tbody></table>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu下 intellj idea maven下载" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3350959125.html" class="article-date">
-      <time datetime="2019-06-08T00:53:16.000Z" itemprop="datePublished">2019-06-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>bindsym XF86AudioNext exec playerctl next</p>
-<p>xmodmap -pke | grep XF86Audio </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mdbus2</span><br><span class="line"></span><br><span class="line">dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>bindsym XF86AudioNext exec playerctl next</p>
-<p>xmodmap -pke | grep XF86Audio </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mdbus2</span><br><span class="line"></span><br><span class="line">dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause</span><br></pre></td></tr></table></figure>
-
-
-
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/JAVA_XCNH/article/details/102486030">转载来自 –解决Ubuntu和idea快捷键冲突</a></p>
-<p>1、Gnome 快捷键修改<br><strong>Ctrl + Alt + ←</strong><br><strong>Ctrl + Alt + →</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gsettings <span class="built_in">set</span> org.gnome.desktop.wm.keybindings switch-to-workspace-right <span class="string">&quot;[]&quot;</span></span><br><span class="line">gsettings <span class="built_in">set</span> org.gnome.desktop.wm.keybindings switch-to-workspace-left <span class="string">&quot;[]&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>2、Fcitx 输入法快捷键修改<br><strong>Ctrl + Alt + B</strong><br><strong>Ctrl + Alt + S</strong><br>点击右上角语言栏，点配置 &gt; 全局配置 &gt; 显示高级选项，点选冲突按键，按 Esc 即可。</p>
-<p>opt/apache-maven-3.6.0/bin/mvn dependency:resolve -Dclassifier=sources</p>
-<p>直接使用本机自己的maven 该问题应该是idea 调用 maven出来问题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 3306 -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
 
 
       

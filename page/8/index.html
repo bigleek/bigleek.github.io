@@ -269,6 +269,196 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-mysql-json函数使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/7c7b32f9.html" class="article-date">
+      <time datetime="2022-11-23T12:07:46.000Z" itemprop="datePublished">2022-11-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/7c7b32f9.html">mysql_json函数使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57904266/how-to-use-mysql-json-contains-with-jpa-specification">How to use mysql “json_contains” with JPA Specification - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36249828/how-to-search-json-array-in-mysql">How to search JSON array in MySQL? - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/66576018/mysql-json-extract-value-of-property-based-on-criteria">json - MySQL JSON_EXTRACT value of property based on criteria - Stack Overflow</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57904266/how-to-use-mysql-json-contains-with-jpa-specification">How to use mysql “json_contains” with JPA Specification - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36249828/how-to-search-json-array-in-mysql">How to search JSON array in MySQL? - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/66576018/mysql-json-extract-value-of-property-based-on-criteria">json - MySQL JSON_EXTRACT value of property based on criteria - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fenglailea/article/details/124687284">spring jpa function(函数) JSON_EXTRACT 复杂查询，jpa josn查询_风.foxwho的博客-CSDN博客_jpa json查询</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.docs4dev.com/docs/zh/mysql/5.7/reference/json-search-functions.html#function_json-contains">MySql 中文文档 - 12.17.3 搜索 JSON 值的函数 | Docs4dev</a></p>
+<p>json字符串搜索模糊匹配等相关的内容</p>
+<p>1.JSON_SEARCH 直接使用这个来查询还可以模糊匹配</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	SELECT</span><br><span class="line">	JSON_SEARCH(</span><br><span class="line">&#39;[&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444417&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;,&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444416&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;]&#39;,</span><br><span class="line">		&#39;all&#39;,</span><br><span class="line">		&#39;%44444%&#39;,</span><br><span class="line">	NULL,</span><br><span class="line">	&#39;$**.sticker&#39;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM incident_report WHERE (JSON_SEARCH(users,&#39;one&#39;,&#39;39717&#39;,null,&#39;$**.id&#39;) is not null)</span><br><span class="line">SELECT users FROM incident_report LIMIT 10  15890    qrCode  44444403</span><br><span class="line">SELECT JSON_SEARCH(users,&#39;one&#39;,&#39;%51230%&#39;,null,&#39;$**.qrCode&#39;) FROM incident_report LIMIT 10</span><br></pre></td></tr></table></figure>
+
+<p> 2.JSON_EXTRACT(解析json数据),使用JSON_CONTAIN来查询 解析后的JSON信息</p>
+<p>对对于是数组里面的特定对象字段譬如 下面这种,这需要进一步抽取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444417&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;,&#123;&quot;id&quot;:10002444,&quot;qrCode&quot;:&quot;44444416&quot;,&quot;sticker&quot;:&quot;44444416&quot;,&quot;deckId&quot;:&quot;N3MWSF52666&quot;,&quot;vehicleType&quot;:&quot;SCOOTER&quot;&#125;]</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>JSON_CONTAINS(JSON_EXTRACT(json_field, ‘$[*].id’), 11, ‘$’)    </p>
+</blockquote>
+<pre><code>SELECT JSON_EXTRACT(users,&#39;$.id&#39;) FROM incident_report LIMIT 10
+SELECT JSON_EXTRACT(users, &#39;$[*].userTrips[*].id&#39;) FROM incident_report LIMIT 10
+SELECT users,JSON_CONTAINS(JSON_EXTRACT(users, &#39;$[*].userTrips[*].id&#39;), &#39;12689&#39;, &#39;$&#39;) FROM incident_report LIMIT 10</code></pre>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/json-search-functions.html">https://dev.mysql.com/doc/refman/5.7/en/json-search-functions.html</a>)</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-spring缓存管理Redis-本地" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/a0b38034.html" class="article-date">
+      <time datetime="2022-11-22T06:27:34.000Z" itemprop="datePublished">2022-11-22</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/a0b38034.html">spring缓存管理Redis+本地</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-multiple-cache-managers">Using Multiple Cache Managers in Spring | Baeldung</a></p>
+<p>caffice+redis</p>
+<p>```java</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-multiple-cache-managers">Using Multiple Cache Managers in Spring | Baeldung</a></p>
+<p>caffice+redis</p>
+<p>```java</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-transactionl介绍" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1735,213 +1925,6 @@
 
 <p>查询逻辑和相关</p>
 <h2 id="编码集"><a href="#编码集" class="headerlink" title="编码集"></a>编码集</h2>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mysql索引和锁相关的整理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2fd84806.html" class="article-date">
-      <time datetime="2022-09-25T08:34:34.000Z" itemprop="datePublished">2022-09-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2fd84806.html">mysql索引和锁相关的整理</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>ToDo</p>
-<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.7.2.1 Transaction Isolation Levels</a></p>
-<p>针对MySQL5,.7</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>ToDo</p>
-<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.7.2.1 Transaction Isolation Levels</a></p>
-<p>针对MySQL5,.7</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-spring-data-jap入门和测试用例以及介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/db9f3902.html" class="article-date">
-      <time datetime="2022-09-25T02:46:15.000Z" itemprop="datePublished">2022-09-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="springJpa介绍"><a href="#springJpa介绍" class="headerlink" title="springJpa介绍"></a>springJpa介绍</h2><p>springjpa 是springdata下面的框架用来对接数据 是门面框架定义 数据交互到数据库,很多的接口规范使用的是 JPA规范 *<em>javax.persistence.**</em> ,我们选择内部实现为habernate ,具体的实现可以选择xxxx等,</p>
-<p>下面是关于spring -orm的介绍<a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/spring-orm-framework/">Spring - ORM Framework - GeeksforGeeks</a></p>
-<p><strong>Spring-ORM</strong> is a technique or a Design Pattern used to access a relational database from an object-oriented language. ORM (Object Relation Mapping) covers many persistence technologies. They are as follows:</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="springJpa介绍"><a href="#springJpa介绍" class="headerlink" title="springJpa介绍"></a>springJpa介绍</h2><p>springjpa 是springdata下面的框架用来对接数据 是门面框架定义 数据交互到数据库,很多的接口规范使用的是 JPA规范 *<em>javax.persistence.**</em> ,我们选择内部实现为habernate ,具体的实现可以选择xxxx等,</p>
-<p>下面是关于spring -orm的介绍<a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/spring-orm-framework/">Spring - ORM Framework - GeeksforGeeks</a></p>
-<p><strong>Spring-ORM</strong> is a technique or a Design Pattern used to access a relational database from an object-oriented language. ORM (Object Relation Mapping) covers many persistence technologies. They are as follows:</p>
-<ul>
-<li><strong>JPA(Java Persistence API):</strong> It is mainly used to persist data between Java objects and relational databases. It acts as a bridge between object-oriented domain models and relational database systems.</li>
-<li><strong>JDO(Java Data Objects):</strong> It is one of the standard ways to access persistent data in databases, by using plain old Java objects (POJO) to represent persistent data.</li>
-<li><strong>Hibernate –</strong> It is a Java framework that simplifies the development of Java applications to interact with the database.</li>
-<li><strong>Oracle Toplink, and iBATIS:</strong> Oracle TopLink is a mapping and persistence framework for Java development.</li>
-</ul>
-<p>需要了解常用的注解</p>
-<ul>
-<li>支持基于 Spring 和 JPA 构建存储库</li>
-<li>支持<a target="_blank" rel="noopener" href="http://www.querydsl.com/">Querydsl</a>谓词，因此支持类型安全的 JPA 查询</li>
-<li>透明审计</li>
-<li>分页支持、动态查询执行、集成自定义数据访问代码的能力</li>
-<li><code>@Query</code>在引导时验证带注释的查询</li>
-<li>支持基于 XML 的实体映射</li>
-<li>通过引入基于 JavaConfig 的存储库配置<code>@EnableJpaRepositories</code></li>
-</ul>
-<h2 id="字段映射"><a href="#字段映射" class="headerlink" title="字段映射"></a>字段映射</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Table(name &#x3D; &quot;malfunction_report&quot;) &#x2F;&#x2F;标记表的名称</span><br><span class="line">@Entity：标识这是一个JPA的实体，当项目启动时会更具这个实体创建相应的表</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Id &#x2F;&#x2F;标记表的自增的ID</span><br><span class="line">@GeneratedValue</span><br><span class="line"></span><br><span class="line">@Column(name &#x3D; &quot;items&quot;)&#x2F;&#x2F;标记字段的对应的映射</span><br><span class="line">@Convert(converter &#x3D; JpaConverterListJson.class)&#x2F;&#x2F; 保存和查询时能解析为对应的变量</span><br><span class="line">@Enumerated(EnumType.STRING)&#x2F;&#x2F;对应枚举这种最后在数据库需要保存为你字符串</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="查询继承JpaRepository"><a href="#查询继承JpaRepository" class="headerlink" title="查询继承JpaRepository"></a>查询继承JpaRepository</h3><p>直接可以字段拼接一个简单的查询,在继承了JpaRepository后可以发现,</p>
-<h3 id="注解query"><a href="#注解query" class="headerlink" title="注解query"></a>注解query</h3><p>使用注解可以使用jpa定义的hql来查询利用对象的映射关系,而且比较存在的ORM(<em>Object-Relational Mapping</em>)逻辑,同时如果部分字段需要调用特殊的函数也支持直接写SQL,需要在SQL后用逗号分割讲native设置为true</p>
-<h3 id="查询继承JpaSpecificationExecutor的灵活查询"><a href="#查询继承JpaSpecificationExecutor的灵活查询" class="headerlink" title="查询继承JpaSpecificationExecutor的灵活查询"></a>查询继承JpaSpecificationExecutor的灵活查询</h3><p>org.springframework.data.jpa.domain.Specification 需要实现<strong>toPredicate</strong>这里需要多个学习多个对象</p>
-<ul>
-<li><p>Root<T> root</p>
-<p>主要要使用</p>
-</li>
-<li><p>CriteriaQuery&lt;?&gt; query</p>
-<p>criterialQuery ToDo</p>
-</li>
-<li><p>CriteriaBuilder criteriaBuilder</p>
-<p>CriteriaBuilder todo</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">javax.persistence.criteria.Predicate</span><br><span class="line"></span><br><span class="line">javax.persistence.criteria.Expression</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>上述对象能最大程度实现灵活的查询,加上 org.springframework.data.domain.Page可以最大程度的满足查询的需要</p>
-<h2 id="编辑和新增数据"><a href="#编辑和新增数据" class="headerlink" title="编辑和新增数据"></a>编辑和新增数据</h2><p>在自己实现的方法需要 @modify才会生效</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/pkainulainen/spring-data-jpa-examples/blob/master/tutorial-part-seven/src/test/java/net/petrikainulainen/spring/datajpa/repository/PersonSpecificationsTest.java">spring-data-jpa-examples/PersonSpecificationsTest.java at master · pkainulainen/spring-data-jpa-examples</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-seven-pagination/">Spring Data JPA Tutorial: Pagination</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.baeldung.com/mockito-java-8">Mockito’s Java 8 Features | Baeldung</a></p>
-
                -->
         </div>
         

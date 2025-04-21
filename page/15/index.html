@@ -269,6 +269,201 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ambari-server中postgress启动" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/466081a0.html" class="article-date">
+      <time datetime="2021-03-10T07:59:20.000Z" itemprop="datePublished">2021-03-10</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/466081a0.html">ambari-server中postgress启动</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><img src="../img/image-20210310160022213.png" alt="image-20210310160022213"></p>
+<p> Unable to start PostgreSQL server. Status stopped. . Exiting</p>
+<p>bin  pg_ctl status </p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><img src="../img/image-20210310160022213.png" alt="image-20210310160022213"></p>
+<p> Unable to start PostgreSQL server. Status stopped. . Exiting</p>
+<p>bin  pg_ctl status </p>
+<p> systemctl start  postgresql.service</p>
+<p><img src="../img/image-20210310160212137.png" alt="image-20210310160212137"></p>
+<p>FATAL:  could not write lock file “postmaster.pid”: No space left on device</p>
+<p> df -h</p>
+<p><img src="../img/image-20210310160232827.png" alt="image-20210310160232827"></p>
+<p>systemctl start  postgresql.service</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-docker搭建单机kafka" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/4225d45e.html" class="article-date">
+      <time datetime="2021-03-07T04:36:44.000Z" itemprop="datePublished">2021-03-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="搭建单机kafka选型"><a href="#搭建单机kafka选型" class="headerlink" title="搭建单机kafka选型"></a>搭建单机kafka选型</h1><ul>
+<li><p>选择docker容器内集成 kafka,zookeeper 的容器 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 找到的这个 容器设置了 kafka的hostname和 zookeeper的ip ,</span></span><br><span class="line"> docker run -d -e ADVERTISED_HOSTNAME=$(hostname -f)  -e KAFKA_ADVERTISED_HOST_NAME=192.168.248.128 -e ZOOKEEPER_IP=192.168.248.128 -p 9092:9092 -p 2181:2181 --restart=always jrottenberg/kafka-standalone</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="搭建单机kafka选型"><a href="#搭建单机kafka选型" class="headerlink" title="搭建单机kafka选型"></a>搭建单机kafka选型</h1><ul>
+<li><p>选择docker容器内集成 kafka,zookeeper 的容器 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 找到的这个 容器设置了 kafka的hostname和 zookeeper的ip ,</span></span><br><span class="line"> docker run -d -e ADVERTISED_HOSTNAME=$(hostname -f)  -e KAFKA_ADVERTISED_HOST_NAME=192.168.248.128 -e ZOOKEEPER_IP=192.168.248.128 -p 9092:9092 -p 2181:2181 --restart=always jrottenberg/kafka-standalone</span><br></pre></td></tr></table></figure>
+
+<p>基于上面的容器是可以运行 获取到了zookeeper的broker 但是kafka是连接不上 </p>
+</li>
+<li><p>docker-composer 来执行</p>
+<p>参考第 <a target="_blank" rel="noopener" href="https://github.com/conduktor/kafka-stack-docker-compose">https://github.com/conduktor/kafka-stack-docker-compose</a> </p>
+<p>但是还有有个问题,我搭建的环境是离线的,尽量还是以 docker命令来执行减少安装其他软件</p>
+</li>
+<li><p>原始的 kafka,zookeeper 分开安装,在设置环境变量(选用的方案)</p>
+</li>
+</ul>
+<h1 id="前置需要安装的软件"><a href="#前置需要安装的软件" class="headerlink" title="前置需要安装的软件"></a>前置需要安装的软件</h1><p>prettyZoo 查看zookeeper很方便</p>
+<p>cmak (kafka manage) kafka监控软件</p>
+<h1 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h1><p><a target="_blank" rel="noopener" href="https://ioccc.cc/2018/12/12/zookeeper-kafka/">https://ioccc.cc/2018/12/12/zookeeper-kafka/</a>   改部分参考该篇博文</p>
+<h2 id="运行zookeeper"><a href="#运行zookeeper" class="headerlink" title="运行zookeeper"></a>运行zookeeper</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name zookeeper --publish 2181:2181 \</span><br><span class="line"> --volume &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime \</span><br><span class="line"> zookeeper:latest</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行kafka"><a href="#运行kafka" class="headerlink" title="运行kafka"></a>运行kafka</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name kafka --publish 9092:9092 \</span><br><span class="line"> --link zookeeper \</span><br><span class="line"> --env KAFKA_ZOOKEEPER_CONNECT&#x3D;zookeeper:2181 \</span><br><span class="line"> --env KAFKA_ADVERTISED_HOST_NAME&#x3D;HOST_IP \</span><br><span class="line"> --env KAFKA_ADVERTISED_PORT&#x3D;9092 \</span><br><span class="line"> --volume &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime \</span><br><span class="line"> wurstmeister&#x2F;kafka:latest</span><br></pre></td></tr></table></figure>
+
+<p>进去容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker  exec -it  &lt;ID&gt; &#x2F;bash&#x2F;sh</span><br><span class="line"></span><br><span class="line">cd &#x2F;opt&#x2F;kafka**&#x2F;bin</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="创建topic-名为test"><a href="#创建topic-名为test" class="headerlink" title="创建topic 名为test"></a>创建topic 名为test</h3><p> kafka-topics.sh –create –zookeeper zookeeper:2181 –replication-factor 1 –partitions 1 –topic test</p>
+<h3 id="列出所有的topic"><a href="#列出所有的topic" class="headerlink" title="列出所有的topic"></a>列出所有的topic</h3><p> kafka-topics.sh –list –zookeeper zookeeper:2181</p>
+<h3 id="创建生产者输入测试信息"><a href="#创建生产者输入测试信息" class="headerlink" title="创建生产者输入测试信息"></a>创建生产者输入测试信息</h3><p> kafka-console-producer.sh –broker-list localhost:9092 –topic test</p>
+<p> kafka-console-consumer.sh –bootstrap-server localhost:9092 –topic test –from-beginning</p>
+<h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><p>需要将  KAFKA_ADVERTISED_HOST_NAME=<strong>HOST_IP</strong> 改为 docker所在的ip</p>
+<p>在cmak中是看不到 topic.需要 用3.3.1 的命令去创建</p>
+<p><img src="file://E:/blog/source/img/image-20210307132400145.png?lastModify=1615094706" alt="image-20210307132400145"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-github action 示例" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -2635,206 +2830,6 @@
       
 
       <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-gis初入门" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/6a9c1835.html" class="article-date">
-      <time datetime="2021-01-08T06:24:30.000Z" itemprop="datePublished">2021-01-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/6a9c1835.html">gis初入门</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>参考链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015674238">https://segmentfault.com/a/1190000015674238</a></p>
-<p>GIS是一个设计用来捕获、存储、操作（manipulate）、分析、管理和展示空间或图像数据的系统。</p>
-<p><strong>GIS 应用</strong> = <strong>基础底图</strong> + <strong>操作图层</strong> + <strong>任务</strong></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>参考链接 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015674238">https://segmentfault.com/a/1190000015674238</a></p>
-<p>GIS是一个设计用来捕获、存储、操作（manipulate）、分析、管理和展示空间或图像数据的系统。</p>
-<p><strong>GIS 应用</strong> = <strong>基础底图</strong> + <strong>操作图层</strong> + <strong>任务</strong></p>
-<ul>
-<li><strong>基础底图</strong>：可以简单地理解为就是地图，并且要求是一个不会频繁改变的地图。</li>
-<li><strong>操作图层</strong>：用户使用的主要图层，承载主要的待<strong>编辑、展示和分析</strong>的信息数据。</li>
-<li><strong>任务</strong>：如导航、地址编码等计算量比较大的分析任务。</li>
-</ul>
-<h2 id="GIS-数据和协议"><a href="#GIS-数据和协议" class="headerlink" title="GIS 数据和协议"></a>GIS 数据和协议</h2><p>由于 ArcGIS 在行业内的龙头地位，其指定的一系列数据格式和交换协议，成为 GIS 业界的标准协议。目前制定 GIS 协议的标准化组织为<a target="_blank" rel="noopener" href="http://www.opengeospatial.org/">开放地理空间协会（OGC）</a>，其制定的规范称为 <strong>OpenGIS</strong>（Open Geodata Interoperation Specification）。</p>
-<p>相关的接口和协议非常多，以后再一一补齐。目前大部分 demo 系统，导入的数据格式为 shp 文件，往往是由甲方直接提供、或者是网上的公开 GIS 服务提供商可提供下载的，不需要我们自行转换数据格式。ArcGIS 可以直接识别并导入，入库后也使用标准接口协议开放服务，比如 WMS（网络地图服务）和 WFS（网络要素服务）。</p>
-<h2 id="免费开源-GIS-软件"><a href="#免费开源-GIS-软件" class="headerlink" title="免费开源 GIS 软件"></a>免费开源 GIS 软件</h2><p>开源 GIS 软件，从大类来分，包含服务器版和桌面版（即桌面版）。显然我们最关注的是服务器版的 GIS 软件 / 组件。</p>
-<p>服务器版的部署架构和 ArcGIS 基本类似，也是分 web、GIS Server、database 三大模块，并且可以分开部署。</p>
-<p>参考链接<a target="_blank" rel="noopener" href="https://blog.csdn.net/sxausgyy/article/details/8151019">https://blog.csdn.net/sxausgyy/article/details/8151019</a></p>
-<p><strong>要素模型(Feature)</strong><br>要素是GeoTools中的核心术语，它是描述地理空间数据对<br>象的基本单位，它描述了一个现实世界中的客观地理实体，如:一条河流、一座桥梁都<br>可以理解为要素。</p>
-<p><strong>栅格数据</strong><br>栅格数据是从上向下拍摄的地球照片，使用离散单元存储其值，图片的每个像素点都有一个指定值<br>服务器本身存储，传输速度快，服务器压力小，多为png,jpg,gif<br>数据量大，更新慢</p>
-<p><strong>矢量数据</strong><br>矢量数据是仅仅存储节点，比如箭头，线条，点等。存储的是对象的轮廓，而栅格数据适合表达对象的内容。<br>矢量数据类型有点，线和多边形。<br>数量小，数据更新快<br>服务器压力大，技术要求高</p>
-<p><img src="../img/1334284682_7917.jpg" alt="1334284682_7917"></p>
-<p>在gist环境下回有图层的概念</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-dockerfile使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2ba9cf6c.html" class="article-date">
-      <time datetime="2021-01-08T05:46:19.000Z" itemprop="datePublished">2021-01-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2ba9cf6c.html">dockerfile使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>目前需要创建docker容器 之前用的是基于 Java环境的镜像 构件的,当前开发都后期需要gdal和其他的环境,仅仅基于java的 命令是远远不够用户的</p>
-<p>首先gdal 官方提供了源,但是这个源没有java环境需要我们安装,他提供了多个Linux发行版本 包括Ubuntu和alpine ,起初基于Ubuntu small来搭建的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM osgeo&#x2F;gdal:ubuntu-small-3.2.1</span><br><span class="line">MAINTAINER gdallikedemo</span><br><span class="line">RUN add-apt-repository ppa:openjdk-r&#x2F;ppa &amp;&amp; \</span><br><span class="line">    apt-get update &amp;&amp; \</span><br><span class="line">    apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span><br><span class="line">    apt-get clean;</span><br><span class="line">COPY MY_JAR.jar  &#x2F;home&#x2F;MY_JAR.jar</span><br><span class="line"># RUN nohup  java -jar &#x2F;home&#x2F;MY_JAR.jar  &gt;&#x2F;dev&#x2F;null  2&gt;&amp;1 &amp;</span><br><span class="line">CMD [&quot;java&quot;,&quot;-jar&quot;,&quot;&#x2F;home&#x2F;MY_JAR.jar&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>目前需要创建docker容器 之前用的是基于 Java环境的镜像 构件的,当前开发都后期需要gdal和其他的环境,仅仅基于java的 命令是远远不够用户的</p>
-<p>首先gdal 官方提供了源,但是这个源没有java环境需要我们安装,他提供了多个Linux发行版本 包括Ubuntu和alpine ,起初基于Ubuntu small来搭建的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM osgeo&#x2F;gdal:ubuntu-small-3.2.1</span><br><span class="line">MAINTAINER gdallikedemo</span><br><span class="line">RUN add-apt-repository ppa:openjdk-r&#x2F;ppa &amp;&amp; \</span><br><span class="line">    apt-get update &amp;&amp; \</span><br><span class="line">    apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span><br><span class="line">    apt-get clean;</span><br><span class="line">COPY MY_JAR.jar  &#x2F;home&#x2F;MY_JAR.jar</span><br><span class="line"># RUN nohup  java -jar &#x2F;home&#x2F;MY_JAR.jar  &gt;&#x2F;dev&#x2F;null  2&gt;&amp;1 &amp;</span><br><span class="line">CMD [&quot;java&quot;,&quot;-jar&quot;,&quot;&#x2F;home&#x2F;MY_JAR.jar&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<p>,但是在添加源的时候又依赖于命令 add-resportiy 添加源,如果用 Ubuntu-full后可以看到文件明显增大到1g,明显不符合要求,我就换了alpine  ,看网上介绍路由器和小型设备的,看了后就在这个版本上添加</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> osgeo/gdal:alpine-normal-<span class="number">3.2</span>.<span class="number">0</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> gdallikedemo</span><br><span class="line"><span class="comment"># 添加命令 安装java</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk add  --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community &amp;&amp; \</span></span><br><span class="line"><span class="bash">    apk add openjdk8 ;</span></span><br><span class="line"><span class="comment"># 声明端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">11003</span></span><br><span class="line"><span class="comment"># 复制指定文件</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> MY_JAR.jar  /home/MY_JAR.jar</span></span><br><span class="line"><span class="comment"># RUN nohup  java -jar /home/MY_JAR.jar  &gt;/dev/null  2&gt;&amp;1 &amp;</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/home/MY_JAR.jar&quot;</span>]</span></span><br><span class="line">                                     </span><br></pre></td></tr></table></figure>
-
-<p>如果需要后面的服务也可以</p>
-<p>参考该要求<a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/basic_concept/image/#%E5%88%86%E5%B1%82%E5%AD%98%E5%82%A8">分层存储</a></p>
-<p>镜像构建时，会一层层构建，前一层是后一层的基础。每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层。比如，删除前一层文件的操作，实际不是真的删除前一层的文件，而是仅在当前层标记为该文件已删除。在最终容器运行的时候，虽然不会看到这个文件，但是实际上该文件会一直跟随镜像。因此，在构建镜像的时候，需要额外小心，每一层尽量只包含该层需要添加的东西，任何额外的东西应该在该层构建结束前清理掉。</p>
-<p>Dockerfile 中每一个指令都会建立一层，<code>RUN</code> 也不例外。每一个 <code>RUN</code> 的行为，就和刚才我们手工建立镜像的过程一样：新建立一层，在其上执行这些命令，执行结束后，<code>commit</code> 这一层的修改，构成新的镜像。</p>
-<p>一定要注一个实现 不要多次run,尽量集合在一起执行</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
-    </div>
- -->
 
 
       

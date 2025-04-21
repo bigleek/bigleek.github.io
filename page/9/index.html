@@ -269,6 +269,213 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-mysql索引和锁相关的整理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2fd84806.html" class="article-date">
+      <time datetime="2022-09-25T08:34:34.000Z" itemprop="datePublished">2022-09-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2fd84806.html">mysql索引和锁相关的整理</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>ToDo</p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.7.2.1 Transaction Isolation Levels</a></p>
+<p>针对MySQL5,.7</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>ToDo</p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.7.2.1 Transaction Isolation Levels</a></p>
+<p>针对MySQL5,.7</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-spring-data-jap入门和测试用例以及介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/db9f3902.html" class="article-date">
+      <time datetime="2022-09-25T02:46:15.000Z" itemprop="datePublished">2022-09-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="springJpa介绍"><a href="#springJpa介绍" class="headerlink" title="springJpa介绍"></a>springJpa介绍</h2><p>springjpa 是springdata下面的框架用来对接数据 是门面框架定义 数据交互到数据库,很多的接口规范使用的是 JPA规范 *<em>javax.persistence.**</em> ,我们选择内部实现为habernate ,具体的实现可以选择xxxx等,</p>
+<p>下面是关于spring -orm的介绍<a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/spring-orm-framework/">Spring - ORM Framework - GeeksforGeeks</a></p>
+<p><strong>Spring-ORM</strong> is a technique or a Design Pattern used to access a relational database from an object-oriented language. ORM (Object Relation Mapping) covers many persistence technologies. They are as follows:</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="springJpa介绍"><a href="#springJpa介绍" class="headerlink" title="springJpa介绍"></a>springJpa介绍</h2><p>springjpa 是springdata下面的框架用来对接数据 是门面框架定义 数据交互到数据库,很多的接口规范使用的是 JPA规范 *<em>javax.persistence.**</em> ,我们选择内部实现为habernate ,具体的实现可以选择xxxx等,</p>
+<p>下面是关于spring -orm的介绍<a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/spring-orm-framework/">Spring - ORM Framework - GeeksforGeeks</a></p>
+<p><strong>Spring-ORM</strong> is a technique or a Design Pattern used to access a relational database from an object-oriented language. ORM (Object Relation Mapping) covers many persistence technologies. They are as follows:</p>
+<ul>
+<li><strong>JPA(Java Persistence API):</strong> It is mainly used to persist data between Java objects and relational databases. It acts as a bridge between object-oriented domain models and relational database systems.</li>
+<li><strong>JDO(Java Data Objects):</strong> It is one of the standard ways to access persistent data in databases, by using plain old Java objects (POJO) to represent persistent data.</li>
+<li><strong>Hibernate –</strong> It is a Java framework that simplifies the development of Java applications to interact with the database.</li>
+<li><strong>Oracle Toplink, and iBATIS:</strong> Oracle TopLink is a mapping and persistence framework for Java development.</li>
+</ul>
+<p>需要了解常用的注解</p>
+<ul>
+<li>支持基于 Spring 和 JPA 构建存储库</li>
+<li>支持<a target="_blank" rel="noopener" href="http://www.querydsl.com/">Querydsl</a>谓词，因此支持类型安全的 JPA 查询</li>
+<li>透明审计</li>
+<li>分页支持、动态查询执行、集成自定义数据访问代码的能力</li>
+<li><code>@Query</code>在引导时验证带注释的查询</li>
+<li>支持基于 XML 的实体映射</li>
+<li>通过引入基于 JavaConfig 的存储库配置<code>@EnableJpaRepositories</code></li>
+</ul>
+<h2 id="字段映射"><a href="#字段映射" class="headerlink" title="字段映射"></a>字段映射</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Table(name &#x3D; &quot;malfunction_report&quot;) &#x2F;&#x2F;标记表的名称</span><br><span class="line">@Entity：标识这是一个JPA的实体，当项目启动时会更具这个实体创建相应的表</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Id &#x2F;&#x2F;标记表的自增的ID</span><br><span class="line">@GeneratedValue</span><br><span class="line"></span><br><span class="line">@Column(name &#x3D; &quot;items&quot;)&#x2F;&#x2F;标记字段的对应的映射</span><br><span class="line">@Convert(converter &#x3D; JpaConverterListJson.class)&#x2F;&#x2F; 保存和查询时能解析为对应的变量</span><br><span class="line">@Enumerated(EnumType.STRING)&#x2F;&#x2F;对应枚举这种最后在数据库需要保存为你字符串</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="查询继承JpaRepository"><a href="#查询继承JpaRepository" class="headerlink" title="查询继承JpaRepository"></a>查询继承JpaRepository</h3><p>直接可以字段拼接一个简单的查询,在继承了JpaRepository后可以发现,</p>
+<h3 id="注解query"><a href="#注解query" class="headerlink" title="注解query"></a>注解query</h3><p>使用注解可以使用jpa定义的hql来查询利用对象的映射关系,而且比较存在的ORM(<em>Object-Relational Mapping</em>)逻辑,同时如果部分字段需要调用特殊的函数也支持直接写SQL,需要在SQL后用逗号分割讲native设置为true</p>
+<h3 id="查询继承JpaSpecificationExecutor的灵活查询"><a href="#查询继承JpaSpecificationExecutor的灵活查询" class="headerlink" title="查询继承JpaSpecificationExecutor的灵活查询"></a>查询继承JpaSpecificationExecutor的灵活查询</h3><p>org.springframework.data.jpa.domain.Specification 需要实现<strong>toPredicate</strong>这里需要多个学习多个对象</p>
+<ul>
+<li><p>Root<T> root</p>
+<p>主要要使用</p>
+</li>
+<li><p>CriteriaQuery&lt;?&gt; query</p>
+<p>criterialQuery ToDo</p>
+</li>
+<li><p>CriteriaBuilder criteriaBuilder</p>
+<p>CriteriaBuilder todo</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">javax.persistence.criteria.Predicate</span><br><span class="line"></span><br><span class="line">javax.persistence.criteria.Expression</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上述对象能最大程度实现灵活的查询,加上 org.springframework.data.domain.Page可以最大程度的满足查询的需要</p>
+<h2 id="编辑和新增数据"><a href="#编辑和新增数据" class="headerlink" title="编辑和新增数据"></a>编辑和新增数据</h2><p>在自己实现的方法需要 @modify才会生效</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pkainulainen/spring-data-jpa-examples/blob/master/tutorial-part-seven/src/test/java/net/petrikainulainen/spring/datajpa/repository/PersonSpecificationsTest.java">spring-data-jpa-examples/PersonSpecificationsTest.java at master · pkainulainen/spring-data-jpa-examples</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-seven-pagination/">Spring Data JPA Tutorial: Pagination</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.baeldung.com/mockito-java-8">Mockito’s Java 8 Features | Baeldung</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-mac初始化环境配置加优化" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1477,220 +1684,6 @@
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li></ul>
     </div>
  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-springsecurity入门介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/329899c5.html" class="article-date">
-      <time datetime="2022-05-01T06:53:48.000Z" itemprop="datePublished">2022-05-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/329899c5.html">springsecurity入门介绍</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6934503341380599822">Spring Security系列之一 简单介绍和实战 - 掘金</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.1024sou.com/article/56472.html">20210902#_【项目实践】一文带你搞定Spring Security + JWT - 1024搜-程序员专属的搜索引擎</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.springcloud.cc/spring-session.html">Spring Session 中文文档 参考手册 中文版</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6934503341380599822">Spring Security系列之一 简单介绍和实战 - 掘金</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.1024sou.com/article/56472.html">20210902#_【项目实践】一文带你搞定Spring Security + JWT - 1024搜-程序员专属的搜索引擎</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.springcloud.cc/spring-session.html">Spring Session 中文文档 参考手册 中文版</a></p>
-<p>springsecurity和shiro都是权限和认证的框架，目前公司有基于springsecurity开发集成包，目前使用结合使用过程梳理一下springsecurity的特性和注意事项和集成的要点</p>
-<p>目前引入的springsecurity的</p>
-<p>springsecurity -outh 2.2.2.6 和需要和session打交道的session-core和session-data-redis2.4.1</p>
-<p>利用session-redis来存储session</p>
-<p>Web系统中登录认证（Authentication）的核心就是<strong>凭证</strong>机制，无论是<code>Session</code>还是<code>JWT</code>，都是在用户成功登录时返回给用户一个凭证，后续用户访问接口需携带凭证来标明自己的身份。后端会对需要进行认证的接口进行安全判断，若凭证没问题则代表已登录就放行接口，若凭证有问题则直接拒绝请求。这个安全判断<strong>都是放在过滤器里统一处理的</strong>：</p>
-<p>一般需要实现 </p>
-<h3 id="需要实现UserDetails"><a href="#需要实现UserDetails" class="headerlink" title="需要实现UserDetails"></a>需要实现UserDetails</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AuthUser extends User UserDetails, CredentialsContainer</span><br></pre></td></tr></table></figure>
-
-<h3 id="实现loadUserByUsername"><a href="#实现loadUserByUsername" class="headerlink" title="实现loadUserByUsername"></a>实现loadUserByUsername</h3><p>org.springframework.security.core.userdetails.UserDetailsService.loadUserByUsername</p>
-<h3 id="PasswordEncoder-密码的认证"><a href="#PasswordEncoder-密码的认证" class="headerlink" title="PasswordEncoder 密码的认证"></a><strong>PasswordEncoder</strong> 密码的认证</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Bean</span><br><span class="line">public PasswordEncoder passwordEncoder() &#123;</span><br><span class="line">    &#x2F;&#x2F; 这里我们使用bcrypt加密算法，安全性比较高</span><br><span class="line">    return new BCryptPasswordEncoder();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="继承WebSecurityConfigurerAdapter"><a href="#继承WebSecurityConfigurerAdapter" class="headerlink" title="继承WebSecurityConfigurerAdapter"></a>继承WebSecurityConfigurerAdapter</h3><p>org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter</p>
-<blockquote>
-<p>由 authenticationManager() 的默认实现用来尝试获取 AuthenticationManager。如果被覆盖，应该使用 AuthenticationManagerBuilder 来指定 AuthenticationManager。<br>authenticationManagerBean() 方法可用于将生成的 AuthenticationManager 公开为 Bean。 userDetailsServiceBean() 可用于公开使用 AuthenticationManagerBuilder 作为 Bean 创建的最后填充的 UserDetailsService。 UserDetailsService 也将自动填充到 HttpSecurity.getSharedObject(Class) 以与其他 SecurityContextConfigurer （即 RememberMeConfigurer ）一起使用<br>例如，以下配置可用于在内存中注册身份验证，以公开内存中的 UserDetailsService：<br>UserDetailsService:<br>       @Override<br>       protected void configure(AuthenticationManagerBuilder auth) {<br>           auth<br>           // enable in memory based authentication with a user named<br>           // “user” and “admin”<br>           .inMemoryAuthentication().withUser(“user”).password(“password”).roles(“USER”).and()<br>                   .withUser(“admin”).password(“password”).roles(“USER”, “ADMIN”);<br>       }</p>
-<pre><code>   // Expose the UserDetailsService as a Bean
-   @Bean
-   @Override
-   public UserDetailsService userDetailsServiceBean() throws Exception &#123;
-       return super.userDetailsServiceBean();
-   &#125;</code></pre>
-</blockquote>
-<p>目前使用的方式设置认证的方式和控制那些需要被权限管理</p>
-<h3 id="继承SecurityMetadataSource"><a href="#继承SecurityMetadataSource" class="headerlink" title="继承SecurityMetadataSource"></a>继承SecurityMetadataSource</h3><p>org.springframework.security.access.SecurityMetadataSource</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实现动态的权限验证，当然要先要获取对应的资源，然后再将他们对应哪些角色可以访问的关系表示出来</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-spring知识回顾" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/d8ed5f9d.html" class="article-date">
-      <time datetime="2022-05-01T03:53:25.000Z" itemprop="datePublished">2022-05-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/d8ed5f9d.html">spring知识回顾</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>spring的利用的面向切面编程（AOP），动态代理（反射）和filter，intercept，</p>
-<p>ApplicationContent</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Qualifier</span><br><span class="line">Roucese</span><br><span class="line">Autowired</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>spring的利用的面向切面编程（AOP），动态代理（反射）和filter，intercept，</p>
-<p>ApplicationContent</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Qualifier</span><br><span class="line">Roucese</span><br><span class="line">Autowired</span><br></pre></td></tr></table></figure>
-
-<h2 id="拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据"><a href="#拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据" class="headerlink" title="拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据"></a>拦截器利用了反射对请求进行自定义的操作可以访问action上下文和栈的对象，保证数据</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Interceptor 前置&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Interceptor 处理中&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Interceptor 后置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="过滤器利用原始servlet来进行操作主要可用于鉴权和"><a href="#过滤器利用原始servlet来进行操作主要可用于鉴权和" class="headerlink" title="过滤器利用原始servlet来进行操作主要可用于鉴权和"></a>过滤器利用原始servlet来进行操作主要可用于鉴权和</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Filter 前置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Filter 处理中&quot;</span>);</span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Filter 后置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Aspect</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Pointcut(&quot;@annotation(com.HasAuth)&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pointCut</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Around(&quot;pointCut()&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">around</span><span class="params">(ProceedingJoinPoint point)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        Object[] args = point.getArgs();</span><br><span class="line">       <span class="comment">/* if (StringUtil.IsEmpty(args[0])) &#123;</span></span><br><span class="line"><span class="comment">            args[0] = &quot;default&quot;;</span></span><br><span class="line"><span class="comment">        &#125;*/</span></span><br><span class="line">        <span class="keyword">return</span> point.proceed(args);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//标注该方法体为后置通知，当目标方法执行成功后执行该方法体  </span></span><br><span class="line">    <span class="meta">@AfterReturning(&quot;within(com.abchina.irms..*) &amp;&amp; @annotation(rl)&quot;)</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLogSuccess</span><span class="params">(JoinPoint jp, rmpfLog rl)</span></span>&#123;  </span><br><span class="line">        Object[] parames = jp.getArgs();<span class="comment">//获取目标方法体参数  </span></span><br><span class="line">        String params = parseParames(parames); <span class="comment">//解析目标方法体的参数  </span></span><br><span class="line">        String className = jp.getTarget().getClass().toString();<span class="comment">//获取目标类名  </span></span><br><span class="line">        className = className.substring(className.indexOf(<span class="string">&quot;com&quot;</span>));  </span><br><span class="line">        String signature = jp.getSignature().toString();<span class="comment">//获取目标方法签名  </span></span><br><span class="line">        String methodName = signature.substring(signature.lastIndexOf(<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>, signature.indexOf(<span class="string">&quot;(&quot;</span>));  </span><br><span class="line">        String modelName = getModelName(className); <span class="comment">//根据类名获取所属的模块  </span></span><br><span class="line">          </span><br><span class="line">      ...</span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//标注该方法体为异常通知，当目标方法出现异常时，执行该方法体  </span></span><br><span class="line">    <span class="meta">@AfterThrowing(pointcut=&quot;within(com.abchina.irms..*) &amp;&amp; @annotation(rl)&quot;, throwing=&quot;ex&quot;)</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLog</span><span class="params">(JoinPoint jp, rmpfLog rl, BusinessException ex)</span></span>&#123;  </span><br><span class="line">       ...</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="不加载特定的bean"><a href="#不加载特定的bean" class="headerlink" title="不加载特定的bean"></a>不加载特定的bean</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span> <span class="meta">@EnableSpringConfigured</span></span><br><span class="line"><span class="meta">@ComponentScan(basePackages = &#123;&quot;com.example&quot;&#125;, </span></span><br><span class="line"><span class="meta">               excludeFilters=&#123;@ComponentScan.Filter(type = FilterType.REGEX, pattern = &quot;org.xxx.yyy.*&quot;),</span></span><br><span class="line"><span class="meta">  @ComponentScan.Filter(type=FilterType.ASSIGNABLE_TYPE, value=Foo.class)&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySpringConfiguration</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h2 id="stream-自定义function"><a href="#stream-自定义function" class="headerlink" title="stream  自定义function"></a>stream  自定义function</h2>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
 
 
       
