@@ -728,7 +728,7 @@
 
 
   
-    <article id="post-隐藏问题" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-多线程下使用threadlocal隐藏问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/858923fa.html" class="article-date">
@@ -770,16 +770,40 @@
                                   
                             
                                 
-                                <p><p>在duckling中,在多线程下使用threadlocal隐藏问题</p>
-<p><img src="../img/threadlocal_desc.png" alt="img"></p>
-<p><img src="../img/thread_local_eval.png" alt="img"></p>
+                                <p><p>通过 <code>ThreadLocal</code> 来存储 <code>FixedAccessModel</code>。这种设计在简单场景下或许可行，但在复杂的多线程环境（尤其是使用线程池时）中存在着一系列隐藏的风险。对应的优化建议。</p>
+<h4 id="一、ThreadLocal-在多线程环境下的潜在问题"><a href="#一、ThreadLocal-在多线程环境下的潜在问题" class="headerlink" title="一、ThreadLocal 在多线程环境下的潜在问题"></a><strong>一、<code>ThreadLocal</code> 在多线程环境下的潜在问题</strong></h4><ol>
+<li><p><strong>数据污染 (Data Contamination in Thread Pools)</strong></p>
 <p>
                               
                           
                     
               <!-- 
               
-              <p>在duckling中,在多线程下使用threadlocal隐藏问题</p>
+              <p>通过 <code>ThreadLocal</code> 来存储 <code>FixedAccessModel</code>。这种设计在简单场景下或许可行，但在复杂的多线程环境（尤其是使用线程池时）中存在着一系列隐藏的风险。对应的优化建议。</p>
+<h4 id="一、ThreadLocal-在多线程环境下的潜在问题"><a href="#一、ThreadLocal-在多线程环境下的潜在问题" class="headerlink" title="一、ThreadLocal 在多线程环境下的潜在问题"></a><strong>一、<code>ThreadLocal</code> 在多线程环境下的潜在问题</strong></h4><ol>
+<li><p><strong>数据污染 (Data Contamination in Thread Pools)</strong></p>
+<ul>
+<li><strong>问题描述</strong>: 在线程池架构中，核心线程是可复用的。如果一个请求处理结束后未清理其 <code>ThreadLocal</code> 变量，那么当该线程被分配给下一个新请求时，新请求会读取到上一个请求遗留的脏数据。</li>
+<li><strong>根本原因</strong>: <code>ThreadLocal</code> 的生命周期与线程相同，而非与请求相同。线程不销毁，数据不清空。</li>
+</ul>
+</li>
+<li><p><strong>内存泄漏 (Memory Leaks)</strong></p>
+<ul>
+<li><strong>问题描述</strong>: 未被显式移除的 <code>ThreadLocal</code> 变量，尤其是在线程池的长生命周期线程中，会导致其引用的对象（<code>FixedAccessModel</code>）无法被垃圾收集器（GC）回收，从而引发内存泄漏。</li>
+<li><strong>风险场景</strong>: 在高并发、长时间运行的服务中，此类内存泄漏会逐渐累积，最终可能导致服务内存溢出（OOM）。</li>
+</ul>
+</li>
+<li><p><strong>上下文继承失效 (Context Propagation Failure)</strong></p>
+<ul>
+<li><strong>问题描述</strong>: 原生的 <code>ThreadLocal</code> 不支持父子线程间的数据传递。虽然 <code>InheritableThreadLocal</code> 提供了基本的继承能力，但在涉及线程池的异步任务调度（例如，<code>ExecutorService.submit()</code>）时，它同样无法保证线程上下文的正确传递。</li>
+</ul>
+</li>
+<li><p><strong>非线程安全的对象引用 (Non-Thread-Safe Object Reference)</strong></p>
+<ul>
+<li><strong>问题描述</strong>: <code>ThreadLocal</code> 仅保证了 <code>FixedAccessModel</code> 这个 <em>引用</em> 的线程隔离，但并不保证 <code>FixedAccessModel</code> 对象本身的线程安全性。如果该对象的内部状态是可变的（Mutable），并且在多处被非原子性地操作，依然会产生线程安全问题。</li>
+</ul>
+</li>
+</ol>
 <p><img src="../img/threadlocal_desc.png" alt="img"></p>
 <p><img src="../img/thread_local_eval.png" alt="img"></p>
 <p><img src="../img/thread_lcoal_save.png" alt="img"></p>
