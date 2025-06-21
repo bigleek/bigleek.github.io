@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="leek" />
+
+
+
+<meta name="description" content="🔗 原文链接： https:&#x2F;&#x2F;yindongliang.com&#x2F;posts&#x2F;perm…  权限系统是一个比较通用的系统，几乎所有的后台业务都会涉及到，关于权限系统的设计经过一些最佳实践也已经被总结成各种模型，比如 ACL、RBAC、ABAC、PBAC等，下面开始详细介绍。 基本概念在很多权限系统的框架和服务，包括 Casbin 、 Authing 里面，都有下面这些名词作为基础，所以在开始之">
+<meta property="og:type" content="article">
+<meta property="og:title" content="权限系统通用的设计模型(转载)">
+<meta property="og:url" content="https://imlike.cc/389ed4f9.html">
+<meta property="og:site_name" content="leek 自留地">
+<meta property="og:description" content="🔗 原文链接： https:&#x2F;&#x2F;yindongliang.com&#x2F;posts&#x2F;perm…  权限系统是一个比较通用的系统，几乎所有的后台业务都会涉及到，关于权限系统的设计经过一些最佳实践也已经被总结成各种模型，比如 ACL、RBAC、ABAC、PBAC等，下面开始详细介绍。 基本概念在很多权限系统的框架和服务，包括 Casbin 、 Authing 里面，都有下面这些名词作为基础，所以在开始之">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=N2IxMDUxMmVlZTI2NGYzZWIwOTg3MTIwNjc3NzAzNTRfUDZrS1NacldSMUViaXZwcWFuSjR1a0R6TTRQT3dobTVfVG9rZW46WFVRb2JkdjNLb3YzSWN4c0d3Q2NRRlhrbkdiXzE3NTA0NjU3ODU6MTc1MDQ2OTM4NV9WNA">
+<meta property="article:published_time" content="2025-06-21T00:29:01.000Z">
+<meta property="article:modified_time" content="2025-06-21T00:32:20.859Z">
+<meta property="article:author" content="leek">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=N2IxMDUxMmVlZTI2NGYzZWIwOTg3MTIwNjc3NzAzNTRfUDZrS1NacldSMUViaXZwcWFuSjR1a0R6TTRQT3dobTVfVG9rZW46WFVRb2JkdjNLb3YzSWN4c0d3Q2NRRlhrbkdiXzE3NTA0NjU3ODU6MTc1MDQ2OTM4NV9WNA">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="leek 自留地" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="pics/g.jpg">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/pace.min.js"></script>
+    <link href="//lf6-cdn-tos.bytecdntp.com/cdn/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//lf6-cdn-tos.bytecdntp.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>权限系统通用的设计模型(转载) | leek 自留地</title>
+
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="//lf6-cdn-tos.bytecdntp.com/cdn/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//lf6-cdn-tos.bytecdntp.com/cdn/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//lf6-cdn-tos.bytecdntp.com/cdn/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/"></a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" rel="noopener" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" rel="noopener" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yelee/" rel="tag">Yelee</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yilia/" rel="tag">Yilia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/axios/" rel="tag">axios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary/" rel="tag">binary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ceph/" rel="tag">ceph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/" rel="tag">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/container/" rel="tag">container</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/" rel="tag">deepin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsraech/" rel="tag">elasticsraech</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gdal/" rel="tag">gdal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnome/" rel="tag">gnome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E4%B8%BB%E9%A2%98/" rel="tag">hexo主题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellj/" rel="tag">intellj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kuboard/" rel="tag">kuboard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/" rel="tag">mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/" rel="tag">nas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/no-ad/" rel="tag">no_ad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/onedrive/" rel="tag">onedrive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/orientDb/" rel="tag">orientDb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgres/" rel="tag">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/" rel="tag">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/" rel="tag">repost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spotify/" rel="tag">spotify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/" rel="tag">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thunderbolt/" rel="tag">thunderbolt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/" rel="tag">vpn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue-cli/" rel="tag">vue-cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wine/" rel="tag">wine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yandex/" rel="tag">yandex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E6%92%AD/" rel="tag">云播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E7%BF%BC%E4%BA%91/" rel="tag">天翼云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90/" rel="tag">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95/" rel="tag">搜狗输入法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%90%AC%E5%AE%B6/" rel="tag">搬家</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99/" rel="tag">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag">腾讯云</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="tag">软件配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/" rel="tag">邮件服务</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://imlike.cc/page.html">镜像网站导航</a>
+                    
+                      <a class="main-nav-link switch-friends-link" target="_blank" rel="noopener" href="https://imcyc.cn/">Morty</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">平时零散的知识</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://pic.superbed.cn/item/5c9f2d213a213b04176522d4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:s@yandex.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/bigleek" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa Google" target="_blank" href="https://plus.google.com/bigleekcode" title="Google"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-权限系统通用的设计模型" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/389ed4f9.html" class="article-date">
+      <time datetime="2025-06-21T00:29:01.000Z" itemprop="datePublished">2025-06-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      权限系统通用的设计模型(转载)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        <!--  -->
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                  
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text"></span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number"></span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E4%BD%93%EF%BC%88Subject%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">主体（Subject）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%EF%BC%88Object%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">对象（Object）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E4%BD%9C%EF%BC%88Action%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">动作（Action）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL"><span class="toc-number"></span> <span class="toc-text">ACL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DAC"><span class="toc-number"></span> <span class="toc-text">DAC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MAC"><span class="toc-number"></span> <span class="toc-text">MAC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RBAC"><span class="toc-number"></span> <span class="toc-text">RBAC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RBAC0"><span class="toc-number"></span> <span class="toc-text">RBAC0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RBAC1"><span class="toc-number"></span> <span class="toc-text">RBAC1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RBAC2"><span class="toc-number"></span> <span class="toc-text">RBAC2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RBAC3"><span class="toc-number"></span> <span class="toc-text">RBAC3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RBAC-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number"></span> <span class="toc-text">RBAC 的优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%BB%84"><span class="toc-number"></span> <span class="toc-text">用户组</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%92%E8%89%B2%E5%92%8C%E7%BB%84%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number"></span> <span class="toc-text">角色和组的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ABAC"><span class="toc-number"></span> <span class="toc-text">ABAC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B1%9E%E6%80%A7%E8%BF%9B%E8%A1%8C%E5%8A%A8%E6%80%81%E8%AE%A1%E7%AE%97"><span class="toc-number"></span> <span class="toc-text">如何使用属性进行动态计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number"></span> <span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9-RBAC-%E8%BF%98%E6%98%AF-ABAC"><span class="toc-number"></span> <span class="toc-text">选择 RBAC 还是 ABAC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PBAC"><span class="toc-number"></span> <span class="toc-text">PBAC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0"><span class="toc-number"></span> <span class="toc-text">框架实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Casbin"><span class="toc-number"></span> <span class="toc-text">Casbin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shiro"><span class="toc-number"></span> <span class="toc-text">Shiro</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Security"><span class="toc-number"></span> <span class="toc-text">Spring Security</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Django"><span class="toc-number"></span> <span class="toc-text">Django</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+                  <blockquote>
+<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://yindongliang.com/posts/permission-system-models/">https://yindongliang.com/posts/perm…</a></p>
+</blockquote>
+<h5 id=""><a href="#" class="headerlink" title=""></a></h5><p>权限系统是一个比较通用的系统，几乎所有的后台业务都会涉及到，关于权限系统的设计经过一些最佳实践也已经被总结成各种模型，比如 ACL、RBAC、ABAC、PBAC等，下面开始详细介绍。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>在很多权限系统的框架和服务，包括 <a target="_blank" rel="noopener" href="https://casbin.org/zh-CN/">Casbin </a>、 <a target="_blank" rel="noopener" href="https://www.authing.cn/">Authing </a>里面，都有下面这些名词作为基础，所以在开始之前，还要先理解这些概念。</p>
+<h3 id="主体（Subject）"><a href="#主体（Subject）" class="headerlink" title="主体（Subject）"></a>主体（Subject）</h3><p>想要访问资源的主体，可以先理解为用户。</p>
+<h3 id="对象（Object）"><a href="#对象（Object）" class="headerlink" title="对象（Object）"></a>对象（Object）</h3><p>用户要访问（或更改）的资源。</p>
+<h3 id="动作（Action）"><a href="#动作（Action）" class="headerlink" title="动作（Action）"></a>动作（Action）</h3><p>用户对资源执行的操作，比如文件的读写，数据是否能访问、操作。</p>
+<h2 id="ACL"><a href="#ACL" class="headerlink" title="ACL"></a>ACL</h2><p>权限控制表简称 ACL（Access-Control List），ACL 记录了哪些 <strong>资源</strong> 可以被哪些 <strong>主体</strong> 进行哪些 <strong>操作</strong> ，是一个关系表，大部分的权限系统里都会有这张表。而在一个 ACL 表里，一般会有主体、对象和动作三个要素，设计出来的库表一般为：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>subject</th>
+<th>object</th>
+<th>action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>user1</td>
+<td>文档 1</td>
+<td>查看</td>
+</tr>
+<tr>
+<td>2</td>
+<td>user1</td>
+<td>文档 2</td>
+<td>编辑</td>
+</tr>
+<tr>
+<td>3</td>
+<td>user2</td>
+<td>文档 2</td>
+<td>删除</td>
+</tr>
+</tbody></table>
+<h3 id="DAC"><a href="#DAC" class="headerlink" title="DAC"></a>DAC</h3><p>自主访问控制简称 DAC（Discretionary Access Control），DAC 是 ACL 的一种实现，里面的主体就是用户。这样的设计简单直接，查询效率很高，强调自主是因为 DAC 模型将授权的权利下放，允许拥有指定权限的用户可以自主地将权限授予给其他用户。比如，在纯粹 ACL 模型下，每次新人培训，人事总监都要通知 IT 部，将培训文档的访问权限授予新人。在 DAC 模型下，人事总监只需将文档的访问权限授予人事专员。之后，每次新人培训，由人事专员将文档的访问权限授予不同的新人。</p>
+<p>DAC 的缺点也很明显，比如在一家公司，每有一个新人入职，就需要人事专员给新人添加各种系统的权限，这些工作的重复性很大，而且文档越多，工作量越大。</p>
+<h3 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h3><p>强制访问控制简称 MAC（Mandatory Access Control），是为了弥补 DAC 权限控制过于分散的问题而诞生的，在 MAC 模型中，会对资源进行类别划分、对主体进行等级划分。在进行权限校验时，会同时对主体的等级和资源的类别进行匹配，实现资源与主体的双重验证，确保资源的交叉隔离，提高安全性。比如情报局的任务有秘密级、机密级、绝密级，角色有007、M 和 Q，MAC 非常适合机密机构或者其他等级观念强烈的行业，但对于类似商业服务系统，则因为不够灵活而不能适用。</p>
+<p>MAC的权限库表设计可能为：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">资源配置表</span><br><span class="line">  资源: 财务文档</span><br><span class="line"><span class="code">    主体: 财务人员</span></span><br><span class="line"><span class="code">    等级：经理级</span></span><br><span class="line"><span class="code">    操作：查看</span></span><br><span class="line"><span class="code">主体配置表</span></span><br><span class="line"><span class="code">        主体: 李女士</span></span><br><span class="line"><span class="code">          类别: 财务人员</span></span><br><span class="line"><span class="code">          等级：经理级</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="RBAC"><a href="#RBAC" class="headerlink" title="RBAC"></a>RBAC</h2><p>基于角色的访问控制简称 RBAC（Role-Based Access Control）。在 RBAC 里面，一个人有了一些固定的权限后，他就是一个角色，于是引入了“角色”的概念，可以理解为角色就是一组权限的集合。这个模型有效的解决了 ACL 模型里面管理员给每一个新人逐个系统加权限的问题，只需要在最初配置好角色所拥有的权限，在新人入职时给新人分配一个角色就可以了，大大减少重复性操作负担。需要注意的是，实现时要验证角色是否有某个权限，而不是去验证用户是否是某个角色。</p>
+<p>引入角色概念后，RBAC 演进出了 4 种细分模型：RBAC0、RBAC1、RBAC2、RBAC3。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=N2IxMDUxMmVlZTI2NGYzZWIwOTg3MTIwNjc3NzAzNTRfUDZrS1NacldSMUViaXZwcWFuSjR1a0R6TTRQT3dobTVfVG9rZW46WFVRb2JkdjNLb3YzSWN4c0d3Q2NRRlhrbkdiXzE3NTA0NjU3ODU6MTc1MDQ2OTM4NV9WNA" alt="img"></p>
+<h3 id="RBAC0"><a href="#RBAC0" class="headerlink" title="RBAC0"></a>RBAC0</h3><p>RBAC0 就是上面说的最基础的 RBAC 模型，只引入了角色的概念，在这个模型下，用户和角色是多对多的关系，角色和权限之间也是多对多的关系，角色实现了用户和权限间的解耦：</p>
+<h3 id="RBAC1"><a href="#RBAC1" class="headerlink" title="RBAC1"></a>RBAC1</h3><p>RBAC1 模型是 RBAC0 的升级版，它对角色这层元素上进行了细分，引入 <strong>角色继承</strong> 的概念，也就是可以继承某个基础角色生成子角色。RBAC1 模型可以更好地在角色层面进行细分，更好地映射了企业组织架构中的职能的权限，根据实际的管理权限对相似职能的角色进行删减以达到级别分明的效果。</p>
+<p><strong>应用场景</strong> ：市场经理岗位可能会分为总监级别、经理级别、副经理级别，这时候如果小陈只是一个副经理级别的，那么他所拥有的市场经理的权限肯定就没有总监级别的多 1 。</p>
+<h3 id="RBAC2"><a href="#RBAC2" class="headerlink" title="RBAC2"></a>RBAC2</h3><p>在 RBAC2 中对角色层面增加了 <strong>职责分离</strong> 的限制：</p>
+<p>（1）静态职责分离（Static Separation of Duty)）</p>
+<ul>
+<li>角色互斥：相同用户不能同时拥有互斥关系的角色，例如会计和出纳两个角色就是互斥的</li>
+<li>基数约束：角色被分配到的用户有数量上限，例如公司中只有一个 CEO 职位，那么这个角色的数量就是有限的</li>
+<li>先决条件角色：要拥有更高级别的角色权限，需要先获取到相对来说低级别的一些权限，例如副经理要想获取到总监级别权限，那么他需要先获取到经理级别的权限。</li>
+</ul>
+<p>（2）动态职责分离（Dynamic Separation of Duty）</p>
+<p>用户在一次会话（Session）中不能同时激活自身所拥有的、互相有冲突的角色，只能选择其一。</p>
+<h3 id="RBAC3"><a href="#RBAC3" class="headerlink" title="RBAC3"></a>RBAC3</h3><p>RBAC3 模型就是 <code>RBAC1 + RBAC2</code> 两个模型的合集，所以 RBAC3 既有 RBAC1 的角色等级划分，也有 RBAC2 的角色限制。这种模型只有在系统比较复杂的时候才派得上用场，不然设计得过度复杂，对开发和后期维护也不是好事情。</p>
+<h3 id="RBAC-的优缺点"><a href="#RBAC-的优缺点" class="headerlink" title="RBAC 的优缺点"></a>RBAC 的优缺点</h3><p>RBAC 的优点很明显就是只需要分配一次角色，大大减少了重复性操作负担，解耦了用户和权限的关系。</p>
+<p>但是 RBAC 并不总能满足所有权限的场景。比如，我们无法对销售角色进行个体定制。比如，销售角色拥有创建、删除的权限。如果我们要对销售小李，去掉删除的权限。那么，我们就必须创建另一个角色，来满足需求。如果这种情况很频繁，就会丧失角色的统一性，降低系统的可维护性。</p>
+<h3 id="用户组"><a href="#用户组" class="headerlink" title="用户组"></a>用户组</h3><p>很多情况下权限系统还会在 <code>用户&lt;--&gt;角色&lt;--&gt;权限</code> 的基础上引入 <strong>用户组</strong> 的概念，用户组就是用户（主体）的集合，打个比方，在一家公司需要将岗位 A 的所有人都调配到岗位 B，如果单纯的更改用户的角色，操作量还是很大，加入用户组的概念后，只需要将一个用户组的角色从岗位 A 改为岗位 B 就可以了。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户<span class="xml"><span class="tag">&lt;<span class="name">=关系表=</span>&gt;</span></span>用户组<span class="xml"><span class="tag">&lt;<span class="name">=关系表=</span>&gt;</span></span>角色<span class="xml"><span class="tag">&lt;<span class="name">=关系表=</span>&gt;</span></span>权限</span><br></pre></td></tr></table></figure>
+
+<h4 id="角色和组的区别"><a href="#角色和组的区别" class="headerlink" title="角色和组的区别"></a>角色和组的区别</h4><p>角色和组两个概念可能会让人混淆，这里做个区分：</p>
+<ul>
+<li>主体可以是用户，也可以是组，角色赋予的是主体。</li>
+<li>角色是权限的集合。</li>
+<li>组是用户的集合</li>
+</ul>
+<h2 id="ABAC"><a href="#ABAC" class="headerlink" title="ABAC"></a>ABAC</h2><p>基于属性的访问控制（Attribute-Based Access Control，简称 ABAC）是一种非常灵活的授权模型，不同于 RBAC，在 ABAC 中，一个操作是否被允许是基于对象、资源、操作和环境信息共同动态计算决定的 2 。</p>
+<ul>
+<li>对象：对象是当前请求访问资源的用户。用户的属性包括ID，个人资源，角色，部门和组织成员身份等；</li>
+<li>资源：资源是当前访问用户要访问的资产或对象（例如文件，数据，服务器，甚至API）。资源属性包含文件的创建日期，文件所有者，文件名和类型以及数据敏感性等等；</li>
+<li>操作：操作是用户试图对资源进行的操作。常见的操作包括“读取”，“写入”，“编辑”，“复制”和“删除”；</li>
+<li>环境：环境是每个访问请求的上下文。环境属性包含访问尝试的时间和位置，对象的设备，通信协议和加密强度等。</li>
+</ul>
+<h3 id="如何使用属性进行动态计算"><a href="#如何使用属性进行动态计算" class="headerlink" title="如何使用属性进行动态计算"></a>如何使用属性进行动态计算</h3><p>在 ABAC 的决策语句的执行过程中，决策引擎会根据定义好的决策语句，结合对象、资源、操作、环境等因素动态计算出决策结果。每当发生访问请求时，ABAC 决策系统都会分析属性值是否与已建立的策略匹配。如果有匹配的策略，访问请求就会被通过。</p>
+<p>例如，策略「当一个文档的所属部门跟用户的部门相同时，用户可以访问这个文档」会被以下属性匹配：</p>
+<ul>
+<li>对象（用户）的部门 = 资源的所属部门；</li>
+<li>资源 = “文档”；</li>
+<li>操作 = “访问”；</li>
+</ul>
+<p>策略「早上九点前禁止 A 部门的人访问B系统；」会被以下属性匹配：</p>
+<ul>
+<li>对象的部门 = A 部门；</li>
+<li>资源 = “B 系统”；</li>
+<li>操作 = “访问”；</li>
+<li>环境 = “时间是早上 9 点”。</li>
+</ul>
+<p>浓缩到一句话，在 ABAC 模型下你可以 <strong>细粒度地授权在何种情况下对某个资源具备某个特定的权限。</strong></p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>基于了这些属性，就可以进行规则的定制，可见灵活但是复杂，配置的工作量根据实际业务的复杂度成正比。kubernetes 也因为其过于复杂改用了 RBAC 3 。</p>
+<blockquote>
+<p>ABAC, Attribute Based Access Control, is a powerful concept. However, as implemented in Kubernetes, ABAC is difficult to manage and understand. It requires ssh and root filesystem access on the master VM of the cluster to make authorization policy changes. For permission changes to take effect the cluster API server must be restarted.</p>
+</blockquote>
+<p>RBAC 也相应解决了使用 ABAC 时面临的问题：</p>
+<blockquote>
+<p>RBAC permission policies are configured using kubectl or the Kubernetes API directly. Users can be authorized to make authorization policy changes using RBAC itself, making it possible to delegate resource management without giving away ssh access to the cluster master. RBAC policies map easily to the resources and operations used in the Kubernetes API.</p>
+</blockquote>
+<p>除了维护难度高以外，ABAC 的规则判断是实时执行，规则过多或者需求复杂时需要关注性能问题。</p>
+<h3 id="选择-RBAC-还是-ABAC"><a href="#选择-RBAC-还是-ABAC" class="headerlink" title="选择 RBAC 还是 ABAC"></a>选择 RBAC 还是 ABAC</h3><p>在这里，组织的规模是至关重要的因素。由于 ABAC 最初的设计和实施困难，对于小型企业而言，考虑起来可能太复杂了。</p>
+<p>对于中小型企业，RBAC 是 ABAC 的简单替代方案。每个用户都有一个唯一的角色，并具有相应的权限和限制。当用户转移到新角色时，其权限将更改为新职位的权限。这意味着，在明确定义角色的层次结构中，可以轻松管理少量内部和外部用户。</p>
+<p>但是，当必须手动建立新角色时，对于大型组织而言，效率不高。一旦定义了属性和规则，当用户和利益相关者众多时，ABAC 的策略就更容易应用，同时还降低了安全风险。</p>
+<p>简而言之，如果满足以下条件，请选择 ABAC：</p>
+<ul>
+<li>你在一个拥有许多用户的大型组织中；</li>
+<li>你需要深入的特定访问控制功能；</li>
+<li>你有时间投资远距离的模型；</li>
+<li>你需要确保隐私和安全合规；</li>
+</ul>
+<p>但是，如果满足以下条件，请考虑 RBAC：</p>
+<ul>
+<li>你所在的是中小型企业；</li>
+<li>你的访问控制策略广泛；</li>
+<li>你的外部用户很少，并且你的组织角色得到了明确定义。</li>
+</ul>
+<h3 id="PBAC"><a href="#PBAC" class="headerlink" title="PBAC"></a>PBAC</h3><p>PBAC（Policy-Based Access Control）是基于策略的权限控制，其实 ABAC 里已经开始有策略的味道了，PBAC 就是相对于传统的 ABAC 更加强调策略（Policy），故 PBAC 也是 ABAC。参考维基百科 XACML 里的描述 4 ：</p>
+<blockquote>
+<p>XACML is primarily an <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Attribute-based_access_control">attribute-based access control </a>system (ABAC), also known as a policy-based access control (PBAC) system, where attributes (bits of data) associated with a user or action or resource are inputs into the decision of whether a given user may access a given resource in a particular way.</p>
+</blockquote>
+<h2 id="框架实现"><a href="#框架实现" class="headerlink" title="框架实现"></a>框架实现</h2><h3 id="Casbin"><a href="#Casbin" class="headerlink" title="Casbin"></a>Casbin</h3><p>Casbin 是一个强大的、高效的开源访问控制框架，其权限管理机制支持多种访问控制模型。上述的权限模型，都可以通过 Casbin 来实现，非常好上手，文档提供了工作原理 5 的介绍，可以进行详细了解。</p>
+<p>不过注意，Casbin 没有以下功能：</p>
+<ol>
+<li>身份认证 authentication（即验证用户的用户名和密码），Casbin 只负责访问控制。应该有其他专门的组件负责身份认证，然后由 Casbin 进行访问控制，二者是相互配合的关系。</li>
+<li>管理用户列表或角色列表。 Casbin 认为由项目自身来管理用户、角色列表更为合适， 用户通常有他们的密码，但是 Casbin 的设计思想并不是把它作为一个存储密码的容器。 而是存储 RBAC 方案中用户和角色之间的映射关系。</li>
+</ol>
+<h3 id="Shiro"><a href="#Shiro" class="headerlink" title="Shiro"></a>Shiro</h3><p>Apache Shiro 是一个强大而灵活的开源安全框架，可以干净地处理身份验证、授权、企业会话管理和加密，是 Java 技术栈，感兴趣可以了解下。</p>
+<h3 id="Spring-Security"><a href="#Spring-Security" class="headerlink" title="Spring Security"></a>Spring Security</h3><p>Spring Security 是一个强大的和高度可定制的身份验证和访问控制框架，也是 Java 技术栈，感兴趣可以了解下。</p>
+<h3 id="Django"><a href="#Django" class="headerlink" title="Django"></a>Django</h3><p>Django 是一个 Web 框架，因为以前用过 Django 比较了解，顺便说一下，Django 自带的基础功能也实现了一层针对 Model 层数据的 RBAC，可以在此基础上做一些业务开发。另外我也在其 Admin 的基础上做了一个针对 API 的权限校验，感兴趣可以看下： <a target="_blank" rel="noopener" href="https://github.com/tcitry/django-api-permission">django-api-permission </a>。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>不过 Shiro 和 Spring Security 甚至 Django 都不支持 ABAC 模型，需要另外开发业务逻辑，Casbin 可以通过模型配置文件的方式原生支持，且常用语言都提供了 SDK。</p>
+
+              
+              <!-- 
+              
+              <blockquote>
+<p>🔗 原文链接： <a target="_blank" rel="noopener" href="https://yindongliang.com/posts/permission-system-models/">https://yindongliang.com/posts/perm…</a></p>
+</blockquote>
+<h5 id=""><a href="#" class="headerlink" title=""></a></h5><p>权限系统是一个比较通用的系统，几乎所有的后台业务都会涉及到，关于权限系统的设计经过一些最佳实践也已经被总结成各种模型，比如 ACL、RBAC、ABAC、PBAC等，下面开始详细介绍。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>在很多权限系统的框架和服务，包括 <a target="_blank" rel="noopener" href="https://casbin.org/zh-CN/">Casbin </a>、 <a target="_blank" rel="noopener" href="https://www.authing.cn/">Authing </a>里面，都有下面这些名词作为基础，所以在开始之前，还要先理解这些概念。</p>
+<h3 id="主体（Subject）"><a href="#主体（Subject）" class="headerlink" title="主体（Subject）"></a>主体（Subject）</h3><p>想要访问资源的主体，可以先理解为用户。</p>
+<h3 id="对象（Object）"><a href="#对象（Object）" class="headerlink" title="对象（Object）"></a>对象（Object）</h3><p>用户要访问（或更改）的资源。</p>
+<h3 id="动作（Action）"><a href="#动作（Action）" class="headerlink" title="动作（Action）"></a>动作（Action）</h3><p>用户对资源执行的操作，比如文件的读写，数据是否能访问、操作。</p>
+<h2 id="ACL"><a href="#ACL" class="headerlink" title="ACL"></a>ACL</h2><p>权限控制表简称 ACL（Access-Control List），ACL 记录了哪些 <strong>资源</strong> 可以被哪些 <strong>主体</strong> 进行哪些 <strong>操作</strong> ，是一个关系表，大部分的权限系统里都会有这张表。而在一个 ACL 表里，一般会有主体、对象和动作三个要素，设计出来的库表一般为：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>subject</th>
+<th>object</th>
+<th>action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>user1</td>
+<td>文档 1</td>
+<td>查看</td>
+</tr>
+<tr>
+<td>2</td>
+<td>user1</td>
+<td>文档 2</td>
+<td>编辑</td>
+</tr>
+<tr>
+<td>3</td>
+<td>user2</td>
+<td>文档 2</td>
+<td>删除</td>
+</tr>
+</tbody></table>
+<h3 id="DAC"><a href="#DAC" class="headerlink" title="DAC"></a>DAC</h3><p>自主访问控制简称 DAC（Discretionary Access Control），DAC 是 ACL 的一种实现，里面的主体就是用户。这样的设计简单直接，查询效率很高，强调自主是因为 DAC 模型将授权的权利下放，允许拥有指定权限的用户可以自主地将权限授予给其他用户。比如，在纯粹 ACL 模型下，每次新人培训，人事总监都要通知 IT 部，将培训文档的访问权限授予新人。在 DAC 模型下，人事总监只需将文档的访问权限授予人事专员。之后，每次新人培训，由人事专员将文档的访问权限授予不同的新人。</p>
+<p>DAC 的缺点也很明显，比如在一家公司，每有一个新人入职，就需要人事专员给新人添加各种系统的权限，这些工作的重复性很大，而且文档越多，工作量越大。</p>
+<h3 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h3><p>强制访问控制简称 MAC（Mandatory Access Control），是为了弥补 DAC 权限控制过于分散的问题而诞生的，在 MAC 模型中，会对资源进行类别划分、对主体进行等级划分。在进行权限校验时，会同时对主体的等级和资源的类别进行匹配，实现资源与主体的双重验证，确保资源的交叉隔离，提高安全性。比如情报局的任务有秘密级、机密级、绝密级，角色有007、M 和 Q，MAC 非常适合机密机构或者其他等级观念强烈的行业，但对于类似商业服务系统，则因为不够灵活而不能适用。</p>
+<p>MAC的权限库表设计可能为：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">资源配置表</span><br><span class="line">  资源: 财务文档</span><br><span class="line"><span class="code">    主体: 财务人员</span></span><br><span class="line"><span class="code">    等级：经理级</span></span><br><span class="line"><span class="code">    操作：查看</span></span><br><span class="line"><span class="code">主体配置表</span></span><br><span class="line"><span class="code">        主体: 李女士</span></span><br><span class="line"><span class="code">          类别: 财务人员</span></span><br><span class="line"><span class="code">          等级：经理级</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="RBAC"><a href="#RBAC" class="headerlink" title="RBAC"></a>RBAC</h2><p>基于角色的访问控制简称 RBAC（Role-Based Access Control）。在 RBAC 里面，一个人有了一些固定的权限后，他就是一个角色，于是引入了“角色”的概念，可以理解为角色就是一组权限的集合。这个模型有效的解决了 ACL 模型里面管理员给每一个新人逐个系统加权限的问题，只需要在最初配置好角色所拥有的权限，在新人入职时给新人分配一个角色就可以了，大大减少重复性操作负担。需要注意的是，实现时要验证角色是否有某个权限，而不是去验证用户是否是某个角色。</p>
+<p>引入角色概念后，RBAC 演进出了 4 种细分模型：RBAC0、RBAC1、RBAC2、RBAC3。</p>
+<p><img src="https://jbfhxmeaps.feishu.cn/space/api/box/stream/download/asynccode/?code=N2IxMDUxMmVlZTI2NGYzZWIwOTg3MTIwNjc3NzAzNTRfUDZrS1NacldSMUViaXZwcWFuSjR1a0R6TTRQT3dobTVfVG9rZW46WFVRb2JkdjNLb3YzSWN4c0d3Q2NRRlhrbkdiXzE3NTA0NjU3ODU6MTc1MDQ2OTM4NV9WNA" alt="img"></p>
+<h3 id="RBAC0"><a href="#RBAC0" class="headerlink" title="RBAC0"></a>RBAC0</h3><p>RBAC0 就是上面说的最基础的 RBAC 模型，只引入了角色的概念，在这个模型下，用户和角色是多对多的关系，角色和权限之间也是多对多的关系，角色实现了用户和权限间的解耦：</p>
+<h3 id="RBAC1"><a href="#RBAC1" class="headerlink" title="RBAC1"></a>RBAC1</h3><p>RBAC1 模型是 RBAC0 的升级版，它对角色这层元素上进行了细分，引入 <strong>角色继承</strong> 的概念，也就是可以继承某个基础角色生成子角色。RBAC1 模型可以更好地在角色层面进行细分，更好地映射了企业组织架构中的职能的权限，根据实际的管理权限对相似职能的角色进行删减以达到级别分明的效果。</p>
+<p><strong>应用场景</strong> ：市场经理岗位可能会分为总监级别、经理级别、副经理级别，这时候如果小陈只是一个副经理级别的，那么他所拥有的市场经理的权限肯定就没有总监级别的多 1 。</p>
+<h3 id="RBAC2"><a href="#RBAC2" class="headerlink" title="RBAC2"></a>RBAC2</h3><p>在 RBAC2 中对角色层面增加了 <strong>职责分离</strong> 的限制：</p>
+<p>（1）静态职责分离（Static Separation of Duty)）</p>
+<ul>
+<li>角色互斥：相同用户不能同时拥有互斥关系的角色，例如会计和出纳两个角色就是互斥的</li>
+<li>基数约束：角色被分配到的用户有数量上限，例如公司中只有一个 CEO 职位，那么这个角色的数量就是有限的</li>
+<li>先决条件角色：要拥有更高级别的角色权限，需要先获取到相对来说低级别的一些权限，例如副经理要想获取到总监级别权限，那么他需要先获取到经理级别的权限。</li>
+</ul>
+<p>（2）动态职责分离（Dynamic Separation of Duty）</p>
+<p>用户在一次会话（Session）中不能同时激活自身所拥有的、互相有冲突的角色，只能选择其一。</p>
+<h3 id="RBAC3"><a href="#RBAC3" class="headerlink" title="RBAC3"></a>RBAC3</h3><p>RBAC3 模型就是 <code>RBAC1 + RBAC2</code> 两个模型的合集，所以 RBAC3 既有 RBAC1 的角色等级划分，也有 RBAC2 的角色限制。这种模型只有在系统比较复杂的时候才派得上用场，不然设计得过度复杂，对开发和后期维护也不是好事情。</p>
+<h3 id="RBAC-的优缺点"><a href="#RBAC-的优缺点" class="headerlink" title="RBAC 的优缺点"></a>RBAC 的优缺点</h3><p>RBAC 的优点很明显就是只需要分配一次角色，大大减少了重复性操作负担，解耦了用户和权限的关系。</p>
+<p>但是 RBAC 并不总能满足所有权限的场景。比如，我们无法对销售角色进行个体定制。比如，销售角色拥有创建、删除的权限。如果我们要对销售小李，去掉删除的权限。那么，我们就必须创建另一个角色，来满足需求。如果这种情况很频繁，就会丧失角色的统一性，降低系统的可维护性。</p>
+<h3 id="用户组"><a href="#用户组" class="headerlink" title="用户组"></a>用户组</h3><p>很多情况下权限系统还会在 <code>用户&lt;--&gt;角色&lt;--&gt;权限</code> 的基础上引入 <strong>用户组</strong> 的概念，用户组就是用户（主体）的集合，打个比方，在一家公司需要将岗位 A 的所有人都调配到岗位 B，如果单纯的更改用户的角色，操作量还是很大，加入用户组的概念后，只需要将一个用户组的角色从岗位 A 改为岗位 B 就可以了。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户<span class="xml"><span class="tag">&lt;<span class="name">=关系表=</span>&gt;</span></span>用户组<span class="xml"><span class="tag">&lt;<span class="name">=关系表=</span>&gt;</span></span>角色<span class="xml"><span class="tag">&lt;<span class="name">=关系表=</span>&gt;</span></span>权限</span><br></pre></td></tr></table></figure>
+
+<h4 id="角色和组的区别"><a href="#角色和组的区别" class="headerlink" title="角色和组的区别"></a>角色和组的区别</h4><p>角色和组两个概念可能会让人混淆，这里做个区分：</p>
+<ul>
+<li>主体可以是用户，也可以是组，角色赋予的是主体。</li>
+<li>角色是权限的集合。</li>
+<li>组是用户的集合</li>
+</ul>
+<h2 id="ABAC"><a href="#ABAC" class="headerlink" title="ABAC"></a>ABAC</h2><p>基于属性的访问控制（Attribute-Based Access Control，简称 ABAC）是一种非常灵活的授权模型，不同于 RBAC，在 ABAC 中，一个操作是否被允许是基于对象、资源、操作和环境信息共同动态计算决定的 2 。</p>
+<ul>
+<li>对象：对象是当前请求访问资源的用户。用户的属性包括ID，个人资源，角色，部门和组织成员身份等；</li>
+<li>资源：资源是当前访问用户要访问的资产或对象（例如文件，数据，服务器，甚至API）。资源属性包含文件的创建日期，文件所有者，文件名和类型以及数据敏感性等等；</li>
+<li>操作：操作是用户试图对资源进行的操作。常见的操作包括“读取”，“写入”，“编辑”，“复制”和“删除”；</li>
+<li>环境：环境是每个访问请求的上下文。环境属性包含访问尝试的时间和位置，对象的设备，通信协议和加密强度等。</li>
+</ul>
+<h3 id="如何使用属性进行动态计算"><a href="#如何使用属性进行动态计算" class="headerlink" title="如何使用属性进行动态计算"></a>如何使用属性进行动态计算</h3><p>在 ABAC 的决策语句的执行过程中，决策引擎会根据定义好的决策语句，结合对象、资源、操作、环境等因素动态计算出决策结果。每当发生访问请求时，ABAC 决策系统都会分析属性值是否与已建立的策略匹配。如果有匹配的策略，访问请求就会被通过。</p>
+<p>例如，策略「当一个文档的所属部门跟用户的部门相同时，用户可以访问这个文档」会被以下属性匹配：</p>
+<ul>
+<li>对象（用户）的部门 = 资源的所属部门；</li>
+<li>资源 = “文档”；</li>
+<li>操作 = “访问”；</li>
+</ul>
+<p>策略「早上九点前禁止 A 部门的人访问B系统；」会被以下属性匹配：</p>
+<ul>
+<li>对象的部门 = A 部门；</li>
+<li>资源 = “B 系统”；</li>
+<li>操作 = “访问”；</li>
+<li>环境 = “时间是早上 9 点”。</li>
+</ul>
+<p>浓缩到一句话，在 ABAC 模型下你可以 <strong>细粒度地授权在何种情况下对某个资源具备某个特定的权限。</strong></p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>基于了这些属性，就可以进行规则的定制，可见灵活但是复杂，配置的工作量根据实际业务的复杂度成正比。kubernetes 也因为其过于复杂改用了 RBAC 3 。</p>
+<blockquote>
+<p>ABAC, Attribute Based Access Control, is a powerful concept. However, as implemented in Kubernetes, ABAC is difficult to manage and understand. It requires ssh and root filesystem access on the master VM of the cluster to make authorization policy changes. For permission changes to take effect the cluster API server must be restarted.</p>
+</blockquote>
+<p>RBAC 也相应解决了使用 ABAC 时面临的问题：</p>
+<blockquote>
+<p>RBAC permission policies are configured using kubectl or the Kubernetes API directly. Users can be authorized to make authorization policy changes using RBAC itself, making it possible to delegate resource management without giving away ssh access to the cluster master. RBAC policies map easily to the resources and operations used in the Kubernetes API.</p>
+</blockquote>
+<p>除了维护难度高以外，ABAC 的规则判断是实时执行，规则过多或者需求复杂时需要关注性能问题。</p>
+<h3 id="选择-RBAC-还是-ABAC"><a href="#选择-RBAC-还是-ABAC" class="headerlink" title="选择 RBAC 还是 ABAC"></a>选择 RBAC 还是 ABAC</h3><p>在这里，组织的规模是至关重要的因素。由于 ABAC 最初的设计和实施困难，对于小型企业而言，考虑起来可能太复杂了。</p>
+<p>对于中小型企业，RBAC 是 ABAC 的简单替代方案。每个用户都有一个唯一的角色，并具有相应的权限和限制。当用户转移到新角色时，其权限将更改为新职位的权限。这意味着，在明确定义角色的层次结构中，可以轻松管理少量内部和外部用户。</p>
+<p>但是，当必须手动建立新角色时，对于大型组织而言，效率不高。一旦定义了属性和规则，当用户和利益相关者众多时，ABAC 的策略就更容易应用，同时还降低了安全风险。</p>
+<p>简而言之，如果满足以下条件，请选择 ABAC：</p>
+<ul>
+<li>你在一个拥有许多用户的大型组织中；</li>
+<li>你需要深入的特定访问控制功能；</li>
+<li>你有时间投资远距离的模型；</li>
+<li>你需要确保隐私和安全合规；</li>
+</ul>
+<p>但是，如果满足以下条件，请考虑 RBAC：</p>
+<ul>
+<li>你所在的是中小型企业；</li>
+<li>你的访问控制策略广泛；</li>
+<li>你的外部用户很少，并且你的组织角色得到了明确定义。</li>
+</ul>
+<h3 id="PBAC"><a href="#PBAC" class="headerlink" title="PBAC"></a>PBAC</h3><p>PBAC（Policy-Based Access Control）是基于策略的权限控制，其实 ABAC 里已经开始有策略的味道了，PBAC 就是相对于传统的 ABAC 更加强调策略（Policy），故 PBAC 也是 ABAC。参考维基百科 XACML 里的描述 4 ：</p>
+<blockquote>
+<p>XACML is primarily an <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Attribute-based_access_control">attribute-based access control </a>system (ABAC), also known as a policy-based access control (PBAC) system, where attributes (bits of data) associated with a user or action or resource are inputs into the decision of whether a given user may access a given resource in a particular way.</p>
+</blockquote>
+<h2 id="框架实现"><a href="#框架实现" class="headerlink" title="框架实现"></a>框架实现</h2><h3 id="Casbin"><a href="#Casbin" class="headerlink" title="Casbin"></a>Casbin</h3><p>Casbin 是一个强大的、高效的开源访问控制框架，其权限管理机制支持多种访问控制模型。上述的权限模型，都可以通过 Casbin 来实现，非常好上手，文档提供了工作原理 5 的介绍，可以进行详细了解。</p>
+<p>不过注意，Casbin 没有以下功能：</p>
+<ol>
+<li>身份认证 authentication（即验证用户的用户名和密码），Casbin 只负责访问控制。应该有其他专门的组件负责身份认证，然后由 Casbin 进行访问控制，二者是相互配合的关系。</li>
+<li>管理用户列表或角色列表。 Casbin 认为由项目自身来管理用户、角色列表更为合适， 用户通常有他们的密码，但是 Casbin 的设计思想并不是把它作为一个存储密码的容器。 而是存储 RBAC 方案中用户和角色之间的映射关系。</li>
+</ol>
+<h3 id="Shiro"><a href="#Shiro" class="headerlink" title="Shiro"></a>Shiro</h3><p>Apache Shiro 是一个强大而灵活的开源安全框架，可以干净地处理身份验证、授权、企业会话管理和加密，是 Java 技术栈，感兴趣可以了解下。</p>
+<h3 id="Spring-Security"><a href="#Spring-Security" class="headerlink" title="Spring Security"></a>Spring Security</h3><p>Spring Security 是一个强大的和高度可定制的身份验证和访问控制框架，也是 Java 技术栈，感兴趣可以了解下。</p>
+<h3 id="Django"><a href="#Django" class="headerlink" title="Django"></a>Django</h3><p>Django 是一个 Web 框架，因为以前用过 Django 比较了解，顺便说一下，Django 自带的基础功能也实现了一层针对 Model 层数据的 RBAC，可以在此基础上做一些业务开发。另外我也在其 Admin 的基础上做了一个针对 API 的权限校验，感兴趣可以看下： <a target="_blank" rel="noopener" href="https://github.com/tcitry/django-api-permission">django-api-permission </a>。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>不过 Shiro 和 Spring Security 甚至 Django 都不支持 ABAC 模型，需要另外开发业务逻辑，Casbin 可以通过模型配置文件的方式原生支持，且常用语言都提供了 SDK。</p>
+
+               -->
+        </div>
+        
+    
+  </div>
+  
+    
+<link rel="stylesheet" type="text/css" href="/share/reward.css" />
+<div class="page-reward">
+    <a href="javascript:;" class="page-reward-btn tooltip-top">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+                赏
+            </span>
+            <span class="tooltip-content">
+                <span class="tooltip-text">
+                    <span class="tooltip-inner">
+                        <p class="reward-p"><i class="icon icon-quo-left"></i>加个鸡腿<i
+                                class="icon icon-quo-right"></i></p>
+                        <div class="reward-box">
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/weixin.png">
+                                <span class="reward-type">支付宝</span>
+                            </div>
+                            
+                            
+                            <div class="reward-box-item">
+                                <img class="reward-img" src="/pics/alipay.jpg">
+                                <span class="reward-type">微信</span>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+<section id="comments" class="comments" style="margin:30px;padding:15px;background:#fff} ">
+    <style>
+        @media screen and (max-width:800px) {
+            .comments {
+                margin: auto;
+                padding: 10px;
+                background: #fff
+            }
+        }
+    </style>
+    <!--     <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script> -->
+    <script src='//lf6-cdn-tos.bytecdntp.com/cdn/valine/1.4.16/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+        new Valine({
+            el: '#comment',
+            notify:false,
+            verify:false,
+            appId: "g8FnO6tAlvPX9v7TDwxvcsX2-MdYXbMMI",
+            appKey: "VIMhnGvqVATcKffFS26bWRIs",
+            placeholder: "老铁 ，留下言呗",
+            path:window.location.pathname,
+            avatar:'mm'
+        });
+    </script>
+</section>
+
+
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/389ed4f9.html">权限系统通用的设计模型(转载)</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>发布时间:</span>2025-06-21, 08:29:01</p>
+        <p><span>最后更新:</span>2025-06-21, 08:32:20</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/389ed4f9.html" title="权限系统通用的设计模型(转载)">https://imlike.cc/389ed4f9.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://imlike.cc/389ed4f9.html　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/bf4abafd.html">
+                    并发队列实现
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/e9de1b97.html">
+                    SSH配置访问
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/share/iconfont.css">
+    <link rel='stylesheet' href='/share/spongebob.min.css' type='text/css' media='all' />
+    <div class="social_share">
+        <ul id="social_list" class="social_icon_list"></ul>
+    </div>
+    <script>
+        var shareConfig = {
+            title: '权限系统通用的设计模型(转载)',
+            url: window.location.href,
+            author: 'leek',
+            img: 'https:https://pic.superbed.cn/item/5c9f2d213a213b04176522d4'
+        }
+    </script>
+    <script src="/share/qrcode.min.js"></script>
+    <script src="/share/spongebob.min.js"></script>
+    
+
+
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/bf4abafd.html" title="上一篇: 并发队列实现">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/e9de1b97.html" title="下一篇: SSH配置访问">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/1974fd9f.html">selfhost自部署指南</a></li><li class="post-list-item"><a class="post-list-link" href="/bf4abafd.html">并发队列实现</a></li><li class="post-list-item"><a class="post-list-link" href="/389ed4f9.html">权限系统通用的设计模型(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/e9de1b97.html">SSH配置访问</a></li><li class="post-list-item"><a class="post-list-link" href="/9bee7e85.html">计算机符号和原码和反码以及位运算</a></li><li class="post-list-item"><a class="post-list-link" href="/63e78f83.html">idea-mac激活</a></li><li class="post-list-item"><a class="post-list-link" href="/12713d51.html">anthropic(Claude) promote 推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/9de51b87.html">学习的步骤讨论</a></li><li class="post-list-item"><a class="post-list-link" href="/27d3a647.html">mac软件汇集(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/129d01fc.html">如何找出Java进程占用CPU高的元凶(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/22281c22.html">mysql连接问题</a></li><li class="post-list-item"><a class="post-list-link" href="/8a4449c5.html">java线程池注意事项</a></li><li class="post-list-item"><a class="post-list-link" href="/81077f05.html">quartz使用问题</a></li><li class="post-list-item"><a class="post-list-link" href="/afee6eb0.html">从头到尾说一说Java时间日期体系的前世今生(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/858923fa.html">多线程下使用threadlocal隐藏问题</a></li><li class="post-list-item"><a class="post-list-link" href="/bd9e5f3c.html">数据结构算法学习</a></li><li class="post-list-item"><a class="post-list-link" href="/feb89734.html">docker构建镜像优化(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/4a4297b9.html">pg主从复制容器部署</a></li><li class="post-list-item"><a class="post-list-link" href="/98f8830a.html">docker_deploy_hive</a></li><li class="post-list-item"><a class="post-list-link" href="/e9b39bb2.html">缓存使用和角色定位</a></li><li class="post-list-item"><a class="post-list-link" href="/c65c8915.html">记录这段时间账号异常</a></li><li class="post-list-item"><a class="post-list-link" href="/a29432cf.html">Mybatis对应typehandler的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/21ffe189.html">流式读取支持拓展</a></li><li class="post-list-item"><a class="post-list-link" href="/d3e6d00c.html">对象池及其学习common-pool2</a></li><li class="post-list-item"><a class="post-list-link" href="/aae323f9.html">google算法更新</a></li><li class="post-list-item"><a class="post-list-link" href="/c1b88394.html">MacBook电池管理建议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/6cf43c3a.html">使用 cloudflare对于 WARP订阅</a></li><li class="post-list-item"><a class="post-list-link" href="/58edfabc.html">macbook软件配置(新手项)</a></li><li class="post-list-item"><a class="post-list-link" href="/bcb72f0.html">sublime优化和推荐插件</a></li><li class="post-list-item"><a class="post-list-link" href="/b99f57ba.html">Runnable、Future 和 RunnableFuture</a></li><li class="post-list-item"><a class="post-list-link" href="/ea10c0bb.html">有趣的web</a></li><li class="post-list-item"><a class="post-list-link" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/c66fd762.html">代码复用逻辑和类命名</a></li><li class="post-list-item"><a class="post-list-link" href="/f7f2b553.html">appletv安装和相关软件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/c243b492.html">空间大数据处理框架</a></li><li class="post-list-item"><a class="post-list-link" href="/3c685723.html">空间关系</a></li><li class="post-list-item"><a class="post-list-link" href="/d3bcc396.html">2023最新jd_cookie在青龙上操作</a></li><li class="post-list-item"><a class="post-list-link" href="/24b88766.html">图像相关的数据和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fee7f0df.html">程序员工具分享-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1a32b04.html">redis介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d305c2e.html">es查询和简要介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/fa86f8b.html">shade打包后对于META-INF/services数据丢失</a></li><li class="post-list-item"><a class="post-list-link" href="/201304a.html">thymeleaf渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/8b149922.html">奥卡姆剃刀的谎言(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/5d8e928a.html">索引入门和常见索引介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/8c1763d5.html">modelmap的使用和部分配置介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/a337c28a.html">使用Lettuce客户端或者redis连接变化时的触发事件</a></li><li class="post-list-item"><a class="post-list-link" href="/282c310f.html">Windows下bat脚本文件编写</a></li><li class="post-list-item"><a class="post-list-link" href="/eadc1bcb.html">postgresql查询表结构和表字段已经合并多个空间类型geometry的表</a></li><li class="post-list-item"><a class="post-list-link" href="/881d194.html">删除自动添加的美式键盘</a></li><li class="post-list-item"><a class="post-list-link" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/416e1d94.html">SDK开发整理和接口设计</a></li><li class="post-list-item"><a class="post-list-link" href="/d31a1754.html">java中io的优化方向</a></li><li class="post-list-item"><a class="post-list-link" href="/9891105b.html">chatgpt介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/1a9fa948.html">springmvc配置gson的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/cf22bc7c.html">mybatis回顾兼顾分析Invalid bound statement (not found)的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/267b5788.html">windows使用vmvare创建mac-intel虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/24cfb670.html">chatgpt关于学习英文</a></li><li class="post-list-item"><a class="post-list-link" href="/b2964425.html">java命名规则-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/4071038d.html">ceph配置</a></li><li class="post-list-item"><a class="post-list-link" href="/c0bea6a0.html">chatGPT的介绍转载</a></li><li class="post-list-item"><a class="post-list-link" href="/cd8153f9.html">flyio部署alist在线服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2438244e.html">webgis相关内容(转发)</a></li><li class="post-list-item"><a class="post-list-link" href="/3b9fc184.html">synchronizer_upgrade</a></li><li class="post-list-item"><a class="post-list-link" href="/b7c8f71.html">ConcurrentHashMap解析-转载</a></li><li class="post-list-item"><a class="post-list-link" href="/88809bac.html">kafka小结</a></li><li class="post-list-item"><a class="post-list-link" href="/45ca8a5d.html">springAOP和bean生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/b9faaa6a.html">集合相关总结</a></li><li class="post-list-item"><a class="post-list-link" href="/e430a961.html">jvm概念梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/a87a9ae1.html">java内存和系统内存以及栈和堆</a></li><li class="post-list-item"><a class="post-list-link" href="/d573592c.html">认证和权限</a></li><li class="post-list-item"><a class="post-list-link" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a></li><li class="post-list-item"><a class="post-list-link" href="/f1f7a0f1.html">github，gitlab相关的操作</a></li><li class="post-list-item"><a class="post-list-link" href="/3766dac5.html">ananotation_async介绍和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/7c7b32f9.html">mysql_json函数使用</a></li><li class="post-list-item"><a class="post-list-link" href="/a0b38034.html">spring缓存管理Redis+本地</a></li><li class="post-list-item"><a class="post-list-link" href="/f3616705.html">transactionl介绍(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/a6af0ce2.html">一次单元测试优化的过程总结(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ead6381e.html">自动化测试在美团外卖的实践与落地(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/75bc1ba6.html">Lombok注解@Data和@Builder冲突(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/ae50aff9.html">integrate_saml</a></li><li class="post-list-item"><a class="post-list-link" href="/df34252.html">2022个人博客网站搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/ef9a1729.html">jackson-redis-集成</a></li><li class="post-list-item"><a class="post-list-link" href="/f0e475b6.html">mysql相关内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2fd84806.html">mysql索引和锁相关的整理</a></li><li class="post-list-item"><a class="post-list-link" href="/db9f3902.html">spring-data-jap入门和测试用例以及介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ea7eedfa.html">mac初始化环境配置加优化</a></li><li class="post-list-item"><a class="post-list-link" href="/88dbcb79.html">程序员梗百科</a></li><li class="post-list-item"><a class="post-list-link" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a></li><li class="post-list-item"><a class="post-list-link" href="/224b9f31.html">http-rpc的区别和介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/bce5fd0b.html">浅谈文件传输/共享协议(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/814126a1.html">计算机硬件相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/59cba8fc.html">gdal镜像集成和dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/54871149.html">gdal使用和环境初始化在Windows和linux下的介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/329899c5.html">springsecurity入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/d8ed5f9d.html">spring知识回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/a683129.html">这些科技将在2022年改变你的生活内容（华尔街日报转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/3990369431.html">pgsql调优转载</a></li><li class="post-list-item"><a class="post-list-link" href="/1868978831.html">maven 从pom.xml 下载jar包</a></li><li class="post-list-item"><a class="post-list-link" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a></li><li class="post-list-item"><a class="post-list-link" href="/514a98ba.html">安卓推送消息</a></li><li class="post-list-item"><a class="post-list-link" href="/2474801124.html">nginx详细的配置和用途</a></li><li class="post-list-item"><a class="post-list-link" href="/ce67ced3.html">分布式文件服务介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/68368fb0.html">minio的入门介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/7d4de1d4.html">aliyun的服务警告</a></li><li class="post-list-item"><a class="post-list-link" href="/d40194d4.html">使用curl命令来下载页面中连接</a></li><li class="post-list-item"><a class="post-list-link" href="/8d977941.html">java线程</a></li><li class="post-list-item"><a class="post-list-link" href="/f7af877b.html">spotify_windows_no_ad</a></li><li class="post-list-item"><a class="post-list-link" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a></li><li class="post-list-item"><a class="post-list-link" href="/b592fe66.html">kubernetes部署ceph</a></li><li class="post-list-item"><a class="post-list-link" href="/dce64a3e.html">nvidia-jetson-nano-use</a></li><li class="post-list-item"><a class="post-list-link" href="/16f52beb.html">k8s_init_and_deploy_sample_service</a></li><li class="post-list-item"><a class="post-list-link" href="/1128ed08.html">分布式文件存储</a></li><li class="post-list-item"><a class="post-list-link" href="/dda6ae1a.html">docker容器简化运行jdk镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2aff3a72.html">打包linux的bin二进制包</a></li><li class="post-list-item"><a class="post-list-link" href="/132c3fd6.html">nginx的深度调优</a></li><li class="post-list-item"><a class="post-list-link" href="/1661309199.html">树莓派使用cloudreve搭建nas和离线下载</a></li><li class="post-list-item"><a class="post-list-link" href="/284f509c.html">VMware虚拟机添加磁盘格式化ext后挂载</a></li><li class="post-list-item"><a class="post-list-link" href="/412589e1.html">docker运行hbase</a></li><li class="post-list-item"><a class="post-list-link" href="/3b2506a.html">clickhouse的简单教程</a></li><li class="post-list-item"><a class="post-list-link" href="/4d0383ea.html">hadoop-hbase的概览</a></li><li class="post-list-item"><a class="post-list-link" href="/26c9c081.html">RESTful 资源命名最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a></li><li class="post-list-item"><a class="post-list-link" href="/2525ce5c.html">think-about-cluster</a></li><li class="post-list-item"><a class="post-list-link" href="/b760fb1a.html">think-about-data-structure</a></li><li class="post-list-item"><a class="post-list-link" href="/c1c66eff.html">k8s-deploy-geoserver-activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/8070f974.html">geoserver-high-version-some-scale-lose-layer</a></li><li class="post-list-item"><a class="post-list-link" href="/71a7527e.html">ue4-linux-running-webrtc</a></li><li class="post-list-item"><a class="post-list-link" href="/8707cf2d.html">gis-coordinate</a></li><li class="post-list-item"><a class="post-list-link" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a></li><li class="post-list-item"><a class="post-list-link" href="/8ad614a9.html">sso-auth2-jwt</a></li><li class="post-list-item"><a class="post-list-link" href="/bec1def7.html">ue4_linux_runing</a></li><li class="post-list-item"><a class="post-list-link" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a></li><li class="post-list-item"><a class="post-list-link" href="/fd4a70cc.html">常见的postgresql的函数</a></li><li class="post-list-item"><a class="post-list-link" href="/54f728db.html">ue4安卓打包</a></li><li class="post-list-item"><a class="post-list-link" href="/29702c78.html">sublime_shortcut</a></li><li class="post-list-item"><a class="post-list-link" href="/1a58ae58.html">python下载离线的网页以 gitbook上的某个页面</a></li><li class="post-list-item"><a class="post-list-link" href="/null.html">geomesa-input-error</a></li><li class="post-list-item"><a class="post-list-link" href="/6e6bd3bb.html">netty的简单上手使用</a></li><li class="post-list-item"><a class="post-list-link" href="/8cefd92d.html">使用青龙并添加jd的脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/77e0f92d.html">hadoop_windows</a></li><li class="post-list-item"><a class="post-list-link" href="/47eff7d.html">idea2020.1.3</a></li><li class="post-list-item"><a class="post-list-link" href="/c66a3331.html">Linux常用命令参考手册</a></li><li class="post-list-item"><a class="post-list-link" href="/f85e694a.html">log-drive一次 java.io.IOException Connection reset by peer 故障排查</a></li><li class="post-list-item"><a class="post-list-link" href="/466081a0.html">ambari-server中postgress启动</a></li><li class="post-list-item"><a class="post-list-link" href="/4225d45e.html">docker搭建单机kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/50c36cff.html">github的action上实例操作</a></li><li class="post-list-item"><a class="post-list-link" href="/cdcc4eae.html">分布式事务</a></li><li class="post-list-item"><a class="post-list-link" href="/d4fc710d.html">浏览器插件推荐(转载)</a></li><li class="post-list-item"><a class="post-list-link" href="/839087f3.html">windows 上的工具清单</a></li><li class="post-list-item"><a class="post-list-link" href="/e29592b7.html">ambari</a></li><li class="post-list-item"><a class="post-list-link" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a></li><li class="post-list-item"><a class="post-list-link" href="/aba1fef8.html">docker容器导入导出和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/6a9c1835.html">gis初入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2ba9cf6c.html">dockerfile使用</a></li><li class="post-list-item"><a class="post-list-link" href="/3e75944c.html">编写Linux启动文件并设置为自启动使用systemctl</a></li><li class="post-list-item"><a class="post-list-link" href="/245877594.html">pgsql重要视图转载</a></li><li class="post-list-item"><a class="post-list-link" href="/3192111075.html">pgsql和mysql的对比和特性</a></li><li class="post-list-item"><a class="post-list-link" href="/3414469055.html">（转载）经验：什么影响了数据库查询速度、什么影响了MySQL性能</a></li><li class="post-list-item"><a class="post-list-link" href="/2302551430.html">es索引生命周期维护</a></li><li class="post-list-item"><a class="post-list-link" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/1581320389.html">Jenkins的遇到的坑</a></li><li class="post-list-item"><a class="post-list-link" href="/1327663525.html">树莓派下面搭建pgsql</a></li><li class="post-list-item"><a class="post-list-link" href="/803410763.html">知识管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/3468817301.html">ubuntu输出的分辨率</a></li><li class="post-list-item"><a class="post-list-link" href="/19126373.html">Git/GitHub 中文术语表</a></li><li class="post-list-item"><a class="post-list-link" href="/1341101137.html">将博客搬至CSDN</a></li><li class="post-list-item"><a class="post-list-link" href="/3807663978.html">activiti零零碎碎的记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3494110652.html">ubuntu软件的配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2974411664.html">网站推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2572672426.html">acitiviti的NativeQuery</a></li><li class="post-list-item"><a class="post-list-link" href="/1501012444.html">ubuntu目前经常用到的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/759123676.html">树莓派天翼云盘目录索引</a></li><li class="post-list-item"><a class="post-list-link" href="/552952049.html">vue中axios中post跨域SpringBoot获取不到RequestBody数据</a></li><li class="post-list-item"><a class="post-list-link" href="/1815339691.html">hexo的next主题换到Yelee(Yilia)</a></li><li class="post-list-item"><a class="post-list-link" href="/2045142583.html">使用yandex搭建自定义域名的邮件服务</a></li><li class="post-list-item"><a class="post-list-link" href="/1520204912.html">ubuntu进程(daemon)管理,启动和停止</a></li><li class="post-list-item"><a class="post-list-link" href="/2070834639.html">树莓派内网穿透</a></li><li class="post-list-item"><a class="post-list-link" href="/981520166.html">树莓派nginx代理转发到本机端口</a></li><li class="post-list-item"><a class="post-list-link" href="/1469044090.html">树莓派docker搭建配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2385605860.html">树莓派设置用户和ssh,VN连接</a></li><li class="post-list-item"><a class="post-list-link" href="/3181160514.html">vue和element-ui初步使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1664911364.html">VUE初级教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2425517015.html">VScode优化和插件推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/3693735390.html">Linux下搭建vue环境以及出现No command 'vue'found</a></li><li class="post-list-item"><a class="post-list-link" href="/3269460028.html">提交文件MultipartFile后ZipEntry.size一直为-1</a></li><li class="post-list-item"><a class="post-list-link" href="/3534202997.html">ubuntu导致不能复制剪切板</a></li><li class="post-list-item"><a class="post-list-link" href="/745403789.html">activiti用法和结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2197510555.html">activiti数据库的分类</a></li><li class="post-list-item"><a class="post-list-link" href="/571302738.html">虚拟机内部连vpn</a></li><li class="post-list-item"><a class="post-list-link" href="/230759535.html">ZUUL转发后导致文件乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/1470057129.html">springboot 读取外部文件</a></li><li class="post-list-item"><a class="post-list-link" href="/18764620.html">申请教育邮箱和使用微软 OneDrive API 和腾讯云 SCF 免费搭建个人网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2127448358.html">Gnome插件安装和优化</a></li><li class="post-list-item"><a class="post-list-link" href="/18764621.html">Ubuntu下安装和初始化postgres</a></li><li class="post-list-item"><a class="post-list-link" href="/3861112470.html">aria2使用rpc下载百度云</a></li><li class="post-list-item"><a class="post-list-link" href="/4202359184.html">floccus利用坚果云WebDAV跨浏览器同步数据</a></li><li class="post-list-item"><a class="post-list-link" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a></li><li class="post-list-item"><a class="post-list-link" href="/124395117.html">免费短信接码网站</a></li><li class="post-list-item"><a class="post-list-link" href="/1625103035.html">Ubuntu开发软件安装</a></li><li class="post-list-item"><a class="post-list-link" href="/3423376587.html">Hexo提交百度和Google收录站点</a></li><li class="post-list-item"><a class="post-list-link" href="/2125313135.html">Linux命令记录</a></li><li class="post-list-item"><a class="post-list-link" href="/1352061511.html">搭建云播基于cloud-torrent</a></li><li class="post-list-item"><a class="post-list-link" href="/2702077458.html">搭建orientDB</a></li><li class="post-list-item"><a class="post-list-link" href="/3716506550.html">折腾几个小时的Ubuntu启动出错</a></li><li class="post-list-item"><a class="post-list-link" href="/878762119.html">hexo优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2802364883.html">检查Ubuntu开机的相关操作</a></li><li class="post-list-item"><a class="post-list-link" href="/7f98c9f2.html">搜狗输入法linux版  两个图标在托盘 tray</a></li><li class="post-list-item"><a class="post-list-link" href="/835633961.html">解决deepin-wine 下微信黑窗口问题</a></li><li class="post-list-item"><a class="post-list-link" href="/4262021452.html">docker 简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/1439793898.html">PHP学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/78752914.html">我目前的Ubuntu软件</a></li><li class="post-list-item"><a class="post-list-link" href="/1097254589.html">ubuntu优化－onedrive</a></li><li class="post-list-item"><a class="post-list-link" href="/37058318.html">配置on-my-zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/3350959125.html">Ubuntu下 intellj idea maven下载</a></li><li class="post-list-item"><a class="post-list-link" href="/3173742102.html">hexo常见命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2693474031.html">Ubuntu优化--smb局域网分享</a></li><li class="post-list-item"><a class="post-list-link" href="/3419088444.html">Ubuntu折腾--优化wine 微信小黑框处理</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233999.html">java实现图片压缩</a></li><li class="post-list-item"><a class="post-list-link" href="/6f432c85.html">Ajax运用的归纳整理</a></li><li class="post-list-item"><a class="post-list-link" href="/4288700677.html">S6新特性 和VUE的个人理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2527336709.html">SpringCloud</a></li><li class="post-list-item"><a class="post-list-link" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a></li><li class="post-list-item"><a class="post-list-link" href="/2690029183.html">Ubuntu安装软件部分</a></li><li class="post-list-item"><a class="post-list-link" href="/4293079570.html">idea配置同步</a></li><li class="post-list-item"><a class="post-list-link" href="/9bad30c2.html">kibana完成的对Elasticsraech的处理</a></li><li class="post-list-item"><a class="post-list-link" href="/857262000000000.html">spring 整合回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2810139133.html">springAOP使用动态代理的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/1278275595.html">springboot搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/3343205230.html">spring处理响应的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a></li><li class="post-list-item"><a class="post-list-link" href="/7e2892da.html">使用fileupload</a></li><li class="post-list-item"><a class="post-list-link" href="/1573622544.html">使用hexo搭建个人静态博客</a></li><li class="post-list-item"><a class="post-list-link" href="/46994988.html">使用vue-cli脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/fd8471fb.html">网上收集的关于spring特点的总结和spring介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/3642578636.html">最近折腾Ubuntu16的过程记录</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233998.html">ES相关的知识总结一</a></li><li class="post-list-item"><a class="post-list-link" href="/3632233997.html">ES相关的知识总结二</a></li><li class="post-list-item"><a class="post-list-link" href="/1075226630.html">Spring定时任务</a></li><li class="post-list-item"><a class="post-list-link" href="/4d077bfe.html">关于泛型和Java的伪泛型</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2025 leek
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by leek <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//lf6-cdn-tos.bytecdntp.com/cdn/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144246563-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

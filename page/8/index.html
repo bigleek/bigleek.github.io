@@ -269,6 +269,385 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-认证和权限" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/d573592c.html" class="article-date">
+      <time datetime="2022-12-09T01:52:33.000Z" itemprop="datePublished">2022-12-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/d573592c.html">认证和权限</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>参考文档:  <a target="_blank" rel="noopener" href="https://www.raosong.cc/2019/11/26/32.%E8%B0%88%E8%B0%88%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/">谈谈单点登录｜R_song’s blog</a></p>
+<p><img src="../img/image-20221210173435164.png" alt="image-20221210173435164"></p>
+<p>SAML</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>参考文档:  <a target="_blank" rel="noopener" href="https://www.raosong.cc/2019/11/26/32.%E8%B0%88%E8%B0%88%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/">谈谈单点登录｜R_song’s blog</a></p>
+<p><img src="../img/image-20221210173435164.png" alt="image-20221210173435164"></p>
+<p>SAML</p>
+<p><img src="../img/124011" alt="SAML 2.0 Flow"></p>
+<p>OAuth2</p>
+<p><img src="../img/1240" alt="image.png"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-理解java的BIO-NIO-AIO" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/ff3a358d.html" class="article-date">
+      <time datetime="2022-12-08T12:54:46.000Z" itemprop="datePublished">2022-12-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/ff3a358d.html">理解java的BIO/NIO/AIO</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>在理解Java的BIO/NIO/AIO之前我们先梳理下linux的相关io概念,下面是参考的连接</p>
+<p>我在网络上搜索相关io 有句话很熟悉  </p>
+<p><strong>BIO 下的连接对应一个线程</strong>  , <strong>NIO 下的请求对应一个线程</strong> ,  <strong>AIO下的有效请求对应一个线程</strong></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>在理解Java的BIO/NIO/AIO之前我们先梳理下linux的相关io概念,下面是参考的连接</p>
+<p>我在网络上搜索相关io 有句话很熟悉  </p>
+<p><strong>BIO 下的连接对应一个线程</strong>  , <strong>NIO 下的请求对应一个线程</strong> ,  <strong>AIO下的有效请求对应一个线程</strong></p>
+<ul>
+<li>BIO：线程发起 IO 请求，不管内核是否准备好 IO 操作，从发起请求起，线程一直阻塞，直到操作完成。</li>
+<li>NIO：客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有 I/O 请求时才启动一个线程进行处理。</li>
+<li>AIO：线程发起 IO 请求，立即返回；内存做好 IO 操作的准备之后，做 IO 操作，直到操作完成或者失败，通过调用注册的回调函数通知线程做 IO 操作完成或者失败。</li>
+</ul>
+<p>请求可以是读写都会创建对应线程处理,而有效请求着是 处理完对应io操作后才会调用对应的线程去操作</p>
+<p>netty介绍<br><a target="_blank" rel="noopener" href="http://thoreauz.com/2019/01/19/rpc1-netty-reactor/">RPC一-线程模型 · 造舟野渡</a></p>
+<p><a target="_blank" rel="noopener" href="http://thoreauz.com/2019/01/19/rpc2-netty-handler/">RPC二-NettyHandler处理消息 · 造舟野渡</a><br><a target="_blank" rel="noopener" href="http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/">RPC三-rpc协议和编解码 · 造舟野渡</a><br><a target="_blank" rel="noopener" href="http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/">RPC四-netty异步双向责任链 · 造舟野渡</a><br><a target="_blank" rel="noopener" href="http://thoreauz.com/2019/01/19/rpc5-reliability/">RPC五-可靠性设计 · 造舟野渡</a><br><a target="_blank" rel="noopener" href="http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/">RPC六-动态代理 · 造舟野渡</a></p>
+<p>Java io相关内容 </p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000037714804">java - 理解什么是BIO/NIO/AIO_个人文章 - SegmentFault 思否</a></p>
+<p><a target="_blank" rel="noopener" href="https://alibaba-cloud.medium.com/essential-technologies-for-java-developers-i-o-and-netty-ec765676fd21">Java Development: BIO, NIO, AIO and Netty | Medium</a></p>
+<p>linux io的相关链接</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jmcui/p/14145488.html">套接字 socket 和 tcp 连接过程 - JMCui - 博客园</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jmcui/p/14132849.html">网络 IO 模型简单介绍 - JMCui - 博客园</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-github-gitlab相关的操作" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/f1f7a0f1.html" class="article-date">
+      <time datetime="2022-12-04T06:08:17.000Z" itemprop="datePublished">2022-12-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/f1f7a0f1.html">github，gitlab相关的操作</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://www.7ed.net/start/raw-cdn.html">Github RAW 加速服务 | 7ED</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1807308">提高国内访问 GitHub 的速度的 9 种方案 - 腾讯云开发者社区-腾讯云</a></p>
+<blockquote>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://www.7ed.net/start/raw-cdn.html">Github RAW 加速服务 | 7ED</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1807308">提高国内访问 GitHub 的速度的 9 种方案 - 腾讯云开发者社区-腾讯云</a></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/SpotX-CLI/SpotX-Win/main/Install.ps1">https://raw.githubusercontent.com/SpotX-CLI/SpotX-Win/main/Install.ps1</a></p>
+<p>在githubusercontent 后面添加个大写的   <strong>S</strong> -&gt;    <a target="_blank" rel="noopener" href="https://raw.githubusercontents.com/SpotX-CLI/SpotX-Win/main/Install.ps1">https://raw.githubusercontentS.com/SpotX-CLI/SpotX-Win/main/Install.ps1</a></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.frytea.com/archives/504/">无需代理直接加速各种 GitHub 资源拉取 | 国内镜像赋能 | 助力开发 - Frytea’s Blog</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/fastgh/fgit">fastgh/fgit: 加速100～3000倍的github.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/hunshcn/gh-proxy">hunshcn/gh-proxy: github release、archive以及项目文件的加速项目</a></p>
+<p>举个例子现在需要clone某个GitHub的仓库或者是用某个shell脚本搭建某种服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone --single-branch --branch v1.4.9 https:&#x2F;&#x2F;github.com&#x2F;rook&#x2F;rook.git</span><br></pre></td></tr></table></figure>
+
+<p>时常会返回下列错误</p>
+<blockquote>
+<p>正克隆到 ‘rook’…<br>error: RPC failed; result=35, HTTP code = 0<br>fatal: The remote end hung up unexpectedly</p>
+</blockquote>
+<p>亦或者是ssh连接失败访问失败连接超时这种，如果你手动去找GitHub镜像站费时间而且有些git clone是写在二进制文件里面不方便去一个一个修改，之前有用过修改linux服务器的hosts来实现加速访问但是速度时好时坏，稳定性太差。</p>
+<p>参考上面博主的文章我有了新想法，定义使用 fgit然后软连接 <strong>/usr/bin/git</strong></p>
+<p>第二种就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global url.&quot;https:&#x2F;&#x2F;gitclone.com&#x2F;github.com&quot;.insteadOf https:&#x2F;&#x2F;ghproxy.seekme.workers.dev</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://ghproxy.seekme.workers.dev/">https://ghproxy.seekme.workers.dev/</a> 这个是我参考上面的介绍搭建的加速站，目前下载文件没啥问题就是加clone加速还是有问题</p>
+<p><a target="_blank" rel="noopener" href="https://hub.fastgit.xyz/rook/rook.git">https://hub.fastgit.xyz/rook/rook.git</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com.cnpmjs.org/rook/rook.git">https://github.com.cnpmjs.org/rook/rook.git</a></p>
+<p><a target="_blank" rel="noopener" href="https://gitclone.com/github.com/rook/rook.git">https://gitclone.com/github.com/rook/rook.git</a></p>
+<p><a target="_blank" rel="noopener" href="https://hub.fastgit.xyz/rook/rook.git">https://hub.fastgit.xyz/rook/rook.git</a> 速度最快</p>
+<p>替换步骤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 方法二：配置git自动替换</span><br><span class="line">$ git config --global url.&quot;https:&#x2F;&#x2F;hub.fastgit.xyz&quot;.insteadOf https:&#x2F;&#x2F;github.com</span><br><span class="line"># 测试</span><br><span class="line">$ git clone --single-branch --branch v1.4.9 https:&#x2F;&#x2F;github.com&#x2F;rook&#x2F;rook.git</span><br><span class="line"># 查看git配置信息</span><br><span class="line">$ git config --global --list</span><br><span class="line"># 取消设置</span><br><span class="line">$ git config --global --unset url.https:&#x2F;&#x2F;github.com&#x2F;.insteadof</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="../img/image-20220216151406670.png" alt="image-20220216151406670"></p>
+<h2 id="gitlab引用仓库里的图片"><a href="#gitlab引用仓库里的图片" class="headerlink" title="gitlab引用仓库里的图片"></a>gitlab引用仓库里的图片</h2><p>一起在typora上使用的引用相对位置的图片是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![image-20220127150651513](C:&#x2F;Program%20Files&#x2F;img&#x2F;image-20220127150651513.png)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>但是在gitlab不会去找相对位置的图片，很多人反馈在github这样写是可以在仓库readme上显示，但是在gitlab应该没优化，这边在StackOverflow上找到的解决方案是用&lt;&gt;括一下，确实可以实现，而且在语法是兼容的。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/27016052/how-can-i-reference-an-image-in-gitlab-markdown-in-the-current-directory-with-th#:~:text=My%20images%20where,Mind%20the%20%3C%3E">StackOverflow的建议</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![image-20220215103753937](&lt;C:&#x2F;Users&#x2F;Administrator&#x2F;Desktop&#x2F;img&#x2F;image-20220215103753937.png&gt;)</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A0%E9%80%9F/" rel="tag">加速</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ananotation-async介绍和使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3766dac5.html" class="article-date">
+      <time datetime="2022-11-28T08:28:29.000Z" itemprop="datePublished">2022-11-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3766dac5.html">ananotation_async介绍和使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/768513">Spring中异步注解@Async的使用、原理及使用时可能导致的问题-阿里云开发者社区</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-mysql-json函数使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1541,421 +1920,9 @@ SELECT users,JSON_CONTAINS(JSON_EXTRACT(users, &#39;$[*].userTrips[*].id&#39;), 
 
 
   
-    <article id="post-integrate-saml" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/ae50aff9.html" class="article-date">
-      <time datetime="2022-11-14T09:56:50.000Z" itemprop="datePublished">2022-11-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ae50aff9.html">integrate_saml</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://medium.com/digital-software-architecture/spring-boot-spring-security-with-saml-2-83d87df5b470">Spring Boot + Spring Security with SAML 2.0 | Digital Software Architecture</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/okta/okta-sdk-java/tree/master/integration-tests">okta-sdk-java/integration-tests at master · okta/okta-sdk-java</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.okta.com/docs/concepts/redirect-vs-embedded/#:~:text=Okta%20deployment%20models%20%E2%80%94%20redirect%20vs.%20embedded">Okta deployment models — redirect vs. embedded</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://medium.com/digital-software-architecture/spring-boot-spring-security-with-saml-2-83d87df5b470">Spring Boot + Spring Security with SAML 2.0 | Digital Software Architecture</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/okta/okta-sdk-java/tree/master/integration-tests">okta-sdk-java/integration-tests at master · okta/okta-sdk-java</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.okta.com/docs/concepts/redirect-vs-embedded/#:~:text=Okta%20deployment%20models%20%E2%80%94%20redirect%20vs.%20embedded">Okta deployment models — redirect vs. embedded</a></p>
-<p><img src="../img/image-20221114175806875.png" alt="image-20221114175806875"></p>
-<p><img src="../img/image-20221114175729566.png" alt="image-20221114175729566"></p>
-<p><img src="../img/image-20221114205002949.png" alt="image-20221114205002949"></p>
-<p><a target="_blank" rel="noopener" href="https://www.securew2.com/blog/oauth-vs-openid-which-is-better#:~:text=OpenID%20vs.,accounts%20that%20you%20already%20have.">OAuth Vs. OpenID? Which is better?</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2022个人博客网站搭建" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/df34252.html" class="article-date">
-      <time datetime="2022-11-09T13:21:04.000Z" itemprop="datePublished">2022-11-09</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/df34252.html">2022个人博客网站搭建</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.reaktor.com/blog/how-to-deal-with-life-after-heroku/">Life after Heroku: What’s a dev to do? - Reaktor</a></p>
-<ul>
-<li><p>Fly.io 让您可以部署 Docker 映像，还支持免费设置 PostgreSQL 数据库。他们的免费套餐包括 256MB RAM 和 3GB 持久存储，没有休眠的测功机——这比 Heroku 的要好。虽然你很可能需要一个 Dockerfile，但这并不难，而且学习 Docker 是你未来项目的一项很好的可转移技能。此外，作为一个巨大的奖励，每个组织都定义了免费层级，因此您可以为每个项目拥有单独的免费层级配额！他们基于 Web 的工具以及 CLI 都很好用。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.reaktor.com/blog/how-to-deal-with-life-after-heroku/">Life after Heroku: What’s a dev to do? - Reaktor</a></p>
-<ul>
-<li><p>Fly.io 让您可以部署 Docker 映像，还支持免费设置 PostgreSQL 数据库。他们的免费套餐包括 256MB RAM 和 3GB 持久存储，没有休眠的测功机——这比 Heroku 的要好。虽然你很可能需要一个 Dockerfile，但这并不难，而且学习 Docker 是你未来项目的一项很好的可转移技能。此外，作为一个巨大的奖励，每个组织都定义了免费层级，因此您可以为每个项目拥有单独的免费层级配额！他们基于 Web 的工具以及 CLI 都很好用。</p>
-</li>
-<li><p>Vercel 和 Netlify 都允许您部署静态站点和 lambda 函数，其中 Vercel 专门为部署 Next.js 应用程序（来自同一家公司的 React 框架）量身定制。除了慷慨的免费套餐外，Vercel 还拥有非常好的用户体验。作为顶部的樱桃，两者都自动为 Github 上的每个 Pull Request 构建一个预览站点。</p>
-</li>
-<li><p>Render 有一个类似于 Heroku 历史上的免费层：512MB RAM；服务在 15 分钟不活动后停止，这意味着冷启动延迟；您帐户中所有免费 Web 服务的每月最长运行时间为 750 小时（一个月大约有这么多小时）；静态网站是免费的。</p>
-</li>
-<li><p>GitHub Pages 和 Actions 也是静态站点的流行选项。</p>
-</li>
-<li><p>Heroku 可能仍然是您的首选。爱好 dynos 每月 7 美元，您可以升级并保持您的项目在原处并不间断地运行（除了您的钱包）。当然也可以使用更高的等级。</p>
-</li>
-</ul>
-<p>我之前用过Github Pages,Coding的相关博客搭建现在要么不提供服务,要么被墙,看到现在还支持的服务就上述几个,我目前使用的是vervel还算稳定.</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-jackson-redis-集成" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/ef9a1729.html" class="article-date">
-      <time datetime="2022-11-08T13:50:38.000Z" itemprop="datePublished">2022-11-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ef9a1729.html">jackson-redis-集成</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://reflectoring.io/jackson/">All You Need To Know About JSON Parsing With Jackson</a></p>
-<p>对应spring 集成redis来实现,需要主要在序列化 对象过程中,如果使用Jackson来序列化需要注意Jackson相关的配置.目前就先补充这么多</p>
-<p>下面是摘录官网的文章来大概展示然后集成最后会补充注意事项 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094545477640">Introduction to Spring Data Redis | Baeldung , Spring Data Redis 最佳实践！ - 掘金</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://reflectoring.io/jackson/">All You Need To Know About JSON Parsing With Jackson</a></p>
-<p>对应spring 集成redis来实现,需要主要在序列化 对象过程中,如果使用Jackson来序列化需要注意Jackson相关的配置.目前就先补充这么多</p>
-<p>下面是摘录官网的文章来大概展示然后集成最后会补充注意事项 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094545477640">Introduction to Spring Data Redis | Baeldung , Spring Data Redis 最佳实践！ - 掘金</a></p>
-<h3 id="Spring-Cache-简介"><a href="#Spring-Cache-简介" class="headerlink" title="Spring Cache 简介"></a>Spring Cache 简介</h3><blockquote>
-<p>当Spring Boot 结合Redis来作为缓存使用时，最简单的方式就是使用Spring Cache了，使用它我们无需知道Spring中对Redis的各种操作，仅仅通过它提供的@Cacheable 、@CachePut 、@CacheEvict 、@EnableCaching等注解就可以实现缓存功能。</p>
-</blockquote>
-<h3 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h3><h4 id="EnableCaching"><a href="#EnableCaching" class="headerlink" title="@EnableCaching"></a>@EnableCaching</h4><p>开启缓存功能，一般放在启动类上。</p>
-<h4 id="Cacheable"><a href="#Cacheable" class="headerlink" title="@Cacheable"></a>@Cacheable</h4><p>使用该注解的方法当缓存存在时，会从缓存中获取数据而不执行方法，当缓存不存在时，会执行方法并把返回结果存入缓存中。<code>一般使用在查询方法上</code>，可以设置如下属性：</p>
-<ul>
-<li>value：缓存名称（必填），指定缓存的命名空间；</li>
-<li>key：用于设置在命名空间中的缓存key值，可以使用SpEL表达式定义；</li>
-<li>unless：条件符合则不缓存；</li>
-<li>condition：条件符合则缓存。</li>
-</ul>
-<h4 id="CachePut"><a href="#CachePut" class="headerlink" title="@CachePut"></a>@CachePut</h4><p>使用该注解的方法每次执行时都会把返回结果存入缓存中。<code>一般使用在新增方法上</code>，可以设置如下属性：</p>
-<ul>
-<li>value：缓存名称（必填），指定缓存的命名空间；</li>
-<li>key：用于设置在命名空间中的缓存key值，可以使用SpEL表达式定义；</li>
-<li>unless：条件符合则不缓存；</li>
-<li>condition：条件符合则缓存。</li>
-</ul>
-<h4 id="CacheEvict"><a href="#CacheEvict" class="headerlink" title="@CacheEvict"></a>@CacheEvict</h4><p>使用该注解的方法执行时会清空指定的缓存。<code>一般使用在更新或删除方法上</code>，可以设置如下属性：</p>
-<ul>
-<li>value：缓存名称（必填），指定缓存的命名空间；</li>
-<li>key：用于设置在命名空间中的缓存key值，可以使用SpEL表达式定义；</li>
-<li>condition：条件符合则缓存。</li>
-</ul>
-<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><ul>
-<li>在pom.xml中添加项目依赖：</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--redis依赖配置--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>修改配置文件application.yml，添加Redis的连接配置；</li>
-</ul>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">host:</span> <span class="number">192.168</span><span class="number">.6</span><span class="number">.139</span> <span class="comment"># Redis服务器地址</span></span><br><span class="line">    <span class="attr">database:</span> <span class="number">0</span> <span class="comment"># Redis数据库索引（默认为0）</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">6379</span> <span class="comment"># Redis服务器连接端口</span></span><br><span class="line">    <span class="attr">password:</span> <span class="comment"># Redis服务器连接密码（默认为空）</span></span><br><span class="line">    <span class="attr">timeout:</span> <span class="string">1000ms</span> <span class="comment"># 连接超时时间</span></span><br><span class="line"><span class="string">复制代码</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在启动类上添加@EnableCaching注解启动缓存功能；</li>
-</ul>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@EnableCaching</span></span><br><span class="line"><span class="variable">@SpringBootApplication</span></span><br><span class="line">public class MallTinyApplication &#123;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">public</span> <span class="selector-tag">static</span> <span class="selector-tag">void</span> <span class="selector-tag">main</span>(String[] args) &#123;</span><br><span class="line">        <span class="selector-tag">SpringApplication</span><span class="selector-class">.run</span>(MallTinyApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>接下来在PmsBrandServiceImpl类中使用相关注解来实现缓存功能，可以发现我们获取品牌详情的方法中使用了@Cacheable注解，在修改和删除品牌的方法上使用了@CacheEvict注解；</li>
-</ul>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * PmsBrandService实现类</span></span><br><span class="line"><span class="comment"> * Created by macro on 2019/4/19.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PmsBrandServiceImpl</span> <span class="title">implements</span> <span class="title">PmsBrandService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> PmsBrandMapper brandMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@CacheEvict(value = RedisConfig.REDIS_KEY_DATABASE, key = <span class="meta-string">&quot;&#x27;pms:brand:&#x27;+#id&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> int update(<span class="built_in">Long</span> id, PmsBrand brand) &#123;</span><br><span class="line">        brand.setId(id);</span><br><span class="line">        <span class="keyword">return</span> brandMapper.updateByPrimaryKeySelective(brand);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@CacheEvict(value = RedisConfig.REDIS_KEY_DATABASE, key = <span class="meta-string">&quot;&#x27;pms:brand:&#x27;+#id&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> int delete(<span class="built_in">Long</span> id) &#123;</span><br><span class="line">        <span class="keyword">return</span> brandMapper.deleteByPrimaryKey(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Cacheable(value = RedisConfig.REDIS_KEY_DATABASE, key = <span class="meta-string">&quot;&#x27;pms:brand:&#x27;+#id&quot;</span>, unless = <span class="meta-string">&quot;#result==null&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> PmsBrand getItem(<span class="built_in">Long</span> id) &#123;</span><br><span class="line">        <span class="keyword">return</span> brandMapper.selectByPrimaryKey(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>配置Redisconfig类 </p>
-<ul>
-<li>我们可以通过给RedisTemplate设置JSON格式的序列化器，并通过配置RedisCacheConfiguration设置超时时间来实现以上需求，此时别忘了去除启动类上的@EnableCaching注解，具体配置类RedisConfig代码如下；</li>
-</ul>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Redis配置类</span></span><br><span class="line"><span class="comment"> * Created by macro on 2020/3/2.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> <span class="keyword">extends</span> <span class="title">CachingConfigurerSupport</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * redis数据库自定义key</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> final <span class="built_in">String</span> REDIS_KEY_DATABASE=<span class="string">&quot;mall&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RedisTemplate&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; <span class="function"><span class="title">redisTemplate</span>(<span class="params">RedisConnectionFactory redisConnectionFactory</span>)</span> &#123;</span><br><span class="line">        RedisSerializer&lt;<span class="built_in">Object</span>&gt; serializer = redisSerializer();</span><br><span class="line">        RedisTemplate&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; redisTemplate = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line">        redisTemplate.setConnectionFactory(redisConnectionFactory);</span><br><span class="line">        redisTemplate.setKeySerializer(<span class="keyword">new</span> StringRedisSerializer());</span><br><span class="line">        redisTemplate.setValueSerializer(serializer);</span><br><span class="line">        redisTemplate.setHashKeySerializer(<span class="keyword">new</span> StringRedisSerializer());</span><br><span class="line">        redisTemplate.setHashValueSerializer(serializer);</span><br><span class="line">        redisTemplate.afterPropertiesSet();</span><br><span class="line">        <span class="keyword">return</span> redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RedisSerializer&lt;<span class="built_in">Object</span>&gt; <span class="function"><span class="title">redisSerializer</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="comment">//创建JSON序列化器</span></span><br><span class="line">        Jackson2JsonRedisSerializer&lt;<span class="built_in">Object</span>&gt; serializer = <span class="keyword">new</span> Jackson2JsonRedisSerializer&lt;&gt;(<span class="built_in">Object</span>.class);</span><br><span class="line">        ObjectMapper objectMapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);</span><br><span class="line">        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);</span><br><span class="line">        serializer.setObjectMapper(objectMapper);</span><br><span class="line">        <span class="keyword">return</span> serializer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RedisCacheManager <span class="function"><span class="title">redisCacheManager</span>(<span class="params">RedisConnectionFactory redisConnectionFactory</span>)</span> &#123;</span><br><span class="line">        RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);</span><br><span class="line">        <span class="comment">//设置Redis缓存有效期为1天</span></span><br><span class="line">        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()</span><br><span class="line">                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer())).entryTtl(Duration.ofDays(<span class="number">1</span>));</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RedisCacheManager(redisCacheWriter, redisCacheConfiguration);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>此时我们再次调用获取商品详情的接口进行测试，会发现Redis中已经缓存了标准的JSON格式数据，并且超时时间被设置为了1天。</li>
-</ul>
-<h3 id="Finaly重中之重就是-序列化要注意"><a href="#Finaly重中之重就是-序列化要注意" class="headerlink" title="Finaly重中之重就是 序列化要注意"></a>Finaly重中之重就是 序列化要注意</h3><p><img src="../img/image-20221109221426931.png" alt="image-20221109221426931"></p>
-<p>作者：MacroZheng<br>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094545477640">https://juejin.cn/post/6844904094545477640</a><br>来源：稀土掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mysql相关内容" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/f0e475b6.html" class="article-date">
-      <time datetime="2022-11-01T09:19:36.000Z" itemprop="datePublished">2022-11-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/f0e475b6.html">mysql相关内容</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SHOW DATABASES                                &#x2F;&#x2F;列出 MySQL Server 数据库。</span><br><span class="line">SHOW TABLES [FROM db_name]                    &#x2F;&#x2F;列出数据库数据表。</span><br><span class="line">SHOW CREATE TABLES tbl_name                    &#x2F;&#x2F;导出数据表结构。</span><br><span class="line">SHOW TABLE STATUS [FROM db_name]              &#x2F;&#x2F;列出数据表及表状态信息。</span><br><span class="line">SHOW COLUMNS FROM tbl_name [FROM db_name]     &#x2F;&#x2F;列出资料表字段</span><br><span class="line">SHOW FIELDS FROM tbl_name [FROM db_name]，DESCRIBE tbl_name [col_name]。</span><br><span class="line">SHOW FULL COLUMNS FROM tbl_name [FROM db_name]&#x2F;&#x2F;列出字段及详情</span><br><span class="line">SHOW FULL FIELDS FROM tbl_name [FROM db_name] &#x2F;&#x2F;列出字段完整属性</span><br><span class="line">SHOW INDEX FROM tbl_name [FROM db_name]       &#x2F;&#x2F;列出表索引。</span><br><span class="line">SHOW STATUS                                  &#x2F;&#x2F;列出 DB Server 状态。</span><br><span class="line">SHOW VARIABLES                               &#x2F;&#x2F;列出 MySQL 系统环境变量。</span><br><span class="line">SHOW PROCESSLIST                             &#x2F;&#x2F;列出执行命令。</span><br><span class="line">SHOW GRANTS FOR user                         &#x2F;&#x2F;列出某用户权限</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SHOW DATABASES                                &#x2F;&#x2F;列出 MySQL Server 数据库。</span><br><span class="line">SHOW TABLES [FROM db_name]                    &#x2F;&#x2F;列出数据库数据表。</span><br><span class="line">SHOW CREATE TABLES tbl_name                    &#x2F;&#x2F;导出数据表结构。</span><br><span class="line">SHOW TABLE STATUS [FROM db_name]              &#x2F;&#x2F;列出数据表及表状态信息。</span><br><span class="line">SHOW COLUMNS FROM tbl_name [FROM db_name]     &#x2F;&#x2F;列出资料表字段</span><br><span class="line">SHOW FIELDS FROM tbl_name [FROM db_name]，DESCRIBE tbl_name [col_name]。</span><br><span class="line">SHOW FULL COLUMNS FROM tbl_name [FROM db_name]&#x2F;&#x2F;列出字段及详情</span><br><span class="line">SHOW FULL FIELDS FROM tbl_name [FROM db_name] &#x2F;&#x2F;列出字段完整属性</span><br><span class="line">SHOW INDEX FROM tbl_name [FROM db_name]       &#x2F;&#x2F;列出表索引。</span><br><span class="line">SHOW STATUS                                  &#x2F;&#x2F;列出 DB Server 状态。</span><br><span class="line">SHOW VARIABLES                               &#x2F;&#x2F;列出 MySQL 系统环境变量。</span><br><span class="line">SHOW PROCESSLIST                             &#x2F;&#x2F;列出执行命令。</span><br><span class="line">SHOW GRANTS FOR user                         &#x2F;&#x2F;列出某用户权限</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SHOW DATABASES </span><br><span class="line">SHOW TABLES FROM DB_NAME</span><br><span class="line"></span><br><span class="line">SHOW COLUMNS FROM </span><br><span class="line">select * from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39;</span><br><span class="line"></span><br><span class="line">select table_name,column_name,collation_name,character_set_name from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; </span><br><span class="line">select table_name,column_name,column_name,collation_name,character_set_name from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; and column_name like &#39;%description&#39;</span><br><span class="line">select * from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; and column_name like &#39;%description&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">select table_name,column_name,collation_name,character_set_name from information_schema.columns where table_schema&#x3D;&#39;DB_NAME&#39; and COLUMN_NAME like &#39;%a%&#39;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查询逻辑和相关</p>
-<h2 id="编码集"><a href="#编码集" class="headerlink" title="编码集"></a>编码集</h2>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/9/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/7/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/9/">下一页 </a>
     </nav>
   
 </div>

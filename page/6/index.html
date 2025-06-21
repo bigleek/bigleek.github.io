@@ -269,6 +269,477 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-geotools中关于filter和ECQL的介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/a0ce9eb1.html" class="article-date">
+      <time datetime="2023-05-07T12:13:03.000Z" itemprop="datePublished">2023-05-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/a0ce9eb1.html">Geotools中关于filter和ECQL的介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="filter和ECQL的介绍"><a href="#filter和ECQL的介绍" class="headerlink" title="filter和ECQL的介绍"></a>filter和ECQL的介绍</h2><p>在geotools中有datastore就需要对应数据源的查询这边是基于opengis定义的接口来定义现在先看下</p>
+<p>filter这个类的介绍</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public interface Filter &#123;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;使用Filter.INCLUDE过滤集合将会返回原始集合。</span><br><span class="line">    IncludeFilter INCLUDE &#x3D; new IncludeFilter();</span><br><span class="line">    </span><br><span class="line">	&#x2F;&#x2F;使用Filter.EXCLUDE过滤集合将会返回空集合。</span><br><span class="line">    ExcludeFilter EXCLUDE &#x3D; new ExcludeFilter();</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">	&#x2F;&#x2F;给定一个对象，确定此过滤器对象所表示的测试是否通过。如果测试通过，则返回true，否则返回false</span><br><span class="line">    boolean evaluate(Object object);</span><br><span class="line"></span><br><span class="line"> 	 &#x2F;&#x2F;接受一个访问者(FilterVisitor)。实现所有子接口必须具有以下内容的方法:</span><br><span class="line"> 	 &#x2F;&#x2F;visitor.visit(this, extraData);</span><br><span class="line">    Object accept(FilterVisitor visitor, Object extraData);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="filter和ECQL的介绍"><a href="#filter和ECQL的介绍" class="headerlink" title="filter和ECQL的介绍"></a>filter和ECQL的介绍</h2><p>在geotools中有datastore就需要对应数据源的查询这边是基于opengis定义的接口来定义现在先看下</p>
+<p>filter这个类的介绍</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public interface Filter &#123;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;使用Filter.INCLUDE过滤集合将会返回原始集合。</span><br><span class="line">    IncludeFilter INCLUDE &#x3D; new IncludeFilter();</span><br><span class="line">    </span><br><span class="line">	&#x2F;&#x2F;使用Filter.EXCLUDE过滤集合将会返回空集合。</span><br><span class="line">    ExcludeFilter EXCLUDE &#x3D; new ExcludeFilter();</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">	&#x2F;&#x2F;给定一个对象，确定此过滤器对象所表示的测试是否通过。如果测试通过，则返回true，否则返回false</span><br><span class="line">    boolean evaluate(Object object);</span><br><span class="line"></span><br><span class="line"> 	 &#x2F;&#x2F;接受一个访问者(FilterVisitor)。实现所有子接口必须具有以下内容的方法:</span><br><span class="line"> 	 &#x2F;&#x2F;visitor.visit(this, extraData);</span><br><span class="line">    Object accept(FilterVisitor visitor, Object extraData);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面是使用Filter查询Geometry类型为Point且位于指定矩形区域内的要素的示例代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;创建一个矩形过滤器</span><br><span class="line">Filter filter &#x3D; FF.and(</span><br><span class="line">    FF.equal(FF.property(&quot;geometry&quot;).getType(), FF.literal(&quot;Point&quot;)),</span><br><span class="line">    FF.bbox(&quot;geometry&quot;, -180, -90, 180, 90, &quot;EPSG:4326&quot;)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;应用过滤器获取要素集合</span><br><span class="line">SimpleFeatureCollection features &#x3D; featureSource.getFeatures(filter);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>ECQL对应filter跟一步封装我们只需要传入参数和对应方法,用一个字符串来传入即可,它基于OGC标准并支持更多的查询操作。与Filter不同的是，ECQL使用类SQL语法编写查询表达式，并可以执行更复杂的查询，例如计算距离或使用正则表达式匹配属性值。下面是使用ECQL查询两个图层之间距离小于指定值的示例代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;创建一个ECQL查询表达式</span><br><span class="line">String query &#x3D; &quot;DWITHIN(geometry, POINT(0 0), 100, meters)&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;应用查询获取要素集合</span><br><span class="line">SimpleFeatureCollection features &#x3D; featureSource.getFeatures(ECQL.toFilter(query));</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，ECQL的语法相对复杂</p>
+<h2 id="实现的原理"><a href="#实现的原理" class="headerlink" title="实现的原理"></a>实现的原理</h2><p>很简单的逻辑对于不同的数据源其实很多方法是不一样的对应数据库也许有对应的函数,对应shp文件这种也许我们只能在内存中操作,对应gpkg这种也许有其他的方式来计算</p>
+<p>对应filter通常有两种 </p>
+<ul>
+<li>一种是属性的判断 类似&lt; &gt; = like 这种</li>
+<li>第二种是 geometry 判断拓扑关系 相交,包含,相切,相离 <del>还有可能是运行 切割或者分离</del></li>
+</ul>
+<p>所以这里有定义一个抽象类来定义了要参考</p>
+<p><strong>AbstractFilterVisitor</strong>： FilterVisitor 的抽象实现类，提供了一些通用的方法，例如visit(Filter)和visitNullFilter()等。</p>
+<p><strong>DefaultFilterVisitor</strong> ：FilterVisitor的默认实现类，提供了对所有Filter对象的访问方法，例如visit(EqualsFilter)、visit(GreaterThanFilter)等。</p>
+<p><strong>ECQLFilterVisitor</strong> ：FilterVisitor的ECQL实现类，用于解析ECQL表达式。ECQLFilterVisitor提供了一组visit方法，用于访问ECQL表达式中的不同类型的Filter对象。</p>
+<p><strong>SQLFilterVisitor</strong> ：FilterVisitor的SQL实现类，用于将Filter对象转换为SQL语句。SQLFilterVisitor提供了一组visit方法，用于访问不同类型的Filter对象，并将其转换为SQL语句。</p>
+<p> <strong>ComparisonFilter</strong> : 这是一个用于比较的过滤器类，它根据给定条件对值进行比较。常见的例子包括大于、小于、等于等比较操作符。使用该类可以方便快捷地进行数据筛选和排序。</p>
+<p> <strong>LogicFilter</strong>: 这是一个用于逻辑运算的过滤器类，它可以将多个过滤器连接起来，并根据给定的逻辑关系进行组合。例如，可以使用 And 或 Or 运算符将两个或更多的过滤器连接在一起，以实现复杂的查询需求。</p>
+<p>举例子来看一读取gpkg数据来看</p>
+<p>对应空间查询最后走到GeoPkgDialect下的simpleSpatialSearch来拼接SQL查询拓扑关系</p>
+<p>里面有filter.accept()来判断</p>
+<p><img src="../img/1280X1280.PNG" alt="1280X1280"></p>
+<p>最后还是走到JDBCDataStore下的selectSQLPS方法下执行对应的sql来实现的查询</p>
+<p><img src="../img/output11111.png" alt="output"></p>
+<p>在geotools中会多次走到重复的方法,会有一定的误导作用主要是反射和部分结构设计导致的,需要我们在特定实现的类上面打断点会好很多</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-SDK开发整理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/416e1d94.html" class="article-date">
+      <time datetime="2023-04-15T15:50:04.000Z" itemprop="datePublished">2023-04-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/416e1d94.html">SDK开发整理和接口设计</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="对于SDK的设计"><a href="#对于SDK的设计" class="headerlink" title="对于SDK的设计"></a>对于SDK的设计</h2><p>这边先整理一个大概的设计方式</p>
+<p>先从接口设计来谈起 目前主要是是参考restful风格和asop两个方式,restful风格主要是通过url,requestMethod,requestParam,requestBody来携带参数和标示动作方式</p>
+<p>起初是参考<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2014/05/restful_api.html">RESTful API 设计指南 - 阮一峰的网络日志</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="对于SDK的设计"><a href="#对于SDK的设计" class="headerlink" title="对于SDK的设计"></a>对于SDK的设计</h2><p>这边先整理一个大概的设计方式</p>
+<p>先从接口设计来谈起 目前主要是是参考restful风格和asop两个方式,restful风格主要是通过url,requestMethod,requestParam,requestBody来携带参数和标示动作方式</p>
+<p>起初是参考<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2014/05/restful_api.html">RESTful API 设计指南 - 阮一峰的网络日志</a></p>
+<p>后面主要考虑集合方式 </p>
+<ul>
+<li><p>get请求会如果字符串查询会出现转义和其他影响.</p>
+</li>
+<li><p>部分axios框架不支持delete的方式.</p>
+</li>
+<li><p>post put两者方式和patch区别容易混乱 部分更新和全部字段更新.</p>
+</li>
+<li><p>对应部分批量删除选择post请求但是我选择用requestBody来删除的时候,会直接用数组来输入,这样确实简单明了,但是不好维护和理解,必要还是需要构建对应的对象来完成.</p>
+</li>
+</ul>
+<p>GET  /dog/{id}?sortby=name&amp;order=asc&amp;page=2&amp;per_page=100  查询单个数据</p>
+<p>POST  /dog/query   -requestBody {“param1”:”aaa”,”param2”:”bbb”} 查询批量数据</p>
+<p>POST /dog  -requestBody {“param1”:”aaa”,”param2”:”bbb”} 新增</p>
+<p>PUT  /dog   -requestBody {“param1”:”aaa”,”param2”:”bbb”} 部分更新</p>
+<p>POST  /dog/{id}/delete/   -requestBody {“param1”:”aaa”,”param2”:”bbb”} 删除单个数据</p>
+<p>POST  /dog/delete/   -requestBody {“param1”:[11,22,44],”param2”:”bbb”} 删除批量数据</p>
+<h2 id="关于SDK的设计"><a href="#关于SDK的设计" class="headerlink" title="关于SDK的设计"></a>关于SDK的设计</h2><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1798664">SDK 开发规范 - 腾讯云开发者社区-腾讯云</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/scar1et/p/15177861.html">通用类命名规范 - 就永远夏天 - 博客园</a></p>
+<p>其实可以参考的比较多主要是</p>
+<ol>
+<li><em>Client 类：</em>Client 类通常用于与远程服务进行交互，例如通过HTTP请求向API发送请求并获取响应。这些类通常封装了与远程服务的所有交互逻辑，并提供了易于使用的方法，以便开发人员可以轻松地与远程服务进行交互。</li>
+<li><em>Helper 类：</em>Helper 类通常包含一些实用方法或函数，这些方法或函数可以用于执行常见的操作。这些方法通常不包含业务逻辑，而是提供了一些工具和辅助函数，以帮助开发人员更轻松地编写代码。</li>
+<li><em>Utils 类：</em>Utils 类也是一种实用程序类，但它们通常包含更广泛的功能，并且可能具有更多的业务逻辑。这些类通常提供了一组静态方法，这些方法可以用于执行各种任务，例如字符串处理、日期时间处理、文件操作等等。</li>
+</ol>
+<hr>
+<p>下列类也是经常被用到的可以参考的</p>
+<ol>
+<li><em>Factory 类：</em>Factory 类通常用于创建对象，这些对象可以是某个接口或抽象类的实例。这些类通常包含一个或多个静态方法，这些方法接受参数并返回一个实例。</li>
+<li><em>Builder 类：</em>Builder 类通常用于构建复杂的对象，这些对象可能需要进行多个步骤的构建。这些类通常包含一组方法，每个方法都负责设置一个特定的属性，并返回自身的实例，以便可以链式调用这些方法。</li>
+<li><em>Adapter 类：</em>Adapter 类通常用于将一个类的接口转换为另一个类的接口。这些类通常实现了目标接口，并持有一个源对象的引用，以便将源对象的方法映射到目标接口的方法。</li>
+<li><em>Decorator 类：</em>Decorator 类通常用于在运行时动态地给对象添加功能，而无需修改原始对象。这些类通常实现了与原始对象相同的接口，并持有一个对原始对象的引用，在运行时添加额外的功能。</li>
+</ol>
+<p>注意命名<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&mid=2247532818&idx=1&sn=b7267c8a1ed2b38c15ba5728040f443f&chksm=e92a7c1dde5df50b368bf2f872cb9254b5ab19ee0586d0be74c28e5169adbd89d58c3999ffd3&mpshare=1&scene=24&srcid=04172RW1fUxdJlsjRQJUl59b&sharer_sharetime=1681704802354&sharer_shareid=1eaae4cdce27c612a0778b4d4b0007f3#rd">编程中最难的就是命名？这几招教你快速上手</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-java中io的优化方向" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/d31a1754.html" class="article-date">
+      <time datetime="2023-04-09T06:40:42.000Z" itemprop="datePublished">2023-04-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/d31a1754.html">java中io的优化方向</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="1-使用缓冲区"><a href="#1-使用缓冲区" class="headerlink" title="1. 使用缓冲区"></a>1. 使用缓冲区</h3><p>在读写文件时，每次都直接操作磁盘会导致性能降低。因此，可以通过使用缓冲区来减少对磁盘的操作次数，从而提高性能。Java 中提供了 <code>BufferedInputStream</code> 和 <code>BufferedOutputStream</code> 类来支持缓冲区的操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 创建输入流缓冲区</span><br><span class="line">BufferedInputStream bis &#x3D; new BufferedInputStream(new FileInputStream(file));</span><br><span class="line">&#x2F;&#x2F; 创建输出流缓冲区</span><br><span class="line">BufferedOutputStream bos &#x3D; new BufferedOutputStream(new FileOutputStream(file));</span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="1-使用缓冲区"><a href="#1-使用缓冲区" class="headerlink" title="1. 使用缓冲区"></a>1. 使用缓冲区</h3><p>在读写文件时，每次都直接操作磁盘会导致性能降低。因此，可以通过使用缓冲区来减少对磁盘的操作次数，从而提高性能。Java 中提供了 <code>BufferedInputStream</code> 和 <code>BufferedOutputStream</code> 类来支持缓冲区的操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 创建输入流缓冲区</span><br><span class="line">BufferedInputStream bis &#x3D; new BufferedInputStream(new FileInputStream(file));</span><br><span class="line">&#x2F;&#x2F; 创建输出流缓冲区</span><br><span class="line">BufferedOutputStream bos &#x3D; new BufferedOutputStream(new FileOutputStream(file));</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-使用-NIO"><a href="#2-使用-NIO" class="headerlink" title="2. 使用 NIO"></a>2. 使用 NIO</h3><p>Java 中的 NIO（New I/O）提供了更高效的 I/O 操作方式，可以提高程序的性能。NIO 引入了通道（Channel）、缓冲区（Buffer）等概念，并且支持非阻塞 I/O 操作。相比之下，传统的 Java I/O 通过流式处理数据，较为低效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 创建通道</span><br><span class="line">FileChannel channel &#x3D; FileChannel.open(path, StandardOpenOption.READ);</span><br><span class="line">&#x2F;&#x2F; 创建缓冲区</span><br><span class="line">ByteBuffer buffer &#x3D; ByteBuffer.allocate(1024);</span><br><span class="line">&#x2F;&#x2F; 读取数据到缓冲区</span><br><span class="line">channel.read(buffer);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-多线程读取文件"><a href="#3-多线程读取文件" class="headerlink" title="3. 多线程读取文件"></a>3. 多线程读取文件</h3><p>当需要读取大量文件时，可以考虑使用多线程来加速读取操作。Java 中可以使用线程池来创建多个线程，并将文件分成多个部分进行读取。这样可以充分利用 CPU 和磁盘的性能，提高程序的效率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 创建固定大小的线程池</span><br><span class="line">ExecutorService executorService &#x3D; Executors.newFixedThreadPool(10);</span><br><span class="line">&#x2F;&#x2F; 将任务分配给不同的线程</span><br><span class="line">for (int i &#x3D; 0; i &lt; files.length; i++) &#123;</span><br><span class="line">    Runnable task &#x3D; new ReadFileTask(files[i]);</span><br><span class="line">    executorService.submit(task);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-数据压缩"><a href="#4-数据压缩" class="headerlink" title="4. 数据压缩"></a>4. 数据压缩</h3><p>读取大量文件时，数据传输的成本可能会很高。因此，可以考虑使用数据压缩技术来减少数据量，从而提高程序的效率。Java 中提供了 <code>GZIPOutputStream</code> 和 <code>GZIPInputStream</code> 等类来支持数据压缩和解压操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 创建输出流并压缩数据</span><br><span class="line">GZIPOutputStream gos &#x3D; new GZIPOutputStream(new FileOutputStream(file));</span><br><span class="line">gos.write(data);</span><br><span class="line">gos.finish();</span><br><span class="line">gos.close();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 创建输入流并解压数据</span><br><span class="line">GZIPInputStream gis &#x3D; new GZIPInputStream(new FileInputStream(file));</span><br><span class="line">byte[] buffer &#x3D; new byte[1024];</span><br><span class="line">int read &#x3D; -1;</span><br><span class="line">while ((read &#x3D; gis.read(buffer)) !&#x3D; -1) &#123;</span><br><span class="line">    &#x2F;&#x2F; 处理数据</span><br><span class="line">&#125;</span><br><span class="line">gis.close();</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-批量读写数据"><a href="#5-批量读写数据" class="headerlink" title="5. 批量读写数据"></a>5. 批量读写数据</h3><p>在进行大量数据的读取和写入时，可以采用批量操作的方式来提高效率。例如，可以一次性读取或写入多个字节、字符或对象，减少 I/O 操作的频率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 一次性读取多个字节到缓冲区</span><br><span class="line">byte[] buffer &#x3D; new byte[1024];</span><br><span class="line">inputStream.read(buffer, 0, 1024);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 一次性写入多个字符到文件</span><br><span class="line">char[] data &#x3D; &#123;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;&#125;;</span><br><span class="line">fileWriter.write(data, 0, 2);</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-使用内存映射文件"><a href="#6-使用内存映射文件" class="headerlink" title="6. 使用内存映射文件"></a>6. 使用内存映射文件</h3><p>Java 中的内存映射文件可以将整个文件或者文件的某个部分映射到虚拟内存中，使得可以通过内存地址来访问文件，从而提高程序的效率。内存映射文件通常适用于对大文件的读取和写入操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 将整个文件映射到内存中</span><br><span class="line">RandomAccessFile raf &#x3D; new RandomAccessFile(file, &quot;rw&quot;);</span><br><span class="line">FileChannel channel &#x3D; raf.getChannel();</span><br><span class="line">MappedByteBuffer buffer &#x3D; channel.map(FileChannel.MapMode.READ_WRITE, 0, file.length());</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-原子文件操作"><a href="#7-原子文件操作" class="headerlink" title="7. 原子文件操作"></a>7. 原子文件操作</h3><p>Java 中的 <code>java.nio.file.Files</code> 类提供了一些原子文件操作方法，可以确保文件的读取和写入操作的原子性，从而避免由并发操作引起的问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 原子写入字符串到文件</span><br><span class="line">Files.writeString(file, &quot;hello&quot;, StandardOpenOption.WRITE, StandardOpenOption.APPEND);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 原子读取文件到字符串</span><br><span class="line">String content &#x3D; Files.readString(file);</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-磁盘预读取"><a href="#8-磁盘预读取" class="headerlink" title="8. 磁盘预读取"></a>8. 磁盘预读取</h3><p>Java 中可以通过启用磁盘预读取机制来提高程序的效率。磁盘预读取是指在读取文件时，将文件的一部分或者整个文件预先加载到内存中，从而加快读取速度。Java 中可以使用 <code>FileInputStream</code> 类的 <code>getChannel()</code> 方法来获取文件的通道，并使用 <code>map()</code> 方法来实现磁盘预读取。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java复制代码&#x2F;&#x2F; 获取文件通道</span><br><span class="line">FileInputStream fis &#x3D; new FileInputStream(file);</span><br><span class="line">FileChannel channel &#x3D; fis.getChannel();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件映射到内存中</span><br><span class="line">MappedByteBuffer buffer &#x3D; channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());</span><br></pre></td></tr></table></figure>
+
+
+
+<p>以上是一些常用的优化方案，但实际应用时需要根据具体情况进行选择。在从 MongoDB 上读取文件时，可以结合上述方案进行优化，以提高程序的性能。</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-chatgpt" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/9891105b.html" class="article-date">
+      <time datetime="2023-04-09T03:41:16.000Z" itemprop="datePublished">2023-04-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/9891105b.html">chatgpt介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="名词解析"><a href="#名词解析" class="headerlink" title="名词解析"></a>名词解析</h2><p><strong>AI</strong> :全称Artificial Intelligence，是一种模拟人类智能行为的技术或系统，涵盖了许多不同的技术和方法，包括机器学习、自然语言处理、计算机视觉等，可用于许多领域，如自动驾驶、机器人、医疗诊断等。</p>
+<p><strong>ML</strong> :全称Machine Learning 是一种人工智能领域的技术，通过从数据中学习模式和规律来实现智能化决策和行为。机器学习可以分为监督学习、无监督学习和强化学习等不同类型，广泛应用于自然语言处理、计算机视觉、金融、医疗等领域。</p>
+<p><strong>Deep Learning</strong> : 一种基于神经网络的机器学习方法，通过模拟人脑的神经网络结构，实现对复杂模式和规律的学习和识别，被广泛应用于自然语言处理、计算机视觉、语音识别等领域，是实现人工智能的重要技术之一。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="名词解析"><a href="#名词解析" class="headerlink" title="名词解析"></a>名词解析</h2><p><strong>AI</strong> :全称Artificial Intelligence，是一种模拟人类智能行为的技术或系统，涵盖了许多不同的技术和方法，包括机器学习、自然语言处理、计算机视觉等，可用于许多领域，如自动驾驶、机器人、医疗诊断等。</p>
+<p><strong>ML</strong> :全称Machine Learning 是一种人工智能领域的技术，通过从数据中学习模式和规律来实现智能化决策和行为。机器学习可以分为监督学习、无监督学习和强化学习等不同类型，广泛应用于自然语言处理、计算机视觉、金融、医疗等领域。</p>
+<p><strong>Deep Learning</strong> : 一种基于神经网络的机器学习方法，通过模拟人脑的神经网络结构，实现对复杂模式和规律的学习和识别，被广泛应用于自然语言处理、计算机视觉、语音识别等领域，是实现人工智能的重要技术之一。</p>
+<p><strong>CV</strong>，全称Computer Vision，即计算机视觉，是一种利用计算机和数学算法来模拟人类视觉行为的技术，旨在使计算机能够像人类一样理解和解释图像和视频。计算机视觉涵盖了许多领域，如图像处理、模式识别、目标检测、图像分割等，可应用于人脸识别、自动驾驶、智能安防等众多领域。</p>
+<p><strong>Transformer</strong> :是一种基于自注意力机制的深度学习模型，最初应用于自然语言处理领域的机器翻译任务。相较于传统的循环神经网络和卷积神经网络，Transformer通过并行计算和全局信息的交互，实现了更快的训练速度和更高的精度，并被广泛应用于自然语言处理、计算机视觉、语音识别等领域。</p>
+<p><strong>Reinforcement learning</strong> :是一种机器学习方法，一种通过试错学习来最大化奖励的机器学习方法，旨在让智能体（agent）在与环境的交互中自主探索最优策略，并获得最大化的奖励。Reinforcement Learning可应用于许多领域，如自动驾驶、游戏AI、机器人控制等，是实现人工智能的重要技术之一。在GPT中，强化学习被用于调整模型的生成策略</p>
+<p><strong>General Pretrained Transformer</strong> : 一种基于Transformer模型的通用预训练模型，是一种自然语言处理算法，通过在大规模文本数据上进行无监督训练，可以实现对自然语言文本的深度理解和高效处理。GPT模型的应用包括文本生成、文本分类、问答系统等，是自然语言处理领域中的重要技术。</p>
+<p><strong>Reinforcement Learning from Human Feedback</strong> (RLHF): 是一种结合了强化学习和人类反馈的方法。该方法在训练模型时，通过让人类提供正面或负面反馈来指导模型的学习。在GPT中，这种方法可以帮助模型更好地理解人类语言，并且可使其生成更加符合人类语言特点的内容。是一种通过人类反馈指导机器学习的方法。与传统的强化学习不同，RLHF使用人类专家或众包工作者提供的奖励信号作为机器学习的反馈，以加速智能体（agent）的学习过程。RLHF的应用包括自然语言处理、计算机视觉、机器人控制等领域，是实现人机协作的重要技术之一。</p>
+<p><strong>NLP(自然语言处理)</strong> : 自然语言处理（Natural Language Processing）的缩写，指的是计算机科学、人工智能和语言学等多个领域的交叉学科，致力于研究如何使计算机能够理解、处理和生成人类语言。NLP的应用包括机器翻译、情感分析、问答系统、文本分类等多个领域，是实现计算机与人类语言交互的重要技术之一。</p>
+<p>​    AI的起源可以追溯到20世纪40年代，随着计算机技术的发展，研究人员开始尝试通过机器模拟人类智能。在20世纪50年代至60年代，出现了“逻辑推理”、“神经网络”等多个重要的AI研究方向。70年代后，AI开始应用于专家系统、机器视觉等领域，但在80年代后半期，由于技术和资源的限制，AI的发展进入了低谷。21世纪初，随着深度学习等技术的出现，AI得到了长足的发展，目前已经成为各行业的热门领域。</p>
+<h2 id="1-机器学习（Machine-Learning）"><a href="#1-机器学习（Machine-Learning）" class="headerlink" title="1. 机器学习（Machine Learning）"></a>1. 机器学习（Machine Learning）</h2><ul>
+<li><strong>特点</strong>：机器学习是一种人工智能技术，它通过让计算机根据数据自动学习模型，从而实现对未知数据进行预测或决策。机器学习主要分为有监督学习、无监督学习和强化学习三种类型。</li>
+<li><strong>介绍</strong>：机器学习是目前最火热的技术之一，它应用于各个领域，如商业、医疗、金融等。利用机器学习，我们可以让机器自动地完成一些复杂的任务，如图像识别、语音识别、自然语言处理等。</li>
+</ul>
+<h2 id="2-深度学习（Deep-Learning）"><a href="#2-深度学习（Deep-Learning）" class="headerlink" title="2. 深度学习（Deep Learning）"></a>2. 深度学习（Deep Learning）</h2><ul>
+<li><strong>特点</strong>：深度学习是机器学习的一种，它通过模拟人类神经元网络来构建模型，并利用反向传播算法进行训练，从而实现对数据的预测或决策。深度学习主要应用于图像识别、语音识别、自然语言处理等领域。</li>
+<li><strong>介绍</strong>：深度学习是近年来最受关注的技术之一，它取得了一系列重大突破，如AlphaGo战胜围棋世界冠军李世石、自动驾驶汽车等。深度学习有助于解决各种复杂问题，同时也在不断地推进人工智能技术的发展。</li>
+</ul>
+<h2 id="3-计算机视觉（Computer-Vision）"><a href="#3-计算机视觉（Computer-Vision）" class="headerlink" title="3. 计算机视觉（Computer Vision）"></a>3. 计算机视觉（Computer Vision）</h2><ul>
+<li><strong>特点</strong>：计算机视觉是一项涉及图像和视频处理的技术，它利用计算机对数字图像进行分析和处理，从而实现对图像中物体、场景等的理解和识别。计算机视觉主要应用于图像检测、目标跟踪、三维重建、虚拟现实等领域。</li>
+<li><strong>介绍</strong>：计算机视觉是一项非常应用广泛的技术，它可以应用到很多领域，如安防、医疗、交通等。随着深度学习技术的发展，计算机视觉的性能也得到了极大地提升。</li>
+<li>应用: <em>视觉四小龙</em>(商汤科技、旷视科技、云从科技和依图科技)</li>
+</ul>
+<h2 id="4-自然语言处理（Natural-Language-Processing）"><a href="#4-自然语言处理（Natural-Language-Processing）" class="headerlink" title="4. 自然语言处理（Natural Language Processing）"></a>4. 自然语言处理（Natural Language Processing）</h2><ul>
+<li><strong>特点</strong>：自然语言处理是一种人工智能技术，它利用计算机对自然语言进行处理和理解，从而实现对文本的分析、理解和生成。自然语言处理主要涉及到自然语言标记、词向量表示、文本分类、机器翻译等方面。</li>
+<li><strong>介绍</strong>：自然语言处理是一项非常有挑战性的技术，因为自然语言的表达方式非常复杂，同时也存在很多歧义。利用自然语言处理技术，我们可以实现机器翻译、情感分析、智能客服等应用。</li>
+<li>应用: GPT,语音识别</li>
+</ul>
+<h1 id="相关关键词的关系和梳理"><a href="#相关关键词的关系和梳理" class="headerlink" title="相关关键词的关系和梳理"></a>相关关键词的关系和梳理</h1><p>机器学习、深度学习、计算机视觉和自然语言处理这四个概念之间存在一定的包含关系，具体如下：</p>
+<ul>
+<li>机器学习是一个大的概念，它包括了深度学习在内。深度学习是机器学习中的一种方法，它利用神经网络模拟大脑的处理过程，实现对数据的特征提取和分类。因此可以说深度学习是机器学习的一种重要分支。</li>
+<li>计算机视觉是机器学习和深度学习在图像或视频领域的应用。计算机视觉需要训练模型来识别图像或视频中的物体、场景等，从而实现对图像或视频的理解和识别。因此，计算机视觉可以被看作是机器学习和深度学习在图像或视频领域的应用之一。</li>
+<li>自然语言处理是机器学习和深度学习在文本领域的应用。自然语言处理需要训练模型来识别文本中的词汇、语法、语义等，从而实现对文本的分析和生成。因此，自然语言处理可以被看作是机器学习和深度学习在文本领域的应用之一。</li>
+</ul>
+<h1 id="ChatGPT"><a href="#ChatGPT" class="headerlink" title="ChatGPT"></a>ChatGPT</h1><p>​    ChatGPT是由OpenAI开发的一个大型自然语言处理模型，它基于GPT（Generative Pre-trained Transformer）算法，并使用了海量的语料数据进行预训练。ChatGPT在对话生成、情感分析、文本生成等方面表现出色，其生成的回复流畅自然，能够与人类进行高质量的交互。ChatGPT已经被广泛应用于智能客服、虚拟助手、聊天机器人等领域，为用户提供了更加便捷、高效的服务体验。同时，ChatGPT也为自然语言处理技术的发展做出了重要贡献，推动了自然语言处理技术的不断进步和发展。</p>
+<p>在gpt和类似的 <a target="_blank" rel="noopener" href="https://yiyan.baidu.com/">文心一言</a> ,<a target="_blank" rel="noopener" href="https://bard.google.com/">Bard</a>,等LLM( large language model )大语言模型中参数是非常重要的,通常都是多少多少亿,其实这些参数是该模型中的可调整变量，通过不断地学习和优化，可以使ChatGPT在各种自然语言任务上表现出色。具体来说，ChatGPT中的这175亿个参数主要有以下作用：</p>
+<ol>
+<li>语言表示：ChatGPT的主要任务是生成自然语言文本，因此它需要深入理解语言的结构、语法以及意义等方面。这些参数能够帮助ChatGPT学习到更加准确、丰富的语言表示形式，从而更好地表达和理解人类语言。</li>
+<li>上下文理解：在对话生成和文本生成任务中，上下文信息对于生成的内容非常重要。ChatGPT的参数可以捕获历史上下文信息，并利用这些信息来生成更加合适、连贯的回复或文本内容。</li>
+<li>预测能力：ChatGPT中的参数能够帮助模型预测下一个单词或字符的概率分布，从而决定生成的文本内容。这些参数的精度和数量越高，模型预测的准确性也就越高。</li>
+</ol>
+<p>总之，ChatGPT的175亿个参数起到了至关重要的作用，它们能够帮助模型对自然语言进行深入理解和表达，并且能够生成高质量、连贯的文本内容。同时，这些参数也代表了当今自然语言处理技术的前沿水平，展示了人工智能技术在自然语言处理领域的强大潜力。</p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9D%B0%E5%BC%97%E9%87%8C%C2%B7%E8%BE%9B%E9%A1%BF">杰弗里·辛顿 <strong>Geoffrey Everest Hinton</strong></a> 开山鼻祖</p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9D%A8%E7%AB%8B%E6%98%86">杨立昆,<strong>扬·勒丘恩</strong>  <strong>Yann Le Cun</strong></a> :卷积网络之父,现在ocr的基础</p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BA%A6%E4%B9%A6%E4%BA%9A%C2%B7%E6%9C%AC%E5%B8%8C%E5%A5%A5">约书亚·本希奥 <strong>Yoshua Bengio</strong></a> <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%92%99%E7%89%B9%E5%A9%81%E5%A4%A7%E5%AD%B8">蒙特利尔大学</a>计算机科学和运筹学系的教授以及<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E8%92%99%E7%89%B9%E5%A9%81%E5%AD%B8%E7%BF%92%E7%AE%97%E6%B3%95%E7%A0%94%E7%A9%B6%E6%89%80&action=edit&redlink=1">蒙特利尔学习算法研究所</a>科学主任</p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E4%BC%8A%E7%88%BE%E4%BA%9E%C2%B7%E8%98%87%E8%8C%A8%E5%85%8B%E7%B6%AD">伊尔亚·苏茨克维 - Ilya Sutskever</a> openAI的联合创始人,在开山鼻祖麾下读完研究生,和<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%9E%E6%AD%B7%E5%85%8B%E6%96%AF%C2%B7%E5%85%8B%E9%87%8C%E6%BE%A4%E5%A4%AB%E6%96%AF%E5%9F%BA">亚历克斯·克里泽夫斯基</a>和<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9D%B0%E5%BC%97%E9%87%8C%C2%B7%E8%BE%9B%E9%A1%BF">杰弗里·辛顿</a>是<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C">卷积神经网络</a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/AlexNet">AlexNet</a>的共同发明人</p>
+<p>最后这篇文章是一遍问ChatGPT一边结合自己理解生成的</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Large_language_model">Large language model - Wikipedia</a></p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%B2%9D%E6%B0%8F%E7%B6%B2%E8%B7%AF">贝叶斯网络 - 维基百科，自由的百科全书</a></p>
+<p><a target="_blank" rel="noopener" href="https://ai-scholar.tech/zh/learn/c0/0-1">0-1.了解人工智能、机器学习和深度学习的区别! | AI-SCHOLAR | AI：（人工智能）文章和技术信息媒体</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-springmvc配置gson的解析" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1278,639 +1749,9 @@
 
 
   
-    <article id="post-chatGPT的介绍转载" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/c0bea6a0.html" class="article-date">
-      <time datetime="2023-03-05T08:14:53.000Z" itemprop="datePublished">2023-03-05</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/c0bea6a0.html">chatGPT的介绍转载</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h1 id="关于-ChatGPT-的五个最重要问题"><a href="#关于-ChatGPT-的五个最重要问题" class="headerlink" title="关于 ChatGPT 的五个最重要问题"></a>关于 ChatGPT 的五个最重要问题</h1><p>我们判断，如果ChatGPT不犯大错，两年之内，整个科技行业甚至人类社会都会被颠覆一<br>遍。倒计时已经开始了。</p>
-<p>在ChatGPT纪元中，提问题的能力和判断力也许是人类最重要的两个能力。我们这里提出五<br>个关键问题，并且试图抛开网络上的二手观点，做出基于原理的判断。</p>
-<p> 更详细的科普文可以参考这篇：了解AIGC中的ChatGPT和LLM</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h1 id="关于-ChatGPT-的五个最重要问题"><a href="#关于-ChatGPT-的五个最重要问题" class="headerlink" title="关于 ChatGPT 的五个最重要问题"></a>关于 ChatGPT 的五个最重要问题</h1><p>我们判断，如果ChatGPT不犯大错，两年之内，整个科技行业甚至人类社会都会被颠覆一<br>遍。倒计时已经开始了。</p>
-<p>在ChatGPT纪元中，提问题的能力和判断力也许是人类最重要的两个能力。我们这里提出五<br>个关键问题，并且试图抛开网络上的二手观点，做出基于原理的判断。</p>
-<p> 更详细的科普文可以参考这篇：了解AIGC中的ChatGPT和LLM</p>
-<p> 其中包含如何在公司快速便捷地使用ChatGPT</p>
-<p> 针对中台业务场景的应用：ChatGPT在中台业务应用的可能性与探索</p>
-<h6 id="这篇文章会尽量用准确的说明与类比（如何区分准确的类比和偷换概念的类比）去解读技术。"><a href="#这篇文章会尽量用准确的说明与类比（如何区分准确的类比和偷换概念的类比）去解读技术。" class="headerlink" title="这篇文章会尽量用准确的说明与类比（如何区分准确的类比和偷换概念的类比）去解读技术。"></a>这篇文章会尽量用准确的说明与类比（如何区分准确的类比和偷换概念的类比）去解读技术。</h6><h6 id="但是对于这样一个非常新、非常颠覆、大家对原理和应用都还没形成共识的技术，不了解技术"><a href="#但是对于这样一个非常新、非常颠覆、大家对原理和应用都还没形成共识的技术，不了解技术" class="headerlink" title="但是对于这样一个非常新、非常颠覆、大家对原理和应用都还没形成共识的技术，不了解技术"></a>但是对于这样一个非常新、非常颠覆、大家对原理和应用都还没形成共识的技术，不了解技术</h6><h6 id="细节就去打比方，难免信口开河。所以我们会先尽量无损地把需要的技术细节都盘清楚，然后"><a href="#细节就去打比方，难免信口开河。所以我们会先尽量无损地把需要的技术细节都盘清楚，然后" class="headerlink" title="细节就去打比方，难免信口开河。所以我们会先尽量无损地把需要的技术细节都盘清楚，然后"></a>细节就去打比方，难免信口开河。所以我们会先尽量无损地把需要的技术细节都盘清楚，然后</h6><h6 id="再去进行抽象和提取本质。"><a href="#再去进行抽象和提取本质。" class="headerlink" title="再去进行抽象和提取本质。"></a>再去进行抽象和提取本质。</h6><h2 id="哪五个问题？"><a href="#哪五个问题？" class="headerlink" title="哪五个问题？"></a>哪五个问题？</h2><ol>
-<li><strong>是什么：</strong> ChatGPT是范式突破吗？和过往AI有什么不同？</li>
-<li><strong>会怎样：</strong> ChatGPT两年内会达到什么水准？</li>
-<li><strong>行业格局：</strong> ChatGPT以及GPT有壁垒吗？</li>
-<li><strong>如何参与：</strong> 我们未来应该如何使用ChatGPT？</li>
-<li><strong>人文：</strong> 人类和ChatGPT的本质区别是什么？对人类社会的冲击？</li>
-</ol>
-<p>还有一个不需要讨论的重要问题： <strong>ChatGPT不会开源的</strong> ，因为AGI是一个危险品。国内那些依<br>赖开源+抄的公司可以死心了。指望原子弹开源吗？</p>
-<p>我们搞清楚这五个问题，就能判断市面上大多数解读ChatGPT的观点，无论从技术、商业、<br>投资，等等角度，是否靠谱了。其实就两个关键</p>
-<ol>
-<li>对ChatGPT新能力的认知：这新能力是什么，有什么意义？</li>
-<li>对“能力获取难度”的认知：ChatGPT如何获得的？难度有多大？</li>
-</ol>
-<p>文章结尾我们会做一下总结。让你下次见到某大模型，可以判断这是ChatGPT的80%还是</p>
-<h6 id="0-。"><a href="#0-。" class="headerlink" title="0%。"></a>0%。</h6><h3 id="为什么这样问？"><a href="#为什么这样问？" class="headerlink" title="为什么这样问？"></a>为什么这样问？</h3><p>最近到处都在讨论ChatGPT，就像A股 6000 点的时候所有人都在讨论A股一样。但是大家的<br>问题主要聚焦在于自己会不会被ChatGPT取代，中国如何赶超ChatGPT，ChatGPT相关概念股<br>票是什么，等等。这些问题很重要，但是对于ChatGPT这样一个人类高科技结晶的新物种，<br>不先搞清楚它 <strong>“是什么”和“如何牛逼的”</strong> ，那就没有办法形成自己的判断。没有自己的判断，看<br>ChatGPT就像看元宇宙、Web3、自动驾驶一样，觉得好像牛逼，也有一套看似点只能被别人<br>牵着走。</p>
-<h6 id="所以我们先要搞清楚这两个问题。"><a href="#所以我们先要搞清楚这两个问题。" class="headerlink" title="所以我们先要搞清楚这两个问题。"></a>所以我们先要搞清楚这两个问题。</h6><p>搞清楚ChatGPT“是什么”和“如何牛逼的”是一件困难的事情，因为最顶尖的人工智能大佬们也<br>没有达成共识。比如Meta的AI负责人，深度学习三大佬之一的LeCun就不看好，认为这就<br>是个基于auto-regressive（自回归）的LLM（large language model，大语言模型），从方法上<br>来讲没有啥范式突破。只是因为OpenAI是个创业公司，大家宽容度比较高，ChatGPT在乱说<br>话，大家也能容忍。</p>
-<p>另一面，ChatGPT的火热就不说了，比如特斯拉的首席AI科学家就选择回到OpenAI，共建<br>AGI（artificial general intelligence，通用人工智能，也是OpenAI的追求目标）；Meta的VR创<br>始人卡马克选择离开Meta，自己开一家AGI公司。另外一篇文章截取了大佬们的赞誉</p>
-<h6 id="技术讲解环节：“自回归”“大语言模型”是两个关键词"><a href="#技术讲解环节：“自回归”“大语言模型”是两个关键词" class="headerlink" title="技术讲解环节：“自回归”“大语言模型”是两个关键词"></a>技术讲解环节：“自回归”“大语言模型”是两个关键词</h6><h6 id="-自回归的意思是，我先用模型预测下一个词是什么，然后把预测出来的词带入模型，去预"><a href="#-自回归的意思是，我先用模型预测下一个词是什么，然后把预测出来的词带入模型，去预" class="headerlink" title=" 自回归的意思是，我先用模型预测下一个词是什么，然后把预测出来的词带入模型，去预"></a> 自回归的意思是，我先用模型预测下一个词是什么，然后把预测出来的词带入模型，去预</h6><h6 id="测再下一个词是什么，不断迭代。这是过往语言模型的通用范式。也能让各类语言类任务"><a href="#测再下一个词是什么，不断迭代。这是过往语言模型的通用范式。也能让各类语言类任务" class="headerlink" title="测再下一个词是什么，不断迭代。这是过往语言模型的通用范式。也能让各类语言类任务"></a>测再下一个词是什么，不断迭代。这是过往语言模型的通用范式。也能让各类语言类任务</h6><h6 id="统一成“生成式”任务"><a href="#统一成“生成式”任务" class="headerlink" title="统一成“生成式”任务"></a>统一成“生成式”任务</h6><h6 id="-大语言模型是因为GPT的海量数据与参数。大语言模型本身也值得技术科普一下，我们在"><a href="#-大语言模型是因为GPT的海量数据与参数。大语言模型本身也值得技术科普一下，我们在" class="headerlink" title=" 大语言模型是因为GPT的海量数据与参数。大语言模型本身也值得技术科普一下，我们在"></a> 大语言模型是因为GPT的海量数据与参数。大语言模型本身也值得技术科普一下，我们在</h6><h6 id="第一个问题中展开"><a href="#第一个问题中展开" class="headerlink" title="第一个问题中展开"></a>第一个问题中展开</h6><p>大佬们都认可AGI的重要意义，但是对于ChatGPT是不是有“范式突破”，是不是AGI，有重大<br>分歧。大佬们无法形成共识，我们有两种选择，一种是做“early-adoptor”，早期采用者（特点<br>是懂技术，有vision，想通过技术带来巨大改变），去在体验和探索中形成自己的观点；一种是<br>做“early-mass”，早期大众（特点是厌恶风险，希望追求确定的改善），等着标准成熟，应用也<br>有定论，再去采用。作为中台，我们需要抓住IEG early-adoptor的身份。所以我们需要在纷杂<br>的信息中形成自己的理解和主张。</p>
-<h6 id="这次讨论就想达到这个目的。数科和算法同学会保证信息的准确，知之为知之不知为不知，但"><a href="#这次讨论就想达到这个目的。数科和算法同学会保证信息的准确，知之为知之不知为不知，但" class="headerlink" title="这次讨论就想达到这个目的。数科和算法同学会保证信息的准确，知之为知之不知为不知，但"></a>这次讨论就想达到这个目的。数科和算法同学会保证信息的准确，知之为知之不知为不知，但</h6><h6 id="是观点、主张、区别、共识，需要老板们自己推演出。"><a href="#是观点、主张、区别、共识，需要老板们自己推演出。" class="headerlink" title="是观点、主张、区别、共识，需要老板们自己推演出。"></a>是观点、主张、区别、共识，需要老板们自己推演出。</h6><h2 id="开头：ChatGPT的最基本版历史"><a href="#开头：ChatGPT的最基本版历史" class="headerlink" title="开头：ChatGPT的最基本版历史"></a>开头：ChatGPT的最基本版历史</h2><h6 id="虽然想直接开始问题，但是一定程度的技术科普还是必要的。这样能在思考问题的时候更加高"><a href="#虽然想直接开始问题，但是一定程度的技术科普还是必要的。这样能在思考问题的时候更加高" class="headerlink" title="虽然想直接开始问题，但是一定程度的技术科普还是必要的。这样能在思考问题的时候更加高"></a>虽然想直接开始问题，但是一定程度的技术科普还是必要的。这样能在思考问题的时候更加高</h6><h6 id="效。我们着重参考两篇综述，尽量抓重点："><a href="#效。我们着重参考两篇综述，尽量抓重点：" class="headerlink" title="效。我们着重参考两篇综述，尽量抓重点："></a>效。我们着重参考两篇综述，尽量抓重点：</h6><h6 id="1-大语言模型技术精要（链接）"><a href="#1-大语言模型技术精要（链接）" class="headerlink" title="1. 大语言模型技术精要（链接）"></a>1. 大语言模型技术精要（链接）</h6><ol>
-<li>ChatGPT的各项超能力从哪里来（链接）</li>
-</ol>
-<p>第一份综述主要讲了大语言模型发展中的关键技术突破，第二份综述主要讲了ChatGPT发展<br>过程中的几个重要模型“做到了什么”和“有什么与众不同的做法”。我们把两篇文章的重点挑出<br>来，标注一下里程碑事件，和其意义。</p>
-<h6 id="事件-意义"><a href="#事件-意义" class="headerlink" title="事件 意义"></a>事件 意义</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Transformer问世</span><br><span class="line">让深度学习模型可以“自由吸</span><br><span class="line">收”数据中的知识</span><br></pre></td></tr></table></figure>
-
-<h6 id="大语言模型突破了参数和算力限制，从此语言模型也进入"><a href="#大语言模型突破了参数和算力限制，从此语言模型也进入" class="headerlink" title="大语言模型突破了参数和算力限制，从此语言模型也进入"></a>大语言模型突破了参数和算力限制，从此语言模型也进入</h6><h6 id="参数越多，数据越大，模型效果越好的时代。"><a href="#参数越多，数据越大，模型效果越好的时代。" class="headerlink" title="参数越多，数据越大，模型效果越好的时代。"></a>参数越多，数据越大，模型效果越好的时代。</h6><h6 id="LLM内战，逐渐吊打老NLP"><a href="#LLM内战，逐渐吊打老NLP" class="headerlink" title="LLM内战，逐渐吊打老NLP"></a>LLM内战，逐渐吊打老NLP</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Google的Bert路线和</span><br><span class="line">OpenAI的GPT路线各有所长</span><br></pre></td></tr></table></figure>
-
-<h6 id="GPT通过“自然语言生成任务”，兼容了几乎所有NLP问"><a href="#GPT通过“自然语言生成任务”，兼容了几乎所有NLP问" class="headerlink" title="GPT通过“自然语言生成任务”，兼容了几乎所有NLP问"></a>GPT通过“自然语言生成任务”，兼容了几乎所有NLP问</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">题；但是Bert比GPT2表现好。此时大语言模型已经开始</span><br><span class="line">吊打传统NLP模型了</span><br><span class="line">GPT3问世</span><br><span class="line">展示in-context learning能</span><br><span class="line">力，简单调教下就能吊打精</span><br><span class="line">调过的很多模型</span><br></pre></td></tr></table></figure>
-
-<h6 id="一方面让GPT模式初现一统江湖的潜质，一方面GPT3的"><a href="#一方面让GPT模式初现一统江湖的潜质，一方面GPT3的" class="headerlink" title="一方面让GPT模式初现一统江湖的潜质，一方面GPT3的"></a>一方面让GPT模式初现一统江湖的潜质，一方面GPT3的</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">in-context learning能力，展示了和过往ML的fine-</span><br><span class="line">tuning模式的本质区别 ，我们在下面单独详细展开</span><br></pre></td></tr></table></figure>
-
-<p><strong>- InstructGPT</strong><br>ChatGPT的交互模式，让<br>GPT的能力，更加贴近人类<br>真实交互方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在in-context learning基础之上，进一步降低了</span><br><span class="line">prompting的门槛；一定程度解决了GPT- 3 生成结果与用</span><br><span class="line">户期望不一致的非预期输出，大幅降低了有害的、错误或</span><br><span class="line">偏差的输出结果，让GPT更符合人类胃口</span><br></pre></td></tr></table></figure>
-
-<p><strong>- GPT读代码</strong><br>代码训练能力的提升是GPT<br>到GPT3.5的重要迭代之一，<br>模型可从而可以生成代码和<br>理解代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Codex模型读了大量代码，之后的GPT3.5模型 涌现出了</span><br><span class="line">inference的能力 。不光能读懂和生成代码，对语言本身</span><br><span class="line">的理解和推理能力也解锁了</span><br></pre></td></tr></table></figure>
-
-<h6 id="RLHF"><a href="#RLHF" class="headerlink" title="- RLHF"></a>- RLHF</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ChatGPT背后的核心技术之</span><br><span class="line">一，让模型学习人类的偏好</span><br><span class="line">全称是reinforcement learning from human feedback，通</span><br><span class="line">过构建人类反馈数据集，训练一个reward模型，模仿人</span><br><span class="line">类偏好对结果打分，是GPT- 3 后时代LLM越来越像人类</span><br><span class="line">对话的核心技术</span><br><span class="line">ChatGPT</span><br><span class="line">InstructGPT的亲戚，但一些</span><br><span class="line">优化方式也带来了ChatGPT</span><br><span class="line">的更泛化和准确能力，再次</span><br><span class="line">引爆了AIGC</span><br><span class="line">ChatGPT总体来说和InstructGPT一样是使用RLHF进行训</span><br><span class="line">练，但模型是基于GPT3.5，而且数据设置上也不同。</span><br><span class="line">ChatGPT是一个输入，模型给出多个输出，然后人给结果</span><br><span class="line">排序，让模型可以学习人类的排序策略，即使是一本正经</span><br><span class="line">的胡说八道看起来也很合理的样子。</span><br></pre></td></tr></table></figure>
-
-<h6 id="这里面再强调一个关键点。GPT3之后，很多能力是“涌现”的。即不是线性发展，可预测的，"><a href="#这里面再强调一个关键点。GPT3之后，很多能力是“涌现”的。即不是线性发展，可预测的，" class="headerlink" title="这里面再强调一个关键点。GPT3之后，很多能力是“涌现”的。即不是线性发展，可预测的，"></a>这里面再强调一个关键点。GPT3之后，很多能力是“涌现”的。即不是线性发展，可预测的，</h6><p>而是突然就有了。至于这对于OpenAI的人是早晚会发生，还是完全未预料，我们就不知道<br>了。 <strong>这几个“涌现”出的能力，尤其是inference的能力，是ChatGPT和过往AI的范式不同，<br>也会是我们这次讨论关注的重点。“涌现”</strong> 也是大语言模型很神奇的一点，这些能力我们发现模<br>型随着数据量和模型大小的提升，就突然具备了，但是我们对这些能力怎么出现的，只有猜<br>想，没有共识。这篇文章有一个比较全面的总结和比较。</p>
-<p>下图是GPT- 3 到ChatGPT的演变历史</p>
-<p>这里也牵涉到了一个重要的题外话，大概是发生在in-context learning和instruct这一模式<br>下。尤其是对“fine-tuning”这个词的理解。如果用过往模型的经验去想象ChatGPT的运作方<br>式，就会产生错判。这一误解反而更容易发生对AI已经有所了解的从业者身上。</p>
-<h3 id="重要的题外话-–-很多AI从业者为什么对ChatGPT有错误理"><a href="#重要的题外话-–-很多AI从业者为什么对ChatGPT有错误理" class="headerlink" title="重要的题外话 – 很多AI从业者为什么对ChatGPT有错误理"></a>重要的题外话 – 很多AI从业者为什么对ChatGPT有错误理</h3><h3 id="解？"><a href="#解？" class="headerlink" title="解？"></a>解？</h3><h6 id="过往的NLP模型是按照具体任务和具体数据来训练的。所以数据质量越好，模型效果越好。"><a href="#过往的NLP模型是按照具体任务和具体数据来训练的。所以数据质量越好，模型效果越好。" class="headerlink" title="过往的NLP模型是按照具体任务和具体数据来训练的。所以数据质量越好，模型效果越好。"></a>过往的NLP模型是按照具体任务和具体数据来训练的。所以数据质量越好，模型效果越好。</h6><h6 id="而且最好只有正确数据，没有错误数据。大语言模型有一个重要不同，是“数据越多”越好，而"><a href="#而且最好只有正确数据，没有错误数据。大语言模型有一个重要不同，是“数据越多”越好，而" class="headerlink" title="而且最好只有正确数据，没有错误数据。大语言模型有一个重要不同，是“数据越多”越好，而"></a>而且最好只有正确数据，没有错误数据。大语言模型有一个重要不同，是“数据越多”越好，而</h6><h6 id="数据质量变成了重要，但稍显次要因素。"><a href="#数据质量变成了重要，但稍显次要因素。" class="headerlink" title="数据质量变成了重要，但稍显次要因素。"></a>数据质量变成了重要，但稍显次要因素。</h6><p>在一开始，大模型想要在特定任务上取得较好效果，也需要那个领域的具体数据去“fine-tune”<br>一下。通过大量的例子，先教给模型，那个领域中什么是好，什么是坏，调节一下模型的权<br>重，从而输出恰当的结果。这和过往模型的范式是差不多的。</p>
-<p>而GPT- 3 涌现出的in-context learning能力（Google的PaLM大模型也有）和上述范式有本质<br>不同，“过往的fine-tuning”需要更改模型参数。也就是说，换了个新模型，从而在新数据上表<br>现更好。但是in-context learning， <strong>模型并没有变化</strong> ，却能在新数据上表现更好。研究甚至发</p>
-<h6 id="现，你给大模型一堆范例，只要对应关系整体是对的，这时候改变具体对应的顺序，大模型仍"><a href="#现，你给大模型一堆范例，只要对应关系整体是对的，这时候改变具体对应的顺序，大模型仍" class="headerlink" title="现，你给大模型一堆范例，只要对应关系整体是对的，这时候改变具体对应的顺序，大模型仍"></a>现，你给大模型一堆范例，只要对应关系整体是对的，这时候改变具体对应的顺序，大模型仍</h6><h6 id="然能输出正确的结果。这真的很神奇。一定要抓住这一点，模型没有变化，没有被重新训练，"><a href="#然能输出正确的结果。这真的很神奇。一定要抓住这一点，模型没有变化，没有被重新训练，" class="headerlink" title="然能输出正确的结果。这真的很神奇。一定要抓住这一点，模型没有变化，没有被重新训练，"></a>然能输出正确的结果。这真的很神奇。一定要抓住这一点，模型没有变化，没有被重新训练，</h6><h6 id="但是能“理解”新数据，并且表现更好！"><a href="#但是能“理解”新数据，并且表现更好！" class="headerlink" title="但是能“理解”新数据，并且表现更好！"></a>但是能“理解”新数据，并且表现更好！</h6><p>接下来还有更神奇的。在GPT-Codex版本解锁了推理能力，以及InstructGPT提出了instruct<br>这一方法，他们合体的ChatGPT在in-context learning的基础之上，展示出了具备inference<br>能力的样子。我们在下一章详细展开。</p>
-<h2 id="1-ChatGPT是范式突破吗？"><a href="#1-ChatGPT是范式突破吗？" class="headerlink" title="1. ChatGPT是范式突破吗？"></a>1. ChatGPT是范式突破吗？</h2><p>机器学习发展了这么多年，遵循同一个范式。哪怕 2016 年大火的AlphaGo，也完全没有脱离<br>这个范式 – 鹦鹉学舌。</p>
-<h3 id="过往机器学习的范式-–-鹦鹉学舌"><a href="#过往机器学习的范式-–-鹦鹉学舌" class="headerlink" title="过往机器学习的范式 – 鹦鹉学舌"></a>过往机器学习的范式 – 鹦鹉学舌</h3><p>机器学习，包括深度学习，所遵循的范式是“data fitting”，即找到数据中的 <strong>“对应关系”</strong> 并应<br>用。具体来说，就是Y=f(X)，给定一些优化目标，机器学习通过学习已知X和Y的关系，即<br>f，让我们在见到一个未知的X‘的时候，也能根据规律，总结出Y‘是什么，能最好达到我们的<br>目标。</p>
-<h6 id="从信息论的角度，这样的范式，所能总结的规律，应该是在“已有X所包含信息的范畴之内”。"><a href="#从信息论的角度，这样的范式，所能总结的规律，应该是在“已有X所包含信息的范畴之内”。" class="headerlink" title="从信息论的角度，这样的范式，所能总结的规律，应该是在“已有X所包含信息的范畴之内”。"></a>从信息论的角度，这样的范式，所能总结的规律，应该是在“已有X所包含信息的范畴之内”。</h6><h6 id="换句话说，遇到一个新的X‘，虽然没见过，但是应该和过去的X长得差不多。用图像识别举"><a href="#换句话说，遇到一个新的X‘，虽然没见过，但是应该和过去的X长得差不多。用图像识别举" class="headerlink" title="换句话说，遇到一个新的X‘，虽然没见过，但是应该和过去的X长得差不多。用图像识别举"></a>换句话说，遇到一个新的X‘，虽然没见过，但是应该和过去的X长得差不多。用图像识别举</h6><h6 id="例，如果模型只在小狗小猫的数据上训练过，是无法区分马车和汽车的。"><a href="#例，如果模型只在小狗小猫的数据上训练过，是无法区分马车和汽车的。" class="headerlink" title="例，如果模型只在小狗小猫的数据上训练过，是无法区分马车和汽车的。"></a>例，如果模型只在小狗小猫的数据上训练过，是无法区分马车和汽车的。</h6><h6 id="这就很像鹦鹉学舌的机制。鹦鹉是不知道那段话的意义的，它用自己的方式去理解了这个发"><a href="#这就很像鹦鹉学舌的机制。鹦鹉是不知道那段话的意义的，它用自己的方式去理解了这个发" class="headerlink" title="这就很像鹦鹉学舌的机制。鹦鹉是不知道那段话的意义的，它用自己的方式去理解了这个发"></a>这就很像鹦鹉学舌的机制。鹦鹉是不知道那段话的意义的，它用自己的方式去理解了这个发</h6><h6 id="音，并且模仿了出来。计算机能更加精准地进行控制和编程，让这个机制发挥更大作用，比如"><a href="#音，并且模仿了出来。计算机能更加精准地进行控制和编程，让这个机制发挥更大作用，比如" class="headerlink" title="音，并且模仿了出来。计算机能更加精准地进行控制和编程，让这个机制发挥更大作用，比如"></a>音，并且模仿了出来。计算机能更加精准地进行控制和编程，让这个机制发挥更大作用，比如</h6><h6 id="-图像识别-搜索，就能高效找人"><a href="#-图像识别-搜索，就能高效找人" class="headerlink" title=" 图像识别 + 搜索，就能高效找人"></a> 图像识别 + 搜索，就能高效找人</h6><p> Matrix completion + 用户数据收集，就能高效推荐</p>
-<p> 把游戏规则恰当转化为优化方程 + 问题的局部抽象 + 自己生成对局训练，就能下围棋</p>
-<h6 id="推荐算法的原理"><a href="#推荐算法的原理" class="headerlink" title="推荐算法的原理"></a>推荐算法的原理</h6><h6 id="-想象一个矩阵，横着是不同的人，竖着是不同的短视频，格子里是这个人对这个短视频的"><a href="#-想象一个矩阵，横着是不同的人，竖着是不同的短视频，格子里是这个人对这个短视频的" class="headerlink" title=" 想象一个矩阵，横着是不同的人，竖着是不同的短视频，格子里是这个人对这个短视频的"></a> 想象一个矩阵，横着是不同的人，竖着是不同的短视频，格子里是这个人对这个短视频的</h6><h6 id="兴趣指数，我们要想方设法填满这个格子，给每个人推荐最感兴趣的短视频"><a href="#兴趣指数，我们要想方设法填满这个格子，给每个人推荐最感兴趣的短视频" class="headerlink" title="兴趣指数，我们要想方设法填满这个格子，给每个人推荐最感兴趣的短视频"></a>兴趣指数，我们要想方设法填满这个格子，给每个人推荐最感兴趣的短视频</h6><h6 id="-核心问题是在每个人都没看过99-9999999-短视频的情况下，这题怎么解"><a href="#-核心问题是在每个人都没看过99-9999999-短视频的情况下，这题怎么解" class="headerlink" title=" 核心问题是在每个人都没看过99.9999999%短视频的情况下，这题怎么解"></a> 核心问题是在每个人都没看过99.9999999%短视频的情况下，这题怎么解</h6><h6 id="-有很多种方式，传统的运营、策略，也是一些方式。现有算法的主要做法是"><a href="#-有很多种方式，传统的运营、策略，也是一些方式。现有算法的主要做法是" class="headerlink" title=" 有很多种方式，传统的运营、策略，也是一些方式。现有算法的主要做法是"></a> 有很多种方式，传统的运营、策略，也是一些方式。现有算法的主要做法是</h6><h6 id="-1-把每个视频抽象成特征"><a href="#-1-把每个视频抽象成特征" class="headerlink" title=" 1. 把每个视频抽象成特征"></a> 1. 把每个视频抽象成特征</h6><h6 id="-2-把每个人抽象成特征"><a href="#-2-把每个人抽象成特征" class="headerlink" title=" 2. 把每个人抽象成特征"></a> 2. 把每个人抽象成特征</h6><h6 id="-3-通过特征对特征的方式进行泛化和填表，如果用人来理解的角度，可能是"><a href="#-3-通过特征对特征的方式进行泛化和填表，如果用人来理解的角度，可能是" class="headerlink" title=" 3. 通过特征对特征的方式进行泛化和填表，如果用人来理解的角度，可能是"></a> 3. 通过特征对特征的方式进行泛化和填表，如果用人来理解的角度，可能是</h6><h6 id="-中年男人喜欢看钓鱼（内容-画像推荐）"><a href="#-中年男人喜欢看钓鱼（内容-画像推荐）" class="headerlink" title=" 中年男人喜欢看钓鱼（内容+画像推荐）"></a> 中年男人喜欢看钓鱼（内容+画像推荐）</h6><h6 id="-你同事们喜欢看老板点赞过的视频（关系链）"><a href="#-你同事们喜欢看老板点赞过的视频（关系链）" class="headerlink" title=" 你同事们喜欢看老板点赞过的视频（关系链）"></a> 你同事们喜欢看老板点赞过的视频（关系链）</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> 看过AB的人喜欢看C（collaborative filtering）</span><br></pre></td></tr></table></figure>
-
-<p> 但是记得，模型抽象出来的特征是适合机器理解，而不是适合人类理解的。用人类能描述<br>的方式去描述机器的优化，注定是降低效率的</p>
-<h6 id="由此可见。过往AI应用的拓展主要是来自几点"><a href="#由此可见。过往AI应用的拓展主要是来自几点" class="headerlink" title="由此可见。过往AI应用的拓展主要是来自几点"></a>由此可见。过往AI应用的拓展主要是来自几点</h6><h6 id="1-高质量的数据，模型的发展，算力的提升，让模型越来越准、快、和发现更多更深的“对应"><a href="#1-高质量的数据，模型的发展，算力的提升，让模型越来越准、快、和发现更多更深的“对应" class="headerlink" title="1. 高质量的数据，模型的发展，算力的提升，让模型越来越准、快、和发现更多更深的“对应"></a>1. 高质量的数据，模型的发展，算力的提升，让模型越来越准、快、和发现更多更深的“对应</h6><h6 id="关系”，能进行更好的优化"><a href="#关系”，能进行更好的优化" class="headerlink" title="关系”，能进行更好的优化"></a>关系”，能进行更好的优化</h6><h6 id="2-更好地把商业问题转化为优化问题"><a href="#2-更好地把商业问题转化为优化问题" class="headerlink" title="2. 更好地把商业问题转化为优化问题"></a>2. 更好地把商业问题转化为优化问题</h6><h6 id="3-和其他能力的深度结合"><a href="#3-和其他能力的深度结合" class="headerlink" title="3. 和其他能力的深度结合"></a>3. 和其他能力的深度结合</h6><p>但是这些都是基于“鹦鹉学舌”这一范式的。过往的NLP（natural language processing，自然语<br>言处理）就是一个很好的例子。发展了那么多年，语音助手能根据指令来达成一些目标，但是<br>从来都没有真的“懂”那些指令。过往的NLP只能做“填表”，必须背后有一个人设定好具体的任<br>务，规划好如何把语音或者文字形成固定的function，该function如何调用相应的能力。如果<br>没有人提前规划，那模型就无法实现。这篇文章总结的非常好，这里就不赘述了。</p>
-<h6 id="上面这个“懂”字，如果深究的话，会发现大家对这个字的定义其实存在很大分歧。我如果让狗"><a href="#上面这个“懂”字，如果深究的话，会发现大家对这个字的定义其实存在很大分歧。我如果让狗" class="headerlink" title="上面这个“懂”字，如果深究的话，会发现大家对这个字的定义其实存在很大分歧。我如果让狗"></a>上面这个“懂”字，如果深究的话，会发现大家对这个字的定义其实存在很大分歧。我如果让狗</h6><p>狗伸手，狗狗伸手了，是“懂”吗？过去NLP的懂和ChatGPT的懂，又有什么区别呢？分清这一<br>点，我们就能分清ChatGPT“涌现”出来的让大家惊诧的能力是什么了。这里引用朱松纯教授关<br>于乌鸦的例子。</p>
-<h3 id="ChatGPT可能的新范式-–-乌鸦"><a href="#ChatGPT可能的新范式-–-乌鸦" class="headerlink" title="ChatGPT可能的新范式 – 乌鸦"></a>ChatGPT可能的新范式 – 乌鸦</h3><h6 id="原文在这里，介绍了乌鸦是如何“感知、认知、推理、学习、和执行”的："><a href="#原文在这里，介绍了乌鸦是如何“感知、认知、推理、学习、和执行”的：" class="headerlink" title="原文在这里，介绍了乌鸦是如何“感知、认知、推理、学习、和执行”的："></a>原文在这里，介绍了乌鸦是如何“感知、认知、推理、学习、和执行”的：</h6><h6 id="总结一下，城市中的乌鸦学会自主串通"><a href="#总结一下，城市中的乌鸦学会自主串通" class="headerlink" title="总结一下，城市中的乌鸦学会自主串通"></a>总结一下，城市中的乌鸦学会自主串通</h6><h6 id="-汽车能压碎坚果"><a href="#-汽车能压碎坚果" class="headerlink" title=" 汽车能压碎坚果"></a> 汽车能压碎坚果</h6><h6 id="-红绿灯能控制汽车"><a href="#-红绿灯能控制汽车" class="headerlink" title=" 红绿灯能控制汽车"></a> 红绿灯能控制汽车</h6><h6 id="这两件事情，从而利用红绿灯和汽车，来帮自己达到“打开坚果”这一任务结果。"><a href="#这两件事情，从而利用红绿灯和汽车，来帮自己达到“打开坚果”这一任务结果。" class="headerlink" title="这两件事情，从而利用红绿灯和汽车，来帮自己达到“打开坚果”这一任务结果。"></a>这两件事情，从而利用红绿灯和汽车，来帮自己达到“打开坚果”这一任务结果。</h6><h6 id="如果类比成机器学习模型，过往“鹦鹉学舌”范式的解法，是要求所有乌鸦可以共享一个大脑，"><a href="#如果类比成机器学习模型，过往“鹦鹉学舌”范式的解法，是要求所有乌鸦可以共享一个大脑，" class="headerlink" title="如果类比成机器学习模型，过往“鹦鹉学舌”范式的解法，是要求所有乌鸦可以共享一个大脑，"></a>如果类比成机器学习模型，过往“鹦鹉学舌”范式的解法，是要求所有乌鸦可以共享一个大脑，</h6><h6 id="它们有很清晰的优化目标，即“保住性命的前提下打开坚果”。它们的方式是，随机尝试所有事"><a href="#它们有很清晰的优化目标，即“保住性命的前提下打开坚果”。它们的方式是，随机尝试所有事" class="headerlink" title="它们有很清晰的优化目标，即“保住性命的前提下打开坚果”。它们的方式是，随机尝试所有事"></a>它们有很清晰的优化目标，即“保住性命的前提下打开坚果”。它们的方式是，随机尝试所有事</h6><h6 id="件的组合，并向着最优解的方向不断优化。"><a href="#件的组合，并向着最优解的方向不断优化。" class="headerlink" title="件的组合，并向着最优解的方向不断优化。"></a>件的组合，并向着最优解的方向不断优化。</h6><h6 id="但现实世界的乌鸦无法共享大脑，也不能去冒着死亡风险去尝试所有可能。乌鸦只有一次机"><a href="#但现实世界的乌鸦无法共享大脑，也不能去冒着死亡风险去尝试所有可能。乌鸦只有一次机" class="headerlink" title="但现实世界的乌鸦无法共享大脑，也不能去冒着死亡风险去尝试所有可能。乌鸦只有一次机"></a>但现实世界的乌鸦无法共享大脑，也不能去冒着死亡风险去尝试所有可能。乌鸦只有一次机</h6><h6 id="会，把观测到的两个现象，产生了一个新的可能性，并应用在一个全新的场景下。我们文章里"><a href="#会，把观测到的两个现象，产生了一个新的可能性，并应用在一个全新的场景下。我们文章里" class="headerlink" title="会，把观测到的两个现象，产生了一个新的可能性，并应用在一个全新的场景下。我们文章里"></a>会，把观测到的两个现象，产生了一个新的可能性，并应用在一个全新的场景下。我们文章里</h6><p>暂时把这个能力称之为“inference”。中文翻译为推理，但是它和“deduction”，即演绎、推演，<br>又有所不同。</p>
-<p>Inference的翻译是“基于证据和逻辑推演，得到结论”的过程，有的时候，还要加入很多猜测、<br>抽象、泛化。举个例子，ChatGPT其实表现出了很多新能力，但是我们选择专注其“inference”<br>的能力，并且和朱教授五年前的文章联系起来，就是一个inference。朱松纯教授在文章里就呼<br>吁大家去“寻找‘乌鸦’模式的智能，而不要‘鹦鹉’模式的智能”。现在ChatGPT让AI第一次看似拥<br>有了“乌鸦”模式的智能，那当然是一件划时代的大事件。</p>
-<p>但是Inference也不是一个特别好的词，因为在机器学习领域里，inferencing特指使用训练好<br>的深度学习模型来预测新的数据这一件事，会产生误解。另外，我也不确定inference和“乌鸦”<br>的能力是一一对应的。</p>
-<p>在我们自己的文章里，我们会用“乌鸦”来指代ChatGPT的新能力。但是在对外交流的时候，<br>“乌鸦”需要解释的内容太多，所以我们会简化为“理解”。从“乌鸦”到“理解”，当然是一个信息量<br>损失很大的过度概括。但是好处是可以把ChatGPT的本质能力凸显出来。 <strong>过往互联网的两次<br>能力跃进一次来自于搜索，一次来自于推荐，现在ChatGPT带来了“理解”，也非常有结构<br>感。</strong></p>
-<h3 id="ChatGPT看似拥有“理解”能力的证据"><a href="#ChatGPT看似拥有“理解”能力的证据" class="headerlink" title="ChatGPT看似拥有“理解”能力的证据"></a>ChatGPT看似拥有“理解”能力的证据</h3><p>之所以说“看似”，是因为我们并不知道乌鸦为什么会有inference的能力，我们也不完全知道<br>LLM为什么会有“达成inference效果”的能力。我们知道的是，LLM激活inference能力的方式<br>一定与人类和乌鸦不一样。所以我们不把话说死，只说看似拥有，不确定真的拥有。为了节省<br>笔墨，我们接下来就不说“看似”了。</p>
-<h6 id="我们把具体的例子放在附录里，但是有这几点感受很明显"><a href="#我们把具体的例子放在附录里，但是有这几点感受很明显" class="headerlink" title="我们把具体的例子放在附录里，但是有这几点感受很明显"></a>我们把具体的例子放在附录里，但是有这几点感受很明显</h6><p> <strong>ChatGPT拥有in-context correction的能力</strong> ，即如果说错了，给出矫正，ChatGPT能“听<br>懂”错在哪儿了，并向正确的方向修正（案例：）</p>
-<p> <strong>描述越详细清楚，ChatGPT回答得越好</strong> 。要知道，越详细的描述，在预训练的文本里越难</p>
-<h6 id="匹配到"><a href="#匹配到" class="headerlink" title="匹配到"></a>匹配到</h6><p> 在询问ChatGPT互联网上并不存在内容的时候，能给出较好答案（案例：我用ChatGPT学<br>UE5）</p>
-<p> ChatGPT能通过信息猜你心中的想法（案例：跟ChatGPT玩20 questions）</p>
-<p> 你可以制定一个全新的游戏规则让ChatGPT和你玩，ChatGPT可以理解</p>
-<p>前两点是本质，后三点是体感。</p>
-<p>回过来对比过往NLP模型范式如何能达到类似效果，就能看到ChatGPT的神奇之处。过往模<br>型一定需要针对具体的问题进行具体设计，而且只要说的话稍稍不够“结构化”，模型的表现就<br>很难保证，更别提在模型资料库里，没有出现过的问题了。</p>
-<h3 id="打比方时间到"><a href="#打比方时间到" class="headerlink" title="打比方时间到"></a>打比方时间到</h3><h6 id="把该说的细节说清楚，我们现在可以负责任地打比方了。其实朱教授鹦鹉和乌鸦的比方最精确"><a href="#把该说的细节说清楚，我们现在可以负责任地打比方了。其实朱教授鹦鹉和乌鸦的比方最精确" class="headerlink" title="把该说的细节说清楚，我们现在可以负责任地打比方了。其实朱教授鹦鹉和乌鸦的比方最精确"></a>把该说的细节说清楚，我们现在可以负责任地打比方了。其实朱教授鹦鹉和乌鸦的比方最精确</h6><h6 id="不过了，但是毕竟人不是鹦鹉和乌鸦，鹦鹉和乌鸦的能力到底有什么区别，也需要一番解释，"><a href="#不过了，但是毕竟人不是鹦鹉和乌鸦，鹦鹉和乌鸦的能力到底有什么区别，也需要一番解释，" class="headerlink" title="不过了，但是毕竟人不是鹦鹉和乌鸦，鹦鹉和乌鸦的能力到底有什么区别，也需要一番解释，"></a>不过了，但是毕竟人不是鹦鹉和乌鸦，鹦鹉和乌鸦的能力到底有什么区别，也需要一番解释，</h6><h6 id="我们还是打一个“人”的比方。"><a href="#我们还是打一个“人”的比方。" class="headerlink" title="我们还是打一个“人”的比方。"></a>我们还是打一个“人”的比方。</h6><h6 id="过往ML模型是一个“说话不过脑子”的“复读机”类型的人。好处是这个人记忆力和检索能力都"><a href="#过往ML模型是一个“说话不过脑子”的“复读机”类型的人。好处是这个人记忆力和检索能力都" class="headerlink" title="过往ML模型是一个“说话不过脑子”的“复读机”类型的人。好处是这个人记忆力和检索能力都"></a>过往ML模型是一个“说话不过脑子”的“复读机”类型的人。好处是这个人记忆力和检索能力都</h6><h6 id="特别强，而且有自己的一套理解事物对应关系的方式，让你给他看足够多东西的时候，TA就"><a href="#特别强，而且有自己的一套理解事物对应关系的方式，让你给他看足够多东西的时候，TA就" class="headerlink" title="特别强，而且有自己的一套理解事物对应关系的方式，让你给他看足够多东西的时候，TA就"></a>特别强，而且有自己的一套理解事物对应关系的方式，让你给他看足够多东西的时候，TA就</h6><h6 id="能找到对应关系。所以你给TA看的东西越多，离你的目标越近，TA的表现越好。问题是TA"><a href="#能找到对应关系。所以你给TA看的东西越多，离你的目标越近，TA的表现越好。问题是TA" class="headerlink" title="能找到对应关系。所以你给TA看的东西越多，离你的目标越近，TA的表现越好。问题是TA"></a>能找到对应关系。所以你给TA看的东西越多，离你的目标越近，TA的表现越好。问题是TA</h6><h6 id="其实完全听不懂你在说什么，你没教的TA也不可能会。"><a href="#其实完全听不懂你在说什么，你没教的TA也不可能会。" class="headerlink" title="其实完全听不懂你在说什么，你没教的TA也不可能会。"></a>其实完全听不懂你在说什么，你没教的TA也不可能会。</h6><p>ChatGPT是一个“开窍”之后拥有“举一反三”能力的人。而且这个举一反三不光是在“相似问题”<br>上，而是能把看似没有联系的事物联系起来，并且做一些逻辑推演。那ChatGPT就是一个“懂<br>很多”，有很强的“学习能力”，而且“能听懂你”说话。</p>
-<h6 id="提炼对比一下的话"><a href="#提炼对比一下的话" class="headerlink" title="提炼对比一下的话"></a>提炼对比一下的话</h6><h6 id="-过往ML：需要-“喂”-，之后-“模仿”-，基于的是-“对应关系”"><a href="#-过往ML：需要-“喂”-，之后-“模仿”-，基于的是-“对应关系”" class="headerlink" title=" 过往ML：需要 “喂” ，之后 “模仿” ，基于的是 “对应关系”"></a> 过往ML：需要 “喂” ，之后 “模仿” ，基于的是 “对应关系”</h6><p> ChatGPT：需要 <strong>“教”</strong> ，之后 <strong>“懂”</strong> ，基于的是 <strong>“内在逻辑”</strong></p>
-<h6 id="后者的能力上限和应用空间，比起前者岂止百倍。这也是为什么大家如此-兴奋-和-焦虑-。兴奋是"><a href="#后者的能力上限和应用空间，比起前者岂止百倍。这也是为什么大家如此-兴奋-和-焦虑-。兴奋是" class="headerlink" title="后者的能力上限和应用空间，比起前者岂止百倍。这也是为什么大家如此 兴奋 和 焦虑 。兴奋是"></a>后者的能力上限和应用空间，比起前者岂止百倍。这也是为什么大家如此 兴奋 和 焦虑 。兴奋是</h6><p>因为可能性，焦虑是因为目前只有OpenAI一家做出来了ChatGPT，而且并不开源。如果<br>ChatGPT如此重要且牛逼，但所有人只能 <strong>基于ChatGPT做应用</strong> 的话，每个人都要重新考虑自</p>
-<h6 id="己的商业模式了。这两个问题都属于“猜想未来”，一不小心就会变成科幻小说，我们基于事实"><a href="#己的商业模式了。这两个问题都属于“猜想未来”，一不小心就会变成科幻小说，我们基于事实" class="headerlink" title="己的商业模式了。这两个问题都属于“猜想未来”，一不小心就会变成科幻小说，我们基于事实"></a>己的商业模式了。这两个问题都属于“猜想未来”，一不小心就会变成科幻小说，我们基于事实</h6><h6 id="和底层理解，用科学的方式去尽量负责任地推演。"><a href="#和底层理解，用科学的方式去尽量负责任地推演。" class="headerlink" title="和底层理解，用科学的方式去尽量负责任地推演。"></a>和底层理解，用科学的方式去尽量负责任地推演。</h6><h2 id="2-ChatGPT两年内可能达到的上下限是什么？"><a href="#2-ChatGPT两年内可能达到的上下限是什么？" class="headerlink" title="2. ChatGPT两年内可能达到的上下限是什么？"></a>2. ChatGPT两年内可能达到的上下限是什么？</h2><h5 id="通过Prompt催眠ChatGPT，让它突破OpenAI的政策限制"><a href="#通过Prompt催眠ChatGPT，让它突破OpenAI的政策限制" class="headerlink" title="通过Prompt催眠ChatGPT，让它突破OpenAI的政策限制"></a>通过Prompt催眠ChatGPT，让它突破OpenAI的政策限制</h5><h3 id="比方"><a href="#比方" class="headerlink" title="比方"></a>比方</h3><h6 id="我们打两个比方。"><a href="#我们打两个比方。" class="headerlink" title="我们打两个比方。"></a>我们打两个比方。</h6><p> 对比过去的技术：过往模型是弓箭，GPT3是火绳枪，ChatGPT是后膛枪。我们在观望马克<br>沁什么时候出现。火绳枪也许一开始打不过弓箭，但是是 <strong>热兵器迟早会淘汰冷兵器</strong></p>
-<p> 对人类的作用：ChatGPT是不断迭代的交通工具。是需要驾驶员，但是能跑多快，跑多<br>远，取代多少“人力运输”，确实也需要道路、司机、交通规则的配合（产品、商业模式<br>等），可是纤夫肯定是大规模淘汰了</p>
-<h3 id="关键的现状"><a href="#关键的现状" class="headerlink" title="关键的现状"></a>关键的现状</h3><h6 id="我们有如下几个信息"><a href="#我们有如下几个信息" class="headerlink" title="我们有如下几个信息"></a>我们有如下几个信息</h6><ol>
-<li>OpenAI的GPT4已经开发了三年+，大概率会“效率提升很多”，不确定“涌现哪些新能力”</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a. 确定的是 起码会解决GPT3的一些重要问题，比如更加优化的数据-参数比例、更有效</span><br><span class="line">率的信息处理与规律发觉、更高质量的信息输入，等等。极大概率会比GPT3的效率</span><br><span class="line">高很多，inference的成本低很多（很可能是百倍提升）</span><br><span class="line">b. 不确定的是 模型会有多大（大很多基本确定是谣言），会不会有多模态（之前确定没</span><br><span class="line">有，现在难说，不然Andrej Karpathy为什么要去呢），但是如果有的话，也是多模态</span><br><span class="line">理解，不太可能有多模态输出。更重要的是，不知道GPT4会涌现什么新能力</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>ChatGPT现在遇到的很多问题，工程上都有相对简单的解</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a. hallucination&#x2F;说胡话：因为ChatGPT没有对准确度进行优化，也没有引入搜索数据等</span><br><span class="line">做矫正；而且人类也可以参与判断过程；另外就是先应用在自己能判断好坏的场景下</span><br><span class="line">做辅助</span><br><span class="line">b. 记忆力有限：OpenAI开放（收费）接口就行了，现有解决方法也很神奇，直接告诉</span><br><span class="line">ChatGPT，现在告诉你的内容只是一部分，听完了再回答我。就行了</span><br><span class="line">c. 危险发言：ChatGPT的自我审查能力不是基于规则的，而是基于理解的。那其实更加</span><br><span class="line">可调节。给出尊重基本规则下，发言尺度可调节的ChatGPT，也是OpenAI公开发表</span><br><span class="line">的愿景</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>ChatGPT能写代码，做分析，做总结，做营销方案，并且快速变得更好用</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a. 会用的人已经在大幅提高效率了，例子（黄同学说自己公司的经验、Monica的</span><br><span class="line">quote、发在群里chatgpt帮忙写代码的案例）</span><br><span class="line">b. New Bing显著更加好用</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>OpenAI内部对AGI的安全问题非常重视</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a. 能力是涌现的，意味着人类是不理解的，也自然会有担心。虽然不太可能出现天网，</span><br><span class="line">但是会不会突然就能破解当前的加密算法？这就很难说</span><br><span class="line">b. 所以OpenAI极大概率是不会开源LLM的</span><br></pre></td></tr></table></figure>
-
-<h3 id="推演结论"><a href="#推演结论" class="headerlink" title="推演结论"></a>推演结论</h3><h4 id="a-ChatGPT的成本会直线下降，尤其inference的成本会小两个以上数量"><a href="#a-ChatGPT的成本会直线下降，尤其inference的成本会小两个以上数量" class="headerlink" title="a. ChatGPT的成本会直线下降，尤其inference的成本会小两个以上数量"></a>a. ChatGPT的成本会直线下降，尤其inference的成本会小两个以上数量</h4><h4 id="级"><a href="#级" class="headerlink" title="级"></a>级</h4><p>中文媒体对ChatGPT成本的猜想大多不靠谱，我们只选择两条信息源</p>
-<p> Sam在公开场合曾说过ChatGPT的inference成本是每条几分钱</p>
-<p> Key Takes from ChatGPT and Generative AI.pdf，根据Jefferies Research的详细调研，<br>ChatGPT的inference大概率是使用闲置x86 CPU，而非GPU进行的</p>
-<p>叠加我们对于inference和大语言模型优化空间的理解，我们认为inference成本直线下降是极<br>大概率的。成本下降就意味着应用范围以及数据收集的能力。ChatGPT哪怕到了十亿DAU的</p>
-<h6 id="水准（现在一亿DAU的估算也不靠谱），也是能做到免费的。最多限制一下每天的使用次数就"><a href="#水准（现在一亿DAU的估算也不靠谱），也是能做到免费的。最多限制一下每天的使用次数就" class="headerlink" title="水准（现在一亿DAU的估算也不靠谱），也是能做到免费的。最多限制一下每天的使用次数就"></a>水准（现在一亿DAU的估算也不靠谱），也是能做到免费的。最多限制一下每天的使用次数就</h6><p>行了。New Bing一度限制 60 条，现在也没了。这些实际使用中的对话无疑会进一步加强<br>ChatGPT的壁垒。</p>
-<p>PS：文章写完后的3.1日，OpenAI开放了ChatGPT的API接口，成本已经优化了90%，百万<br>字2.7美元</p>
-<h4 id="b-ChatGPT“能力”子模型可能会重新训练，但“知识”子模型只需要通过"><a href="#b-ChatGPT“能力”子模型可能会重新训练，但“知识”子模型只需要通过" class="headerlink" title="b. ChatGPT“能力”子模型可能会重新训练，但“知识”子模型只需要通过"></a>b. ChatGPT“能力”子模型可能会重新训练，但“知识”子模型只需要通过</h4><h4 id="instruct-prompting的方式喂知识"><a href="#instruct-prompting的方式喂知识" class="headerlink" title="instruct prompting的方式喂知识"></a>instruct prompting的方式喂知识</h4><p>过往AI遇到一个新任务，需要在新任务的数据上重新训练一个模型。前面但是InstructGPT范<br>式下不需要这样做。如果ChatGPT基于的pre-train大模型有相关能力，那只要通过对话、引<br>导、教育，不断调教，就能让ChatGPT在子任务中把新能力应用好。</p>
-<p>这里最好的比方可能是钢铁侠 3 。如果打比方的话，ChatGPT是通用型铠甲，出厂就能干绝大<br>多数的活儿。当然，需要“理解”一下如何用现有能力去“创新”性地完成那些工作。工作水平大 8<br>概在出简单医疗建议、给法律参考、写代码框架、做营销方案、做心理咨询、充当面试官，等<br>等的范畴。</p>
-<h6 id="如果想对某些方面进行专精，比如牺牲对话能力来提高上下文理解能力，牺牲对话延续性来提"><a href="#如果想对某些方面进行专精，比如牺牲对话能力来提高上下文理解能力，牺牲对话延续性来提" class="headerlink" title="如果想对某些方面进行专精，比如牺牲对话能力来提高上下文理解能力，牺牲对话延续性来提"></a>如果想对某些方面进行专精，比如牺牲对话能力来提高上下文理解能力，牺牲对话延续性来提</h6><h6 id="高信息精度，等等，就需要回炉重造，进行调整。这里可能也会融合一些其他能力模块，比如"><a href="#高信息精度，等等，就需要回炉重造，进行调整。这里可能也会融合一些其他能力模块，比如" class="headerlink" title="高信息精度，等等，就需要回炉重造，进行调整。这里可能也会融合一些其他能力模块，比如"></a>高信息精度，等等，就需要回炉重造，进行调整。这里可能也会融合一些其他能力模块，比如</h6><p>搜索（new bing）、和其他模型的接口、工具使用，等等。这就像那些专精型铠甲。当然，能</p>
-<p>力+工具能解锁的可能性是巨大的，比如Hulkbuster。</p>
-<h4 id="c-Prompting的能力会大幅增强，猜测会适度开放"><a href="#c-Prompting的能力会大幅增强，猜测会适度开放" class="headerlink" title="c. Prompting的能力会大幅增强，猜测会适度开放"></a>c. Prompting的能力会大幅增强，猜测会适度开放</h4><h6 id="已经在这样做了："><a href="#已经在这样做了：" class="headerlink" title="已经在这样做了："></a>已经在这样做了：</h6><h6 id="这样除了是一个明显的商业化点，有两个更重要的意义"><a href="#这样除了是一个明显的商业化点，有两个更重要的意义" class="headerlink" title="这样除了是一个明显的商业化点，有两个更重要的意义"></a>这样除了是一个明显的商业化点，有两个更重要的意义</h6><ol>
-<li>可以让大家调教出来“属于自己的ChatGPT”，这个ChatGPT跟你长时间聊天之后能适配你<br>的喜好，甚至学会你想让他学会的独有知识（注意，不是能力，能力只能激活）</li>
-<li>可以让大家能在ChatGPT的闭源模型上，发展出自己的独有竞争力。从而解决“我只能给<br>OpenAI做UI”的焦虑</li>
-</ol>
-<h4 id="d-GPT4会大幅提升ChatGPT的能力，在多数领域达到“优秀员工”的水准"><a href="#d-GPT4会大幅提升ChatGPT的能力，在多数领域达到“优秀员工”的水准" class="headerlink" title="d. GPT4会大幅提升ChatGPT的能力，在多数领域达到“优秀员工”的水准"></a>d. GPT4会大幅提升ChatGPT的能力，在多数领域达到“优秀员工”的水准</h4><p>我们现在明显是在范式革命的早期，成长曲线将是陡峭的。New Bing和ChatGPT已经展现出</p>
-<h6 id="巨大差异了。我们有足够多的理由相信，GPT4在如下几个方面几乎“必然”有巨大进步"><a href="#巨大差异了。我们有足够多的理由相信，GPT4在如下几个方面几乎“必然”有巨大进步" class="headerlink" title="巨大差异了。我们有足够多的理由相信，GPT4在如下几个方面几乎“必然”有巨大进步"></a>巨大差异了。我们有足够多的理由相信，GPT4在如下几个方面几乎“必然”有巨大进步</h6><h6 id="-大模型，大数据，更加优化的参数和数据比例-–-参数越大越好，数据越多越好，但是合适"><a href="#-大模型，大数据，更加优化的参数和数据比例-–-参数越大越好，数据越多越好，但是合适" class="headerlink" title=" 大模型，大数据，更加优化的参数和数据比例 – 参数越大越好，数据越多越好，但是合适"></a> 大模型，大数据，更加优化的参数和数据比例 – 参数越大越好，数据越多越好，但是合适</h6><h6 id="的比例才能让模型充分吸收数据知识。这方面优化方向很明确"><a href="#的比例才能让模型充分吸收数据知识。这方面优化方向很明确" class="headerlink" title="的比例才能让模型充分吸收数据知识。这方面优化方向很明确"></a>的比例才能让模型充分吸收数据知识。这方面优化方向很明确</h6><p> 更有针对性的训练数据集 – OpenAI在“造高质量大数据”上的能力几乎独步天下了，而经<br>过GPT3之后的多年摸索，什么数据对增强什么能力更有用，即使不清楚，也早就有了体<br>感，肯定可以更好调整（比如读更多代码，多语言的比例，等）</p>
-<p> 可能的“能力模块融合” – New Bing以ChatGPT为基座，延伸了搜索能力。那有没有办法<br>把搜索能力直接融入到pre-trained大模型里呢？一些工具能力呢？我认为把“搜索能力融<br>入pre-trained大模型里”的方式和把RLHF融入ChatGPT的方式其实是类似的。不是去“用<br>搜索能力丰富语料库”，而是把“GPT的结果更适配搜索引擎的偏好”。</p>
-<h6 id="更加强大的归纳、“理解”能力，看似更好的悟性，结合更多场景的调教，我预测在两年内，基"><a href="#更加强大的归纳、“理解”能力，看似更好的悟性，结合更多场景的调教，我预测在两年内，基" class="headerlink" title="更加强大的归纳、“理解”能力，看似更好的悟性，结合更多场景的调教，我预测在两年内，基"></a>更加强大的归纳、“理解”能力，看似更好的悟性，结合更多场景的调教，我预测在两年内，基</h6><p>于GPT4的ChatGPT类产品，在大多数场合下已经能达到 9 级员工的水平了。详细会在第四问<br>中展开。</p>
-<h3 id="ChatGPT的会取代大多数“搬砖”类工作"><a href="#ChatGPT的会取代大多数“搬砖”类工作" class="headerlink" title="ChatGPT的会取代大多数“搬砖”类工作"></a>ChatGPT的会取代大多数“搬砖”类工作</h3><p>“乌鸦”能力到底能带来什么颠覆性意义呢？意义在于ChatGPT已经接近于“人类调用算力”的究<br>极界面了。从计算机发展以来，一直在三方面进行发展。</p>
-<p> 算力和存储能力的进步，以摩尔定律为代表。在云之后，更让个人可以调用的算力几乎无<br>上限</p>
-<p> “调用算力手段”的抽象与进化。从机器语言、汇编语言、高级语言，到虚拟机（对硬件的<br>抽象）、云服务（对API的抽象）</p>
-<p> 对数据的生产、总结，和使用</p>
-<p>后两者虽然进步了很多，但是编程仍然是阻止大多数人调用算力的门槛。现在，ChatGPT已经<br>可以很好地进行编程辅助了。假以时日，我们可以直接向ChatGPT去要一个结果，把执行过<br>程交给TA，而跳过中间的PM - BRD - 开发 - 交付的冗长流程。</p>
-<p>我们退一步去思考一下，为什么ChatGPT可以取代这类工作？因为这类工作虽然是“技术”工<br>种，但是其实“创新”的比重并不高。我们经常会用“搬砖”来自嘲自己工作的重复，但是其实这<br>正是问题的关键。如果我们所做的无非是去理解问题，寻找互联网上已有答案，把两者进行对<br>接，那如果ChatGPT能理解问题，归纳答案，自然能比我们干得好。</p>
-<p>抽象来看，ChatGPT拥有编程能力，也拥有其他能力。大家需要思考自己工作的本质，是在真<br>的做创新，把已有的点链接起来之后形成新的点，还是在“搬砖”？如果是后者，真的需要去试<br>用一下ChatGPT，看看自己能不能确定比ChatGPT做得好了。</p>
-<h2 id="3-ChatGPT以及GPT有壁垒吗？"><a href="#3-ChatGPT以及GPT有壁垒吗？" class="headerlink" title="3. ChatGPT以及GPT有壁垒吗？"></a>3. ChatGPT以及GPT有壁垒吗？</h2><h6 id="当然有，但是壁垒多高，取决于问题-1-、-2-的结论。我们把几种情况分列一下。"><a href="#当然有，但是壁垒多高，取决于问题-1-、-2-的结论。我们把几种情况分列一下。" class="headerlink" title="当然有，但是壁垒多高，取决于问题 1 、 2 的结论。我们把几种情况分列一下。"></a>当然有，但是壁垒多高，取决于问题 1 、 2 的结论。我们把几种情况分列一下。</h6><ol>
-<li>ChatGPT的“乌鸦”能力不是范式突破，只是错觉</li>
-<li>ChatGPT的“乌鸦”能力是范式突破，竞争者 6 个月内就能“涌现”<br>**3. ChatGPT的“乌鸦”能力是范式突破，竞争者 6 - 24 个月才能“涌现”</li>
-<li>ChatGPT的“乌鸦”能力是范式突破，但是竞争者两年内都无法“涌现”**</li>
-</ol>
-<h6 id="如果是情况-1，那这整个都不值得讨论。但是从实际使用体感来说，-1基本可以排除了。如"><a href="#如果是情况-1，那这整个都不值得讨论。但是从实际使用体感来说，-1基本可以排除了。如" class="headerlink" title="如果是情况#1，那这整个都不值得讨论。但是从实际使用体感来说，#1基本可以排除了。如"></a>如果是情况#1，那这整个都不值得讨论。但是从实际使用体感来说，#1基本可以排除了。如</h6><h6 id="果是情况-2，那各大互联网公司有自己的厉害的大模型只是时间问题，腾讯自己也有机会。就"><a href="#果是情况-2，那各大互联网公司有自己的厉害的大模型只是时间问题，腾讯自己也有机会。就" class="headerlink" title="果是情况#2，那各大互联网公司有自己的厉害的大模型只是时间问题，腾讯自己也有机会。就"></a>果是情况#2，那各大互联网公司有自己的厉害的大模型只是时间问题，腾讯自己也有机会。就</h6><h6 id="像有自己的云、自己的图像识别算法等等，虽然有好有坏，但是可以解决有无的问题。"><a href="#像有自己的云、自己的图像识别算法等等，虽然有好有坏，但是可以解决有无的问题。" class="headerlink" title="像有自己的云、自己的图像识别算法等等，虽然有好有坏，但是可以解决有无的问题。"></a>像有自己的云、自己的图像识别算法等等，虽然有好有坏，但是可以解决有无的问题。</h6><p>如果Google/Meta需要 6 个月才能复现ChatGPT“理解”的能力，可以认定其壁垒极高是很高<br>的，尤其是工程难度极大。这个时候其他巨头想要“追赶”，就很难了。因为ChatGPT的数据飞<br>轮优势已经几乎无法撼动。同时，国产ChatGPT基本不太可能了。</p>
-<p>有人可能不服，过去的很多模型都很快抄的出来，为什么ChatGPT抄不出来？这是因为如下<br>几点原因，让ChatGPT更像“芯片”和“大飞机引擎”，而不是“普通AI模型”或者“原子弹”。</p>
-<h3 id="ChatGPT壁垒的来源"><a href="#ChatGPT壁垒的来源" class="headerlink" title="ChatGPT壁垒的来源"></a>ChatGPT壁垒的来源</h3><h6 id="1-GPT3是闭源的"><a href="#1-GPT3是闭源的" class="headerlink" title="1. GPT3是闭源的"></a>1. GPT3是闭源的</h6><p>ChatGPT更是到现在连API都没开放。OpenAI内部对于AGI的态度是非常审慎的，光从安全<br>这一点考虑，都不可能把ChatGPT开源。所以国产机器学习依赖了十几年的“开源模型国产实<br>现”路径，在ChatGPT上是不要指望的。</p>
-<p><strong>2. OpenAI的工程能力是很强的壁垒</strong></p>
-<p>这是因为创始人真的懂，真的能坚持，真的挖到了这方面最好的一批人，形成了超高的人才密<br>度。“增加模型参数”这件事需要工程能力，更难的是“让大模型有效地学习到大数据中的知<br>识”。这里面的工程积累就可以类比“芯片”和“大飞机引擎”了。下一步的工程积累必须站在上一<br>步的工程突破上。而且要求过程中参与的工程师们都要有“原理性”思考的习惯。据打听来的消<br>息，正是因为OpenAI超高的人才密度，才在互相碰撞中突破了诸多工程瓶颈。</p>
-<p><strong>3. 务实的土壤很难长出OpenAI的能力</strong></p>
-<p>比如字节跳动的推荐算法模型也很大，业界也很羡慕，工程难度也很高。但是本质是面向业务<br>目标不断优化的模型，所有都是基于现有模式进行优化，是不可能形成范式突破的。但是如果<br>不能“一步一脚印”地为业务提供正反馈，整个模型的发展就很受限。老板能给三个月时间，但<br>是很难在三年还没有突破的情况下给耐心，就算有耐心，团队士气也无法保障。</p>
-<p><strong>4. Leadership的技术判断力是稀缺资源</strong></p>
-<p>New Bing与ChatGPT结合地这么快，效果又这么好，在创业历史上其实是罕见的奇迹。这是<br>乔布斯和马斯克的段位，远超市面上其他人。这方面可遇不可求，不是一个可复制的模式。</p>
-<p>听说最近百度在国产LLM的卡位很好（其实并没有），但是Robin在自动驾驶上吃过一次亏，<br>于是对LLM给的时间是很短的。这就是leadership缺乏技术判断力，就无法理解为什么自动驾<br>驶是个空饼，而ChatGPT是真东西的典型例子。</p>
-<h6 id="5-数据飞轮已经形成"><a href="#5-数据飞轮已经形成" class="headerlink" title="5. 数据飞轮已经形成"></a>5. 数据飞轮已经形成</h6><p>ChatGPT不光是一个AI新范式，也是一个现象级成功的C端产品，又有微软的资源和渠道加<br>成，很明显一上来就卡住了非常好的身位。这种情况下，ChatGPT的使用数据是可以不断反补<br>模型本身的。ChatGPT的博客里也反复强调他们有独特的机制，让数据的使用、理解、生产，<br>有紧密的闭环。</p>
-<h3 id="复现ChatGPT“理解”能力要多久？"><a href="#复现ChatGPT“理解”能力要多久？" class="headerlink" title="复现ChatGPT“理解”能力要多久？"></a>复现ChatGPT“理解”能力要多久？</h3><p>以上所说的五条原因都是“困难”。但是到底有多“困难”，还是需要量化。ChatGPT是一个一个<br>学术界和业界都缺乏定论的新技术，具体的量化不太可能，所以我们这里抓住一个核心点，即<br>“涌现‘乌鸦’的能力”，可能性有多高，需要多久？</p>
-<p>很明显，无论中国出了多少个类ChatGPT产品，有多少个国产LLM，我们都知道，离<br>ChatGPT能力最近的是拥有Deepmind，提出Transformer/T5/PaLM的谷歌。我们盯紧Google<br>什么时候涌现“乌鸦”能力就好了。</p>
-<h6 id="“乌鸦”能力是涌现出来的，而不是有确定可复制的路径的。我们虽然知道其能力是在GPT训练"><a href="#“乌鸦”能力是涌现出来的，而不是有确定可复制的路径的。我们虽然知道其能力是在GPT训练" class="headerlink" title="“乌鸦”能力是涌现出来的，而不是有确定可复制的路径的。我们虽然知道其能力是在GPT训练"></a>“乌鸦”能力是涌现出来的，而不是有确定可复制的路径的。我们虽然知道其能力是在GPT训练</h6><h6 id="到什么规模有涌现的，但是不确定别的模型在这个规模也会涌现同样能力，毕竟文本质量和优"><a href="#到什么规模有涌现的，但是不确定别的模型在这个规模也会涌现同样能力，毕竟文本质量和优" class="headerlink" title="到什么规模有涌现的，但是不确定别的模型在这个规模也会涌现同样能力，毕竟文本质量和优"></a>到什么规模有涌现的，但是不确定别的模型在这个规模也会涌现同样能力，毕竟文本质量和优</h6><h6 id="化方式差别很大。就好像引擎的原理都知道，但是能不能达到那个推重比，只有极少数的公司"><a href="#化方式差别很大。就好像引擎的原理都知道，但是能不能达到那个推重比，只有极少数的公司" class="headerlink" title="化方式差别很大。就好像引擎的原理都知道，但是能不能达到那个推重比，只有极少数的公司"></a>化方式差别很大。就好像引擎的原理都知道，但是能不能达到那个推重比，只有极少数的公司</h6><h6 id="能掌握。"><a href="#能掌握。" class="headerlink" title="能掌握。"></a>能掌握。</h6><p>一个典型的话术会是“在OpenAI已经探明路径的情况下，花OpenAI 50%的投入，达到OpenAI<br>80%的效果”。希望看完上面，我们能认知到，我们应该默认这条路是行不通的。基于能力是<br>“涌现”的，要么100%，要么0%；叠加背后隐藏的工程难度，我们大胆推测一下，市面上迟早<br>会出现下一个ChatGPT，大概率是Google做出来的，但是六个月内出现的可能性不大。</p>
-<p>而国产LLM在Google做出来之前，就别看了，无论如何吹，不是ChatGPT，也成不了<br>ChatGPT（希望我是错的）。在这种情况下我们就不去讨论复现ChatGPT需要多少张显卡了，<br>没意义。</p>
-<h2 id="4-我们未来应该如何使用ChatGPT？"><a href="#4-我们未来应该如何使用ChatGPT？" class="headerlink" title="4. 我们未来应该如何使用ChatGPT？"></a>4. 我们未来应该如何使用ChatGPT？</h2><h3 id="OpenAI的的开放方式有待观望"><a href="#OpenAI的的开放方式有待观望" class="headerlink" title="OpenAI的的开放方式有待观望"></a>OpenAI的的开放方式有待观望</h3><p>我们上文基于现有信息，技术理解，和我们的猜想，提出来了ChatGPT的最佳开放模式应该<br>是增强和开放prompting的能力，打比方来说，让健忘的ChatGPT记得你交代的事情，对你<br>来说就有用了太多。接下来就是GPT4的开放和通过不同方式调教出来，各有所长的子能力模<br>型。</p>
-<p>但是以上都是猜想，真正的使用方式还是要看OpenAI自己如何开放。江湖传闻下一步是和<br>Office Suite的深度整合。Notion AI已经给了很好的例子，确实很香。但是究竟是去增强微软<br>现有产品，还是去成为下一代计算机？我认为OpenAI会选择后者。但是站在此时此刻，我们<br>只能猜测和观望，以及做好人和ChatGPT的合理中间层。</p>
-<h3 id="ChatGPT-Wrapper是我们当下可做的"><a href="#ChatGPT-Wrapper是我们当下可做的" class="headerlink" title="ChatGPT Wrapper是我们当下可做的"></a>ChatGPT Wrapper是我们当下可做的</h3><p>其实绝大多数人是不习惯于清晰表达自己脑海中想法的。所以虽然ChatGPT已经把“调用计算<br>力的手段”无限趋近于最合理的手段（用自然语言要求结果），但是我们已经发现，“提出信息完<br>整的prompt”，对现在的人来说，是一个高要求。</p>
-<p>网络上已经有很多prompting的模版（比如这里）。把这一层做好，一方面能显著提高大家对<br>ChatGPT的使用效率，一方面也能让我们积累对用户真实需求的理解和揣测，从而和ChatGPT<br>做好适配。</p>
-<h3 id="对ChatGPT能力的合理运用"><a href="#对ChatGPT能力的合理运用" class="headerlink" title="对ChatGPT能力的合理运用"></a>对ChatGPT能力的合理运用</h3><p>对于ChatGPT，我们应该在现在的条件下思考更合适的应用</p>
-<p> <strong>对症下药</strong> ：ChatGPT不是搜索引擎、不是程序，我们就用它做它擅长的事情，而不是去做<br>搜索引擎和程序可以更高效完成的事情</p>
-<p> <strong>择善而从</strong> ：当前的ChatGPT是有明显的hallucination问题的，那我们就不能100%相信它的<br>结论。一个简单的方法是我们要在自己能判断对错的地方去使用ChatGPT提高我们产生想<br>法，收集归纳信息的效率，但是人要来把关</p>
-<h6 id="同时，我们也要意识到人类有更大的局限，不谈算力和知识面，光从理解能力这一角度来说"><a href="#同时，我们也要意识到人类有更大的局限，不谈算力和知识面，光从理解能力这一角度来说" class="headerlink" title="同时，我们也要意识到人类有更大的局限，不谈算力和知识面，光从理解能力这一角度来说"></a>同时，我们也要意识到人类有更大的局限，不谈算力和知识面，光从理解能力这一角度来说</h6><h6 id="-人类很难意识到自己的错误"><a href="#-人类很难意识到自己的错误" class="headerlink" title=" 人类很难意识到自己的错误"></a> 人类很难意识到自己的错误</h6><p> 人类有ego，会影响自己的认知，也会让观点带入感情色彩</p>
-<p> 人类会故意偷换概念，等等</p>
-<p>所以ChatGPT也许短期不会直接取代人类工作。但是两年内一定可以让一部分人的人效极大<br>程度地提高。虽然说消灭工作的同时会产生新工作，但是很可能是消灭了一百个，产生了一<br>个。那我们必须要思考一下，假如ChatGPT理解能力更上几层楼，拥有了多种能力，并且说<br>话也靠谱不乱说了，我们人类的竞争力还剩下什么呢？</p>
-<h2 id="5-人类和ChatGPT的本质区别是什么？"><a href="#5-人类和ChatGPT的本质区别是什么？" class="headerlink" title="5. 人类和ChatGPT的本质区别是什么？"></a>5. 人类和ChatGPT的本质区别是什么？</h2><h6 id="因为我们的脑科学和神经科学非常不发达，这里只能从哲学寻求解答。BTW，除非脑科学产生"><a href="#因为我们的脑科学和神经科学非常不发达，这里只能从哲学寻求解答。BTW，除非脑科学产生" class="headerlink" title="因为我们的脑科学和神经科学非常不发达，这里只能从哲学寻求解答。BTW，除非脑科学产生"></a>因为我们的脑科学和神经科学非常不发达，这里只能从哲学寻求解答。BTW，除非脑科学产生</h6><p>重大的范式突破，不然neurallink这种脑机接口，是不可能实现大家想像中的那些功能的。</p>
-<h6 id="我们不是哲学专家，这里就仅供参考。"><a href="#我们不是哲学专家，这里就仅供参考。" class="headerlink" title="我们不是哲学专家，这里就仅供参考。"></a>我们不是哲学专家，这里就仅供参考。</h6><h3 id="a-判断力"><a href="#a-判断力" class="headerlink" title="a. 判断力"></a>a. 判断力</h3><p>ChatGPT再厉害，也只能去吸取虚拟数字中的数字信号，是无法与现实世界做真实交互的。它<br>可以听一万个专家告诉他做A就会得到B，但是不从真实世界中做实验，就无法从最底层确认</p>
-<p>这个说法究竟是真是假。绝知此事要躬行，才能有判断力的根基。</p>
-<h3 id="b-“Eureka”"><a href="#b-“Eureka”" class="headerlink" title="b. “Eureka”"></a>b. “Eureka”</h3><h6 id="牛顿看到苹果落地，可以发现万有引力，从而预测星星的运动。哥白尼发现地球是围绕太阳转"><a href="#牛顿看到苹果落地，可以发现万有引力，从而预测星星的运动。哥白尼发现地球是围绕太阳转" class="headerlink" title="牛顿看到苹果落地，可以发现万有引力，从而预测星星的运动。哥白尼发现地球是围绕太阳转"></a>牛顿看到苹果落地，可以发现万有引力，从而预测星星的运动。哥白尼发现地球是围绕太阳转</h6><h6 id="的，而在他之前全地球人天天看着日出日落，都认为太阳是绕着地球转的。如果那个时候有一"><a href="#的，而在他之前全地球人天天看着日出日落，都认为太阳是绕着地球转的。如果那个时候有一" class="headerlink" title="的，而在他之前全地球人天天看着日出日落，都认为太阳是绕着地球转的。如果那个时候有一"></a>的，而在他之前全地球人天天看着日出日落，都认为太阳是绕着地球转的。如果那个时候有一</h6><p>个ChatGPT，一定非常笃定太阳绕着地球转。那个ChatGPT也许能从苹果如何落地推测出桃子<br>如何落地，但是大概率无法推测出星星的运动方式。</p>
-<h6 id="当然，能发现万有引力的人也是少数。更有意义的是去识别这种思维能力到底是什么，以及在"><a href="#当然，能发现万有引力的人也是少数。更有意义的是去识别这种思维能力到底是什么，以及在" class="headerlink" title="当然，能发现万有引力的人也是少数。更有意义的是去识别这种思维能力到底是什么，以及在"></a>当然，能发现万有引力的人也是少数。更有意义的是去识别这种思维能力到底是什么，以及在</h6><p>我们日常生活中如何体现。阿基米德在泡澡时候发现浮力定律的时候喊了“Eureka”，大概可以<br>形容这种“灵感并发、灵光一现”的瞬间。我们这里把这个瞬间稍稍具体地归结为“链接了数个相<br>关的点，并且发现了第三个点”的过程。</p>
-<h3 id="c-增量知识"><a href="#c-增量知识" class="headerlink" title="c. 增量知识"></a>c. 增量知识</h3><p>如果把现有知识归纳总结应用， 那必然PK不过ChatGPT。只有创造互联网上不存在的新知<br>识，才可能是ChatGPT做不到的。注意条件指向，互联网上不存在的新知识，也未必不能从<br>存量知识里总结出来，但是能从存量知识里总结出来的，一定不是人类的优势。</p>
-<h3 id="d-理解人"><a href="#d-理解人" class="headerlink" title="d. 理解人"></a>d. 理解人</h3><h6 id="人类的文本知识里一定存在很多人性的理解，但是也一定有一些人性或者偏好，是没有被记录"><a href="#人类的文本知识里一定存在很多人性的理解，但是也一定有一些人性或者偏好，是没有被记录" class="headerlink" title="人类的文本知识里一定存在很多人性的理解，但是也一定有一些人性或者偏好，是没有被记录"></a>人类的文本知识里一定存在很多人性的理解，但是也一定有一些人性或者偏好，是没有被记录</h6><h6 id="总结在文字里的。如果我们结合-1-和-3-，就会发现，去真实世界理解人，而不是去通过调研、"><a href="#总结在文字里的。如果我们结合-1-和-3-，就会发现，去真实世界理解人，而不是去通过调研、" class="headerlink" title="总结在文字里的。如果我们结合 1 和 3 ，就会发现，去真实世界理解人，而不是去通过调研、"></a>总结在文字里的。如果我们结合 1 和 3 ，就会发现，去真实世界理解人，而不是去通过调研、</h6><h6 id="问卷、网络资料理解人；去带来增量的理解，而不是去人云亦云地重复套路。才是人类相对于"><a href="#问卷、网络资料理解人；去带来增量的理解，而不是去人云亦云地重复套路。才是人类相对于" class="headerlink" title="问卷、网络资料理解人；去带来增量的理解，而不是去人云亦云地重复套路。才是人类相对于"></a>问卷、网络资料理解人；去带来增量的理解，而不是去人云亦云地重复套路。才是人类相对于</h6><p>ChatGPT的优势。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
-<li>ChatGPT的范式突破是“乌鸦”能力。恕我能力所限，无法更简单地无损表达这一能力的本质<br>了。如果允许有损，我会用“理解”能力来概括它最重要的一面。作为对比，过往ML的能力<br>模式是“鹦鹉”能力，所做的是寻找“对应关系”</li>
-<li>ChatGPT的意义是对“调用算力、总结信息”最究极的手段，预测会在两年内有能力辅助人类<br>取代大多数可被定义为“搬砖”类型的工作</li>
-<li>ChatGPT的“乌鸦”能力是涌现的，工程难度是极高的。我们应该抛弃各种噪音，聚焦关注<br>Google是否能复现这一能力，从而判定这一能力到底有多难。而现在，建议我们的默认预<br>测是这一能力很难复现，需要别人来用强力证据说服我们他们能复现</li>
-<li>我们对ChatGPT的使用应该观望OpenAI给我们提供的调用方式，在当下，我们应该聚焦<br>用好ChatGPT，并且做好ChatGPT能力与我们所需要解决问题的的中间层</li>
-</ol>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-flyio部署在线服务" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/cd8153f9.html" class="article-date">
-      <time datetime="2023-02-24T02:57:20.000Z" itemprop="datePublished">2023-02-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/cd8153f9.html">flyio部署alist在线服务</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>alist是一个服务,提供各种存储源包括 阿里云盘,百度云盘,对象存储等,需要可以在内网部署实现一个服务可以接入多个存储源例如</p>
-<p><img src="../img/1677219529577-ab58daf6-21b7-470b-86b0-c9a8b8a0b725.png" alt="image.png"></p>
-<h2 id="使用flyio来部署"><a href="#使用flyio来部署" class="headerlink" title="使用flyio来部署"></a>使用flyio来部署</h2><p>笔者是window平台在powershell上运行</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>alist是一个服务,提供各种存储源包括 阿里云盘,百度云盘,对象存储等,需要可以在内网部署实现一个服务可以接入多个存储源例如</p>
-<p><img src="../img/1677219529577-ab58daf6-21b7-470b-86b0-c9a8b8a0b725.png" alt="image.png"></p>
-<h2 id="使用flyio来部署"><a href="#使用flyio来部署" class="headerlink" title="使用flyio来部署"></a>使用flyio来部署</h2><p>笔者是window平台在powershell上运行</p>
-<blockquote>
-<p>powershell -Command “iwr <a target="_blank" rel="noopener" href="https://fly.io/install.ps1">https://fly.io/install.ps1</a> -useb | iex”</p>
-</blockquote>
-<p>初始化flyio和对应的环境文档 <a target="_blank" rel="noopener" href="https://fly.io/docs/flyctl/">Introducing Flyctl - The Fly CLI · Fly Docs</a> </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 登陆</span></span><br><span class="line">flyctl auth login</span><br></pre></td></tr></table></figure>
-
-<p><strong>注册完成后，我们就可以正式开始部署应用啦.</strong></p>
-<h3 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建应用</span></span><br><span class="line">git clone https://github.com/alist-org/alist-render</span><br><span class="line">cd alist-render</span><br><span class="line">flyctl launch</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>App Name 只允许 数字、字幕、破折号（-），然后记住App Name下面会用到.其中 <code>App Name</code> 需要是全局唯一的，而且之后不能更改，同时会作为 <code>app</code> 的子域名<br>地区博主选的香港（hkg (Hong Kong)），访问速度会快点.<br>其他一律默认回车.选择<code>NO</code></p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建一个 1G 的持久存储空间(最小单位 1)</span></span><br><span class="line">flyctl volumes create data --size 1 --app APP_NAME</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改配置（fly-toml）"><a href="#修改配置（fly-toml）" class="headerlink" title="修改配置（fly.toml）"></a>修改配置（fly.toml）</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 端口修改为 5244</span></span><br><span class="line">[[services]]</span><br><span class="line">http_checks = []</span><br><span class="line">internal_port = 5244</span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加Alist数据目录</span></span><br><span class="line">[mounts]</span><br><span class="line">destination = &quot;/opt/alist/data&quot;</span><br><span class="line">source = &quot;data&quot;</span><br></pre></td></tr></table></figure>
-
-<h3 id="部署应用"><a href="#部署应用" class="headerlink" title="部署应用"></a>部署应用</h3><p>准备工作已经完成，现在可以部署 alist 应用，输入以下命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flyctl deploy --remote-only</span><br></pre></td></tr></table></figure>
-
-<p>如果部署顺利（看到 deploved successfully），之后就可以用以下命令打开应用：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flyctl open</span><br></pre></td></tr></table></figure>
-
-<p>你也可以直接在浏览器打开 <code>https://APP_NAME.fly.dev</code></p>
-<h3 id="访问密码"><a href="#访问密码" class="headerlink" title="访问密码"></a>访问密码</h3><p>访问密码在后台界面可以看到</p>
-<p><img src="../img/image-20230224112235833.png" alt="image-20230224112235833"></p>
-<p>访问效果如下</p>
-<p><img src="../img/image-20230224142746854.png" alt="image-20230224142746854"></p>
-<h2 id="使用GitHub-action来运行"><a href="#使用GitHub-action来运行" class="headerlink" title="使用GitHub action来运行"></a>使用GitHub action来运行</h2><p><a target="_blank" rel="noopener" href="https://github.com/York618/alist-flyio">https://github.com/York618/alist-flyio</a> 来实现需要注意几点</p>
-<ul>
-<li>FLY_API_TOKE 访问 <a target="_blank" rel="noopener" href="https://web.fly.io/user/personal_access_tokens">https://web.fly.io/user/personal_access_tokens</a></li>
-<li>APP_NAME  需要提前初始化唯一app name,一般是flyctl来初始化</li>
-<li>DATABASE</li>
-<li>SQLUSER</li>
-<li>SQLPASSWORD</li>
-<li>SQLHOST</li>
-<li>SQLPORT</li>
-<li>SQLNAME</li>
-</ul>
-<p>注意app name需要先初始化好</p>
-<h2 id="本地运行"><a href="#本地运行" class="headerlink" title="本地运行"></a>本地运行</h2><p><a target="_blank" rel="noopener" href="https://alist.nn.ci/guide/install/script.html">One-click Script | AList Docs</a></p>
-<p>上述的链接有安装的步骤,主要是包括docker镜像,二进制文件运行.</p>
-<p>参考链接:</p>
-<p><a target="_blank" rel="noopener" href="https://cuojue.org/read/deploy-alist-in-flyio.html">在 Fly.io 上部署 alist 网盘程序 - 春风吹 - 浅秋枫影的博客</a><br><a target="_blank" rel="noopener" href="https://isedu.top/index.php/archives/132/">利用Fly.io免费服务部署Alist网盘程序 - 清~幽殇</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alist/" rel="tag">alist</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flyio/" rel="tag">flyio</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-webgis相关内容" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2438244e.html" class="article-date">
-      <time datetime="2023-02-08T05:35:25.000Z" itemprop="datePublished">2023-02-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2438244e.html">webgis相关内容(转发)</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0f474dbf8cfa">WebGIS引擎现状与未来 - 简书</a></p>
-<p><strong>一  引言</strong></p>
-<p>作为十年GIS老兵，常常遇到同行或领导的灵魂拷问，“为什么我们不用google地图啊，我看它的3D很好啊”，“OpenLayers 6支持3D吗？”，“MapboxGL 2.5D与Cesium的3D优缺点是啥”，“地图不是球，这不是3D的啊？”，“51 World基于游戏引擎与云渲染技术在可视化领域已经对WebGL形成降维打击，WebGIS是不是没前途了？”等等等等。从业人员从技术角度对未来变革的担忧，领导虽然不懂技术也会从非专业角度表达一些关心，诸如此类问题层出不穷却又不是三言两语能讲清楚的，所以本文想稍微系统点介绍WebGIS发展历程、各自特点、未来方向，一家之言仅供读者参考。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0f474dbf8cfa">WebGIS引擎现状与未来 - 简书</a></p>
-<p><strong>一  引言</strong></p>
-<p>作为十年GIS老兵，常常遇到同行或领导的灵魂拷问，“为什么我们不用google地图啊，我看它的3D很好啊”，“OpenLayers 6支持3D吗？”，“MapboxGL 2.5D与Cesium的3D优缺点是啥”，“地图不是球，这不是3D的啊？”，“51 World基于游戏引擎与云渲染技术在可视化领域已经对WebGL形成降维打击，WebGIS是不是没前途了？”等等等等。从业人员从技术角度对未来变革的担忧，领导虽然不懂技术也会从非专业角度表达一些关心，诸如此类问题层出不穷却又不是三言两语能讲清楚的，所以本文想稍微系统点介绍WebGIS发展历程、各自特点、未来方向，一家之言仅供读者参考。</p>
-<p><strong>二 地图API分类</strong></p>
-<p>WebGIS系统通常都围绕地图进行内容表达，但并不是有地图就一定是WebGIS，所以有必要讨论下基于Web的地图API分类及应用场景。Web上的Map API主要分类如下5大类：</p>
-<ul>
-<li>Charts：以D3.js，Echarts等为代表。</li>
-<li>LBS：以高德/谷歌/百度地图等为代表。</li>
-<li>WebGIS商业API：ESRI的ArcGIS API For JS，超图的IClient。</li>
-<li>WebGIS开源API:   Leaflet，OpenLayers，Cesium，MapboxGL等。</li>
-</ul>
-<p>Charts类型在各种业务页面或后台管理页面很常见，适用业务场景是地图非页面表达的主体，且几乎没有交互，页面中同时还有其他各类主题，示例如下：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/68979-05e12e50a83565d3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1080/format/webp" alt="img"></p>
-<p>charts地图业务场景</p>
-<p>LBS（基于位置的服务）广泛应用于互联网类ToC应用，在这个时代人们的衣食住行与这些地图网站、地图APP及其背后的地理信息服务日益紧密。LBS必须要在连接互联网场景中使用，只能使用地图服务商提供的数据和服务，最多支持自定义用户标记若干兴趣点的简单操作，2G、2B场景如内网离线，复杂企业级地理数据展示分析等几乎无能为力。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/68979-635b672882b41438?imageMogr2/auto-orient/strip%7CimageView2/2/w/481/format/webp" alt="img"></p>
-<p>LBS地图应用场景 </p>
-<p>WebGIS通常面向复杂业务场景，通常是内网离线的2G，2B定制化应用。与Charts不同，此类应用以地图为表达中心，所有的UI都是与地图交互和联动为目的；与LBS 2C的单一需求不同，此类应用需要自建空间数据库与空间数据服务以支撑前端空间数据的维护，复杂的业务交互，个性化的主题可视化等目的。现代WebGIS引擎种类也非常多，都是Html5时代发展的阶段性成果，各自也有侧重点和合适的业务场景，具体下文阐述。</p>
-<p><strong>三 WebGIS发展历程</strong></p>
-<p>WebGIS发展以Html5标准确立为分水岭分为前H5时代与H5时代，如果以发展的眼光看，当然也有后H5时代。之所以要本节要介绍发展历程，是因为现代的WebGIS引擎的出身和适用场景与其息息相关。</p>
-<p>前H5时代是Flex，JS，Silverlight“三驾马车”时代，这个时代JS还没有取得优势，产品都以Flex为首推，以ArcGIS的Flex API（也有JS版）和开源的OpenScale（openlayer2 是其JS版）为代表，具体不细阐述，主要产品如下图：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/68979-c2b0a974aea29d40?imageMogr2/auto-orient/strip%7CimageView2/2/w/860/format/webp" alt="img"></p>
-<p>图片</p>
-<p>随着时代发展，移动互联网的崛起，H5标准的发布，新的技术变革势不可挡。在2010年乔布斯宣布iphone不支持Flex后，这项技术就开始了落幕演出，H5技术及其主力语言JS获得一统前端的地位，很多基于H5标准的WebGIS引擎纷纷入场，WebGIS H5时代开启，引擎发布大事记如下：</p>
-<ul>
-<li>2011年3月，WebGL1.0标准发布。</li>
-<li>2011年5月，Leaflet发布v0.1版本，基于H5草案，只来得及支持Canvas，与WebGL擦肩而过，以后也再没实现WebGL。</li>
-<li>2012年底，H5标准发布。</li>
-<li>2013年中，OpenLayer3测试版发布，与OpenLayer2不同，3是基于H5标准完全重写的，并不是迭代升级，而是一个全新的产品，只是继承了Openlayer这个已获得认可的名称与产品定位，应该说产品定位继承的相当彻底且发扬光大，只是过于保守，从而没能设想进入三维，满足于自己的二维领域。</li>
-<li>2013年制定WebGL2.0标准。</li>
-<li>2014年秋，Cesium发布1.0版本，开源WebGIS引擎进入三维时代。</li>
-<li>2016年春，ArcGIS API for JS 4.0发布，商业WebGIS引擎进入三维时代。</li>
-<li>2017年2月，WebGL2.0标准发布。</li>
-<li>2019年中，MapboxGL发布1.0版本，地图可视化从功能迈向了性能，颜值等方向，更多人发现原来地图还可以这样展示，更多的客户需要更加个性化的地图更加舒服的用户体验。</li>
-<li>2020年12月，MapboxGL发布2.0版本，支持三维相机参数，地形，地图最大倾角从60°到85°等，终于摆脱2.5D的产品印象。</li>
-</ul>
-<p>从发展历程看，总结了如下几个特点：</p>
-<ul>
-<li>WebGIS引擎与对应的Web技术与标准有较大的时间差。一项Web技术被淘汰，对应基于该技术的引擎就会走向终结，如Flex与Flex GIS引擎的落幕。那么可以设想，是不是WebGL被淘汰，目前所有的引擎都会被淘汰？发展角度看是必然的，并且替代WebGL的WebGPU已经在路上了。</li>
-<li>WebGIS产品设计上的“原罪”，这种引擎层面设计的缺陷和应对场景不足几乎是难以改变的。如LeafLet发布还没WebGL标准因此它只实现了Canvas，所以直到今天它也不支持WebGL；Ol发布完全想的是继承OpenScale（flex)并现代化升级，但是眼光还是不长远，技术实现上性能优化不足，也没有引擎层面支持符合三维的MVP矩阵，相机参数等概念，虽然其支持WebGL，但却没法把三维和地图结合起来，只能用于优化二维图形渲染性能。</li>
-</ul>
-<p><strong>四 WebGIS引擎各自特点与适用业务场景</strong></p>
-<p>仅作简要阐述，不再展开细谈了。</p>
-<ul>
-<li>LeafLet，Canvas渲染机制，仅支持二维表达，地图坐标系墨卡托投影，不支持球，特点是入手简单，缺陷是不支持webgl渲染性能有瓶颈，适用于轻量级简单地理信息主题可视化。</li>
-<li>OL6，WebGL渲染机制，仅支持二维表达，不限制坐标系，不支持球，特点是二维GIS功能最丰富全面，缺陷地图样式简单，难以定制高颜值的可视化效果，不支持三维，适用于传统地理信息强GIS的二维数据Web维护和展示，面向公网地图颜值上有些上不了台面。</li>
-<li>Cesium，WebGL渲染机制，二三维一体化，经纬度坐标系，支持球，明星数据格式是3DTiles，特点是唯一开源的WebGIS三维引擎，缺陷是卡，体验差，地图丑，原因应该是为了支持球，所有的平面瓦片都要进行纹理转换贴球，计算量偏大，最新的矢量切片也是变成图片再纹理转换到球上，栅格化严重一点都不精美，可以说为了球，牺牲了太多性能和地图美观度，适用于Web强三维应用场景。</li>
-<li>ArcGIS API JS 4，对标Cesium，明星数据格式是I3S，也有类似Cesium的问题，但由于有ArcGIS平台的体系支持，应该功能最强大，但是如果不采购这个平台体系，纯API很鸡肋，适合采购了商业平台的用户，如政府采购再定制应用方式。</li>
-<li>MapboxGL，WebGL渲染机制，二三维一体化，墨卡托坐标系，不支持球，明星数据格式是矢量切片，特点是最具美感的专题地图，缺点是没有球，最新2.0必须联网验证token，适用于互联网场景复杂地理信息表达，内网追求地图可视化效果的也适用，Mapbox很多优化都是基于互联网场景的。</li>
-</ul>
-<p>在WebGIS 3D领域，比较有争议性的是cesium与mapboxgl，简单来说，两者都是二三维一体化的GIS引擎，但产品侧重点不同 ，Cesium追求的三维功能全面，Mapbox追求用户体验：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/68979-2c9964c706987304?imageMogr2/auto-orient/strip%7CimageView2/2/w/801/format/webp" alt="img"></p>
-<p>图片</p>
-<p>对于Cesium的API用户来说，加载倾斜摄影，点云数据，地形数据都是直接调用引擎API就可以了，即使不懂WebGL也很快能做个三维的地图样子，当然高级开发者还会基于WebGL开发自定义高级显示效果。</p>
-<p>对于Mapbox的API用户来说，2.0版本之前三维不足，主打的二维的矢量切片技术，并且切片加载机制导致倾角太大性能很差，因此引擎限制了最大倾角为60°，看起来就很像2.5D的东西。类似Cesium的三维功能只能依靠Deck.gl等库去集成，万幸的是引擎开放了自定义WebGL图层功能，高级开发者可以定制自己的三维图层，但坑爹的是没有三维相机参数需要自己源码扩展。2.0版本之后新增的地形3D展示，三维开发需要的相机参数，地图倾角限制从60°改成85°，比较有三维感觉了，效果辅助和性能优化方向考虑的Sky API等，显示了MapboxGL开始在三维方向发力，但仍然没有在官方API层面支持倾斜摄影的3Dtiles，点云等，不熟悉WebGL的开发者使用仍然很困难。除此以外，值得警惕的地方是2.0的开源协议从商业友好的BSD-3改成了Mapbox自己的使用协议，无论是否使用Mapbox资源强制进行在线token计数，等于完全放弃了内网用户（不联网没法计数等于没法用），因此从安全和商业应用开发角度，请不要升级到2.0，保持在1.13版本进行企业定制化开发。</p>
-<p>虽然两者都是二三维引擎，但是如果认真看他们的三维功能都是很少的几个常用场景，绝大部分业务场景和特效都需要高级开发者定制，也就是说，如果不熟悉WebGL，实际上是很难满足地理信息可视化的要求的。</p>
-<p>总的来说，虽然mapbox更改了使用协议，但不否认它仍是家伟大的公司，在现有的技术体系下，开创性的提出数据用矢量切片技术，图标用sprite（互联网应用场景的同学很熟悉，减少网络请求的优化，合并的图标纹理减少webgl渲染的调用命令次数），字体用字体pbf切片，就是怎么极致优化怎么做，强大的技术流风格。在此分享下个人用mapbox定制的一些二维，三维应用效果：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/68979-e71a0c5ac18f1844?imageMogr2/auto-orient/strip%7CimageView2/2/w/1080/format/webp" alt="img"></p>
-<p>矢量切片的时序播放</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/68979-0c8215870eae6181?imageMogr2/auto-orient/strip%7CimageView2/2/w/970/format/webp" alt="img"></p>
-<p>三维等值面</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/68979-b400f27f90817769?imageMogr2/auto-orient/strip%7CimageView2/2/w/1080/format/webp" alt="img"></p>
-<p>三维体渲染</p>
-<p><strong>五 后H5时代的技术变革</strong></p>
-<p>H5时代涌现了很多令人赞叹的GIS引擎，但是也有很多问题，三维效果差强人意，三维模型又受制于网速，只能说有功能，但难以说有好的功能。随着用户对可视化要求越来越高，人们开始思考别的技术方向，例如最近51World搞出了利用C端游戏引擎做GIS，可视化效果通过流媒体传到前台显示的“云渲染”技术，不得不说这是个很投巧的做法，所谓游戏引擎对GIS可视化引擎的降维打击。</p>
-<p>有不少GIS软文认为云渲染是次时代的GIS可视化技术，我个人认为并不是，51World的做法是业务创新而不是实质技术上的创新，并不会形成技术护城河，随着专业GIS公司超图和ESRI的介入很快会失去它目前形成的开创性优势，也就是“投巧”的技术门槛实在太低。另外一方面，云渲染应用面过于狭窄适合无并发无交互的大屏可视化，不具备应用普适性。</p>
-<p>除“云渲染”外，近期WebAssemble和WebGPU是另外两个值得关注的发展方向，如果我们把时间线后移4，5年，在后H5时代的WebGIS会形成新的三足鼎立：</p>
-<p><img src="" alt="img"></p>
-<p>图片</p>
-<p>以下对三个方向做个技术说明：</p>
-<ul>
-<li><p>云渲染</p>
-<p>原理：C端使用游戏引擎做数据可视化，可视化的结果通过视频流传到客户端显示。</p>
-<p>优点：游戏引擎比较成熟，效果好，三维大量数据，美术资源等不用传到客户端。</p>
-<p>缺点：完全放弃日益先进强大的客户端计算资源（摩尔定律），完全依靠服务器资源，导致服务器资源投入很大，如果有高并发，起码得有分布式GPU计算引擎吧？所以不可能广泛应用，业务场景很小，只适合大屏可视化目前。</p>
-</li>
-<li><p>WebAssemble</p>
-<p>原理：能让c++,rust等高性能语言写的功能以wasm形式在Web端应用，弥补JS性能的缺陷，（经过谷歌V8引擎优化，JS的性能也是直逼后台，缺陷有点牵强，而且前端计算可以使用GPGPU，WebWork等技术在gpu，在多线程非阻塞计算）当然更主要的用处是有利于原先C端图形软件如CAD，GoogleEarth搬到BS上，例如GoogleEarth的BS版已经实现了。</p>
-<p>优点：可以用高性能语言写的算法应用到前端改进JS的算法（牵强，实际投入产出比不大对绝大部分公司），大量的后端程序员开始进入前端搞事情，前端不再是JS程序员的前端（从性能方向考虑甚至产生是否WebAssemble会取代JS的疑问）。</p>
-<p>缺点：WebAssemble不能操作dom，因此它只是一个补充，给前端留个“后路”而已，并没有取代JS的能力也没有这样的定位。另外业务应用场景非常狭窄，只适合有成熟C端图形产品搬到BS，对一般业务产品冲击不大。从公司角度如果没有C端成熟图形产品就不值得投入，从程序员个人角度，如果是JS程序员可以直接无视，这种技术不会对你产生任何影响，如果是后端程序员，可以兴奋起来，你可以去前端玩玩了。。。</p>
-</li>
-<li><p>WebGPU</p>
-<p>原理：下一代Web图形引擎，WebGL的替代者，业务场景就是现在用WebGL的地方，将来也都是WebGPU应用的场景。</p>
-<p>优点：BS端的图形引擎与C端几乎一致（差半代），可以设想很多原先只有C端能做的酷炫效果B端也能做。（WebGL与C端差了好多代了，所以没法做出能追上C端效果的东西）</p>
-<p>缺点：目前正式标准还没发布，那么基于WebGPU的图形，GIS引擎当然也没有了，就算有了，酷炫效果也不是GIS API这种，更多是图形学领域，大部分目前的业务API开发者会失去竞争力。</p>
-</li>
-</ul>
-<p><strong>六 思考与建议</strong></p>
-<p>从H5时代个人的职业经历来看，如果不懂图形学原理，就算使用了WebGL的GIS引擎是做不出符合业务发展的东西来的，顶多加加地形加个建筑做做项目而已，稍微个性化的展示都做不了。从后H5时代来看，一方面可能C++,Rust等技术会更加如鱼得水，那么依靠JS的程序员和依靠JS实现可视化的公司只能抱紧WebGPU的大腿，要在图形学领域持续进行技术投入，纯调用API实现效果的时代一去不复返了，更加先进的图形引擎与更加灵活的渲染管线，再与更加个性化的业务展示要求结合与促进，会产生新的思想膨胀和化学反应，如果个人和公司跟不上，那么在下个时代，才真的是遇到”降维打击”了。</p>
-<p>地理可视化（尤其3D）的未来并不属于GIS，而是属于图形学，所谓万变不离其宗。。。（首发于微<em>信</em>公<em>众</em>号：Spatial Data）</p>
-<p>作者：遥想公瑾当年<br>链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0f474dbf8cfa">https://www.jianshu.com/p/0f474dbf8cfa</a><br>来源：简书<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-synchronizer-upgrade" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3b9fc184.html" class="article-date">
-      <time datetime="2023-02-02T09:26:30.000Z" itemprop="datePublished">2023-02-02</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3b9fc184.html">synchronizer_upgrade</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>是一个c++类</p>
-<p>ObjectMonitor() {<br>    _header       = NULL;<br>    _count        = 0; //记录个数<br>    _waiters      = 0,<br>    _recursions   = 0;  // 线程重入次数<br>    _object       = NULL;<br>    _owner        = NULL;<br>    _WaitSet      = NULL; // 调用wait方法后的线程会被加入到_WaitSet<br>    _WaitSetLock  = 0 ;<br>    _Responsible  = NULL ;<br>    _succ         = NULL ;<br>    _cxq          = NULL ; // 阻塞队列，线程被唤醒后根据决策判读是放入cxq还是EntryList<br>    FreeNext      = NULL ;<br>    _EntryList    = NULL ; // 没有抢到锁的线程会被放到这个队列<br>    _SpinFreq     = 0 ;<br>    _SpinClock    = 0 ;<br>    OwnerIsThread = 0 ;<br>  }</p>
-<p>ObjectMonitor中有五个重要部分，分别为_ower,_WaitSet,_cxq,_EntryList和count。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>是一个c++类</p>
-<p>ObjectMonitor() {<br>    _header       = NULL;<br>    _count        = 0; //记录个数<br>    _waiters      = 0,<br>    _recursions   = 0;  // 线程重入次数<br>    _object       = NULL;<br>    _owner        = NULL;<br>    _WaitSet      = NULL; // 调用wait方法后的线程会被加入到_WaitSet<br>    _WaitSetLock  = 0 ;<br>    _Responsible  = NULL ;<br>    _succ         = NULL ;<br>    _cxq          = NULL ; // 阻塞队列，线程被唤醒后根据决策判读是放入cxq还是EntryList<br>    FreeNext      = NULL ;<br>    _EntryList    = NULL ; // 没有抢到锁的线程会被放到这个队列<br>    _SpinFreq     = 0 ;<br>    _SpinClock    = 0 ;<br>    OwnerIsThread = 0 ;<br>  }</p>
-<p>ObjectMonitor中有五个重要部分，分别为_ower,_WaitSet,_cxq,_EntryList和count。</p>
-<p>_ower 用来指向持有monitor的线程，它的初始值为NULL,表示当前没有任何线程持有monitor。当一个线程成功持有该锁之后会保存线程的ID标识，等到线程释放锁后_ower又会被重置为NULL;<br>_WaitSet 调用了锁对象的wait方法后的线程会被加入到这个队列中；<br>_cxq  是一个阻塞队列，线程被唤醒后根据决策判读是放入cxq还是EntryList;<br>_EntryList 没有抢到锁的线程会被放到这个队列；<br>count 用于记录线程获取锁的次数，成功获取到锁后count会加1，释放锁时count减1。</p>
-<p>当有一个线程获得synchronized锁后，monitor对象中的count就会被加1，并且会将这个线程的id存入到monitor的_ower中。此时，如果其他线程来尝试拿锁则会被放入到_EntryList队列中阻塞。<br>还记得上一节中我们立的一个Flag了吗？synchronized锁的是container对象，而wait和notify也是container对象的方法，这么一看我们上一节中留下的问题就有些眉目了。是不是调用wait方法的时候线程也会被加入到一个等待队列，而等到notify或者notifyAll的时候再从等待队列中将线程唤醒呢？关于这个问题在这一次，彻底搞懂Java中的synchronized关键字这篇文章中其实已经有解读了，就是调用wait方法的线程会被加入到一个_WaitSet集合中，并会将线程挂起。但是，这里要再次强调一下_WaitSet与_EntryList这两个集合。_EntryList集合中存放的是没有抢到锁，而被阻塞的线程，而_WaitSet集合中存放的是调用了wait方法后，处于等待状态的线程。**<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6977993272538955806">这一次，彻底搞懂Java并发包中的Atomic原子类 - 掘金</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6975435256111300621">这一次，彻底搞懂Java中的ReentrantLockt实现原理 - 掘金</a></p>
-<p>作者：赌一包辣条<br>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6973571891915128846">https://juejin.cn/post/6973571891915128846</a><br>来源：稀土掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/7/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/5/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/7/">下一页 </a>
     </nav>
   
 </div>

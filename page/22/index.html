@@ -269,6 +269,542 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-docker 简单使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/4262021452.html" class="article-date">
+      <time datetime="2019-07-17T04:15:32.000Z" itemprop="datePublished">2019-07-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/4262021452.html">docker 简单使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="离线安装"><a href="#离线安装" class="headerlink" title="离线安装"></a>离线安装</h1><h2 id="docker-依赖检测失败-centos7"><a href="#docker-依赖检测失败-centos7" class="headerlink" title="docker 依赖检测失败 centos7"></a>docker 依赖检测失败 centos7</h2><p>rpm -ivp *.rpm </p>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>但一直报 依赖检测失败以为是系统版本不对用命令查询 cat /etc/redhat-release</p>
+<p>但是都是centos7 小版本有区别,这边之前都是在本地虚拟机上安装没出现这样的问题,以为是真的依赖不上,但是我使用的命令为</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="离线安装"><a href="#离线安装" class="headerlink" title="离线安装"></a>离线安装</h1><h2 id="docker-依赖检测失败-centos7"><a href="#docker-依赖检测失败-centos7" class="headerlink" title="docker 依赖检测失败 centos7"></a>docker 依赖检测失败 centos7</h2><p>rpm -ivp *.rpm </p>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>但一直报 依赖检测失败以为是系统版本不对用命令查询 cat /etc/redhat-release</p>
+<p>但是都是centos7 小版本有区别,这边之前都是在本地虚拟机上安装没出现这样的问题,以为是真的依赖不上,但是我使用的命令为</p>
+<p>yum download –downloadonly=/root/download  docker </p>
+<p>这个命令应该是会把所有依赖的软件都下载下来的</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>rpm -ivh  –nodeps –force  *.rpm </p>
+<p>强制执行</p>
+<h1 id="完全卸载docker"><a href="#完全卸载docker" class="headerlink" title="完全卸载docker"></a>完全卸载docker</h1><h3 id="如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉："><a href="#如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉：" class="headerlink" title="如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉："></a>如果已安装不想要docker、docker-engine、docker-ce相关的软件包，则卸载掉：</h3><p>sudo yum -y remove docker docker-common docker-selinux docker-engine docker-engine-selinux container-selinux docker-ce</p>
+<p>#删除所有的镜像、容器、数据卷、配置文件等<br>sudo rm -rf /var/lib/docker</p>
+<h2 id="如果已安装不想要docker、docker-engine、docker-ce相关的软件包"><a href="#如果已安装不想要docker、docker-engine、docker-ce相关的软件包" class="headerlink" title="如果已安装不想要docker、docker-engine、docker-ce相关的软件包"></a>如果已安装不想要docker、docker-engine、docker-ce相关的软件包</h2><p>则卸载掉：<br>sudo yum -y remove docker docker-common docker-selinux docker-engine docker-engine-selinux container-selinux docker-ce</p>
+<p>#删除所有的镜像、容器、数据卷、配置文件等<br>sudo rm -rf /var/lib/docker</p>
+<p>rpm -qa|grep docker</p>
+<p>yum list installed|grep docker</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-PHP学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1439793898.html" class="article-date">
+      <time datetime="2019-07-08T05:45:12.000Z" itemprop="datePublished">2019-07-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1439793898.html">PHP学习笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="PHP学习笔记"><a href="#PHP学习笔记" class="headerlink" title="PHP学习笔记"></a>PHP学习笔记</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHP（全称：PHP：Hypertext Preprocessor，即“PHP：超文本预处理器”）是一种开源的通用计算机脚本语言，尤其适用于网络开发并可嵌入HTML中使用。PHP的语法借鉴吸收C语言、Java和Perl等流行计算机语言的特点，易于一般程序员学习。PHP的主要目标是允许网络开发人员快速编写动态页面，但PHP也被用于其他很多领域。[1]PHP最初是由勒多夫在1995年开始开发的；现在PHP的标准由the PHP Group[2]维护。PHP以PHP License作为许可协议，不过因为这个协议限制了PHP名称的使用，所以和开放源代码许可协议GPL不兼容。[3]PHP的应用范围相当广泛，尤其是在网页程序的开发上。一般来说PHP大多运行在网页服务器上，透过运行PHP代码来产生用户浏览的网页。PHP可以在多数的服务器和操作系统上运行，而且使用PHP完全是免费的。根据2013年4月的统计数据，PHP已经被安装在超过2亿4400万个网站和210万台服务器上[4]。PHP在Windows上有专门的官方移植编译项目，并且分多个VC编译器版本和线程安全特性来提供不同的版本支持。----维基百科</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.kancloud.cn/yangweijie/yang_book/30731">引用链接</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="PHP学习笔记"><a href="#PHP学习笔记" class="headerlink" title="PHP学习笔记"></a>PHP学习笔记</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHP（全称：PHP：Hypertext Preprocessor，即“PHP：超文本预处理器”）是一种开源的通用计算机脚本语言，尤其适用于网络开发并可嵌入HTML中使用。PHP的语法借鉴吸收C语言、Java和Perl等流行计算机语言的特点，易于一般程序员学习。PHP的主要目标是允许网络开发人员快速编写动态页面，但PHP也被用于其他很多领域。[1]PHP最初是由勒多夫在1995年开始开发的；现在PHP的标准由the PHP Group[2]维护。PHP以PHP License作为许可协议，不过因为这个协议限制了PHP名称的使用，所以和开放源代码许可协议GPL不兼容。[3]PHP的应用范围相当广泛，尤其是在网页程序的开发上。一般来说PHP大多运行在网页服务器上，透过运行PHP代码来产生用户浏览的网页。PHP可以在多数的服务器和操作系统上运行，而且使用PHP完全是免费的。根据2013年4月的统计数据，PHP已经被安装在超过2亿4400万个网站和210万台服务器上[4]。PHP在Windows上有专门的官方移植编译项目，并且分多个VC编译器版本和线程安全特性来提供不同的版本支持。----维基百科</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.kancloud.cn/yangweijie/yang_book/30731">引用链接</a></p>
+<p>PHP常见错误，我认为主要分为3块：</p>
+<h2 id="1、语法错误"><a href="#1、语法错误" class="headerlink" title="1、语法错误"></a>1、语法错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Parse error: syntax error, unexpected T_VARIABLE in E:\gstbook\user.php on line 268</span><br></pre></td></tr></table></figure>
+
+<p>一般是少分号，在上一行或者下一行都有可能<br><code>Parse error: syntax error, unexpected &#39;.&#39; in F:\www\blog\article.php on line 100</code></p>
+<p>多个“.”，类似的还有多个“;”等等</p>
+<p><code>Notice: Undefined variable: a in ...</code><br>使用了一个没有被定义的变量a</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Parse error: syntax error, unexpected T_ELSE in</span><br></pre></td></tr></table></figure>
+
+<p>if else if else 句式逻辑错误</p>
+<p><code>Parse error: syntax error, unexpected $end in</code><br>一般是大括号不匹配</p>
+<p><code>Parse error: syntax error, unexpected T_STRING in</code><br>一般是忘了写句末分号</p>
+<p><code>Parse error: syntax error, unexpected T_PRIVATE in</code><br>一般是private函数位置写到了调用自己函数的内部</p>
+<p><code>Warning: Invalid argument supplied for foreach() in</code><br>foreach 的第一个参数必须是一个数组</p>
+<p><code>Warning: Wrong parameter count for a in</code><br>函数参数个数不对</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: session_start() [function.session-start]: Cannot send session cache limiter - headers already sent (output started at F:\www\blog\index.php:10) in F:\www\blog\incl?s\config.inc.php on line 10Warning: annot modify header information - headers already sent by (output started at F:\www\blog\index.php:10) in F:\www\blog\incl?s\config.inc.php on line 12</span><br></pre></td></tr></table></figure>
+
+<p>session前面不能有输出，同意的cookie也是这样的</p>
+<p><code>Fatal error: Cannot redeclare</code><br>函数已经定义过，不能重新再定义；类也不能同名</p>
+<h2 id="2、SQL语句错误"><a href="#2、SQL语句错误" class="headerlink" title="2、SQL语句错误"></a>2、SQL语句错误</h2><p><code>Warning: mysql_fetch_assoc(): supplied argument is not a valid MySQL result resource in</code><br>说明前面执行SQL 返回失败，一般可能是SQL语句错误 ，如分析不出来，可以Mysql_error () 看具体是哪个地方错了</p>
+<p><code>No database selected</code><br>一般是没有连接数据库</p>
+<p><code>Warning: mysql_connect() [function.mysql-connect]: Access denied for user ‘root’@&#39;localhost’ (using password: YES) in ….. on line 3Access denied for user ‘root’@&#39;localhost’ (using password: YES)</code><br>数据库用户名的密码错误</p>
+<p><code>Unknown database ‘cms07261′</code><br>数据库不存在</p>
+<p><code>Table ‘cms0726.test’ doesn’t exist</code><br>表不存在</p>
+<p><code>Unknown column ‘abc’ in ‘field list’</code><br>字段不存在</p>
+<p><code>Column count doesn’t match val count at row 1</code><br>sql语句中 字段值的个数比字段名个数不一样</p>
+<h2 id="3、模板错误"><a href="#3、模板错误" class="headerlink" title="3、模板错误"></a>3、模板错误</h2><p><code>Fatal error: Smarty error: [in message_list.html line 22]: syntax error: ‘foreach: item’ must be a variable name (literal string)</code><br>foreach 后面的item 后面必须跟一个变量名，不加$，是一个字符串</p>
+<p><code>Fatal error: Smarty error: [in admin/tpl/class_detail.html line 14]: syntax error: unrecognized tag: cs.st?nt_id (Smarty_Compiler.class.php, line 436) in D:\www\web\xmphp\inc\smarty\Smarty.class.php on line 1088</code><br>smarty语法错误：循环数组的时候，少$</p>
+<p><code>Warning: Smarty error: unable to read resource: “message_list1.html” in</code><br>模板文件找不到，看是否是文件名写错或文件存放到别的目录中去了。</p>
+<p><code>Fatal error: Smarty error: [in order_detail.html line 171]: syntax error: unclosed tag \&#123;elseif&#125; (opened line 157). (Smarty_Compiler.class.php, line 317) in F:\www\gstbook\xmphp\inc\smarty\Smarty.class.php on line 1088</code><br>html页面语法错误，少结束标签&lt;%/if%&gt;<br>以后遇到问题，我会及时更新！</p>
+<p>附上PHP错误报表:</p>
+<p>序号代码错误报告</p>
+<table>
+<thead>
+<tr>
+<th align="center">1</th>
+<th align="center">error_reporting(Integer)</th>
+<th align="center">此设置是每个脚本默认错误报告设置。它的参数可以是这里列出的任意常量，表示所有错误的E_ALL或者类似E_ALL&amp;E_NOTICE的一个逻辑表达式。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">2</td>
+<td align="center">display_error(Boolean)</td>
+<td align="center">此设置控制错误是否作为PHP输出的一部分显示出来，默认设置是on。</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">display_startup_errors(Boolean)</td>
+<td align="center">此设置控制在PHP启动时是否显示错误，默认设置是off，而且是用来调试C扩展。</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">error_prepend_string(String)</td>
+<td align="center">这个字符串在浏览器中显示错误信息之前直接显示出来。</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">track_errors(Boolean)</td>
+<td align="center">当这个设置开启时，一旦一个错误出现，变量$php_errormsg在PHP作用域中被定义。这个变量包含错误信息。</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">html_errors(Boolean)</td>
+<td align="center">此设置控制是否在错误信息中采用HTML格式。默认情况下显示的是HTML错误，CLI版本的PHP除外。</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">xmlrpc_erroes(Boolean)</td>
+<td align="center">此设置控制错误信息是否启用作为XML－RPC故障显示。</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">xmlrpc_error_number(Integer)</td>
+<td align="center">这个XML-RPC故障代码是启用xmlrpc_errors时使用的。</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">log_errors(Boolean)</td>
+<td align="center">此设置控制错误是否记录。日志的地址是通过error_log设置决定的。默认情况下，错误被记录到Web服务器的错误日志中。</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">log_error_max_len(Integer)</td>
+<td align="center">此设置是当启用log_errors时控制记录的错误信息的最大长度。超过这个长度的信息也会被记录下来，但是会被截断。</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">error_log(String)</td>
+<td align="center">此设置决定错误记录的地方。在默认情况下，它们被传送到Web服务器的错误记录机制中，但必须指定一个文件名，或者指定Syslog让系统日志来记录。</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">ignore_report_errors(Boolean)</td>
+<td align="center">当启用它时，这个设置让PHP不在同一行中重复显示一样的错误信息。</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="center">ignore_repeated_source(Boolean)</td>
+<td align="center">当启用时，PHP将不显示与前一个显示的错误来自同一个文件同一行错误。如果它没有被启用，它就不起作用。</td>
+</tr>
+</tbody></table>
+<p>2 、PHP错误是通过错误级别进行划分的，范围从通告到严重错误，这个错误级别报告错误的严重性。大部分错误可以用常用的错误处理器来获取，但其中一些则不可恢复。</p>
+<p>PHP错误级别表</p>
+<table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="center">错误代码</th>
+<th align="center">错误级别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">E_ERROR</td>
+<td align="center">严重错误，不可恢复。例如内存不足、位置异常或类重复声明错误</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">E_WARNING</td>
+<td align="center">一个经常发生的错误类型。表示一些操作错误。例如丢失函数参数，连接数据库失败，除数为0等错误。</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">E_PARSE</td>
+<td align="center">编译时发生的解析错误，会导致在PHP执行前退出。意味着如果一个文件因为解析错误运行失败，程序将停止运行。</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">E_STRICT</td>
+<td align="center">错误级别是唯一不包含在E_ALL常量中。这是为了让PHP4到PHP5的迁移更加容易；你可以在PHP5软件系统中运行PHP4代码。</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">E_NOTICE</td>
+<td align="center">运行代码在操作一些未知的动作，例如读取为定义的变量。</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">E_CORE_ERROR</td>
+<td align="center">内部错误，扩展启动失败导致的，会导致PHP运行退出。</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">E_COMPILE_ERROR</td>
+<td align="center">编译错误，与E_PARSE不同，这个错误会导致PHP运行退出。</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">E_WARNING_ERROR</td>
+<td align="center">编译时的警告，可能是使用者发生语法错误。</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">E_USER_ERROR</td>
+<td align="center">用户定义错误导致PHP退出执行。用户定义错误(E_USER_*)不是来自PHP本身，而是包含在脚本中。</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">E_USER_WARNING</td>
+<td align="center">用户定义错误不会导致PHP退出执行。脚本可以使用它来通知一个执行失败，执行失败PHP也会用E_WARNING来通知。</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">E_USER_NOTICE</td>
+<td align="center">用户定义的通告可以用来在脚本中可能存在错误。</td>
+</tr>
+</tbody></table>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-我目前的Ubuntu软件" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/78752914.html" class="article-date">
+      <time datetime="2019-07-05T19:51:23.000Z" itemprop="datePublished">2019-07-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/78752914.html">我目前的Ubuntu软件</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>整理一下我用了这么久后觉得还可以使用的软件</p>
+<p>目前这台电脑没有用与实际开发但是开发工具还是都有的而且还有deb包的,方便;)</p>
+<p>浏览器: chrome firefox (常见插件包括 tempermonkey ,ublock , stylus ,SwitchyOmega, https everywhere )</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>整理一下我用了这么久后觉得还可以使用的软件</p>
+<p>目前这台电脑没有用与实际开发但是开发工具还是都有的而且还有deb包的,方便;)</p>
+<p>浏览器: chrome firefox (常见插件包括 tempermonkey ,ublock , stylus ,SwitchyOmega, https everywhere )</p>
+<p>开发工具 : IDEA, VScode, VMware ZSH, sublime_text ,DBeaver ,SSH(securet )+ftp(secureFX)</p>
+<p>截屏工具 livepath(录屏软件),flamesflash(截屏),peek(录GIF)</p>
+<p>办公工具 : Xmind WPS typore,foxit(PDF)</p>
+<p>同步工具 onenote 坚果云</p>
+<p>影音播放: spotify(推荐 版权多) 网易云音乐, VLC(要自己找主题和配置快捷键不然真的是反人类)</p>
+<p>下载工具 uget(已经不行了 arai) ,motrix ,Xtreme download,</p>
+<p>其他: ciliber(电子书编辑和阅读) xchm(chm阅读) ,搜狗 deepin-wine(安装 微信 迅雷),SSR(electrol ssr),安卓模拟器(Genymotion 选择个人用户)</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ubuntu优化－onedrive" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/1097254589.html" class="article-date">
+      <time datetime="2019-06-26T15:17:14.000Z" itemprop="datePublished">2019-06-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1097254589.html">ubuntu优化－onedrive</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>之前是准备用onedrive-dev 但是涉及到太多的以来还有步骤很复杂</p>
+<p>有看到其他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Easy to configure:</span><br><span class="line"></span><br><span class="line">$ cat ~&#x2F;.config&#x2F;onedrive&#x2F;config</span><br><span class="line">sync_dir &#x3D; &quot;~&#x2F;OneDrive&quot;</span><br><span class="line">skip_file &#x3D; &quot;.*|~*|thumbs.db|Games&#x2F;*.iso&quot;</span><br><span class="line">skip_dir &#x3D; &quot;.*|Music|Movies&#x2F;FullHD&quot;</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>之前是准备用onedrive-dev 但是涉及到太多的以来还有步骤很复杂</p>
+<p>有看到其他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Easy to configure:</span><br><span class="line"></span><br><span class="line">$ cat ~&#x2F;.config&#x2F;onedrive&#x2F;config</span><br><span class="line">sync_dir &#x3D; &quot;~&#x2F;OneDrive&quot;</span><br><span class="line">skip_file &#x3D; &quot;.*|~*|thumbs.db|Games&#x2F;*.iso&quot;</span><br><span class="line">skip_dir &#x3D; &quot;.*|Music|Movies&#x2F;FullHD&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">So simple, You already know how to use it:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ onedrive -h	</span><br><span class="line">Usage: onedrive [OPTION]...	</span><br><span class="line">no option	Sync and exit.</span><br><span class="line">-m	--monitor	Keep monitoring for local and remote changes.	</span><br><span class="line">--resync	Forget the last saved state, perform a full sync.	</span><br><span class="line">-v	--verbose	Print more details, useful for debugging.	</span><br><span class="line">-h	--help	This help information.</span><br></pre></td></tr></table></figure>
+
+<p>配置也很简单 onedrive –download 获取授权链接 登录 onedrive的账号就行了 将返回的URL贴到命令行后 火车如果长时间没相应可以直接ctrc+c 后重新运行</p>
+<p>记录一下chmod的用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">查看linux文件的权限：ls -l 文件名称</span><br><span class="line"></span><br><span class="line">查看linux文件夹的权限：ls -ld 文件夹名称（所在目录）</span><br><span class="line"></span><br><span class="line">修改文件及文件夹权限：</span><br><span class="line"></span><br><span class="line">sudo chmod -（代表类型）×××（所有者）×××（组用户）×××（其他用户）</span><br><span class="line"></span><br><span class="line">常用修改权限的命令：</span><br><span class="line"></span><br><span class="line">sudo chmod 600 ××× （只有所有者有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 644 ××× （所有者有读和写的权限，组用户只有读的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 700 ××× （只有所有者有读和写以及执行的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 666 ××× （每个人都有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 777 ××× （每个人都有读和写以及执行的权限）查看linux文件的权限：ls -l 文件名称</span><br><span class="line"></span><br><span class="line">查看linux文件夹的权限：ls -ld 文件夹名称（所在目录）</span><br><span class="line"></span><br><span class="line">修改文件及文件夹权限：</span><br><span class="line"></span><br><span class="line">sudo chmod -（代表类型）×××（所有者）×××（组用户）×××（其他用户）</span><br><span class="line"></span><br><span class="line">常用修改权限的命令：</span><br><span class="line"></span><br><span class="line">sudo chmod 600 ××× （只有所有者有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 644 ××× （所有者有读和写的权限，组用户只有读的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 700 ××× （只有所有者有读和写以及执行的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 666 ××× （每个人都有读和写的权限）</span><br><span class="line"></span><br><span class="line">sudo chmod 777 ××× （每个人都有读和写以及执行的权限）</span><br></pre></td></tr></table></figure>
+
+<h3 id="aria-下载"><a href="#aria-下载" class="headerlink" title="aria 下载"></a>aria 下载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aria2c -c -s10 -k1M -x16 --enable-rpc&#x3D;false -o &#39;要保存的文件名&#39; --header &quot;User-Agent: Mozilla&#x2F;5.0 (X11; Linux x86_64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;61.0.3163.100 Safari&#x2F;537.36&quot; --header &quot;Cookie: 你的cookie内容&quot; &quot;文件的下载地址&quot;</span><br><span class="line"></span><br><span class="line">使用cookie 来实现百度云下载,想一些网站会识别cookie判断是否能下载</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-配置on-my-zsh" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1015,425 +1551,9 @@
 
 
   
-    <article id="post-Ajax运用的归纳整理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/6f432c85.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/6f432c85.html">Ajax运用的归纳整理</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>Ajax请求包括常见三种 本人日常使用是完整版,但是最近发现ajax中发post请求也是很快的而且很方便,将多种方法都试一遍线顺便整理一下</p>
-<ol>
-<li>| GET请求 | <code>$.get(url,[data],[callback],[type])</code> |</li>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>Ajax请求包括常见三种 本人日常使用是完整版,但是最近发现ajax中发post请求也是很快的而且很方便,将多种方法都试一遍线顺便整理一下</p>
-<ol>
-<li>| GET请求 | <code>$.get(url,[data],[callback],[type])</code> |</li>
-<li>| POST请求 | <code>$.post(url,[data],[callback],[type])</code> |</li>
-<li>| AJAX请求 | `$.ajax([settings])</li>
-</ol>
-<h1 id="POST请求语法格式"><a href="#POST请求语法格式" class="headerlink" title="POST请求语法格式"></a>POST请求语法格式</h1><p>$.post(url, [data], [callback], [type])<br>其中，参数说明如下：<br>| 参数| 说明 |<br>| url| 请求的服务器端url地址 |<br>|data|发送给服务器端的请求参数，格式可以是key=value也可以是js对象|<br>|callback| 当请求成功后的回掉函数，可以在函数体中编写我们的逻辑代码|<br>|type| 预期的返回数据的类型，取值可以是 xml, html, script, json, text, _defaul等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&quot;user&#x2F;login&quot;,&#x2F;&#x2F;请求地址</span><br><span class="line">   $(&quot;#loginForm&quot;).serialize(),&#x2F;&#x2F;表单所有数据</span><br><span class="line">   function (resultInfo) &#123;</span><br><span class="line">      if(resultInfo.flag)&#123;</span><br><span class="line">          &#x2F;&#x2F;登录成功，跳转到首页</span><br><span class="line">         location.href&#x3D;&quot;index.html&quot;;</span><br><span class="line">      &#125;else&#123;</span><br><span class="line">          &#x2F;&#x2F;失败，显示消息</span><br><span class="line">                           $(&quot;#errorMsg&quot;).text(resultInfo.errorMsg);</span><br><span class="line">      &#125; &#125;,</span><br><span class="line">   &quot;json&quot;</span><br><span class="line">);$(&quot;#errorMsg&quot;).text(&quot;请输入用户名或密码&quot;);</span><br></pre></td></tr></table></figure>
-
-<p>现在感觉发post请求,同这个会更简单且更加清晰,只需要url,[data],[callback],[type]),清晰明了,各个部分以’,’分开,</p>
-<h1 id="AJAX请求"><a href="#AJAX请求" class="headerlink" title="AJAX请求"></a>AJAX请求</h1><p>我之前是完全的ajax请求格式太多但是功能也更加全面</p>
-<p><a target="_blank" rel="noopener" href="http://www.w3school.com.cn/jquery/ajax_ajax.asp">引用自w3school jQuery ajax</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"> 类型：Object</span><br><span class="line"></span><br><span class="line">    可选。AJAX 请求设置。所有选项都是可选的。</span><br><span class="line">async</span><br><span class="line"></span><br><span class="line">    类型：Boolean</span><br><span class="line"></span><br><span class="line">    默认值: true。默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false。</span><br><span class="line"></span><br><span class="line">    注意，同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。</span><br><span class="line">beforeSend(XHR)</span><br><span class="line"></span><br><span class="line">    类型：Function</span><br><span class="line"></span><br><span class="line">    发送请求前可修改 XMLHttpRequest 对象的函数，如添加自定义 HTTP 头。</span><br><span class="line"></span><br><span class="line">    XMLHttpRequest 对象是唯一的参数。</span><br><span class="line"></span><br><span class="line">    这是一个 Ajax 事件。如果返回 false 可以取消本次 ajax 请求。</span><br><span class="line">cache</span><br><span class="line"></span><br><span class="line">    类型：Boolean</span><br><span class="line"></span><br><span class="line">    默认值: true，dataType 为 script 和 jsonp 时默认为 false。设置为 false 将不缓存此页面。</span><br><span class="line"></span><br><span class="line">    jQuery 1.2 新功能。</span><br><span class="line">complete(XHR, TS)</span><br><span class="line"></span><br><span class="line">    类型：Function</span><br><span class="line"></span><br><span class="line">    请求完成后回调函数 (请求成功或失败之后均调用)。</span><br><span class="line"></span><br><span class="line">    参数： XMLHttpRequest 对象和一个描述请求类型的字符串。</span><br><span class="line"></span><br><span class="line">    这是一个 Ajax 事件。</span><br><span class="line">contentType</span><br><span class="line"></span><br><span class="line">    类型：String</span><br><span class="line"></span><br><span class="line">    默认值: &quot;application&#x2F;x-www-form-urlencoded&quot;。发送信息至服务器时内容编码类型。</span><br><span class="line"></span><br><span class="line">    默认值适合大多数情况。如果你明确地传递了一个 content-type 给 $.ajax() 那么它必定会发送给服务器（即使没有数据要发送）。</span><br><span class="line">context</span><br><span class="line"></span><br><span class="line">    类型：Object</span><br><span class="line"></span><br><span class="line">    这个对象用于设置 Ajax 相关回调函数的上下文。也就是说，让回调函数内 this 指向这个对象（如果不设定这个参数，那么 this 就指向调用本次 AJAX 请求时传递的 options 参数）。比如指定一个 DOM 元素作为 context 参数，这样就设置了 success 回调函数的上下文为这个 DOM 元素。</span><br><span class="line"></span><br><span class="line">$.ajax(&#123; url: &quot;test.html&quot;, context: document.body, success: function()&#123;</span><br><span class="line">        $(this).addClass(&quot;done&quot;);</span><br><span class="line">      &#125;&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>route</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">  var cid&#x3D;getParameter(&quot;cid&quot;)</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        url:&quot;&#x2F;route&#x2F;showPage&quot;,&#x2F;&#x2F;请求路径</span><br><span class="line">        data:&#123;&quot;currentPage&quot;:currentPage,</span><br><span class="line">              &quot;cid&quot;:cid&#125;,&#x2F;&#x2F;发送参数</span><br><span class="line">        dataType:&quot;json&quot;, &#x2F;&#x2F;接收类型确认</span><br><span class="line">        success:function (res) &#123;</span><br><span class="line">            toShowRouteDetail(res)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">ShowRoute(1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;显示旅游线路</span><br><span class="line">function toShowRouteDetail(res)  &#123;</span><br><span class="line">    $(&quot;#show2Route&quot;).empty()</span><br><span class="line">    for(var i&#x3D;0;i&lt;res.listRoute.length;i++)&#123;</span><br><span class="line">        var temp&#x3D;$(&quot;&lt;li&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;div class&#x3D;\&quot;img\&quot;&gt;&lt;img width&#x3D;&#39;290px&#39; src&#x3D;\&quot;&quot;+res.listRoute[i].rimage+&quot;\&quot; alt&#x3D;\&quot;\&quot;&gt;&lt;&#x2F;div&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;div class&#x3D;\&quot;text1\&quot;&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p&gt;&quot;+res.listRoute[i].rname+&quot;&lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;br&#x2F;&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p&gt;&quot;+res.listRoute[i].routeIntroduce+&quot;&lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;&#x2F;div&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;div class&#x3D;\&quot;price\&quot;&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p class&#x3D;\&quot;price_num\&quot;&gt;\n&quot; +</span><br><span class="line">            &quot;                                    &lt;span&gt;&amp;yen;&lt;&#x2F;span&gt;\n&quot; +</span><br><span class="line">            &quot;                                    &lt;span&gt;&quot;+res.listRoute[i].price+&quot;&lt;&#x2F;span&gt;\n&quot; +</span><br><span class="line">            &quot;                                    &lt;span&gt;起&lt;&#x2F;span&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p&gt;&lt;a href&#x3D;\&quot;&#x2F;route_detail.html?rid&#x3D;&quot;+res.listRoute[i].rid+&quot;\&quot;&gt;查看详情&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;&#x2F;div&gt;\n&quot; +</span><br><span class="line">            &quot;                        &lt;&#x2F;li&gt;&quot;);</span><br><span class="line">        $(&quot;#show2Route&quot;).append(temp)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h1 id="GET请求"><a href="#GET请求" class="headerlink" title="GET请求"></a>GET请求</h1><p>$.get(url,[data],[callback],[type data<br>方式一：key=value&amp;key=value<br>方式二：{key:value,key:value…}<br>| callback | 回调函数：当请求成功后触发的函数 |<br>|type|返回参数类型：取值可以是xml,html,script, json,text,_defaul等 |</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ajaxGetFn() &#123;&#x2F;&#x2F;Ajax的GET请求：</span><br><span class="line">    &#x2F;&#x2F;方式一：key&#x3D;value&amp;key&#x3D;value形式传值</span><br><span class="line">    &#x2F;&#x2F; $.get(&quot;&#x2F;getDemo&quot;,&quot;name&#x3D;&#39;张三&#39;&amp;age&#x3D;18&quot;,function (res) &#123;</span><br><span class="line">    &#x2F;&#x2F;     &#x2F;&#x2F;处理响应数据,并在浏览器上显示</span><br><span class="line">    &#x2F;&#x2F;     alert(res);</span><br><span class="line">    &#x2F;&#x2F; &#125;,&quot;text&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;方式二：&#123;key:value,key:value&#125;形式传值</span><br><span class="line">    $.get(&quot;&#x2F;getDemo&quot;,&#123;&quot;name&quot;:&quot;张三&quot;,&quot;age&quot;:18&#125;,function   (res) &#123;</span><br><span class="line">        &#x2F;&#x2F;处理响应数据</span><br><span class="line">        alert(res);</span><br><span class="line">    &#125;,&quot;text&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-S6新特性 和VUE的个人理解" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/4288700677.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/4288700677.html">S6新特性 和VUE的个人理解</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>es6新特性<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b3f3afcae230/">ES6新特性介绍</a><br><a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/?search=reduce&x=0&y=0#README">阮一峰的翻译的ECMAScript 6 入门-图书</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">增加了 const let修饰</span><br><span class="line">还有map reduce  indexof的替换者includes</span><br><span class="line">包括template(模板字符串（template string）是增强版的字符串，)在模    </span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>es6新特性<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b3f3afcae230/">ES6新特性介绍</a><br><a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/?search=reduce&x=0&y=0#README">阮一峰的翻译的ECMAScript 6 入门-图书</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">增加了 const let修饰</span><br><span class="line">还有map reduce  indexof的替换者includes</span><br><span class="line">包括template(模板字符串（template string）是增强版的字符串，)在模    </span><br></pre></td></tr></table></figure>
-
-<p>板字符串中嵌入变量，需要将变量名写在${}之中<br>​ 结构{temp.feid}<br>​ array.forEach(v = &gt; console.log(v));箭头表达式<br>​ 反引号 ` 来创建字符串反问号创建字符串<br>​ 美元符号加花括号包裹的变量${vraible}<br>​<br>​ 遍历器（Iterator）遍历的是一种规则数据的部署</p>
-<p>使用for…of循环，遍历某种数据结构时，该循环会自动去寻找Iterator接口。在ES6中，有三类数据结构原生具备Iterator接口：数组、某些类似数组的对象、Set和Map结构。</p>
-<p>S6模块通过export命令显式指定输出的代码，输入时也采用静态命令的形式。<br>​ export xxx from xxx<br>​ import xxxx from xxxx<br>如果只是需要key:value的数据结构，记得使用Map，因为Map有内建的遍历机制。<br>使用import取代require，使用export取代module.exports。这样可以在编译时就完成模块编译，效率要比CommonJS模块高。</p>
-<hr>
-<ul>
-<li><p>// CommonJS模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; stat, exists, readFile &#125;&#x2F;&#x2F; 等同于let _fs &#x3D; require(&#39;fs&#39;);let stat &#x3D; _fs.stat;let exists &#x3D; _fs.exists;let readfile &#x3D; _fs.readfile;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>无序列表// ES6模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; stat, exists, readFile &#125; from &#39;fs&#39;;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>vue子模块</p>
-<p>vue是基于MVVM设计的js框架.需要注意子模块和父模块的使用<br>而点vue文件需要在webpack是<br>Data 是将将原本的值以变成了方法一return来实现值处理和返回值 还有<br>保证在其他引用的方法的部分不会随着变化独立性更高</p>
-<p>vue包括vue vue-cli vuex</p>
-<p>而vue是可以<br>首先是是它的生命周期包括create,mount<br>注意<br>在html里面可以用v-if foreach</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">el	data	compute	methods	watch包括组件元素vue.componet(&quot;name&quot;,&#123;    template &#125;)var a&#x3D;	(&#123;template:return &#123;&#123; xx:kkkk &#125;&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>将你输入的值遍历你的值是&lt;里面 :name=”值”&gt;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;ol&gt;</span><br><span class="line">    &lt;!--</span><br><span class="line">      现在我们为每个 todo-item 提供 todo 对象</span><br><span class="line">      todo 对象是变量，即其内容可以是动态的。</span><br><span class="line">      我们也需要为每个组件提供一个“key”，稍后再</span><br><span class="line">      作详细解释。</span><br><span class="line">    --&gt;</span><br><span class="line">    &lt;todo-item</span><br><span class="line">      v-for&#x3D;&quot;item in groceryList&quot;</span><br><span class="line">      v-bind:todo&#x3D;&quot;item&quot;</span><br><span class="line">      v-bind:key&#x3D;&quot;item.id&quot;&gt;</span><br><span class="line">    &lt;&#x2F;todo-item&gt;</span><br><span class="line">  &lt;&#x2F;ol&gt;</span><br><span class="line"></span><br><span class="line">Vue.component(&#39;todo-item&#39;, &#123;</span><br><span class="line">  props: [&#39;todo&#39;],</span><br><span class="line">  template: &#39;&lt;li&gt;&#123;&#123; todo.text &#125;&#125;&lt;&#x2F;li&gt;&#39;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">var app7 &#x3D; new Vue(&#123;</span><br><span class="line">  el: &#39;#app-7&#39;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    groceryList: [</span><br><span class="line">      &#123; id: 0, text: &#39;蔬菜&#39; &#125;,</span><br><span class="line">      &#123; id: 1, text: &#39;奶酪&#39; &#125;,</span><br><span class="line">      &#123; id: 2, text: &#39;随便其它什么人吃的东西&#39; &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>还包括后面是变量或者表达式没加冒号,后米娜是字符串<br>v-bind 绑定了vue数据不是普通字符串 :xxx 比如class<br>v-on:xxx 绑定事件 @click=””<br>_ dirname 是绝对路径绑定时<br>v-model<br>_直接取值使用(或$是在vue实例中因为vue内部与API冲突<br>./ 可以解释为组件能导入<br>@/是webpack设置的路径别名<br>在外界使用组件时需要注册组件 vueload</p>
-<p>1、父组件可以使用 props 把数据传给子组件。<br>2、子组件可以使用 $emit 触发父组件的自定义事件。</p>
-<p>vm.$emit( event, arg ) //触发当前实例上的事件</p>
-<p>vm.$on( event, fn );//监听event事件后运行 fn；<br><a target="_blank" rel="noopener" href="https://www.tangshuang.net/3507.html">https://www.tangshuang.net/3507.html</a><br>v-bind用于绑定html元素上的attribution 不是双向绑定<br>v-model主要是用在表单元素中，它实现了双向绑定。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-SpringCloud" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2527336709.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2527336709.html">SpringCloud</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://i.loli.net/2018/10/17/5bc6a508557d1.png"><img src="https://i.loli.net/2018/10/17/5bc6a508557d1.png" alt="eureka"></a><br>补充eureka闭源的消息<br><a target="_blank" rel="noopener" href="https://i.loli.net/2018/10/17/5bc6a57753f6b.png"><img src="https://i.loli.net/2018/10/17/5bc6a57753f6b.png" alt="dubbo与springcloud对比"></a><br>添加dubbo与springcloud对比</p>
-<p>关于<a target="_blank" rel="noopener" href="https://bigleek.github.io/#/user/blog/details/da5fd6d8f37943864ac1cc817a90db72">之前关于SpringBoot的介绍</a>是关于SpringBoot的概述</p>
-<blockquote>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://i.loli.net/2018/10/17/5bc6a508557d1.png"><img src="https://i.loli.net/2018/10/17/5bc6a508557d1.png" alt="eureka"></a><br>补充eureka闭源的消息<br><a target="_blank" rel="noopener" href="https://i.loli.net/2018/10/17/5bc6a57753f6b.png"><img src="https://i.loli.net/2018/10/17/5bc6a57753f6b.png" alt="dubbo与springcloud对比"></a><br>添加dubbo与springcloud对比</p>
-<p>关于<a target="_blank" rel="noopener" href="https://bigleek.github.io/#/user/blog/details/da5fd6d8f37943864ac1cc817a90db72">之前关于SpringBoot的介绍</a>是关于SpringBoot的概述</p>
-<blockquote>
-<p>Spring boot专注于快速、方便集成的单个个体，Spring Cloud是关注全局的服务治理框架；spring boot使用了默认大于配置的理念，很多集成方案已经帮你选择好了，能不配置就不配置，Spring Cloud很大的一部分是基于Spring boot来实现。<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/47304987/answer/169239519">来自纯洁的微笑</a></p>
-</blockquote>
-<p>##SpringCloud<br>官网介绍<br>Spring Cloud为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理，服务发现，断路器，智能路由，微代理，控制总线，一次性令牌，全局锁定，领导选举，分布式会话，集群状态）用于微服务时各个系统的同步和相互通信确保一致性.</p>
-<p>目前的版本情况<br>| Component | Edgware.SR5 | Finchley.SR1 | Finchley.BUILD-SNAPSHOT |<br>| ————————- | ————– | ————- | ———————– |<br>| spring-cloud-aws | 1.2.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-bus | 1.3.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-cli | 1.4.1.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-commons | 1.3.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-contract | 1.2.6.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-config | 1.4.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-netflix | 1.4.6.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-security | 1.2.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-cloudfoundry | 1.1.2.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-consul | 1.3.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-sleuth | 1.3.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-stream | Ditmars.SR4 | Elmhurst.SR1 | Elmhurst.BUILD-SNAPSHOT |<br>| spring-cloud-zookeeper | 1.2.2.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-boot | 1.5.16.RELEASE | 2.0.4.RELEASE | 2.0.4.BUILD-SNAPSHOT |<br>| spring-cloud-task | 1.2.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-vault | 1.1.2.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-gateway | 1.0.2.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-openfeign | | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-function | 1.0.1.RELEASE | 1.0.0.RELEASE | 1.0.1.BUILD-SNAPSHOT |</p>
-<h2 id="配置spring微服务"><a href="#配置spring微服务" class="headerlink" title="配置spring微服务"></a>配置spring微服务</h2><p>springcloud是spring提供的一台服务<br>而spring boot是简化配置文件统一版本提高开发效率能快速开启<br>配置信息可以在application.yml中配置类似脚手架<br>也能</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.@ConfigurationProperties(locations&#x3D;“classpath:config&#x2F;user.properties”, prefix&#x3D;“XXX”)将配置文件导入,</span><br><span class="line">2.选择@PropertySource导入外部文件</span><br><span class="line">3.@EnableConfigurationProperties这个注解注释调，不让springboot自动配置，使用我们的手动配置</span><br></pre></td></tr></table></figure>
-
-<p>@ComponentScan(“com.lee.sh.mapper”)添加组件扫描<br>component service controller</p>
-<h2 id="SpringCould认识"><a href="#SpringCould认识" class="headerlink" title="SpringCould认识"></a>SpringCould认识</h2><p>SpringCould中涉及到涉及的组件来自于netflix的eureka ribbon hystrix zuul<br>都是在application.yml上面可以完成,然后在启动器上面要开启,<br>就可以完成 可以实现集群解决访问量大的问题实现master 还是要<strong>辨析eureka和zookeeper的用途差异</strong></p>
-<h3 id="Spring-Cloud-Zookeeper"><a href="#Spring-Cloud-Zookeeper" class="headerlink" title="Spring Cloud Zookeeper"></a>Spring Cloud Zookeeper</h3><p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、域名服务、分布式同步、组服务等。ZooKeeper的目标就是封装好复杂易出错的关键服务，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
-<h3 id="Netflix-Eureka"><a href="#Netflix-Eureka" class="headerlink" title="Netflix Eureka"></a>Netflix Eureka</h3><p>服务中心，云端服务发现，一个基于 REST 的服务，用于定位服务，以实现云端中间层服务发现和故障转移。这个可是springcloud最牛鼻的小弟，服务中心，任何小弟需要其它小弟支持什么都需要从这里来拿，同样的你有什么独门武功的都赶紧过报道，方便以后其它小弟来调用；它的好处是你不需要直接找各种什么小弟支持，只需要到服务中心来领取，也不需要知道提供支持的其它小弟在哪里，还是几个小弟来支持的，反正拿来用就行，服务中心来保证稳定性和质量。</p>
-<p>情况来说目</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu优化-输入中文和deepin-Win" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2878480242.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>将Deepin-ThunderSpeed ，Deepin-Wechart上在/usr/share/application 完善添加管理员权限</p>
-<p>同时 、vi /etc/sudoers 将对于是sh脚本授予管理员权限</p>
-<p>使用的deepin-wine</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>将Deepin-ThunderSpeed ，Deepin-Wechart上在/usr/share/application 完善添加管理员权限</p>
-<p>同时 、vi /etc/sudoers 将对于是sh脚本授予管理员权限</p>
-<p>使用的deepin-wine</p>
-<p>deepin-wine 可以直接使用IDM 目前市面所有的下载工具 Linux可以寥寥无几像　Ｕget XMD　的用过之后还是不行，但是windows版<br>安装和都很不方便,目前只使用 微信和迅雷 但是下载方面还是很慢 最近突然发现手里还珍藏了之前绿色版的IDM 赶紧的试试不错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Desktop Entry]</span><br><span class="line">Name&#x3D;IdeaIU</span><br><span class="line">Comment&#x3D;IdeaIU</span><br><span class="line">Exec&#x3D;&#x2F;home&#x2F;admin-m&#x2F;soft&#x2F;idea2&#x2F;idea-IU-172.3317.76&#x2F;bin&#x2F;idea.sh</span><br><span class="line">Icon&#x3D;&#x2F;home&#x2F;admin-m&#x2F;soft&#x2F;idea2&#x2F;idea-IU-172.3317.76&#x2F;bin&#x2F;idea.png</span><br><span class="line">Terminal&#x3D;false</span><br><span class="line">Type&#x3D;Application</span><br><span class="line">Categories&#x3D;Application;Development;</span><br><span class="line"></span><br><span class="line">[Desktop Entry]   每个desktop文件都以这个标签开始，说明这是一个Desktop Entry文件</span><br><span class="line">Version &#x3D; 1.0      标明Desktop Entry的版本（可选）</span><br><span class="line">Name &#x3D; IdeaIU    程序名称（必须），这里以创建一个idea的快捷方式为例</span><br><span class="line">GenericName &#x3D; IdeaIU       程序通用名称（可选）</span><br><span class="line">Comment &#x3D;IdeaIU       程序描述（可选）</span><br><span class="line">Exec &#x3D;       程序的启动命令（必选），可以带参数运行</span><br><span class="line">Icon &#x3D;     设置快捷方式的图标（可选），当Type为Application，此项有效</span><br><span class="line">Terminal &#x3D; false   是否在终端中运行（可选），当Type为Application，此项有效</span><br><span class="line">Type &#x3D; Application   desktop的类型（必选），常见值有“Application”和“Link”</span><br><span class="line">Categories &#x3D; GNOME;Application;Network; &#x2F;&#x2F;注明在菜单栏中显示的类别（可选）</span><br><span class="line"></span><br><span class="line">完成   desktop 需要在权限上显示</span><br></pre></td></tr></table></figure>
-
-<p>不要懒，完成好计划好的 提升效率，多想想法子</p>
-<p>sh wechat下面添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export XMODIFIERS&#x3D;&quot;@im&#x3D;fcitx&quot;export GTK_IM_MODULE&#x3D;&quot;fcitx&quot;export QT_IM_MODULE&#x3D;&quot;fcitx&quot;</span><br></pre></td></tr></table></figure>
-
-<p>设置开机主题</p>
-<p>针对Ubuntu18 部分通知没有 可以使用 topicons plus 实现wine通知的</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/21/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/23/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/21/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/23/">下一页 </a>
     </nav>
   
 </div>

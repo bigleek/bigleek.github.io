@@ -269,6 +269,422 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Ajax运用的归纳整理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/6f432c85.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/6f432c85.html">Ajax运用的归纳整理</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>Ajax请求包括常见三种 本人日常使用是完整版,但是最近发现ajax中发post请求也是很快的而且很方便,将多种方法都试一遍线顺便整理一下</p>
+<ol>
+<li>| GET请求 | <code>$.get(url,[data],[callback],[type])</code> |</li>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>Ajax请求包括常见三种 本人日常使用是完整版,但是最近发现ajax中发post请求也是很快的而且很方便,将多种方法都试一遍线顺便整理一下</p>
+<ol>
+<li>| GET请求 | <code>$.get(url,[data],[callback],[type])</code> |</li>
+<li>| POST请求 | <code>$.post(url,[data],[callback],[type])</code> |</li>
+<li>| AJAX请求 | `$.ajax([settings])</li>
+</ol>
+<h1 id="POST请求语法格式"><a href="#POST请求语法格式" class="headerlink" title="POST请求语法格式"></a>POST请求语法格式</h1><p>$.post(url, [data], [callback], [type])<br>其中，参数说明如下：<br>| 参数| 说明 |<br>| url| 请求的服务器端url地址 |<br>|data|发送给服务器端的请求参数，格式可以是key=value也可以是js对象|<br>|callback| 当请求成功后的回掉函数，可以在函数体中编写我们的逻辑代码|<br>|type| 预期的返回数据的类型，取值可以是 xml, html, script, json, text, _defaul等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&quot;user&#x2F;login&quot;,&#x2F;&#x2F;请求地址</span><br><span class="line">   $(&quot;#loginForm&quot;).serialize(),&#x2F;&#x2F;表单所有数据</span><br><span class="line">   function (resultInfo) &#123;</span><br><span class="line">      if(resultInfo.flag)&#123;</span><br><span class="line">          &#x2F;&#x2F;登录成功，跳转到首页</span><br><span class="line">         location.href&#x3D;&quot;index.html&quot;;</span><br><span class="line">      &#125;else&#123;</span><br><span class="line">          &#x2F;&#x2F;失败，显示消息</span><br><span class="line">                           $(&quot;#errorMsg&quot;).text(resultInfo.errorMsg);</span><br><span class="line">      &#125; &#125;,</span><br><span class="line">   &quot;json&quot;</span><br><span class="line">);$(&quot;#errorMsg&quot;).text(&quot;请输入用户名或密码&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>现在感觉发post请求,同这个会更简单且更加清晰,只需要url,[data],[callback],[type]),清晰明了,各个部分以’,’分开,</p>
+<h1 id="AJAX请求"><a href="#AJAX请求" class="headerlink" title="AJAX请求"></a>AJAX请求</h1><p>我之前是完全的ajax请求格式太多但是功能也更加全面</p>
+<p><a target="_blank" rel="noopener" href="http://www.w3school.com.cn/jquery/ajax_ajax.asp">引用自w3school jQuery ajax</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"> 类型：Object</span><br><span class="line"></span><br><span class="line">    可选。AJAX 请求设置。所有选项都是可选的。</span><br><span class="line">async</span><br><span class="line"></span><br><span class="line">    类型：Boolean</span><br><span class="line"></span><br><span class="line">    默认值: true。默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false。</span><br><span class="line"></span><br><span class="line">    注意，同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。</span><br><span class="line">beforeSend(XHR)</span><br><span class="line"></span><br><span class="line">    类型：Function</span><br><span class="line"></span><br><span class="line">    发送请求前可修改 XMLHttpRequest 对象的函数，如添加自定义 HTTP 头。</span><br><span class="line"></span><br><span class="line">    XMLHttpRequest 对象是唯一的参数。</span><br><span class="line"></span><br><span class="line">    这是一个 Ajax 事件。如果返回 false 可以取消本次 ajax 请求。</span><br><span class="line">cache</span><br><span class="line"></span><br><span class="line">    类型：Boolean</span><br><span class="line"></span><br><span class="line">    默认值: true，dataType 为 script 和 jsonp 时默认为 false。设置为 false 将不缓存此页面。</span><br><span class="line"></span><br><span class="line">    jQuery 1.2 新功能。</span><br><span class="line">complete(XHR, TS)</span><br><span class="line"></span><br><span class="line">    类型：Function</span><br><span class="line"></span><br><span class="line">    请求完成后回调函数 (请求成功或失败之后均调用)。</span><br><span class="line"></span><br><span class="line">    参数： XMLHttpRequest 对象和一个描述请求类型的字符串。</span><br><span class="line"></span><br><span class="line">    这是一个 Ajax 事件。</span><br><span class="line">contentType</span><br><span class="line"></span><br><span class="line">    类型：String</span><br><span class="line"></span><br><span class="line">    默认值: &quot;application&#x2F;x-www-form-urlencoded&quot;。发送信息至服务器时内容编码类型。</span><br><span class="line"></span><br><span class="line">    默认值适合大多数情况。如果你明确地传递了一个 content-type 给 $.ajax() 那么它必定会发送给服务器（即使没有数据要发送）。</span><br><span class="line">context</span><br><span class="line"></span><br><span class="line">    类型：Object</span><br><span class="line"></span><br><span class="line">    这个对象用于设置 Ajax 相关回调函数的上下文。也就是说，让回调函数内 this 指向这个对象（如果不设定这个参数，那么 this 就指向调用本次 AJAX 请求时传递的 options 参数）。比如指定一个 DOM 元素作为 context 参数，这样就设置了 success 回调函数的上下文为这个 DOM 元素。</span><br><span class="line"></span><br><span class="line">$.ajax(&#123; url: &quot;test.html&quot;, context: document.body, success: function()&#123;</span><br><span class="line">        $(this).addClass(&quot;done&quot;);</span><br><span class="line">      &#125;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>route</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">  var cid&#x3D;getParameter(&quot;cid&quot;)</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        url:&quot;&#x2F;route&#x2F;showPage&quot;,&#x2F;&#x2F;请求路径</span><br><span class="line">        data:&#123;&quot;currentPage&quot;:currentPage,</span><br><span class="line">              &quot;cid&quot;:cid&#125;,&#x2F;&#x2F;发送参数</span><br><span class="line">        dataType:&quot;json&quot;, &#x2F;&#x2F;接收类型确认</span><br><span class="line">        success:function (res) &#123;</span><br><span class="line">            toShowRouteDetail(res)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">ShowRoute(1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;显示旅游线路</span><br><span class="line">function toShowRouteDetail(res)  &#123;</span><br><span class="line">    $(&quot;#show2Route&quot;).empty()</span><br><span class="line">    for(var i&#x3D;0;i&lt;res.listRoute.length;i++)&#123;</span><br><span class="line">        var temp&#x3D;$(&quot;&lt;li&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;div class&#x3D;\&quot;img\&quot;&gt;&lt;img width&#x3D;&#39;290px&#39; src&#x3D;\&quot;&quot;+res.listRoute[i].rimage+&quot;\&quot; alt&#x3D;\&quot;\&quot;&gt;&lt;&#x2F;div&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;div class&#x3D;\&quot;text1\&quot;&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p&gt;&quot;+res.listRoute[i].rname+&quot;&lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;br&#x2F;&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p&gt;&quot;+res.listRoute[i].routeIntroduce+&quot;&lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;&#x2F;div&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;div class&#x3D;\&quot;price\&quot;&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p class&#x3D;\&quot;price_num\&quot;&gt;\n&quot; +</span><br><span class="line">            &quot;                                    &lt;span&gt;&amp;yen;&lt;&#x2F;span&gt;\n&quot; +</span><br><span class="line">            &quot;                                    &lt;span&gt;&quot;+res.listRoute[i].price+&quot;&lt;&#x2F;span&gt;\n&quot; +</span><br><span class="line">            &quot;                                    &lt;span&gt;起&lt;&#x2F;span&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                                &lt;p&gt;&lt;a href&#x3D;\&quot;&#x2F;route_detail.html?rid&#x3D;&quot;+res.listRoute[i].rid+&quot;\&quot;&gt;查看详情&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;\n&quot; +</span><br><span class="line">            &quot;                            &lt;&#x2F;div&gt;\n&quot; +</span><br><span class="line">            &quot;                        &lt;&#x2F;li&gt;&quot;);</span><br><span class="line">        $(&quot;#show2Route&quot;).append(temp)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="GET请求"><a href="#GET请求" class="headerlink" title="GET请求"></a>GET请求</h1><p>$.get(url,[data],[callback],[type data<br>方式一：key=value&amp;key=value<br>方式二：{key:value,key:value…}<br>| callback | 回调函数：当请求成功后触发的函数 |<br>|type|返回参数类型：取值可以是xml,html,script, json,text,_defaul等 |</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ajaxGetFn() &#123;&#x2F;&#x2F;Ajax的GET请求：</span><br><span class="line">    &#x2F;&#x2F;方式一：key&#x3D;value&amp;key&#x3D;value形式传值</span><br><span class="line">    &#x2F;&#x2F; $.get(&quot;&#x2F;getDemo&quot;,&quot;name&#x3D;&#39;张三&#39;&amp;age&#x3D;18&quot;,function (res) &#123;</span><br><span class="line">    &#x2F;&#x2F;     &#x2F;&#x2F;处理响应数据,并在浏览器上显示</span><br><span class="line">    &#x2F;&#x2F;     alert(res);</span><br><span class="line">    &#x2F;&#x2F; &#125;,&quot;text&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;方式二：&#123;key:value,key:value&#125;形式传值</span><br><span class="line">    $.get(&quot;&#x2F;getDemo&quot;,&#123;&quot;name&quot;:&quot;张三&quot;,&quot;age&quot;:18&#125;,function   (res) &#123;</span><br><span class="line">        &#x2F;&#x2F;处理响应数据</span><br><span class="line">        alert(res);</span><br><span class="line">    &#125;,&quot;text&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-S6新特性 和VUE的个人理解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/4288700677.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/4288700677.html">S6新特性 和VUE的个人理解</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>es6新特性<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b3f3afcae230/">ES6新特性介绍</a><br><a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/?search=reduce&x=0&y=0#README">阮一峰的翻译的ECMAScript 6 入门-图书</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">增加了 const let修饰</span><br><span class="line">还有map reduce  indexof的替换者includes</span><br><span class="line">包括template(模板字符串（template string）是增强版的字符串，)在模    </span><br></pre></td></tr></table></figure>
+
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>es6新特性<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b3f3afcae230/">ES6新特性介绍</a><br><a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/?search=reduce&x=0&y=0#README">阮一峰的翻译的ECMAScript 6 入门-图书</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">增加了 const let修饰</span><br><span class="line">还有map reduce  indexof的替换者includes</span><br><span class="line">包括template(模板字符串（template string）是增强版的字符串，)在模    </span><br></pre></td></tr></table></figure>
+
+<p>板字符串中嵌入变量，需要将变量名写在${}之中<br>​ 结构{temp.feid}<br>​ array.forEach(v = &gt; console.log(v));箭头表达式<br>​ 反引号 ` 来创建字符串反问号创建字符串<br>​ 美元符号加花括号包裹的变量${vraible}<br>​<br>​ 遍历器（Iterator）遍历的是一种规则数据的部署</p>
+<p>使用for…of循环，遍历某种数据结构时，该循环会自动去寻找Iterator接口。在ES6中，有三类数据结构原生具备Iterator接口：数组、某些类似数组的对象、Set和Map结构。</p>
+<p>S6模块通过export命令显式指定输出的代码，输入时也采用静态命令的形式。<br>​ export xxx from xxx<br>​ import xxxx from xxxx<br>如果只是需要key:value的数据结构，记得使用Map，因为Map有内建的遍历机制。<br>使用import取代require，使用export取代module.exports。这样可以在编译时就完成模块编译，效率要比CommonJS模块高。</p>
+<hr>
+<ul>
+<li><p>// CommonJS模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; stat, exists, readFile &#125;&#x2F;&#x2F; 等同于let _fs &#x3D; require(&#39;fs&#39;);let stat &#x3D; _fs.stat;let exists &#x3D; _fs.exists;let readfile &#x3D; _fs.readfile;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>无序列表// ES6模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; stat, exists, readFile &#125; from &#39;fs&#39;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>vue子模块</p>
+<p>vue是基于MVVM设计的js框架.需要注意子模块和父模块的使用<br>而点vue文件需要在webpack是<br>Data 是将将原本的值以变成了方法一return来实现值处理和返回值 还有<br>保证在其他引用的方法的部分不会随着变化独立性更高</p>
+<p>vue包括vue vue-cli vuex</p>
+<p>而vue是可以<br>首先是是它的生命周期包括create,mount<br>注意<br>在html里面可以用v-if foreach</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">el	data	compute	methods	watch包括组件元素vue.componet(&quot;name&quot;,&#123;    template &#125;)var a&#x3D;	(&#123;template:return &#123;&#123; xx:kkkk &#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>将你输入的值遍历你的值是&lt;里面 :name=”值”&gt;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;ol&gt;</span><br><span class="line">    &lt;!--</span><br><span class="line">      现在我们为每个 todo-item 提供 todo 对象</span><br><span class="line">      todo 对象是变量，即其内容可以是动态的。</span><br><span class="line">      我们也需要为每个组件提供一个“key”，稍后再</span><br><span class="line">      作详细解释。</span><br><span class="line">    --&gt;</span><br><span class="line">    &lt;todo-item</span><br><span class="line">      v-for&#x3D;&quot;item in groceryList&quot;</span><br><span class="line">      v-bind:todo&#x3D;&quot;item&quot;</span><br><span class="line">      v-bind:key&#x3D;&quot;item.id&quot;&gt;</span><br><span class="line">    &lt;&#x2F;todo-item&gt;</span><br><span class="line">  &lt;&#x2F;ol&gt;</span><br><span class="line"></span><br><span class="line">Vue.component(&#39;todo-item&#39;, &#123;</span><br><span class="line">  props: [&#39;todo&#39;],</span><br><span class="line">  template: &#39;&lt;li&gt;&#123;&#123; todo.text &#125;&#125;&lt;&#x2F;li&gt;&#39;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">var app7 &#x3D; new Vue(&#123;</span><br><span class="line">  el: &#39;#app-7&#39;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    groceryList: [</span><br><span class="line">      &#123; id: 0, text: &#39;蔬菜&#39; &#125;,</span><br><span class="line">      &#123; id: 1, text: &#39;奶酪&#39; &#125;,</span><br><span class="line">      &#123; id: 2, text: &#39;随便其它什么人吃的东西&#39; &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>还包括后面是变量或者表达式没加冒号,后米娜是字符串<br>v-bind 绑定了vue数据不是普通字符串 :xxx 比如class<br>v-on:xxx 绑定事件 @click=””<br>_ dirname 是绝对路径绑定时<br>v-model<br>_直接取值使用(或$是在vue实例中因为vue内部与API冲突<br>./ 可以解释为组件能导入<br>@/是webpack设置的路径别名<br>在外界使用组件时需要注册组件 vueload</p>
+<p>1、父组件可以使用 props 把数据传给子组件。<br>2、子组件可以使用 $emit 触发父组件的自定义事件。</p>
+<p>vm.$emit( event, arg ) //触发当前实例上的事件</p>
+<p>vm.$on( event, fn );//监听event事件后运行 fn；<br><a target="_blank" rel="noopener" href="https://www.tangshuang.net/3507.html">https://www.tangshuang.net/3507.html</a><br>v-bind用于绑定html元素上的attribution 不是双向绑定<br>v-model主要是用在表单元素中，它实现了双向绑定。</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-SpringCloud" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2527336709.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2527336709.html">SpringCloud</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a target="_blank" rel="noopener" href="https://i.loli.net/2018/10/17/5bc6a508557d1.png"><img src="https://i.loli.net/2018/10/17/5bc6a508557d1.png" alt="eureka"></a><br>补充eureka闭源的消息<br><a target="_blank" rel="noopener" href="https://i.loli.net/2018/10/17/5bc6a57753f6b.png"><img src="https://i.loli.net/2018/10/17/5bc6a57753f6b.png" alt="dubbo与springcloud对比"></a><br>添加dubbo与springcloud对比</p>
+<p>关于<a target="_blank" rel="noopener" href="https://bigleek.github.io/#/user/blog/details/da5fd6d8f37943864ac1cc817a90db72">之前关于SpringBoot的介绍</a>是关于SpringBoot的概述</p>
+<blockquote>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://i.loli.net/2018/10/17/5bc6a508557d1.png"><img src="https://i.loli.net/2018/10/17/5bc6a508557d1.png" alt="eureka"></a><br>补充eureka闭源的消息<br><a target="_blank" rel="noopener" href="https://i.loli.net/2018/10/17/5bc6a57753f6b.png"><img src="https://i.loli.net/2018/10/17/5bc6a57753f6b.png" alt="dubbo与springcloud对比"></a><br>添加dubbo与springcloud对比</p>
+<p>关于<a target="_blank" rel="noopener" href="https://bigleek.github.io/#/user/blog/details/da5fd6d8f37943864ac1cc817a90db72">之前关于SpringBoot的介绍</a>是关于SpringBoot的概述</p>
+<blockquote>
+<p>Spring boot专注于快速、方便集成的单个个体，Spring Cloud是关注全局的服务治理框架；spring boot使用了默认大于配置的理念，很多集成方案已经帮你选择好了，能不配置就不配置，Spring Cloud很大的一部分是基于Spring boot来实现。<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/47304987/answer/169239519">来自纯洁的微笑</a></p>
+</blockquote>
+<p>##SpringCloud<br>官网介绍<br>Spring Cloud为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理，服务发现，断路器，智能路由，微代理，控制总线，一次性令牌，全局锁定，领导选举，分布式会话，集群状态）用于微服务时各个系统的同步和相互通信确保一致性.</p>
+<p>目前的版本情况<br>| Component | Edgware.SR5 | Finchley.SR1 | Finchley.BUILD-SNAPSHOT |<br>| ————————- | ————– | ————- | ———————– |<br>| spring-cloud-aws | 1.2.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-bus | 1.3.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-cli | 1.4.1.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-commons | 1.3.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-contract | 1.2.6.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-config | 1.4.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-netflix | 1.4.6.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-security | 1.2.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-cloudfoundry | 1.1.2.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-consul | 1.3.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-sleuth | 1.3.5.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-stream | Ditmars.SR4 | Elmhurst.SR1 | Elmhurst.BUILD-SNAPSHOT |<br>| spring-cloud-zookeeper | 1.2.2.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-boot | 1.5.16.RELEASE | 2.0.4.RELEASE | 2.0.4.BUILD-SNAPSHOT |<br>| spring-cloud-task | 1.2.3.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |<br>| spring-cloud-vault | 1.1.2.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-gateway | 1.0.2.RELEASE | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-openfeign | | 2.0.1.RELEASE | 2.0.2.BUILD-SNAPSHOT |<br>| spring-cloud-function | 1.0.1.RELEASE | 1.0.0.RELEASE | 1.0.1.BUILD-SNAPSHOT |</p>
+<h2 id="配置spring微服务"><a href="#配置spring微服务" class="headerlink" title="配置spring微服务"></a>配置spring微服务</h2><p>springcloud是spring提供的一台服务<br>而spring boot是简化配置文件统一版本提高开发效率能快速开启<br>配置信息可以在application.yml中配置类似脚手架<br>也能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.@ConfigurationProperties(locations&#x3D;“classpath:config&#x2F;user.properties”, prefix&#x3D;“XXX”)将配置文件导入,</span><br><span class="line">2.选择@PropertySource导入外部文件</span><br><span class="line">3.@EnableConfigurationProperties这个注解注释调，不让springboot自动配置，使用我们的手动配置</span><br></pre></td></tr></table></figure>
+
+<p>@ComponentScan(“com.lee.sh.mapper”)添加组件扫描<br>component service controller</p>
+<h2 id="SpringCould认识"><a href="#SpringCould认识" class="headerlink" title="SpringCould认识"></a>SpringCould认识</h2><p>SpringCould中涉及到涉及的组件来自于netflix的eureka ribbon hystrix zuul<br>都是在application.yml上面可以完成,然后在启动器上面要开启,<br>就可以完成 可以实现集群解决访问量大的问题实现master 还是要<strong>辨析eureka和zookeeper的用途差异</strong></p>
+<h3 id="Spring-Cloud-Zookeeper"><a href="#Spring-Cloud-Zookeeper" class="headerlink" title="Spring Cloud Zookeeper"></a>Spring Cloud Zookeeper</h3><p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、域名服务、分布式同步、组服务等。ZooKeeper的目标就是封装好复杂易出错的关键服务，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
+<h3 id="Netflix-Eureka"><a href="#Netflix-Eureka" class="headerlink" title="Netflix Eureka"></a>Netflix Eureka</h3><p>服务中心，云端服务发现，一个基于 REST 的服务，用于定位服务，以实现云端中间层服务发现和故障转移。这个可是springcloud最牛鼻的小弟，服务中心，任何小弟需要其它小弟支持什么都需要从这里来拿，同样的你有什么独门武功的都赶紧过报道，方便以后其它小弟来调用；它的好处是你不需要直接找各种什么小弟支持，只需要到服务中心来领取，也不需要知道提供支持的其它小弟在哪里，还是几个小弟来支持的，反正拿来用就行，服务中心来保证稳定性和质量。</p>
+<p>情况来说目</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ubuntu优化-输入中文和deepin-Win" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2878480242.html" class="article-date">
+      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2878480242.html">Ubuntu优化-输入中文和deepin-Win</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>将Deepin-ThunderSpeed ，Deepin-Wechart上在/usr/share/application 完善添加管理员权限</p>
+<p>同时 、vi /etc/sudoers 将对于是sh脚本授予管理员权限</p>
+<p>使用的deepin-wine</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>将Deepin-ThunderSpeed ，Deepin-Wechart上在/usr/share/application 完善添加管理员权限</p>
+<p>同时 、vi /etc/sudoers 将对于是sh脚本授予管理员权限</p>
+<p>使用的deepin-wine</p>
+<p>deepin-wine 可以直接使用IDM 目前市面所有的下载工具 Linux可以寥寥无几像　Ｕget XMD　的用过之后还是不行，但是windows版<br>安装和都很不方便,目前只使用 微信和迅雷 但是下载方面还是很慢 最近突然发现手里还珍藏了之前绿色版的IDM 赶紧的试试不错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Desktop Entry]</span><br><span class="line">Name&#x3D;IdeaIU</span><br><span class="line">Comment&#x3D;IdeaIU</span><br><span class="line">Exec&#x3D;&#x2F;home&#x2F;admin-m&#x2F;soft&#x2F;idea2&#x2F;idea-IU-172.3317.76&#x2F;bin&#x2F;idea.sh</span><br><span class="line">Icon&#x3D;&#x2F;home&#x2F;admin-m&#x2F;soft&#x2F;idea2&#x2F;idea-IU-172.3317.76&#x2F;bin&#x2F;idea.png</span><br><span class="line">Terminal&#x3D;false</span><br><span class="line">Type&#x3D;Application</span><br><span class="line">Categories&#x3D;Application;Development;</span><br><span class="line"></span><br><span class="line">[Desktop Entry]   每个desktop文件都以这个标签开始，说明这是一个Desktop Entry文件</span><br><span class="line">Version &#x3D; 1.0      标明Desktop Entry的版本（可选）</span><br><span class="line">Name &#x3D; IdeaIU    程序名称（必须），这里以创建一个idea的快捷方式为例</span><br><span class="line">GenericName &#x3D; IdeaIU       程序通用名称（可选）</span><br><span class="line">Comment &#x3D;IdeaIU       程序描述（可选）</span><br><span class="line">Exec &#x3D;       程序的启动命令（必选），可以带参数运行</span><br><span class="line">Icon &#x3D;     设置快捷方式的图标（可选），当Type为Application，此项有效</span><br><span class="line">Terminal &#x3D; false   是否在终端中运行（可选），当Type为Application，此项有效</span><br><span class="line">Type &#x3D; Application   desktop的类型（必选），常见值有“Application”和“Link”</span><br><span class="line">Categories &#x3D; GNOME;Application;Network; &#x2F;&#x2F;注明在菜单栏中显示的类别（可选）</span><br><span class="line"></span><br><span class="line">完成   desktop 需要在权限上显示</span><br></pre></td></tr></table></figure>
+
+<p>不要懒，完成好计划好的 提升效率，多想想法子</p>
+<p>sh wechat下面添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export XMODIFIERS&#x3D;&quot;@im&#x3D;fcitx&quot;export GTK_IM_MODULE&#x3D;&quot;fcitx&quot;export QT_IM_MODULE&#x3D;&quot;fcitx&quot;</span><br></pre></td></tr></table></figure>
+
+<p>设置开机主题</p>
+<p>针对Ubuntu18 部分通知没有 可以使用 topicons plus 实现wine通知的</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Ubuntu安装软件部分" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -937,393 +1353,9 @@
 
 
   
-    <article id="post-spring处理响应的过程" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3343205230.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3343205230.html">spring处理响应的过程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>springMVC<br>的运行原理梳理是将 将浏览器发送过来信息处理已Model Vever Conctroller 将不同功能区分</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dispacherServlet</span><br><span class="line">handlermapperning</span><br><span class="line">handlerAdapater  --&gt;handler(Controller)</span><br><span class="line">Viewer</span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>springMVC<br>的运行原理梳理是将 将浏览器发送过来信息处理已Model Vever Conctroller 将不同功能区分</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dispacherServlet</span><br><span class="line">handlermapperning</span><br><span class="line">handlerAdapater  --&gt;handler(Controller)</span><br><span class="line">Viewer</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ubuntu优化-修改软件权限挂着磁盘" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1312199450.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1312199450.html">ubuntu优化-修改软件权限挂着磁盘</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>sublime_text</p>
-<p>sudo chmod +x subl shell脚步 /usr/bin/subl</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Exec&#x3D;bash -c &quot;LD_PRELOAD&#x3D;&#x2F;opt&#x2F;sublime_text&#x2F;libsublime-imfix.so exec &#x2F;opt&#x2F;sublime_text&#x2F;sublime_text -n&quot;</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>sublime_text</p>
-<p>sudo chmod +x subl shell脚步 /usr/bin/subl</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Exec&#x3D;bash -c &quot;LD_PRELOAD&#x3D;&#x2F;opt&#x2F;sublime_text&#x2F;libsublime-imfix.so exec &#x2F;opt&#x2F;sublime_text&#x2F;sublime_text -n&quot;</span><br></pre></td></tr></table></figure>
-
-<p>完善</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># &#x2F;dev&#x2F;nvme0n1p1:beiUUID&#x3D;&quot;31777183-00e9-459a-898f-4405b03e2c1e&quot; PARTUUID&#x3D;&quot;a174f198-ae87-4ca7-b340-f4a6e8fda28f&quot; UUID&#x3D;31777183-00e9-459a-898f-4405b03e2c1e &#x2F;home&#x2F;leek&#x2F;device   ext4    defaults         0      1</span><br></pre></td></tr></table></figure>
-
-<p>sudo mount -a /etc/fstab</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;fs spec&gt; &lt;fs file&gt; &lt;fs vfstype&gt; &lt;fs mntops&gt; &lt;fs freq&gt; &lt;fs passno&gt;</span><br><span class="line">具体说明，以挂载&#x2F;dev&#x2F;sdb1为例：</span><br><span class="line">&lt;fs spec&gt;：分区定位，可以给UUID或LABEL，例如：UUID&#x3D;6E9ADAC29ADA85CD或LABEL&#x3D;software</span><br><span class="line">&lt;fs file&gt;：具体挂载点的位置，例如：&#x2F;data</span><br><span class="line">&lt;fs vfstype&gt;：挂载磁盘类型，linux分区一般为ext4，windows分区一般为ntfs</span><br><span class="line">&lt;fs mntops&gt;：挂载参数，一般为defaults</span><br><span class="line">&lt;fs freq&gt;：磁盘检查，默认为0</span><br><span class="line">&lt;fs passno&gt;：磁盘检查，默认为0，不需要检查</span><br><span class="line"></span><br><span class="line">作者：a11en0</span><br><span class="line">链接：https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;336758411dbf</span><br><span class="line">来源：简书</span><br><span class="line">简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-使用fileupload" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/7e2892da.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/7e2892da.html">使用fileupload</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>使用commons-fileupload插件来帮我们处理上传后的数据而让我们自己手动处理的话,也是可以的,但是十分麻烦,因为我们需要将所有的请求体获取到,</p>
-<hr>
-<p>首先maven下载fileupload和commons-io可以这两个类可以对浏览器的发送请求头保存,并能实现结束</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>使用commons-fileupload插件来帮我们处理上传后的数据而让我们自己手动处理的话,也是可以的,但是十分麻烦,因为我们需要将所有的请求体获取到,</p>
-<hr>
-<p>首先maven下载fileupload和commons-io可以这两个类可以对浏览器的发送请求头保存,并能实现结束</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--upload 文件--&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;commons-fileupload&lt;&#x2F;groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;commons-fileupload&lt;&#x2F;artifactId&gt;</span><br><span class="line">      &lt;version&gt;1.3.1&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;commons-io&lt;&#x2F;groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;commons-io&lt;&#x2F;artifactId&gt;</span><br><span class="line">      &lt;version&gt;2.5&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
-
-<p>浏览器端的代码</p>
-<p>#html #</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;br&gt;</span><br><span class="line">&lt;!--&lt;form enctype&#x3D;&quot;multipart&#x2F;form-data&quot;&gt;--&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-header&quot;&gt;</span><br><span class="line">&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close&quot; data-dismiss&#x3D;&quot;modal&quot; aria-label&#x3D;&quot;Close&quot;&gt;&lt;span aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;&#x2F;span&gt;&lt;&#x2F;button&gt;</span><br><span class="line">&lt;h4 class&#x3D;&quot;modal-title&quot; id&#x3D;&quot;myModalLabel&quot;&gt;拖入文件上传&lt;&#x2F;h4&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;form-group&quot;&gt;</span><br><span class="line">&lt;input id&#x3D;&quot;file-1&quot; type&#x3D;&quot;file&quot; class&#x3D;&quot;file&quot; data-overwrite-initial&#x3D;&quot;false&quot;</span><br><span class="line">data-min-file-count&#x3D;&quot;1&quot;&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="js"><a href="#js" class="headerlink" title="js"></a>js</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;文件上传</span><br><span class="line">   $(&quot;#file-1&quot;).fileinput(&#123;</span><br><span class="line">       language: &#39;zh&#39;, &#x2F;&#x2F;设置语言</span><br><span class="line">       uploadUrl: &quot;adminAddRoute?methodName&#x3D;updatePic&quot;, &#x2F;&#x2F;上传的地址</span><br><span class="line">       showUpload: true, &#x2F;&#x2F;是否显示上传按钮</span><br><span class="line">       showCaption: true,&#x2F;&#x2F;是否显示标题</span><br><span class="line">       browseClass: &quot;btn btn-primary&quot;, &#x2F;&#x2F;按钮样式 previewId, index</span><br><span class="line">       uploadExtraData: function () &#123;</span><br><span class="line">           var data &#x3D; &#123;</span><br><span class="line">               parentId: $(&quot;#fileType&quot;).val()</span><br><span class="line">           &#125;;</span><br><span class="line">           return data;</span><br><span class="line">       &#125;,</span><br><span class="line">       &#39;theme&#39;: &#39;explorer&#39;,</span><br><span class="line">       maxFileCount: 1, &#x2F;&#x2F;表示允许同时上传的最大文件个数</span><br><span class="line">       enctype: &#39;multipart&#x2F;form-data&#39;,</span><br><span class="line">       validateInitialCount: true,</span><br><span class="line">       msgFilesTooMany: &quot;选择上传的文件数量(&#123;n&#125;) 超过允许的最大数值&#123;m&#125;！&quot;,</span><br><span class="line">       allowedFileExtensions : [&#39;jpg&#39;, &#39;png&#39;,&#39;gif&#39;],</span><br><span class="line">       overwriteInitial: false,</span><br><span class="line">       maxFileSize: 1000,</span><br><span class="line">       maxFilesNum: 1,</span><br><span class="line">       &#x2F;&#x2F;allowedFileTypes: [&#39;image&#39;, &#39;video&#39;, &#39;flash&#39;],</span><br><span class="line">       slugCallback: function(filename) &#123;</span><br><span class="line">           return filename.replace(&#39;(&#39;, &#39;_&#39;).replace(&#39;]&#39;, &#39;_&#39;);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure>
-
-<p>将html文档放在需要实现的地方即可</p>
-<h1 id="java后台实现"><a href="#java后台实现" class="headerlink" title="java后台实现"></a>java后台实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">String path_temp &#x3D; this.getServletContext().getRealPath(&quot;temp&quot;);</span><br><span class="line">       &#x2F;&#x2F;DiskFileItemFactory factory &#x3D; new DiskFileItemFactory(1024*1024, new File(path_temp));</span><br><span class="line">       DiskFileItemFactory factory &#x3D; new DiskFileItemFactory();</span><br><span class="line">       factory.setSizeThreshold(1024*1024);</span><br><span class="line">       factory.setRepository(new File(path_temp));</span><br><span class="line">       &#x2F;&#x2F;2、创建文件上传的核心类</span><br><span class="line">       ServletFileUpload upload &#x3D; new ServletFileUpload(factory);</span><br><span class="line">       &#x2F;&#x2F;设置上传文件的名称的编码</span><br><span class="line">       upload.setHeaderEncoding(&quot;UTF-8&quot;);</span><br><span class="line">       List&lt;FileItem&gt; fileItems &#x3D; upload.parseRequest(request);</span><br><span class="line">       FileItem item &#x3D; fileItems.get(0);</span><br><span class="line">       &#x2F;&#x2F;文件上传项</span><br><span class="line">       &#x2F;&#x2F;文件的名</span><br><span class="line">       String fileName1 &#x3D; item.getName();</span><br><span class="line">       System.out.println(&quot;上传文件名称 &#x3D; &quot; + fileName1);</span><br><span class="line">       String uuid &#x3D; UUID.randomUUID().toString().replace(&quot;-&quot;, &quot;&quot;);</span><br><span class="line"></span><br><span class="line">       String fileName &#x3D; uuid + &quot;.jpg&quot;;</span><br><span class="line">       &#x2F;&#x2F;获得上传文件的内容</span><br><span class="line">       InputStream in &#x3D; item.getInputStream();</span><br><span class="line"></span><br><span class="line">       &#x2F;&#x2F;设置图片保存名字和路径</span><br><span class="line">       String path_store &#x3D; this.getServletContext().getRealPath(&quot;img&#x2F;product&quot;);</span><br><span class="line">           &#x2F;&#x2F;                            if(path_store)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       String st &#x3D; path_store + &quot;&#x2F;&quot; + fileName;</span><br><span class="line">       OutputStream outSize2 &#x3D; new FileOutputStream(st);</span><br><span class="line">       &#x2F;&#x2F;        OutputStream outSize4 &#x3D; new FileOutputStream(path_store+&quot;&#x2F;size4&#x2F;&quot;+fileName);</span><br><span class="line">       &#x2F;&#x2F;        OutputStream outSize3 &#x3D; new FileOutputStream(path_store+&quot;&#x2F;size3&#x2F;&quot;+fileName);</span><br><span class="line"></span><br><span class="line">       &#x2F;&#x2F;保存文件</span><br><span class="line">       IOUtils.copy(in, outSize2);</span><br><span class="line">       in.close();</span><br><span class="line">       outSize2.close();</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-使用hexo搭建个人静态博客" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1573622544.html" class="article-date">
-      <time datetime="2019-03-24T00:53:16.000Z" itemprop="datePublished">2019-03-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1573622544.html">使用hexo搭建个人静态博客</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>参考的博客地址包括<a target="_blank" rel="noopener" href="https://wsgzao.github.io/post/hexo-guide/">使用github搭建个人博客</a></p>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://suericze.github.io/2016/03/21/%E5%8F%B2%E4%B8%8A%E6%9C%80%E6%96%B0%E7%89%88GitHub+Hexo%E9%85%8D%E7%BD%AE%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B-Hexo%E9%85%8D%E7%BD%AE-%E4%B8%80/">史上最新版GitHub+Hexo配置系列教程-Hexo配置1</a><br>-<a target="_blank" rel="noopener" href="http://suericze.github.io/2016/03/21/%E5%8F%B2%E4%B8%8A%E6%9C%80%E6%96%B0%E7%89%88GitHub+Hexo%E9%85%8D%E7%BD%AE%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B-GitHub%E9%85%8D%E7%BD%AE-%E4%BA%8C/">史上最新版GitHub+Hexo配置系列教程-Hexo配置2</a><br>-<a target="_blank" rel="noopener" href="http://suericze.github.io/2016/03/21/%E5%8F%B2%E4%B8%8A%E6%9C%80%E6%96%B0%E7%89%88GitHub-Hexo%E9%85%8D%E7%BD%AE%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B-Hexo-GitHub%E5%85%B3%E8%81%94-%E4%B8%89/">史上最新版GitHub+Hexo配置系列教程-Hexo配置3</a><br>类似于jekyll、Octopress、Wordpress，我们可以用hexo创建自己的博客，托管到github或Heroku上，绑定自己的域名，用markdown写文章。本博客即使用hexo创建并托管在github上。<br>先上效果图<br><a target="_blank" rel="noopener" href="http://wx2.sinaimg.cn/mw690/0060lm7Tly1fvrymfi3vxj31gv0uc76h.jpg"><img src="http://wx2.sinaimg.cn/mw690/0060lm7Tly1fvrymfi3vxj31gv0uc76h.jpg" alt="效果图"></a></li>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>参考的博客地址包括<a target="_blank" rel="noopener" href="https://wsgzao.github.io/post/hexo-guide/">使用github搭建个人博客</a></p>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://suericze.github.io/2016/03/21/%E5%8F%B2%E4%B8%8A%E6%9C%80%E6%96%B0%E7%89%88GitHub+Hexo%E9%85%8D%E7%BD%AE%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B-Hexo%E9%85%8D%E7%BD%AE-%E4%B8%80/">史上最新版GitHub+Hexo配置系列教程-Hexo配置1</a><br>-<a target="_blank" rel="noopener" href="http://suericze.github.io/2016/03/21/%E5%8F%B2%E4%B8%8A%E6%9C%80%E6%96%B0%E7%89%88GitHub+Hexo%E9%85%8D%E7%BD%AE%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B-GitHub%E9%85%8D%E7%BD%AE-%E4%BA%8C/">史上最新版GitHub+Hexo配置系列教程-Hexo配置2</a><br>-<a target="_blank" rel="noopener" href="http://suericze.github.io/2016/03/21/%E5%8F%B2%E4%B8%8A%E6%9C%80%E6%96%B0%E7%89%88GitHub-Hexo%E9%85%8D%E7%BD%AE%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B-Hexo-GitHub%E5%85%B3%E8%81%94-%E4%B8%89/">史上最新版GitHub+Hexo配置系列教程-Hexo配置3</a><br>类似于jekyll、Octopress、Wordpress，我们可以用hexo创建自己的博客，托管到github或Heroku上，绑定自己的域名，用markdown写文章。本博客即使用hexo创建并托管在github上。<br>先上效果图<br><a target="_blank" rel="noopener" href="http://wx2.sinaimg.cn/mw690/0060lm7Tly1fvrymfi3vxj31gv0uc76h.jpg"><img src="http://wx2.sinaimg.cn/mw690/0060lm7Tly1fvrymfi3vxj31gv0uc76h.jpg" alt="效果图"></a></li>
-</ul>
-<ol>
-<li><p>首先是按照文章开头提供的链接安装node.js 通过NPM安装需要的各种js文件还有hexo 在你新建的文件夹hexo init初始化一下就会有文件夹和配置文件</p>
-<p><img src="http://wx3.sinaimg.cn/mw690/0060lm7Tly1fvryrmfpddj30hs0b3wfs.jpg" alt="img"></p>
-<p>然后下载hexo需要的js文件通过NPM</p>
-<p><img src="http://wx3.sinaimg.cn/mw690/0060lm7Tly1fvrysrk2lsj30dh0k9adb.jpg" alt="img"></p>
-<p>hexo generate生成静态网站</p>
-<p>然后运行hexo server启动hexo服务,如果报错就修改一下配置文件是 _config.yml,这个配置文件可以修改很多东西,但是要和你安装的主题匹配不然就可能不兼容无法启动</p>
-<p><img src="http://wx1.sinaimg.cn/mw690/0060lm7Tly1fvryua2f9kj30sy0fk0tr.jpg" alt="img"></p>
-<p>有个source/_posts是放你写的博客你可以将写好的md文件放在这里</p>
-<p><img src="http://wx1.sinaimg.cn/mw690/0060lm7Tly1fvryzjd6tyj30ii0hp0tm.jpg" alt="img"></p>
-<p>在网上也可以比较方便的找到hexo支持的主题</p>
-<p><img src="http://wx2.sinaimg.cn/mw690/0060lm7Tly1fvrz0hehuej30ii0hp0tm.jpg" alt="img"></p>
-<p>我初始的主题是这样的</p>
-</li>
-</ol>
-<p>   将_config.yml上面的</p>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># Extensions## Plugins: https:&#x2F;&#x2F;hexo.io&#x2F;plugins&#x2F;## Themes: https:&#x2F;&#x2F;hexo.io&#x2F;themes&#x2F;theme: anatole</span><br></pre></td></tr></table></figure>
-
-<p>修改为themes中对于的文件夹,我用的主题链接为<a target="_blank" rel="noopener" href="https://github.com/Ben02/hexo-theme-Anatole/tree/master/source">hexo-theme-Anatole</a><br><a target="_blank" rel="noopener" href="https://github.com/bigleek/hexo">本人hexo的文件在这里</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/22/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/24/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/22/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/24/">下一页 </a>
     </nav>
   
 </div>

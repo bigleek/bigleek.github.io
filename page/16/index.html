@@ -269,6 +269,651 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ambari安装" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/e29592b7.html" class="article-date">
+      <time datetime="2021-02-08T07:49:12.000Z" itemprop="datePublished">2021-02-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/e29592b7.html">ambari</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="Ambari安装指南"><a href="#Ambari安装指南" class="headerlink" title="Ambari安装指南"></a>Ambari安装指南</h1><p>注意事项</p>
+<p>目前centos 7 默认python 环境 为2.7 现在调用 中需要请求比如</p>
+<p><a target="_blank" rel="noopener" href="https://master:8441/agent/v1/register/master">https://master:8441/agent/v1/register/master</a> 注册时  会出现问题</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="Ambari安装指南"><a href="#Ambari安装指南" class="headerlink" title="Ambari安装指南"></a>Ambari安装指南</h1><p>注意事项</p>
+<p>目前centos 7 默认python 环境 为2.7 现在调用 中需要请求比如</p>
+<p><a target="_blank" rel="noopener" href="https://master:8441/agent/v1/register/master">https://master:8441/agent/v1/register/master</a> 注册时  会出现问题</p>
+<p>我没有去升级 参考了该链接 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/TopGear/p/12852397.html">Ambari 2.4 在 CentOS 7.4 因 TLS_1.2 协商内部错误导致注册失败</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum install -y ntp &amp;&amp; systemctl enable ntpd &amp;&amp; systemctl start ntpd</span><br><span class="line">yum install -y unzip</span><br><span class="line">yum install -y gcc</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="X-安装环境"><a href="#X-安装环境" class="headerlink" title="[X] 安装环境:"></a>[X] 安装环境:</h2><ul>
+<li><p>系统版本:CentOS 7.3 x86_64</p>
+</li>
+<li><p>JAVA版本:JDK-1.8.x</p>
+</li>
+<li><p>确保机器的 Python 版本大于或等于2.6</p>
+</li>
+<li><p>服务器列表:</p>
+<blockquote>
+<p><code>192.168.68.17 master</code> #Ambari Server</p>
+<p><code>192.168.68.18 work1</code> #<strong>Ambari Agent,namenode2,journalnode1,datanode1,nodemanager1</strong></p>
+<p><code>192.168.68.20 work2</code> #<strong>Ambari Agent,journalnode2,datanode2,nodemanager2</strong></p>
+<p><code>192.168.68.21 work3</code> #<strong>Ambari Agent,journalnode3,datanode3,nodemanager3</strong></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="SSL-需要的话可以升级"><a href="#SSL-需要的话可以升级" class="headerlink" title="SSL(需要的话可以升级)"></a>SSL(需要的话可以升级)</h3><blockquote>
+<p>需要openssl的1.0以上版本!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install openssl</span><br><span class="line">或者</span><br><span class="line">yum upgrade openssl</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h3><blockquote>
+<p>yum install -y java-1.8.0-openjdk-headless.x86_64 或者下载RPM 包安装</p>
+<p>建议安装Sun的JDK1.8版本! 安装完毕并配置java环境变量,在/etc/profile末尾添加如下代码:</p>
+<p>如果是用yum 在线安装 的openjdk  安装地址在 /lib/jvm/ 下面</p>
+<p>或者是下载 oraclejdk 着一般需要解压后 设置java_home </p>
+<p>上述地址在初始化 ambari-server setup 时是需要用到的</p>
+<p>export JAVA_HOME=/usr/java/default<br>export PATH=$JAVA_HOME/bin:$PATH</p>
+<p>保存退出即可,然后执行<code>source /etc/profile</code>生效.在命令行执行java -version 如下代表JAVA安装成功.</p>
+</blockquote>
+<h3 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h3><blockquote>
+<p>需要配置各个节点的免密码登录!<br>首先在自己机器上使用<code>ssh-keygen -t rsa</code></p>
+<p>ssh-copy-id root@work1</p>
+<p>ssh-copy-id root@work2</p>
+<p>ssh-copy-id root@work3</p>
+</blockquote>
+<h3 id="NTP-必要条件"><a href="#NTP-必要条件" class="headerlink" title="NTP(必要条件)"></a>NTP(必要条件)</h3><p>集群的时钟要保证基本的一致.稍有不一致是可以容忍的,但是很大的不一致会 造成奇怪的行为. 运行 NTP 或者其他什么东西来同步你的时间.<br>如果你查询的时候或者是遇到奇怪的故障,可以检查一下系统时间是否正确!</p>
+<blockquote>
+<p>crontab -e</p>
+<p>*/10 * * * * ntpdate time.nist.gov</p>
+</blockquote>
+<h3 id="ulimit和nproc"><a href="#ulimit和nproc" class="headerlink" title="ulimit和nproc"></a>ulimit和nproc</h3><blockquote>
+<p>Hdaoop会在同一时间使用很多的文件句柄.大多数linux系统使用的默认值1024是不能满足的,修改<code>/etc/security/limits.conf</code>文件为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*               soft    nproc   16384</span><br><span class="line">*               hard    nproc   16384  </span><br><span class="line">*               soft    nofile  65536  </span><br><span class="line">*               hard    nofile  65536</span><br></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h3 id="修改host和虚拟机的名称"><a href="#修改host和虚拟机的名称" class="headerlink" title="修改host和虚拟机的名称"></a>修改host和虚拟机的名称</h3><p>192.168.68.17,192.168.68.18,192.168.68.20,192.168.68.21的 /etc/hosts</p>
+<p>文件 在文件最后添加:</p>
+<blockquote>
+<p>192.168.68.17  master<br>192.168.68.18  work1<br>192.168.68.20  work2<br>192.168.68.21  work3</p>
+</blockquote>
+<p>同时修改虚拟的名称</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname master </span><br><span class="line">vi &#x2F;etc&#x2F;hosts</span><br><span class="line">192.168.56.101 master</span><br><span class="line">192.168.56.102 work1</span><br><span class="line">192.168.56.103 work2</span><br><span class="line">vi &#x2F;etc&#x2F;sysconfig&#x2F;network</span><br><span class="line">HOSTNAME&#x3D;master</span><br><span class="line">uname -a</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="禁止-PackageKit"><a href="#禁止-PackageKit" class="headerlink" title="禁止 PackageKit"></a>禁止 PackageKit</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pkill -9 packagekitd</span><br><span class="line">vim &#x2F;etc&#x2F;yum&#x2F;pluginconf.d&#x2F;refresh-packagekit.conf</span><br></pre></td></tr></table></figure>
+
+<p>将内容改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enabled&#x3D;0</span><br></pre></td></tr></table></figure>
+
+<h3 id="关闭防火墙和SELINUX"><a href="#关闭防火墙和SELINUX" class="headerlink" title="关闭防火墙和SELINUX"></a>关闭防火墙和SELINUX</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#关闭</span><br><span class="line">service firewalld stop</span><br><span class="line">#随着系统启动自动关闭</span><br><span class="line">chkconfig firewalld off</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>systemctl stop firewalld<br>  systemctl disable firewalld</p>
+<p>  vim /etc/selinux/config</p>
+<p>  修改 SELINUX=disabled</p>
+<h2 id="X-安装Ambari-Server"><a href="#X-安装Ambari-Server" class="headerlink" title="[X] 安装Ambari Server"></a>[X] 安装Ambari Server</h2><p>在T1上操作</p>
+<h3 id="1-添加yum资源库"><a href="#1-添加yum资源库" class="headerlink" title="[1] 添加yum资源库:"></a>[1] 添加yum资源库:</h3><blockquote>
+<p>wget -nv <a target="_blank" rel="noopener" href="http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.3.0/ambari.repo">http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.3.0/ambari.repo</a> -O /etc/yum.repos.d/ambari.repo</p>
+<p>yum clean all</p>
+<p>yum install ambari-server</p>
+</blockquote>
+<h3 id="2-校验YUM仓库ambari"><a href="#2-校验YUM仓库ambari" class="headerlink" title="[2] 校验YUM仓库ambari:"></a>[2] 校验YUM仓库ambari:</h3><p>由于公司安全机制,这个地方可能不会安装成功<br>执行<code>yum repolist</code>,如果有<code>ambari</code>字符串的话,就可以开始安装了!</p>
+<h3 id="3-1-YUM在线安装-ambari-server"><a href="#3-1-YUM在线安装-ambari-server" class="headerlink" title="[3.1] YUM在线安装: ambari-server"></a>[3.1] YUM在线安装: ambari-server</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install ambari-server</span><br></pre></td></tr></table></figure>
+
+<p>实验证明,网速巨慢,耐心…,等待安装完成!</p>
+<h3 id="3-2-YUM离线本地安装-ambari-server"><a href="#3-2-YUM离线本地安装-ambari-server" class="headerlink" title="[3.2] YUM离线本地安装: ambari-server"></a>[3.2] YUM离线本地安装: ambari-server</h3><ul>
+<li>先找一个网络好的环境,配置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;yum.conf</span><br></pre></td></tr></table></figure>
+
+<p>  文件,修改</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keepcache</span><br></pre></td></tr></table></figure>
+
+<p>  为</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>  ,来保留安装包;再通过</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install ambari-server</span><br></pre></td></tr></table></figure>
+
+<p>  安装成功后后;把相关的rpm文件复制到需要离线安装的环境上;例如:</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ambari-server-2.1.2-377.x86_64.rpm</span><br><span class="line">ambari-agent-2.1.2-377.x86_64.rpm</span><br><span class="line">postgresql-8.4.20-3.el6_6.x86_64.rpm</span><br><span class="line">postgresql-devel-8.4.20-3.el6_6.x86_64.rpm</span><br><span class="line">postgresql-libs-8.4.20-3.el6_6.x86_64.rpm</span><br><span class="line">postgresql-server-8.4.20-3.el6_6.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再执行<code>yum localhost ./postgresql-8.4.20-3.el6_6.x86_64.rpm ./postgresql-server-8.4.20-3.el6_6.x86_64.rpm ./postgresql-libs-8.4.20-3.el6_6.x86_64.rpm ./postgresql-devel-8.4.20-3.el6_6.x86_64.rpm ./ambari-server-2.1.2-377.x86_64.rpm</code>来进行离线安装!</li>
+</ul>
+<h3 id="5-配置AMBARI-SERVER"><a href="#5-配置AMBARI-SERVER" class="headerlink" title="[5] 配置AMBARI-SERVER"></a>[5] 配置AMBARI-SERVER</h3>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">##指定JAVA_HOME</span><br><span class="line">ambari-server setup -j &#x2F;usr&#x2F;java&#x2F;default</span><br><span class="line">##不指定JAVA_HOME执行</span><br><span class="line">ambari-server setup</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>选择n会按默认配置<br>数据库类型：postgresql<br>数据库：ambari<br>用户名：ambari<br>密码：bigdata<br>等待安装完成</p>
+</blockquote>
+<h3 id="6-启动AMBARI-SERVER"><a href="#6-启动AMBARI-SERVER" class="headerlink" title="[6] 启动AMBARI-SERVER"></a>[6] 启动AMBARI-SERVER</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">## 初始化 ambari 包含配置数据库和 jdk环境</span><br><span class="line">ambari-server setup</span><br><span class="line">## 重置 </span><br><span class="line">ambari-server reset</span><br><span class="line">## 安装高版的 ambari ,后升级</span><br><span class="line">ambari-server upgrade</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">##启动:</span><br><span class="line">ambari-server start</span><br><span class="line">##查看:</span><br><span class="line">ps -ef | grep Ambari</span><br><span class="line">##停止:</span><br><span class="line">ambari-server stop</span><br><span class="line">##帮助</span><br><span class="line">ambari-server help</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>然后访问：<a target="_blank" rel="noopener" href="http://master:8080/">http://master:8080</a><br>不出意外的话就安装完成了<br>用户名/密码:admin/admin</p>
+</blockquote>
+<h3 id="6-安装AMBARI-AGENT-可选-在web界面自动安装注册"><a href="#6-安装AMBARI-AGENT-可选-在web界面自动安装注册" class="headerlink" title="[6] 安装AMBARI-AGENT(可选 在web界面自动安装注册)"></a>[6] 安装AMBARI-AGENT(可选 在web界面自动安装注册)</h3><p>在网络环境不好的地方或者sshd的端口不是标准的22时,可以在每个agent节点上先手工安装AMBARI-AGENT</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install ambari-agent</span><br></pre></td></tr></table></figure>
+
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注:"></a>备注:</h2><ul>
+<li>Ambari安装的环境路径: 各台机器的安装目录:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;lib&#x2F;hadoop</span><br><span class="line">&#x2F;usr&#x2F;lib&#x2F;hbase</span><br><span class="line">&#x2F;usr&#x2F;lib&#x2F;zookeeper</span><br><span class="line">&#x2F;usr&#x2F;lib&#x2F;hcatalog</span><br><span class="line">&#x2F;usr&#x2F;lib&#x2F;hive</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Log路径, 这里需要看出错信息都可以在目录下找到相关的日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;hadoop</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;hbase</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置文件的路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;hadoop</span><br><span class="line">&#x2F;etc&#x2F;hbase</span><br><span class="line">&#x2F;etc&#x2F;hive</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>HDFS的存储路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;hadoop&#x2F;hdfs</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><ul>
+<li>主机名格式必须是<code>hoastname.domain</code>,如<code>master</code></li>
+<li>Zookeeper-Agent端修改Server指向的HOSTNAME, <code>/etc/ambari-agent/conf/ambari-agent.ini</code>,如修改过主机hostname</li>
+<li>安装失败后或重新安装先执行<code>ambari-server reset</code> 后 <code>ambari-setup</code></li>
+<li>最后一步安装可能会失败,多数原因是下载包错误引起的,可重复安装直到成功,本人反复几个最终成功了,网络,网络,尤其就朝民,各种干扰!</li>
+</ul>
+<h3 id="ssl-版本导致的agent注册失败"><a href="#ssl-版本导致的agent注册失败" class="headerlink" title="ssl 版本导致的agent注册失败"></a>ssl 版本导致的agent注册失败</h3>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#在agent的配置,主要针对ambari 2.6.2</span><br><span class="line">[security]</span><br><span class="line">force_https_protocol&#x3D;PROTOCOL_TLSv1_2</span><br></pre></td></tr></table></figure>
+
+<p><strong>[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:579)</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;python&#x2F;cert-verification.cfg</span><br><span class="line">[https]</span><br><span class="line">verify&#x3D;disable</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载hdp"><a href="#卸载hdp" class="headerlink" title="卸载hdp"></a>卸载hdp</h3><p><img src="../img/image-20201222161524135.png" alt="image-20201222161524135"></p>
+<p><img src="../img/image-20201222161640124.png" alt="image-20201222161640124"></p>
+<ol>
+<li><p>确保防火墙关闭，能够ping通ambari-server服务所在机器的IP</p>
+</li>
+<li><p>升级openssl服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum upgrade openssl</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">3. 关闭 openssl 的检查</span><br><span class="line"></span><br><span class="line">   &#96;&#96;&#96;bash</span><br><span class="line">   sed -i &#39;s&#x2F;verify&#x3D;platform_default&#x2F;verify&#x3D;disable&#x2F;&#39; &#x2F;etc&#x2F;python&#x2F;cert-verification.cfg</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>先停掉ambari-server，然后依次停掉各个ambari-agent</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ambari-server stop</span><br><span class="line">ambari-agent stop</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在所有ambari-agent节点上，修改ambari-agent.ini文件的[security]，新增force_https_protocol如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/ambari-agent/conf/ambari-agent.ini</span><br><span class="line">[security]</span><br><span class="line">force_https_protocol=PROTOCOL_TLSv1_2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>依次开启ambari-agent，最后开启ambari-server</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ambari-server start</span><br><span class="line">ambari-agent start</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="卡在安装界面看log不报错"><a href="#卡在安装界面看log不报错" class="headerlink" title="卡在安装界面看log不报错"></a>卡在安装界面看log不报错</h3><p><img src="../img/image-20201224140234774.png" alt="image-20201224140234774"></p>
+<p>这是由于 我们使用了远程的地址,下载比较慢 查看服务器后台</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># ps -ef|grep yum</span></span><br><span class="line">root       8946   8942  0 14:01 ?        00:00:00 /bin/sh -c  rpm -qa | grep smartsense- ||  yum -y install smartsense-hst ||  rpm -i /var/lib/ambari-agent/cache/stacks/HDP/3.0/services/SMARTSENSE/package/files/rpm/*.rpm</span><br><span class="line">root       8949   8946  1 14:01 ?        00:00:00 /usr/bin/python /bin/yum -y install smartsense-hst</span><br><span class="line">root       8993   3120  0 14:01 pts/0    00:00:00 grep --color=auto yum</span><br><span class="line">[root@localhost ~]<span class="comment"># </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>发现 yum是在运行的 <strong>期间大概耗费20多分钟</strong></p>
+<h3 id="补充搭建本地仓库-目前使用的是在线仓库搭建"><a href="#补充搭建本地仓库-目前使用的是在线仓库搭建" class="headerlink" title="补充搭建本地仓库 (目前使用的是在线仓库搭建)"></a>补充搭建本地仓库 (目前使用的是在线仓库搭建)</h3><p>安装Nginx</p>
+<p>编辑本地仓库 vi  /etc/yum.repos.d/nginx.repo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[nginx]</span><br><span class="line">name&#x3D;nginx repo</span><br><span class="line">baseurl&#x3D;https:&#x2F;&#x2F;nginx.org&#x2F;packages&#x2F;centos&#x2F;$releasever&#x2F;$basearch&#x2F;</span><br><span class="line">gpgcheck&#x3D;0</span><br><span class="line">enabled&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>yum repolist</p>
+<p>yum install nginx.x86_64</p>
+<p>首先确定我们的版本 ambari 2.7.3.0  ,hdp  HDP-3.1.4.0 <a target="_blank" rel="noopener" href="https://docs.cloudera.com/HDPDocuments/Ambari-2.7.4.0/bk_ambari-installation/content/hdp_314_repositories.html">链接</a></p>
+<p> <a target="_blank" rel="noopener" href="http://192.168.11.48:9005/#">Timeline Service V1.5 Start</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Execution of &#39;curl -sS -L -w &#39;%&#123;http_code&#125;&#39; -X PUT -d &#39;&#39; -H &#39;Content-Length: 0&#39; &#39;http:&#x2F;&#x2F;work1:50070&#x2F;webhdfs&#x2F;v1&#x2F;ats&#x2F;done?op&#x3D;SETPERMISSION&amp;user.name&#x3D;hdfs&amp;permission&#x3D;755&#39;&#39; returned status_code&#x3D;403.</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解决方案 <a target="_blank" rel="noopener" href="https://community.cloudera.com/t5/Support-Questions/App-Timeline-Server-not-start/td-p/230460">https://community.cloudera.com/t5/Support-Questions/App-Timeline-Server-not-start/td-p/230460</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># su - hdfs</span><br></pre></td></tr></table></figure>
+
+<p><em>As hdfs</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hdfs dfsadmin -safemode get </span><br></pre></td></tr></table></figure>
+
+<p><em>From the above you will confirm the status in the error “safe mode” then</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hdfs dfsadmin -safemode leave </span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><a target="_blank" rel="noopener" href="https://liujia.anqun.org/index.php/archives/1211/">https://liujia.anqun.org/index.php/archives/1211/</a></p>
+<p>xfs_repair </p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-书写技术文档的规范结合阮一峰的博客介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/cadd68a.html" class="article-date">
+      <time datetime="2021-01-27T13:24:34.000Z" itemprop="datePublished">2021-01-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/cadd68a.html">书写技术文档的规范结合阮一峰的博客介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>技术文档每天都会遇到,条理不够清晰,表达不够准确首先是很难让人理解,同时还会增加沟通的成本</p>
+<p>我这边结合阮一峰的博客也结合我最近写文档的思路列一下<br>两个方向是实践类(包括但不限于 部署,搭建),预研学习类(包括 新技术,技术选型,新趋势)<br>实践类较为简单<br>先来个实例网站<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/dpmg-hdp-kunpengbds/kunpengambarihdp_04_0011.html">华为云的部署文档</a><br>1.t1<br>    1.1 t2<br>        1.1.1t3<br>        a.<br>        b.<br>        c.<br>        或者<br>        -<br>        -<br>        - </p>
+<p>这种来分开步骤和梳理逻辑<br>同时遇到的问题或者是要集中介绍和梳理的内容可以放在后面开头<br>问题这种一般先描述现象和问题,然后 列出解决方案不必纠结与 ,把问题讲清楚<br>在md也尽量使用规范 引用  代码块 需要分开使用不要乱用,对应主要的部分可以加粗高亮</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>技术文档每天都会遇到,条理不够清晰,表达不够准确首先是很难让人理解,同时还会增加沟通的成本</p>
+<p>我这边结合阮一峰的博客也结合我最近写文档的思路列一下<br>两个方向是实践类(包括但不限于 部署,搭建),预研学习类(包括 新技术,技术选型,新趋势)<br>实践类较为简单<br>先来个实例网站<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/dpmg-hdp-kunpengbds/kunpengambarihdp_04_0011.html">华为云的部署文档</a><br>1.t1<br>    1.1 t2<br>        1.1.1t3<br>        a.<br>        b.<br>        c.<br>        或者<br>        -<br>        -<br>        - </p>
+<p>这种来分开步骤和梳理逻辑<br>同时遇到的问题或者是要集中介绍和梳理的内容可以放在后面开头<br>问题这种一般先描述现象和问题,然后 列出解决方案不必纠结与 ,把问题讲清楚<br>在md也尽量使用规范 引用  代码块 需要分开使用不要乱用,对应主要的部分可以加粗高亮</p>
+<p>对于第二种预研学习类<br>来个实例网站 <a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/129908.html?spm=a2c4g.11186623.2.25.7d0049ec9vDbQk">阿里云 云数据库 hbase</a> </p>
+<p>先应该是基本概念 来介绍名词和这个技术或者服务的概览<br>列出类似的产品服务,描述这个技术和产品的特点 依赖的环境和 版本<br>给出实例代码和<br>有实例代码或者 sample来</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Linux使用fdisk挂载和初始化磁盘以华为云服务器为例" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/ca3ef640.html" class="article-date">
+      <time datetime="2021-01-25T02:49:17.000Z" itemprop="datePublished">2021-01-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/ca3ef640.html">Linux使用fdisk挂载和初始化磁盘以华为云服务器为例</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h4 id="先使用-fdisk-l-查看磁盘情况"><a href="#先使用-fdisk-l-查看磁盘情况" class="headerlink" title="先使用 fdisk -l 查看磁盘情况"></a>先使用 fdisk -l 查看磁盘情况</h4><p><img src="../img/image-20210122100412882.png" alt="image-20210122100412882"></p>
+<p>磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况</p>
+<p>看到有 <strong>/dev/vdb</strong>没有被使用那就去初始化然后去使用</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h4 id="先使用-fdisk-l-查看磁盘情况"><a href="#先使用-fdisk-l-查看磁盘情况" class="headerlink" title="先使用 fdisk -l 查看磁盘情况"></a>先使用 fdisk -l 查看磁盘情况</h4><p><img src="../img/image-20210122100412882.png" alt="image-20210122100412882"></p>
+<p>磁盘看到已经能在系统上显示了 但是没有初始化和挂载分区,使用使用 df du 等,命令是看不到具体的情况</p>
+<p>看到有 <strong>/dev/vdb</strong>没有被使用那就去初始化然后去使用</p>
+<h3 id="使用-fdisk-dev-vdb-来初始化"><a href="#使用-fdisk-dev-vdb-来初始化" class="headerlink" title="使用 fdisk /dev/vdb 来初始化"></a>使用 fdisk /dev/vdb 来初始化</h3><p>先进入会有 (Command (m for help))步骤如下</p>
+<ol>
+<li> n    是去初步去创建新磁盘</li>
+<li> 进入 一直按 enter  包括 primary,extend  ,起始磁盘等都走默认 ,Partition number 默认为1 </li>
+<li> p  查看具体的分区情况</li>
+<li> w  写入修改</li>
+</ol>
+<p>下图为过程</p>
+<p><img src="../img/image-20210122100726644.png" alt="image-20210122100726644"></p>
+<h3 id="fdisk-l-查看磁盘已经初始化"><a href="#fdisk-l-查看磁盘已经初始化" class="headerlink" title="fdisk -l 查看磁盘已经初始化"></a>fdisk -l 查看磁盘已经初始化</h3><p><img src="../img/image-20210122101643077.png" alt="image-20210122101643077"></p>
+<p>图片如下可以看到 分区已经形成,由于我们走默认使用只有一个</p>
+<h3 id="使用ext4格式化-dev-vdb1-这个分区"><a href="#使用ext4格式化-dev-vdb1-这个分区" class="headerlink" title="使用ext4格式化 /dev/vdb1 这个分区"></a>使用ext4格式化 /dev/vdb1 这个分区</h3><p>ext4 格式化后 </p>
+<p><img src="../img/image-20210122101257839.png" alt="image-20210122101257839"></p>
+<h3 id="使用-blkid-dev-vdb1-来查看-UUID"><a href="#使用-blkid-dev-vdb1-来查看-UUID" class="headerlink" title="使用 blkid /dev/vdb1 来查看 UUID"></a>使用 blkid /dev/vdb1 来查看 UUID</h3><p><img src="../img/image-20210122101816988.png" alt="image-20210122101816988"></p>
+<h3 id="修改-etc-fstab-来开机自动挂载分区"><a href="#修改-etc-fstab-来开机自动挂载分区" class="headerlink" title="修改 /etc/fstab 来开机自动挂载分区"></a>修改 <strong>/etc/fstab</strong> 来开机自动挂载分区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UUID&#x3D;0b3040e2-1367-4abb-841d-ddb0b92693df &#x2F;mnt&#x2F;sdc       ext4    defaults        0 2</span><br></pre></td></tr></table></figure>
+
+<p>可以考这边内容 需要修改 UUID ,和挂载的文件夹 ,我这边是在根目录下面 创建的文件夹挂载的</p>
+<blockquote>
+<ol>
+<li><p>以内容上仅为示例，具体请以实际情况为准，参数说明如下：</p>
+<ul>
+<li><p>第一列为UUID，此处填写<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/qs-evs/evs_01_0033.html#evs_01_0033__li840964143216">1</a>中查询到的磁盘分区的UUID。</p>
+</li>
+<li><p>第二列为磁盘分区的挂载目录，可以通过<strong>df -TH</strong>命令查询。</p>
+</li>
+<li><p>第三列为磁盘分区的文件系统格式， 可以通过<strong>df -TH</strong>命令查询。</p>
+</li>
+<li><p>第四列为磁盘分区的挂载选项，此处通常设置为defaults即可。</p>
+</li>
+<li><p>第五列为Linux dump备份选项。</p>
+<ul>
+<li>0表示不使用Linux dump备份。现在通常不使用dump备份，此处设置为0即可。</li>
+<li>1表示使用Linux dump备份。</li>
+</ul>
+</li>
+<li><p>第六列为fsck选项，即开机时是否使用fsck检查磁盘。</p>
+<ul>
+<li><p>0表示不检验。</p>
+</li>
+<li><p>挂载点为（/）根目录的分区，此处必须填写1。</p>
+<p>根分区设置为1，其他分区只能从2开始，系统会按照数字从小到大依次检查下去。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h3 id="使用mount-a加载-etc-fstab-的配置"><a href="#使用mount-a加载-etc-fstab-的配置" class="headerlink" title="使用mount -a加载**/etc/fstab**的配置"></a>使用<strong>mount -a</strong>加载**/etc/fstab**的配置</h3><p><strong>mount -a</strong> 没有报错后 用df du 都可以看到你挂载的目录和对应的分区</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-docker容器导入导出和配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/aba1fef8.html" class="article-date">
+      <time datetime="2021-01-18T02:19:41.000Z" itemprop="datePublished">2021-01-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/aba1fef8.html">docker容器导入导出和配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="镜像导入导出"><a href="#镜像导入导出" class="headerlink" title="镜像导入导出"></a><strong>镜像导入导出</strong></h1><p>目前的导入导出是 sava/load,export/import ,前者有完整的数据,后者类似于容器的快照,开始搭建时,想直接复制我们服务器中运行的容器,导出后在docker中运行后 一直报</p>
+<p>No command specified” from re-imported docker image/container</p>
+<p>后面有了解 sava/load 会有完整的数据 但是 export的tar包这个命令将导入镜像文件和参数</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="镜像导入导出"><a href="#镜像导入导出" class="headerlink" title="镜像导入导出"></a><strong>镜像导入导出</strong></h1><p>目前的导入导出是 sava/load,export/import ,前者有完整的数据,后者类似于容器的快照,开始搭建时,想直接复制我们服务器中运行的容器,导出后在docker中运行后 一直报</p>
+<p>No command specified” from re-imported docker image/container</p>
+<p>后面有了解 sava/load 会有完整的数据 但是 export的tar包这个命令将导入镜像文件和参数</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="关于-gdal容器"><a href="#关于-gdal容器" class="headerlink" title="关于 gdal容器"></a>关于 gdal容器</h2><p>目前使用的gdal的容器是  osgeo/gdal:ubuntu-small-3.2.1</p>
+<blockquote>
+<p>docker run -itd –privileged -v /usr/local/gdal/data/:/home    <br>–name gdal_python osgeo/gdal:ubuntu-small-3.2.1</p>
+</blockquote>
+<ul>
+<li>容器的名称需要和上面 application-boot.yml的关联上,需要通过容器的主机 ssh 控制 docker 下的容器</li>
+<li>需要复制 shp2pg.py 到  /usr/local/gdal/data/</li>
+</ul>
+<p>后面的版本是有添加 gdal的环境</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> osgeo/gdal:ubuntu-small-<span class="number">3.2</span>.<span class="number">1</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> gdallikedemo</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> add-apt-repository ppa:openjdk-r/ppa &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get install -y java-1.8.0-openjdk &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get clean;</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> NAME.jar /home/NAME.jar</span></span><br><span class="line"><span class="comment"># RUN nohup java -jar /home/NAME.jar &gt;/dev/null 2&gt;&amp;1 &amp;</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/home/NAME.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="搭建pgsql集群"><a href="#搭建pgsql集群" class="headerlink" title="搭建pgsql集群"></a><strong>搭建pgsql集群</strong></h1><p>搭建集群 可以参考之前的文档 我这边只是列出清单</p>
+<table>
+<thead>
+<tr>
+<th align="left">集群名称</th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">pg_master</td>
+<td align="left">pg_hba.conf( 配置网络和集群的IP,注意配置 所有从服务器的IP),postgresql.conf(配置数据库自己的服务和资源使用)</td>
+</tr>
+<tr>
+<td align="left">pg_slaver1</td>
+<td align="left">同上,recovery.conf(设置恢复和通信)</td>
+</tr>
+<tr>
+<td align="left">pg_slaver2</td>
+<td align="left">同上,recovery.conf(设置恢复和通信)</td>
+</tr>
+</tbody></table>
+<p>tips:</p>
+<ul>
+<li>建议在postgresql.conf 中的日志打开,日志的配置</li>
+</ul>
+<p>logging_collector =on        # Enable capturing of stderr and csvlog</p>
+<p>日志会在本地的/data/postgresql/data 启动时挂载的点,会有log目录可以找到异常信息</p>
+<ul>
+<li>尽量选择复制配置文件,像postgresql.conf这种<strong>标准配置文件主从有区别要注意</strong></li>
+</ul>
+<h1 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a><strong>nginx</strong></h1><p>拉取 nginx镜像后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx -p 80:80 --restart&#x3D;always -v \</span><br><span class="line"></span><br><span class="line">&#x2F;data&#x2F;nginx&#x2F;html:&#x2F;etc&#x2F;nginx&#x2F;html&#x2F;   \</span><br><span class="line"></span><br><span class="line">-v &#x2F;data&#x2F;nginx&#x2F;conf&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf \</span><br><span class="line"></span><br><span class="line">-v &#x2F;data&#x2F;nginx&#x2F;conf.d&#x2F;default.conf:&#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;default.conf \</span><br><span class="line"></span><br><span class="line">nginx:1.19.6</span><br></pre></td></tr></table></figure>
+
+
+
+<p>一个要注意的是 网上都是nginx默认的挂载是/usr/share/nginx/html ,使用依照了 官方docker版本我挂载了数据,一直都有是404 ,后面看日志是</p>
+<blockquote>
+<p>2021/01/13 21:56:42 [error] 21#21: *1 “/etc/nginx/html/index.html” is not found (2: No such file or directory), client: 172.17.0.1, server: localhost, request: “GET / HTTP/1.1”, host: “127.0.0.1”</p>
+<p>172.17.0.1 - - [13/Jan/2021:21:56:42 +0000] “GET / HTTP/1.1” 404 153 “-“ “curl/7.29.0”</p>
+</blockquote>
+<p>这边关联到/etc/nginx/html/ 后正常可以看到 welcome nginx的页面</p>
+<h1 id="geoserver"><a href="#geoserver" class="headerlink" title="geoserver"></a>geoserver</h1><p>目前使用的是官方的 geoserver的集群 主要 是要导出 yaml 的文件</p>
+<p>将本地的geoserver 镜像导入 harber的私服中然后再 配置 k8s挂载卷然后编辑</p>
+<ol>
+<li>挂载卷</li>
+<li>harber的远程地址</li>
+</ol>
+<h2 id="推送镜像到harber"><a href="#推送镜像到harber" class="headerlink" title="推送镜像到harber"></a>推送镜像到harber</h2><p>首先 使用命令  docker tag  IMAGE_ID NAME:TAG</p>
+<p>将load 的镜像设置对应的标签方便后面使用k8s导入的配置文件好找到</p>
+<p>push_im.sh文件中的 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 发布最终版本</span><br><span class="line"># 版本号</span><br><span class="line">version&#x3D;latest</span><br><span class="line"># 打包镜像</span><br><span class="line">docker build -t NAME:$version .</span><br><span class="line"># 配置标签</span><br><span class="line">docker tag NAME:$version 192.168.7.120&#x2F;public&#x2F;NAME:$version</span><br><span class="line"># 推送镜像</span><br><span class="line">docker push 192.168.7.120&#x2F;public&#x2F;NAME:$version</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>version 对应的字段要有 ,同时 harber 地址要改的</p>
+<p>上面的这个 <strong>docker build -t NAME:$version .</strong>   是有个点的, 需要dockerfile文件的</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-gis初入门" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1008,390 +1653,9 @@
 
 
   
-    <article id="post-es索引生命周期维护" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2302551430.html" class="article-date">
-      <time datetime="2020-09-08T07:14:34.000Z" itemprop="datePublished">2020-09-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2302551430.html">es索引生命周期维护</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>keyword text</p>
-<p><strong>hot-warm-cold</strong>架构将索引数据切分成hot/warm/cold的索引。<code>hot索引</code>负责最新数据的读写，可使用内存存储；<code>warm索引</code>负责较旧数据的读取，可使用内存或SSD存储；<code>cold索引</code>很少被读取，可使用大容量磁盘存储。随着时间的推移，数据不断从hot索引-&gt;warm索引-&gt;cold索引迁移。针对不同阶段的索引我们还可以调整索引的主分片数，副本数，单分片的segment数等等，更好的利用机器资源。</p>
-<p><strong>索引生命周期管理（Index Lifecycle Management ，简称ILM</strong>)<br>作者：Monica2333<br>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844904131262431246">https://juejin.im/post/6844904131262431246</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>keyword text</p>
-<p><strong>hot-warm-cold</strong>架构将索引数据切分成hot/warm/cold的索引。<code>hot索引</code>负责最新数据的读写，可使用内存存储；<code>warm索引</code>负责较旧数据的读取，可使用内存或SSD存储；<code>cold索引</code>很少被读取，可使用大容量磁盘存储。随着时间的推移，数据不断从hot索引-&gt;warm索引-&gt;cold索引迁移。针对不同阶段的索引我们还可以调整索引的主分片数，副本数，单分片的segment数等等，更好的利用机器资源。</p>
-<p><strong>索引生命周期管理（Index Lifecycle Management ，简称ILM</strong>)<br>作者：Monica2333<br>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844904131262431246">https://juejin.im/post/6844904131262431246</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm&#x2F;policy&#x2F;my_policy</span><br><span class="line">&#123;</span><br><span class="line">  &quot;policy&quot;: &#123;</span><br><span class="line">    &quot;phases&quot;: &#123;</span><br><span class="line">      &quot;hot&quot;: &#123;</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;rollover&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover前距离索引的创建时间最大为7天</span><br><span class="line">            &quot;max_age&quot;: &quot;7d&quot;,</span><br><span class="line">&#x2F;&#x2F;rollover前索引的最大大小不超过50G</span><br><span class="line">            &quot;max_size&quot;: &quot;50G&quot;,</span><br><span class="line">&#x2F;&#x2F;rollover前索引的最大文档数不超过1个（测试用）</span><br><span class="line">            &quot;max_docs&quot;: 1,</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;warm&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入warm阶段的时间不小于30天</span><br><span class="line">        &quot;min_age&quot;: &quot;30d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;forcemerge&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;强制分片merge到segment为1</span><br><span class="line">            &quot;max_num_segments&quot;: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;shrink&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;收缩分片数为1</span><br><span class="line">            &quot;number_of_shards&quot;: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;allocate&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;副本数为2</span><br><span class="line">            &quot;number_of_replicas&quot;: 2</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;cold&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入cold阶段的时间不小于60天</span><br><span class="line">        &quot;min_age&quot;: &quot;60d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;allocate&quot;: &#123;</span><br><span class="line">            &quot;require&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;分配到cold 节点，ES可根据机器资源配置不同类型的节点</span><br><span class="line">              &quot;type&quot;: &quot;cold&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;delete&quot;: &#123;</span><br><span class="line">&#x2F;&#x2F;rollover之后进入cold阶段的时间不小于60天</span><br><span class="line">        &quot;min_age&quot;: &quot;90d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;delete&quot;: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">作者：Monica2333</span><br><span class="line">链接：https:&#x2F;&#x2F;juejin.im&#x2F;post&#x2F;6844904131262431246</span><br><span class="line">来源：掘金</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu给外接设备修改分辨率" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2232115083.html" class="article-date">
-      <time datetime="2020-08-18T07:13:33.000Z" itemprop="datePublished">2020-08-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2232115083.html">Ubuntu给外接设备修改分辨率</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
-<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>参考链接 <a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/04/custom-screen-resolution-ubuntu-desktop/">How to Set A Custom Screen Resolution in Ubuntu Desktop</a></p>
-<p>目前正常 dp-1上面有2560x1440 2k的分辨率但是有时候显示不出来,导致不能显示最优的效果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DP-1 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 597mm x 336mm</span><br><span class="line">   2560x1440     59.95 +  74.97* </span><br><span class="line">   1920x1080     60.00    50.00    59.94  </span><br><span class="line">   1920x1080i    60.00    50.00    59.94  </span><br><span class="line">   1280x1440     59.91  </span><br><span class="line">   1680x1050     59.88  </span><br><span class="line">   1280x1024     75.02    60.02  </span><br><span class="line">   1440x900      59.90  </span><br><span class="line">   1280x960      60.00  </span><br><span class="line">   1280x720      60.00    50.00    59.94  </span><br><span class="line">   1024x768      75.03    70.07    60.00  </span><br><span class="line">   832x624       74.55  </span><br><span class="line">   800x600       72.19    75.00    60.32    56.25  </span><br><span class="line">   720x576       50.00  </span><br><span class="line">   720x480       60.00    59.94  </span><br><span class="line">   640x480       75.00    72.81    60.00    59.94  </span><br><span class="line">   720x400       70.08  </span><br></pre></td></tr></table></figure>
-
-<p>cvt 2560 1440 来看分辨率的最优设置</p>
-<p>编辑 ~/.profile的文件来实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo xrandr --newmode &quot;2560x1440_74.97&quot;  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync</span><br><span class="line">sudo xrandr --newmode &quot;2560x1440_60.00&quot;  312.25  2560 2752 3024 3488  1440 1443 1448 1493 -hsync +vsync</span><br><span class="line"></span><br><span class="line">sudo xrandr --addmode DP-1 &quot;2560x1440_74.97&quot;</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://imlike.cc/img/1597749619474.png"><img src="../img/1597749619474.png" alt="1597749619474"></a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Jenkins的遇到的坑" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1581320389.html" class="article-date">
-      <time datetime="2020-08-04T07:12:38.000Z" itemprop="datePublished">2020-08-04</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1581320389.html">Jenkins的遇到的坑</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p>
-<h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p>
-<ol>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="maven本地仓库地址"><a href="#maven本地仓库地址" class="headerlink" title="maven本地仓库地址"></a>maven本地仓库地址</h3><p>Jenkins本地仓库依赖的common和工具包,是独立安装的,使用在解析上述依赖时会出现问题,需要在Jenkins所在的本地 maven install 一下,或者在用sh写脚本让执行</p>
-<h3 id="更新完plugin部分job看不到的情况"><a href="#更新完plugin部分job看不到的情况" class="headerlink" title="更新完plugin部分job看不到的情况"></a>更新完plugin部分job看不到的情况</h3><p>重启还是进一步操作后出现,不是project,job 看不到的情况</p>
-<ol>
-<li>网上看到的是配置没到到 jenkins_home/workspace 下面的project,</li>
-</ol>
-<p>但是我看Jenkins的配置是对的,在对应的文件夹下面是有配置</p>
-<ol>
-<li>网上给的Jenkins迁移job的问题我看了不是这个问题</li>
-</ol>
-<h4 id="我遇到的是job下面的config-xml-maven2-module失败导致的"><a href="#我遇到的是job下面的config-xml-maven2-module失败导致的" class="headerlink" title="我遇到的是job下面的config.xml maven2-module失败导致的"></a>我遇到的是job下面的config.xml maven2-module失败导致的</h4><p>最后解决方案是重启tomcat不是Jenkins是,重启Jenkins是 <code>URL/jenkins/restart</code>, 看到tomcat的日志出现解析 jobs下面的各个job下面的config.xml 出问题 <strong><code>maven2-module</code></strong> ,对于非maven的项目就可以直接解析, 原来是 Maven Integration 插件不存在导致,原有的maven项目不能解析和显示</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-树莓派下面搭建pgsql" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1327663525.html" class="article-date">
-      <time datetime="2020-06-19T07:09:18.000Z" itemprop="datePublished">2020-06-19</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1327663525.html">树莓派下面搭建pgsql</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>搭建pgsql的环境查看的文档</p>
-<p>怎么在一台树莓派上安装 Postgres 数据库</p>
-<p>树莓派中安装MySQL 5.7<br>感慨是准备是安装MySQL的,树莓派的环境 : Linux raspberrypi 4.19.97-v7l+ #1294 2020 armv7l</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>搭建pgsql的环境查看的文档</p>
-<p>怎么在一台树莓派上安装 Postgres 数据库</p>
-<p>树莓派中安装MySQL 5.7<br>感慨是准备是安装MySQL的,树莓派的环境 : Linux raspberrypi 4.19.97-v7l+ #1294 2020 armv7l</p>
-<p>目前直接用 sudo apt-get install mysql-service 但是不行返回结果</p>
-<p>没有可用的软件包 mysql-server，但是它被其它的软件包引用了。<br>这可能意味着这个缺失的软件包可能已被废弃，<br>或者只能在其他发布源中找到<br>然而下列软件包会取代它：<br>mariadb-server-10.0</p>
-<p>目前来说直接安装的路被堵死</p>
-<p>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.18-1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.18-1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb">http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb</a></p>
-<p>sudo dpkg -i mysql-common_5.8+1.0.2_all.deb<br>sudo dpkg -i mysql-client-core-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-client-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-server-core-5.7_5.7.18-1_armhf.deb<br>sudo dpkg -i mysql-server-5.7_5.7.18-1_armhf.deb<br>上面的命令是直接在debian上下载 arm版本的MySQL但是现在访问网站已经找不到对于的deb包</p>
-<p>而且在MySQL官网也没找到官方下载链接 arm的包</p>
-<p>访问<a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/</a> 拿到对于的deb包版本为5.7.26-1,比上面的高</p>
-<p>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient-dev_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqlclient20_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/libmysqld-dev_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-client-core-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.26-1+b1_armhf.deb">http://ftp.debian.org/debian/pool/main/m/mysql-5.7/mysql-server-core-5.7_5.7.26-1+b1_armhf.deb</a><br>wget <a target="_blank" rel="noopener" href="http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb">http://ftp.debian.org/debian/pool/main/m/mysql-defaults/mysql-common_5.8+1.0.2_all.deb</a></p>
-<p>sudo dpkg -i mysql-common_5.8+1.0.2_all.deb<br>sudo dpkg -i mysql-client-core-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i mysql-client-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i     mysql-server-core-5.7_5.7.26-1+b1_armhf.deb<br>sudo dpkg -i mysql-server-5.7_5.7.26-1+b1_armhf.deb<br>安装后显示</p>
-<p>dpkg: 依赖关系问题使得 mysql-server-core-5.7 的配置工作不能继续：<br>mysql-server-core-5.7 依赖于 libaio1 (&gt;= 0.3.93)；然而：<br>未安装软件包 libaio1。<br>mysql-server-core-5.7 依赖于 libc6 (&gt;= 2.29)；然而：<br>系统中 libc6:armhf 的版本为 2.28-10+rpi1。<br>mysql-server-core-5.7 依赖于 libstdc++6 (&gt;= 9)；然而：<br>系统中 libstdc++6:armhf 的版本为 8.3.0-6+rpi1。</p>
-<p>依赖太多找不到目前放弃安装MySQL使用官方推进的Mariadb<br>sudo apt-get install mariadb-server</p>
-<p>当服务器安装完成后，你需要运行：</p>
-<p>sudo mysql_secure_installation<br>来为你的数据库设置安全。</p>
-<p>主要这个用途是设置你 root 的密码，root 的远程访问权限，是否允许匿名访问，是否允许远程访问等。</p>
-<p>如果你只是测试在本地使用这个数据库，你可以不用设置这个。</p>
-<p>但是我们还是建议你设置。</p>
-<p>当前使用pi这个用户无法登陆Mariadb的需要用root登陆</p>
-<p>CREATE USER ‘pi’@’%’ IDENTIFIED BY ‘123’;<br>GRANT USAGE ON . TO ‘pi’@’%’;<br>GRANT ALL PRIVILEGES ON . TO ‘pi’@’%’ IDENTIFIED BY ‘123’ WITH GRANT OPTION;<br>FLUSH PRIVILEGES;</p>
-<p>重启服务器的命令是：</p>
-<p>root@raspberrypi:~# service mariadb restart</p>
-<p>安装pgsql<br>主要参考下面的博客文章 怎么在一台树莓派上安装 Postgres 数据库</p>
-<p>安装pgsql还是简单的 首先输入命令</p>
-<p>apt-get install postgresql</p>
-<p>先安装后软件已经有客户端了,同时会带也会初始化的用户 : postgres</p>
-<p>Postgres 用户去配置数据库：</p>
-<p>sudo su postgres</p>
-<p>初始化一个新的用户(pi) createuser pi -P –interactive</p>
-<p>PostgreSQL 配置允许远程连接：</p>
-<p>1、 编辑 PostgreSQL 配置文件 /etc/postgresql/9.6/main/postgresql.conf ，取消 listen_addresses 行的注释，并把它的值从 localhost 改变成 *。然后保存并退出。</p>
-<p>2、 编辑 pg_hba 配置文件 /etc/postgresql/9.6/main/postgresql.conf，将 127.0.0.1/32 改变成 0.0.0.0/0 （对于IPv4）和将 ::1/128 改变成 ::/0 （对于 IPv6）。然后保存并退出。</p>
-<p>3、 重启 PostgreSQL 服务： sudo service postgresql restart。</p>
-<p>sudo service postgresql restart</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/15/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/17/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/15/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/17/">下一页 </a>
     </nav>
   
 </div>

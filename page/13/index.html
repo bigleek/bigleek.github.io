@@ -269,6 +269,764 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-hadoop-hbase-summary" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/4d0383ea.html" class="article-date">
+      <time datetime="2021-11-03T08:27:34.000Z" itemprop="datePublished">2021-11-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/4d0383ea.html">hadoop-hbase的概览</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>每个服务的组成包括:</p>
+<p>hdfs: namenode   datanode</p>
+<p>yarn  history   nodemanager</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>每个服务的组成包括:</p>
+<p>hdfs: namenode   datanode</p>
+<p>yarn  history   nodemanager</p>
+<p>hbase (实际写入读取都走的hdfs)</p>
+<p> hmaster : Master主要负责管理RegionServer集群，如负载均衡及资源分配等，它本身也可以以集群方式运行，但同一时刻只有一个master处于激活状态。当工作中的master宕掉后，zookeeper会切换到其它备选的master上。</p>
+<p>  hregionserver:负责具体数据块的读写操作。</p>
+<p><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/6500.html">http://c.biancheng.net/view/6500.html</a>  hbase服务</p>
+<p><img src="../img/678393-20151130140114312-982789222.jpg" alt="这里写图片描述"></p>
+<p>常见端口hadoop 3</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hadoop.apache.org/docs/r3.1.1/hadoop-project-dist/hadoop-common/core-default.xml">core-default.xml</a></li>
+<li><a target="_blank" rel="noopener" href="https://hadoop.apache.org/docs/r3.1.1/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml">hdfs-default.xml</a></li>
+<li><a target="_blank" rel="noopener" href="https://hadoop.apache.org/docs/r3.1.1/hadoop-project-dist/hadoop-hdfs-rbf/hdfs-rbf-default.xml">hdfs-rbf-default.xml</a></li>
+<li><a target="_blank" rel="noopener" href="https://hadoop.apache.org/docs/r3.1.1/hadoop-yarn/hadoop-yarn-common/yarn-default.xml">yarn-default.xml</a></li>
+<li><a target="_blank" rel="noopener" href="https://hadoop.apache.org/docs/r3.1.1/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml">mapred-default.xml</a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">PORT</th>
+<th align="left">CONFIG NAME</th>
+<th align="left">CONFIG VALUE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">0</td>
+<td align="left">dfs.balancer.address</td>
+<td align="left"><code>0.0.0.0:0</code></td>
+</tr>
+<tr>
+<td align="left">9866</td>
+<td align="left">dfs.datanode.address</td>
+<td align="left"><code>0.0.0.0:9866</code></td>
+</tr>
+<tr>
+<td align="left">9864</td>
+<td align="left">dfs.datanode.http.address</td>
+<td align="left"><code>0.0.0.0:9864</code></td>
+</tr>
+<tr>
+<td align="left">9865</td>
+<td align="left">dfs.datanode.https.address</td>
+<td align="left"><code>0.0.0.0:9865</code></td>
+</tr>
+<tr>
+<td align="left">9867</td>
+<td align="left">dfs.datanode.ipc.address</td>
+<td align="left"><code>0.0.0.0:9867</code></td>
+</tr>
+<tr>
+<td align="left">8111</td>
+<td align="left">dfs.federation.router.admin-address</td>
+<td align="left"><code>0.0.0.0:8111</code></td>
+</tr>
+<tr>
+<td align="left">50071</td>
+<td align="left">dfs.federation.router.http-address</td>
+<td align="left"><code>0.0.0.0:50071</code></td>
+</tr>
+<tr>
+<td align="left">50072</td>
+<td align="left">dfs.federation.router.https-address</td>
+<td align="left"><code>0.0.0.0:50072</code></td>
+</tr>
+<tr>
+<td align="left">8888</td>
+<td align="left">dfs.federation.router.rpc-address</td>
+<td align="left"><code>0.0.0.0:8888</code></td>
+</tr>
+<tr>
+<td align="left">8480</td>
+<td align="left">dfs.journalnode.http-address</td>
+<td align="left"><code>0.0.0.0:8480</code></td>
+</tr>
+<tr>
+<td align="left">8481</td>
+<td align="left">dfs.journalnode.https-address</td>
+<td align="left"><code>0.0.0.0:8481</code></td>
+</tr>
+<tr>
+<td align="left">8485</td>
+<td align="left">dfs.journalnode.rpc-address</td>
+<td align="left"><code>0.0.0.0:8485</code></td>
+</tr>
+<tr>
+<td align="left">0</td>
+<td align="left">dfs.mover.address</td>
+<td align="left"><code>0.0.0.0:0</code></td>
+</tr>
+<tr>
+<td align="left">50100</td>
+<td align="left">dfs.namenode.backup.address</td>
+<td align="left"><code>0.0.0.0:50100</code></td>
+</tr>
+<tr>
+<td align="left">50105</td>
+<td align="left">dfs.namenode.backup.http-address</td>
+<td align="left"><code>0.0.0.0:50105</code></td>
+</tr>
+<tr>
+<td align="left">9870</td>
+<td align="left">dfs.namenode.http-address</td>
+<td align="left"><code>0.0.0.0:9870</code></td>
+</tr>
+<tr>
+<td align="left">9871</td>
+<td align="left">dfs.namenode.https-address</td>
+<td align="left"><code>0.0.0.0:9871</code></td>
+</tr>
+<tr>
+<td align="left">9868</td>
+<td align="left">dfs.namenode.secondary.http-address</td>
+<td align="left"><code>0.0.0.0:9868</code></td>
+</tr>
+<tr>
+<td align="left">9869</td>
+<td align="left">dfs.namenode.secondary.https-address</td>
+<td align="left"><code>0.0.0.0:9869</code></td>
+</tr>
+<tr>
+<td align="left">50200</td>
+<td align="left">dfs.provided.aliasmap.inmemory.dnrpc-address</td>
+<td align="left"><code>0.0.0.0:50200</code></td>
+</tr>
+<tr>
+<td align="left">2181</td>
+<td align="left">hadoop.registry.zk.quorum</td>
+<td align="left"><code>localhost:2181</code></td>
+</tr>
+<tr>
+<td align="left">10020</td>
+<td align="left">mapreduce.jobhistory.address</td>
+<td align="left"><code>0.0.0.0:10020</code></td>
+</tr>
+<tr>
+<td align="left">10033</td>
+<td align="left">mapreduce.jobhistory.admin.address</td>
+<td align="left"><code>0.0.0.0:10033</code></td>
+</tr>
+<tr>
+<td align="left">19888</td>
+<td align="left">mapreduce.jobhistory.webapp.address</td>
+<td align="left"><code>0.0.0.0:19888</code></td>
+</tr>
+<tr>
+<td align="left">19890</td>
+<td align="left">mapreduce.jobhistory.webapp.https.address</td>
+<td align="left"><code>0.0.0.0:19890</code></td>
+</tr>
+<tr>
+<td align="left">0</td>
+<td align="left">yarn.nodemanager.address</td>
+<td align="left"><code>$&#123;yarn.nodemanager.hostname&#125;:0</code></td>
+</tr>
+<tr>
+<td align="left">8049</td>
+<td align="left">yarn.nodemanager.amrmproxy.address</td>
+<td align="left"><code>0.0.0.0:8049</code></td>
+</tr>
+<tr>
+<td align="left">8048</td>
+<td align="left">yarn.nodemanager.collector-service.address</td>
+<td align="left"><code>$&#123;yarn.nodemanager.hostname&#125;:8048</code></td>
+</tr>
+<tr>
+<td align="left">8040</td>
+<td align="left">yarn.nodemanager.localizer.address</td>
+<td align="left"><code>$&#123;yarn.nodemanager.hostname&#125;:8040</code></td>
+</tr>
+<tr>
+<td align="left">8042</td>
+<td align="left">yarn.nodemanager.webapp.address</td>
+<td align="left"><code>$&#123;yarn.nodemanager.hostname&#125;:8042</code></td>
+</tr>
+<tr>
+<td align="left">8044</td>
+<td align="left">yarn.nodemanager.webapp.https.address</td>
+<td align="left"><code>0.0.0.0:8044</code></td>
+</tr>
+<tr>
+<td align="left">8032</td>
+<td align="left">yarn.resourcemanager.address</td>
+<td align="left"><code>$&#123;yarn.resourcemanager.hostname&#125;:8032</code></td>
+</tr>
+<tr>
+<td align="left">8033</td>
+<td align="left">yarn.resourcemanager.admin.address</td>
+<td align="left"><code>$&#123;yarn.resourcemanager.hostname&#125;:8033</code></td>
+</tr>
+<tr>
+<td align="left">8031</td>
+<td align="left">yarn.resourcemanager.resource-tracker.address</td>
+<td align="left"><code>$&#123;yarn.resourcemanager.hostname&#125;:8031</code></td>
+</tr>
+<tr>
+<td align="left">8030</td>
+<td align="left">yarn.resourcemanager.scheduler.address</td>
+<td align="left"><code>$&#123;yarn.resourcemanager.hostname&#125;:8030</code></td>
+</tr>
+<tr>
+<td align="left">8088</td>
+<td align="left">yarn.resourcemanager.webapp.address</td>
+<td align="left"><code>$&#123;yarn.resourcemanager.hostname&#125;:8088</code></td>
+</tr>
+<tr>
+<td align="left">8090</td>
+<td align="left">yarn.resourcemanager.webapp.https.address</td>
+<td align="left"><code>$&#123;yarn.resourcemanager.hostname&#125;:8090</code></td>
+</tr>
+<tr>
+<td align="left">8089</td>
+<td align="left">yarn.router.webapp.address</td>
+<td align="left"><code>0.0.0.0:8089</code></td>
+</tr>
+<tr>
+<td align="left">8091</td>
+<td align="left">yarn.router.webapp.https.address</td>
+<td align="left"><code>0.0.0.0:8091</code></td>
+</tr>
+<tr>
+<td align="left">8047</td>
+<td align="left">yarn.sharedcache.admin.address</td>
+<td align="left"><code>0.0.0.0:8047</code></td>
+</tr>
+<tr>
+<td align="left">8045</td>
+<td align="left">yarn.sharedcache.client-server.address</td>
+<td align="left"><code>0.0.0.0:8045</code></td>
+</tr>
+<tr>
+<td align="left">8046</td>
+<td align="left">yarn.sharedcache.uploader.server.address</td>
+<td align="left"><code>0.0.0.0:8046</code></td>
+</tr>
+<tr>
+<td align="left">8788</td>
+<td align="left">yarn.sharedcache.webapp.address</td>
+<td align="left"><code>0.0.0.0:8788</code></td>
+</tr>
+<tr>
+<td align="left">10200</td>
+<td align="left">yarn.timeline-service.address</td>
+<td align="left"><code>$&#123;yarn.timeline-service.hostname&#125;:10200</code></td>
+</tr>
+<tr>
+<td align="left">8188</td>
+<td align="left">yarn.timeline-service.webapp.address</td>
+<td align="left"><code>$&#123;yarn.timeline-service.hostname&#125;:8188</code></td>
+</tr>
+<tr>
+<td align="left">8190</td>
+<td align="left">yarn.timeline-service.webapp.https.address</td>
+<td align="left"><code>$&#123;yarn.timeline-service.hostname&#125;:8190</code></td>
+</tr>
+</tbody></table>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-restful-resource-naming-practise" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/26c9c081.html" class="article-date">
+      <time datetime="2021-10-18T02:46:56.000Z" itemprop="datePublished">2021-10-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/26c9c081.html">RESTful 资源命名最佳实践</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>本文转载自 <a target="_blank" rel="noopener" href="https://generalthink.github.io/2019/09/20/restful-resource-naming-practise/">RESTful 资源命名最佳实践</a></p>
+<h1 id="RESTful-资源命名最佳实践"><a href="#RESTful-资源命名最佳实践" class="headerlink" title="RESTful 资源命名最佳实践"></a>RESTful 资源命名最佳实践</h1><p> 2019-09-20  2021-05-07  7<br> 6k  5 分钟</p>
+<p>在 Rest 中，数据的呈现方式叫做资源 (Resource)。拥有强大而一致的 REST 资源命名策略，是最好的设计决策。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>本文转载自 <a target="_blank" rel="noopener" href="https://generalthink.github.io/2019/09/20/restful-resource-naming-practise/">RESTful 资源命名最佳实践</a></p>
+<h1 id="RESTful-资源命名最佳实践"><a href="#RESTful-资源命名最佳实践" class="headerlink" title="RESTful 资源命名最佳实践"></a>RESTful 资源命名最佳实践</h1><p> 2019-09-20  2021-05-07  7<br> 6k  5 分钟</p>
+<p>在 Rest 中，数据的呈现方式叫做资源 (Resource)。拥有强大而一致的 REST 资源命名策略，是最好的设计决策。</p>
+<p>一个资源可以是单个的也可以是一个集合。比如 customers 是一个集合，而 customer 是单个资源。我们可以定义 customers 这个集合的资源的 URI 是 <code>/customers</code>, 而单个 customer 资源的 URI 是 <code>/customers/&#123;customerId&#125;</code>。</p>
+<p>资源也可以包含子集合的资源。比如，使用 <code>/customers/&#123;customerId&#125;/accounts</code> 来表示某个 customer 下的 account 集合资源。同样的，对于 account 集合资源下的单个 account 我们可以定义成这样:<code>/customers/&#123;customerId&#125;/accounts/&#123;accountId&#125;</code></p>
+<p>REST API 使用统一资源标识符（URI）来寻址资源。REST API 设计者应该创建 URI，将 REST API 的资源模型传达给潜在的客户端开发人员。当资源命名良好时，API 直观且易于使用。如果做得不好，那么相同的 API 会感觉难以使用和理解。</p>
+<h3 id="使用名词来表示资源"><a href="#使用名词来表示资源" class="headerlink" title="使用名词来表示资源"></a>使用名词来表示资源</h3><p>RESTful URI 应该引用作为事物（名词）的资源而不是引用动作（动词），因为名词具有动词不具有的属性 - 类似于具有属性的资源。资源的一些示例是：</p>
+<ol>
+<li>系统的用户</li>
+<li>用户账户 (银行的场景):</li>
+<li>网络设备</li>
+</ol>
+<p>它们的资源 URI 可以被设计成下面这样:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices </span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;device-id&#125; </span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users&#x2F;</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users&#x2F;&#123;id&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了更好的说明我们把资源原型分为四个种类 (document,collection,store 以及 controller), 你应该总是把资源放到其中一个原型中，并且遵守它的统一命名。</p>
+<h4 id="document"><a href="#document" class="headerlink" title="document"></a>document</h4><p>文档资源是一种类似于对象实例或数据库记录的单一概念 (比如 mysql 中的一行记录，Mongodb 中的 document), 在 REST 中，你可以将其视为资源集合中的单个资源。文档的状态表示通常包括具有值的字段和指向其他相关资源的链接。</p>
+<p>使用单数名称表示文档资源原型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;device-id&#125;</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users&#x2F;&#123;id&#125;</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users&#x2F;admin</span><br></pre></td></tr></table></figure>
+
+<h4 id="collection"><a href="#collection" class="headerlink" title="collection"></a>collection</h4><p>集合资源是服务端管理的资源目录。客户可以建议将新资源添加到集合中。但是，要由集合选择是否创建新资源。集合资源选择它想要包含的内容，并决定每个包含的资源的 URI。</p>
+<p>使用复数名称表示集合资源原型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;user-management&#x2F;users&#x2F;&#123;id&#125;&#x2F;accounts</span><br></pre></td></tr></table></figure>
+
+<h4 id="store"><a href="#store" class="headerlink" title="store"></a>store</h4><p>store 是<strong>客户端管理的资源库</strong> ,store 资源允许 API 客户端放入资源，取出资源，并决定何时删除它们。store 永远不会生成新的 URI。相反，每个存储的资源都有一个客户端在最初放入存储时选择的 URI。</p>
+<p>使用复数名称表示 store 资源原型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;cart-management&#x2F;users&#x2F;&#123;id&#125;&#x2F;carts</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;song-management&#x2F;users&#x2F;&#123;id&#125;&#x2F;playlists</span><br></pre></td></tr></table></figure>
+
+<h4 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h4><p>controller 资源有点像程序的概念，controller 资源就像可执行函数，带有参数和返回值；输入和输出。</p>
+<p>使用动词表示 controller 原型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 查看用户的信用卡</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;cart-management&#x2F;users&#x2F;&#123;id&#125;&#x2F;cart&#x2F;checkout</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 播放整个播放列表</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;song-management&#x2F;users&#x2F;&#123;id&#125;&#x2F;playlist&#x2F;play</span><br></pre></td></tr></table></figure>
+
+<p>这里的 controller 为什么要用动词呢？其实大家可以想象下 Spring 中 Controller 做了什么事情，它调用了 service 组合成各个业务逻辑，将数据组合起来之后进行返回.</p>
+<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p>使用一致的资源命名约定和 URI 格式，以最小化和最大可读性和可维护性。你可以实现以下设计提示以实现一致性：</p>
+<h4 id="使用正斜杠（-）表示层次关系"><a href="#使用正斜杠（-）表示层次关系" class="headerlink" title="使用正斜杠（/）表示层次关系"></a>使用正斜杠（/）表示层次关系</h4><p>正斜杠（/）字符用于 URI 的路径部分，以指示资源之间的层次关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;&#x2F;scripts</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;&#x2F;scripts&#x2F;&#123;id&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="不要在-URI-中使用尾部正斜杠（-）"><a href="#不要在-URI-中使用尾部正斜杠（-）" class="headerlink" title="不要在 URI 中使用尾部正斜杠（/）"></a>不要在 URI 中使用尾部正斜杠（/）</h4><p>作为 URI 路径中的最后一个字符，正斜杠（/）不会添加语义值，并可能导致混淆。最好完全放弃它们</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;</span><br><span class="line"></span><br><span class="line">&#x2F;*这个版本更好*&#x2F;</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用连字符（-）来提高-URI-的可读性"><a href="#使用连字符（-）来提高-URI-的可读性" class="headerlink" title="使用连字符（ - ）来提高 URI 的可读性"></a>使用连字符（ - ）来提高 URI 的可读性</h4><p>要使你的 URI 易于扫描和解释，请使用连字符（ - ）字符来提高长路径段中名称的可读性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 更好可读性</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;inventory-management&#x2F;managed-entities&#x2F;&#123;id&#125;&#x2F;install-script-location</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 可读性不够高</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;inventory-management&#x2F;managedEntities&#x2F;&#123;id&#125;&#x2F;installScriptLocation</span><br></pre></td></tr></table></figure>
+
+<h4 id="不用使用下滑线"><a href="#不用使用下滑线" class="headerlink" title="不用使用下滑线 _"></a>不用使用下滑线 _</h4><p>可以使用下划线代替连字符作为分隔符 - 但是根据应用程序的字体，下划线 _ 字符可能会在某些浏览器或屏幕中被部分遮挡或完全隐藏。为避免这种混淆，请使用连字符 - 而不是下划线 _。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 更具可读性</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;inventory-management&#x2F;managed-entities&#x2F;&#123;id&#125;&#x2F;install-script-location</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 更容易出错</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;inventory_management&#x2F;managed_entities&#x2F;&#123;id&#125;&#x2F;install_script_location</span><br></pre></td></tr></table></figure>
+
+<h4 id="在-URI-中使用小写字母"><a href="#在-URI-中使用小写字母" class="headerlink" title="在 URI 中使用小写字母"></a>在 URI 中使用小写字母</h4><p>方便时，URI 路径中应始终首选小写字母。</p>
+<p><a target="_blank" rel="noopener" href="http://www.rfc-base.org/txt/rfc-3986.txt">RFC 3986</a> 将 URI 定义为区分大小写，但协议和 host 除外</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 1</span><br><span class="line">http:&#x2F;&#x2F;api.example.org&#x2F;my-folder&#x2F;my-doc</span><br><span class="line">&#x2F;&#x2F; 2</span><br><span class="line">HTTP:&#x2F;&#x2F;API.EXAMPLE.ORG&#x2F;my-folder&#x2F;my-doc</span><br><span class="line">&#x2F;&#x2F; 3</span><br><span class="line">http:&#x2F;&#x2F;api.example.org&#x2F;My-Folder&#x2F;my-doc</span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中，1 和 2 是相同的，但 3 不是，因为它使用大写字母的 My-Folder。</p>
+<h4 id="不要使用文件扩展名"><a href="#不要使用文件扩展名" class="headerlink" title="不要使用文件扩展名"></a>不要使用文件扩展名</h4><p>文件扩展名看起来很糟糕，不会增加任何优势。删除它们也会减少 URI 的长度。没理由保留它们。除了上述原因，如果你想使用文件扩展突出显示 API 的媒体类型，那么你应该依赖于通过 Content-Type 标头传达的媒体类型来确定如何处理正文的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 不要这样用</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices.xml</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 正确的URI</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br></pre></td></tr></table></figure>
+
+<h3 id="切勿在-URI-中使用-CRUD-函数名称"><a href="#切勿在-URI-中使用-CRUD-函数名称" class="headerlink" title="切勿在 URI 中使用 CRUD 函数名称"></a>切勿在 URI 中使用 CRUD 函数名称</h3><p>URI 不应用于指示执行 CRUD 功能。URI 应该用于唯一标识资源，而不是对它们的任何操作。应使用 HTTP 请求方法来指示执行哪个 CRUD 功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 获取所有设备</span><br><span class="line">HTTP GET http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br><span class="line">&#x2F;&#x2F; 创建新设备</span><br><span class="line">HTTP POST http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 根据给定id获取设备</span><br><span class="line">HTTP GET http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 根据给定id更新设备</span><br><span class="line">HTTP PUT http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 根据给定id删除设备</span><br><span class="line">HTTP DELETE http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices&#x2F;&#123;id&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用查询组件过滤-URI-集合"><a href="#使用查询组件过滤-URI-集合" class="headerlink" title="使用查询组件过滤 URI 集合"></a>使用查询组件过滤 URI 集合</h3><p>很多时候，你会遇到需要根据某些特定资源属性对需要排序，过滤或限制的资源集合的要求。为此，不要创建新的 API - 而是在资源集合 API 中启用排序，过滤和分页功能，并将输入参数作为查询参数传递</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices?region&#x3D;USA</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices?region&#x3D;USA&amp;brand&#x3D;XYZ</span><br><span class="line">http:&#x2F;&#x2F;api.example.com&#x2F;device-management&#x2F;managed-devices?region&#x3D;USA&amp;brand&#x3D;XYZ&amp;sort&#x3D;installation-date</span><br></pre></td></tr></table></figure>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-why-mongodb-use-b-tree" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/bf7d2fd3.html" class="article-date">
+      <time datetime="2021-10-18T02:35:49.000Z" itemprop="datePublished">2021-10-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/bf7d2fd3.html">why-mongodb-use-b-tree</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>本文转载自 <a target="_blank" rel="noopener" href="https://generalthink.github.io/2020/04/16/why-mongodb-use-b-tree/">why-mongodb-use-b-tree</a></p>
+<p>除了 B+ 树，你可能还听说过 B 树、 B- 树，实际上， B- 树就是 B 树，英文翻译都是 B-Tree ，这里的 “-” 并不是相对 B+ 树中的 “+” ，而只是一个连接符。而 B 树实际上是低级版的 B+ 树，或者说 B+ 树是 B 树的改进版。</p>
+<h3 id="B-tree"><a href="#B-tree" class="headerlink" title="B+ tree"></a>B+ tree</h3><p>B+ tree 实际上是一颗 m 叉平衡查找树 (不是二叉树)</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>本文转载自 <a target="_blank" rel="noopener" href="https://generalthink.github.io/2020/04/16/why-mongodb-use-b-tree/">why-mongodb-use-b-tree</a></p>
+<p>除了 B+ 树，你可能还听说过 B 树、 B- 树，实际上， B- 树就是 B 树，英文翻译都是 B-Tree ，这里的 “-” 并不是相对 B+ 树中的 “+” ，而只是一个连接符。而 B 树实际上是低级版的 B+ 树，或者说 B+ 树是 B 树的改进版。</p>
+<h3 id="B-tree"><a href="#B-tree" class="headerlink" title="B+ tree"></a>B+ tree</h3><p>B+ tree 实际上是一颗 m 叉平衡查找树 (不是二叉树)</p>
+<blockquote>
+<p>平衡查找树定义：树中任意一个节点的左右子树的高度相差不能大于 1</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://generalthink.github.io/images/java/BPlusTree.png"><img src="../img/BPlusTree.png" alt="B+ tree"></a></p>
+<p><a target="_blank" rel="noopener" href="https://generalthink.github.io/images/java/BPlusTree.png">B+ tree</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">* 这是B+树非叶子节点的定义。</span><br><span class="line">*</span><br><span class="line">* 假设keywords&#x3D;[3, 5, 8, 10]</span><br><span class="line">* 4个键值将数据分为5个区间：(-INF,3), [3,5), [5,8), [8,10), [10,INF)</span><br><span class="line">* 5个区间分别对应：children[0]...children[4]</span><br><span class="line">*</span><br><span class="line">* m值是事先计算得到的，计算的依据是让所有信息的大小正好等于页的大小：</span><br><span class="line">* PAGE_SIZE &#x3D; (m-1)*4[keywordss大小]+m*8[children大小]</span><br><span class="line">*&#x2F;</span><br><span class="line">public class BPlusTreeNode &#123;</span><br><span class="line">  &#x2F;&#x2F; 5叉树</span><br><span class="line">  public static int m &#x3D; 5;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 键值，用来划分数据区间</span><br><span class="line">  public int[] keywords &#x3D; new int[m-1];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 保存子节点指针</span><br><span class="line">  public BPlusTreeNode[] children &#x3D; new BPlusTreeNode[m];</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;**</span><br><span class="line">* 这是B+树中叶子节点的定义。</span><br><span class="line">*</span><br><span class="line">* B+树中的叶子节点跟内部结点是不一样的,</span><br><span class="line">* 叶子节点存储的是值，而非区间。</span><br><span class="line">* 这个定义里，每个叶子节点存储3个数据行的键值及地址信息。</span><br><span class="line">*</span><br><span class="line">* k值是事先计算得到的，计算的依据是让所有信息的大小正好等于页的大小：</span><br><span class="line">* PAGE_SIZE &#x3D; k*4[keyw..大小]+k*8[dataAd..大小]+8[prev大小]+8[next大小]</span><br><span class="line">*&#x2F;</span><br><span class="line">public class BPlusTreeLeafNode &#123;</span><br><span class="line">  public static int k &#x3D; 3;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 数据的键值</span><br><span class="line">  public int[] keywords &#x3D; new int[k];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 数据地址</span><br><span class="line">  public long[] dataAddress &#x3D; new long[k];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 这个结点在链表中的前驱结点</span><br><span class="line">  public BPlusTreeLeafNode prev;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 这个结点在链表中的后继结点 </span><br><span class="line">  public BPlusTreeLeafNode next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 B+ 树中，树中的节点并不存储数据本身，而是只是作为索引。除此之外，所有记录的节点按大小顺序存储在同一层的叶节点中，并且每个叶节点通过指针连接。</p>
+<p>总结下，B + 树有以下特点</p>
+<ol>
+<li>B + 树的每个节点可以包含更多节点，其原因有两个，其一是降低树的高度 (索引不会全部存储在内存中，内存中可能撑不住，所以一般都是将索引树存储在磁盘中，只是将根节点放到内存中，这样对每个节点的访问，实际上就是访问磁盘，树的高度就等于每次查询数据时磁盘 IO 操作的次数), 另一种是将数据范围更改为多个间隔。间隔越大，数据检索越快 (可以想象跳表)</li>
+<li>每个节点不在是存储一个 key, 而是存储多个 key</li>
+<li>叶节点来存储数据，而其他节点用于索引</li>
+<li>叶子节点通过两个指针相互链接，顺序查询性能更高。</li>
+</ol>
+<p>这样设计还有以下优点：</p>
+<ol>
+<li>B + 树的非叶子节点仅存储键，占用很小的空间，因此节点的每一层可以索引的数据范围要宽得多。换句话说，可以为每个 IO 操作搜索更多数据</li>
+<li>叶子节点成对连接，符合磁盘的预读特性。例如，叶节点存储 50 和 55，它们具有指向叶节点 60 和 62 的指针。当我们从磁盘读取对应于 50 和 55 的数据时，由于磁盘的预读特性，我们将顺便提一下 60 和 62。读出相应的数据。这次是顺序读取，而不是磁盘搜索，加快了速度。</li>
+<li>支持范围查询，局部范围查询非常高效，每个节点都可以索引更大，更准确的范围，这意味着 B + 树单磁盘 IO 信息大于 B 树，并且 I / O 效率更高</li>
+<li>由于数据存储在叶节点层中，并且有指向其他叶节点的指针，因此范围查询仅需要遍历叶节点层，而无需遍历整个树。</li>
+</ol>
+<p>由于磁盘访问速度和内存之间存在差距，为了提高效率，应将磁盘 I / O 最小化。磁盘通常不是严格按需读取的，而是每次都被预读。磁盘读取所需的数据后，它将向后读取内存中的一定长度的数据。这样做的理论基础是计算机科学中众所周知的本地原理：</p>
+<blockquote>
+<p>关于 MySQL 数据索引是如何实现的，可以参考这篇文章：<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/77830">https://time.geekbang.org/column/article/77830</a></p>
+</blockquote>
+<h3 id="B-Tree"><a href="#B-Tree" class="headerlink" title="B-Tree"></a>B-Tree</h3><p>B-Tree 实际上也是一颗 m 叉平衡查找树</p>
+<p><a target="_blank" rel="noopener" href="https://generalthink.github.io/images/java/B-Tree.png"><img src="../img/B-Tree.png" alt="B-Tree"></a></p>
+<p><a target="_blank" rel="noopener" href="https://generalthink.github.io/images/java/B-Tree.png">B-Tree</a></p>
+<ol>
+<li>所有的 key 值分布在整个树中</li>
+<li>所有的 key 值出现在一个节点中</li>
+<li>搜索可以在非叶子节点处结束</li>
+<li>在完整的关键字搜索过程中，性能接近二分搜索。</li>
+</ol>
+<h3 id="B-树和-B-树之间的区别"><a href="#B-树和-B-树之间的区别" class="headerlink" title="B 树和 B + 树之间的区别"></a>B 树和 B + 树之间的区别</h3><ol>
+<li>B + 树中的非叶子节点不存储数据，并且存储在叶节点中的所有数据使得查询时间复杂度固定为 log n。</li>
+<li>B 树查询时间的复杂度不是固定的，它与键在树中的位置有关，最好是 O（1）。</li>
+<li>由于 B + 树的叶子节点是通过双向链表链接的，所以支持范围查询，且效率比 B 树高</li>
+<li>B 树每个节点的键和数据是一起的</li>
+</ol>
+<h3 id="为什么-MongoDB-使用-B-Tree-Mysql-使用-B-Tree"><a href="#为什么-MongoDB-使用-B-Tree-Mysql-使用-B-Tree" class="headerlink" title="为什么 MongoDB 使用 B-Tree,Mysql 使用 B+Tree ?"></a>为什么 MongoDB 使用 B-Tree,Mysql 使用 B+Tree ?</h3><p>B + 树中的非叶子节点不存储数据，并且存储在叶节点中的所有数据使得查询时间复杂度固定为 log n。B 树查询时间复杂度不是固定的，它与键在树中的位置有关，最好是 O (1)。</p>
+<p><strong>我们已经说过，尽可能少的磁盘 IO 是提高性能的有效方法。MongoDB 是一个聚合数据库，而 B 树恰好是键域和数据域的集群。</strong></p>
+<p>至于为什么 MongoDB 使用 B 树而不是 B + 树，可以从其设计的角度考虑它。<br>MongoDB 不是传统的关系数据库，而是以 BSON 格式 (可以认为是 JSON) 存储的 nosql。目的是高性能，高可用性和易于扩展。</p>
+<p>Mysql 是关系型数据库，最常用的是数据遍历操作 (join)，而 MongoDB 它的数据更多的是聚合过的数据，不像 Mysql 那样表之间的关系那么强烈，因此 MongoDB 更多的是单个查询。</p>
+<p>由于 Mysql 使用 B + 树，数据在叶节点上，叶子节点之间又通过双向链表连接，更加有利于数据遍历，而 MongoDB 使用 B 树，所有节点都有一个数据字段。只要找到指定的索引，就可以对其进行访问。毫无疑问，单个查询 MongoDB 平均查询速度比 Mysql 快。</p>
+<h3 id="Hash-索引"><a href="#Hash-索引" class="headerlink" title="Hash 索引"></a>Hash 索引</h3><p>简而言之，哈希索引使用某种哈希算法将键值转换为新的哈希值。不需要像 B + 树那样从根节点到叶节点逐步搜索。只需要一种哈希算法，就可以立即找到对应的位置，速度非常快。(此处可以想想 Java 中的 HashMap)。</p>
+<h4 id="B-树索引和-Hash-索引的区别"><a href="#B-树索引和-Hash-索引的区别" class="headerlink" title="B + 树索引和 Hash 索引的区别"></a>B + 树索引和 Hash 索引的区别</h4><ol>
+<li><p>如果是等价查询，则哈希索引显然具有绝对优势，因为只需一种算法即可找到相应的键值；当然，前提是键值是唯一的，如果存在 hash 冲突就必须链表遍历了。</p>
+</li>
+<li><p>哈希索引不支持范围查询 (不过改造之后可以，Java 中的 LinkedHashMap 通过链表保存了节点的插入顺序，那么也可以使用链表将数据的大小顺序保存起来)</p>
+<blockquote>
+<p>这样做虽然支持了范围查询但是时间复杂度是 O (n), 效率比跳表和 B+Tree 差</p>
+</blockquote>
+</li>
+<li><p>哈希索引无法使用索引排序以及模糊匹配</p>
+</li>
+<li><p>哈希索引也不支持多列联合索引的最左边匹配规则。</p>
+</li>
+<li><p>键值大量冲突的情况下，Hash 索引效率极低</p>
+</li>
+</ol>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-think-about-cluster" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2525ce5c.html" class="article-date">
+      <time datetime="2021-10-15T02:33:48.000Z" itemprop="datePublished">2021-10-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2525ce5c.html">think-about-cluster</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>分布式集群</p>
+<p>分布式: 即拆分原有的功能,避免冗余和服务的耦合</p>
+<p>集群: 提供多台服务避免单点故障</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>分布式集群</p>
+<p>分布式: 即拆分原有的功能,避免冗余和服务的耦合</p>
+<p>集群: 提供多台服务避免单点故障</p>
+<p>使用分布式集群好处很多 避免某个服务出问题服务不受影响,同时提供多台性能没那么强的数据也成本更低,数据的分块和副本也能最大程度减少数据的丢失,<strong>单机io瓶颈</strong></p>
+<p>坏处就是: 开发成本 超时等待,不同节点数据的同步,分布式事务,grpc接口的各种可能情况</p>
+<p>通常会有3个以上的节点,数据过来会被分块和创建副本,同时会有选取机制或者是专门的服务负责协调数据的同步和客户端访问具体的数据节点</p>
+<p>下面举出比较有特点的分布式服务</p>
+<table>
+<thead>
+<tr>
+<th><strong>elasticsearch</strong></th>
+<th><strong>kafka</strong></th>
+<th><strong>hbase</strong></th>
+<th><strong>zookeeper</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>节点 datandoe coordinate数据 doc数据集 index数据分块 shard</td>
+<td>节点 broke数据 message数据集 topic数据集分块 partition replica例外消费者comsumer生产者 producter消费者组 comsumer-group元数据保存在zookeeper上</td>
+<td>节点 datanode数据</td>
+<td>节点 node选举半数以上有个master,存储元数据leaderfollower</td>
+</tr>
+<tr>
+<td>index：对外暴露的搜索单元，由一系列的shard组成。shard：es实际执行的单元，开始针对索引的写入和查询，都会拆分为segment：es里面完整的索引集合，由document和索引文件document：对应一天天数据translog: 事务日志</td>
+<td></td>
+<td>table：由多行数据组成region：由很多store组成，有多少个列族就有多少个storeStore: 由Memstore和StoreFile组成，一个列簇对应一个Store，包含在内存中的Memstore以及持久化到hdfs里的多个HFile，StoreFile的底层就是HFile，它是HFile的一个轻量级封装row, column, cell: 一个row由rowKey和多个column及其对应值组成，一张表的所有row都按rowkey的字典序由小到大排序，column由columnFamily和Qualifier组成，cell是row, column, timestamp, type, value等组成。HLog: 类似于ES的Translog，主要也是用于数据的恢复。</td>
+<td></td>
+</tr>
+<tr>
+<td>merge 索引 merge 分块</td>
+<td>rebalance 消费者rebalance topic 的推送</td>
+<td>为什么hbase会有列族 可以没有严格限定列的格式就是因为 hbase的</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>下面是补充</p>
+<h2 id="分布式系统常见异常问题"><a href="#分布式系统常见异常问题" class="headerlink" title="分布式系统常见异常问题"></a>分布式系统常见异常问题</h2><ul>
+<li><p>通信异常：网络不可用（消息延迟或者丢失），会导致分布式系统内部无法顺利进行一次网络通信进行沟通协调，所以可能造成多节点数据丢失和 状态不一致，还有可能造成数据乱序。解决方案：重试机制</p>
+</li>
+<li><p>网络分区：网络不连通，但各个子网络的内部网络是正常的，从而导致整个系统的网络环境被切分成了若干个孤立的区域，分布式系统就会出现局 部小集群造成数据不一致。解决方案：把数据状态不是最新的给下线掉</p>
+</li>
+<li><p>节点故障/机器宕机：服务器节点出现的宕机或”僵死”现象，这是常态，而不是异常。解决方案：数据副本协议，异步复制</p>
+</li>
+<li><p>分布式三态：即成功、失败和超时，分布式环境中的网络通信请求发送和结果响应都有可能丢失，所以请求发起方无法确定消息是否处理成功。分 布式系统的可用性：在用户能忍受的时间范围内，一定给出响应！解决方案：超时处理</p>
+</li>
+<li><p>存储数据丢失：对于有状态节点来说，数据丢失意味着状态丢失，通常只能从其他节点读取、恢复存储的状态。解决方案：副本协议</p>
+</li>
+</ul>
+<h2 id="2-3-分布式系统性能指标"><a href="#2-3-分布式系统性能指标" class="headerlink" title="2.3 分布式系统性能指标"></a>2.3 分布式系统性能指标</h2><ul>
+<li><p><strong>性能</strong>：下面三个性能指标（吞吐，延迟，并发）往往会相互制约，追求高吞吐的系统，往往很难做到低延迟；系统平均响应时间较长时，也很难提高 QPS。<em>系统的吞吐能力，指系统在某一时间可以处理的数据/请求总量，通常可以用系统每秒处理的总数据/总请求量来衡量； 系统的响应延迟，指系统完成某一功能需要使用的时间； 系统的并发能力，指系统可以同时完成某一功能的能力，通常也用QPS(query per second)来衡量。</em></p>
+</li>
+<li><p><strong>可用性</strong>：系统的可用性（availability）指系统在面对各种异常时可以正确提供服务的能力。系统的可用性可以用系统停服务的时间与正常服务的时间 的比例来衡量，也可以用某功能的失败次数与成功次数的比例来衡量。可用性是分布式的重要指标，衡量了系统的鲁棒性，是系统容错能力的体现。（5 个 9 的可靠性：一年只有 5 分钟的宕机时间！6 个 9 的可靠性，也就是 31 秒，99.9999%）</p>
+</li>
+<li><p><strong>可扩展性</strong>：系统的可扩展性（scalability）指分布式系统通过扩展集群机器规模提高系统性能（吞吐、延迟、并发）、存储容量、计算能力的特性。好 的分布式系统总在追求 “线性扩展性”，也就是使得系统的某一指标可以随着集群中的机器数量线性增长。最期望的情况：动态热部署</p>
+</li>
+<li><p><strong>一致性</strong>：分布式系统为了提高可用性，总是不可避免的使用副本的机制，从而引发副本一致性的问题。越是强的一致性的模型，对于用户使用来说使 用起来越简单。</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://luochong.online/2021/06/11/ZooKeeper%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%88%86%E6%9E%90/">ZooKeeper架构设计分析/</a></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-think-about-data-structure" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1004,447 +1762,9 @@
 
 
   
-    <article id="post-sso-auth2-jwt" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/8ad614a9.html" class="article-date">
-      <time datetime="2021-08-12T02:40:15.000Z" itemprop="datePublished">2021-08-12</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/8ad614a9.html">sso-auth2-jwt</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://www.zoucz.com/blog/2020/01/06/83f05da0-307b-11ea-90b5-eb40e9720ed0/">https://www.zoucz.com/blog/2020/01/06/83f05da0-307b-11ea-90b5-eb40e9720ed0/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cjsblog/p/10548022.html">https://www.cnblogs.com/cjsblog/p/10548022.html</a> 项目的实例地址<br>参考地址 </p>
-<h2 id="关于单点登录-sso-的介绍"><a href="#关于单点登录-sso-的介绍" class="headerlink" title="关于单点登录(sso)的介绍"></a>关于单点登录(sso)的介绍</h2><p>单点登录是一处登录,处处皆可以访问,但是要注意登录只是一部分还应该考虑权限,通常是4A (account , audio, authtation,) 账号,审计,权限,授权</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://www.zoucz.com/blog/2020/01/06/83f05da0-307b-11ea-90b5-eb40e9720ed0/">https://www.zoucz.com/blog/2020/01/06/83f05da0-307b-11ea-90b5-eb40e9720ed0/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cjsblog/p/10548022.html">https://www.cnblogs.com/cjsblog/p/10548022.html</a> 项目的实例地址<br>参考地址 </p>
-<h2 id="关于单点登录-sso-的介绍"><a href="#关于单点登录-sso-的介绍" class="headerlink" title="关于单点登录(sso)的介绍"></a>关于单点登录(sso)的介绍</h2><p>单点登录是一处登录,处处皆可以访问,但是要注意登录只是一部分还应该考虑权限,通常是4A (account , audio, authtation,) 账号,审计,权限,授权</p>
-<p>目前通常的协议是</p>
-<table>
-<thead>
-<tr>
-<th>实现逻辑</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>LDPA(协议),windowOA</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>CAS</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>JWT</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>OAuth2</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<p>上述方法不是互斥是 </p>
-<h2 id="介绍实现单点登录的技术"><a href="#介绍实现单点登录的技术" class="headerlink" title="介绍实现单点登录的技术"></a>介绍实现单点登录的技术</h2><p>类似的认证的协议或者实现包括 ldpa,windowsoa ,jwt(使用它来生成口令)</p>
-<ul>
-<li><p>中心认证服务cas是利用认证服务器来专门做认证然后403来实现跳转</p>
-</li>
-<li><p>OAuth2 是利用应用注册+登录应用跳转+认证成功 通常大型互联网公司会提供自己的oauth的服务</p>
-<p>类似于QQ,微博,GitHub,google 授权给第三方去登录</p>
-</li>
-<li><p>引入jar包来实现 每个服务中的接口来统一但是这有一个问题就是只限于java的服务</p>
-</li>
-</ul>
-<h2 id="基于上述技术显示的方案和例子"><a href="#基于上述技术显示的方案和例子" class="headerlink" title="基于上述技术显示的方案和例子"></a>基于上述技术显示的方案和例子</h2><ul>
-<li>cas实现的方案技术  <a target="_blank" rel="noopener" href="https://www.apereo.org/projects/cas">https://www.apereo.org/projects/cas</a></li>
-</ul>
-<ul>
-<li><p>oauth的实现</p>
-<p><img src="../img/grants.min.svg" alt="img"></p>
-</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ue4-linux-runing" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/bec1def7.html" class="article-date">
-      <time datetime="2021-07-19T03:53:44.000Z" itemprop="datePublished">2021-07-19</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/bec1def7.html">ue4_linux_runing</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h1 id="linux环境运行虚幻运行和二进制包"><a href="#linux环境运行虚幻运行和二进制包" class="headerlink" title="linux环境运行虚幻运行和二进制包"></a>linux环境运行虚幻运行和二进制包</h1><p>后续补充 2021-12-15</p>
-<p><img src="../img/image-20211215101508814.png" alt="image-20211215101508814"></p>
-<p><img src="../img/image-20211215101555150.png" alt="image-20211215101555150"></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h1 id="linux环境运行虚幻运行和二进制包"><a href="#linux环境运行虚幻运行和二进制包" class="headerlink" title="linux环境运行虚幻运行和二进制包"></a>linux环境运行虚幻运行和二进制包</h1><p>后续补充 2021-12-15</p>
-<p><img src="../img/image-20211215101508814.png" alt="image-20211215101508814"></p>
-<p><img src="../img/image-20211215101555150.png" alt="image-20211215101555150"></p>
-<p><img src="../img/image-20211215101627944.png" alt="image-20211215101627944"></p>
-<p>不知道服务器谁重新安装了驱动,导致在nvidia-smi 显示的驱动和版本对不上</p>
-<h2 id="编译虚幻引擎"><a href="#编译虚幻引擎" class="headerlink" title="编译虚幻引擎"></a>编译虚幻引擎</h2><p>参考链接 <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.26/zh-CN/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/">https://docs.unrealengine.com/4.26/zh-CN/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/</a></p>
-<ol>
-<li><p>拉取虚幻引擎的代码这里需要在epic账号上关联github账号就可以看到prive权限</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/EpicGames/UnrealEngine.git">https://github.com/EpicGames/UnrealEngine.git</a></p>
-</li>
-<li><p>然后拉取代码 这个过程需要持续40分钟</p>
-</li>
-<li><p>进入到目录中安装，编译，打包环境</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//设置生成项目文件所需的文件。</span><br><span class="line">./Setup.sh</span><br><span class="line">//从终端运行 GenerateProjectFiles.sh 以生成项目文件</span><br><span class="line">./GenerateProjectFiles.sh</span><br><span class="line">要构建项目，从终端运行 make。</span><br><span class="line">make </span><br><span class="line"></span><br><span class="line">//运行打包好的程序</span><br><span class="line">./Engine/Binaries/Linux/UE4Editor</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<p>运行后环境一直报错</p>
-<p><img src="../img/image-20210719172623642.png" alt="image-20210719172623642"></p>
-<p>这个时候需要的步骤的</p>
-<p>网上很多都是用下面这个命令</p>
-<p>sudo add-apt-repository ppa:graphics-drivers/ppa &amp;&amp; sudo apt update</p>
-<blockquote>
-<p>sudo apt install nvidia-graphics-drivers-396 nvidia-settings vulkan vulkan-utils</p>
-</blockquote>
-<p>hwinfo –gfxcard 查看显卡的信息</p>
-<p>lspci | grep VGA 查询vga显示</p>
-<p><a target="_blank" rel="noopener" href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html">参考链接1</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qqcocobao/article/details/111467187?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522162268344716780366554143%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=162268344716780366554143&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_v2~rank_v29-15-111467187.first_rank_v2_pc_rank_v29&utm_term=PixelStreaming+&spm=1018.2226.3001.4187">参考链接2 </a></p>
-<p>ubuntu-drivers  devices</p>
-<p><img src="../img/image-20210719173533066.png" alt="image-20210719173533066"></p>
-<p>apt-get install nvidia-driver-460</p>
-<p>但会有问题 第一个就是 <strong>nvidia-graphics-drivers-396</strong>这个驱动找不到</p>
-<p>实际上是需要执行 </p>
-<p>需要等待nvidia-settings</p>
-<p><img src="../img/image-20210719115454584.png" alt="image-20210719115454584"></p>
-<p>不可点击</p>
-<p>驱动安装成功后</p>
-<p><img src="../img/image-20210719173846142.png" alt="image-20210719173846142"></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-google-voice-keep" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/18d2c52b.html" class="article-date">
-      <time datetime="2021-07-13T03:21:17.000Z" itemprop="datePublished">2021-07-13</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/18d2c52b.html">googlevoice保号，订阅广告短信和公共电话</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>转载 <a target="_blank" rel="noopener" href="https://www.80tm.com/2020/04/05/google-voice%E4%BF%9D%E5%8F%B7%E6%96%B9%E6%B3%95/">https://www.80tm.com/2020/04/05/google-voice%E4%BF%9D%E5%8F%B7%E6%96%B9%E6%B3%95/</a></p>
-<p>1、订阅促销短信。</p>
-<p>发送join 到 527365 ，然后要回复CC<br>先发 code 到 25666  然后回复 PROMO</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>转载 <a target="_blank" rel="noopener" href="https://www.80tm.com/2020/04/05/google-voice%E4%BF%9D%E5%8F%B7%E6%96%B9%E6%B3%95/">https://www.80tm.com/2020/04/05/google-voice%E4%BF%9D%E5%8F%B7%E6%96%B9%E6%B3%95/</a></p>
-<p>1、订阅促销短信。</p>
-<p>发送join 到 527365 ，然后要回复CC<br>先发 code 到 25666  然后回复 PROMO</p>
-<p>也可以查询美国沃尔玛和好市多的促销短信订阅方式。</p>
-<p>2.、打公共电话</p>
-<p>有点儿公共资源。。。建议打个机器人试试就好了。</p>
-<p>美国亚马逊免费客服热线：+1（888）280-4331</p>
-<p>美国微软激活Windows免费电话：+1（888）571-2048</p>
-<p>同时可查询其它美国大型公司的客服电话，注意IPhone是人工客服。</p>
-<p>3、自定义电话</p>
-<p>用IFTTT的定时服务定期拨打电话给你即可，这里推荐两个service</p>
-<p>Keep Google Voice Active 一个月拨打一次，可自定义时间和日期（搜索Keep Gooogle Voice Active）</p>
-<p>Alarm Clock Phone Call 强迫症福利，可自定义拨打频率、时间</p>
-<p>4、30美金转成永久<br>这里看<br><a target="_blank" rel="noopener" href="https://www.googlevoice.cn/buy-permanent-use/">https://www.googlevoice.cn/buy-permanent-use/</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-pgsql-json-function" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/fd4a70cc.html" class="article-date">
-      <time datetime="2021-07-08T07:41:36.000Z" itemprop="datePublished">2021-07-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/fd4a70cc.html">常见的postgresql的函数</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="http://www.postgres.cn/docs/10/functions-json.html">http://www.postgres.cn/docs/10/functions-json.html</a>   命令</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 通过 数据函数来操作 字符串属性</span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>,<span class="string">&#x27;&#123;addition,z&#125;&#x27;</span>,<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">UPDATE</span> snspdw_position <span class="keyword">SET</span> <span class="keyword">content</span>= (jsonb_set(<span class="keyword">content</span>::jsonb,<span class="string">&#x27;&#123;directorytypecode&#125;&#x27;</span>,<span class="string">&#x27;&quot;947998009457774691&quot;&#x27;</span>::jsonb))</span><br><span class="line"></span><br><span class="line">//updata 字符串数据</span><br><span class="line"><span class="keyword">UPDATE</span> biz_object <span class="keyword">set</span> confjson = (jsonb_set(confjson::jsonb,<span class="string">&#x27;&#123;directorytypecode&#125;&#x27;</span>,<span class="string">&#x27;&quot;947998009457774691&quot;&#x27;</span>::jsonb)),directorytypecode = <span class="string">&#x27;947998009457774691&#x27;</span></span><br><span class="line">	<span class="keyword">where</span> modelcode = <span class="string">&#x27;829609839767532682&#x27;</span> <span class="keyword">and</span> objectcode = <span class="string">&#x27;948118654552248419&#x27;</span>;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 根据 官网提供的实例测试</span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;a&quot;:[null,&#123;&quot;b&quot;:[1,2]&#125;]&#125;&#x27;</span>, <span class="string">&#x27;&#123;a,1,b,1000&#125;&#x27;</span>, jsonb <span class="string">&#x27;3&#x27;</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">version</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>, <span class="string">&#x27;$.payFundAcc.addition.z&#x27;</span>, <span class="string">&#x27;3&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;<span class="string">&quot;tel&quot;</span>: <span class="number">13249872314</span>, <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Mike&quot;</span>, <span class="string">&quot;address&quot;</span>: <span class="string">&quot;Guangzhou&quot;</span>&#125;  json_set(<span class="keyword">data</span>,<span class="string">&quot;&#123;address&#125;&quot;</span>,<span class="string">&quot;Guangzhou&quot;</span>) </span><br><span class="line"> <span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;tel&quot;: 13249872314, &quot;name&quot;: &quot;Mike&quot;, &quot;address&quot;: &quot;Guangzhou&quot;&#125;&#x27;</span>,<span class="string">&#x27;&#123;address&#125;&#x27;</span>,<span class="string">&#x27;&quot;hahah&quot;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"> <span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>,<span class="string">&#x27;&#123;addition,z&#125;&#x27;</span>,<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">SELECT</span> <span class="string">&#x27;&#123;&quot;tel&quot;: 13249872314, &quot;name&quot;: &quot;Mike&quot;, &quot;address&quot;: &quot;Guangzhou&quot;&#125;&#x27;</span>::jsonb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="http://www.postgres.cn/docs/10/functions-json.html">http://www.postgres.cn/docs/10/functions-json.html</a>   命令</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 通过 数据函数来操作 字符串属性</span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>,<span class="string">&#x27;&#123;addition,z&#125;&#x27;</span>,<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">UPDATE</span> snspdw_position <span class="keyword">SET</span> <span class="keyword">content</span>= (jsonb_set(<span class="keyword">content</span>::jsonb,<span class="string">&#x27;&#123;directorytypecode&#125;&#x27;</span>,<span class="string">&#x27;&quot;947998009457774691&quot;&#x27;</span>::jsonb))</span><br><span class="line"></span><br><span class="line">//updata 字符串数据</span><br><span class="line"><span class="keyword">UPDATE</span> biz_object <span class="keyword">set</span> confjson = (jsonb_set(confjson::jsonb,<span class="string">&#x27;&#123;directorytypecode&#125;&#x27;</span>,<span class="string">&#x27;&quot;947998009457774691&quot;&#x27;</span>::jsonb)),directorytypecode = <span class="string">&#x27;947998009457774691&#x27;</span></span><br><span class="line">	<span class="keyword">where</span> modelcode = <span class="string">&#x27;829609839767532682&#x27;</span> <span class="keyword">and</span> objectcode = <span class="string">&#x27;948118654552248419&#x27;</span>;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 根据 官网提供的实例测试</span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;a&quot;:[null,&#123;&quot;b&quot;:[1,2]&#125;]&#125;&#x27;</span>, <span class="string">&#x27;&#123;a,1,b,1000&#125;&#x27;</span>, jsonb <span class="string">&#x27;3&#x27;</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">version</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>, <span class="string">&#x27;$.payFundAcc.addition.z&#x27;</span>, <span class="string">&#x27;3&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;<span class="string">&quot;tel&quot;</span>: <span class="number">13249872314</span>, <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Mike&quot;</span>, <span class="string">&quot;address&quot;</span>: <span class="string">&quot;Guangzhou&quot;</span>&#125;  json_set(<span class="keyword">data</span>,<span class="string">&quot;&#123;address&#125;&quot;</span>,<span class="string">&quot;Guangzhou&quot;</span>) </span><br><span class="line"> <span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;tel&quot;: 13249872314, &quot;name&quot;: &quot;Mike&quot;, &quot;address&quot;: &quot;Guangzhou&quot;&#125;&#x27;</span>,<span class="string">&#x27;&#123;address&#125;&#x27;</span>,<span class="string">&#x27;&quot;hahah&quot;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"> <span class="keyword">SELECT</span> jsonb_set(<span class="string">&#x27;&#123;&quot;rtime&quot;:&quot;2021-6-15 08:59:44&quot;,&quot;objid&quot;:&quot;001&quot;,&quot;addition&quot;:&#123;&quot;x&quot;:114.5379008,&quot;y&quot;:30.4835323,&quot;z&quot;:0&#125;&#125;&#x27;</span>,<span class="string">&#x27;&#123;addition,z&#125;&#x27;</span>,<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">SELECT</span> <span class="string">&#x27;&#123;&quot;tel&quot;: 13249872314, &quot;name&quot;: &quot;Mike&quot;, &quot;address&quot;: &quot;Guangzhou&quot;&#125;&#x27;</span>::jsonb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/12/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/14/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/12/"> 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/14/">下一页 </a>
     </nav>
   
 </div>

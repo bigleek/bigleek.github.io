@@ -269,6 +269,404 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-记录这段时间账号异常" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/c65c8915.html" class="article-date">
+      <time datetime="2024-08-03T00:44:45.000Z" itemprop="datePublished">2024-08-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/c65c8915.html">记录这段时间账号异常</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <p><img src="../img/image-20240803084457424.png" alt="image-20240803084457424"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mybtatis对应typehandler的操作" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/a29432cf.html" class="article-date">
+      <time datetime="2024-07-14T06:19:23.000Z" itemprop="datePublished">2024-07-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/a29432cf.html">Mybatis对应typehandler的操作</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>Mybatis在操作 非基础的 Java 对象的时候提供 Type handle 转换类似于字符串转换成 Java 对象,类似 JPA 的 ORM</p>
+<p>TypeHandler 是 MyBatis 中用于处理 Java 类型和数据库类型之间转换的接口。通过自定义 TypeHandler，可以实现特定类型的转换逻辑，从而使得 MyBatis 在处理复杂类型时更加灵活。</p>
+<p>TypeHandler 是 MyBatis 中用于处理 Java 类型和数据库类型之间转换的接口。通过自定义 TypeHandler，可以实现特定类型的转换逻辑，从而使得 MyBatis 在处理复杂类型时更加灵活。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>Mybatis在操作 非基础的 Java 对象的时候提供 Type handle 转换类似于字符串转换成 Java 对象,类似 JPA 的 ORM</p>
+<p>TypeHandler 是 MyBatis 中用于处理 Java 类型和数据库类型之间转换的接口。通过自定义 TypeHandler，可以实现特定类型的转换逻辑，从而使得 MyBatis 在处理复杂类型时更加灵活。</p>
+<p>TypeHandler 是 MyBatis 中用于处理 Java 类型和数据库类型之间转换的接口。通过自定义 TypeHandler，可以实现特定类型的转换逻辑，从而使得 MyBatis 在处理复杂类型时更加灵活。</p>
+<h2 id="如何自定义-TypeHandler"><a href="#如何自定义-TypeHandler" class="headerlink" title="如何自定义 TypeHandler"></a>如何自定义 TypeHandler</h2><p>创建自定义 TypeHandler 的步骤如下：</p>
+<ol>
+<li><strong>实现 TypeHandler 接口</strong>：首先创建一个类并实现 <code>org.apache.ibatis.type.TypeHandler</code> 接口。</li>
+<li><strong>重写接口方法</strong>：你需要实现四个方法：<code>setParameter</code>、<code>getResult</code> (有三个重载形式)。</li>
+<li><strong>注册 TypeHandler</strong>：在 MyBatis 配置文件中注册自定义的 TypeHandler，或者在 Mapper 文件中指定使用该 TypeHandler。</li>
+</ol>
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p>下面是一个简单的示例，展示如何将字符串类型转换为自定义的 Java 对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomTypeHandler</span> <span class="keyword">implements</span> <span class="title">TypeHandler</span>&lt;<span class="title">CustomType</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setParameter</span><span class="params">(PreparedStatement ps, <span class="keyword">int</span> i, CustomType parameter, JdbcType jdbcType)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        ps.setString(i, parameter.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CustomType <span class="title">getResult</span><span class="params">(ResultSet rs, String columnName)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        String columnValue = rs.getString(columnName);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CustomType(columnValue);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CustomType <span class="title">getResult</span><span class="params">(ResultSet rs, <span class="keyword">int</span> columnIndex)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        String columnValue = rs.getString(columnIndex);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CustomType(columnValue);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CustomType <span class="title">getResult</span><span class="params">(CallableStatement cs, <span class="keyword">int</span> columnIndex)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        String columnValue = cs.getString(columnIndex);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CustomType(columnValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="在-MyBatis-配置文件中注册"><a href="#在-MyBatis-配置文件中注册" class="headerlink" title="在 MyBatis 配置文件中注册"></a>在 MyBatis 配置文件中注册</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">typeHandlers</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">typeHandler</span> <span class="attr">handler</span>=<span class="string">&quot;com.example.CustomTypeHandler&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">typeHandlers</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="在-configBean下配置"><a href="#在-configBean下配置" class="headerlink" title="在 configBean下配置"></a>在 configBean下配置</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">通过配置注入我们设定的类型处理</span><br></pre></td></tr></table></figure>
+
+<p>通过以上步骤，你可以实现自定义的 TypeHandler，并在 MyBatis 中灵活地处理复杂类型的数据转换。</p>
+<p>但是对于 Map&lt;K,V&gt;这种格式的数据需要单独配置后解析所有的 map</p>
+<p>需要定义一个</p>
+<p>private final Type MAP_TYPE;</p>
+<p>public MybatisMapTypeHandler() {</p>
+<p>​    this.MAP_TYPE = new TypeToken&lt;Map&lt;K, V&gt;&gt;() {</p>
+<p>​    }.getType();</p>
+<p>}</p>
+<p>否则建了多个 map的 typehand会报错,如果不用 </p>
+<p>private final Type MAP_TYPE; 来接可能对于复杂的的 map&lt;key,value&lt;List<Clazz11>&gt;&gt;这种可能会解析的不一样,</p>
+<p>这里我使用 gson 来解析.</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-流式读取支持拓展" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/21ffe189.html" class="article-date">
+      <time datetime="2024-07-14T06:18:25.000Z" itemprop="datePublished">2024-07-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/21ffe189.html">流式读取支持拓展</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>在 Java 中有 URL 这个类原生支持读取 HTTP,HTTPS,FTP 的链接数据</p>
+<p>，但有时候我们需要支持更多协议，比如 SFTP 或者自定义的协议。</p>
+<h1 id="URL-流式读取支持拓展"><a href="#URL-流式读取支持拓展" class="headerlink" title="URL 流式读取支持拓展"></a>URL 流式读取支持拓展</h1><p>在 Java 中有 URL 这个类原生支持读取 HTTP, HTTPS, FTP 的链接数据，但有时候我们需要支持更多协议，比如 SFTP 或者自定义的协议。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>在 Java 中有 URL 这个类原生支持读取 HTTP,HTTPS,FTP 的链接数据</p>
+<p>，但有时候我们需要支持更多协议，比如 SFTP 或者自定义的协议。</p>
+<h1 id="URL-流式读取支持拓展"><a href="#URL-流式读取支持拓展" class="headerlink" title="URL 流式读取支持拓展"></a>URL 流式读取支持拓展</h1><p>在 Java 中有 URL 这个类原生支持读取 HTTP, HTTPS, FTP 的链接数据，但有时候我们需要支持更多协议，比如 SFTP 或者自定义的协议。</p>
+<h2 id="自定义协议处理器"><a href="#自定义协议处理器" class="headerlink" title="自定义协议处理器"></a>自定义协议处理器</h2><p>为了支持更多协议，我们可以创建自定义的 URLStreamHandler。Java 提供了 URLStreamHandler 类，我们可以通过继承这个类并实现它的抽象方法来处理自定义协议。</p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li><strong>创建自定义的 URLStreamHandler</strong>: 继承 URLStreamHandler 类并实现 openConnection 方法。</li>
+<li><strong>注册自定义的 URLStreamHandler</strong>: 在系统属性中注册我们的自定义协议处理器。</li>
+<li><strong>使用自定义协议</strong>: 现在我们可以像使用普通的 URL 一样来使用自定义的协议。</li>
+</ol>
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p>以下是一个简单的例子，展示如何创建和使用自定义的 URLStreamHandler 来处理 SFTP 协议。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.net.URLConnection;</span><br><span class="line"><span class="keyword">import</span> java.net.URLStreamHandler;</span><br><span class="line"><span class="keyword">import</span> java.net.URLStreamHandlerFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SFTPHandler</span> <span class="keyword">extends</span> <span class="title">URLStreamHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> URLConnection <span class="title">openConnection</span><span class="params">(URL url)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">// 在这里实现 SFTP 连接逻辑</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SFTPURLConnection(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 注册自定义的 URLStreamHandler</span></span><br><span class="line">        URL.setURLStreamHandlerFactory(<span class="keyword">new</span> URLStreamHandlerFactory() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> URLStreamHandler <span class="title">createURLStreamHandler</span><span class="params">(String protocol)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="string">&quot;sftp&quot;</span>.equals(protocol)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> SFTPHandler();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用自定义的 SFTP 协议</span></span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;sftp://example.com/path/to/file&quot;</span>);</span><br><span class="line">        URLConnection connection = url.openConnection();</span><br><span class="line">        <span class="comment">// 继续处理连接...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li><strong>线程安全</strong>: 确保自定义的 URLStreamHandler 是线程安全的。</li>
+<li><strong>错误处理</strong>: 在实现自定义协议时，处理可能出现的各种异常情况。</li>
+<li><strong>性能考虑</strong>: 优化连接和数据传输的性能，尤其是在处理大型文件或高并发场景时。</li>
+<li>对于引入了 springmvc模块的服务,需要注意 tomcat 实现了这个方法需要我们处理下URL.setURLStreamHandlerFactory</li>
+</ol>
+<p>通过以上步骤，我们可以方便地扩展 Java 的 URL 支持，让其能够处理更多的协议类型，满足更复杂的需求。</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-对象池及其学习common-pool2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/d3e6d00c.html" class="article-date">
+      <time datetime="2024-07-14T06:18:05.000Z" itemprop="datePublished">2024-07-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/d3e6d00c.html">对象池及其学习common-pool2</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>关于使用 Apache 下的 commons-pools 可以实现对象的池化对于经常需要重复使用不想重复创建的对象,同时提供自动调用和维护的方法来维持对象的存活,它通过使用对象池来提高性能和资源利用率，特别是在需要频繁创建和销毁对象的场景中。</p>
+<p>对于当前很多需要使用一些 SDK 来对接的一些服务来说就很方便对于对象存储的 SDK 来说其实对于的 SDK 提供了保活,只需要根据对接的服务来调用已经创建的客户端实例就可以,但是本次项目需要对接 SFTP,FTP的数据源,都是偏底层的服务,在使用过程中,需要使用客户端来创建 session 来进行通讯,而且创建 session 的过程。s</p>
+<p>相对较为耗时，为了提高整体系统性能，我们需要使用对象池来管理这些客户端实例,这样一来，我们可以显著减少客户端实例的创建和销毁次数，从而提高系统的响应速度和资源利用率。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>关于使用 Apache 下的 commons-pools 可以实现对象的池化对于经常需要重复使用不想重复创建的对象,同时提供自动调用和维护的方法来维持对象的存活,它通过使用对象池来提高性能和资源利用率，特别是在需要频繁创建和销毁对象的场景中。</p>
+<p>对于当前很多需要使用一些 SDK 来对接的一些服务来说就很方便对于对象存储的 SDK 来说其实对于的 SDK 提供了保活,只需要根据对接的服务来调用已经创建的客户端实例就可以,但是本次项目需要对接 SFTP,FTP的数据源,都是偏底层的服务,在使用过程中,需要使用客户端来创建 session 来进行通讯,而且创建 session 的过程。s</p>
+<p>相对较为耗时，为了提高整体系统性能，我们需要使用对象池来管理这些客户端实例,这样一来，我们可以显著减少客户端实例的创建和销毁次数，从而提高系统的响应速度和资源利用率。</p>
+<h2 id="对象池的其他使用场景"><a href="#对象池的其他使用场景" class="headerlink" title="对象池的其他使用场景"></a>对象池的其他使用场景</h2><p>除了管理 SFTP、FTP 等底层服务的客户端实例，对象池在以下场景中也非常有用：</p>
+<ol>
+<li><strong>数据库连接池</strong>：通过池化数据库连接，可以减少连接建立和关闭的开销，提高数据库操作的性能。</li>
+<li><strong>线程池</strong>：线程池用于管理工作线程，避免频繁创建和销毁线程，从而提高并发处理能力。</li>
+<li><strong>缓存对象池</strong>：在高频率访问的场景中，通过池化缓存对象可以减少内存分配和垃圾回收的压力。</li>
+<li><strong>网络连接池</strong>：池化网络连接可以提高网络通信的效率，特别是在高并发访问的场景中。</li>
+</ol>
+<h2 id="常见问题及解决方案"><a href="#常见问题及解决方案" class="headerlink" title="常见问题及解决方案"></a>常见问题及解决方案</h2><p>虽然对象池可以显著提高性能，但在使用过程中也可能遇到一些问题：</p>
+<h3 id="1-对象泄漏"><a href="#1-对象泄漏" class="headerlink" title="1. 对象泄漏"></a>1. 对象泄漏</h3><p>如果某些对象没有归还到池中，就会导致对象泄漏，从而影响池的可用性。解决方法是确保在任何情况下都能正确归还对象，最好使用 <code>try-finally</code> 或者 <code>try-with-resources</code> 语句来管理对象的借用和归还。</p>
+<h3 id="2-对象池配置不当"><a href="#2-对象池配置不当" class="headerlink" title="2. 对象池配置不当"></a>2. 对象池配置不当</h3><p>不合理的池配置可能会导致资源浪费或不足。例如，池的最大对象数设置过大可能会占用过多的内存，而设置过小则可能无法满足高并发需求。解决方法是根据实际需求和性能测试结果来调整配置参数。</p>
+<h3 id="3-对象的有效性"><a href="#3-对象的有效性" class="headerlink" title="3. 对象的有效性"></a>3. 对象的有效性</h3><p>池化的对象在借用和归还之间可能会失效，例如网络连接中断等。解决方法是实现对象的验证逻辑，在每次借用对象时进行有效性检查，如果对象无效则重新创建。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="如何使用-commons-pool2"><a href="#如何使用-commons-pool2" class="headerlink" title="如何使用 commons-pool2"></a>如何使用 commons-pool2</h2><p>要使用 commons-pool2，首先需要在项目中添加相关的依赖。对于使用 Maven 的项目，可以在 <code>pom.xml</code> 文件中添加以下依赖项：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-pool2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.11.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建对象池"><a href="#创建对象池" class="headerlink" title="创建对象池"></a>创建对象池</h3><p>接下来，需要创建一个对象池。以下是一个简单的示例，展示了如何创建一个字符串对象池：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.pool2.PooledObject;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.pool2.PooledObjectFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.pool2.impl.DefaultPooledObject;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.pool2.impl.GenericObjectPool;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.pool2.impl.GenericObjectPoolConfig;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StringFactory</span> <span class="keyword">implements</span> <span class="title">PooledObjectFactory</span>&lt;<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PooledObject&lt;String&gt; <span class="title">makeObject</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DefaultPooledObject&lt;&gt;(<span class="keyword">new</span> String(<span class="string">&quot;Pooled String&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroyObject</span><span class="params">(PooledObject&lt;String&gt; p)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// No specific destruction needed for String</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">validateObject</span><span class="params">(PooledObject&lt;String&gt; p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> p.getObject() != <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">activateObject</span><span class="params">(PooledObject&lt;String&gt; p)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// No activation needed for String</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">passivateObject</span><span class="params">(PooledObject&lt;String&gt; p)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// No passivation needed for String</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PoolExample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        GenericObjectPoolConfig&lt;String&gt; config = <span class="keyword">new</span> GenericObjectPoolConfig&lt;&gt;();</span><br><span class="line">        config.setMaxTotal(<span class="number">10</span>); <span class="comment">// 设置池中最多可存在的对象数</span></span><br><span class="line">        GenericObjectPool&lt;String&gt; pool = <span class="keyword">new</span> GenericObjectPool&lt;&gt;(<span class="keyword">new</span> StringFactory(), config);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            String pooledString = pool.borrowObject();</span><br><span class="line">            System.out.println(pooledString);</span><br><span class="line">            pool.returnObject(pooledString);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            pool.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置对象池"><a href="#配置对象池" class="headerlink" title="配置对象池"></a>配置对象池</h3><p>commons-pool2 提供了多种配置选项，可以根据具体需求进行调整。例如，可以设置池中对象的最大数目、最小空闲数目、最大空闲数目、对象的最大存活时间等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GenericObjectPoolConfig&lt;String&gt; config = <span class="keyword">new</span> GenericObjectPoolConfig&lt;&gt;();</span><br><span class="line">config.setMaxTotal(<span class="number">10</span>);</span><br><span class="line">config.setMinIdle(<span class="number">2</span>);</span><br><span class="line">config.setMaxIdle(<span class="number">5</span>);</span><br><span class="line">config.setMaxWaitMillis(<span class="number">3000</span>); <span class="comment">// 最大等待时间</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="处理池中的对象"><a href="#处理池中的对象" class="headerlink" title="处理池中的对象"></a>处理池中的对象</h3><p>从对象池中借用和归还对象时，应该始终使用 <code>borrowObject</code> 和 <code>returnObject</code> 方法。这有助于确保对象的正确管理，并避免资源泄漏。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String pooledString = pool.borrowObject();</span><br><span class="line"><span class="comment">// 使用对象</span></span><br><span class="line">pool.returnObject(pooledString);</span><br></pre></td></tr></table></figure>
+
+<p>通过合理配置和使用 commons-pool2，可以显著提高应用程序的性能和资源利用率，特别是在高并发和频繁对象创建的场景中。</p>
+<p>ftp 的操作示例: <a target="_blank" rel="noopener" href="https://commons.apache.org/proper/commons-net/apidocs/org/apache/commons/net/ftp/FTPClient.html">https://commons.apache.org/proper/commons-net/apidocs/org/apache/commons/net/ftp/FTPClient.html</a>,</p>
+<p>sftp使用jsch 来链接 首先</p>
+<blockquote>
+<p>JSch jsch = new JSch();<br> Session session = jsch.getSession(username, host, port);<br>session.setPassword(password);<br>session.setConfig(“StrictHostKeyChecking”, “no”);<br>session.connect();</p>
+<p>ChannelSftp channelSftp = null;</p>
+<p>Channel channel = session.openChannel(“sftp”);<br> channel.connect();<br>channelSftp = (ChannelSftp) channel;</p>
+<p>return channelSftp;</p>
+</blockquote>
+<p>Tips:注意事项</p>
+<ul>
+<li>ftpclient的客户端底层是利用 socket 来通讯的,所以如果读取文件流需要调用 <a target="_blank" rel="noopener" href="https://commons.apache.org/proper/commons-net/apidocs/org/apache/commons/net/ftp/FTPClient.html#completePendingCommand()">completePendingCommand</a>()</li>
+<li>sftp我们需要池化的是 session 每次下载文件的时候需要重新创建 session.</li>
+<li></li>
+</ul>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-google算法更新" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -491,10 +889,10 @@
 
 
   
-    <article id="wrap-启动" class="article article-type-wrap" itemscope itemprop="blogPost">
+    <article id="post-cloudflare-wrap" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/undefined.html" class="article-date">
+      <a href="/6cf43c3a.html" class="article-date">
       <time datetime="2024-05-02T04:20:01.000Z" itemprop="datePublished">2024-05-02</time>
 </a>
 
@@ -510,7 +908,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/undefined.html">使用 cloudflare对于 WARP订阅</a>
+      <a class="article-title" href="/6cf43c3a.html">使用 cloudflare对于 WARP订阅</a>
     </h1>
   
 
@@ -775,10 +1173,10 @@
 
 
   
-    <article id="Runnable、Future 和 RunnableFuture-RunnableFuture" class="article article-type-Runnable、Future 和 RunnableFuture" itemscope itemprop="blogPost">
+    <article id="post-RunnableFuture" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/undefined.html" class="article-date">
+      <a href="/b99f57ba.html" class="article-date">
       <time datetime="2023-12-15T09:17:41.000Z" itemprop="datePublished">2023-12-15</time>
 </a>
 
@@ -794,7 +1192,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/undefined.html">Runnable、Future 和 RunnableFuture</a>
+      <a class="article-title" href="/b99f57ba.html">Runnable、Future 和 RunnableFuture</a>
     </h1>
   
 
@@ -892,366 +1290,9 @@
 
 
   
-    <article id="post-有趣的web" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/ea10c0bb.html" class="article-date">
-      <time datetime="2023-12-10T08:22:33.000Z" itemprop="datePublished">2023-12-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ea10c0bb.html">有趣的web</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://terminus2049.github.io/Not-exist-in-douban/">https://terminus2049.github.io/Not-exist-in-douban/</a>  404影音<br><a target="_blank" rel="noopener" href="http://matrixmultiplication.xyz/">http://matrixmultiplication.xyz/</a> 矢量计算可视化</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-stash配置和suger的区别" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2f16d0ef.html" class="article-date">
-      <time datetime="2023-12-08T08:09:18.000Z" itemprop="datePublished">2023-12-08</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2f16d0ef.html">stash配置和Quantumult X,suger的区别</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>YouTube APP去广告 - 使用 Quantumult X / Surge/ Shadowrocket/ Loon/Stash 完美屏蔽YouTube App广告小白教程（神机规则） - 毒奶 - 欢迎使用代理访问本站。</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/deezertidal/stash-override">https://github.com/deezertidal/stash-override</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#!name &#x3D; YouTube去广告</span><br><span class="line">#!desc &#x3D;支持pip，后台播放</span><br><span class="line">#!author &#x3D; Maasea </span><br><span class="line">#!homepage&#x3D;https:&#x2F;&#x2F;whatshub.top</span><br><span class="line">#!icon &#x3D; https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Koolson&#x2F;Qure&#x2F;master&#x2F;IconSet&#x2F;Color&#x2F;YouTube.png</span><br><span class="line">name: YouTubequguanggao</span><br><span class="line">desc: 支持pip，后台播放</span><br><span class="line">http:</span><br><span class="line">  mitm:</span><br><span class="line">    - &quot;-redirector*.googlevideo.com&quot;</span><br><span class="line">    - &quot;*.googlevideo.com&quot;</span><br><span class="line">    - &quot;www.youtube.com&quot;</span><br><span class="line">    - &quot;s.youtube.com&quot;</span><br><span class="line">    - &quot;youtubei.googleapis.com&quot;</span><br><span class="line">  script:</span><br><span class="line">    - match: ^https:\&#x2F;\&#x2F;youtubei\.googleapis\.com\&#x2F;youtubei\&#x2F;v1\&#x2F;(browse|next|player|search|reel\&#x2F;reel_watch_sequence|guide|account\&#x2F;get_setting)\?</span><br><span class="line">      name: YouTubequguanggao1</span><br><span class="line">      type: response</span><br><span class="line">      require-body: true</span><br><span class="line">      binary-mode: true</span><br><span class="line">      timeout: 10</span><br><span class="line">    - match: ^https:\&#x2F;\&#x2F;youtubei\.googleapis\.com\&#x2F;youtubei\&#x2F;v1\&#x2F;(browse|next|player|reel\&#x2F;reel_watch_sequence)\?</span><br><span class="line">      name: YouTubequguanggao2</span><br><span class="line">      type: request</span><br><span class="line">      require-body: true</span><br><span class="line">      binary-mode: true</span><br><span class="line">      timeout: 10</span><br><span class="line">  rewrite:</span><br><span class="line">    - (^https?:\&#x2F;\&#x2F;[\w-]+\.googlevideo\.com\&#x2F;(?!dclk_video_ads).+?)&amp;ctier&#x3D;L(&amp;.+?),ctier,(.+) $1$2$3 302</span><br><span class="line">    - ^https?:\&#x2F;\&#x2F;[\w-]+\.googlevideo\.com\&#x2F;(?!(dclk_video_ads|videoplayback\?)).+&amp;oad - reject-200</span><br><span class="line">    - ^https?:\&#x2F;\&#x2F;(www|s)\.youtube\.com\&#x2F;api\&#x2F;stats\&#x2F;ads - reject-200</span><br><span class="line">    - ^https?:\&#x2F;\&#x2F;(www|s)\.youtube\.com\&#x2F;(pagead|ptracking) - reject-200</span><br><span class="line">    - ^https?:\&#x2F;\&#x2F;s\.youtube\.com\&#x2F;api\&#x2F;stats\&#x2F;qoe\?adcontext - reject-200</span><br><span class="line">script-providers:</span><br><span class="line">  YouTubequguanggao1:</span><br><span class="line">    url: https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Maasea&#x2F;sgmodule&#x2F;master&#x2F;Script&#x2F;Youtube&#x2F;dist&#x2F;youtube.response.beta.js</span><br><span class="line">    interval: 86400</span><br><span class="line">  YouTubequguanggao2:</span><br><span class="line">    url: https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Maasea&#x2F;sgmodule&#x2F;master&#x2F;Script&#x2F;Youtube&#x2F;dist&#x2F;youtube.request.beta.js</span><br><span class="line">    interval: 86400</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>YouTube APP去广告 - 使用 Quantumult X / Surge/ Shadowrocket/ Loon/Stash 完美屏蔽YouTube App广告小白教程（神机规则） - 毒奶 - 欢迎使用代理访问本站。</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/deezertidal/stash-override">https://github.com/deezertidal/stash-override</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#!name &#x3D; YouTube去广告</span><br><span class="line">#!desc &#x3D;支持pip，后台播放</span><br><span class="line">#!author &#x3D; Maasea </span><br><span class="line">#!homepage&#x3D;https:&#x2F;&#x2F;whatshub.top</span><br><span class="line">#!icon &#x3D; https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Koolson&#x2F;Qure&#x2F;master&#x2F;IconSet&#x2F;Color&#x2F;YouTube.png</span><br><span class="line">name: YouTubequguanggao</span><br><span class="line">desc: 支持pip，后台播放</span><br><span class="line">http:</span><br><span class="line">  mitm:</span><br><span class="line">    - &quot;-redirector*.googlevideo.com&quot;</span><br><span class="line">    - &quot;*.googlevideo.com&quot;</span><br><span class="line">    - &quot;www.youtube.com&quot;</span><br><span class="line">    - &quot;s.youtube.com&quot;</span><br><span class="line">    - &quot;youtubei.googleapis.com&quot;</span><br><span class="line">  script:</span><br><span class="line">    - match: ^https:\&#x2F;\&#x2F;youtubei\.googleapis\.com\&#x2F;youtubei\&#x2F;v1\&#x2F;(browse|next|player|search|reel\&#x2F;reel_watch_sequence|guide|account\&#x2F;get_setting)\?</span><br><span class="line">      name: YouTubequguanggao1</span><br><span class="line">      type: response</span><br><span class="line">      require-body: true</span><br><span class="line">      binary-mode: true</span><br><span class="line">      timeout: 10</span><br><span class="line">    - match: ^https:\&#x2F;\&#x2F;youtubei\.googleapis\.com\&#x2F;youtubei\&#x2F;v1\&#x2F;(browse|next|player|reel\&#x2F;reel_watch_sequence)\?</span><br><span class="line">      name: YouTubequguanggao2</span><br><span class="line">      type: request</span><br><span class="line">      require-body: true</span><br><span class="line">      binary-mode: true</span><br><span class="line">      timeout: 10</span><br><span class="line">  rewrite:</span><br><span class="line">    - (^https?:\&#x2F;\&#x2F;[\w-]+\.googlevideo\.com\&#x2F;(?!dclk_video_ads).+?)&amp;ctier&#x3D;L(&amp;.+?),ctier,(.+) $1$2$3 302</span><br><span class="line">    - ^https?:\&#x2F;\&#x2F;[\w-]+\.googlevideo\.com\&#x2F;(?!(dclk_video_ads|videoplayback\?)).+&amp;oad - reject-200</span><br><span class="line">    - ^https?:\&#x2F;\&#x2F;(www|s)\.youtube\.com\&#x2F;api\&#x2F;stats\&#x2F;ads - reject-200</span><br><span class="line">    - ^https?:\&#x2F;\&#x2F;(www|s)\.youtube\.com\&#x2F;(pagead|ptracking) - reject-200</span><br><span class="line">    - ^https?:\&#x2F;\&#x2F;s\.youtube\.com\&#x2F;api\&#x2F;stats\&#x2F;qoe\?adcontext - reject-200</span><br><span class="line">script-providers:</span><br><span class="line">  YouTubequguanggao1:</span><br><span class="line">    url: https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Maasea&#x2F;sgmodule&#x2F;master&#x2F;Script&#x2F;Youtube&#x2F;dist&#x2F;youtube.response.beta.js</span><br><span class="line">    interval: 86400</span><br><span class="line">  YouTubequguanggao2:</span><br><span class="line">    url: https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Maasea&#x2F;sgmodule&#x2F;master&#x2F;Script&#x2F;Youtube&#x2F;dist&#x2F;youtube.request.beta.js</span><br><span class="line">    interval: 86400</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-代码复用逻辑" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/c66fd762.html" class="article-date">
-      <time datetime="2023-11-20T14:57:01.000Z" itemprop="datePublished">2023-11-20</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/c66fd762.html">代码复用逻辑和类命名</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>对于静态工具类的抽象复用,可以考虑以下几点:</p>
-<ol>
-<li>将公共逻辑提取出来,放到一个基类或接口中。子类只需要实现自己业务相关的逻辑。</li>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>对于静态工具类的抽象复用,可以考虑以下几点:</p>
-<ol>
-<li>将公共逻辑提取出来,放到一个基类或接口中。子类只需要实现自己业务相关的逻辑。</li>
-<li>使用工厂方法模式,定义一个工厂类,根据参数创建不同的工具类实例。调用端只需要使用工厂类,不需关心具体实现。</li>
-<li>使用依赖注入框架,如Spring,在配置文件中定义不同的工具类bean,并注入到其他类中使用。</li>
-<li>将静态方法改成普通方法,实例化为单例对象,注入到其他类中复用。</li>
-<li>使用策略模式,定义不同算法的策略类,通过组合和委托的方式复用策略。</li>
-<li>如果工具类方法数量不多,也可以简单地提取到一个公共类中,在需要使用的地方直接调用即可。</li>
-<li>考虑使用函数式编程思想,将静态方法改写为无状态的函数,更便于复用。<br>主要还是要根据实际情况划分出可复用的部分,然后通过封装、依赖注入、组合、委托等方式提高复用性。</li>
-</ol>
-<p>常见命名的后缀 </p>
-<ul>
-<li>Util 通常用于表示一个实用工具类</li>
-<li>Helper 用于表示一个帮助类，通常用于提供与特定对象或功能相关的辅助方法。Helper 类的方法可能需要依赖于特定对象的实例。</li>
-<li>Utils 与 “Util” 类似，用于表示一组实用工具方法。它通常与多个功能相关，而不是特定于单一功能。</li>
-<li>Toolkit 通常表示一个工具包或工具集，它包含一组相关的工具、资源或库，用于执行特定的任务或解决特定的问题。</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1798664">SDK 开发规范-腾讯云开发者社区-腾讯云</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/scar1et/p/15177861.html">通用类命名规范 - 就永远夏天 - 博客园</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="apple-安装和相关软件推荐" class="article article-type-apple" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/undefined.html" class="article-date">
-      <time datetime="2023-11-12T11:15:07.000Z" itemprop="datePublished">2023-11-12</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/undefined.html">appletv安装和相关软件推荐</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p><a target="_blank" rel="noopener" href="https://appfigures.com/top-apps/apple-tv/hong-kong/top-overall">https://appfigures.com/top-apps/apple-tv/hong-kong/top-overall</a>  apple tv 应用排行榜</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/fanmingming/live">https://github.com/fanmingming/live</a>  m3u 在线地址</p>
-<h2 id="国际版的爱优腾"><a href="#国际版的爱优腾" class="headerlink" title="国际版的爱优腾"></a>国际版的爱优腾</h2><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/iqiyi-video/id1190755526">iQIYI Video on the App Store</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://appfigures.com/top-apps/apple-tv/hong-kong/top-overall">https://appfigures.com/top-apps/apple-tv/hong-kong/top-overall</a>  apple tv 应用排行榜</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/fanmingming/live">https://github.com/fanmingming/live</a>  m3u 在线地址</p>
-<h2 id="国际版的爱优腾"><a href="#国际版的爱优腾" class="headerlink" title="国际版的爱优腾"></a>国际版的爱优腾</h2><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/iqiyi-video/id1190755526">iQIYI Video on the App Store</a></p>
-<p><a target="_blank" rel="noopener" href="https://apps.apple.com/au/app/wetv-asian-local-dramas/id1441531611">WeTV Asian &amp; Local Dramas on the App Store</a></p>
-<h2 id="vod类播放器"><a href="#vod类播放器" class="headerlink" title="vod类播放器"></a>vod类播放器</h2><h3 id="Syncnext-三角播放器-需内购"><a href="#Syncnext-三角播放器-需内购" class="headerlink" title="Syncnext(三角播放器 需内购)"></a>Syncnext(三角播放器 需内购)</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/syncnext/id1591770603">Syncnext on the App Store</a></p>
-<h3 id="XPTV"><a href="#XPTV" class="headerlink" title="XPTV"></a>XPTV</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/xptv/id6459409368">XPTV on the App Store</a></p>
-<p>XPTV 是一款支持VOD、M3U、IPTV等协议的多功能播放器</p>
-<h2 id="CMSPlayer"><a href="#CMSPlayer" class="headerlink" title="CMSPlayer"></a>CMSPlayer</h2><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/cmsplayer/id6450680262">CMSPlayer on the App Store</a></p>
-<h2 id="音乐流媒体"><a href="#音乐流媒体" class="headerlink" title="音乐流媒体"></a>音乐流媒体</h2><h3 id="Musify-已下架"><a href="#Musify-已下架" class="headerlink" title="Musify(已下架)"></a>Musify(已下架)</h3><p>支持 网易云音乐</p>
-<p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/musify/id6470739879">Connecting to Apple Music.</a></p>
-<h3 id="Spotify-Music-and-Podcasts"><a href="#Spotify-Music-and-Podcasts" class="headerlink" title="Spotify - Music and Podcasts"></a>Spotify - Music and Podcasts</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/spotify-music-and-podcasts/id324684580">Spotify - Music and Podcasts on the App Store</a></p>
-<h2 id="B站三方客户端"><a href="#B站三方客户端" class="headerlink" title="B站三方客户端"></a>B站三方客户端</h2><h2 id="Cheers"><a href="#Cheers" class="headerlink" title="Cheers"></a>Cheers</h2><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/cheers-danmu-player/id1643375332">Cheers - Danmu Player on the App Store</a></p>
-<h2 id="Miao-Project"><a href="#Miao-Project" class="headerlink" title="Miao Project"></a>Miao Project</h2><p>已经从应用商店下架</p>
-<h3 id="弹幕播放器-danmuBox"><a href="#弹幕播放器-danmuBox" class="headerlink" title="弹幕播放器 danmuBox"></a>弹幕播放器 danmuBox</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/%E5%BC%B9%E5%B9%95%E6%92%AD%E6%94%BE%E5%99%A8-danmubox/id6458593076">弹幕播放器 danmuBox on the App Store</a></p>
-<h2 id="投屏类"><a href="#投屏类" class="headerlink" title="投屏类"></a>投屏类</h2><p>主要用于类似于安卓乐播投屏，目前在安卓盒子里面当贝投屏是优化最好的没有广告，appleTV 原生支持 airplay，需要额外支持DLNA。</p>
-<h3 id="推荐-1-DLNA"><a href="#推荐-1-DLNA" class="headerlink" title="推荐 1 DLNA"></a>推荐 1 DLNA</h3><p><img src="../img/image-20240316083903879.jpg" alt="image-20240316083903879"></p>
-<h3 id="推荐-2-Unplay"><a href="#推荐-2-Unplay" class="headerlink" title="推荐 2 Unplay"></a>推荐 2 Unplay</h3><p>网上可以搜索到</p>
-<p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/unplay/id6450034641">UnPlay on the App Store</a></p>
-<h2 id="播放器"><a href="#播放器" class="headerlink" title="播放器"></a>播放器</h2><h3 id="Alplayer"><a href="#Alplayer" class="headerlink" title="Alplayer"></a>Alplayer</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/alplayer/id1660917007">Alplayer on the App Store</a></p>
-<p>原生支持阿里，夸克</p>
-<h3 id="VidHub-免费"><a href="#VidHub-免费" class="headerlink" title="VidHub(免费)"></a>VidHub(免费)</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/vidhub-video-library-player/id1659622164">VidHub -Video Library &amp; Player on the App Store</a></p>
-<h3 id="Fileball"><a href="#Fileball" class="headerlink" title="Fileball"></a>Fileball</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/fileball/id1558391784">Fileball on the App Store</a></p>
-<h2 id="电视直播类"><a href="#电视直播类" class="headerlink" title="电视直播类"></a>电视直播类</h2><h3 id="APTV-免费"><a href="#APTV-免费" class="headerlink" title="APTV(免费)"></a>APTV(免费)</h3><p><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/aptv/id1630403500">APTV on the App Store</a></p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/"> 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/4/">下一页 </a>
+      <a class="extend prev" rel="prev" href="/page/2/"> 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/4/">下一页 </a>
     </nav>
   
 </div>
