@@ -269,123 +269,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-树莓派内网穿透" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2070834639.html" class="article-date">
-      <time datetime="2020-04-05T00:54:08.000Z" itemprop="datePublished">2020-04-05</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2070834639.html">树莓派内网穿透</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>下面是我了解的提供内网穿透的网站,也可以使用比较传统的花生壳</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.natfrp.com/">Sakura Frp </a>我用的这个</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>下面是我了解的提供内网穿透的网站,也可以使用比较传统的花生壳</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.natfrp.com/">Sakura Frp </a>我用的这个</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="http://www.ngrok.cc/">Sunny-Ngrok </a>支持ngrok,frp两种客户端 还是推荐的</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://natapp.cn/">natapp</a> 第一个pass 要手机号码注册而且后面使用其服务还要实名(支付宝验证)</p>
-</li>
-<li><p><a href="../xiaomy.net">网云穿内网穿透</a></p>
-<p>这个看介绍还不错 但是没有树莓派的软件,树莓派目前的 linux-arm不能用64位的,它提供的是wyc_linux_64所以就放弃的,但是它有提供Java版,但是要配置jre环境就算了</p>
-</li>
-</ul>
-<p><a href="../img/1586077499502.png"><img src="../img/1586077499502.png" alt="1586077499502"></a></p>
-<p>大概使用Sakura Frp步骤</p>
-<ol>
-<li><p>下载对应的软件</p>
-<p>这个是注意事项</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">由于客户端更新，所有用户将需要重新下载最新版本的客户端，请老用户访问左侧软件下载获取最新版本客户端。**为了避免滥用，所有国内节点将不会转发未实名用户的HTTP流量（特指使用TCP隧道建立的对HTTP协议web服务器的映射），如希望使用国内节点建站请实名认证或加群(747976298)联系我(Q:2792020)并提供已备案的域名然后使用HTTP&#x2F;HTTPS隧道。**</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://qianqu.me/frp/frpc_linux_arm">https://qianqu.me/frp/frpc_linux_arm</a> 下载树莓派的链接</p>
-</li>
-<li><p>创建隧道</p>
-<p><a href="../img/1586077969123.png"><img src="../img/1586077969123.png" alt="1586077969123"></a></p>
-</li>
-<li><p>启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chmod +x frpc_linux_arm    </span><br><span class="line">将文件传输到你创建的文件下面  </span><br><span class="line">sudo .&#x2F;frpc_linux_arm         </span><br><span class="line">完成后在平级的文件夹下面会有frp_user.txt的配置文件      然后在终端下面会显示</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>本地：127.0.0.1:80 请把域名: yun.imlike.cc 的CNAME记录更改为: us-la-kr.sakurafrp.com (或更改A记录为: 98.126.219.155)</p>
-<blockquote>
-<p>此时直接访问us-la-kr.sakurafrp.com 是503 Service Unavailable错误,还有就是上面提到的告示,使用国内的节点需要通过站长的通过否则也会导致页面错误</p>
-</blockquote>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-树莓派nginx代理转发到本机端口" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1880,6 +1763,268 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vmware/" rel="tag">vmware</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-activiti用法和结构" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/745403789.html" class="article-date">
+      <time datetime="2020-02-17T23:34:02.000Z" itemprop="datePublished">2020-02-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/745403789.html">activiti用法和结构</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a href="https://imlike.cc/3807663978.html">activiti零零碎碎的记录</a> 包括processengineConfiguration -&gt;processEngine-&gt;respositoryService 下面的各个类和方法</p>
+<h3 id="支持的事件类型"><a href="#支持的事件类型" class="headerlink" title="支持的事件类型"></a>支持的事件类型</h3><p>​    下面是引擎中可能出现的所有activiti事件类型。每个类型都对应<code>org.activiti.engine.delegate.event.ActivitiEventType</code>中的一个枚举值。</p>
+<p>Table 3.2. 支持的事件**</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a href="https://imlike.cc/3807663978.html">activiti零零碎碎的记录</a> 包括processengineConfiguration -&gt;processEngine-&gt;respositoryService 下面的各个类和方法</p>
+<h3 id="支持的事件类型"><a href="#支持的事件类型" class="headerlink" title="支持的事件类型"></a>支持的事件类型</h3><p>​    下面是引擎中可能出现的所有activiti事件类型。每个类型都对应<code>org.activiti.engine.delegate.event.ActivitiEventType</code>中的一个枚举值。</p>
+<p>Table 3.2. 支持的事件**</p>
+<table>
+<thead>
+<tr>
+<th align="center">事件名称</th>
+<th align="left">描述</th>
+<th align="center">事件类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ENGINE_CREATED</td>
+<td align="left">监听器监听的流程引擎已经创建完毕，并准备好接受API调用。</td>
+<td align="center"><code>org.activiti...ActivitiEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENGINE_CLOSED</td>
+<td align="left">监听器监听的流程引擎已经关闭，不再接受API调用。</td>
+<td align="center"><code>org.activiti...ActivitiEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_CREATED</td>
+<td align="left">创建了一个新实体。实体包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_INITIALIZED</td>
+<td align="left">创建了一个新实体，初始化也完成了。如果这个实体的创建会包含子实体的创建，这个事件会在子实体都创建/初始化完成后被触发，这是与<code>ENTITY_CREATED</code>的区别。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_UPDATED</td>
+<td align="left">更新了已存在的实体。实体包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_DELETED</td>
+<td align="left">删除了已存在的实体。实体包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_SUSPENDED</td>
+<td align="left">暂停了已存在的实体。实体包含在事件中。会被ProcessDefinitions, ProcessInstances 和 Tasks抛出。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_ACTIVATED</td>
+<td align="left">激活了已存在的实体，实体包含在事件中。会被ProcessDefinitions, ProcessInstances 和 Tasks抛出。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_EXECUTION_SUCCESS</td>
+<td align="left">作业执行成功。job包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_EXECUTION_FAILURE</td>
+<td align="left">作业执行失败。作业和异常信息包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code> and <code>org.activiti...ActivitiExceptionEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_RETRIES_DECREMENTED</td>
+<td align="left">因为作业执行失败，导致重试次数减少。作业包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TIMER_FIRED</td>
+<td align="left">触发了定时器。job包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_CANCELED</td>
+<td align="left">取消了一个作业。事件包含取消的作业。作业可以通过API调用取消， 任务完成后对应的边界定时器也会取消，在新流程定义发布时也会取消。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_STARTED</td>
+<td align="left">一个节点开始执行</td>
+<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_COMPLETED</td>
+<td align="left">一个节点成功结束</td>
+<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_SIGNALED</td>
+<td align="left">一个节点收到了一个信号</td>
+<td align="center"><code>org.activiti...ActivitiSignalEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_MESSAGE_RECEIVED</td>
+<td align="left">一个节点收到了一个消息。在节点收到消息之前触发。收到后，会触发<code>ACTIVITY_SIGNAL</code>或<code>ACTIVITY_STARTED</code>，这会根据节点的类型（边界事件，事件子流程开始事件）</td>
+<td align="center"><code>org.activiti...ActivitiMessageEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_ERROR_RECEIVED</td>
+<td align="left">一个节点收到了一个错误事件。在节点实际处理错误之前触发。 事件的<code>activityId</code>对应着处理错误的节点。 这个事件后续会是<code>ACTIVITY_SIGNALLED</code>或<code>ACTIVITY_COMPLETE</code>， 如果错误发送成功的话。</td>
+<td align="center"><code>org.activiti...ActivitiErrorEvent</code></td>
+</tr>
+<tr>
+<td align="center">UNCAUGHT_BPMN_ERROR</td>
+<td align="left">抛出了未捕获的BPMN错误。流程没有提供针对这个错误的处理器。 事件的<code>activityId</code>为空。</td>
+<td align="center"><code>org.activiti...ActivitiErrorEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_COMPENSATE</td>
+<td align="left">一个节点将要被补偿。事件包含了将要执行补偿的节点id。</td>
+<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
+</tr>
+<tr>
+<td align="center">VARIABLE_CREATED</td>
+<td align="left">创建了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
+<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
+</tr>
+<tr>
+<td align="center">VARIABLE_UPDATED</td>
+<td align="left">更新了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
+<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
+</tr>
+<tr>
+<td align="center">VARIABLE_DELETED</td>
+<td align="left">删除了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
+<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_ASSIGNED</td>
+<td align="left">任务被分配给了一个人员。事件包含任务。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_CREATED</td>
+<td align="left">创建了新任务。它位于<code>ENTITY_CREATE</code>事件之后。当任务是由流程创建时， 这个事件会在TaskListener执行之前被执行。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_COMPLETED</td>
+<td align="left">任务被完成了。它会在<code>ENTITY_DELETE</code>事件之前触发。当任务是流程一部分时，事件会在流程继续运行之前， 后续事件将是<code>ACTIVITY_COMPLETE</code>，对应着完成任务的节点。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_TIMEOUT</td>
+<td align="left">任务已超时，在<code>TIMER_FIRED</code>事件之后，会触发用户任务的超时事件， 当这个任务分配了一个定时器的时候。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">PROCESS_COMPLETED</td>
+<td align="left">流程已结束。在最后一个节点的<code>ACTIVITY_COMPLETED</code>事件之后触发。 当流程到达的状态，没有任何后续连线时， 流程就会结束。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">MEMBERSHIP_CREATED</td>
+<td align="left">用户被添加到一个组里。事件包含了用户和组的id。</td>
+<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
+</tr>
+<tr>
+<td align="center">MEMBERSHIP_DELETED</td>
+<td align="left">用户被从一个组中删除。事件包含了用户和组的id。</td>
+<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
+</tr>
+<tr>
+<td align="center">MEMBERSHIPS_DELETED</td>
+<td align="left">所有成员被从一个组中删除。在成员删除之前触发这个事件，所以他们都是可以访问的。 因为性能方面的考虑，不会为每个成员触发单独的<code>MEMBERSHIP_DELETED</code>事件。</td>
+<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
+</tr>
+</tbody></table>
+<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><p>​    业务流程是软件项目的一部分，它也应该和普通的业务流程一样进行测试： 使用单元测试。 因为Activiti是一个嵌入式的java引擎， 为业务流程编写单元测试和写普通单元测试完全一样。</p>
+<p>​    Activiti支持JUnit 3和4进行单元测试。使用JUnit 3时， 必须集成<code>org.activiti.engine.test.ActivitiTestCase</code>。 它通过保护的成员变量提供ProcessEngine和服务， 在测试的<code>setup()</code>中， 默认会使用classpath下的<code>activiti.cfg.xml</code>初始化流程引擎。 想使用不同的配置文件，可以重写*getConfigurationResource()*方法。 如果配置文件相同的话，对应的流程引擎会被静态缓存， 就可以用于多个单元测试。</p>
+<p>​    继承了<code>ActivitiTestCase</code>你，可以在测试方法上使用 <code>org.activiti.engine.test.Deployment</code>注解。 测试执行前，与测试类在同一个包下的， 格式为<code>testClassName.testMethod.bpmn20.xml</code>的资源文件，会被部署。 测试结束后，发布包也会被删除，包括所有相关的流程实例，任务，等等。 <code>Deployment</code>注解也可以直接设置资源的位置。 参考<a target="_blank" rel="noopener" href="http://www.mossle.com/docs/javadocs/org/activiti/engine/test/Deployment.html">Javadocs</a>获得更多信息。</p>
+<p>​    把这些放在一起，JUnit 3测试看起来像这样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class MyBusinessProcessTest extends ActivitiTestCase &#123;</span><br><span class="line">    @Deployment</span><br><span class="line">    public void testSimpleProcess() &#123;</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;simpleProcess&quot;);</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    要想在使用JUnit 4编写单元测试时获得同样的功能， 可以使用<code>org.activiti.engine.test.ActivitiRule</code>。 通过它，可以通过getter方法获得流程引擎和各种服务。 和 <code>ActivitiTestCase</code>一样（参考上面章节），使用这个<code>Rule</code> 也会启用<code>org.activiti.engine.test.Deployment</code>注解（参考上面章节使用和配置的介绍）， 它会在classpath下查找默认的配置文件。 如果配置文件相同的话，对应的流程引擎会被静态缓存， 就可以用于多个单元测试。</p>
+<p>​    下面的代码演示了JUnit 4单元测试并使用了<code>ActivitiRule</code>的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class MyBusinessProcessTest &#123;</span><br><span class="line">    @Rule</span><br><span class="line">    public ActivitiRule activitiRule &#x3D; new ActivitiRule();</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    @Deployment</span><br><span class="line">    public void ruleUsageExample() &#123;</span><br><span class="line">        RuntimeService runtimeService &#x3D; activitiRule.getRuntimeService();</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;ruleUsage&quot;);</span><br><span class="line">        TaskService taskService &#x3D; activitiRule.getTaskService();</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    当集成Spring时，使用标准的<a target="_blank" rel="noopener" href="http://www.mossle.com/docs/activiti/index.html#apiUnitTesting">Activiti测试工具类</a>是非常容易的对业务流程进行测试。 下面的例子展示了如何在一个典型的基于Spring单元测试测试业务流程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import org.junit.Rule;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.junit.runner.RunWith;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.test.context.ContextConfiguration;</span><br><span class="line">import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"></span><br><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@ContextConfiguration(&quot;classpath:org&#x2F;activiti&#x2F;spring&#x2F;test&#x2F;junit4&#x2F;springTypicalUsageTest-context.xml&quot;)</span><br><span class="line">public class MyBusinessProcessTest &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private RuntimeService runtimeService;</span><br><span class="line">    @Autowired</span><br><span class="line">    private TaskService taskService;</span><br><span class="line">    @Autowired</span><br><span class="line">    @Rule</span><br><span class="line">    public ActivitiRule activitiSpringRule;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    @Deployment</span><br><span class="line">    public void simpleProcessTest() &#123;</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;simpleProcess&quot;);</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
     </div>
  -->
 

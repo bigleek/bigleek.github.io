@@ -269,114 +269,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-activiti零零碎碎的记录" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/3807663978.html" class="article-date">
-      <time datetime="2020-05-10T13:15:14.000Z" itemprop="datePublished">2020-05-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/3807663978.html">activiti零零碎碎的记录</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>熟悉app创建app然后是用发布 processes可以看出来<br>  对于每个用户会有任务<br>  同时这个同时称为activiti workflow(工作流) deploy的可能</p>
-<p>processengineConfiguration -&gt;processEngine-&gt;respositoryService<br>                                            taskSerivice 对于任务的查询<br>                                            identityService 用户先关的查询<br>                                            formService<br>                                            runtimeService<br>                                            ManagementService<br>                                            HistoryService<br>                                            对于上面的接口</p>
-<ul>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>熟悉app创建app然后是用发布 processes可以看出来<br>  对于每个用户会有任务<br>  同时这个同时称为activiti workflow(工作流) deploy的可能</p>
-<p>processengineConfiguration -&gt;processEngine-&gt;respositoryService<br>                                            taskSerivice 对于任务的查询<br>                                            identityService 用户先关的查询<br>                                            formService<br>                                            runtimeService<br>                                            ManagementService<br>                                            HistoryService<br>                                            对于上面的接口</p>
-<ul>
-<li><p>ProcessEngines.getDefaultProcessEngine()会在第一次调用时 初始化并创建一个流程引擎，以后再调用就会返回相同的流程引擎。 使用对应的方法可以创建和关闭所有流程引擎：ProcessEngines.init() 和 ProcessEngines.destroy()。</p>
-</li>
-<li><p>RepositoryService可能是使用Activiti引擎时最先接触的服务。 它提供了管理和控制发布包和流程定义的操作。 这里不涉及太多细节，流程定义是BPMN 2.0流程的java实现。 它包含了一个流程每个环节的结构和行为。 发布包是Activiti引擎的打包单位。一个发布包可以包含多个BPMN 2.0 xml文件和其他资源。 开发者可以自由选择把任意资源包含到发布包中。 既可以把一个单独的BPMN 2.0 xml文件放到发布包里，也可以把整个流程和相关资源都放在一起。 （比如，’hr-processes’实例可以包含hr流程相关的任何资源）。 可以通过RepositoryService来部署这种发布包。 发布一个发布包，意味着把它上传到引擎中，所有流程都会在保存进数据库之前分析解析好。 从这点来说，系统知道这个发布包的存在，发布包中包含的流程就已经可以启动了。</p>
-</li>
-<li><p>RuntimeService正好是完全相反的。它负责启动一个流程定义的新实例。 如上所述，流程定义定义了流程各个节点的结构和行为。 流程实例就是这样一个流程定义的实例。对每个流程定义来说，同一时间会有很多实例在执行。 RuntimeService也可以用来获取和保存流程变量。 这些数据是特定于某个流程实例的，并会被很多流程中的节点使用 （比如，一个排他网关常常使用流程变量来决定选择哪条路径继续流程）。 Runtimeservice也能查询流程实例和执行。 执行对应BPMN 2.0中的’token’。基本上执行指向流程实例当前在哪里。 最后，RuntimeService可以在流程实例等待外部触发时使用，这时可以用来继续流程实例。 流程实例可以有很多暂停状态，而服务提供了多种方法来’触发’实例， 接受外部触发后，流程实例就会继续向下执行。</p>
-<blockquote>
-<p>它是Activiti这类BPMN引擎的核心功能之一。 所有与任务有关的功能都包含在TaskService中： 查询分配给用户或组的任务</p>
-<p>创建独立运行任务。这些任务与流程实例无关。</p>
-<p>手工设置任务的执行者，或者这些用户通过何种方式与任务关联。</p>
-<p>认领并完成一个任务。认领意味着一个人期望成为任务的执行者， 即这个用户会完成这个任务。完成意味    着“做这个任务要求的事情”。 通常来说会有很多种处理形式。</p>
-</blockquote>
-</li>
-<li><p>IdentityService非常简单。它可以管理（创建，更新，删除，查询…）群组和用户。 请注意， Activiti执行时并没有对用户进行检查。 例如，任务可以分配给任何人，但是引擎不会校验系统中是否存在这个用户。 这是Activiti引擎也可以使用外部服务，比如ldap，活动目录，等等。</p>
-</li>
-<li><p>FormService是一个可选服务。即使不使用它，Activiti也可以完美运行， 不会损失任何功能。这个服务提供了启动表单和任务表单两个概念。 启动表单会在流程实例启动之前展示给用户， 任务表单会在用户完成任务时展示。Activiti支持在BPMN 2.0流程定义中设置这些表单。 这个服务以一种简单的方式将数据暴露出来。再次重申，它时可选的， 表单也不一定要嵌入到流程定义中。</p>
-</li>
-<li><p>HistoryService提供了Activiti引擎手机的所有历史数据。 在执行流程时，引擎会保存很多数据（根据配置），比如流程实例启动时间，任务的参与者， 完成任务的时间，每个流程实例的执行路径，等等。 这个服务主要通过查询功能来获得这些数据。</p>
-</li>
-<li><p>ManagementService在使用Activiti的定制环境中基本上不会用到。 它可以查询数据库的表和表的元数据。另外，它提供了查询和管理异步操作的功能。 Activiti的异步操作用途很多，比如定时器，异步操作， 延迟暂停、激活，等等。后续，会讨论这些功能的更多细节。</p>
-</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-ubuntu软件的配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1555,6 +1447,123 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-树莓派内网穿透" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2070834639.html" class="article-date">
+      <time datetime="2020-04-05T00:54:08.000Z" itemprop="datePublished">2020-04-05</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2070834639.html">树莓派内网穿透</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>下面是我了解的提供内网穿透的网站,也可以使用比较传统的花生壳</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.natfrp.com/">Sakura Frp </a>我用的这个</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>下面是我了解的提供内网穿透的网站,也可以使用比较传统的花生壳</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.natfrp.com/">Sakura Frp </a>我用的这个</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.ngrok.cc/">Sunny-Ngrok </a>支持ngrok,frp两种客户端 还是推荐的</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://natapp.cn/">natapp</a> 第一个pass 要手机号码注册而且后面使用其服务还要实名(支付宝验证)</p>
+</li>
+<li><p><a href="../xiaomy.net">网云穿内网穿透</a></p>
+<p>这个看介绍还不错 但是没有树莓派的软件,树莓派目前的 linux-arm不能用64位的,它提供的是wyc_linux_64所以就放弃的,但是它有提供Java版,但是要配置jre环境就算了</p>
+</li>
+</ul>
+<p><a href="../img/1586077499502.png"><img src="../img/1586077499502.png" alt="1586077499502"></a></p>
+<p>大概使用Sakura Frp步骤</p>
+<ol>
+<li><p>下载对应的软件</p>
+<p>这个是注意事项</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">由于客户端更新，所有用户将需要重新下载最新版本的客户端，请老用户访问左侧软件下载获取最新版本客户端。**为了避免滥用，所有国内节点将不会转发未实名用户的HTTP流量（特指使用TCP隧道建立的对HTTP协议web服务器的映射），如希望使用国内节点建站请实名认证或加群(747976298)联系我(Q:2792020)并提供已备案的域名然后使用HTTP&#x2F;HTTPS隧道。**</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://qianqu.me/frp/frpc_linux_arm">https://qianqu.me/frp/frpc_linux_arm</a> 下载树莓派的链接</p>
+</li>
+<li><p>创建隧道</p>
+<p><a href="../img/1586077969123.png"><img src="../img/1586077969123.png" alt="1586077969123"></a></p>
+</li>
+<li><p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chmod +x frpc_linux_arm    </span><br><span class="line">将文件传输到你创建的文件下面  </span><br><span class="line">sudo .&#x2F;frpc_linux_arm         </span><br><span class="line">完成后在平级的文件夹下面会有frp_user.txt的配置文件      然后在终端下面会显示</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>本地：127.0.0.1:80 请把域名: yun.imlike.cc 的CNAME记录更改为: us-la-kr.sakurafrp.com (或更改A记录为: 98.126.219.155)</p>
+<blockquote>
+<p>此时直接访问us-la-kr.sakurafrp.com 是503 Service Unavailable错误,还有就是上面提到的告示,使用国内的节点需要通过站长的通过否则也会导致页面错误</p>
+</blockquote>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
     </div>
  -->
 

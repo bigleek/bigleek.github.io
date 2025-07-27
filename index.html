@@ -269,105 +269,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-异步开发和EventBus开发区别" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/0.html" class="article-date">
-      <time datetime="2025-07-27T05:23:30.071Z" itemprop="datePublished">2025-07-27</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>什么时候需要消息总线？<br>适用场景：</p>
-<p>多个订阅者：需要同时通知多个不同的组件<br>动态订阅：运行时需要添加/移除订阅者<br>背压控制：需要处理生产者消费者速度不匹配<br>复杂事件流：需要事件过滤、转换、组合等操作</p>
-<p>一个事件 需要出发多种反应包括 日志,缓存等<br>消息总线可以将一个事件分发到多个目标<br>目标可以是多个组件</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>什么时候需要消息总线？<br>适用场景：</p>
-<p>多个订阅者：需要同时通知多个不同的组件<br>动态订阅：运行时需要添加/移除订阅者<br>背压控制：需要处理生产者消费者速度不匹配<br>复杂事件流：需要事件过滤、转换、组合等操作</p>
-<p>一个事件 需要出发多种反应包括 日志,缓存等<br>消息总线可以将一个事件分发到多个目标<br>目标可以是多个组件</p>
-<p>异步方式提交任务</p>
-<p>高耦合 (High Coupling)：TaskService 强依赖于 CacheService 和 LogService。它必须“知道”有哪些服务需要被通知。</p>
-<p>违反开闭原则 (Violates Open/Closed Principle)：如果未来新增一个 NotificationService，当任务更新时需要发送邮件通知，你必须修改 TaskService 的代码，在 updateTask 方法里增加一个新的调用。这使得 TaskService 变得不稳定，难以维护。</p>
-<p>职责不清：TaskService 的核心职责是处理任务业务，但现在它还承担了“协调和通知其他模块”的职责，这会让它的逻辑越来越臃肿。</p>
-<p>这种</p>
-<p>低耦合 (Low Coupling)：TaskService (发布者) 和 CacheService/LogService (订阅者) 之间没有直接依赖。它们都只依赖于中间人 TaskEventBroker。</p>
-<p>高扩展性 (High Extensibility)：当你需要新增一个 NotificationService 时，完全不需要修改 TaskService。你只需要创建 NotificationService 并让它自己去订阅事件即可。这完全符合开闭原则（对扩展开放，对修改关闭）。</p>
-<p>职责单一 (Single Responsibility)：每个模块只关心自己的事。TaskService 只管发事件，CacheService 只管响应事件并刷新缓存。</p>
-<p>// 发布者<br>@Service<br>public class TaskService {<br>    @Autowired<br>    private TaskEventBroker eventBroker;</p>
-<pre><code>public void updateTask(Task task) &#123;
-    // 1. 更新数据库中的任务...
-    db.save(task);
-
-    // 2. 只负责发布一个“任务已变更”的事件，不关心谁会收到
-    eventBroker.publish(); 
-    log.info(&quot;任务变更事件已发布&quot;);
-&#125;</code></pre>
-<p>}</p>
-<p>// 订阅者1<br>@Service<br>public class CacheService {<br>    @Autowired<br>    public CacheService(TaskEventBroker eventBroker) {<br>        // 在构造时就订阅事件<br>        eventBroker.subscribe(signal -&gt; this.refresh());<br>    }</p>
-<pre><code>public void refresh() &#123; /* ...刷新缓存的逻辑... */ &#125;</code></pre>
-<p>}</p>
-<p>// 订阅者2<br>@Service<br>public class LogService {<br>    public LogService(TaskEventBroker eventBroker) {<br>        eventBroker.subscribe(signal -&gt; this.recordUpdate());<br>    }</p>
-<pre><code>public void recordUpdate() &#123; /* ...记录日志的逻辑... */ &#125;</code></pre>
-<p>}</p>
-<p>// 新增的订阅者3 (无需修改任何已有代码)<br>@Service<br>public class NotificationService {<br>    public NotificationService(TaskEventBroker eventBroker) {<br>        eventBroker.subscribe(signal -&gt; this.sendEmail());<br>    }</p>
-<pre><code>public void sendEmail() &#123; /* ...发送邮件的逻辑... */ &#125;</code></pre>
-<p>}</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="oauth2.0-的几种授权流程" class="article article-type-oauth2.0" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -2286,6 +2187,258 @@
 <p>扎实的基础知识是专家型学习的第一步，这一步是可以通过系统的学习和反复练习来实现的。然而，令人沮丧的是，后续的高级能力——如分析能力、系统化思维、批判性思维、决策和创新等——并不能通过简单的学习获得。</p>
 <p>这些高级能力需要大量实践来培养，<strong>我相信阿里的“借事修人”的理念，但是这首先需要我们“躬身入局”</strong>。具体来说，主动承担有挑战性的任务，尝试跨领域学习和应用，迫使自己运用高级能力；持续反思和总结经验，改进策略，不断输出，寻求反馈；这样才有可能将高级能力内化为自己的技能。</p>
 <h4 id="软实力从来没有变得像今天那么重要"><a href="#软实力从来没有变得像今天那么重要" class="headerlink" title="软实力从来没有变得像今天那么重要"></a>软实力从来没有变得像今天那么重要</h4><p>在现今社会，许多技术性的任务可能被机器取代，但判断和决策仍然需要人来完成。因此，在可预见的未来，软实力（沟通能力、同理心、逆商、团队精神、领导力等）的重要性将变得更为突出，比以往任何时候都更为关键。</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mac软件汇集" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/27d3a647.html" class="article-date">
+      <time datetime="2025-03-07T02:46:10.000Z" itemprop="datePublished">2025-03-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/27d3a647.html">mac软件汇集(转载)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>转载地址 <a target="_blank" rel="noopener" href="https://weekly.howie6879.com/soft/mac.html">https://weekly.howie6879.com/soft/mac.html</a></p>
+<h1 id="mac-soft"><a href="#mac-soft" class="headerlink" title="mac-soft"></a>mac-soft</h1><blockquote>
+<p>记录我在使用 <code>macOS</code> 过程中使用&amp;看到的软件项目，本文会持续更新，同时也开源在 <a target="_blank" rel="noopener" href="https://github.com/howie6879/mac-soft">GitHub</a>，欢迎 <code>Star</code> ❤️</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>转载地址 <a target="_blank" rel="noopener" href="https://weekly.howie6879.com/soft/mac.html">https://weekly.howie6879.com/soft/mac.html</a></p>
+<h1 id="mac-soft"><a href="#mac-soft" class="headerlink" title="mac-soft"></a>mac-soft</h1><blockquote>
+<p>记录我在使用 <code>macOS</code> 过程中使用&amp;看到的软件项目，本文会持续更新，同时也开源在 <a target="_blank" rel="noopener" href="https://github.com/howie6879/mac-soft">GitHub</a>，欢迎 <code>Star</code> ❤️</p>
+</blockquote>
+<h2 id="基础工具"><a href="#基础工具" class="headerlink" title="基础工具"></a>基础工具</h2><ul>
+<li><p>Alfred</p>
+<p>：本地搜索及应用快速启动，替代品：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/raycast/extensions">Raycast</a>：目前免费状态，这是其开源插件仓库</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/cerebroapp/cerebro">Cerebro</a>：开源替代品</li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/kyleneideck/BackgroundMusic">BackgroundMusic</a>：音频管理工具，可以管控各个 <code>APP</code> 的音量（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://web.archive.org/web/20150322050645/http://ftnew.com/files/CatchMouse.zip">CatchMouse</a>：多显示器切换软件，根据快捷键快速切换到目标显示器（免费）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/pqrs-org/Karabiner-Elements">Karabiner-Elements</a>：键盘键位修改神器，特别针对有多款键盘的人（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/leaves615/KeyboardHolder">KeyboardHolder</a>：一款补足 <code>macOS</code> 自带有一个自动切换到文稿到输入法功能遗憾的软件（免费）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/noah-nuebling/mac-mouse-fix">mac-mouse-fix</a>：轻量级鼠标控制功能定制软件（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://mounty.app/">Mounty</a>：一款 <code>NTFS</code> 格式读写工具</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/Caldis/Mos">Mos</a>：一个平滑你的鼠标滚动效果或单独设置滚动方向的小工具，让你的滚轮爽如触控板（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://peazip.github.io/">peazip</a>：解压缩工具（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/rxhanson/Rectangle">Rectangle</a>：多窗口管理工具（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/avibrazil/RDM">RDM</a>：轻松将 <code>Mac Retina</code> 显示器设置为更高的分辨率（开源）</p>
+</li>
+</ul>
+<h2 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/lwouis/alt-tab-macos">AltTab</a>：<code>AltTab</code> 将 <code>Windows</code> 的 <code>Alt-Tab</code> 窗口切换器带到 <code>MacOS</code>（开源）</p>
+</li>
+<li><p>Bartender</p>
+<p>：方便的状态栏管理工具，开源替代品有：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Mortennn/Dozer">Dozer</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/dwarvesf/hidden">hidden</a></li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/balena-io/etcher">balenaEtcher</a>：镜像制作工具（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cakebrew.com/">cakebrew</a>： 如果使用 <code>Homebrew</code> 的话，可以使用这款来进行管理（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/gao-sun/eul">eul</a>：系统状态监控工具（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://justgetflux.com/news/pages/macquickstart/">flux</a>：一款比较好的免费屏幕护眼软件</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/newmarcel/KeepingYouAwake">KeepingYouAwake</a>：根据自己的需求设置 <code>Mac</code> 多少分钟/多少小时后进入睡眠</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://maccy.app/">Maccy</a>：剪贴板管理（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/MonitorControl/MonitorControl">MonitorControl</a>：控制外部显示器的亮度和音量（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/jacklandrin/OnlySwitch">OnlySwitch</a>：系统功能快速开关工具（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.parallels.com/">Parallels Desktop</a>：能让您在 <code>Mac</code> 上同时使用 <code>Windows</code> 等系统</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/sbarex/SourceCodeSyntaxHighlight">SourceCodeSyntaxHighlight</a>：增强文件预览（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://tunnelblick.net/">Tunnelblick</a>：<code>OpenVPN</code> 客户端（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://lemon.qq.com/">腾讯柠檬</a>：腾讯出品的系统清理工具（开源）</p>
+</li>
+</ul>
+<h2 id="编程开发"><a href="#编程开发" class="headerlink" title="编程开发"></a>编程开发</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.anaconda.com/">Anaconda</a>：数据科学常用 <code>Python</code> 环境管理程序</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/ObuchiYuki/DevToysMac">DevToysMac</a>：程序员常用工具集（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.docker.com/">Docker</a>：用容器化的形式使用一些常用软件，推荐使用 <a target="_blank" rel="noopener" href="https://github.com/portainer/portainer">portainer</a> 管理（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/macvim-dev/macvim">MacVim</a>：文本编辑器（开源）</p>
+</li>
+<li><p>Offset Explorer</p>
+<p>：个人免费的跨平台</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kafka</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p>  界面管理工具，</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/provectus/kafka-ui">kafka-ui</a>：<code>Web</code> 自部署，简洁好用、速度快、颜值高（开源）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VSCode</a>：微软出品的免费跨平台代码编辑器（开源）</p>
+</li>
+<li><p>终端：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/electerm/electerm">electerm</a>：一款基于 <code>Electron</code> 开发的 <code>SSH/SFTP</code> 跨平台客户端、（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://iterm2.com/">Iterm2</a>：免费好用的终端工具，一般搭配 <code>Brew</code> 和 <code>ZSH</code> 使用</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Eugeny/tabby">tabby</a>：一个可高度配置的终端模拟器和 <code>SSH</code> 或串口跨平台客户端（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/kingToolbox/WindTerm">WindTerm</a>：基于 <code>C</code> 语言开发的的专业级替代品（开源）</li>
+</ul>
+</li>
+<li><p>数据库：</p>
+<ul>
+<li>通用：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/beekeeper-studio/beekeeper-studio">beekeeper-studio</a>：跨平台的 <code>SQL</code> 编辑器和数据库管理器（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/dbeaver/dbeaver">DBeaver</a>：为开发人员、<code>SQL</code> 程序员、数据库管理员和分析人员提供的免费多平台数据库工具，有 <code>JDBC</code> 驱动即可支持使用（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/dbgate/dbgate">dbgate</a>：支持 <code>Mysql、Postgresql、SQL Server、Mongodb、Redis、SQLite</code> 等数据库的管理软件，同时也满足在 <code>Windows、Linux、Mac Web</code> 下运行，还提供插件体系（开源）</li>
+</ul>
+</li>
+<li>Elasticsearch：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/1340691923/ElasticView">ElasticView</a>：简单好用的 <code>ES</code> 可视化客户端，支持连接6，7，8版本（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://opensource.appbase.io/mirage/">appbaseio/mirage</a>：用于简化 <code>ES</code> 查询语句编写的项目，你可以用基于块的交互形式来组成 <code>Elasticsearch</code> 查询语句（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/cars10/elasticvue">elasticvue</a>：基于 <code>Vue</code> 的 <code>Elasticsearch</code> 管理客户端，支持<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa/related?utm_source=chrome-ntp-icon">浏览器插件</a>和 <code>Docker</code> 自建（开源）</li>
+</ul>
+</li>
+<li>MongoDB：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/mongo-express/mongo-express">mongo-express</a>：可自建的 <code>MongoDB</code> 数据库管理软件，针对线上数据库需要共享的需求，可以统一部署在一台服务器给所有员工用，然后设置只读模式，非常实用（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Studio3T/robomongo">Robo 3T</a>：<code>MongoDB</code> 数据库管理软件（开源）</li>
+</ul>
+</li>
+<li>MySQL：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Sequel-Ace/Sequel-Ace">Sequel-Ace</a>：原生的 <code>MySQL/MariaDB</code> 数据库管理软件（开源）</li>
+</ul>
+</li>
+<li>Redis：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/qishibo/AnotherRedisDesktopManager">AnotherRedisDesktopManager</a>：跨平台的 <code>Redis</code> 桌面管理客户端，性能出众（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Kuari/RedisFish">RedisFish</a>：一款便捷、跨平台、专注于数据的 <code>Redis GUI</code> 客户端（开源）</li>
+</ul>
+</li>
+<li>PostgreSQL：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/pgadmin-org/pgadmin4">pgadmin4</a>：跨平台的 <code>PostgreSQL</code> 数据库管理软件（开源）</li>
+</ul>
+</li>
+<li>SQLite：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/sqlitebrowser/sqlitebrowser">sqlitebrowser</a>：<code>DB4S</code> 是一个高质量、可视化、开源的工具，用于创建、设计和编辑与 <code>SQLite</code> 兼容的数据库（开源）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>API 请求调试：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/hoppscotch/hoppscotch">hoppscotch</a>：基于 <code>Web</code> 提供服务（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Kong/insomnia">insomnia</a>：跨平台 （开源）</li>
+<li><a target="_blank" rel="noopener" href="https://www.postman.com/">Postman</a>：比较老牌的 <code>API</code> 接口功能测试工具</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/star7th/showdoc">showdoc</a>：一个非常适合 IT 团队的在线 <code>API</code> 文档、技术文档工具（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client">Thunder Client</a>：如果使用<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VSCode</a>，推荐使用这款插件 💡</li>
+</ul>
+</li>
+</ul>
+<h2 id="浏览娱乐"><a href="#浏览娱乐" class="headerlink" title="浏览娱乐"></a>浏览娱乐</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.aliyundrive.com/">aliyundrive</a>：阿里云盘</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/blogwy/BilibiliVideoDownload">BilibiliVideoDownload</a>：跨平台下载 <code>bilibili</code> 视频桌面端软件（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://www.google.com/chrome/">Chrome</a>：浏览器</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/iina/iina">iina</a>：现代化的视频播放器（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/irvue/id1039633667?mt=12">Irvue</a>：基于 Unsplash 的免费壁纸切换工具</li>
+<li><a target="_blank" rel="noopener" href="https://www.mowglii.com/itsycal/">itsycal</a>：一款简单优雅的菜单栏日历（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/justinfrankel/licecap">licecap</a>：轻量小巧的录屏工具（开源）</li>
+<li>沟通：<a target="_blank" rel="noopener" href="https://weread.qq.com/">微信</a> | <a target="_blank" rel="noopener" href="https://www.dingtalk.com/">钉钉</a> | <a target="_blank" rel="noopener" href="https://telegram.org/">TG</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.stellarplayer.com/">恒星播放器</a>：一款纯粹专注的播放器</li>
+<li><a target="_blank" rel="noopener" href="https://music.163.com/">网易云音乐</a>：推荐一款开源替代品 <a target="_blank" rel="noopener" href="https://github.com/qier222/YesPlayMusic">YesPlayMusic</a></li>
+</ul>
+<h2 id="阅读写作"><a href="#阅读写作" class="headerlink" title="阅读写作"></a>阅读写作</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://ripperhe.gitee.io/bob/#/">Bob</a>：翻译工具（开源，但是正式版买断收费）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/yang991178/fluent-reader">fluent-reader</a>：<code>RSS</code> 阅读器（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://joplinapp.org/">Joplin</a>：跨平台笔记管理工具，有不错的社区支持（开源）</li>
+<li>Pngyu](<a target="_blank" rel="noopener" href="https://joplinapp.org/)%EF%BC%9A%E5%85%8D%E8%B4%B9%E7%9A%84PNG%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7%EF%BC%8C%E5%90%8C%E6%A0%B7%E5%A5%BD%E7%94%A8%E7%9A%84%E8%BF%98%E6%9C%89%EF%BC%9A">https://joplinapp.org/)：免费的PNG图片压缩工具，同样好用的还有：</a><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/kyleduo/TinyPNG4Mac">TinyPNG4Mac</a>（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://imageoptim.com/mac">ImageOptim</a>（开源）</li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://typora.io/releases/all">Typora</a>：比较经典的所见即所得 <code>Markdown</code> 编辑器（提供免费版）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/gee1k/uPic">uPic</a>：原生的图床管理工具（开源）</li>
+<li><a target="_blank" rel="noopener" href="https://xnipapp.com/">Xnip</a>：挺不错的截图软</li>
+</ul>
 
                -->
         </div>

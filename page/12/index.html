@@ -269,179 +269,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Linux下使用docker搭建ue流的环境" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/ae4f29ca.html" class="article-date">
-      <time datetime="2022-02-22T08:04:03.000Z" itemprop="datePublished">2022-02-22</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ae4f29ca.html">Linux下使用docker搭建ue流的环境</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>Linux 下使用docker搭建ue流的环境</p>
-<p>本项目依赖的软件均依赖与</p>
-<p><a target="_blank" rel="noopener" href="https://hub.fastgit.org/adamrehn">https://hub.fastgit.org/adamrehn</a></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>Linux 下使用docker搭建ue流的环境</p>
-<p>本项目依赖的软件均依赖与</p>
-<p><a target="_blank" rel="noopener" href="https://hub.fastgit.org/adamrehn">https://hub.fastgit.org/adamrehn</a></p>
-<p>这个开发者的官方地址:<a target="_blank" rel="noopener" href="https://docs.adamrehn.com/">https://docs.adamrehn.com/</a></p>
-<p>以及官方docker仓库地址: <a target="_blank" rel="noopener" href="https://hub.docker.com/u/adamrehn">https://hub.docker.com/u/adamrehn</a></p>
-<p>虚幻容器:<a target="_blank" rel="noopener" href="https://unrealcontainers.com/">https://unrealcontainers.com</a> </p>
-<p>目前就是需要前置环境包括 docker ,python3 ,cuda</p>
-<p>需要用 pip3 来安装开发者写的 ue4-docker 命令来实现 构建Linux,Windows的容器给 docker来使用</p>
-<p>同时还需要 其他工具提供给Linux环境</p>
-<ul>
-<li><p>Docker版本之一的64位版本（CentOS7+、Debian7.7+、Fedora26+、Ubuntu14.04+）</p>
-</li>
-<li><p>最低8GB的RAM</p>
-</li>
-<li><p>用于构建容器映像的至少300GB可用磁盘空间</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>Host OS</th>
-<th>Linux containers</th>
-<th>Windows containers</th>
-<th>NVIDIA Container Toolkit</th>
-<th>Optimality</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://docs.adamrehn.com/ue4-docker/configuration/configuring-linux"><strong>Linux</strong></a></td>
-<td>Yes</td>
-<td>No</td>
-<td>Yes</td>
-<td>Optimal for Linux containers</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://docs.adamrehn.com/ue4-docker/configuration/configuring-windows-server"><strong>Windows Server</strong></a></td>
-<td>Yes</td>
-<td>Yes</td>
-<td>No</td>
-<td>Optimal for Windows containers when using process isolation mode</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://docs.adamrehn.com/ue4-docker/configuration/configuring-windows-10"><strong>Windows 10</strong></a></td>
-<td>Yes</td>
-<td>Yes</td>
-<td>No</td>
-<td>Sub-optimal for both Linux and Windows containers</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://docs.adamrehn.com/ue4-docker/configuration/configuring-macos"><strong>macOS</strong></a></td>
-<td>Yes</td>
-<td>No</td>
-<td>No</td>
-<td>Sub-optimal for Linux containers</td>
-</tr>
-</tbody></table>
-<p>直接调用gpu界面不使用图形界面来实现</p>
-<h2 id="先在ubuntu上安装docker环境"><a href="#先在ubuntu上安装docker环境" class="headerlink" title="先在ubuntu上安装docker环境"></a>先在ubuntu上安装docker环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br><span class="line"></span><br><span class="line">//更新apt软件包索引并安装软件包以允许apt通过HTTPS使用存储库：</span><br><span class="line">sudo apt-get update</span><br><span class="line">//添加Docker的官方GPG密钥:</span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line">//验证您现在是否拥有带有指纹的密钥:</span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line">//设置镜像仓库：（使用阿里云镜像地址）</span><br><span class="line">sudo add-apt-repository <span class="string">&quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu <span class="subst">$(lsb_release -cs)</span> stable&quot;</span></span><br><span class="line"></span><br><span class="line">安装最新版的docker</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;get.docker.com | sh \</span><br><span class="line">  &amp;&amp; sudo systemctl --now enable docker</span><br></pre></td></tr></table></figure>
-
-<h2 id="python环境"><a href="#python环境" class="headerlink" title="python环境"></a>python环境</h2><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//安装前看一下是否有软件</span><br><span class="line">install python3 python3-devel python3-pip</span><br><span class="line"></span><br><span class="line">配置Linux的防火墙</span><br><span class="line">ue4-docker setup</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装NVIDIA-toolkit"><a href="#安装NVIDIA-toolkit" class="headerlink" title="安装NVIDIA-toolkit"></a>安装NVIDIA-toolkit</h2><p><a target="_blank" rel="noopener" href="https://nvidia.github.io/">https://nvidia.github.io</a> 访问会有问题需要加速</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">distribution&#x3D;$(. &#x2F;etc&#x2F;os-release;echo $ID$VERSION_ID) \</span><br><span class="line">   &amp;&amp; curl -s -L https:&#x2F;&#x2F;nvidia.github.io&#x2F;nvidia-docker&#x2F;gpgkey | sudo apt-key add - \</span><br><span class="line">   &amp;&amp; curl -s -L https:&#x2F;&#x2F;nvidia.github.io&#x2F;nvidia-docker&#x2F;$distribution&#x2F;nvidia-docker.list | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;nvidia-docker.list</span><br><span class="line">   </span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;安装依赖软件</span><br><span class="line">sudo apt-get install -y nvidia-docker2</span><br><span class="line">&#x2F;&#x2F;重启docker 服务</span><br><span class="line">sudo systemctl restart docker</span><br><span class="line">&#x2F;&#x2F;根据 cuda 版本来选择执行下面命令即可</span><br><span class="line">docker run --rm --gpus all nvidia&#x2F;cuda:11.0-base nvidia-smi</span><br><span class="line"></span><br><span class="line">docker run --rm --gpus all nvidia&#x2F;cuda:10.0-base nvidia-smi</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<p>docker pull adamrehn/ue4-build-prerequisites:cudagl10.0</p>
-<p>docker-ue4 来构建 adamrehn/ue4-full:4.23.1-pixelstreaming 来提供给使用</p>
-<p>该过程很慢,可能会失败,需要注意</p>
-<p>ue4-docker build  custom:4.23.1-pixelstreaming  -repo=<a target="_blank" rel="noopener" href="https://github.com/adamrehn/UnrealEngine.git">https://github.com/adamrehn/UnrealEngine.git</a>  -branch=4.23.1-pixelstreaming  –cuda=10.1</p>
-<p>ue4-docker build custom:4.25-pixelstreaming -repo=<a target="_blank" rel="noopener" href="https://github.com/ImmortalEmperor/UnrealEngine.git">https://github.com/ImmortalEmperor/UnrealEngine.git</a> -branch=4.25-pixelstreaming      –cuda=10.1  –no-engine  </p>
-<h2 id="使用ue4-example-dockerfiles来搭建-ue4视频流的demo"><a href="#使用ue4-example-dockerfiles来搭建-ue4视频流的demo" class="headerlink" title="使用ue4-example-dockerfiles来搭建 ue4视频流的demo"></a>使用ue4-example-dockerfiles来搭建 ue4视频流的demo</h2><p>克隆 <a target="_blank" rel="noopener" href="https://hub.fastgit.org/adamrehn/ue4-example-dockerfiles.git%E5%9C%B0%E5%9D%80%E6%9D%A5">https://hub.fastgit.org/adamrehn/ue4-example-dockerfiles.git地址来</a></p>
-<p>构建adamrehn/ue4-full:4.23.1-pixelstreaming</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/EpicGames/UnrealEngine.git">https://github.com/EpicGames/UnrealEngine.git</a></p>
-<p>server 是需要的</p>
-<p>webrtc 也是需要的</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ue4-docker build</span><br></pre></td></tr></table></figure>
-
-<p>docker  run  –gpus=all  -e DISPLAY  –rm adamrehn/ue4-runtime:18.04-cudagl10.1-hostaudio</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A7%86%E9%A2%91%E6%B5%81/" rel="tag">视频流</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-kubernetes部署ceph集成kuboard" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1570,6 +1397,388 @@
 </ul>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/eceb4011ee01a3379b27bdb0df5ec10e.png" alt="eceb4011ee01a3379b27bdb0df5ec10e.png"></p>
 <p><strong>成功扩容！！</strong></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-docker-deploy-hbase" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/412589e1.html" class="article-date">
+      <time datetime="2021-12-14T07:22:14.000Z" itemprop="datePublished">2021-12-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/412589e1.html">docker运行hbase</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="docker部署hbase"><a href="#docker部署hbase" class="headerlink" title="docker部署hbase"></a>docker部署hbase</h1><p>系统为 centos7</p>
+<p>docker 安装的版本为 20.10.9</p>
+<h2 id="一-docker安装"><a href="#一-docker安装" class="headerlink" title="一,docker安装"></a>一,docker安装</h2><p>卸载系统仓库自带的docker</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="docker部署hbase"><a href="#docker部署hbase" class="headerlink" title="docker部署hbase"></a>docker部署hbase</h1><p>系统为 centos7</p>
+<p>docker 安装的版本为 20.10.9</p>
+<h2 id="一-docker安装"><a href="#一-docker安装" class="headerlink" title="一,docker安装"></a>一,docker安装</h2><p>卸载系统仓库自带的docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-engine</span><br></pre></td></tr></table></figure>
+
+<p>有三种方式来安装docker</p>
+<ol>
+<li>更新官方仓库后yum安装</li>
+<li>手动下载文件安装</li>
+<li>脚本文件安装</li>
+</ol>
+<p>目前准备使用第三种方式来安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https:&#x2F;&#x2F;get.docker.com -o get-docker.sh &amp;&amp; sh get-docker.sh</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="二-docker-compose来实现单节点容器的编排"><a href="#二-docker-compose来实现单节点容器的编排" class="headerlink" title="二,docker-compose来实现单节点容器的编排"></a>二,docker-compose来实现单节点容器的编排</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -L https:&#x2F;&#x2F;get.daocloud.io&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.25.1&#x2F;docker-compose-&#96;uname -s&#96;-&#96;uname -m&#96; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br><span class="line"></span><br><span class="line">chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>/usr/local/bin/docker-compose -f docker-compose-distributed-local.yml up -d</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">resourcemanager  8088 </span><br><span class="line"></span><br><span class="line">hbase-master 16000</span><br><span class="line"></span><br><span class="line">hbase-regionserver 16020</span><br><span class="line"></span><br><span class="line">zookeeper 2888 2181 3888</span><br><span class="line"></span><br><span class="line">historyserver 8188</span><br><span class="line"></span><br><span class="line">namenode 50070</span><br><span class="line"></span><br><span class="line">datanode 50075</span><br><span class="line"></span><br><span class="line">nodemanager 8042</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="三-使用docker-stack来实现"><a href="#三-使用docker-stack来实现" class="headerlink" title="三,使用docker stack来实现"></a>三,使用docker stack来实现</h2><h3 id="1-创建swarm的网络保证各个节点都能平等的被编排"><a href="#1-创建swarm的网络保证各个节点都能平等的被编排" class="headerlink" title="1.创建swarm的网络保证各个节点都能平等的被编排"></a>1.创建swarm的网络保证各个节点都能平等的被编排</h3><p>docker swarm  init  初始化一个swarm 的网络</p>
+<p>docker swarm join-token worker 显示 加入的token</p>
+<p> docker swarm join-token manager 显示加入的token</p>
+<p>目前使用下面加入manager,因为worker节点不能显示集群的细节</p>
+<p>在其他服务器上输入 下面类似的内容加入节点</p>
+<blockquote>
+<p>docker swarm join –token SWMTKN-1-0w6kjxx0j4epupf6r844dxpzoyxikrxqqgrqg319vqfg0y1gw7-31q237m76pyii2g0pw1c8nmtu 192.168.31.136:2377</p>
+</blockquote>
+<h3 id="2-docker-node-ls-查看目前的网络"><a href="#2-docker-node-ls-查看目前的网络" class="headerlink" title="2.docker node ls 查看目前的网络"></a>2.docker node ls 查看目前的网络</h3><p><img src="../img/image-20211214152312286.png" alt="image-20211214152312286"></p>
+<p>docker network create –driver overlay –scope swarm  hbase</p>
+<p>docker stack deploy –compose-file docker-compose-v3.yml  hdp</p>
+<p>docker stack ls   </p>
+<p>docker stack down hadoop</p>
+<p>docker network create –driver overlay –attachable –subnet 10.11.0.0/24 sg-hadoop</p>
+<p>Creating service hdp_nodemanager<br>Creating service hdp_hbase-master</p>
+<p>/opt/hbase-1.2.6/bin/hbase-daemon.sh restart  regionserver</p>
+<p>echo -e “hbase-region2\nhbase-region”  &gt;  /etc/hbase/regionservers</p>
+<p>docker service update –with-registry-auth  </p>
+<p>需要追加 –with-registry-auth</p>
+<p>docker exec -t 70f261259630  netstat -an | grep LISTEN | grep 50070</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">namenode:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">namenode:/hadoop/dfs/name</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CLUSTER_NAME=test</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">      <span class="comment">#   replicas: 1</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="comment"># placement:</span></span><br><span class="line">      <span class="comment">#   constraints:</span></span><br><span class="line">      <span class="comment">#     - node.hostname == akswnc4.aksw.uni-leipzig.de</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">9000</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9000</span><span class="string">:9000</span></span><br><span class="line">      <span class="comment"># - 50070:50070</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">datanode:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">datanode:/hadoop/dfs/data</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000&quot;</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">9867</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9867</span><span class="string">:9867</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">resourcemanager:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867&quot;</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">    <span class="comment">#     replicas: 1</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="comment"># placement:</span></span><br><span class="line">      <span class="comment">#   constraints:</span></span><br><span class="line">      <span class="comment">#     - node.hostname == akswnc4.aksw.uni-leipzig.de</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">8088</span></span><br><span class="line">    <span class="attr">healthcheck:</span></span><br><span class="line">      <span class="attr">disable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8088</span><span class="string">:8088</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="attr">nodemanager:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 resourcemanager:8088&quot;</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">8042</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8042</span><span class="string">:8042</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="attr">historyserver:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hadoop_historyserver:/hadoop/yarn/timeline</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 resourcemanager:8088&quot;</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">    <span class="comment">#  replicas: 1</span></span><br><span class="line">      <span class="comment"># placement:</span></span><br><span class="line">      <span class="comment">#   constraints:</span></span><br><span class="line">      <span class="comment">#     - node.hostname == akswnc4.aksw.uni-leipzig.de</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">8188</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8188</span><span class="string">:8188</span></span><br><span class="line">  <span class="attr">zookeeper:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper:3.4.10</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">ZOO_SERVERS:</span> <span class="string">server.1=0.0.0.0:2888:3888</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">2181</span><span class="string">:2181</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">hbase-master:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hbase-master:1.0.0-hbase1.2.6</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">hbase-master</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hbase-distributed-local.env</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 zookeeper:2181&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16000</span><span class="string">:16000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16010</span><span class="string">:16010</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">hbase-region:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hbase-regionserver:1.0.0-hbase1.2.6</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">hbase-regionserver</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hbase-distributed-local.env</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">HBASE_CONF_hbase_regionserver_hostname:</span> <span class="string">hbase-region</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 zookeepe:2181 hbase-master:16010&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16020</span><span class="string">:16020</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16030</span><span class="string">:16030</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">visualizer:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">dockersamples/visualizer:stable</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;8080:8080&quot;</span></span><br><span class="line">    <span class="attr">stop_grace_period:</span> <span class="string">1m30s</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;/var/run/docker.sock:/var/run/docker.sock&quot;</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span> [<span class="string">node.role</span> <span class="string">==</span> <span class="string">manager</span>]</span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">datanode:</span></span><br><span class="line">  <span class="attr">namenode:</span></span><br><span class="line">  <span class="attr">hadoop_historyserver:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">hbase:</span></span><br><span class="line">    <span class="attr">external:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">hbase</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>将自动创建service</p>
+<h3 id="3-使用docker-stack-ls来查看创建stack"><a href="#3-使用docker-stack-ls来查看创建stack" class="headerlink" title="3.使用docker stack ls来查看创建stack"></a>3.使用docker stack ls来查看创建stack</h3><p><img src="../img/image-20211214152334572.png" alt="image-20211214152334572"></p>
+<h3 id="4-使用docker-service-ls来查看service列表"><a href="#4-使用docker-service-ls来查看service列表" class="headerlink" title="4.使用docker service ls来查看service列表"></a>4.使用docker service ls来查看service列表</h3><p><img src="../img/image-20211214152347155.png" alt="image-20211214152347155"></p>
+<h3 id="5-使用yml中visualizer组件来显示部署的情况"><a href="#5-使用yml中visualizer组件来显示部署的情况" class="headerlink" title="5.使用yml中visualizer组件来显示部署的情况"></a>5.使用yml中visualizer组件来显示部署的情况</h3><p><img src="../img/image-20211214152401033.png" alt="image-20211214152401033"></p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>节点</th>
+<th>默认端口</th>
+<th>配置</th>
+<th>用途说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50010</td>
+<td>dfs.datanode.address</td>
+<td>datanode服务端口，用于数据传输</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50075</td>
+<td>dfs.datanode.http.address</td>
+<td>http服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50475</td>
+<td>dfs.datanode.https.address</td>
+<td>http服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50020</td>
+<td>dfs.datanode.ipc.address</td>
+<td>ipc服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>NameNode</td>
+<td>50070</td>
+<td>dfs.namenode.http-address</td>
+<td>http服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>NameNode</td>
+<td>50470</td>
+<td>dfs.namenode.https-address</td>
+<td>https服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>NameNode</td>
+<td>8020</td>
+<td>fs.defaultFS</td>
+<td>接收Client连接的RPC端口，用于获取文件系统metadata信息。</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>journalnode</td>
+<td>8485</td>
+<td>dfs.journalnode.rpc-address</td>
+<td>RPC服务</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>journalnode</td>
+<td>8480</td>
+<td>dfs.journalnode.http-address</td>
+<td>HTTP服务</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>ZKFC</td>
+<td>8019</td>
+<td>dfs.ha.zkfc.port</td>
+<td>ZooKeeper FailoverController，用于NN HA</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8032</td>
+<td>yarn.resourcemanager.address</td>
+<td>RM的applications manager(ASM)端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8030</td>
+<td>yarn.resourcemanager.scheduler.address</td>
+<td>scheduler组件的IPC端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8031</td>
+<td>yarn.resourcemanager.resource-tracker.address</td>
+<td>IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8033</td>
+<td>yarn.resourcemanager.admin.address</td>
+<td>IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8088</td>
+<td>yarn.resourcemanager.webapp.address</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>8040</td>
+<td>yarn.nodemanager.localizer.address</td>
+<td>localizer IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>8042</td>
+<td>yarn.nodemanager.webapp.address</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>8041</td>
+<td>yarn.nodemanager.address</td>
+<td>NM中container manager的端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>JobHistory Server</td>
+<td>10020</td>
+<td>mapreduce.jobhistory.address</td>
+<td>IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>JobHistory Server</td>
+<td>19888</td>
+<td>mapreduce.jobhistory.webapp.address</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>Master</td>
+<td>60000</td>
+<td>hbase.master.port</td>
+<td>IPC (主节点（HBase 主节点和任何备份的 HBase 主节点）</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>Master</td>
+<td>60010</td>
+<td>hbase.master.info.port</td>
+<td>http服务端口 (主节点（HBase 主节点和备份 HBase 主节点如果有))</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>RegionServer</td>
+<td>60020</td>
+<td>hbase.regionserver.port</td>
+<td>IPC( 所有从节点)</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>RegionServer</td>
+<td>60030</td>
+<td>hbase.regionserver.info.port</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>HQuorumPeer</td>
+<td>2181</td>
+<td>hbase.zookeeper.property.clientPort</td>
+<td>HBase-managed ZK mode，使用独立的ZooKeeper集群则不会启用该端口。</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>HQuorumPeer</td>
+<td>2888</td>
+<td>hbase.zookeeper.peerport</td>
+<td>HBase-managed ZK mode，使用独立的ZooKeeper集群则不会启用该端口。</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>HQuorumPeer</td>
+<td>3888</td>
+<td>hbase.zookeeper.leaderport</td>
+<td>HBase-managed ZK mode，使用独立的ZooKeeper集群则不会启用该端口。</td>
+</tr>
+<tr>
+<td>Hive</td>
+<td>Metastore</td>
+<td>9085</td>
+<td>/etc/default/hive-metastore中export PORT=<port>来更新默认端口</td>
+<td></td>
+</tr>
+<tr>
+<td>Hive</td>
+<td>HiveServer</td>
+<td>10000</td>
+<td>/etc/hive/conf/hive-env.sh中export HIVE_SERVER2_THRIFT_PORT=<port>来更新默认端口</td>
+<td></td>
+</tr>
+<tr>
+<td>ZooKeeper</td>
+<td>Server</td>
+<td>2181</td>
+<td>/etc/zookeeper/conf/zoo.cfg中clientPort=<port></td>
+<td>来自 ZooKeeper 的 config 的属性<code>zoo.cfg</code>。客户端将连接的端口。</td>
+</tr>
+<tr>
+<td>ZooKeeper</td>
+<td>Server</td>
+<td>2888</td>
+<td>/etc/zookeeper/conf/zoo.cfg中server.x=[hostname]:nnnnn[:nnnnn]，标蓝部分</td>
+<td>follower用来连接到leader，只在leader上监听该端口</td>
+</tr>
+<tr>
+<td>ZooKeeper</td>
+<td>Server</td>
+<td>3888</td>
+<td>/etc/zookeeper/conf/zoo.cfg中server.x=[hostname]:nnnnn[:nnnnn]，标蓝部分</td>
+<td>ZooKeeper 对等点用于相互通信的端口。有关更多信息，请参见<a target="_blank" rel="noopener" href="http://zookeeper.apache.org/doc/r3.4.3/zookeeperStarted.html#sc_RunningReplicatedZooKeeper">此处</a></td>
+</tr>
+</tbody></table>
+<h2 id="十-遇到的坑"><a href="#十-遇到的坑" class="headerlink" title="十,遇到的坑"></a>十,遇到的坑</h2><h3 id="1-在hadoop配置的需要主要"><a href="#1-在hadoop配置的需要主要" class="headerlink" title="1.在hadoop配置的需要主要"></a>1.在hadoop配置的需要主要</h3><p>配置url类似于 host:port 这种时 host 不能报考_ 等字符,否则会报 contain a valid host:port authority 包含 _</p>
+<h3 id="2-使用docker-stack-初始化的环境"><a href="#2-使用docker-stack-初始化的环境" class="headerlink" title="2.使用docker stack 初始化的环境"></a>2.使用docker stack 初始化的环境</h3><p>所有的服务会有个stack名称的前缀,且不能修改</p>
+<p>在集群中加入容器中后可以通过 服务名称就是 STACK_NAME 来调用也可以通过在yml中定义的services下面的节点名称来调用这个需要注意</p>
+<p>初始化后出现所有的service会加前缀导致域名不能和访问</p>
+<p>3.哈哈哈</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">File &#x2F;hbase&#x2F;.tmp&#x2F;hbase.version could only be written to 0 of the 1 minReplication nodes. There are 1 datanode(s) running and 1 node(s) are excluded in this operation</span><br></pre></td></tr></table></figure>
+
+<p>4.配置出错导致服务绑定对应的ip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Problem binding to hbase-region&#x2F;10.0.4.107:16040 : Cannot assign requested address. To switch ports use the &#39;hbase.regionserver.port&#39; configuration property.</span><br></pre></td></tr></table></figure>
+
 
                -->
         </div>
