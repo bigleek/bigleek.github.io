@@ -269,6 +269,529 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-docker-deploy-hbase" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/412589e1.html" class="article-date">
+      <time datetime="2021-12-14T07:22:14.000Z" itemprop="datePublished">2021-12-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/412589e1.html">docker运行hbase</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h1 id="docker部署hbase"><a href="#docker部署hbase" class="headerlink" title="docker部署hbase"></a>docker部署hbase</h1><p>系统为 centos7</p>
+<p>docker 安装的版本为 20.10.9</p>
+<h2 id="一-docker安装"><a href="#一-docker安装" class="headerlink" title="一,docker安装"></a>一,docker安装</h2><p>卸载系统仓库自带的docker</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h1 id="docker部署hbase"><a href="#docker部署hbase" class="headerlink" title="docker部署hbase"></a>docker部署hbase</h1><p>系统为 centos7</p>
+<p>docker 安装的版本为 20.10.9</p>
+<h2 id="一-docker安装"><a href="#一-docker安装" class="headerlink" title="一,docker安装"></a>一,docker安装</h2><p>卸载系统仓库自带的docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-engine</span><br></pre></td></tr></table></figure>
+
+<p>有三种方式来安装docker</p>
+<ol>
+<li>更新官方仓库后yum安装</li>
+<li>手动下载文件安装</li>
+<li>脚本文件安装</li>
+</ol>
+<p>目前准备使用第三种方式来安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https:&#x2F;&#x2F;get.docker.com -o get-docker.sh &amp;&amp; sh get-docker.sh</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="二-docker-compose来实现单节点容器的编排"><a href="#二-docker-compose来实现单节点容器的编排" class="headerlink" title="二,docker-compose来实现单节点容器的编排"></a>二,docker-compose来实现单节点容器的编排</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -L https:&#x2F;&#x2F;get.daocloud.io&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.25.1&#x2F;docker-compose-&#96;uname -s&#96;-&#96;uname -m&#96; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br><span class="line"></span><br><span class="line">chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>/usr/local/bin/docker-compose -f docker-compose-distributed-local.yml up -d</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">resourcemanager  8088 </span><br><span class="line"></span><br><span class="line">hbase-master 16000</span><br><span class="line"></span><br><span class="line">hbase-regionserver 16020</span><br><span class="line"></span><br><span class="line">zookeeper 2888 2181 3888</span><br><span class="line"></span><br><span class="line">historyserver 8188</span><br><span class="line"></span><br><span class="line">namenode 50070</span><br><span class="line"></span><br><span class="line">datanode 50075</span><br><span class="line"></span><br><span class="line">nodemanager 8042</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="三-使用docker-stack来实现"><a href="#三-使用docker-stack来实现" class="headerlink" title="三,使用docker stack来实现"></a>三,使用docker stack来实现</h2><h3 id="1-创建swarm的网络保证各个节点都能平等的被编排"><a href="#1-创建swarm的网络保证各个节点都能平等的被编排" class="headerlink" title="1.创建swarm的网络保证各个节点都能平等的被编排"></a>1.创建swarm的网络保证各个节点都能平等的被编排</h3><p>docker swarm  init  初始化一个swarm 的网络</p>
+<p>docker swarm join-token worker 显示 加入的token</p>
+<p> docker swarm join-token manager 显示加入的token</p>
+<p>目前使用下面加入manager,因为worker节点不能显示集群的细节</p>
+<p>在其他服务器上输入 下面类似的内容加入节点</p>
+<blockquote>
+<p>docker swarm join –token SWMTKN-1-0w6kjxx0j4epupf6r844dxpzoyxikrxqqgrqg319vqfg0y1gw7-31q237m76pyii2g0pw1c8nmtu 192.168.31.136:2377</p>
+</blockquote>
+<h3 id="2-docker-node-ls-查看目前的网络"><a href="#2-docker-node-ls-查看目前的网络" class="headerlink" title="2.docker node ls 查看目前的网络"></a>2.docker node ls 查看目前的网络</h3><p><img src="../img/image-20211214152312286.png" alt="image-20211214152312286"></p>
+<p>docker network create –driver overlay –scope swarm  hbase</p>
+<p>docker stack deploy –compose-file docker-compose-v3.yml  hdp</p>
+<p>docker stack ls   </p>
+<p>docker stack down hadoop</p>
+<p>docker network create –driver overlay –attachable –subnet 10.11.0.0/24 sg-hadoop</p>
+<p>Creating service hdp_nodemanager<br>Creating service hdp_hbase-master</p>
+<p>/opt/hbase-1.2.6/bin/hbase-daemon.sh restart  regionserver</p>
+<p>echo -e “hbase-region2\nhbase-region”  &gt;  /etc/hbase/regionservers</p>
+<p>docker service update –with-registry-auth  </p>
+<p>需要追加 –with-registry-auth</p>
+<p>docker exec -t 70f261259630  netstat -an | grep LISTEN | grep 50070</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">namenode:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">namenode:/hadoop/dfs/name</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">CLUSTER_NAME=test</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">      <span class="comment">#   replicas: 1</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="comment"># placement:</span></span><br><span class="line">      <span class="comment">#   constraints:</span></span><br><span class="line">      <span class="comment">#     - node.hostname == akswnc4.aksw.uni-leipzig.de</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">9000</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9000</span><span class="string">:9000</span></span><br><span class="line">      <span class="comment"># - 50070:50070</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">datanode:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">datanode:/hadoop/dfs/data</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000&quot;</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">9867</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9867</span><span class="string">:9867</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">resourcemanager:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867&quot;</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">    <span class="comment">#     replicas: 1</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="comment"># placement:</span></span><br><span class="line">      <span class="comment">#   constraints:</span></span><br><span class="line">      <span class="comment">#     - node.hostname == akswnc4.aksw.uni-leipzig.de</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">8088</span></span><br><span class="line">    <span class="attr">healthcheck:</span></span><br><span class="line">      <span class="attr">disable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8088</span><span class="string">:8088</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="attr">nodemanager:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 resourcemanager:8088&quot;</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">8042</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8042</span><span class="string">:8042</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="attr">historyserver:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hadoop_historyserver:/hadoop/yarn/timeline</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 resourcemanager:8088&quot;</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hadoop.env</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">    <span class="comment">#  replicas: 1</span></span><br><span class="line">      <span class="comment"># placement:</span></span><br><span class="line">      <span class="comment">#   constraints:</span></span><br><span class="line">      <span class="comment">#     - node.hostname == akswnc4.aksw.uni-leipzig.de</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">traefik.docker.network:</span> <span class="string">hbase</span></span><br><span class="line">        <span class="attr">traefik.port:</span> <span class="number">8188</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8188</span><span class="string">:8188</span></span><br><span class="line">  <span class="attr">zookeeper:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper:3.4.10</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">ZOO_SERVERS:</span> <span class="string">server.1=0.0.0.0:2888:3888</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">2181</span><span class="string">:2181</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">hbase-master:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hbase-master:1.0.0-hbase1.2.6</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">hbase-master</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hbase-distributed-local.env</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 zookeeper:2181&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16000</span><span class="string">:16000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16010</span><span class="string">:16010</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">hbase-region:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bde2020/hbase-regionserver:1.0.0-hbase1.2.6</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">hbase-regionserver</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hbase</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./hbase-distributed-local.env</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">HBASE_CONF_hbase_regionserver_hostname:</span> <span class="string">hbase-region</span></span><br><span class="line">      <span class="attr">SERVICE_PRECONDITION:</span> <span class="string">&quot;namenode:9000 datanode:9867 zookeepe:2181 hbase-master:16010&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16020</span><span class="string">:16020</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">16030</span><span class="string">:16030</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">visualizer:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">dockersamples/visualizer:stable</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;8080:8080&quot;</span></span><br><span class="line">    <span class="attr">stop_grace_period:</span> <span class="string">1m30s</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;/var/run/docker.sock:/var/run/docker.sock&quot;</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span> [<span class="string">node.role</span> <span class="string">==</span> <span class="string">manager</span>]</span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">datanode:</span></span><br><span class="line">  <span class="attr">namenode:</span></span><br><span class="line">  <span class="attr">hadoop_historyserver:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">hbase:</span></span><br><span class="line">    <span class="attr">external:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">hbase</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>将自动创建service</p>
+<h3 id="3-使用docker-stack-ls来查看创建stack"><a href="#3-使用docker-stack-ls来查看创建stack" class="headerlink" title="3.使用docker stack ls来查看创建stack"></a>3.使用docker stack ls来查看创建stack</h3><p><img src="../img/image-20211214152334572.png" alt="image-20211214152334572"></p>
+<h3 id="4-使用docker-service-ls来查看service列表"><a href="#4-使用docker-service-ls来查看service列表" class="headerlink" title="4.使用docker service ls来查看service列表"></a>4.使用docker service ls来查看service列表</h3><p><img src="../img/image-20211214152347155.png" alt="image-20211214152347155"></p>
+<h3 id="5-使用yml中visualizer组件来显示部署的情况"><a href="#5-使用yml中visualizer组件来显示部署的情况" class="headerlink" title="5.使用yml中visualizer组件来显示部署的情况"></a>5.使用yml中visualizer组件来显示部署的情况</h3><p><img src="../img/image-20211214152401033.png" alt="image-20211214152401033"></p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>节点</th>
+<th>默认端口</th>
+<th>配置</th>
+<th>用途说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50010</td>
+<td>dfs.datanode.address</td>
+<td>datanode服务端口，用于数据传输</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50075</td>
+<td>dfs.datanode.http.address</td>
+<td>http服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50475</td>
+<td>dfs.datanode.https.address</td>
+<td>http服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DateNode</td>
+<td>50020</td>
+<td>dfs.datanode.ipc.address</td>
+<td>ipc服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>NameNode</td>
+<td>50070</td>
+<td>dfs.namenode.http-address</td>
+<td>http服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>NameNode</td>
+<td>50470</td>
+<td>dfs.namenode.https-address</td>
+<td>https服务的端口</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>NameNode</td>
+<td>8020</td>
+<td>fs.defaultFS</td>
+<td>接收Client连接的RPC端口，用于获取文件系统metadata信息。</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>journalnode</td>
+<td>8485</td>
+<td>dfs.journalnode.rpc-address</td>
+<td>RPC服务</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>journalnode</td>
+<td>8480</td>
+<td>dfs.journalnode.http-address</td>
+<td>HTTP服务</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>ZKFC</td>
+<td>8019</td>
+<td>dfs.ha.zkfc.port</td>
+<td>ZooKeeper FailoverController，用于NN HA</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8032</td>
+<td>yarn.resourcemanager.address</td>
+<td>RM的applications manager(ASM)端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8030</td>
+<td>yarn.resourcemanager.scheduler.address</td>
+<td>scheduler组件的IPC端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8031</td>
+<td>yarn.resourcemanager.resource-tracker.address</td>
+<td>IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8033</td>
+<td>yarn.resourcemanager.admin.address</td>
+<td>IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManage</td>
+<td>8088</td>
+<td>yarn.resourcemanager.webapp.address</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>8040</td>
+<td>yarn.nodemanager.localizer.address</td>
+<td>localizer IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>8042</td>
+<td>yarn.nodemanager.webapp.address</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>8041</td>
+<td>yarn.nodemanager.address</td>
+<td>NM中container manager的端口</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>JobHistory Server</td>
+<td>10020</td>
+<td>mapreduce.jobhistory.address</td>
+<td>IPC</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>JobHistory Server</td>
+<td>19888</td>
+<td>mapreduce.jobhistory.webapp.address</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>Master</td>
+<td>60000</td>
+<td>hbase.master.port</td>
+<td>IPC (主节点（HBase 主节点和任何备份的 HBase 主节点）</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>Master</td>
+<td>60010</td>
+<td>hbase.master.info.port</td>
+<td>http服务端口 (主节点（HBase 主节点和备份 HBase 主节点如果有))</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>RegionServer</td>
+<td>60020</td>
+<td>hbase.regionserver.port</td>
+<td>IPC( 所有从节点)</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>RegionServer</td>
+<td>60030</td>
+<td>hbase.regionserver.info.port</td>
+<td>http服务端口</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>HQuorumPeer</td>
+<td>2181</td>
+<td>hbase.zookeeper.property.clientPort</td>
+<td>HBase-managed ZK mode，使用独立的ZooKeeper集群则不会启用该端口。</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>HQuorumPeer</td>
+<td>2888</td>
+<td>hbase.zookeeper.peerport</td>
+<td>HBase-managed ZK mode，使用独立的ZooKeeper集群则不会启用该端口。</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>HQuorumPeer</td>
+<td>3888</td>
+<td>hbase.zookeeper.leaderport</td>
+<td>HBase-managed ZK mode，使用独立的ZooKeeper集群则不会启用该端口。</td>
+</tr>
+<tr>
+<td>Hive</td>
+<td>Metastore</td>
+<td>9085</td>
+<td>/etc/default/hive-metastore中export PORT=<port>来更新默认端口</td>
+<td></td>
+</tr>
+<tr>
+<td>Hive</td>
+<td>HiveServer</td>
+<td>10000</td>
+<td>/etc/hive/conf/hive-env.sh中export HIVE_SERVER2_THRIFT_PORT=<port>来更新默认端口</td>
+<td></td>
+</tr>
+<tr>
+<td>ZooKeeper</td>
+<td>Server</td>
+<td>2181</td>
+<td>/etc/zookeeper/conf/zoo.cfg中clientPort=<port></td>
+<td>来自 ZooKeeper 的 config 的属性<code>zoo.cfg</code>。客户端将连接的端口。</td>
+</tr>
+<tr>
+<td>ZooKeeper</td>
+<td>Server</td>
+<td>2888</td>
+<td>/etc/zookeeper/conf/zoo.cfg中server.x=[hostname]:nnnnn[:nnnnn]，标蓝部分</td>
+<td>follower用来连接到leader，只在leader上监听该端口</td>
+</tr>
+<tr>
+<td>ZooKeeper</td>
+<td>Server</td>
+<td>3888</td>
+<td>/etc/zookeeper/conf/zoo.cfg中server.x=[hostname]:nnnnn[:nnnnn]，标蓝部分</td>
+<td>ZooKeeper 对等点用于相互通信的端口。有关更多信息，请参见<a target="_blank" rel="noopener" href="http://zookeeper.apache.org/doc/r3.4.3/zookeeperStarted.html#sc_RunningReplicatedZooKeeper">此处</a></td>
+</tr>
+</tbody></table>
+<h2 id="十-遇到的坑"><a href="#十-遇到的坑" class="headerlink" title="十,遇到的坑"></a>十,遇到的坑</h2><h3 id="1-在hadoop配置的需要主要"><a href="#1-在hadoop配置的需要主要" class="headerlink" title="1.在hadoop配置的需要主要"></a>1.在hadoop配置的需要主要</h3><p>配置url类似于 host:port 这种时 host 不能报考_ 等字符,否则会报 contain a valid host:port authority 包含 _</p>
+<h3 id="2-使用docker-stack-初始化的环境"><a href="#2-使用docker-stack-初始化的环境" class="headerlink" title="2.使用docker stack 初始化的环境"></a>2.使用docker stack 初始化的环境</h3><p>所有的服务会有个stack名称的前缀,且不能修改</p>
+<p>在集群中加入容器中后可以通过 服务名称就是 STACK_NAME 来调用也可以通过在yml中定义的services下面的节点名称来调用这个需要注意</p>
+<p>初始化后出现所有的service会加前缀导致域名不能和访问</p>
+<p>3.哈哈哈</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">File &#x2F;hbase&#x2F;.tmp&#x2F;hbase.version could only be written to 0 of the 1 minReplication nodes. There are 1 datanode(s) running and 1 node(s) are excluded in this operation</span><br></pre></td></tr></table></figure>
+
+<p>4.配置出错导致服务绑定对应的ip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Problem binding to hbase-region&#x2F;10.0.4.107:16040 : Cannot assign requested address. To switch ports use the &#39;hbase.regionserver.port&#39; configuration property.</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-clickhouse-tutorial" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/3b2506a.html" class="article-date">
+      <time datetime="2021-12-10T03:15:32.000Z" itemprop="datePublished">2021-12-10</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/3b2506a.html">clickhouse的简单教程</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h2 id="clickhouse部署和查询小结"><a href="#clickhouse部署和查询小结" class="headerlink" title="clickhouse部署和查询小结"></a>clickhouse部署和查询小结</h2><p>/etc/clickhouse-server/users.xml</p>
+<p>docker version ：1.13.1</p>
+<ul>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h2 id="clickhouse部署和查询小结"><a href="#clickhouse部署和查询小结" class="headerlink" title="clickhouse部署和查询小结"></a>clickhouse部署和查询小结</h2><p>/etc/clickhouse-server/users.xml</p>
+<p>docker version ：1.13.1</p>
+<ul>
+<li><p>简单修改 config.xml 中<listen_host>0.0.0.0</listen_host>  保证外部能访问</p>
+</li>
+<li><p>同时修改users.xml 的为 <password>123456</password>  如果使用md5 加密 着需要修改标签为</p>
+</li>
+</ul>
+<p>目前保存配置文件的地方有两个 <strong>/var/lib/clickhouse/preprocessed_configs</strong> ， <strong>/etc/clickhouse-server/</strong> </p>
+<p>后面的目录下的文件会复制到 前者，如果如果直接修改前面目录内的文件是不会成功的。</p>
+<h2 id="起初是直接修改-不行"><a href="#起初是直接修改-不行" class="headerlink" title="起初是直接修改 不行"></a>起初是直接修改 不行</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span><span class="bash"> -d --name some-clickhouse-server --privileged=<span class="literal">true</span> --<span class="built_in">ulimit</span> nofile=262144:262144 --volume=/root/clickhouse_data:/var/lib/clickhouse -p 8123:8123  yandex/clickhouse-server</span></span><br></pre></td></tr></table></figure>
+
+<p>修改 /root/clickhouse_data/preprocessed_configs/users.xml 后无论使用 docker restart 还是进容器里面重启后都是都没有修改。</p>
+<h2 id="然后是挂载目录还不行"><a href="#然后是挂载目录还不行" class="headerlink" title="然后是挂载目录还不行"></a>然后是挂载目录还不行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm  --name clickhouse-server  --privileged&#x3D;true  --net&#x3D;host --ulimit nofile&#x3D;262144:262144 --volume&#x3D;&#x2F;root&#x2F;clickhouse_data:&#x2F;var&#x2F;lib&#x2F;clickhouse  --volume&#x3D;&#x2F;root&#x2F;clickhouse_config:&#x2F;etc&#x2F;clickhouse-server  yandex&#x2F;clickhouse-server</span><br></pre></td></tr></table></figure>
+
+<p>报错没有修改的权限，这部分由于涉及到具体的操作就放弃了</p>
+<blockquote>
+<p>Configuration file ‘/etc/clickhouse-server/config.xml’ isn’t readable by user with id ‘101’</p>
+</blockquote>
+<h2 id="最后在本地rpm包部署成功"><a href="#最后在本地rpm包部署成功" class="headerlink" title="最后在本地rpm包部署成功"></a>最后在本地rpm包部署成功</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install yum-utils</span><br><span class="line">sudo rpm --import https:&#x2F;&#x2F;repo.clickhouse.com&#x2F;CLICKHOUSE-KEY.GPG</span><br><span class="line">sudo yum-config-manager --add-repo https:&#x2F;&#x2F;repo.clickhouse.com&#x2F;rpm&#x2F;stable&#x2F;x86_64</span><br><span class="line"></span><br><span class="line">sudo yum install clickhouse-server clickhouse-client</span><br><span class="line"></span><br><span class="line">如果没有 yum-config-manager 需要安装 yum-utils</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="final-使用dockerfile实现"><a href="#final-使用dockerfile实现" class="headerlink" title="final 使用dockerfile实现"></a>final 使用dockerfile实现</h2><blockquote>
+<p>Processing configuration file ‘/etc/clickhouse-server/config.xml’.<br>Merging configuration file ‘/etc/clickhouse-server/config.d/docker_related_config.xml’.<br>Logging trace to /var/log/clickhouse-server/clickhouse-server.log<br>Logging errors to /var/log/clickhouse-server/clickhouse-server.err.log<br>Processing configuration file ‘/etc/clickhouse-server/config.xml’.<br>Merging configuration file ‘/etc/clickhouse-server/config.d/docker_related_config.xml’.<br>Saved preprocessed configuration to ‘/var/lib/clickhouse/preprocessed_configs/config.xml’.<br>Processing configuration file ‘/etc/clickhouse-server/users.xml’.<br>Saved preprocessed configuration to ‘/var/lib/clickhouse/preprocessed_configs/users.xml’.</p>
+</blockquote>
+<p>由于不能直接挂载</p>
+<p>所有使用Dockerfile 来打包 内容为</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> yandex/clickhouse-server</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> users.xml  /etc/clickhouse-server/users.xml</span></span><br></pre></td></tr></table></figure>
+
+<p>然后 **docker  build -t  clickhouse:lastet  . ** ，打包完成后运行</p>
+<h2 id="使用clickhouse入门"><a href="#使用clickhouse入门" class="headerlink" title="使用clickhouse入门"></a>使用clickhouse入门</h2><p>我们使用的是最简单的clickhouse ，引擎使用 MergeTree</p>
+<p>使用</p>
+<p>官方提供的数据来实现 <a target="_blank" rel="noopener" href="https://clickhouse.com/docs/en/getting-started/example-datasets/cell-towers/">https://clickhouse.com/docs/en/getting-started/example-datasets/cell-towers/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- auto-generated definition</span><br><span class="line">create table kafka_iot_dev_data_state_queue</span><br><span class="line">(</span><br><span class="line">    json String</span><br><span class="line">)</span><br><span class="line">    engine &#x3D; Kafka SETTINGS kafka_broker_list &#x3D; &#39;&#123;IP&#125;&#39;, kafka_topic_list &#x3D; &#39;&#123;TOPIC&#125;&#39;, kafka_group_name &#x3D; &#39;&#123;GROUP_NAME&#125;&#39;, kafka_format &#x3D; &#39;JSONAsString&#39;;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">CREATE MATERIALIZED VIEW zhyl.TABLE_NAME1 TO zhyl.TABLE_NAME2</span><br><span class="line">(</span><br><span class="line">    &#96;rdid&#96; String,</span><br><span class="line">    &#96;prdid&#96; String,</span><br><span class="line">    &#96;kdcode&#96; String,</span><br><span class="line">    &#96;devid&#96; String,</span><br><span class="line">    &#96;rdstate&#96; String,</span><br><span class="line">    &#96;rdtime&#96; DateTime,</span><br><span class="line">    &#96;content&#96; Nullable (String),</span><br><span class="line">    &#96;dev&#96; Nullable (String)</span><br><span class="line">)</span><br><span class="line">AS</span><br><span class="line">SELECT JSONExtractString(json, &#39;rdid&#39;)    AS rdid,</span><br><span class="line">       JSONExtractString(json, &#39;prdid&#39;)   AS prdid,</span><br><span class="line">       JSONExtractString(json, &#39;kdcode&#39;)  AS kdcode,</span><br><span class="line">       JSONExtractString(json, &#39;devid&#39;)   AS devid,</span><br><span class="line">       JSONExtractString(json, &#39;rdstate&#39;) AS rdstate,</span><br><span class="line">       JSONExtractString(json, &#39;rdtime&#39;)  AS rdtime,</span><br><span class="line">       JSONExtractString(json, &#39;content&#39;) AS content,</span><br><span class="line">       JSONExtractString(json, &#39;dev&#39;)     AS dev</span><br><span class="line">FROM zhyl.kafka_iot_dev_data_rd_queue;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">create table TABLE_NAME1</span><br><span class="line">(</span><br><span class="line">    rdid    String,</span><br><span class="line">    prdid   String,</span><br><span class="line">    kdcode  String,</span><br><span class="line">    devid   String,</span><br><span class="line">    rdstate String,</span><br><span class="line">    rdtime  DateTime(&#39;Asia&#x2F;Shanghai&#39;),</span><br><span class="line">    content String,</span><br><span class="line">    dev     String</span><br><span class="line">)</span><br><span class="line">    engine &#x3D; MergeTree PARTITION BY (toYYYYMM(rdtime))</span><br><span class="line">        ORDER BY rdid</span><br><span class="line">        SETTINGS index_granularity &#x3D; 8192;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">select rdtime  from kafka_data_11 WHERE  rdtime &lt; &#39;2021-11-30 02:53:49&#39; and rdtime &gt; &#39;2021-11-27 02:53:49&#39; AND kdcode &#x3D; &#39;hmb&#39;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>目前接触的函数包括</p>
+<ul>
+<li><p>visitParamExtractString 解析json数据后获取key对应的value</p>
+</li>
+<li><p>visitParamExtractRaw 解析json数据后防护原始值</p>
+</li>
+<li></li>
+</ul>
+<p>补充</p>
+<p>使用tabix来查询和管理clickhouse </p>
+<p><img src="../img/image-20211210112201203.png" alt="image-20211210112201203"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-hadoop-hbase-summary" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1556,182 +2079,6 @@
 
 <p>下面是其他日志 目前前端只需要简单的js来实现</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;type&quot;: &quot;iceCandidate&quot;,</span><br><span class="line">    &quot;candidate&quot;: &#123;</span><br><span class="line">    &quot;candidate&quot;: &quot;candidate:2859681617 1 udp 2113937151 4ffffdaa-0101-4122-a4fb-b6c4c308d3e5.local 54016 typ host generation 0 ufrag R2GR network-cost 999&quot;,</span><br><span class="line">    &quot;sdpMid&quot;: &quot;0&quot;,</span><br><span class="line">    &quot;sdpMLineIndex&quot;: 0</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-gis-coordinate" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/8707cf2d.html" class="article-date">
-      <time datetime="2021-09-09T08:28:12.000Z" itemprop="datePublished">2021-09-09</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/8707cf2d.html">gis-coordinate</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <p><a target="_blank" rel="noopener" href="https://blog.geohey.com/-ge-xiao-you-xi-rang-ni-che-di-nong-dong-mo-qia-tuo-tou-ying/">https://blog.geohey.com/-ge-xiao-you-xi-rang-ni-che-di-nong-dong-mo-qia-tuo-tou-ying/</a><br>常见的坐标系和格式</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-copy-running-jarfile-inside" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/12016e7b.html" class="article-date">
-      <time datetime="2021-08-23T09:05:54.000Z" itemprop="datePublished">2021-08-23</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="成功方式"><a href="#成功方式" class="headerlink" title="成功方式"></a>成功方式</h3><p>利用jarFile来实现 文件读取</p>
-<p>参考链接 <a target="_blank" rel="noopener" href="https://www.codenong.com/1463192/">https://www.codenong.com/1463192/</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">String destDirPath &#x3D; getCurrentDirPath();</span><br><span class="line">       &#x2F;&#x2F; 读取jar文件</span><br><span class="line">        URL resource &#x3D; this.getClass().getResource(&quot;&#x2F;PSTools&quot;);</span><br><span class="line">       JarURLConnection conn &#x3D; (JarURLConnection) resource.openConnection();</span><br><span class="line">       JarFile jarFile &#x3D; conn.getJarFile();</span><br><span class="line">       final Enumeration&lt;JarEntry&gt; entries &#x3D; jarFile.entries();</span><br><span class="line">       while (entries.hasMoreElements()) &#123;</span><br><span class="line">           final JarEntry entry &#x3D; entries.nextElement();</span><br><span class="line">           if (entry.getName().contains(&quot;.exe&quot;)) &#123;</span><br><span class="line">               System.out.println(&quot;File :&quot; + entry.getName());</span><br><span class="line">               JarEntry fileEntry &#x3D; jarFile.getJarEntry(entry.getName());</span><br><span class="line">               InputStream input &#x3D; jarFile.getInputStream(fileEntry);</span><br><span class="line">               FileUtils.copyInputStreamToFile(input,new File(destDirPath,entry.getName()));</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="成功方式"><a href="#成功方式" class="headerlink" title="成功方式"></a>成功方式</h3><p>利用jarFile来实现 文件读取</p>
-<p>参考链接 <a target="_blank" rel="noopener" href="https://www.codenong.com/1463192/">https://www.codenong.com/1463192/</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">String destDirPath &#x3D; getCurrentDirPath();</span><br><span class="line">       &#x2F;&#x2F; 读取jar文件</span><br><span class="line">        URL resource &#x3D; this.getClass().getResource(&quot;&#x2F;PSTools&quot;);</span><br><span class="line">       JarURLConnection conn &#x3D; (JarURLConnection) resource.openConnection();</span><br><span class="line">       JarFile jarFile &#x3D; conn.getJarFile();</span><br><span class="line">       final Enumeration&lt;JarEntry&gt; entries &#x3D; jarFile.entries();</span><br><span class="line">       while (entries.hasMoreElements()) &#123;</span><br><span class="line">           final JarEntry entry &#x3D; entries.nextElement();</span><br><span class="line">           if (entry.getName().contains(&quot;.exe&quot;)) &#123;</span><br><span class="line">               System.out.println(&quot;File :&quot; + entry.getName());</span><br><span class="line">               JarEntry fileEntry &#x3D; jarFile.getJarEntry(entry.getName());</span><br><span class="line">               InputStream input &#x3D; jarFile.getInputStream(fileEntry);</span><br><span class="line">               FileUtils.copyInputStreamToFile(input,new File(destDirPath,entry.getName()));</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="错误1"><a href="#错误1" class="headerlink" title="错误1"></a>错误1</h3><p>主要是 希望列出jar内的文件路径来实现读取 jar包内指定路径下的所有文件并复制出来</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">File[] files = <span class="keyword">new</span> File(currentDirPath).listFiles();</span><br><span class="line">       String path = <span class="keyword">this</span>.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();</span><br><span class="line">       <span class="keyword">for</span> (File file : files) &#123;</span><br><span class="line">           FileUtils.copyDirectory(file,<span class="keyword">new</span> File(path));</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="错误2"><a href="#错误2" class="headerlink" title="错误2"></a>错误2</h3><p>这个是这参考这位博主的文章 <a target="_blank" rel="noopener" href="https://yebukong.com/article/1102629952022507521.html">https://yebukong.com/article/1102629952022507521.html</a></p>
-<p>没有生效 读取读取不到 jar包内 classpath 的文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*  ResourcePatternResolver resolver &#x3D; new PathMatchingResourcePatternResolver();</span><br><span class="line">       Resource[] resources &#x3D; resolver.getResources(&quot;static&#x2F;blog&#x2F;**&quot;);</span><br><span class="line">       for (Resource resource : resources) &#123;</span><br><span class="line">           FreeMarkerUtil.copyResourceToFile(resource, aPath,&quot;&#x2F;static&#x2F;blog&#x2F;&quot;);</span><br><span class="line">       &#125;*&#x2F;</span><br></pre></td></tr></table></figure>
-
-<h3 id="错误3"><a href="#错误3" class="headerlink" title="错误3"></a>错误3</h3><p>目前只能读到文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String path &#x3D; new File(getClass().getResource(&quot;&quot;).getPath()).getParentFile().getParent());</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="错误4"><a href="#错误4" class="headerlink" title="错误4"></a>错误4</h3><p>目前读取不到jar 下面的文件夹和具体文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">URL[] urls &#x3D; &#123;this.getClass().getResource(&quot;&#x2F;PSTools&quot;) &#125;;</span><br><span class="line">       URLClassLoader cl &#x3D; URLClassLoader.newInstance(urls);</span><br></pre></td></tr></table></figure>
 
 
                -->

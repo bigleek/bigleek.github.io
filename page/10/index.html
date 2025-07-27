@@ -269,6 +269,226 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-lucene-demo-ikAnalyzer" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/c3e283f6.html" class="article-date">
+      <time datetime="2022-07-07T01:59:10.000Z" itemprop="datePublished">2022-07-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/c3e283f6.html">lucene的demo使用ikAnalyzer</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>–2022-7-7补充</p>
+<p><a target="_blank" rel="noopener" href="https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/198.html">GeoQuery（一）-html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hanfight/p/5776769.html">Lucene Spatial构建地理空间索引 - 韩要奋斗 - 博客园</a></p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>–2022-7-7补充</p>
+<p><a target="_blank" rel="noopener" href="https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/198.html">GeoQuery（一）-html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hanfight/p/5776769.html">Lucene Spatial构建地理空间索引 - 韩要奋斗 - 博客园</a></p>
+<p>Lucene下面关于地理信息的内容</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Never_1213/article/details/105093018">lucene多条件查询_三天打鱼_的博客-CSDN博客_lucene多条件查询</a></p>
+<h1 id="lucene和ik分词器"><a href="#lucene和ik分词器" class="headerlink" title="lucene和ik分词器"></a>lucene和ik分词器</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenying99/archive/2012/06/23/2559621.html">使用Lucene-Spatial实现集成地理位置的全文检索 - 刺猬的温驯 - 博客园</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hj7jay/article/details/101017364">Springboot下的Lucene(详细版)_程序猿开发日志【学习永无止境】-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="http://majsunflower.cn/2020/05/10/Lucene%E6%90%AD%E5%BB%BA%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E5%88%9D%E6%8E%A2/">Lucene搭建搜索引擎初探 | 大嘴怪的小世界</a></p>
+<p><img src="../img/1641799344593-2bfa1c5c-6702-49ee-ad16-a2ad4715d778.png" alt="image.png"></p>
+<p>索引(Index) –&gt; 段(segment) –&gt; 文档(Document) –&gt; 域(Field) –&gt; 词(Term)</p>
+<p><a target="_blank" rel="noopener" href="https://hub.fastgit.org/blueshen/ik-analyzer.git">https://hub.fastgit.org/blueshen/ik-analyzer.git</a> 使用的ik分词器地址同时</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">       <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        &lt;lucene.version&gt;8.9.0&lt;/lucene.version&gt;--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">lucene.version</span>&gt;</span>7.2.1<span class="tag">&lt;/<span class="name">lucene.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">   <span class="comment">&lt;!-- Lucene 核心库 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lucene.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- Lucene 解析库 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-queryparser<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lucene.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- Lucene 附加的分析库 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-analyzers-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lucene.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-test-framework<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lucene.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.wltea.ik-analyzer<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ik-analyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>9.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用luke来查询索引的数据</p>
+<p><img src="../img/image-20220111100347933.png" alt="image-20220111100347933"></p>
+<h2 id="lucene集成ik和pinyin分词器"><a href="#lucene集成ik和pinyin分词器" class="headerlink" title="lucene集成ik和pinyin分词器"></a>lucene集成ik和pinyin分词器</h2><p> <a href="..%5Cfiles%5Cpinyin4j-2.5.1.jar">pinyin4j-2.5.1.jar</a> </p>
+<p> <a href="..%5Cfiles%5CpinyinAnalyzer4.3.1.jar">pinyinAnalyzer4.3.1.jar</a> </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.belerweb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;scope&gt;system&lt;/scope&gt;--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;systemPath&gt;$&#123;project.basedir&#125;/src/main/resources/lib/pinyin4j-2.5.0.jar&lt;/systemPath&gt;--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyin4j-2.5.1.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.shentong<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyinAnalyzer4.3.1.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>该部分参考</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/jayson1001/article/details/78113306">lucene6.6+拼音分词+ik分词实现_jayson1001的博客-CSDN博客_lucene 拼音分词</a></li>
+</ul>
+<p>实现的原理就是使用创建个 IndexPinyinAnalyzer 使用IKTokenizer 和PinyinTransformTokenFilter实现分词汉字和拼音的效果</p>
+<p>测试的部分代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) throws IOException &#123;</span><br><span class="line">    Analyzer analyzer &#x3D; new IndexPinyinAnalyzer(false);</span><br><span class="line">    TokenStream tokenStream &#x3D; analyzer.tokenStream(&quot;fff&quot;, &quot;标高1-KL33&quot;);</span><br><span class="line">    &#x2F;&#x2F;添加一个引用，可以获得每个关键词</span><br><span class="line">    CharTermAttribute charTermAttribute &#x3D; tokenStream.addAttribute(CharTermAttribute.class);</span><br><span class="line">    &#x2F;&#x2F;添加一个偏移量的引用，记录了关键词的开始位置以及结束位置</span><br><span class="line">    OffsetAttribute offsetAttribute &#x3D; tokenStream.addAttribute(OffsetAttribute.class);</span><br><span class="line">    &#x2F;&#x2F;将指针调整到列表的头部</span><br><span class="line">    tokenStream.reset();</span><br><span class="line">    &#x2F;&#x2F;遍历关键词列表，通过incrementToken方法判断列表是否结束</span><br><span class="line">    while(tokenStream.incrementToken()) &#123;</span><br><span class="line">        &#x2F;&#x2F;关键词的起始位置</span><br><span class="line">        System.out.println(&quot;start---------------&quot; + offsetAttribute.startOffset());</span><br><span class="line">        &#x2F;&#x2F;取关键词</span><br><span class="line">        System.out.println(&quot;分词内容： &quot;+charTermAttribute);</span><br><span class="line">        &#x2F;&#x2F;结束位置</span><br><span class="line">        System.out.println(&quot;end---------------------&quot; + offsetAttribute.endOffset());</span><br><span class="line">    &#125;</span><br><span class="line">    tokenStream.close();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果</p>
+<blockquote>
+<p>start—————0<br>分词内容标高<br>end———————2<br>start—————0<br>分词内容bg<br>end———————2<br>start—————2<br>分词内容1-kl33<br>end———————8<br>start—————4<br>分词内容kl<br>end———————6<br>start—————6<br>分词内容33<br>end———————8</p>
+</blockquote>
+<p>需要注意几点</p>
+<ol>
+<li>pinyin4j 需要是2.5.1</li>
+<li>分词和使用的dic有关,笔者使用的默认值,在日志中会打印org.wltea.analyzer.dic.Dictionary - 加载扩展停止词典:org/wltea/analyzer/dic/stopword.dic</li>
+</ol>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-http-rpc的区别和介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/224b9f31.html" class="article-date">
+      <time datetime="2022-06-30T06:39:45.000Z" itemprop="datePublished">2022-06-30</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/224b9f31.html">http-rpc的区别和介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>参考内容 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/41609070/answer/1030913797">既然有 HTTP 请求，为什么还要用 RPC 调用？ - 知乎</a></p>
+<h2 id="http介绍"><a href="#http介绍" class="headerlink" title="http介绍"></a>http介绍</h2><p>​        说到http 其实开发过接口的都很少熟悉，目前最流行的是HTTPS，其实无论是OSI的<del>5层</del>七层还是TCP/IP五层模型，http都是属于上层封装偏向于应用的部分，主要是浏览器和一些客户端通信用的协议，通常请求会有特定请求头而且是长连接，占用服务器的连接资源，</p>
+<p>​        通常情况下浏览器会存储cookie 在服务端会存储session来确定连接的情况，如果是restful风格的http请求是无状态的，服务器是不知道这次请求的数据。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>参考内容 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/41609070/answer/1030913797">既然有 HTTP 请求，为什么还要用 RPC 调用？ - 知乎</a></p>
+<h2 id="http介绍"><a href="#http介绍" class="headerlink" title="http介绍"></a>http介绍</h2><p>​        说到http 其实开发过接口的都很少熟悉，目前最流行的是HTTPS，其实无论是OSI的<del>5层</del>七层还是TCP/IP五层模型，http都是属于上层封装偏向于应用的部分，主要是浏览器和一些客户端通信用的协议，通常请求会有特定请求头而且是长连接，占用服务器的连接资源，</p>
+<p>​        通常情况下浏览器会存储cookie 在服务端会存储session来确定连接的情况，如果是restful风格的http请求是无状态的，服务器是不知道这次请求的数据。</p>
+<p>下面是附带的7层协议</p>
+<p>第一层 物理层  网卡 网口</p>
+<p>第二层  数据链路层 网关交换器</p>
+<p>第三层 网络层  </p>
+<p>第四层 传输层 tcp,udp</p>
+<p>第五层 会话层  dns.smtp</p>
+<p>第六层表示层 telnet,snmp</p>
+<p>第七层 应用层 http,rtsp,imap</p>
+<p>上面是我大脑能列出来的第一反应</p>
+<p>​        对于HTTPS是结合了http+<strong>SSL/TLS</strong>的混合，传统的http是明文传输的在互联网中网关和每个转发节点都能知道里面的内容，但是如果在http上包裹一层ssl那么传输者只知道传给谁但是具体的内容是不清楚的，ssl的非对称加密的，网站的拥有方需要去申请免费提供的let entry ，发送的证书是分别为公钥和私钥，他们拿私钥加密，我们客户端拿到数据用公钥解析内容，同时需要注意</p>
+<p>具体的内容在网上搜索具体的介绍</p>
+<p>RPC介绍</p>
+<p>​        为什么会需要rpc，主要是服务的解耦，当整个系统越来越复杂后处于维护和迭代的需要，通常会将服务组件拆分，单独提供，譬如单独的订单服务，查询服务，认证服务，搜索服务等，但是当一个请求需要涉及到几个服务的功能的时候就会遇到 A服务 需要B服务，C服务的数据或者行动后A服务才能执行后续内容。</p>
+<p>​        此时需要RPC来调用别人的服务服务，这个过程同时还设计到分布式事务，我们目前只考虑数据的使用，但是在调用过程中由于不同语言，和调用方能是接受的语法等限制通常需要跨平台的库来实现比较有名的是 <a target="_blank" rel="noopener" href="https://dubbo.apache.org/zh/blog/2019/01/07/%E6%B5%85%E8%B0%88-rpc/">浅谈 RPC | Apache Dubbo</a>,<a target="_blank" rel="noopener" href="https://grpc.io/">gRPC</a> 等来实现。</p>
+<p>​        </p>
+<p><img src="https://segmentfault.com/img/remote/1460000037470064" alt="img"></p>
+<p>对应目前</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-浅谈文件传输共享协议(转载)" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1519,248 +1739,6 @@
 
 <p>seq_tup_read 远大于 idx_tup_fetch 说明索引建的有问题</p>
 <p>n_tup_upd 说明有频繁更新的动作</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-maven 从pom.xml 下载jar包" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/1868978831.html" class="article-date">
-      <time datetime="2022-04-12T05:12:35.000Z" itemprop="datePublished">2022-04-12</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1868978831.html">maven 从pom.xml 下载jar包</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>打包会有问题</p>
-<p>root  lib-A</p>
-<p>当前是需要直接打root的jar包，但是lib包下面有直接引用的本地jar并不在maven仓库当中使用如下</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>打包会有问题</p>
-<p>root  lib-A</p>
-<p>当前是需要直接打root的jar包，但是lib包下面有直接引用的本地jar并不在maven仓库当中使用如下</p>
-<p>格式如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.shentong<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyinAnalyzer4.3.1.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>打包中如果有测试代码编译不通过的可用参考添加</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">testFailureIgnore</span>&gt;</span>true<span class="tag">&lt;/<span class="name">testFailureIgnore</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>我后面发现打的jar包lib文件夹下面的确是有lib-A项目，但是啊就是跑的后面一旦涉及引用lib-A下面的本地第三方jar就说类找不到网上有人给出如下解决方案</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                 <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">includeSystemScope</span>&gt;</span>true<span class="tag">&lt;/<span class="name">includeSystemScope</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>我分别在lib-A和root项目下添加了，神奇的事发生了，打包的后服务可以运行，但是lib-A下面的controller全都没有，对应的请求都是404，人都快裂开了</p>
-<p>只能排除法先注释root下发现不行，后面注释lib-A下居然成功了，真TMD邪门</p>
-<p>补充maven install 包含外部jar的打包情况——-</p>
-<p>参考链接</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/5597099/maven-add-jars-through-systempath-system-but-not-added-to-war-or-anywhere-else/5597277">java - Maven add jars through systemPath/system but not added to war or anywhere else - Stack Overflow</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lyd135364/article/details/90664373">Maven package 时出现should not point at files within the project directory_隐0士的博客-CSDN博客</a></li>
-</ul>
-<p>在maven的pom文件中引用本地的jar</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.belerweb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;scope&gt;system&lt;/scope&gt;--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;systemPath&gt;$&#123;project.basedir&#125;/src/main/resources/lib/pinyin4j-2.5.0.jar&lt;/systemPath&gt;--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyin4j-2.5.1.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>但是打包时会报错</p>
-<blockquote>
-<p>should not point at files within the project directory dependencies.dependency.systemPath</p>
-</blockquote>
-<p>在stackoverflow上有两种方式</p>
-<p>第一种是pom中添加jar所在文件夹的仓库</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">id</span>&gt;</span>localrepository<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">url</span>&gt;</span>file://$&#123;project.basedir&#125;/src/main/resources/lib<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>但是在打包的时候还是会出问题</p>
-<p>第二种使用plugin来实现</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-install-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                      <span class="tag">&lt;<span class="name">phase</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">                     <span class="comment">&lt;!-- &lt;goals&gt;</span></span><br><span class="line"><span class="comment">                          &lt;goal&gt;copy-dependencies&lt;/goal&gt;</span></span><br><span class="line"><span class="comment">                      &lt;/goals&gt;--&gt;</span></span><br><span class="line">                      <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.belerweb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                          <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                          <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">                          <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyinAnalyzer4.3.1.jar<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">                      <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>tips 下面的两种尝试过失败也列出来</p>
-<ol>
-<li><p>使用configuration复制来自于网络和正确的配置有出入</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">id</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">phase</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyin4j-2.5.0.jar<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">repositoryLayout</span>&gt;</span>default<span class="tag">&lt;/<span class="name">repositoryLayout</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.belerweb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">generatePom</span>&gt;</span>true<span class="tag">&lt;/<span class="name">generatePom</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                             <span class="tag">&lt;<span class="name">goal</span>&gt;</span>pinyin4j<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">                         <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<ol start="2">
-<li><p>使用<phase>clean</phase></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">id</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">phase</span>&gt;</span>clean<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyinAnalyzer4.3.1.jar<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">repositoryLayout</span>&gt;</span>default<span class="tag">&lt;/<span class="name">repositoryLayout</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.shentong<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">generatePom</span>&gt;</span>true<span class="tag">&lt;/<span class="name">generatePom</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                             <span class="tag">&lt;<span class="name">goal</span>&gt;</span>install-file<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">                         <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<ol start="3">
-<li><p>使用phase&gt;init&lt;/phase</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">id</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">phase</span>&gt;</span>init<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;pom.basedir&#125;/src/main/resources/lib/pinyinAnalyzer4.3.1.jar<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">repositoryLayout</span>&gt;</span>default<span class="tag">&lt;/<span class="name">repositoryLayout</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.shentong<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pinyinAnalyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">generatePom</span>&gt;</span>true<span class="tag">&lt;/<span class="name">generatePom</span>&gt;</span></span><br><span class="line">                   hconfiguration&gt;</span><br><span class="line">                        <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                             <span class="tag">&lt;<span class="name">goal</span>&gt;</span>install-file<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">                         <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-</li>
-</ol>
-<p> 之前一直用IntelliJ IDEA 的直接下载jar包,但是这次一直下载不下来指定版本jar包,看本地的代码库localRepository本地没有,看本地部署的maven中心,所以使用了<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011561335/article/details/80322960">参考地址</a></p>
-<ol>
-<li>创建pom.xml 文件</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>	<span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>Spider<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>Spider<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- https://mvnrepository.com/artifact/junit/junit --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>使用mvn命令 下载后在本地仓库看到, 然后在IntelliJ IDEA刷新</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn dependency:copy-dependencies</span><br></pre></td></tr></table></figure>
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-cloudflare的DNS解析和page服务以及转发到指定ip地址" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/a4faf5d1.html" class="article-date">
-      <time datetime="2022-04-09T14:16:10.000Z" itemprop="datePublished">2022-04-09</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/a4faf5d1.html">cloudflare的DNS解析和page服务以及转发到指定ip地址</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                          
-                    
-              <!-- 
-              
-              <p><img src="../img/image-20220409221655871.png" alt="image-20220409221655871"></p>
-<p><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/ssl/origin-configuration/origin-ca/#:~:text=Some%20origin%20web%20servers%20require%20upload%20of%20the%20Cloudflare%20Origin%20CA%20root%20certificate.%20Click%20a%20link%20below%20to%20download%20either%20an%20RSA%20and%20ECC%20version%20of%20the%20Cloudflare%20Origin%20CA%20root%20certificate%3A">Origin CA certificates · Cloudflare SSL docs</a></p>
 
                -->
         </div>

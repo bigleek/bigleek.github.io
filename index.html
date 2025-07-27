@@ -269,6 +269,215 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-异步开发和EventBus开发区别" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/0.html" class="article-date">
+      <time datetime="2025-07-27T05:23:30.071Z" itemprop="datePublished">2025-07-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>什么时候需要消息总线？<br>适用场景：</p>
+<p>多个订阅者：需要同时通知多个不同的组件<br>动态订阅：运行时需要添加/移除订阅者<br>背压控制：需要处理生产者消费者速度不匹配<br>复杂事件流：需要事件过滤、转换、组合等操作</p>
+<p>一个事件 需要出发多种反应包括 日志,缓存等<br>消息总线可以将一个事件分发到多个目标<br>目标可以是多个组件</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>什么时候需要消息总线？<br>适用场景：</p>
+<p>多个订阅者：需要同时通知多个不同的组件<br>动态订阅：运行时需要添加/移除订阅者<br>背压控制：需要处理生产者消费者速度不匹配<br>复杂事件流：需要事件过滤、转换、组合等操作</p>
+<p>一个事件 需要出发多种反应包括 日志,缓存等<br>消息总线可以将一个事件分发到多个目标<br>目标可以是多个组件</p>
+<p>异步方式提交任务</p>
+<p>高耦合 (High Coupling)：TaskService 强依赖于 CacheService 和 LogService。它必须“知道”有哪些服务需要被通知。</p>
+<p>违反开闭原则 (Violates Open/Closed Principle)：如果未来新增一个 NotificationService，当任务更新时需要发送邮件通知，你必须修改 TaskService 的代码，在 updateTask 方法里增加一个新的调用。这使得 TaskService 变得不稳定，难以维护。</p>
+<p>职责不清：TaskService 的核心职责是处理任务业务，但现在它还承担了“协调和通知其他模块”的职责，这会让它的逻辑越来越臃肿。</p>
+<p>这种</p>
+<p>低耦合 (Low Coupling)：TaskService (发布者) 和 CacheService/LogService (订阅者) 之间没有直接依赖。它们都只依赖于中间人 TaskEventBroker。</p>
+<p>高扩展性 (High Extensibility)：当你需要新增一个 NotificationService 时，完全不需要修改 TaskService。你只需要创建 NotificationService 并让它自己去订阅事件即可。这完全符合开闭原则（对扩展开放，对修改关闭）。</p>
+<p>职责单一 (Single Responsibility)：每个模块只关心自己的事。TaskService 只管发事件，CacheService 只管响应事件并刷新缓存。</p>
+<p>// 发布者<br>@Service<br>public class TaskService {<br>    @Autowired<br>    private TaskEventBroker eventBroker;</p>
+<pre><code>public void updateTask(Task task) &#123;
+    // 1. 更新数据库中的任务...
+    db.save(task);
+
+    // 2. 只负责发布一个“任务已变更”的事件，不关心谁会收到
+    eventBroker.publish(); 
+    log.info(&quot;任务变更事件已发布&quot;);
+&#125;</code></pre>
+<p>}</p>
+<p>// 订阅者1<br>@Service<br>public class CacheService {<br>    @Autowired<br>    public CacheService(TaskEventBroker eventBroker) {<br>        // 在构造时就订阅事件<br>        eventBroker.subscribe(signal -&gt; this.refresh());<br>    }</p>
+<pre><code>public void refresh() &#123; /* ...刷新缓存的逻辑... */ &#125;</code></pre>
+<p>}</p>
+<p>// 订阅者2<br>@Service<br>public class LogService {<br>    public LogService(TaskEventBroker eventBroker) {<br>        eventBroker.subscribe(signal -&gt; this.recordUpdate());<br>    }</p>
+<pre><code>public void recordUpdate() &#123; /* ...记录日志的逻辑... */ &#125;</code></pre>
+<p>}</p>
+<p>// 新增的订阅者3 (无需修改任何已有代码)<br>@Service<br>public class NotificationService {<br>    public NotificationService(TaskEventBroker eventBroker) {<br>        eventBroker.subscribe(signal -&gt; this.sendEmail());<br>    }</p>
+<pre><code>public void sendEmail() &#123; /* ...发送邮件的逻辑... */ &#125;</code></pre>
+<p>}</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="oauth2.0-的几种授权流程" class="article article-type-oauth2.0" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/undefined.html" class="article-date">
+      <time datetime="2025-07-27T05:23:15.000Z" itemprop="datePublished">2025-07-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/undefined.html">的几种授权流程()</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>转载来源<a target="_blank" rel="noopener" href="https://www.raychase.net/8015">OAuth2.0 的几种授权流程 – 四火的唠叨</a></p>
+<p>首先，从高维度看，OAuth 是要解决什么问题？</p>
+<p>OAuth 要解决的是客户端在不知道和不使用用户密码的情况下，怎么样安全访问并获取用户所拥有的资源的问题。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>转载来源<a target="_blank" rel="noopener" href="https://www.raychase.net/8015">OAuth2.0 的几种授权流程 – 四火的唠叨</a></p>
+<p>首先，从高维度看，OAuth 是要解决什么问题？</p>
+<p>OAuth 要解决的是客户端在不知道和不使用用户密码的情况下，怎么样安全访问并获取用户所拥有的资源的问题。</p>
+<p>顺带说一句，经常和 OAuth 一起谈到的 OIDC 则是解决了用户信息（profile）获取的问题。简单说，OAuth 解决了 Authorization 的问题，OIDC 解决了 Authentication 的问题。</p>
+<p>OAuth 有几种角色：</p>
+<ul>
+<li>Resource Owner：资源的拥有者，比方说终端用户；</li>
+<li>Resource Server：资源服务器，比如用户想要调用的 API；</li>
+<li>Client：就是用户来进行鉴权和资源操作的客户端，比方说浏览器或者 CLI；</li>
+<li>Authorization Server：就是专门授权的服务器。</li>
+</ul>
+<p>所以 OAuth 就是用户想通过某种机制，通过 Client 和 Authorization Server 交互来获得能够访问资源的 token。</p>
+<p>对于 OAuth2.0 的授权流程，可以根据 <a target="_blank" rel="noopener" href="https://oauth.net/2/grant-types/">grant type</a> 来做个归类。下面的图示全部都来自 Auth0 的<a target="_blank" rel="noopener" href="https://auth0.com/docs/get-started/authentication-and-authorization-flow">官方文档</a>。</p>
+<p><strong>1. Authorization Code</strong>：用户访问 web app，web app 的后端请求 auth server，于是重定向到登录页面，用户输入登录信息，auth server 就给 web app 一个授权码，这个授权码通过 callback URL 返回，而这个参数一般放在这个 url 的参数中，比如：http://…/callback?token=TOKEN。之后 web app 就可以拿着授权码去取 token 了。这种方式不需要用户这边存放任何 secret，但是需要用户参与 consent，并且具备 web app 的后端，因为和 auth server 的交互主要都是 web app 后端完成的。</p>
+<p><img src="https://www.raychase.net/wp-content/uploads/2025/07/image-1024x641.png" alt="img"></p>
+<p>但是这种方法存在一些 concern，比如说，这个 code 如果在返回途中被截获怎么办，截获者就可以使用这个 code 来获取 token 了。</p>
+<p><strong>2. PKCE</strong>：对于上述问题，有一个改进的办法，就是使用 PKCE（Proof Key for Code Exchange）来给它增强。基本原理是，客户端生成一个随机字符串 code verifier，根据一个算法 code challenge method 来生成它的 hash（challenge），获取授权码 code 的时候需要把这个 method 和 challenge 带过去；接着，code 正常返回，但之后客户端拿着 code 去获取 token 的时候，需要带上这个 code verifier，这样 auth server 就可以根据之前拿到的 method 和 challenge，以及刚得到的 code 和 code verifier，来校验用户是不是可以得到这个 token。</p>
+<p>在这种情况下，如果 code 被劫持，那么对方拿到了 code，却没有 code verifier，也就没什么用。</p>
+<p><img src="https://www.raychase.net/wp-content/uploads/2025/07/image-3-1024x833.png" alt="img"></p>
+<p>这种方法是比较推荐的，对于一些 CLI 登录使用这种方法的时候，重定向 URL 可以是一个带有 code 的指向 localhost 的地址以被 CLI 捕获。</p>
+<p><strong>3. Device Code</strong>：前面说到的 Authorization Code 这种方法还有一个变体，就是对于一些需要用户参与，但是又没有浏览器（或者自动打开浏览器）的场景下，这个重定向到浏览器来获取用户 consent 的过程，被其它方式来取代，这种变体可看做名为 Device Authorization 的流程：</p>
+<p><img src="https://www.raychase.net/wp-content/uploads/2025/07/image-5-995x1024.png" alt="img"></p>
+<p>可以看到，上面的浏览器重定向的过程被替换成了返回 code 和 verification url，然后用户使用 verification URL 加上这个 user code 来完成 consent 的过程，在这个过程完成之后，这个 device 才被授权。在这个过程完成之前，需要 app 不断去 poll 检查是不是 device 已经被授权了。</p>
+<p><strong>4. Client Credential</strong>：前面说到的 Authorization Code 虽然好用，但是需要用户手动登录确认的过程，对于一些没有人参与的 M2M（machine-to-machine）系统而言，这是不现实的。因此在 client id 的基础上，再加上一个 client secret，一样可以完成 auth 的流程。这种场景其实就相当于是 client 和 resource owner 是同一个了：</p>
+<p><img src="https://www.raychase.net/wp-content/uploads/2025/07/image-4-1024x611.png" alt="img"></p>
+<p><strong>5. Implicit</strong>：这种其实就是上面 Authorization Code 的简化版，去掉了 code 的环节，直接发 code。这种方式在 app 只有前端的场景下（比如 SPA）使用，因为它没法进行后端和 Auth Server 的通信。但是这种方式因为安全性低，因而不推荐，因为即便是 SPA，还是可以用前面说的那种 PKCE 增强的 Authorization Code 方式来实现。</p>
+<p><img src="https://www.raychase.net/wp-content/uploads/2025/07/image-1-1024x486.png" alt="img"></p>
+<p>再来看这个 callback 的 URL，和前面提到的 Authorization Code 流程不一样的是，它返回的 token 放在 URL 的 fragment 里面，而不是 query 里面，比如：http://…/callback#token=TOKEN，这样做的好处是这个 TOKEN 不会在浏览器跳转的时候送到服务器，就不容易泄露。</p>
+<p><strong>6. Password</strong>：这种方式其实就是让 client 获知用户的用户名和密码，属于风险比较大的做法，要求这个 app 是用户百分百信任的——这也就是说，它没有解决 OAuth 本身应该解决的问题，因此很少使用。</p>
+<p><img src="https://www.raychase.net/wp-content/uploads/2025/07/image-2-1024x610.png" alt="img"></p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-selfhost自部署指南" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -2077,361 +2286,6 @@
 <p>扎实的基础知识是专家型学习的第一步，这一步是可以通过系统的学习和反复练习来实现的。然而，令人沮丧的是，后续的高级能力——如分析能力、系统化思维、批判性思维、决策和创新等——并不能通过简单的学习获得。</p>
 <p>这些高级能力需要大量实践来培养，<strong>我相信阿里的“借事修人”的理念，但是这首先需要我们“躬身入局”</strong>。具体来说，主动承担有挑战性的任务，尝试跨领域学习和应用，迫使自己运用高级能力；持续反思和总结经验，改进策略，不断输出，寻求反馈；这样才有可能将高级能力内化为自己的技能。</p>
 <h4 id="软实力从来没有变得像今天那么重要"><a href="#软实力从来没有变得像今天那么重要" class="headerlink" title="软实力从来没有变得像今天那么重要"></a>软实力从来没有变得像今天那么重要</h4><p>在现今社会，许多技术性的任务可能被机器取代，但判断和决策仍然需要人来完成。因此，在可预见的未来，软实力（沟通能力、同理心、逆商、团队精神、领导力等）的重要性将变得更为突出，比以往任何时候都更为关键。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mac软件汇集" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/27d3a647.html" class="article-date">
-      <time datetime="2025-03-07T02:46:10.000Z" itemprop="datePublished">2025-03-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/27d3a647.html">mac软件汇集(转载)</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>转载地址 <a target="_blank" rel="noopener" href="https://weekly.howie6879.com/soft/mac.html">https://weekly.howie6879.com/soft/mac.html</a></p>
-<h1 id="mac-soft"><a href="#mac-soft" class="headerlink" title="mac-soft"></a>mac-soft</h1><blockquote>
-<p>记录我在使用 <code>macOS</code> 过程中使用&amp;看到的软件项目，本文会持续更新，同时也开源在 <a target="_blank" rel="noopener" href="https://github.com/howie6879/mac-soft">GitHub</a>，欢迎 <code>Star</code> ❤️</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>转载地址 <a target="_blank" rel="noopener" href="https://weekly.howie6879.com/soft/mac.html">https://weekly.howie6879.com/soft/mac.html</a></p>
-<h1 id="mac-soft"><a href="#mac-soft" class="headerlink" title="mac-soft"></a>mac-soft</h1><blockquote>
-<p>记录我在使用 <code>macOS</code> 过程中使用&amp;看到的软件项目，本文会持续更新，同时也开源在 <a target="_blank" rel="noopener" href="https://github.com/howie6879/mac-soft">GitHub</a>，欢迎 <code>Star</code> ❤️</p>
-</blockquote>
-<h2 id="基础工具"><a href="#基础工具" class="headerlink" title="基础工具"></a>基础工具</h2><ul>
-<li><p>Alfred</p>
-<p>：本地搜索及应用快速启动，替代品：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/raycast/extensions">Raycast</a>：目前免费状态，这是其开源插件仓库</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/cerebroapp/cerebro">Cerebro</a>：开源替代品</li>
-</ul>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/kyleneideck/BackgroundMusic">BackgroundMusic</a>：音频管理工具，可以管控各个 <code>APP</code> 的音量（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://web.archive.org/web/20150322050645/http://ftnew.com/files/CatchMouse.zip">CatchMouse</a>：多显示器切换软件，根据快捷键快速切换到目标显示器（免费）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/pqrs-org/Karabiner-Elements">Karabiner-Elements</a>：键盘键位修改神器，特别针对有多款键盘的人（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/leaves615/KeyboardHolder">KeyboardHolder</a>：一款补足 <code>macOS</code> 自带有一个自动切换到文稿到输入法功能遗憾的软件（免费）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/noah-nuebling/mac-mouse-fix">mac-mouse-fix</a>：轻量级鼠标控制功能定制软件（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://mounty.app/">Mounty</a>：一款 <code>NTFS</code> 格式读写工具</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/Caldis/Mos">Mos</a>：一个平滑你的鼠标滚动效果或单独设置滚动方向的小工具，让你的滚轮爽如触控板（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://peazip.github.io/">peazip</a>：解压缩工具（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/rxhanson/Rectangle">Rectangle</a>：多窗口管理工具（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/avibrazil/RDM">RDM</a>：轻松将 <code>Mac Retina</code> 显示器设置为更高的分辨率（开源）</p>
-</li>
-</ul>
-<h2 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/lwouis/alt-tab-macos">AltTab</a>：<code>AltTab</code> 将 <code>Windows</code> 的 <code>Alt-Tab</code> 窗口切换器带到 <code>MacOS</code>（开源）</p>
-</li>
-<li><p>Bartender</p>
-<p>：方便的状态栏管理工具，开源替代品有：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/Mortennn/Dozer">Dozer</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/dwarvesf/hidden">hidden</a></li>
-</ul>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/balena-io/etcher">balenaEtcher</a>：镜像制作工具（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://www.cakebrew.com/">cakebrew</a>： 如果使用 <code>Homebrew</code> 的话，可以使用这款来进行管理（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/gao-sun/eul">eul</a>：系统状态监控工具（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://justgetflux.com/news/pages/macquickstart/">flux</a>：一款比较好的免费屏幕护眼软件</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/newmarcel/KeepingYouAwake">KeepingYouAwake</a>：根据自己的需求设置 <code>Mac</code> 多少分钟/多少小时后进入睡眠</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://maccy.app/">Maccy</a>：剪贴板管理（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/MonitorControl/MonitorControl">MonitorControl</a>：控制外部显示器的亮度和音量（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/jacklandrin/OnlySwitch">OnlySwitch</a>：系统功能快速开关工具（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://www.parallels.com/">Parallels Desktop</a>：能让您在 <code>Mac</code> 上同时使用 <code>Windows</code> 等系统</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/sbarex/SourceCodeSyntaxHighlight">SourceCodeSyntaxHighlight</a>：增强文件预览（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://tunnelblick.net/">Tunnelblick</a>：<code>OpenVPN</code> 客户端（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://lemon.qq.com/">腾讯柠檬</a>：腾讯出品的系统清理工具（开源）</p>
-</li>
-</ul>
-<h2 id="编程开发"><a href="#编程开发" class="headerlink" title="编程开发"></a>编程开发</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.anaconda.com/">Anaconda</a>：数据科学常用 <code>Python</code> 环境管理程序</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/ObuchiYuki/DevToysMac">DevToysMac</a>：程序员常用工具集（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://www.docker.com/">Docker</a>：用容器化的形式使用一些常用软件，推荐使用 <a target="_blank" rel="noopener" href="https://github.com/portainer/portainer">portainer</a> 管理（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/macvim-dev/macvim">MacVim</a>：文本编辑器（开源）</p>
-</li>
-<li><p>Offset Explorer</p>
-<p>：个人免费的跨平台</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kafka</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<p>  界面管理工具，</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/provectus/kafka-ui">kafka-ui</a>：<code>Web</code> 自部署，简洁好用、速度快、颜值高（开源）</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VSCode</a>：微软出品的免费跨平台代码编辑器（开源）</p>
-</li>
-<li><p>终端：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/electerm/electerm">electerm</a>：一款基于 <code>Electron</code> 开发的 <code>SSH/SFTP</code> 跨平台客户端、（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://iterm2.com/">Iterm2</a>：免费好用的终端工具，一般搭配 <code>Brew</code> 和 <code>ZSH</code> 使用</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/Eugeny/tabby">tabby</a>：一个可高度配置的终端模拟器和 <code>SSH</code> 或串口跨平台客户端（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/kingToolbox/WindTerm">WindTerm</a>：基于 <code>C</code> 语言开发的的专业级替代品（开源）</li>
-</ul>
-</li>
-<li><p>数据库：</p>
-<ul>
-<li>通用：<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/beekeeper-studio/beekeeper-studio">beekeeper-studio</a>：跨平台的 <code>SQL</code> 编辑器和数据库管理器（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/dbeaver/dbeaver">DBeaver</a>：为开发人员、<code>SQL</code> 程序员、数据库管理员和分析人员提供的免费多平台数据库工具，有 <code>JDBC</code> 驱动即可支持使用（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/dbgate/dbgate">dbgate</a>：支持 <code>Mysql、Postgresql、SQL Server、Mongodb、Redis、SQLite</code> 等数据库的管理软件，同时也满足在 <code>Windows、Linux、Mac Web</code> 下运行，还提供插件体系（开源）</li>
-</ul>
-</li>
-<li>Elasticsearch：<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/1340691923/ElasticView">ElasticView</a>：简单好用的 <code>ES</code> 可视化客户端，支持连接6，7，8版本（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://opensource.appbase.io/mirage/">appbaseio/mirage</a>：用于简化 <code>ES</code> 查询语句编写的项目，你可以用基于块的交互形式来组成 <code>Elasticsearch</code> 查询语句（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/cars10/elasticvue">elasticvue</a>：基于 <code>Vue</code> 的 <code>Elasticsearch</code> 管理客户端，支持<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa/related?utm_source=chrome-ntp-icon">浏览器插件</a>和 <code>Docker</code> 自建（开源）</li>
-</ul>
-</li>
-<li>MongoDB：<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/mongo-express/mongo-express">mongo-express</a>：可自建的 <code>MongoDB</code> 数据库管理软件，针对线上数据库需要共享的需求，可以统一部署在一台服务器给所有员工用，然后设置只读模式，非常实用（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/Studio3T/robomongo">Robo 3T</a>：<code>MongoDB</code> 数据库管理软件（开源）</li>
-</ul>
-</li>
-<li>MySQL：<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/Sequel-Ace/Sequel-Ace">Sequel-Ace</a>：原生的 <code>MySQL/MariaDB</code> 数据库管理软件（开源）</li>
-</ul>
-</li>
-<li>Redis：<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/qishibo/AnotherRedisDesktopManager">AnotherRedisDesktopManager</a>：跨平台的 <code>Redis</code> 桌面管理客户端，性能出众（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/Kuari/RedisFish">RedisFish</a>：一款便捷、跨平台、专注于数据的 <code>Redis GUI</code> 客户端（开源）</li>
-</ul>
-</li>
-<li>PostgreSQL：<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/pgadmin-org/pgadmin4">pgadmin4</a>：跨平台的 <code>PostgreSQL</code> 数据库管理软件（开源）</li>
-</ul>
-</li>
-<li>SQLite：<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/sqlitebrowser/sqlitebrowser">sqlitebrowser</a>：<code>DB4S</code> 是一个高质量、可视化、开源的工具，用于创建、设计和编辑与 <code>SQLite</code> 兼容的数据库（开源）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>API 请求调试：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/hoppscotch/hoppscotch">hoppscotch</a>：基于 <code>Web</code> 提供服务（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/Kong/insomnia">insomnia</a>：跨平台 （开源）</li>
-<li><a target="_blank" rel="noopener" href="https://www.postman.com/">Postman</a>：比较老牌的 <code>API</code> 接口功能测试工具</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/star7th/showdoc">showdoc</a>：一个非常适合 IT 团队的在线 <code>API</code> 文档、技术文档工具（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client">Thunder Client</a>：如果使用<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VSCode</a>，推荐使用这款插件 💡</li>
-</ul>
-</li>
-</ul>
-<h2 id="浏览娱乐"><a href="#浏览娱乐" class="headerlink" title="浏览娱乐"></a>浏览娱乐</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.aliyundrive.com/">aliyundrive</a>：阿里云盘</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/blogwy/BilibiliVideoDownload">BilibiliVideoDownload</a>：跨平台下载 <code>bilibili</code> 视频桌面端软件（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://www.google.com/chrome/">Chrome</a>：浏览器</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/iina/iina">iina</a>：现代化的视频播放器（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://apps.apple.com/us/app/irvue/id1039633667?mt=12">Irvue</a>：基于 Unsplash 的免费壁纸切换工具</li>
-<li><a target="_blank" rel="noopener" href="https://www.mowglii.com/itsycal/">itsycal</a>：一款简单优雅的菜单栏日历（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/justinfrankel/licecap">licecap</a>：轻量小巧的录屏工具（开源）</li>
-<li>沟通：<a target="_blank" rel="noopener" href="https://weread.qq.com/">微信</a> | <a target="_blank" rel="noopener" href="https://www.dingtalk.com/">钉钉</a> | <a target="_blank" rel="noopener" href="https://telegram.org/">TG</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.stellarplayer.com/">恒星播放器</a>：一款纯粹专注的播放器</li>
-<li><a target="_blank" rel="noopener" href="https://music.163.com/">网易云音乐</a>：推荐一款开源替代品 <a target="_blank" rel="noopener" href="https://github.com/qier222/YesPlayMusic">YesPlayMusic</a></li>
-</ul>
-<h2 id="阅读写作"><a href="#阅读写作" class="headerlink" title="阅读写作"></a>阅读写作</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://ripperhe.gitee.io/bob/#/">Bob</a>：翻译工具（开源，但是正式版买断收费）</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/yang991178/fluent-reader">fluent-reader</a>：<code>RSS</code> 阅读器（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://joplinapp.org/">Joplin</a>：跨平台笔记管理工具，有不错的社区支持（开源）</li>
-<li>Pngyu](<a target="_blank" rel="noopener" href="https://joplinapp.org/)%EF%BC%9A%E5%85%8D%E8%B4%B9%E7%9A%84PNG%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7%EF%BC%8C%E5%90%8C%E6%A0%B7%E5%A5%BD%E7%94%A8%E7%9A%84%E8%BF%98%E6%9C%89%EF%BC%9A">https://joplinapp.org/)：免费的PNG图片压缩工具，同样好用的还有：</a><ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/kyleduo/TinyPNG4Mac">TinyPNG4Mac</a>（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://imageoptim.com/mac">ImageOptim</a>（开源）</li>
-</ul>
-</li>
-<li><a target="_blank" rel="noopener" href="https://typora.io/releases/all">Typora</a>：比较经典的所见即所得 <code>Markdown</code> 编辑器（提供免费版）</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/gee1k/uPic">uPic</a>：原生的图床管理工具（开源）</li>
-<li><a target="_blank" rel="noopener" href="https://xnipapp.com/">Xnip</a>：挺不错的截图软</li>
-</ul>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-如何找出Java进程占用CPU高的元凶" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/129d01fc.html" class="article-date">
-      <time datetime="2025-01-18T07:04:12.000Z" itemprop="datePublished">2025-01-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/129d01fc.html">如何找出Java进程占用CPU高的元凶(转发)</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>转发: <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&mid=2247543282&idx=1&sn=b0b3d858b70c49c996221d265fa0fecf&chksm=e86b7b221aface2870c9b4217eeffd4e8e0c953937bf8492e7f83fb102260f922a39c2f11da1&mpshare=1&scene=24&srcid=12059mpwWmSG7Rse36RT6hp5&sharer_shareinfo=788a814db98d7ed844f50438fa229815&sharer_shareinfo_first=788a814db98d7ed844f50438fa229815#rd">如何找出Java进程占用CPU高的元凶</a></p>
-<p>开发的时候登录OSS控制台预发机器，发现Java进程CPU占用率其高，按道理预发机器只是内部开发及产品会使用，根本不可能占用这么大的资源，第一反应就是，进程在某个地方死循环了。</p>
-<p><img src="../img/640.webp" alt="图片"></p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>转发: <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&mid=2247543282&idx=1&sn=b0b3d858b70c49c996221d265fa0fecf&chksm=e86b7b221aface2870c9b4217eeffd4e8e0c953937bf8492e7f83fb102260f922a39c2f11da1&mpshare=1&scene=24&srcid=12059mpwWmSG7Rse36RT6hp5&sharer_shareinfo=788a814db98d7ed844f50438fa229815&sharer_shareinfo_first=788a814db98d7ed844f50438fa229815#rd">如何找出Java进程占用CPU高的元凶</a></p>
-<p>开发的时候登录OSS控制台预发机器，发现Java进程CPU占用率其高，按道理预发机器只是内部开发及产品会使用，根本不可能占用这么大的资源，第一反应就是，进程在某个地方死循环了。</p>
-<p><img src="../img/640.webp" alt="图片"></p>
-<p>二、调查</p>
-<p>猜测归猜测，还是要用事实说话。</p>
-<p>第一步：top -Hp 15057 查看下进程中的线程资源占用情况</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naLbC5OYRrb96ib9NtMYx13mBXNRQ4Wo5qgtqRX3aGuGP5F3S2tylTgOIkZ0oAKib5S95rCHT5dndtLw/640?wx_fmt=other&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
-<p>由上图可见，CPU时间片主要是被15393 这个线程给吃掉了， 所以目标锁定在 15393。</p>
-<p>执行 printf “%x\n” 15393，计算出线程ID对应的16进制。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naLbC5OYRrb96ib9NtMYx13mB1qn6Mibf92Gdo9tTVV1fIY17TLhZZ8lpO7BblibVJYxZAic33hUrAUJzQ/640?wx_fmt=other&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
-<p>第二步：执行 sudo -u www jstack 15057，获取当前进程中各线程的调用栈</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naLbC5OYRrb96ib9NtMYx13mBpQZSuJsBib6ic8L3YDZgibNp7XcCITDrzpH85yTWYqZKjOJjfb1PLoib3A/640?wx_fmt=other&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
-<p>对比之前计算出来的二进制id：3c21，找到占用CPU资源最高的线程堆栈，如上图所示。</p>
-<p>看样子是在LoguUtil的255行出了问题，赶紧定位到这一行看看：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naLbC5OYRrb96ib9NtMYx13mBbW0MKG09EfsWlprtvrSvxOF8gLCaibwfSL75iaCp9AIHv7icKB6PMmuibw/640?wx_fmt=other&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
-<p>这里写了一个死循环，并在255行调用了阻塞队列的poll（），很明显，方法调用错了，poll（）在队列会空的时候会直接返回null，并不会阻塞等待，所以造成进程一直在这儿死循环。</p>
-<p>那么为什么测试的时候没有发现呢？因为只要有日志，代码很难走到255行，之所以能发现这个问题，是因为我登录机器这段时间是在深夜，刚好没有日志。</p>
-<p>三、验证</p>
-<p>将代码修改提交部署后，在登录机器看看CPU占用情况：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naLbC5OYRrb96ib9NtMYx13mB6LbLXY614icHcFic4UkmrhQOibcxGJe9mZgOcwYSgynahzOHhjecmoQHQ/640?wx_fmt=other&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
-<p>此时Java进程的CPU占用已经恢复正常了。</p>
-<p>四、总结</p>
-<p>平时开发需求，除了验证基本的功能完整性之外，一定要注意对性能的影响，及时发现并解决问题。</p>
 
                -->
         </div>

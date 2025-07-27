@@ -269,6 +269,502 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-activiti用法和结构" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/745403789.html" class="article-date">
+      <time datetime="2020-02-17T23:34:02.000Z" itemprop="datePublished">2020-02-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/745403789.html">activiti用法和结构</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p><a href="https://imlike.cc/3807663978.html">activiti零零碎碎的记录</a> 包括processengineConfiguration -&gt;processEngine-&gt;respositoryService 下面的各个类和方法</p>
+<h3 id="支持的事件类型"><a href="#支持的事件类型" class="headerlink" title="支持的事件类型"></a>支持的事件类型</h3><p>​    下面是引擎中可能出现的所有activiti事件类型。每个类型都对应<code>org.activiti.engine.delegate.event.ActivitiEventType</code>中的一个枚举值。</p>
+<p>Table 3.2. 支持的事件**</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p><a href="https://imlike.cc/3807663978.html">activiti零零碎碎的记录</a> 包括processengineConfiguration -&gt;processEngine-&gt;respositoryService 下面的各个类和方法</p>
+<h3 id="支持的事件类型"><a href="#支持的事件类型" class="headerlink" title="支持的事件类型"></a>支持的事件类型</h3><p>​    下面是引擎中可能出现的所有activiti事件类型。每个类型都对应<code>org.activiti.engine.delegate.event.ActivitiEventType</code>中的一个枚举值。</p>
+<p>Table 3.2. 支持的事件**</p>
+<table>
+<thead>
+<tr>
+<th align="center">事件名称</th>
+<th align="left">描述</th>
+<th align="center">事件类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ENGINE_CREATED</td>
+<td align="left">监听器监听的流程引擎已经创建完毕，并准备好接受API调用。</td>
+<td align="center"><code>org.activiti...ActivitiEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENGINE_CLOSED</td>
+<td align="left">监听器监听的流程引擎已经关闭，不再接受API调用。</td>
+<td align="center"><code>org.activiti...ActivitiEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_CREATED</td>
+<td align="left">创建了一个新实体。实体包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_INITIALIZED</td>
+<td align="left">创建了一个新实体，初始化也完成了。如果这个实体的创建会包含子实体的创建，这个事件会在子实体都创建/初始化完成后被触发，这是与<code>ENTITY_CREATED</code>的区别。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_UPDATED</td>
+<td align="left">更新了已存在的实体。实体包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_DELETED</td>
+<td align="left">删除了已存在的实体。实体包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_SUSPENDED</td>
+<td align="left">暂停了已存在的实体。实体包含在事件中。会被ProcessDefinitions, ProcessInstances 和 Tasks抛出。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ENTITY_ACTIVATED</td>
+<td align="left">激活了已存在的实体，实体包含在事件中。会被ProcessDefinitions, ProcessInstances 和 Tasks抛出。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_EXECUTION_SUCCESS</td>
+<td align="left">作业执行成功。job包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_EXECUTION_FAILURE</td>
+<td align="left">作业执行失败。作业和异常信息包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code> and <code>org.activiti...ActivitiExceptionEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_RETRIES_DECREMENTED</td>
+<td align="left">因为作业执行失败，导致重试次数减少。作业包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TIMER_FIRED</td>
+<td align="left">触发了定时器。job包含在事件中。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">JOB_CANCELED</td>
+<td align="left">取消了一个作业。事件包含取消的作业。作业可以通过API调用取消， 任务完成后对应的边界定时器也会取消，在新流程定义发布时也会取消。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_STARTED</td>
+<td align="left">一个节点开始执行</td>
+<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_COMPLETED</td>
+<td align="left">一个节点成功结束</td>
+<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_SIGNALED</td>
+<td align="left">一个节点收到了一个信号</td>
+<td align="center"><code>org.activiti...ActivitiSignalEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_MESSAGE_RECEIVED</td>
+<td align="left">一个节点收到了一个消息。在节点收到消息之前触发。收到后，会触发<code>ACTIVITY_SIGNAL</code>或<code>ACTIVITY_STARTED</code>，这会根据节点的类型（边界事件，事件子流程开始事件）</td>
+<td align="center"><code>org.activiti...ActivitiMessageEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_ERROR_RECEIVED</td>
+<td align="left">一个节点收到了一个错误事件。在节点实际处理错误之前触发。 事件的<code>activityId</code>对应着处理错误的节点。 这个事件后续会是<code>ACTIVITY_SIGNALLED</code>或<code>ACTIVITY_COMPLETE</code>， 如果错误发送成功的话。</td>
+<td align="center"><code>org.activiti...ActivitiErrorEvent</code></td>
+</tr>
+<tr>
+<td align="center">UNCAUGHT_BPMN_ERROR</td>
+<td align="left">抛出了未捕获的BPMN错误。流程没有提供针对这个错误的处理器。 事件的<code>activityId</code>为空。</td>
+<td align="center"><code>org.activiti...ActivitiErrorEvent</code></td>
+</tr>
+<tr>
+<td align="center">ACTIVITY_COMPENSATE</td>
+<td align="left">一个节点将要被补偿。事件包含了将要执行补偿的节点id。</td>
+<td align="center"><code>org.activiti...ActivitiActivityEvent</code></td>
+</tr>
+<tr>
+<td align="center">VARIABLE_CREATED</td>
+<td align="left">创建了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
+<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
+</tr>
+<tr>
+<td align="center">VARIABLE_UPDATED</td>
+<td align="left">更新了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
+<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
+</tr>
+<tr>
+<td align="center">VARIABLE_DELETED</td>
+<td align="left">删除了一个变量。事件包含变量名，变量值和对应的分支或任务（如果存在）。</td>
+<td align="center"><code>org.activiti...ActivitiVariableEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_ASSIGNED</td>
+<td align="left">任务被分配给了一个人员。事件包含任务。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_CREATED</td>
+<td align="left">创建了新任务。它位于<code>ENTITY_CREATE</code>事件之后。当任务是由流程创建时， 这个事件会在TaskListener执行之前被执行。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_COMPLETED</td>
+<td align="left">任务被完成了。它会在<code>ENTITY_DELETE</code>事件之前触发。当任务是流程一部分时，事件会在流程继续运行之前， 后续事件将是<code>ACTIVITY_COMPLETE</code>，对应着完成任务的节点。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">TASK_TIMEOUT</td>
+<td align="left">任务已超时，在<code>TIMER_FIRED</code>事件之后，会触发用户任务的超时事件， 当这个任务分配了一个定时器的时候。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">PROCESS_COMPLETED</td>
+<td align="left">流程已结束。在最后一个节点的<code>ACTIVITY_COMPLETED</code>事件之后触发。 当流程到达的状态，没有任何后续连线时， 流程就会结束。</td>
+<td align="center"><code>org.activiti...ActivitiEntityEvent</code></td>
+</tr>
+<tr>
+<td align="center">MEMBERSHIP_CREATED</td>
+<td align="left">用户被添加到一个组里。事件包含了用户和组的id。</td>
+<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
+</tr>
+<tr>
+<td align="center">MEMBERSHIP_DELETED</td>
+<td align="left">用户被从一个组中删除。事件包含了用户和组的id。</td>
+<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
+</tr>
+<tr>
+<td align="center">MEMBERSHIPS_DELETED</td>
+<td align="left">所有成员被从一个组中删除。在成员删除之前触发这个事件，所以他们都是可以访问的。 因为性能方面的考虑，不会为每个成员触发单独的<code>MEMBERSHIP_DELETED</code>事件。</td>
+<td align="center"><code>org.activiti...ActivitiMembershipEvent</code></td>
+</tr>
+</tbody></table>
+<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><p>​    业务流程是软件项目的一部分，它也应该和普通的业务流程一样进行测试： 使用单元测试。 因为Activiti是一个嵌入式的java引擎， 为业务流程编写单元测试和写普通单元测试完全一样。</p>
+<p>​    Activiti支持JUnit 3和4进行单元测试。使用JUnit 3时， 必须集成<code>org.activiti.engine.test.ActivitiTestCase</code>。 它通过保护的成员变量提供ProcessEngine和服务， 在测试的<code>setup()</code>中， 默认会使用classpath下的<code>activiti.cfg.xml</code>初始化流程引擎。 想使用不同的配置文件，可以重写*getConfigurationResource()*方法。 如果配置文件相同的话，对应的流程引擎会被静态缓存， 就可以用于多个单元测试。</p>
+<p>​    继承了<code>ActivitiTestCase</code>你，可以在测试方法上使用 <code>org.activiti.engine.test.Deployment</code>注解。 测试执行前，与测试类在同一个包下的， 格式为<code>testClassName.testMethod.bpmn20.xml</code>的资源文件，会被部署。 测试结束后，发布包也会被删除，包括所有相关的流程实例，任务，等等。 <code>Deployment</code>注解也可以直接设置资源的位置。 参考<a target="_blank" rel="noopener" href="http://www.mossle.com/docs/javadocs/org/activiti/engine/test/Deployment.html">Javadocs</a>获得更多信息。</p>
+<p>​    把这些放在一起，JUnit 3测试看起来像这样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class MyBusinessProcessTest extends ActivitiTestCase &#123;</span><br><span class="line">    @Deployment</span><br><span class="line">    public void testSimpleProcess() &#123;</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;simpleProcess&quot;);</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    要想在使用JUnit 4编写单元测试时获得同样的功能， 可以使用<code>org.activiti.engine.test.ActivitiRule</code>。 通过它，可以通过getter方法获得流程引擎和各种服务。 和 <code>ActivitiTestCase</code>一样（参考上面章节），使用这个<code>Rule</code> 也会启用<code>org.activiti.engine.test.Deployment</code>注解（参考上面章节使用和配置的介绍）， 它会在classpath下查找默认的配置文件。 如果配置文件相同的话，对应的流程引擎会被静态缓存， 就可以用于多个单元测试。</p>
+<p>​    下面的代码演示了JUnit 4单元测试并使用了<code>ActivitiRule</code>的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class MyBusinessProcessTest &#123;</span><br><span class="line">    @Rule</span><br><span class="line">    public ActivitiRule activitiRule &#x3D; new ActivitiRule();</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    @Deployment</span><br><span class="line">    public void ruleUsageExample() &#123;</span><br><span class="line">        RuntimeService runtimeService &#x3D; activitiRule.getRuntimeService();</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;ruleUsage&quot;);</span><br><span class="line">        TaskService taskService &#x3D; activitiRule.getTaskService();</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    当集成Spring时，使用标准的<a target="_blank" rel="noopener" href="http://www.mossle.com/docs/activiti/index.html#apiUnitTesting">Activiti测试工具类</a>是非常容易的对业务流程进行测试。 下面的例子展示了如何在一个典型的基于Spring单元测试测试业务流程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import org.junit.Rule;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.junit.runner.RunWith;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.test.context.ContextConfiguration;</span><br><span class="line">import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"></span><br><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@ContextConfiguration(&quot;classpath:org&#x2F;activiti&#x2F;spring&#x2F;test&#x2F;junit4&#x2F;springTypicalUsageTest-context.xml&quot;)</span><br><span class="line">public class MyBusinessProcessTest &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private RuntimeService runtimeService;</span><br><span class="line">    @Autowired</span><br><span class="line">    private TaskService taskService;</span><br><span class="line">    @Autowired</span><br><span class="line">    @Rule</span><br><span class="line">    public ActivitiRule activitiSpringRule;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    @Deployment</span><br><span class="line">    public void simpleProcessTest() &#123;</span><br><span class="line">        runtimeService.startProcessInstanceByKey(&quot;simpleProcess&quot;);</span><br><span class="line">        Task task &#x3D; taskService.createTaskQuery().singleResult();</span><br><span class="line">        assertEquals(&quot;My Task&quot;, task.getName());</span><br><span class="line">        taskService.complete(task.getId());</span><br><span class="line">        assertEquals(0, runtimeService.createProcessInstanceQuery().count());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-activiti数据库的分类" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2197510555.html" class="article-date">
+      <time datetime="2020-02-14T00:10:04.000Z" itemprop="datePublished">2020-02-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2197510555.html">activiti数据库的分类</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><p>Activiti数据库表结构</p>
+<p> Activiti工作流总共包含23张数据表，所有的表名默认以“<strong>ACT_</strong>”开头。</p>
+<p>并且表名的第二部分用两个字母表明表的用例，而这个用例也基本上跟Service API匹配。</p>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <p>Activiti数据库表结构</p>
+<p> Activiti工作流总共包含23张数据表，所有的表名默认以“<strong>ACT_</strong>”开头。</p>
+<p>并且表名的第二部分用两个字母表明表的用例，而这个用例也基本上跟Service API匹配。</p>
+<ul>
+<li><p> <strong>ACT_GE_*</strong> : “GE”代表“General”（通用），用在各种情况下；</p>
+</li>
+<li><p> <strong>ACT_HI_*</strong> : “HI”代表“History”（历史），这些表中保存的都是历史数据，比如执行过的流程实例、变量、任务，等等。Activit默认提供了4种历史级别：</p>
+</li>
+<li><p><strong>none</strong>: 不保存任何历史记录，可以提高系统性能；</p>
+</li>
+<li><p> <strong>activity</strong>：保存所有的流程实例、任务、活动信息；</p>
+</li>
+<li><p> <strong>audit</strong>：也是Activiti的<strong>默认</strong>级别，保存所有的流程实例、任务、活动、表单属性；</p>
+</li>
+<li><p> <strong>full</strong>：最完整的历史记录，除了包含<strong>audit</strong>级别的信息之外还能保存详细，例如：流程变量。</p>
+</li>
+</ul>
+<p>对于几种级别根据对功能的要求选择，如果需要日后跟踪详细可以开启<strong>full</strong>。</p>
+<ul>
+<li><p> <strong>ACT_ID_*</strong> : “ID”代表“Identity”（身份），这些表中保存的都是身份信息，如用户和组以及两者之间的关系。如果Activiti被集成在某一系统当中的话，这些表可以不用，可以直接使用现有系统中的用户或组信息；</p>
+</li>
+<li><p> <strong>ACT_RE_*</strong> : “RE”代表“Repository”（仓库），这些表中保存一些‘静态’信息，如流程定义和流程资源（如图片、规则等）；</p>
+</li>
+<li><p><strong>ACT_RU_*</strong> : “RU”代表“Runtime”（运行时），这些表中保存一些流程实例、用户任务、变量等的运行时数据。Activiti只保存流程实例在执行过程中的运行时数据，并且当流程结束后会立即移除这些数据，这是为了保证运行时表尽量的小并运行的足够快；</p>
+</li>
+</ul>
+<h3 id="Activiti数据表清单"><a href="#Activiti数据表清单" class="headerlink" title="Activiti数据表清单:"></a>Activiti数据表清单:</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>表分类</strong></th>
+<th align="center"><strong>表名</strong></th>
+<th align="center"><strong>解释</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">一般数据</td>
+<td align="center">ACT_GE_BYTEARRAY</td>
+<td align="center">通用的流程定义和流程资源</td>
+</tr>
+<tr>
+<td align="center">ACT_GE_PROPERTY</td>
+<td align="center">系统相关属性</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">流程历史记录</td>
+<td align="center">ACT_HI_ACTINST</td>
+<td align="center">历史的流程实例</td>
+</tr>
+<tr>
+<td align="center">ACT_HI_ATTACHMENT</td>
+<td align="center">历史的流程附件</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_COMMENT</td>
+<td align="center">历史的说明性信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_DETAIL</td>
+<td align="center">历史的流程运行中的细节信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_IDENTITYLINK</td>
+<td align="center">历史的流程运行过程中用户关系</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_PROCINST</td>
+<td align="center">历史的流程实例</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_TASKINST</td>
+<td align="center">历史的任务实例</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_HI_VARINST</td>
+<td align="center">历史的流程运行中的变量信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">用户用户组表</td>
+<td align="center">ACT_ID_GROUP</td>
+<td align="center">身份信息-组信息</td>
+</tr>
+<tr>
+<td align="center">ACT_ID_INFO</td>
+<td align="center">身份信息-组信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_ID_MEMBERSHIP</td>
+<td align="center">身份信息-用户和组关系的中间表</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_ID_USER</td>
+<td align="center">身份信息-用户信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">流程定义表</td>
+<td align="center">ACT_RE_DEPLOYMENT</td>
+<td align="center">部署单元信息</td>
+</tr>
+<tr>
+<td align="center">ACT_RE_MODEL</td>
+<td align="center">模型信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RE_PROCDEF</td>
+<td align="center">已部署的流程定义</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">运行实例表</td>
+<td align="center">ACT_RU_EVENT_SUBSCR</td>
+<td align="center">运行时事件</td>
+</tr>
+<tr>
+<td align="center">ACT_RU_EXECUTION</td>
+<td align="center">运行时流程执行实例</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_IDENTITYLINK</td>
+<td align="center">运行时用户关系信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_JOB</td>
+<td align="center">运行时作业</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_TASK</td>
+<td align="center">运行时任务</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ACT_RU_VARIABLE</td>
+<td align="center">运行时变量表</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!-- 
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activiti/" rel="tag">activiti</a></li></ul>
+    </div>
+ -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-虚拟机内部连vpn" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1100,409 +1596,6 @@
       <!-- 
     <div class="article-tag tagcloud">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webdav/" rel="tag">webdav</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9D%9A%E6%9E%9C%E4%BA%91/" rel="tag">坚果云</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-POST与PUT区别RESTFUL风格中" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/4265857413.html" class="article-date">
-      <time datetime="2019-08-28T04:34:09.000Z" itemprop="datePublished">2019-08-28</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/4265857413.html">POST与PUT区别RESTFUL风格中</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h3 id="1-HTTP协议详解"><a href="#1-HTTP协议详解" class="headerlink" title="1 HTTP协议详解"></a><strong>1 HTTP协议详解</strong></h3><p>转载地址 <strong><a target="_blank" rel="noopener" href="http://blog.yikaiba.com/Home/Article/index/id/156.html">http://blog.yikaiba.com/Home/Article/index/id/156.html</a></strong></p>
-<p>HTTP是HyperText Transfer Protocol（超文本传输协议）的缩写。它的发展是万维网协会（WorldWide Web Consortium）和Internet工作小组IETF（Internet Engineering Task Force）合作的结果，（他们）最终发布了一系列的RFC，RFC 1945定义了HTTP/1.0版本。其中最著名的就是RFC 2616。RFC 2616定义了今天普遍使用的一个版本——HTTP 1.1。</p>
-<p>HTTP协议（HyperText Transfer Protocol，超文本传输协议）是用于从WWW服务器传输超文本到本地浏览器的传送协议。它可以使浏览器更加高效，使网络传输减少。它不仅保证计算机正确快速地传输超文本文档，还确定传输文档中的哪一部分，以及哪部分内容首先显示(如文本先于图形)等。</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h3 id="1-HTTP协议详解"><a href="#1-HTTP协议详解" class="headerlink" title="1 HTTP协议详解"></a><strong>1 HTTP协议详解</strong></h3><p>转载地址 <strong><a target="_blank" rel="noopener" href="http://blog.yikaiba.com/Home/Article/index/id/156.html">http://blog.yikaiba.com/Home/Article/index/id/156.html</a></strong></p>
-<p>HTTP是HyperText Transfer Protocol（超文本传输协议）的缩写。它的发展是万维网协会（WorldWide Web Consortium）和Internet工作小组IETF（Internet Engineering Task Force）合作的结果，（他们）最终发布了一系列的RFC，RFC 1945定义了HTTP/1.0版本。其中最著名的就是RFC 2616。RFC 2616定义了今天普遍使用的一个版本——HTTP 1.1。</p>
-<p>HTTP协议（HyperText Transfer Protocol，超文本传输协议）是用于从WWW服务器传输超文本到本地浏览器的传送协议。它可以使浏览器更加高效，使网络传输减少。它不仅保证计算机正确快速地传输超文本文档，还确定传输文档中的哪一部分，以及哪部分内容首先显示(如文本先于图形)等。</p>
-<p>HTTP协议通常承载于TCP协议之上，有时也承载于TLS或SSL协议层之上，这个时候，就成了我们常说的HTTPS。如下图所示：</p>
-<p><a href="../img/8732AF49534540D8AFCD804A4335A2D2.png"><img src="../img/8732AF49534540D8AFCD804A4335A2D2.png" alt="img"></a></p>
-<p>默认HTTP的端口号为80，HTTPS的端口号为443。</p>
-<p>HTTP协议永远都是客户端发起请求，服务器回送响应。见下图：</p>
-<p><a href="../img/65E389D17A3F4C6AA8A5B6F542DB58AA.png"><img src="../img/65E389D17A3F4C6AA8A5B6F542DB58AA.png" alt="img"></a></p>
-<p>这样就限制了使用HTTP协议，无法实现在客户端没有发起请求的时候，服务器将消息推送给客户端。</p>
-<p>HTTP协议是一个无状态的协议，同一个客户端的这次请求和上次请求是没有对应关系。</p>
-<p><strong>一次HTTP操作称为一个事务，其工作过程可分为四步：</strong></p>
-<p>1）首先客户机与服务器需要建立连接。只要单击某个超级链接，HTTP的工作开始。</p>
-<p>2）建立连接后，客户机发送一个请求给服务器，请求方式的格式为：统一资源标识符（URL）、协议版本号，后边是MIME信息包括请求修饰符、客户机信息和可能的内容。</p>
-<p>3）服务器接到请求后，给予相应的响应信息，其格式为一个状态行，包括信息的协议版本号、一个成功或错误的代码，后边是MIME信息包括服务器信息、实体信息和可能的内容。</p>
-<p>4）客户端接收服务器所返回的信息通过浏览器显示在用户的显示屏上，然后客户机与服务器断开连接。</p>
-<p>如果在以上过程中的某一步出现错误，那么产生错误的信息将返回到客户端，有显示屏输出。对于用户来说，这些过程是由HTTP自己完成的，用户只要用鼠标点击，等待信息显示就可以了。</p>
-<p><strong>2 HTTP协议详解之请求篇</strong></p>
-<p>http请求由三部分组成，分别是：请求行、消息报头、请求正文</p>
-<p>请求行以一个方法符号开头，以空格分开，后面跟着请求的URI和协议的版本，格式如下：Method Request-URIHTTP-Version CRLF</p>
-<p>其中 Method表示请求方法；Request-URI是一个统一资源标识符；HTTP-Version表示请求的HTTP协议版本；CRLF表示回车和换行（除了作为结尾的CRLF外，不允许出现单独的CR或LF字符）。</p>
-<p><strong>请求方法（所有方法全为大写）有多种，各个方法的解释如下：</strong></p>
-<p>GET 请求获取Request-URI所标识的资源</p>
-<p>POST 在Request-URI所标识的资源后附加新的数据</p>
-<p>HEAD 请求获取由Request-URI所标识的资源的响应消息报头</p>
-<p>PUT 请求服务器存储一个资源，并用Request-URI作为其标识</p>
-<p>DELETE 请求服务器删除Request-URI所标识的资源</p>
-<p>TRACE 请求服务器回送收到的请求信息，主要用于测试或诊断</p>
-<p>CONNECT 保留将来使用</p>
-<p>OPTIONS 请求查询服务器的性能，或者查询与资源相关的选项和需求</p>
-<p>应用举例：</p>
-<p>GET方法：在浏览器的地址栏中输入网址的方式访问网页时，浏览器采用GET方法向服务器获取资源，eg:GET /form.html HTTP/1.1 (CRLF)</p>
-<p>POST方法要求被请求服务器接受附在请求后面的数据，常用于提交表单。</p>
-<p>HEAD方法与GET方法几乎是一样的，对于HEAD请求的回应部分来说，它的HTTP头部中包含的信息与通过GET请求所得到的信息是相同的。利用这个方法，不必传输整个资源内容，就可以得到Request-URI所标识的资源的信息。该方法常用于测试超链接的有效性，是否可以访问，以及最近是否更新。</p>
-<p><strong>3 HTTP协议详解之响应篇</strong></p>
-<p>在接收和解释请求消息后，服务器返回一个HTTP响应消息。</p>
-<p>HTTP响应也是由三个部分组成，分别是：状态行、消息报头、响应正文</p>
-<p><strong>1、状态行格式如下：</strong></p>
-<p>HTTP-VersionStatus-Code Reason-Phrase CRLF</p>
-<p>其中，HTTP-Version表示服务器HTTP协议的版本；Status-Code表示服务器发回的响应状态代码；Reason-Phrase表示状态代码的文本描述。</p>
-<p>状态代码有三位数字组成，第一个数字定义了响应的类别，且有五种可能取值：</p>
-<p>1xx：指示信息–表示请求已接收，继续处理</p>
-<p>2xx：成功–表示请求已被成功接收、理解、接受</p>
-<p>3xx：重定向–要完成请求必须进行更进一步的操作</p>
-<p>4xx：客户端错误–请求有语法错误或请求无法实现</p>
-<p>5xx：服务器端错误–服务器未能实现合法的请求</p>
-<p><strong>2、常见状态代码、状态描述、说明：</strong></p>
-<p><strong>请求收到，继续处理</strong></p>
-<p>100——客户必须继续发出请求</p>
-<p>101——客户要求服务器根据请求转换HTTP协议版本</p>
-<p><strong>操作成功收到，分析、接受</strong></p>
-<p>200——交易成功</p>
-<p>201——提示知道新文件的URL</p>
-<p>202——接受和处理、但处理未完成</p>
-<p>203——返回信息不确定或不完整</p>
-<p>204——请求收到，但返回信息为空</p>
-<p>205——服务器完成了请求，用户代理必须复位当前已经浏览过的文件</p>
-<p>206——服务器已经完成了部分用户的GET请求</p>
-<p><strong>完成此请求必须进一步处理</strong></p>
-<p>300——请求的资源可在多处得到</p>
-<p>301——删除请求数据</p>
-<p>302——在其他地址发现了请求数据</p>
-<p>303——建议客户访问其他URL或访问方式</p>
-<p>304——客户端已经执行了GET，但文件未变化</p>
-<p>305——请求的资源必须从服务器指定的地址得到</p>
-<p>306——前一版本HTTP中使用的代码，现行版本中不再使用</p>
-<p>307——申明请求的资源临时性删除</p>
-<p><strong>请求包含一个错误语法或不能完成</strong></p>
-<p>400——错误请求，如语法错误</p>
-<p>401——未授权</p>
-<p>HTTP 401.1 - 未授权：登录失败</p>
-<p>　　 HTTP 401.2 - 未授权：服务器配置问题导致登录失败</p>
-<p>　　 HTTP 401.3 - ACL 禁止访问资源</p>
-<p>　　 HTTP 401.4 - 未授权：授权被筛选器拒绝</p>
-<p>HTTP 401.5 - 未授权：ISAPI 或 CGI 授权失败</p>
-<p>402——保留有效ChargeTo头响应</p>
-<p>403——禁止访问</p>
-<p>HTTP 403.1 禁止访问：禁止可执行访问</p>
-<p>　　 HTTP 403.2 - 禁止访问：禁止读访问</p>
-<p>　　 HTTP 403.3 - 禁止访问：禁止写访问</p>
-<p>　　 HTTP 403.4 - 禁止访问：要求 SSL</p>
-<p>　　 HTTP 403.5 - 禁止访问：要求 SSL128</p>
-<p>　　 HTTP 403.6 - 禁止访问：IP 地址被拒绝</p>
-<p>　　 HTTP 403.7 - 禁止访问：要求客户证书</p>
-<p>　　 HTTP 403.8 - 禁止访问：禁止站点访问</p>
-<p>　　 HTTP 403.9 - 禁止访问：连接的用户过多</p>
-<p>　　 HTTP 403.10 - 禁止访问：配置无效</p>
-<p>　　 HTTP 403.11 - 禁止访问：密码更改</p>
-<p>　　 HTTP 403.12 - 禁止访问：映射器拒绝访问</p>
-<p>　　 HTTP 403.13 - 禁止访问：客户证书已被吊销</p>
-<p>　　 HTTP 403.15 - 禁止访问：客户访问许可过多</p>
-<p>　　 HTTP 403.16 - 禁止访问：客户证书不可信或者无效</p>
-<p>HTTP 403.17 - 禁止访问：客户证书已经到期或者尚未生效</p>
-<p>404——没有发现文件、查询或URl</p>
-<p>405——用户在Request-Line字段定义的方法不允许</p>
-<p>406——根据用户发送的Accept拖，请求资源不可访问</p>
-<p>407——类似401，用户必须首先在代理服务器上得到授权</p>
-<p>408——客户端没有在用户指定的饿时间内完成请求</p>
-<p>409——对当前资源状态，请求不能完成</p>
-<p>410——服务器上不再有此资源且无进一步的参考地址</p>
-<p>411——服务器拒绝用户定义的Content-Length属性请求</p>
-<p>412——一个或多个请求头字段在当前请求中错误</p>
-<p>413——请求的资源大于服务器允许的大小</p>
-<p>414——请求的资源URL长于服务器允许的长度</p>
-<p>415——请求资源不支持请求项目格式</p>
-<p>416——请求中包含Range请求头字段，在当前请求资源范围内没有range指示值，请求也不包含If-Range请求头字段</p>
-<p>417——服务器不满足请求Expect头字段指定的期望值，如果是代理服务器，可能是下一级服务器不能满足请求长。</p>
-<p><strong>服务器执行一个完全有效请求失败</strong></p>
-<p>　　 HTTP 500 - 内部服务器错误</p>
-<p>　　 HTTP 500.100 - 内部服务器错误 -ASP 错误</p>
-<p>　　 HTTP 500-11 服务器关闭</p>
-<p>　　 HTTP 500-12 应用程序重新启动</p>
-<p>　　 HTTP 500-13 - 服务器太忙</p>
-<p>　　 HTTP 500-14 - 应用程序无效</p>
-<p>　　 HTTP 500-15 - 不允许请求 global.asa</p>
-<p>　　 Error 501 - 未实现</p>
-<p> HTTP 502 - 网关错误</p>
-<p>　　 <em>HTTP 500.100 - 内部服务器错误 -ASP 错误</em></p>
-<p>　　 <em>HTTP 500-11 服务器关闭</em></p>
-<p>　　 <em>HTTP 500-12 应用程序重新启动</em></p>
-<p>　　 <em>HTTP 500-13 - 服务器太忙</em></p>
-<p>　　 <em>HTTP 500-14 - 应用程序无效</em></p>
-<p>　　 <em>HTTP 500-15 - 不允许请求 global.asa</em></p>
-<p>　　 <em>Error 501 - 未实现</em></p>
-<p> <em>HTTP 502 - 网关错误</em></p>
-<p><strong>4 API设计的基本要求</strong></p>
-<p>一个被普遍承认和遵守：RESTful设计原则。它被Roy Felding提出（在他的”基于网络的软件架构“论文中第五章）。而REST的核心原则是将你的API拆分为逻辑上的资源。这些资源通过http被操作（GET ,POST,PUT,DELETE）。</p>
-<p> 显然从API用户的角度来看，”资源“应该是个名词。即使你的内部数据模型和资源已经有了很好的对应，API设计的时候你仍然不需要把它们一对一的都暴露出来。这里的关键是隐藏内部资源，暴露必需的外部资源。</p>
-<p> 一旦定义好了要暴露的资源，你可以定义资源上允许的操作，以及这些操作和你的API的对应关系：</p>
-<p>· GET /tickets # 获取ticket列表</p>
-<p>· GET /tickets/12 # 查看某个具体的ticket</p>
-<p>· POST /tickets # 新建一个ticket</p>
-<p>· PUT /tickets/12 # 更新ticket 12.</p>
-<p>· DELETE /tickets/12 #删除ticekt 12</p>
-<p> 可以看出使用REST的好处在于可以充分利用http的强大实现对资源的CURD功能。而这里你只需要一个endpoint：/tickets,再没有其他什么命名规则和url规则了，cool！</p>
-<p> 但是有的endpoint，需要使用复数使得你的URL更加规整。这让API使用者更加容易理解，对开发者来说也更容易实现。</p>
-<p>如何处理关联？关于如何处理资源之间的管理REST原则也有相关的描述：</p>
-<p>· GET /tickets/12/messages- Retrieves list of messages forticket #12</p>
-<p>· GET /tickets/12/messages/5- Retrieves message #5 forticket #12</p>
-<p>· POST /tickets/12/messages- Creates a new message inticket #12</p>
-<p>· PUT /tickets/12/messages/5- Updates message #5 for ticket#12</p>
-<p>· PATCH /tickets/12/messages/5- Partially updates message#5 for ticket #12</p>
-<p>· DELETE /tickets/12/messages/5- Deletes message #5 forticket #12</p>
-<p> 其中，如果这种关联和资源独立，那么我们可以在资源的输出表示中保存相应资源的endpoint。然后API的使用者就可以通过点击链接找到相关的资源。如果关联和资源联系紧密。资源的输出表示就应该直接保存相应资源信息。（例如这里如果message资源是独立存在的，那么上面 GET/tickets/12/messages就会返回相应message的链接；相反的如果message不独立存在，他和ticket依附存在，则上面的API调用返回直接返回message信息）</p>
-<p><strong>5 get和post区别</strong></p>
-<p> 常用的请求方式是GET和POST.</p>
-<p>GET方式：是以实体的方式得到由请求URI所指定资源的信息，如果请求URI只是一个数据产生过程，那么最终要在响应实体中返回的是处理过程的结果所指向的资源，而不是处理过程的描述。</p>
-<p>POST方式：用来向目的服务器发出请求，要求它接受被附在请求后的实体，并把它当作请求队列中请求URI所指定资源的附加新子项，Post被设计成用统一的方法实现下列功能：</p>
-<p>1）对现有资源的解释；</p>
-<p>2）向电子公告栏、新闻组、邮件列表或类似讨论组发信息；</p>
-<p>3）提交数据块；</p>
-<p>4）通过附加操作来扩展数据库 。</p>
-<p>从上面描述可以看出，Get是向服务器发索取数据的一种请求；而Post是向服务器提交数据的一种请求，要提交的数据位于信息头后面的实体中。</p>
-<p>GET与POST方法有以下区别：</p>
-<p>1） 在客户端，Get方式在通过URL提交数据，数据在URL中可以看到；POST方式，数据放置在HTMLHEADER内提交。</p>
-<p>2） GET方式提交的数据最多只能有1024字节，而POST则没有此限制。</p>
-<p>3） 安全性问题。正如在（1）中提到，使用 Get 的时候，参数会显示在地址栏上，而 Post 不会。所以，如果这些数据是中文数据而且是非敏感数据，那么使用 get；如果用户输入的数据不是中文字符而且包含敏感数据，那么还是使用 post为好。</p>
-<p>4） 安全的和幂等的。所谓安全的意味着该操作用于获取信息而非修改信息。幂等的意味着对同一 URL 的多个请求应该返回同样的结果。完整的定义并不像看起来那样严格。换句话说，GET 请求一般不应产生副作用。从根本上讲，其目标是当用户打开一个链接时，她可以确信从自身的角度来看没有改变资源。比如，新闻站点的头版不断更新。虽然第二次请求会返回不同的一批新闻，该操作仍然被认为是安全的和幂等的，因为它总是返回当前的新闻。反之亦然。POST 请求就不那么轻松了。POST 表示可能改变服务器上的资源的请求。仍然以新闻站点为例，读者对文章的注解应该通过 POST 请求实现，因为在注解提交之后站点已经不同了（比方说文章下面出现一条注解）。</p>
-<p><strong>6 put和post区别</strong></p>
-<p>有的观点认为，应该用POST来创建一个资源，用PUT来更新一个资源；有的观点认为，应该用PUT来创建一个资源，用POST来更新一个资源；还有的观点认为可以用PUT和POST中任何一个来做创建或者更新一个资源。这些观点都只看到了风格，争论起来也只是争论哪种风格更好，其实，用PUT还是POST，不是看这是创建还是更新资源的动作，这不是风格的问题，而是语义的问题。</p>
-<p>举一个简单的例子，假如有一个博客系统提供一个Web API，模式是这样<a target="_blank" rel="noopener" href="http://superblogging/blogs/%7Bblog-name%7D%EF%BC%8C%E5%BE%88%E7%AE%80%E5%8D%95%EF%BC%8C%E5%B0%86%7Bblog-name%7D">http://superblogging/blogs/{blog-name}，很简单，将{blog-name}</a></p>
-<p>替换为我们的blog名字，往这个URI发送一个HTTP PUT或者POST请求，HTTP的body部分就是博文，这是一个很简单的REST API例子。我们应该用</p>
-<p>PUT方法还是POST方法？取决于这个REST服务的行为是否是idempotent的，假如我们发送两个<a target="_blank" rel="noopener" href="http://superblogging/blogs/post/Sample%E8%AF%B7%E6%B1%82%EF%BC%8C%E6%9C%8D">http://superblogging/blogs/post/Sample请求，服</a></p>
-<p>务器端是什么样的行为？如果产生了两个博客帖子，那就说明这个服务不是idempotent的，因为多次使用产生了副作用了嘛；如果后一个请求把第一个</p>
-<p>请求覆盖掉了，那这个服务就是idempotent的。前一种情况，应该使用POST方法，后一种情况，应该使用PUT方法。</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/post/" rel="tag">post</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/put/" rel="tag">put</a></li></ul>
-    </div>
- -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-免费短信接码网站" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/124395117.html" class="article-date">
-      <time datetime="2019-08-28T04:18:12.000Z" itemprop="datePublished">2019-08-28</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/124395117.html">免费短信接码网站</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><h2 id="国内平台展开目录"><a href="#国内平台展开目录" class="headerlink" title="国内平台展开目录"></a>国内平台展开目录</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.pdflibr.com/">https://www.pdflibr.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.visitorsms.com/cn">https://www.visitorsms.com/cn</a></li>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <h2 id="国内平台展开目录"><a href="#国内平台展开目录" class="headerlink" title="国内平台展开目录"></a>国内平台展开目录</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.pdflibr.com/">https://www.pdflibr.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.visitorsms.com/cn">https://www.visitorsms.com/cn</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.becmd.com/">https://www.becmd.com</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.114sim.com/">http://www.114sim.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://yunduanxin.net/">https://yunduanxin.net</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.smszk.com/">http://www.smszk.com</a></li>
-<li><a target="_blank" rel="noopener" href="http://z-sms.com/">http://z-sms.com</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.shejiinn.com/">http://www.shejiinn.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://sms.cngrok.com/">https://sms.cngrok.com</a></li>
-</ul>
-<h2 id="国外平台展开目录"><a href="#国外平台展开目录" class="headerlink" title="国外平台展开目录"></a>国外平台展开目录</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://ch.freephonenum.com/">https://ch.freephonenum.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://smsreceivefree.com/">https://smsreceivefree.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.mytrashmobile.com/">https://zh.mytrashmobile.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.receive-sms-online.info/">https://www.receive-sms-online.info</a></li>
-<li><a target="_blank" rel="noopener" href="https://receiveasms.com/">https://receiveasms.com</a></li>
-<li><a target="_blank" rel="noopener" href="https://sms-online.co/receive-free-sms">https://sms-online.co/receive-free-sms</a></li>
-<li><a target="_blank" rel="noopener" href="https://receive-sms.com/">https://receive-sms.com</a></li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://hao.su/2495/?from=dalao.ru">引用链接</a></p>
-<h2 id="在线邮箱展开目录"><a href="#在线邮箱展开目录" class="headerlink" title="在线邮箱展开目录"></a>在线邮箱展开目录</h2><blockquote>
-<p>9em</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://9em.org/">https://9em.org</a></p>
-<p>9em.org 来自不死鸟微信群内大佬，这是一个 10 分钟邮箱服务，邮箱后缀为 [<code>@9em.org](mailto:</code>@9em.org)` 9em 取自 九条命 Email</p>
-<p>在屏幕右上角输入一个你想要的邮箱前缀，就能收取邮件需要注意的是这个邮箱对所有人都是公开的，并且邮件仅在服务器保存十分钟，十分钟后会自动删除</p>
-<blockquote>
-<p>maildrop</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://maildrop.cc/">https://maildrop.cc</a></p>
-<p>打开 maildrop 会自动生成一个临时的邮箱，如果你不想更改地址，可以直接点右上角的 Go 进入收件箱页面，也可以在右上角修改邮箱前缀地址，在进入临时收件箱页面。</p>
-<blockquote>
-<p>bccto</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="http://bccto.me/">http://bccto.me</a></p>
-<p>10 分钟邮箱，可以自定义也可以随机申请的 10 分钟临时邮箱，支持自定义域名，可以将自己的域名绑定 bccto 服务。</p>
-<blockquote>
-<p>10minutemail</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://10minutemail.net/">https://10minutemail.net</a></p>
-<p>一个 10 分钟邮箱</p>
-<blockquote>
-<p>10minutemail</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://10minutemail.com/">https://10minutemail.com</a></p>
-<p>10 分钟邮箱，老牌网站 07 年稳定至今。 小部分网站网站封锁了 10minutemail 的域名，可能无法接收，可以当作备用。</p>
-<blockquote>
-<p>666 临时邮箱</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.666email.com/">https://www.666email.com/</a></p>
-<p>UI 很简洁，提供了 2 个域名选择，可以自定义也可以随机生成。</p>
-<blockquote>
-<p>anyalias</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://anyalias.com/">https://anyalias.com</a><br>anyalias 是一个可以保护隐私的邮箱服务，可以生成一个自定义的邮箱然后转发给你的真实邮箱，从而达到保护隐私的效果，更多介绍查看 <a target="_blank" rel="noopener" href="https://hao.su/1474/">anyalias.com：无限制的免费电子邮件地址</a></p>
-<blockquote>
-<p>eskiimo</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://eskiimo.com/">https://eskiimo.com</a></p>
-<p>匿名发送邮件给任何人</p>
-<h2 id="在线办公展开目录"><a href="#在线办公展开目录" class="headerlink" title="在线办公展开目录"></a>在线办公展开目录</h2><p><a target="_blank" rel="noopener" href="https://shimo.im/">https://shimo.im</a></p>
-<p>石墨文档</p>
-<p><a target="_blank" rel="noopener" href="https://www.notion.so/">https://www.notion.so</a></p>
-<p>notion</p>
-<p><a target="_blank" rel="noopener" href="https://yuque.com/">https://yuque.com</a></p>
-<p>语雀</p>
-<p><a target="_blank" rel="noopener" href="https://docs.qq.com/">https://docs.qq.com</a></p>
-<p>腾讯文档</p>
-<p><a target="_blank" rel="noopener" href="https://tableconvert.com/">https://tableconvert.com</a></p>
-<p>一个免费的在线表格转换工具 TableConvert</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!-- 
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B5%84%E6%BA%90/" rel="tag">资源</a></li></ul>
     </div>
  -->
 

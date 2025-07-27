@@ -269,6 +269,182 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-gis-coordinate" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/8707cf2d.html" class="article-date">
+      <time datetime="2021-09-09T08:28:12.000Z" itemprop="datePublished">2021-09-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/8707cf2d.html">gis-coordinate</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                          
+                    
+              <!-- 
+              
+              <p><a target="_blank" rel="noopener" href="https://blog.geohey.com/-ge-xiao-you-xi-rang-ni-che-di-nong-dong-mo-qia-tuo-tou-ying/">https://blog.geohey.com/-ge-xiao-you-xi-rang-ni-che-di-nong-dong-mo-qia-tuo-tou-ying/</a><br>常见的坐标系和格式</p>
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-copy-running-jarfile-inside" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/12016e7b.html" class="article-date">
+      <time datetime="2021-08-23T09:05:54.000Z" itemprop="datePublished">2021-08-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/12016e7b.html">启动的时候复制jar包里面的文件出来，给jvm调用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+        <div class="article-entry" itemprop="articleBody">
+          
+                
+                            
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                            
+                                
+                                <p><h3 id="成功方式"><a href="#成功方式" class="headerlink" title="成功方式"></a>成功方式</h3><p>利用jarFile来实现 文件读取</p>
+<p>参考链接 <a target="_blank" rel="noopener" href="https://www.codenong.com/1463192/">https://www.codenong.com/1463192/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">String destDirPath &#x3D; getCurrentDirPath();</span><br><span class="line">       &#x2F;&#x2F; 读取jar文件</span><br><span class="line">        URL resource &#x3D; this.getClass().getResource(&quot;&#x2F;PSTools&quot;);</span><br><span class="line">       JarURLConnection conn &#x3D; (JarURLConnection) resource.openConnection();</span><br><span class="line">       JarFile jarFile &#x3D; conn.getJarFile();</span><br><span class="line">       final Enumeration&lt;JarEntry&gt; entries &#x3D; jarFile.entries();</span><br><span class="line">       while (entries.hasMoreElements()) &#123;</span><br><span class="line">           final JarEntry entry &#x3D; entries.nextElement();</span><br><span class="line">           if (entry.getName().contains(&quot;.exe&quot;)) &#123;</span><br><span class="line">               System.out.println(&quot;File :&quot; + entry.getName());</span><br><span class="line">               JarEntry fileEntry &#x3D; jarFile.getJarEntry(entry.getName());</span><br><span class="line">               InputStream input &#x3D; jarFile.getInputStream(fileEntry);</span><br><span class="line">               FileUtils.copyInputStreamToFile(input,new File(destDirPath,entry.getName()));</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>
+                              
+                          
+                    
+              <!-- 
+              
+              <h3 id="成功方式"><a href="#成功方式" class="headerlink" title="成功方式"></a>成功方式</h3><p>利用jarFile来实现 文件读取</p>
+<p>参考链接 <a target="_blank" rel="noopener" href="https://www.codenong.com/1463192/">https://www.codenong.com/1463192/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">String destDirPath &#x3D; getCurrentDirPath();</span><br><span class="line">       &#x2F;&#x2F; 读取jar文件</span><br><span class="line">        URL resource &#x3D; this.getClass().getResource(&quot;&#x2F;PSTools&quot;);</span><br><span class="line">       JarURLConnection conn &#x3D; (JarURLConnection) resource.openConnection();</span><br><span class="line">       JarFile jarFile &#x3D; conn.getJarFile();</span><br><span class="line">       final Enumeration&lt;JarEntry&gt; entries &#x3D; jarFile.entries();</span><br><span class="line">       while (entries.hasMoreElements()) &#123;</span><br><span class="line">           final JarEntry entry &#x3D; entries.nextElement();</span><br><span class="line">           if (entry.getName().contains(&quot;.exe&quot;)) &#123;</span><br><span class="line">               System.out.println(&quot;File :&quot; + entry.getName());</span><br><span class="line">               JarEntry fileEntry &#x3D; jarFile.getJarEntry(entry.getName());</span><br><span class="line">               InputStream input &#x3D; jarFile.getInputStream(fileEntry);</span><br><span class="line">               FileUtils.copyInputStreamToFile(input,new File(destDirPath,entry.getName()));</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="错误1"><a href="#错误1" class="headerlink" title="错误1"></a>错误1</h3><p>主要是 希望列出jar内的文件路径来实现读取 jar包内指定路径下的所有文件并复制出来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">File[] files = <span class="keyword">new</span> File(currentDirPath).listFiles();</span><br><span class="line">       String path = <span class="keyword">this</span>.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();</span><br><span class="line">       <span class="keyword">for</span> (File file : files) &#123;</span><br><span class="line">           FileUtils.copyDirectory(file,<span class="keyword">new</span> File(path));</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="错误2"><a href="#错误2" class="headerlink" title="错误2"></a>错误2</h3><p>这个是这参考这位博主的文章 <a target="_blank" rel="noopener" href="https://yebukong.com/article/1102629952022507521.html">https://yebukong.com/article/1102629952022507521.html</a></p>
+<p>没有生效 读取读取不到 jar包内 classpath 的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*  ResourcePatternResolver resolver &#x3D; new PathMatchingResourcePatternResolver();</span><br><span class="line">       Resource[] resources &#x3D; resolver.getResources(&quot;static&#x2F;blog&#x2F;**&quot;);</span><br><span class="line">       for (Resource resource : resources) &#123;</span><br><span class="line">           FreeMarkerUtil.copyResourceToFile(resource, aPath,&quot;&#x2F;static&#x2F;blog&#x2F;&quot;);</span><br><span class="line">       &#125;*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="错误3"><a href="#错误3" class="headerlink" title="错误3"></a>错误3</h3><p>目前只能读到文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String path &#x3D; new File(getClass().getResource(&quot;&quot;).getPath()).getParentFile().getParent());</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="错误4"><a href="#错误4" class="headerlink" title="错误4"></a>错误4</h3><p>目前读取不到jar 下面的文件夹和具体文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">URL[] urls &#x3D; &#123;this.getClass().getResource(&quot;&#x2F;PSTools&quot;) &#125;;</span><br><span class="line">       URLClassLoader cl &#x3D; URLClassLoader.newInstance(urls);</span><br></pre></td></tr></table></figure>
+
+
+               -->
+        </div>
+        
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      <!--  -->
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-sso-auth2-jwt" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1053,203 +1229,6 @@
 <p>gt-main-23.3.jar 里面使用的是jts-17.jar</p>
 <p>gt-main-23.0.jar 里面使用的是jts-16.jar</p>
 <p>所以需要降级 使用gt-main-23.0.jar 否则会报错</p>
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-netty-use" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/6e6bd3bb.html" class="article-date">
-      <time datetime="2021-06-14T03:16:40.000Z" itemprop="datePublished">2021-06-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/6e6bd3bb.html">netty的简单上手使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>使用netty来简单写个demo，熟悉语法和常见的命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.netty&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;netty-all&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;4.1.49.Final&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>使用netty来简单写个demo，熟悉语法和常见的命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.netty&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;netty-all&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;4.1.49.Final&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>client:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ITDragonAIOClient</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Integer PORT = <span class="number">8888</span>;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String IP_ADDRESS = <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> AsynchronousSocketChannel asynSocketChannel ;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ITDragonAIOClient</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;  </span><br><span class="line">        asynSocketChannel = AsynchronousSocketChannel.open();  <span class="comment">// 打开通道  </span></span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">connect</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        asynSocketChannel.connect(<span class="keyword">new</span> InetSocketAddress(IP_ADDRESS, PORT));  <span class="comment">// 创建连接 和NIO一样  </span></span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(String request)</span></span>&#123;  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            asynSocketChannel.write(ByteBuffer.wrap(request.getBytes())).get();  </span><br><span class="line">            ByteBuffer byteBuffer = ByteBuffer.allocate(<span class="number">1024</span>);  </span><br><span class="line">            asynSocketChannel.read(byteBuffer).get();  </span><br><span class="line">            byteBuffer.flip();  </span><br><span class="line">            <span class="keyword">byte</span>[] respByte = <span class="keyword">new</span> <span class="keyword">byte</span>[byteBuffer.remaining()];  </span><br><span class="line">            byteBuffer.get(respByte); <span class="comment">// 将缓冲区的数据放入到 byte数组中  </span></span><br><span class="line">            System.out.println(<span class="keyword">new</span> String(respByte,<span class="string">&quot;utf-8&quot;</span>).trim());  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            e.printStackTrace();  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;  </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            ITDragonAIOClient myClient = <span class="keyword">new</span> ITDragonAIOClient();  </span><br><span class="line">            myClient.connect();  </span><br><span class="line">            <span class="keyword">new</span> Thread(myClient, <span class="string">&quot;myClient&quot;</span>).start(); </span><br><span class="line">            String []operators = &#123;<span class="string">&quot;+&quot;</span>,<span class="string">&quot;-&quot;</span>,<span class="string">&quot;*&quot;</span>,<span class="string">&quot;/&quot;</span>&#125;;</span><br><span class="line">            Random random = <span class="keyword">new</span> Random(System.currentTimeMillis());  </span><br><span class="line">            String expression = random.nextInt(<span class="number">10</span>)+operators[random.nextInt(<span class="number">4</span>)]+(random.nextInt(<span class="number">10</span>)+<span class="number">1</span>);</span><br><span class="line">            myClient.write(expression);  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>server:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * AIO, 也叫 NIO2.0 是一种异步非阻塞的通信方式</span></span><br><span class="line"><span class="comment"> * AIO 引入了异步通道的概念 AsynchronousServerSocketChannel和AsynchronousSocketChannel 其read和write方法返回值类型是Future对象。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ITDragonAIOServer</span> </span>&#123;</span><br><span class="line">      </span><br><span class="line">    <span class="keyword">private</span> ExecutorService executorService;          <span class="comment">// 线程池</span></span><br><span class="line">    <span class="keyword">private</span> AsynchronousChannelGroup threadGroup;      <span class="comment">// 通道组</span></span><br><span class="line">    <span class="keyword">public</span> AsynchronousServerSocketChannel asynServerSocketChannel;  <span class="comment">// 服务器通道 </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(Integer port)</span></span>&#123;  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="comment">// 1.创建一个缓存池  </span></span><br><span class="line">            executorService = Executors.newCachedThreadPool();  </span><br><span class="line">            <span class="comment">// 2.创建通道组  </span></span><br><span class="line">            threadGroup = AsynchronousChannelGroup.withCachedThreadPool(executorService, <span class="number">1</span>);  </span><br><span class="line">            <span class="comment">// 3.创建服务器通道  </span></span><br><span class="line">            asynServerSocketChannel = AsynchronousServerSocketChannel.open(threadGroup);  </span><br><span class="line">            <span class="comment">// 4.进行绑定  </span></span><br><span class="line">            asynServerSocketChannel.bind(<span class="keyword">new</span> InetSocketAddress(port));  </span><br><span class="line">            System.out.println(<span class="string">&quot;server start , port : &quot;</span> + port);  </span><br><span class="line">            <span class="comment">// 5.等待客户端请求  </span></span><br><span class="line">            asynServerSocketChannel.accept(<span class="keyword">this</span>, <span class="keyword">new</span> ITDragonAIOServerHandler());  </span><br><span class="line">            <span class="comment">// 一直阻塞 不让服务器停止，真实环境是在tomcat下运行，所以不需要这行代码  </span></span><br><span class="line">            Thread.sleep(Integer.MAX_VALUE);  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            e.printStackTrace();  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        ITDragonAIOServer server = <span class="keyword">new</span> ITDragonAIOServer();  </span><br><span class="line">        server.start(<span class="number">8888</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>serverhandler:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ITDragonAIOServerHandler</span> <span class="keyword">implements</span> <span class="title">CompletionHandler</span>&lt;<span class="title">AsynchronousSocketChannel</span>, <span class="title">ITDragonAIOServer</span>&gt; </span>&#123;  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Integer BUFFER_SIZE = <span class="number">1024</span>;  </span><br><span class="line">  <span class="meta">@Override</span>  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">completed</span><span class="params">(AsynchronousSocketChannel asynSocketChannel, ITDragonAIOServer attachment)</span> </span>&#123;  </span><br><span class="line">      <span class="comment">// 保证多个客户端都可以阻塞  </span></span><br><span class="line">      attachment.asynServerSocketChannel.accept(attachment, <span class="keyword">this</span>);  </span><br><span class="line">      read(asynSocketChannel);  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="comment">//读取数据  </span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">(<span class="keyword">final</span> AsynchronousSocketChannel asynSocketChannel)</span> </span>&#123;  </span><br><span class="line">      ByteBuffer byteBuffer = ByteBuffer.allocate(BUFFER_SIZE);  </span><br><span class="line">      asynSocketChannel.read(byteBuffer, byteBuffer, <span class="keyword">new</span> CompletionHandler&lt;Integer, ByteBuffer&gt;() &#123;  </span><br><span class="line">          <span class="meta">@Override</span>  </span><br><span class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">completed</span><span class="params">(Integer resultSize, ByteBuffer attachment)</span> </span>&#123;  </span><br><span class="line">              <span class="comment">//进行读取之后,重置标识位  </span></span><br><span class="line">              attachment.flip();  </span><br><span class="line">              <span class="comment">//获取读取的数据  </span></span><br><span class="line">              String resultData = <span class="keyword">new</span> String(attachment.array()).trim();  </span><br><span class="line">              System.out.println(<span class="string">&quot;Server -&gt; &quot;</span> + <span class="string">&quot;收到客户端的数据信息为:&quot;</span> + resultData);  </span><br><span class="line"><span class="comment">//              String response = resultData + &quot; = &quot; + CalculatorUtil.cal(resultData);</span></span><br><span class="line">              String response = resultData + <span class="string">&quot; = &quot;</span> ;</span><br><span class="line">              write(asynSocketChannel, response);</span><br><span class="line">          &#125;  </span><br><span class="line">          <span class="meta">@Override</span>  </span><br><span class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">failed</span><span class="params">(Throwable exc, ByteBuffer attachment)</span> </span>&#123;  </span><br><span class="line">              exc.printStackTrace();  </span><br><span class="line">          &#125;  </span><br><span class="line">      &#125;);  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="comment">// 写入数据</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(AsynchronousSocketChannel asynSocketChannel, String response)</span> </span>&#123;  </span><br><span class="line">      <span class="keyword">try</span> &#123;  </span><br><span class="line">          <span class="comment">// 把数据写入到缓冲区中  </span></span><br><span class="line">          ByteBuffer buf = ByteBuffer.allocate(BUFFER_SIZE);  </span><br><span class="line">          buf.put(response.getBytes());  </span><br><span class="line">          buf.flip();  </span><br><span class="line">          <span class="comment">// 在从缓冲区写入到通道中  </span></span><br><span class="line">          asynSocketChannel.write(buf).get();  </span><br><span class="line">      &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;  </span><br><span class="line">          e.printStackTrace();  </span><br><span class="line">      &#125; <span class="keyword">catch</span> (ExecutionException e) &#123;  </span><br><span class="line">          e.printStackTrace();  </span><br><span class="line">      &#125;  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="meta">@Override</span>  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">failed</span><span class="params">(Throwable exc, ITDragonAIOServer attachment)</span> </span>&#123;  </span><br><span class="line">      exc.printStackTrace();  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-               -->
-        </div>
-        
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      <!--  -->
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-jd-script-use" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/8cefd92d.html" class="article-date">
-      <time datetime="2021-06-11T01:17:51.000Z" itemprop="datePublished">2021-06-11</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/8cefd92d.html">使用青龙并添加jd的脚本</a>
-    </h1>
-  
-
-      </header>
-      
-    
-        <div class="article-entry" itemprop="articleBody">
-          
-                
-                            
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-                            
-                                
-                                <p><p>找到一个jd_script 主要是京东的脚本可以操作，在加入 </p>
-<p>fetchMetadata: sill mapToRegistry uri <a target="_blank" rel="noopener" href="https://registry.npm.taobao.org/got">https://registry.npm.taobao.org/got</a></p>
-<p>JS_TOOL执行 jd panelon后执行如果报错 缺 /root/jd/config</p>
-<p>
-                              
-                          
-                    
-              <!-- 
-              
-              <p>找到一个jd_script 主要是京东的脚本可以操作，在加入 </p>
-<p>fetchMetadata: sill mapToRegistry uri <a target="_blank" rel="noopener" href="https://registry.npm.taobao.org/got">https://registry.npm.taobao.org/got</a></p>
-<p>JS_TOOL执行 jd panelon后执行如果报错 缺 /root/jd/config</p>
-<p>那就新建 /root/jd/config 文件夹 然后将 /root/JS_TOOL/sample中的文件复制到/root/jd/config </p>
-<p>最后来就可以新建</p>
-<p>tips:</p>
-<p>期间 npm  install 会出现</p>
-<p>fetchMetadata: verb afterAdd /root/.npm/ee-first/1.1.1/package/package.json</p>
-<p>这个是下载的过程比较耗时可能10分钟。</p>
-<p>预先要求的条件</p>
-<p>docker的环境</p>
-<ol>
-<li><code>npm config set registry http://registry.npmjs.org/ --global</code></li>
-<li><code>npm cache clear --force</code></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash jd.sh panelon</span><br></pre></td></tr></table></figure>
-
-
-
 
                -->
         </div>
